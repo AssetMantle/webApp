@@ -143,7 +143,6 @@ const SplitSend = () => {
                     if (splitValue === ownableId) {
                       var fromIdData =
                       splitItem.value.id.value.ownerID.value.idString;
-                      console.log(fromIdData);
                       if (fromIdData === "orders") {
                         assetItemList.forEach((asset) => {
                           if (asset === inputAssetValue) {
@@ -213,11 +212,9 @@ const SplitSend = () => {
                               axios
                                 .post(splitWrapPostUrl, wrapData)
                                 .then((response) => {
-                                  console.log(response, "split wrap");
                                   setTimeout(splitSend, 2000);
                                 })
                                 .catch((error) => {
-                                  console.log(error);
                                 });
                               function splitSend() {
                                 const spliSendPostUrl = splitSendURL();
@@ -227,7 +224,6 @@ const SplitSend = () => {
                                     setLoader(false);
                                     setShow(true);
                                     setResponseData(response.data.txhash);
-                                    console.log(response, "split send");
                                   })
                                   .catch((error) => {
                                     setLoader(false);

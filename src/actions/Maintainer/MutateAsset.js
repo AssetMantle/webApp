@@ -151,7 +151,6 @@ const MutateAsset = () => {
                                   var deputizeFromIdData = "";
                                   maintainersAssetList.forEach(
                                     (maintainersAssetItem) => {
-                                      console.log("12");
                                       if (
                                         maintainersAssetItem.value.id.value
                                           .classificationID.value.idString ===
@@ -169,7 +168,6 @@ const MutateAsset = () => {
                                       }
                                     }
                                   );
-                                  console.log(count);
                                   if (count === 0) {
                                     const formDeputizeData = {
                                       type:
@@ -195,7 +193,6 @@ const MutateAsset = () => {
                                       .post(deputizePosturl, formDeputizeData)
                                       .then((response) => {
                                         setTimeout(mutateAsset, 5000);
-                                        console.log(response, "Deputize");
                                       })
                                       .catch((error) => {
                                         setShow(true);
@@ -326,10 +323,6 @@ const MutateAsset = () => {
                                                   setLoader(false);
                                                   setResponseData(
                                                     response.data.txhash
-                                                  );
-                                                  console.log(
-                                                    response,
-                                                    "mutate"
                                                   );
                                                 })
                                                 .catch((error) => {

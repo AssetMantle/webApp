@@ -99,7 +99,6 @@ const OrderCancel = () => {
                                             orderID:orderIdData,
                                             }
                                             }
-                                            console.log(formData)
                                             const orderCancelurl = OrderCancelURL();
                                             axios.post(orderCancelurl, formData)
                                             .then((response) => {

@@ -200,7 +200,6 @@ const OrderMake = () => {
                                                 },
                                               };
 
-                                              console.log(formData);
                                               const makeOrderUrl = OrdreMakeURL();
                                               axios
                                                 .post(makeOrderUrl, formData)

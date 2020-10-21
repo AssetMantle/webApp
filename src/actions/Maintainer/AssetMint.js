@@ -132,7 +132,6 @@ const AssetMint = () => {
                                   mutableProperties: `Popularity:S|${popularity}`,
                                 },
                               };
-                              console.log(formData);
                               const assetMintPostUrl = assetMintURL();
                               axios
                                 .post(assetMintPostUrl, formData)

@@ -124,7 +124,6 @@ const IssueIdentity = () => {
                                   .then((response) => {
                                     setLoader(false);
                                     setShow(true);
-                                    console.log(response.data.txhash);
                                     setResponseData(response.data.txhash);
                                   })
                                   .catch((error) => {

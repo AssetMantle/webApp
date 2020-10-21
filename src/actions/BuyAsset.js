@@ -169,7 +169,6 @@ const BuyAsset = () => {
                                           orderID: orderIdData,
                                         },
                                       };
-                                      console.log(formData);
                                       const orderTakeUrl = orderTakeURL();
                                       axios
                                         .post(orderTakeUrl, formData)
