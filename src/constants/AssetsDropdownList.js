@@ -19,7 +19,6 @@ import {assetOrderURL, buyAssetHashURL} from "../constants/url"
               axios.get(hashurl).then(
                 (hashresponse)=>{
                   const listname2 = hashresponse.data.result.value.metas.value.list[0].value.data.value.value;
-                  // setAssetList(asssetItemList);
                   setAssetList(assetList => [...assetList, listname2]);
                 }
               )

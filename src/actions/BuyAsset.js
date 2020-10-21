@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { Modal, Form, Button } from "react-bootstrap";
@@ -14,9 +14,7 @@ import AssetsDropdown from "../constants/AssetsDropdownList";
 
 const BuyAsset = () => {
   const history = useHistory();
-  // const [assetItemList, setAssetItemList] = useState([]);
   const [responseData, setResponseData] = useState("");
-  // const [orderQuery, setOrderQuery] = useState({});
   const [loading, setLoader] = useState(false);
   const [errorData, setErrorData] = useState("");
   const [show, setShow] = useState(false);
@@ -26,54 +24,6 @@ const BuyAsset = () => {
     window.location.reload();
   };
 
-  useEffect(() => {
-    const fetchOrdersUrl = assetOrderURL();
-    const fetchList = async () => {
-      const response = await axios.get(fetchOrdersUrl);
-      const ordersList = response.data.result.value.orders.value.list;
-      if (ordersList !== null) {
-        ordersList.forEach((orderItem) => {
-          if (
-            orderItem.value.immutables.value.properties.value.propertyList[0]
-              .value.id.value.idString === "Name"
-          ) {
-            // setOrderQuery(orderItem);
-            const hash =
-              orderItem.value.immutables.value.properties.value.propertyList[0]
-                .value.fact.value.hash;
-
-            const clasificationID =
-              orderItem.value.id.value.classificationID.value.idString;
-            const hashID = orderItem.value.id.value.hashID.value.idString;
-            const res = clasificationID + "|" + hashID;
-
-            const splitUrl = buyAssetSplitsURL();
-            axios.get(splitUrl).then((splitResponse) => {
-              const splitList =
-                splitResponse.data.result.value.splits.value.list;
-              splitList.forEach((splitItem) => {
-                const splitItemValue =
-                  splitItem.value.id.value.ownableID.value.idString;
-                if (splitItemValue === res) {
-                  var ownerID = splitItem.value.id.value.ownerID.value.idString;
-                  if (ownerID === "orders") {
-                    const hashurl = buyAssetHashURL(hash);
-                    axios.get(hashurl).then((hashresponse) => {
-                      // const listname =
-                      //   hashresponse.data.result.value.metas.value.list[0].value
-                      //     .data.value.value;
-                          // setAssetItemList((assetItemList) => [...assetItemList, listname]);
-                    });
-                  }
-                }
-              });
-            });
-          }
-        });
-      }
-    };
-    fetchList();
-  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();

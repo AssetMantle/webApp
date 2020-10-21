@@ -47,9 +47,6 @@ const IssueIdentity = () => {
                 const toIdResponseList =
                   responseidentities.data.result.value.identities.value.list;
                 toIdResponseList.forEach((fromIdResponseItem) => {
-                  // const fromIdItemList =
-                  //   fromIdResponseItem.value.immutables.value.properties.value
-                  //     .propertyList;
                   if (
                     fromIdResponseItem.value.immutables.value.properties.value
                       .propertyList[0].value.id.value.idString ===

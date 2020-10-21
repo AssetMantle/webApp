@@ -23,16 +23,16 @@ const OrderCancel = () => {
         axios.get(fromIDurl).then(
           (responseidentities)=>{
             const assetItemList = responseidentities.data.result.value.assets.value.list;  
-            assetItemList.map(function(item) {
-              if(item.value.immutables.value.properties.value.propertyList[0].value.id.value.idString === "Name"){
-               const hash = item.value.immutables.value.properties.value.propertyList[0].value.fact.value.hash;
+            assetItemList.forEach((asset) => {
+              if(asset.value.immutables.value.properties.value.propertyList[0].value.id.value.idString === "Name"){
+               const hash = asset.value.immutables.value.properties.value.propertyList[0].value.fact.value.hash;
                const hashurl = buyAssetHashURL(hash);
                axios.get(hashurl).then(
                 (hashresponse)=>{
                   const listname2 = hashresponse.data.result.value.metas.value.list[0].value.data.value.value;
                   if(listname2 === selectValue){
-                    const clasificationID = item.value.id.value.classificationID.value.idString;                
-                    const hashID = item.value.id.value.hashID.value.idString
+                    const clasificationID = asset.value.id.value.classificationID.value.idString;                
+                    const hashID = asset.value.id.value.hashID.value.idString
                     const assetIdData = clasificationID + '|' + hashID;
                     const spliturl = buyAssetSplitsURL();
                     axios.get(spliturl).then(
@@ -74,7 +74,7 @@ const OrderCancel = () => {
                             axios.get(orderAsseturl).then(
                               (orderAssetItem)=>{
                                   const orderAssetItemList = orderAssetItem.data.result.value.orders.value.list;
-                                  orderAssetItemList.map(function(item) {
+                                  orderAssetItemList.forEach((item) => {
                                     if(item.value.immutables.value.properties.value.propertyList[0].value.id.value.idString === "Name"){
                                      const hash = item.value.immutables.value.properties.value.propertyList[0].value.fact.value.hash;
                                      const hashurl = buyAssetHashURL(hash);

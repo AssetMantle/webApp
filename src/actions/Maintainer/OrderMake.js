@@ -73,7 +73,7 @@ const OrderMake = () => {
     setLoader(true);
     event.preventDefault();
     const selectValue = event.target.selectChange.value;
-    // const giftType = event.target.giftType.value;
+    const giftType = event.target.giftType.value;
     const giftName = event.target.giftName.value;
     const description = event.target.description.value;
     const fetchAssetsUrl = assetsURL();
@@ -193,7 +193,7 @@ const OrderMake = () => {
                                                   makerOwnableSplit:
                                                     "0.000000000000000001",
                                                   immutableMetaProperties: `Name:S|${selectValue},Gifts:S|Exchange,OrderID:S|12345`,
-                                                  immutableProperties: `Which Gifts:S|Christmas Gift,What Gifts:S|${giftName}`,
+                                                  immutableProperties: `Which Gifts:S|${giftType},What Gifts:S|${giftName}`,
                                                   mutableMetaProperties:
                                                     "exchangeRate:D|1,makerSplit:D|0.000000000000000001",
                                                   mutableProperties: `descriptions:S|${description}`,
