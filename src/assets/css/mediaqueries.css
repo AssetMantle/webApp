@@ -1,0 +1,9 @@
+@media (min-width: 768px) {
+  .col-md-6 {
+    -ms-flex: 0 0 50%;
+    -webkit-box-flex: 0;
+            flex: 0 0 40%;
+    max-width: 40%;
+  }
+}
+/*# sourceMappingURL=mediaqueries.css.map */
