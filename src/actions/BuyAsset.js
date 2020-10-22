@@ -27,7 +27,7 @@ const BuyAsset = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    setLoader(true);
     const inputAssetValue = event.target.selectChange.value;
     const fetchAssetsUrl = assetsURL();
     axios.get(fetchAssetsUrl).then((assetListResponse) => {
