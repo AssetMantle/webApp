@@ -4,6 +4,7 @@ import Identities from "persistenceJS/transaction/identity/query";
 
 const IdentityList = () => {
     const [identityList, setIdentityList] = useState([]);
+    const userAddress = localStorage.getItem('address');
             useEffect(() => {
                 const fetchtoIdentities =() => {
                     const identities = Identities.queryIdentityWithID("reaj")
@@ -12,13 +13,17 @@ const IdentityList = () => {
                         const data = JSON.parse(item);
                         const dataList = data.result.value.identities.value.list;
                         dataList.forEach((dataValue) => {
-                            if(dataValue.value.provisionedAddressList.length > 0 ){
+                            const provisionedAddressList = dataValue.value.provisionedAddressList;
+                            provisionedAddressList.forEach((provisionedAddressValue) => {
+                            if(provisionedAddressValue === userAddress ){
                                 setIdentityList((identityList) => [
                                     ...identityList,
                                     dataValue,
                                 ]);
                             }
+                            });
                         })
+                
                     })
                 }
                 fetchtoIdentities();
