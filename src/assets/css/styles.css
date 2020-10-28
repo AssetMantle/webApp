@@ -553,4 +553,11 @@ body {
 .network-check img {
   width: 150px;
 }
+
+.address .dropdown-toggle {
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 /*# sourceMappingURL=styles.css.map */

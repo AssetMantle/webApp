@@ -1,5 +1,4 @@
 import React from "react";
-import InfoCards from "./InfoCards"
 class HomePage extends React.Component {
 
     
@@ -8,7 +7,6 @@ class HomePage extends React.Component {
     return (
       <div className="homeSection">
         <div className="container">
-        <InfoCards />
         <div className="row row-cols-1 row-cols-md-2 card-deck infoRow">
       
           <div className="col-md-12 custom-pad appInfoBox">

@@ -5,7 +5,8 @@ import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 
 const Header = () =>{
     const history = useHistory();
-    const userTypeToken = localStorage.getItem('userType');
+    const userTypeToken = localStorage.getItem('mnemonic');
+    const userAddress = localStorage.getItem('address');
    const handleRoute = route => () => {
         history.push(route)
     };
@@ -20,47 +21,26 @@ const Header = () =>{
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link target="_blank" href="https://notes.persistence.one/zy_qyjhZSJ-jOxS8OwMKAw">Docs</Nav.Link>
-                        {
-                            userTypeToken !== null  ?
-                            <div>
-                                <NavDropdown title="Transactions" id="basic-nav-dropdown">
-                              { userTypeToken === 'Maintainer' ?
-                                <>
-                                    <NavDropdown.Item onClick={() => history.push('/Assetactions')}>Asset</NavDropdown.Item>
-                                    <NavDropdown.Item onClick={() => history.push('/Orderactions')}>Order</NavDropdown.Item>
-                                    <NavDropdown.Item onClick={() => history.push('/IssueIdentity')}>Identity</NavDropdown.Item>
-                                    <NavDropdown.Item onClick={() => history.push('/SendCoin')}>Bank</NavDropdown.Item>
-                                </>
-                            :
-                                <>
-                                    <NavDropdown.Item onClick={() => history.push('/SendCoin')}>Bank</NavDropdown.Item>
-                                    <NavDropdown.Item onClick={() => history.push('/Split')}>Split</NavDropdown.Item>
-                                    <NavDropdown.Item onClick={() => history.push('/BuyAsset')}>Order</NavDropdown.Item>
-                                </>
-                                }
-                                 </NavDropdown>
-                                </div>
-                                : 
-                                <>
-                                  <Nav.Link onClick={handleRoute("/Login")}>Transactions</Nav.Link>
-                                </>
-                        }
+                        <Nav.Link >Mainsite</Nav.Link>
+                        <Nav.Link >Explorer</Nav.Link>
+                        <Nav.Link >Docs</Nav.Link>
+                        <Nav.Link >Dashboard</Nav.Link>
                     </Nav>
                    
                     {
                     userTypeToken == null ?
                     <Nav>
-                        <Nav.Link >Contact Us</Nav.Link>
-                        <Nav.Link onClick={handleRoute("/LoginAction")}>Login with addr</Nav.Link>
-                     <Nav.Link onClick={handleRoute("/CreateAccount")}>Sign Up</Nav.Link>
-                   {/* <Nav.Link onClick={handleRoute("/Login")}>Login</Nav.Link> */}
-                    {/* <Nav.Link onClick={handleRoute("/AccountRecover")}>Recover</Nav.Link> */}
+                        <Nav.Link >ContactUs</Nav.Link>
+                        <Nav.Link onClick={handleRoute("/LoginAction")}>Login</Nav.Link>
+                   
                     </Nav>
                     :
                     <Nav>
-                        <Nav.Link >Contact Us</Nav.Link>
-                    <Nav.Link onClick={logout("/")}>Logout</Nav.Link>
+                        <Nav.Link>Contact Us</Nav.Link>
+                        <NavDropdown className="address" title={userAddress} id="basic-nav-dropdown">
+                            <NavDropdown.Item onClick={logout("/")}>Logout</NavDropdown.Item>
+                         </NavDropdown>
+                        <Nav.Link onClick={logout("/")}>Logout</Nav.Link>
                     </Nav>
                     }
                    </Navbar.Collapse>

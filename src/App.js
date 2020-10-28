@@ -1,52 +1,15 @@
 import React, {useState, useEffect} from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
-import {CreateAccount, AccountRecover, SendCoin,Login, IdentityList, BuyAsset, LoginAction, SplitSend, Assetactions, Orderactions,IssueIdentity} from "./actions";
-import { HomePage, RouteNotFound , Header,
-    Transactions, Dashboard, Docs} from "./components";
-    import offline from "./assets/images/offline.svg";
-    const App = () =>{
+import {IdentityList, LoginAction} from "./actions";
+import { HomePage, RouteNotFound , Header } from "./components";
+import offline from "./assets/images/offline.svg";
+const App = () =>{
 const routes = [{
     path: '/',
     component: HomePage,
 },{
-    path: '/transactions',
-    component: Transactions,
-}, {
-    path: '/CreateAccount',
-    component: CreateAccount,
-}, {
-    path: '/AccountRecover',
-    component: AccountRecover,
-}, {
-    path: '/Dashboard',
-    component: Dashboard,
-}, {
-    path: '/Docs',
-    component: Docs,
-}, {
-    path: '/SendCoin',
-    component: SendCoin,
-}, {
-    path: '/Login',
-    component: Login,
-}, {
-    path: '/BuyAsset',
-    component: BuyAsset,
-}, {
-    path: '/Split',
-    component: SplitSend,
-},{
     path: '/LoginAction',
     component: LoginAction,
-}, {
-    path: '/Assetactions',
-    component: Assetactions,
-}, {
-    path: '/Orderactions',
-    component: Orderactions,
-}, {
-    path: '/IssueIdentity',
-    component: IssueIdentity,
 },{
     path: '/IdentityList',
     component: IdentityList,

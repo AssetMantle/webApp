@@ -1,12 +1,10 @@
-import React, {useState} from "react";
-import {Modal, Form, Button} from "react-bootstrap";
+import React from "react";
+import {Form, Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import keyUtils from "persistenceJS/utilities/keys";
 
 const LoginAction = () => {
-    const [show, setShow] = useState(false);
     const history = useHistory();
-    const handleClose = () => setShow(false);
 
     const handleSubmit = async event => {
         const error = keyUtils.createWallet(event.target.mnemonic.value)
@@ -15,12 +13,10 @@ const LoginAction = () => {
             return (<div>ERROR!!</div>)
         }
         const wallet = keyUtils.getWallet(event.target.mnemonic.value)
-        console.log(event.target.mnemonic.value, wallet, "address")
+        localStorage.setItem("address", wallet.address)
         localStorage.setItem("mnemonic", event.target.mnemonic.value)
         history.push('/IdentityList');
     }
-   
-
 
     return (
         <div className="container">
@@ -34,7 +30,6 @@ const LoginAction = () => {
                                 name="mnemonic"
                                 placeholder="Enter Mnemonic"
                                 required="true"
-
                             />
                               <div className="submitButtonSection">
                             <Button
@@ -45,11 +40,8 @@ const LoginAction = () => {
                             </Button>
                             </div>
                         </Form>
-
                     </div>
                 </div>
-
-
             </div>
         </div>
     );
