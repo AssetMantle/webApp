@@ -11,6 +11,7 @@
     "axios": "^0.19.2",
     "bootstrap": "4.3.1",
     "history": "^4.10.1",
+    "persistenceJS": "../persistenceJS",
     "react": "^16.8.6",
     "react-bootstrap": "1.0.0-beta.10",
     "react-countup": "^4.3.3",

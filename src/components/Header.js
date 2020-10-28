@@ -46,16 +46,15 @@ const Header = () =>{
                                   <Nav.Link onClick={handleRoute("/Login")}>Transactions</Nav.Link>
                                 </>
                         }
-                      
-               
                     </Nav>
                    
                     {
                     userTypeToken == null ?
                     <Nav>
                         <Nav.Link >Contact Us</Nav.Link>
-                    {/* <Nav.Link onClick={handleRoute("/CreateAccount")}>Sign Up</Nav.Link>
-                    <Nav.Link onClick={handleRoute("/Login")}>Login</Nav.Link> */}
+                        <Nav.Link onClick={handleRoute("/LoginAction")}>Login with addr</Nav.Link>
+                     <Nav.Link onClick={handleRoute("/CreateAccount")}>Sign Up</Nav.Link>
+                   {/* <Nav.Link onClick={handleRoute("/Login")}>Login</Nav.Link> */}
                     {/* <Nav.Link onClick={handleRoute("/AccountRecover")}>Recover</Nav.Link> */}
                     </Nav>
                     :
@@ -64,7 +63,6 @@ const Header = () =>{
                     <Nav.Link onClick={logout("/")}>Logout</Nav.Link>
                     </Nav>
                     }
-                   
                    </Navbar.Collapse>
                 </Navbar>
         

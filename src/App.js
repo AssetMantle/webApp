@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
-import {CreateAccount, AccountRecover, SendCoin,Login, BuyAsset, SplitSend, Assetactions, Orderactions,IssueIdentity} from "./actions";
+import {CreateAccount, AccountRecover, SendCoin,Login, IdentityList, BuyAsset, LoginAction, SplitSend, Assetactions, Orderactions,IssueIdentity} from "./actions";
 import { HomePage, RouteNotFound , Header,
     Transactions, Dashboard, Docs} from "./components";
     import offline from "./assets/images/offline.svg";
@@ -35,6 +35,9 @@ const routes = [{
 }, {
     path: '/Split',
     component: SplitSend,
+},{
+    path: '/LoginAction',
+    component: LoginAction,
 }, {
     path: '/Assetactions',
     component: Assetactions,
@@ -44,6 +47,9 @@ const routes = [{
 }, {
     path: '/IssueIdentity',
     component: IssueIdentity,
+},{
+    path: '/IdentityList',
+    component: IdentityList,
 }];
 
     const [isOnline, setNetwork] = useState(window.navigator.onLine);

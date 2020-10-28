@@ -7,4 +7,6 @@ import Login from "./Login"
 import Assetactions from "./Maintainer/Assetactions"
 import Orderactions from "./Maintainer/Orderactions"
 import IssueIdentity from "./Maintainer/IssueIdentity"
-export {CreateAccount, AccountRecover, SendCoin, Login, BuyAsset, SplitSend,Assetactions, Orderactions, IssueIdentity };
+import LoginAction from "./LoginAction"
+import IdentityList from "./IdentityList"
+export {CreateAccount, AccountRecover, SendCoin, LoginAction, Login, IdentityList, BuyAsset, SplitSend,Assetactions, Orderactions, IssueIdentity };
