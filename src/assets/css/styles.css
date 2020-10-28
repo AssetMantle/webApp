@@ -316,6 +316,10 @@ body {
   border-radius: 5px;
 }
 
+.accountInfo .signup-box .mrt-10 {
+  margin-top: 10px;
+}
+
 .accountInfo .signup-box .formTitle {
   margin-bottom: 30px;
 }
