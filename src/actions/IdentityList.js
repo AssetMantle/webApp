@@ -1,31 +1,23 @@
 import React, {useState, useEffect} from "react";
 import Identities from "persistenceJS/transaction/identity/query";
-
+import Helper from "../utilities/helper";
 
 const IdentityList = () => {
+    const HelperF = new Helper();
     const [identityList, setIdentityList] = useState([]);
     const userAddress = localStorage.getItem('address');
             useEffect(() => {
                 const fetchtoIdentities =() => {
-                    const identities = Identities.queryIdentityWithID("reaj")
-                    console.log(identities, "identities")
+                    const identities = Identities.queryIdentityWithID("redfa")
                     identities.then(function(item) {
-                        const data = JSON.parse(item);
-                        const dataList = data.result.value.identities.value.list;
-                        dataList.forEach((dataValue) => {
-                            const provisionedAddressList = dataValue.value.provisionedAddressList;
-                            provisionedAddressList.forEach((provisionedAddressValue) => {
-                            if(provisionedAddressValue === userAddress ){
-                                setIdentityList((identityList) => [
-                                    ...identityList,
-                                    dataValue,
-                                ]);
-                            }
-                            });
-                        })
-                
-                    })
-                }
+                      const data = JSON.parse(item);
+                      const dataList = data.result.value.identities.value.list;
+                      const filterIdentities = HelperF.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
+                      console.log(filterIdentities, "identities")
+                      setIdentityList(filterIdentities);
+
+                })
+            }
                 fetchtoIdentities();
               }, []);
               
@@ -37,7 +29,7 @@ const IdentityList = () => {
                     <div className="col-md-6 custom-pad card">
                     {identityList.map((identity, index) => {
                         return (
-                        <a href="#">{identity.value.id.value.classificationID.value.idString}</a>
+                        <a href="#" key={index}>{identity.value.id.value.classificationID.value.idString}</a>
                         );
                     })}
                     </div>

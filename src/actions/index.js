@@ -1,3 +1,5 @@
 import LoginAction from "./LoginAction"
 import IdentityList from "./IdentityList"
-export {LoginAction, IdentityList};
+import Assets from "./IdentityActions/Assets"
+import Orders from "./IdentityActions/Orders"
+export {LoginAction, IdentityList, Assets, Orders};
