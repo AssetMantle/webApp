@@ -47,6 +47,14 @@ export default class Helper {
         })
     }
 
+    FilterMaintainersByIdentity(identities, maintainers) {
+        let identityOwnerIdlist = this.GetIdentityIDs(identities)
+        return maintainers.filter(function filterFunc(maintainer) {
+            return identityOwnerIdlist.includes(maintainer.value.id.value.identityID.value.idString)
+        })
+    }
+
+
     GetIdentityOwnableId(identities) {
         let ownableIdList = [];
         identities.forEach(function (identity) {

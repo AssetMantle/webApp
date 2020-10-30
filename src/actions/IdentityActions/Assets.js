@@ -21,6 +21,7 @@ const Assets = () => {
                 splits.then(function (splitsitem) {
                     const splitData = JSON.parse(splitsitem);
                     const splitList = splitData.result.value.splits.value.list;
+                    if(splitList){
                     const filterSplitsByIdentities = Helper.FilterSplitsByIdentity(filterIdentities, splitList)
                     const ownalbeIdList = Helper.GetIdentityOwnableId(filterSplitsByIdentities)
                     ownalbeIdList.forEach((ownalbeId) => {
@@ -34,6 +35,9 @@ const Assets = () => {
                             ]);
                         })
                     })
+                  } else{
+                    console.log("no splits found")
+                  }
 
 
                 })
