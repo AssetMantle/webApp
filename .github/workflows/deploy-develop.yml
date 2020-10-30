@@ -23,8 +23,8 @@ jobs:
       - name: Build react project
         run: npm run build --if-present
         env:
-          REACT_APP_API_KEY = ${{ secrets.DEVELOP_RPC_API }}
-          REACT_APP_ASSET_MANTLE_API = ${{ secrets.DEVELOP_REST_API }}
+          REACT_APP_API_KEY: ${{ secrets.DEVELOP_RPC_API }}
+          REACT_APP_ASSET_MANTLE_API: ${{ secrets.DEVELOP_REST_API }}
       - name: zip up the build
         uses: montudor/action-zip@v0.1.0
         with:
