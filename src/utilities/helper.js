@@ -20,9 +20,9 @@ export default class Helper {
 
     GetIdentityIDs(identities) {
         const idList = [];
+        let $this = this
         identities.forEach(function (identity) {
-            idList.push(identity.value.id.value.classificationID.value.idString + "|" + identity.value.id.value.hashID.value.idString)
-            return idList;
+            idList.push( $this.GetIdentityID(identity));
         })
         return idList;
     }
