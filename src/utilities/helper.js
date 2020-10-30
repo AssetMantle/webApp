@@ -24,9 +24,7 @@ GetIdentityIDs(identities) {
         idList.push(identity.value.id.value.classificationID.value.idString + "|" + identity.value.id.value.hashID.value.idString)
         return idList;
     })
-
     return idList;
-   
 }
 
 FilterIdentitiesByProvisionedAddress(identities, address) {
@@ -35,11 +33,11 @@ FilterIdentitiesByProvisionedAddress(identities, address) {
     })
 }
 
-FilterSplitssByIdentitie(identities, splits) {
-    var identityOwenrIdlist = this.GetIdentityIDs(identities)
+FilterSplitsByIdentity(identities, splits) {
+    var identityOwnerIdlist = this.GetIdentityIDs(identities)
     return splits.filter(function filterFunc(split) {
-     return identityOwenrIdlist.filter(function filterFunc(identityOwenrId) {
-        if(identityOwenrId === split.value.id.value.ownerID.value.idString){
+     return identityOwnerIdlist.filter(function filterFunc(identityOwnerId) {
+        if(identityOwnerId === split.value.id.value.ownerID.value.idString){
             return split.value.id.value.ownerID.value.idString;
             }
         })
@@ -54,9 +52,8 @@ GetIdentityOwnableId(identities) {
     return ownableIdList;
 }
 ParseProperties(properties){
-    var propertyList = properties.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList;
     var propertiesDictionary = {};
-    propertyList.forEach(function(property){
+    properties.forEach(function(property){
         propertiesDictionary[property.value.id.value.idString] = property.value.fact.value.hash;
     })
     return propertiesDictionary

@@ -16,18 +16,16 @@ const Assets = () => {
                       const data = JSON.parse(item);
                       const dataList = data.result.value.identities.value.list;
                       const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
-                      const splits = Splits.querySplitsWithID("all")
                           splits.then(function(splitsitem) {
                           const splitData = JSON.parse(splitsitem);
                           const splitList = splitData.result.value.splits.value.list;
-                          const filterSplitsByIdentities = Helper.FilterSplitssByIdentitie(filterIdentities, splitList)
+                          const filterSplitsByIdentities = Helper.FilterSplitsByIdentity(filterIdentities, splitList)
                           const ownalbeIdList = Helper.GetIdentityOwnableId(filterSplitsByIdentities)
                           ownalbeIdList.forEach((ownalbeId) => {
                           const filterAssetList = AssetsQuery.queryAssetWithID(ownalbeId);
                           filterAssetList.then(function(Asset) {
                             const parsedAsset = JSON.parse(Asset);
-                            const propertyList = Helper.ParseProperties(parsedAsset)
-                            console.log(propertyList," splits list2")
+                            const propertyList = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList)
                             setAssetList((assetList) => [
                               ...assetList,
                               propertyList,
