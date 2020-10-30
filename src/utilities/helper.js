@@ -19,10 +19,10 @@ export default class Helper {
     }
 
     GetIdentityIDs(identities) {
-        const idList = [];
+        let idList = [];
+        let $this = this
         identities.forEach(function (identity) {
-            idList.push(identity.value.id.value.classificationID.value.idString + "|" + identity.value.id.value.hashID.value.idString)
-            return idList;
+            idList.push( $this.GetIdentityID(identity));
         })
         return idList;
     }
@@ -34,21 +34,21 @@ export default class Helper {
     }
 
     FilterSplitsByIdentity(identities, splits) {
-        var identityOwnerIdlist = this.GetIdentityIDs(identities)
+        let identityOwnerIdlist = this.GetIdentityIDs(identities)
         return splits.filter(function filterFunc(split) {
             return identityOwnerIdlist.includes(split.value.id.value.ownerID.value.idString)
         })
     }
 
     FilterOrdersByIdentity(identities, orders) {
-        var identityOwnerIdlist = this.GetIdentityIDs(identities)
+        let identityOwnerIdlist = this.GetIdentityIDs(identities)
         return orders.filter(function filterFunc(order) {
             return identityOwnerIdlist.includes(order.value.id.value.makerID.value.idString)
         })
     }
 
     GetIdentityOwnableId(identities) {
-        const ownableIdList = [];
+        let ownableIdList = [];
         identities.forEach(function (identity) {
             ownableIdList.push(identity.value.id.value.ownableID.value.idString)
             return ownableIdList;
@@ -57,7 +57,7 @@ export default class Helper {
     }
 
     ParseProperties(properties) {
-        var propertiesDictionary = {};
+        let propertiesDictionary = {};
         properties.forEach(function (property) {
             propertiesDictionary[property.value.id.value.idString] = property.value.fact.value.hash;
         })

@@ -4,7 +4,7 @@ import OrdersQuery from "persistenceJS/transaction/orders/query";
 import Helpers from "../../utilities/helper";
 
 
-import { Modal, Form, Button } from "react-bootstrap";
+import {Modal, Form, Button} from "react-bootstrap";
 
 const Orders = () => {
   const Helper = new Helpers();
@@ -18,20 +18,16 @@ const Orders = () => {
                     const data = JSON.parse(item);
                     const dataList = data.result.value.identities.value.list;
                     const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
-                    const ordersData = OrdersQuery.queryOrderWithID("redfa")
+                    const ordersData = OrdersQuery.queryOrderWithID("all")
                     ordersData.then(function(item) {
                         const ordersData = JSON.parse(item);
                         const ordersDataList = ordersData.result.value.orders.value.list;
                         const filterSplitsByIdentities = Helper.FilterOrdersByIdentity(filterIdentities, ordersDataList)
-                        console.log(filterSplitsByIdentities, "in orders")
                         setOrderList(filterSplitsByIdentities);
                         
                     })
 
                 })
-
-
-          
               }
               fetchOrder();
             }, []);
@@ -48,28 +44,10 @@ const Orders = () => {
               );
           })}
           </div>
+         </div>
+          </div>
         </div>
-        <Modal
-          className="accountInfoModel"
-          centered
-        >
-          <Modal.Header>
-              <div className="icon failure-icon">
-                <i class="mdi mdi-close"></i>
-              </div>
-          </Modal.Header>
-          <Modal.Body>
-         
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="primary">
-              ok
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Orders;
