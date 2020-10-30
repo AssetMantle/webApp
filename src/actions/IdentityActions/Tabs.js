@@ -3,7 +3,8 @@ import { Tabs, Tab } from "react-bootstrap";
 import Orders from "./Orders";
 import MutateAsset from "./Maintainer";
 import Assets from "./Assets";
-const Assetactions = () => {
+import Idenities from "../IdentityList";
+const ActionsSwitcher = () => {
   const [key, setKey] = useState("home");
   return (
     <div className="container">
@@ -13,8 +14,12 @@ const Assetactions = () => {
         onSelect={(k) => setKey(k)}
         className="assetTabs Tabs"
       >
+      
         <Tab eventKey="home" title="Assets">
           <Assets />
+        </Tab>
+        <Tab eventKey="Idenities" title="Idenities">
+          <Idenities />
         </Tab>
         <Tab eventKey="profile" title="Orders">
           <MutateAsset />
@@ -27,4 +32,4 @@ const Assetactions = () => {
   );
 };
 
-export default Assetactions;
+export default ActionsSwitcher;

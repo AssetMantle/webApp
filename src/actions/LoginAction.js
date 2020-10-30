@@ -18,7 +18,7 @@ const LoginAction = () => {
         const wallet = keyUtils.getWallet(event.target.mnemonic.value)
         localStorage.setItem("address", wallet.address)
         localStorage.setItem("mnemonic", event.target.mnemonic.value)
-        history.push('/IdentityList');
+        history.push('/ActionsSwitcher');
     }
 const handleCreateWallet = () =>{
     setShow(true);

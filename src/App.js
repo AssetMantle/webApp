@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
-import {IdentityList, LoginAction, Assets, Orders} from "./actions";
+import {IdentityList, LoginAction, Assets, Orders, ActionsSwitcher} from "./actions";
 import { HomePage, RouteNotFound , Header } from "./components";
 import offline from "./assets/images/offline.svg";
 const App = () =>{
@@ -19,6 +19,9 @@ const routes = [{
 },{
     path: '/Orders',
     component: Orders,
+},{
+    path: '/ActionsSwitcher',
+    component: ActionsSwitcher,
 }];
 
     const [isOnline, setNetwork] = useState(window.navigator.onLine);
