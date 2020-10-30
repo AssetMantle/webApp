@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
-import Identities from "persistenceJS/transaction/identity/query";
-import OrdersQuery from "persistenceJS/transaction/orders/query";
+import Identities from "persistencejs/transaction/identity/query";
+import OrdersQuery from "persistencejs/transaction/orders/query";
 import Helper from "../../utilities/helper";
 
 

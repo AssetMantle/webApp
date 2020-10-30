@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import Identities from "persistenceJS/transaction/identity/query";
+import Identities from "persistencejs/transaction/identity/query";
 import Helper from "../utilities/helper";
 
 const IdentityList = () => {
