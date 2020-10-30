@@ -11,7 +11,7 @@ const Assets = () => {
   const userAddress = localStorage.getItem('address');
           useEffect(() => {
               const fetchAssets =() => {
-                  const identities = Identities.queryIdentityWithID("redfa")
+                  const identities = Identities.queryIdentityWithID("all")
                   identities.then(function(item) {
                       const data = JSON.parse(item);
                       const dataList = data.result.value.identities.value.list;
