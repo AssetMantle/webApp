@@ -16,6 +16,8 @@ const Assets = () => {
                       const data = JSON.parse(item);
                       const dataList = data.result.value.identities.value.list;
                       const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
+                      const splits = Splits.querySplitsWithID("all")
+                  
                           splits.then(function(splitsitem) {
                           const splitData = JSON.parse(splitsitem);
                           const splitList = splitData.result.value.splits.value.list;
