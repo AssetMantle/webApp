@@ -22,10 +22,10 @@ const ActionsSwitcher = () => {
           <Idenities />
         </Tab>
         <Tab eventKey="profile" title="Orders">
-          <MutateAsset />
+          <Orders />
         </Tab>
         <Tab eventKey="contact" title="Maintainer">
-          <Orders />
+          <MutateAsset />
         </Tab>
       </Tabs>
     </div>

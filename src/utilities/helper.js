@@ -29,18 +29,21 @@ export default class Helper {
 
     FilterIdentitiesByProvisionedAddress(identities, address) {
         return identities.filter(function filterFunc(identity) {
-            return identity.value.provisionedAddressList.includes(address)
+            return identity.value.provisionedAddressList.includes(address)  
         })
     }
 
     FilterSplitsByIdentity(identities, splits) {
         var identityOwnerIdlist = this.GetIdentityIDs(identities)
         return splits.filter(function filterFunc(split) {
-            return identityOwnerIdlist.filter(function filterFunc(identityOwnerId) {
-                if (identityOwnerId === split.value.id.value.ownerID.value.idString) {
-                    return split.value.id.value.ownerID.value.idString;
-                }
-            })
+            return identityOwnerIdlist.includes(split.value.id.value.ownerID.value.idString)
+        })
+    }
+
+    FilterOrdersByIdentity(identities, orders) {
+        var identityOwnerIdlist = this.GetIdentityIDs(identities)
+        return orders.filter(function filterFunc(order) {
+            return identityOwnerIdlist.includes(order.value.id.value.makerID.value.idString)
         })
     }
 
