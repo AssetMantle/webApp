@@ -34,13 +34,9 @@ export default class Helper {
     }
 
     FilterSplitsByIdentity(identities, splits) {
-        var identityOwnerIdlist = this.GetIdentityIDs(identities)
+        let identityOwnerIdlist = this.GetIdentityIDs(identities)
         return splits.filter(function filterFunc(split) {
-            return identityOwnerIdlist.filter(function filterFunc(identityOwnerId) {
-                if (identityOwnerId === split.value.id.value.ownerID.value.idString) {
-                    return split.value.id.value.ownerID.value.idString;
-                }
-            })
+            return identityOwnerIdlist.includes(split.value.id.value.ownerID.value.idString)
         })
     }
 
