@@ -6,32 +6,32 @@ const IdentityList = () => {
     const HelperF = new Helper();
     const [identityList, setIdentityList] = useState([]);
     const userAddress = localStorage.getItem('address');
-            useEffect(() => {
-                const fetchtoIdentities =() => {
-                    const identities = Identities.queryIdentityWithID("redfa")
-                    identities.then(function(item) {
-                      const data = JSON.parse(item);
-                      const dataList = data.result.value.identities.value.list;
-                      const filterIdentities = HelperF.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
-                      console.log(filterIdentities, "identities")
-                      setIdentityList(filterIdentities);
+    useEffect(() => {
+        const fetchtoIdentities = () => {
+            const identities = Identities.queryIdentityWithID("redfa")
+            identities.then(function (item) {
+                const data = JSON.parse(item);
+                const dataList = data.result.value.identities.value.list;
+                const filterIdentities = HelperF.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
+                console.log(filterIdentities, "identities")
+                setIdentityList(filterIdentities);
 
-                })
-            }
-                fetchtoIdentities();
-              }, []);
-              
- 
+            })
+        }
+        fetchtoIdentities();
+    }, []);
+
+
     return (
         <div className="container">
             <div className="accountInfo">
                 <div className="row row-cols-1 row-cols-md-2 card-deck createAccountSection">
                     <div className="col-md-6 custom-pad card">
-                    {identityList.map((identity, index) => {
-                        return (
-                        <a href="#" key={index}>{identity.value.id.value.classificationID.value.idString}</a>
-                        );
-                    })}
+                        {identityList.map((identity, index) => {
+                            return (
+                                <a href="#" key={index}>{identity.value.id.value.classificationID.value.idString}</a>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
