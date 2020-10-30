@@ -22,7 +22,6 @@ const Assets = () => {
                           const splitList = splitData.result.value.splits.value.list;
                           const filterSplitsByIdentities = Helper.FilterSplitssByIdentitie(filterIdentities, splitList)
                           const ownalbeIdList = Helper.GetIdentityOwnableId(filterSplitsByIdentities)
-                         
                           ownalbeIdList.forEach((ownalbeId) => {
                           const filterAssetList = AssetsQuery.queryAssetWithID(ownalbeId);
                           filterAssetList.then(function(Asset) {
@@ -50,8 +49,8 @@ const Assets = () => {
           <div className="col-md-6 custom-pad card">
           {assetList.map((asset, index) => {
             var keys = Object.keys(asset); 
-            return keys.map((key) => {
-              return( <a key={index}>{key} {asset[key]}</a>)
+            return keys.map((keyName) => {
+              return( <a key={index+keyName}>{keyName} {asset[keyName]}</a>)
             })
           })}
           </div>
