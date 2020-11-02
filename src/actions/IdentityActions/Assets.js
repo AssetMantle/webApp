@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
-import Identities from "persistenceJS/transaction/identity/query";
-import Splits from "persistenceJS/transaction/splits/query";
-import AssetsQuery from "persistenceJS/transaction/assets/query";
+import Identities from "persistencejs/transaction/identity/query";
+import Splits from "persistencejs/transaction/splits/query";
+import AssetsQuery from "persistencejs/transaction/assets/query";
 import Helpers from "../../utilities/helper";
 import {Modal, Form, Button} from "react-bootstrap";
 
