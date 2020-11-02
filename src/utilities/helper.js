@@ -74,6 +74,7 @@ export default class Helper {
         }
         return metaValue;
     }
+    
     ParseProperties(properties) {
         let propertiesDictionary = {};
         properties.forEach(function (property) {

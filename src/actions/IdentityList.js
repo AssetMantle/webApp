@@ -75,8 +75,8 @@ const handelModalData = () =>{
                             const metaQueryResult = metaQuery.queryMetaWithID(immutableProperties[keyName]);
                             metaQueryResult.then(function(item) {
                             const data = JSON.parse(item);
-                            let valuered =  Helper.FetchMetaValue(data, immutableProperties[keyName])
-                             return (<a key={index + keyName}>{keyName} {valuered}</a>)
+                            let metaValue =  Helper.FetchMetaValue(data, immutableProperties[keyName])
+                             return (<a key={index + keyName}>{keyName} {metaValue}</a>)
                             })
                           })
                         }
