@@ -8,13 +8,18 @@ const IdentityList = () => {
     const userAddress = localStorage.getItem('address');
     useEffect(() => {
         const fetchtoIdentities = () => {
-            const identities = Identities.queryIdentityWithID("redfa")
+            const identities = Identities.queryIdentityWithID("all")
             identities.then(function (item) {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
+                if(dataList){
                 const filterIdentities = HelperF.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
                 console.log(filterIdentities, "identities")
                 setIdentityList(filterIdentities);
+                }
+                else{
+                    console.log("no identities found")
+                }
 
             })
         }

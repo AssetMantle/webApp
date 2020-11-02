@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Tabs, Tab} from "react-bootstrap";
 import Orders from "./Orders";
-import MutateAsset from "./Maintainer";
+import Maintainers from "./Maintainers";
 import Assets from "./Assets";
 import Idenities from "../IdentityList";
 
@@ -15,7 +15,6 @@ const ActionsSwitcher = () => {
                 onSelect={(k) => setKey(k)}
                 className="assetTabs Tabs"
             >
-
                 <Tab eventKey="home" title="Assets">
                     <Assets/>
                 </Tab>
@@ -23,10 +22,10 @@ const ActionsSwitcher = () => {
                     <Idenities/>
                 </Tab>
                 <Tab eventKey="profile" title="Orders">
-                    <MutateAsset/>
+                    <Orders/>
                 </Tab>
                 <Tab eventKey="contact" title="Maintainer">
-                    <Orders/>
+                    <Maintainers/>
                 </Tab>
             </Tabs>
         </div>

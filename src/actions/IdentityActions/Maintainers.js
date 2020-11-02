@@ -1,33 +1,31 @@
 import React, {useState, useEffect} from "react";
 import Identities from "persistenceJS/transaction/identity/query";
-import OrdersQuery from "persistenceJS/transaction/orders/query";
+import MaintainerQuery from "persistenceJS/transaction/maintainers/query";
 import Helpers from "../../utilities/helper";
 
 
-import {Modal, Form, Button} from "react-bootstrap";
-
-const Orders = () => {
+const Maintainers = () => {
   const Helper = new Helpers();
-  const [orderList, setOrderList] = useState([]);
+  const [maintainersList, setMaintainersList] = useState([]);
   const userAddress = localStorage.getItem('address');
           useEffect(() => {
               const fetchOrder =() => {
-
                 const identities = Identities.queryIdentityWithID("all")
                 identities.then(function (item) {
                     const data = JSON.parse(item);
                     const dataList = data.result.value.identities.value.list;
                     const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
-                    const ordersData = OrdersQuery.queryOrderWithID("all")
-                    ordersData.then(function(item) {
-                        const ordersData = JSON.parse(item);
-                        const ordersDataList = ordersData.result.value.orders.value.list;
-                        if(ordersDataList){
-                        const filterSplitsByIdentities = Helper.FilterOrdersByIdentity(filterIdentities, ordersDataList)
-                        setOrderList(filterSplitsByIdentities);
+                    const maintainersData = MaintainerQuery.queryMaintainerWithID("all")
+                    maintainersData.then(function(item) {
+                        const parsedMaintainersData = JSON.parse(item);
+                        console.log(parsedMaintainersData)
+                        const maintainersDataList = parsedMaintainersData.result.value.maintainers.value.list;
+                        if(maintainersDataList){
+                        const filterMaintainersByIdentity = Helper.FilterMaintainersByIdentity(filterIdentities, maintainersDataList)
+                        setMaintainersList(filterMaintainersByIdentity);
                         }
                         else{
-                          console.log("no orders found")
+                          console.log("no maintainers found")
                         }
                     })
 
@@ -42,9 +40,9 @@ const Orders = () => {
       <div className="accountInfo">
         <div className="row row-cols-1 row-cols-md-2 card-deck createAccountSection">
           <div className="col-md-6 custom-pad card">
-          {orderList.map((order, index) => {
+          {maintainersList.map((maintainer, index) => {
               return (
-                  <a href="#" key={index}>{order.value.id.value.makerID.value.idString}</a>
+                  <a href="#" key={index}>{maintainer.value.id.value.identityID.value.idString}</a>
               );
           })}
           </div>
@@ -54,4 +52,4 @@ const Orders = () => {
     );
 };
 
-export default Orders;
+export default Maintainers;

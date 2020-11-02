@@ -19,7 +19,7 @@ export default class Helper {
     }
 
     GetIdentityIDs(identities) {
-        const idList = [];
+        let idList = [];
         let $this = this
         identities.forEach(function (identity) {
             idList.push( $this.GetIdentityID(identity));
@@ -29,7 +29,7 @@ export default class Helper {
 
     FilterIdentitiesByProvisionedAddress(identities, address) {
         return identities.filter(function filterFunc(identity) {
-            return identity.value.provisionedAddressList.includes(address)
+            return identity.value.provisionedAddressList.includes(address)  
         })
     }
 
@@ -40,8 +40,23 @@ export default class Helper {
         })
     }
 
+    FilterOrdersByIdentity(identities, orders) {
+        let identityOwnerIdlist = this.GetIdentityIDs(identities)
+        return orders.filter(function filterFunc(order) {
+            return identityOwnerIdlist.includes(order.value.id.value.makerID.value.idString)
+        })
+    }
+
+    FilterMaintainersByIdentity(identities, maintainers) {
+        let identityOwnerIdlist = this.GetIdentityIDs(identities)
+        return maintainers.filter(function filterFunc(maintainer) {
+            return identityOwnerIdlist.includes(maintainer.value.id.value.identityID.value.idString)
+        })
+    }
+
+
     GetIdentityOwnableId(identities) {
-        const ownableIdList = [];
+        let ownableIdList = [];
         identities.forEach(function (identity) {
             ownableIdList.push(identity.value.id.value.ownableID.value.idString)
             return ownableIdList;
@@ -50,7 +65,7 @@ export default class Helper {
     }
 
     ParseProperties(properties) {
-        var propertiesDictionary = {};
+        let propertiesDictionary = {};
         properties.forEach(function (property) {
             propertiesDictionary[property.value.id.value.idString] = property.value.fact.value.hash;
         })
