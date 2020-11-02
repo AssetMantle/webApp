@@ -1,3 +1,4 @@
+import metaQuery from "persistenceJS/transaction/meta/query";
 export default class Helper {
 
     GetIdentityID(identity) {
@@ -63,7 +64,16 @@ export default class Helper {
         })
         return ownableIdList;
     }
-
+    
+    FetchMetaValue(data , hash){
+        var metaValue="";
+        if(data.result.value.metas.value.list === null){
+            metaValue = hash;
+        }else{
+            metaValue = data.result.value.metas.value.list[0].value.data.value.value;
+        }
+        return metaValue;
+    }
     ParseProperties(properties) {
         let propertiesDictionary = {};
         properties.forEach(function (property) {
