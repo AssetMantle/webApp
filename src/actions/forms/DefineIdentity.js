@@ -184,7 +184,7 @@ const DefineIdentity = () => {
                         </Form.Control>
                     </Form.Group>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Data Name   </Form.Label>
+                        <Form.Label>Data Name </Form.Label>
                         <Form.Control
                         type="text"
                         className=""
