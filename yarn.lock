@@ -7542,9 +7542,8 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-"persistencejs@https://github.com/persistenceOne/persistenceJS.git#SDKv0.1.0":
+persistencejs@../persistenceJS:
   version "1.0.0"
-  resolved "https://github.com/persistenceOne/persistenceJS.git#64b867f9565abc0e9846ccb4c48a3173bad1cdb1"
   dependencies:
     "@tendermint/amino-js" "^0.6.2"
     "@tendermint/belt" "^0.3.0"

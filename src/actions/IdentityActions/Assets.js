@@ -4,7 +4,7 @@ import Splits from "persistencejs/transaction/splits/query";
 import AssetsQuery from "persistencejs/transaction/assets/query";
 import Helpers from "../../utilities/helper";
 import {Modal, Form, Button} from "react-bootstrap";
-
+import metaQuery from "persistencejs/transaction/meta/query";
 const Assets = () => {
     const Helper = new Helpers();
     const [assetList, setAssetList] = useState([]);
@@ -28,13 +28,10 @@ const Assets = () => {
                         const filterAssetList = AssetsQuery.queryAssetWithID(ownalbeId);
                         filterAssetList.then(function (Asset) {
                             const parsedAsset = JSON.parse(Asset);
-                            if(parsedAsset.result.value.assets.value.list.length > 0){
-                            const propertyList = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList)
                             setAssetList((assetList) => [
                                 ...assetList,
-                                propertyList,
+                                parsedAsset,
                             ]);
-                        }
                     
                         })
                     })
@@ -53,15 +50,44 @@ const Assets = () => {
         <div className="container">
             <div className="accountInfo">
                 <div className="row row-cols-1 row-cols-md-2 card-deck createAccountSection">
-                    <div className="col-md-6 custom-pad card">
+                  
                         {assetList.map((asset, index) => {
-                            var keys = Object.keys(asset);
-                            return keys.map((keyName) => {
-                                return (<a key={index + keyName}>{keyName} {asset[keyName]}</a>)
-                            })
+                             var immutableProperties="";
+                             var mutableProperties="";
+                             if(asset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null){
+                                     immutableProperties = Helper.ParseProperties(asset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
+                             }
+                             if(asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null){
+                                 mutableProperties = Helper.ParseProperties(asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
+                                 }
+                                 
+                             var immutableKeys = Object.keys(immutableProperties);
+                             var mutableKeys = Object.keys(mutableProperties);
+                            return (
+                                <div className="col-md-6" key={index}>
+                                <div className="card">
+                             <p>Immutables</p>
+                             {
+                             immutableKeys.map((keyName) => {
+                                 const metaQueryResult = metaQuery.queryMetaWithID(immutableProperties[keyName]);
+                                 metaQueryResult.then(function(item) {
+                                 const data = JSON.parse(item);
+                                 let metaValue =  Helper.FetchMetaValue(data, immutableProperties[keyName])
+                                  return (<a key={index + keyName}>{keyName} {metaValue}</a>)
+                                 })
+                               })
+                             }
+                             <p>Mutables</p>
+                             {
+                             mutableKeys.map((keyName) => {
+                             return (<a key={index + keyName}>{keyName} {mutableProperties[keyName]}</a>)
+                             })
+                             }
+                              </div>
+                              </div>
+                            )
                         })}
                     </div>
-                </div>
                 <Modal
                     className="accountInfoModel"
                     centered

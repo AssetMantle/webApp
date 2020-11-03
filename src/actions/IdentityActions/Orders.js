@@ -52,10 +52,10 @@ const Orders = () => {
             }
             var immutableKeys = Object.keys(immutableProperties);
             var mutableKeys = Object.keys(mutableProperties);
-            return( <div className="col-md-6">
+            return( <div className="col-md-6" key={index}>
               <div className="card">
               
-              <a href="#" key={index}>{order.value.id.value.hashID.value.idString}</a>
+              <a href="#" >{order.value.id.value.hashID.value.idString}</a>
               <p>Immutables</p>
               {
                 immutableKeys.map((keyName) => {

@@ -82,5 +82,55 @@ export default class Helper {
         })
         return propertiesDictionary
     }
+
+    MutablePropertyValues(mutableProperties, inputValues){
+        var mutableValues = "";
+        mutableProperties.map((shareholder, idx) => {
+        if(idx>0){
+            mutableValues = mutableValues+","+(inputValues[`MutableDataName${idx+1}`]+":"+inputValues[`MutableDataType${idx+1}`]+inputValues[`MutableDataValue${idx+1}`]);
+        }
+        else{
+            mutableValues = mutableValues+(inputValues[`MutableDataName${idx+1}`]+":"+inputValues[`MutableDataType${idx+1}`]+inputValues[`MutableDataValue${idx+1}`]);
+        }
+        })
+        return mutableValues;
+    }
+    MutableMetaPropertyValues(mutableMetaProperties, inputValues){
+        var mutableMetaValues = "";
+        mutableMetaProperties.map((shareholder, idx) => {
+        if(idx>0){
+            mutableMetaValues = mutableMetaValues+","+(inputValues[`mutableMetaDataName${idx+1}`]+":"+inputValues[`mutableMetaDataType${idx+1}`]+inputValues[`mutableMetaDataValue${idx+1}`]);
+        }
+        else{
+            mutableMetaValues = mutableMetaValues+(inputValues[`mutableMetaDataName${idx+1}`]+":"+inputValues[`mutableMetaDataType${idx+1}`]+inputValues[`mutableMetaDataValue${idx+1}`]);
+        }
+        })
+        return mutableMetaValues;
+    }
+    ImmutablePropertyValues(immutableProperties, inputValues){
+        var immutableValues = "";
+        immutableProperties.map((shareholder, idx) => {
+            if(idx>0){
+                immutableValues = immutableValues+","+(inputValues[`ImmutableDataName${idx+1}`]+":"+inputValues[`ImmutableDataType${idx+1}`]+inputValues[`ImmutableDataValue${idx+1}`]);
+            }
+            else{
+                immutableValues = immutableValues+(inputValues[`ImmutableDataName${idx+1}`]+":"+inputValues[`ImmutableDataType${idx+1}`]+inputValues[`ImmutableDataValue${idx+1}`]);
+            }
+        })
+        return immutableValues;
+    }
+    ImmutableMetaPropertyValues(immutableMetaProperties, inputValues){
+        var immutableMetaValues = "";
+        immutableMetaProperties.map((shareholder, idx) => {
+            if(idx>0){
+                immutableMetaValues = immutableMetaValues+","+(inputValues[`ImmutableMetaDataName${idx+1}`]+":"+inputValues[`ImmutableMetaDataType${idx+1}`]+inputValues[`ImmutableMetaDataValue${idx+1}`]);
+            }
+            else{
+                immutableMetaValues = immutableMetaValues+(inputValues[`ImmutableMetaDataName${idx+1}`]+":"+inputValues[`ImmutableMetaDataType${idx+1}`]+inputValues[`ImmutableMetaDataValue${idx+1}`]);
+            }
+        })
+        return immutableMetaValues;
+    }
+    
 }
 

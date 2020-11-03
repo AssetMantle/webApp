@@ -3,7 +3,7 @@ import Identities from "persistencejs/transaction/identity/query";
 import Helpers from "../utilities/helper";
 import metaQuery from "persistencejs/transaction/meta/query";
 import {Dropdown, Modal} from "react-bootstrap";
-import Nub from './forms/Nub'
+import {Nub, DefineIdentity } from "./forms";
 
 const IdentityList = () => {
     const Helper = new Helpers();
@@ -34,14 +34,24 @@ const IdentityList = () => {
         fetchtoIdentities();
     }, []);
 
-const handelModalData = () =>{
+const handelModalData = (formName) =>{
     setShow(true)
-    setExternalComponent("Nub")
+    setExternalComponent(formName)
 }
     return (
         <div className="container">
             <div className="accountInfo">
                 <div className="row row-cols-1 row-cols-md-2 card-deck">
+                <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            Actions
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={()=>handelModalData("Nub")}>Nub Txn</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>handelModalData("IssueIdentity")}>Issue Identity</Dropdown.Item>
+                        </Dropdown.Menu>
+                        </Dropdown>
                     {identityList.map((identity, index) => {
                         var immutableProperties="";
                         var mutableProperties="";
@@ -55,20 +65,9 @@ const handelModalData = () =>{
                         var immutableKeys = Object.keys(immutableProperties);
                         var mutableKeys = Object.keys(mutableProperties);
                     return( 
-                    <div className="col-md-6">
+                    <div className="col-md-6" key={index}>
                         <div className="card">
-
-                        <Dropdown>
-                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            Actions
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu>
-                            <Dropdown.Item onClick={handelModalData}>Nub Txn</Dropdown.Item>
-                        </Dropdown.Menu>
-                        </Dropdown>
-
-                        <a href="#" key={index}>{identity.value.id.value.classificationID.value.idString}</a>
+                        <a href="#" >{identity.value.id.value.classificationID.value.idString}</a>
                         <p>Immutables</p>
                         {
                         immutableKeys.map((keyName) => {
@@ -99,6 +98,10 @@ const handelModalData = () =>{
             >
                 {externalComponent === 'Nub' ?
                 <Nub /> :
+                null
+                }
+                 {externalComponent === 'IssueIdentity' ?
+                <DefineIdentity /> :
                 null
                 }
             </Modal>

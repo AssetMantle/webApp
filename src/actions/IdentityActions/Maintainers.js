@@ -43,7 +43,7 @@ const Maintainers = () => {
           {maintainersList.map((maintainer, index) => {
             const maintainerPropertyList = Helper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList)
             var keys = Object.keys(maintainerPropertyList);
-           return( <div className="col-md-6">
+           return( <div className="col-md-6" key={index}>
             <div className="card">
             <a href="#" key={index}>{maintainer.value.id.value.identityID.value.idString}</a>
             {
