@@ -12,7 +12,6 @@ const LoginAction = () => {
     const handleSubmit = async event => {
         const error = keyUtils.createWallet(event.target.mnemonic.value)
         if (error.error != null) {
-            console.log("returned error")
             return (<div>ERROR!!</div>)
         }
         const wallet = keyUtils.getWallet(event.target.mnemonic.value)
@@ -24,7 +23,6 @@ const LoginAction = () => {
         setShow(true);
         const walletInfo = keyUtils.createRandomWallet();
         setAccountData(walletInfo)
-        console.log(walletInfo, "walletinfo")
     }
     return (
         <div className="container">

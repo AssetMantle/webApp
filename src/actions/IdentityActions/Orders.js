@@ -23,8 +23,8 @@ const Orders = () => {
                         const ordersData = JSON.parse(item);
                         const ordersDataList = ordersData.result.value.orders.value.list;
                         if(ordersDataList){
-                        const filterSplitsByIdentities = Helper.FilterOrdersByIdentity(filterIdentities, ordersDataList)
-                        setOrderList(filterSplitsByIdentities);
+                        const filterOrdersByIdentities = Helper.FilterOrdersByIdentity(filterIdentities, ordersDataList)
+                        setOrderList(filterOrdersByIdentities);
                         }
                         else{
                           console.log("no orders found")
@@ -40,16 +40,41 @@ const Orders = () => {
     <div className="container">
  
       <div className="accountInfo">
-        <div className="row row-cols-1 row-cols-md-2 card-deck createAccountSection">
-          <div className="col-md-6 custom-pad card">
-          {orderList.map((order, index) => {
-              return (
-                  <a href="#" key={index}>{order.value.id.value.makerID.value.idString}</a>
-              );
+        <div className="row row-cols-1 row-cols-md-2 card-deck ">
+        {orderList.map((order, index) => {
+              var immutableProperties="";
+              var mutableProperties="";
+            if(order.value.immutables.value.properties.value.propertyList !== null){
+            immutableProperties = Helper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
+            }
+            if(order.value.mutables.value.properties.value.propertyList !== null){
+            mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+            }
+            var immutableKeys = Object.keys(immutableProperties);
+            var mutableKeys = Object.keys(mutableProperties);
+            return( <div className="col-md-6">
+              <div className="card">
+              
+              <a href="#" key={index}>{order.value.id.value.hashID.value.idString}</a>
+              <p>Immutables</p>
+              {
+                immutableKeys.map((keyName) => {
+                return (<a key={index + keyName}>{keyName} {immutableProperties[keyName]}</a>)
+                })
+              }
+                <p>Mutables</p>
+              {
+                mutableKeys.map((keyName) => {
+                return (<a key={index + keyName}>{keyName} {mutableProperties[keyName]}</a>)
+                })
+              }
+              </div>
+              </div>
+            )
+
           })}
           </div>
          </div>
-          </div>
         </div>
     );
 };

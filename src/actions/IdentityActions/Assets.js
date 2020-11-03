@@ -23,8 +23,8 @@ const Assets = () => {
                     const splitList = splitData.result.value.splits.value.list;
                     if(splitList){
                     const filterSplitsByIdentities = Helper.FilterSplitsByIdentity(filterIdentities, splitList)
-                    const ownalbeIdList = Helper.GetIdentityOwnableId(filterSplitsByIdentities)
-                    ownalbeIdList.forEach((ownalbeId) => {
+                    const ownableIdList = Helper.GetIdentityOwnableId(filterSplitsByIdentities)
+                    ownableIdList.forEach((ownalbeId) => {
                         const filterAssetList = AssetsQuery.queryAssetWithID(ownalbeId);
                         filterAssetList.then(function (Asset) {
                             const parsedAsset = JSON.parse(Asset);

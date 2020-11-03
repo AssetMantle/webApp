@@ -7,6 +7,7 @@ import Helpers from "../../utilities/helper";
 const Maintainers = () => {
   const Helper = new Helpers();
   const [maintainersList, setMaintainersList] = useState([]);
+  const [mutableProperties, setMutableProperties] = useState([]);
   const userAddress = localStorage.getItem('address');
           useEffect(() => {
               const fetchOrder =() => {
@@ -18,7 +19,6 @@ const Maintainers = () => {
                     const maintainersData = MaintainerQuery.queryMaintainerWithID("all")
                     maintainersData.then(function(item) {
                         const parsedMaintainersData = JSON.parse(item);
-                        console.log(parsedMaintainersData)
                         const maintainersDataList = parsedMaintainersData.result.value.maintainers.value.list;
                         if(maintainersDataList){
                         const filterMaintainersByIdentity = Helper.FilterMaintainersByIdentity(filterIdentities, maintainersDataList)
@@ -38,14 +38,24 @@ const Maintainers = () => {
     <div className="container">
  
       <div className="accountInfo">
-        <div className="row row-cols-1 row-cols-md-2 card-deck createAccountSection">
-          <div className="col-md-6 custom-pad card">
+        <div className="row row-cols-1 row-cols-md-2 card-deck ">
+         
           {maintainersList.map((maintainer, index) => {
-              return (
-                  <a href="#" key={index}>{maintainer.value.id.value.identityID.value.idString}</a>
-              );
+            const maintainerPropertyList = Helper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList)
+            var keys = Object.keys(maintainerPropertyList);
+           return( <div className="col-md-6">
+            <div className="card">
+            <a href="#" key={index}>{maintainer.value.id.value.identityID.value.idString}</a>
+            {
+              keys.map((keyName) => {
+              return (<a key={index + keyName}>{keyName} {maintainerPropertyList[keyName]}</a>)
+              })
+            }
+            </div>
+            </div>
+           )
           })}
-          </div>
+          
          </div>
           </div>
         </div>
