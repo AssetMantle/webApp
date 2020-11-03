@@ -19,7 +19,6 @@ const Maintainers = () => {
                     const maintainersData = MaintainerQuery.queryMaintainerWithID("all")
                     maintainersData.then(function(item) {
                         const parsedMaintainersData = JSON.parse(item);
-                        console.log(parsedMaintainersData)
                         const maintainersDataList = parsedMaintainersData.result.value.maintainers.value.list;
                         if(maintainersDataList){
                         const filterMaintainersByIdentity = Helper.FilterMaintainersByIdentity(filterIdentities, maintainersDataList)

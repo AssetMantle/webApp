@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import Identities from "persistenceJS/transaction/identity/nub";
 import InputField from '../../components/inputField'
 import { Form, Button, Modal } from "react-bootstrap";
 
@@ -15,7 +15,13 @@ const Nub = () => {
 
 
   const handleSubmit = (event) => {
-   
+    event.preventDefault();
+    const nubId = event.target.nubID.value;
+    const userTypeToken = localStorage.getItem('mnemonic');
+    const userAddress = localStorage.getItem('address');
+    const nubResponse = Identities.nub(userAddress, "test", userTypeToken, "", nubId, 25, "stake", 200000, "block");
+    console.log(nubResponse, "nub response")
+    
   };
 
   return (

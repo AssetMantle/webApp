@@ -24,7 +24,6 @@ const Orders = () => {
                         const ordersDataList = ordersData.result.value.orders.value.list;
                         if(ordersDataList){
                         const filterOrdersByIdentities = Helper.FilterOrdersByIdentity(filterIdentities, ordersDataList)
-                        console.log(filterOrdersByIdentities, "no orders")
                         setOrderList(filterOrdersByIdentities);
                         }
                         else{
