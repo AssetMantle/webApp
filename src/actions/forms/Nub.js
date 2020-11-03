@@ -19,7 +19,7 @@ const Nub = () => {
     const nubId = event.target.nubID.value;
     const userTypeToken = localStorage.getItem('mnemonic');
     const userAddress = localStorage.getItem('address');
-    const nubResponse = Identities.nub(userAddress, "test", userTypeToken, "", nubId, 25, "stake", 200000, "block");
+    const nubResponse = Identities.nub(userAddress, "test", userTypeToken, nubId, 25, "stake", 200000, "block");
     console.log(nubResponse, "nub response")
   };
 
