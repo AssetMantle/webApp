@@ -84,8 +84,8 @@ export default class Helper {
     }
 
     MutablePropertyValues(mutableProperties, inputValues){
-        var mutableValues = "";
-        mutableProperties.map((shareholder, idx) => {
+        let mutableValues = "";
+        mutableProperties.map((mutableProperty, idx) => {
         if(idx>0){
             mutableValues = mutableValues+","+(inputValues[`MutableDataName${idx+1}`]+":"+inputValues[`MutableDataType${idx+1}`]+inputValues[`MutableDataValue${idx+1}`]);
         }
@@ -96,8 +96,8 @@ export default class Helper {
         return mutableValues;
     }
     MutableMetaPropertyValues(mutableMetaProperties, inputValues){
-        var mutableMetaValues = "";
-        mutableMetaProperties.map((shareholder, idx) => {
+        let mutableMetaValues = "";
+        mutableMetaProperties.map((mutableMetaProperty, idx) => {
         if(idx>0){
             mutableMetaValues = mutableMetaValues+","+(inputValues[`mutableMetaDataName${idx+1}`]+":"+inputValues[`mutableMetaDataType${idx+1}`]+inputValues[`mutableMetaDataValue${idx+1}`]);
         }
@@ -108,8 +108,8 @@ export default class Helper {
         return mutableMetaValues;
     }
     ImmutablePropertyValues(immutableProperties, inputValues){
-        var immutableValues = "";
-        immutableProperties.map((shareholder, idx) => {
+        let immutableValues = "";
+        immutableProperties.map((immutableProperty, idx) => {
             if(idx>0){
                 immutableValues = immutableValues+","+(inputValues[`ImmutableDataName${idx+1}`]+":"+inputValues[`ImmutableDataType${idx+1}`]+inputValues[`ImmutableDataValue${idx+1}`]);
             }
@@ -120,8 +120,8 @@ export default class Helper {
         return immutableValues;
     }
     ImmutableMetaPropertyValues(immutableMetaProperties, inputValues){
-        var immutableMetaValues = "";
-        immutableMetaProperties.map((shareholder, idx) => {
+        let immutableMetaValues = "";
+        immutableMetaProperties.map((immutableMetaProperty, idx) => {
             if(idx>0){
                 immutableMetaValues = immutableMetaValues+","+(inputValues[`ImmutableMetaDataName${idx+1}`]+":"+inputValues[`ImmutableMetaDataType${idx+1}`]+inputValues[`ImmutableMetaDataValue${idx+1}`]);
             }

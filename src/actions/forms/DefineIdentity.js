@@ -48,8 +48,8 @@ const DefineIdentity = () => {
     if(immutableMetaProperties){
     immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableMetaProperties, inputValues);
     }
-    console.log("values getiin g ", mutablePropertyValue, )
-    const result = Identities.define(userAddress, "test", userTypeToken, classificationId , mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
+    const defineIdentiyResult = Identities.define(userAddress, "test", userTypeToken, classificationId , mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
+    console.log(defineIdentiyResult, "result")
     evt.target.reset();
     setShow(false);
   }
