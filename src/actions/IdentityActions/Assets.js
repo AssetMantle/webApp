@@ -28,11 +28,14 @@ const Assets = () => {
                         const filterAssetList = AssetsQuery.queryAssetWithID(ownalbeId);
                         filterAssetList.then(function (Asset) {
                             const parsedAsset = JSON.parse(Asset);
+                            if(parsedAsset.result.value.assets.value.list.length > 0){
                             const propertyList = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList)
                             setAssetList((assetList) => [
                                 ...assetList,
                                 propertyList,
                             ]);
+                        }
+                    
                         })
                     })
                   } else{
