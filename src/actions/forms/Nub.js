@@ -21,7 +21,6 @@ const Nub = () => {
     const userAddress = localStorage.getItem('address');
     const nubResponse = Identities.nub(userAddress, "test", userTypeToken, "", nubId, 25, "stake", 200000, "block");
     console.log(nubResponse, "nub response")
-    
   };
 
   return (
