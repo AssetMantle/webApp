@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
-import Identities from "persistenceJS/transaction/identity/query";
+import Identities from "persistencejs/transaction/identity/query";
 import Helpers from "../utilities/helper";
-import metaQuery from "persistenceJS/transaction/meta/query";
+import metaQuery from "persistencejs/transaction/meta/query";
 import {Dropdown, Modal} from "react-bootstrap";
 import Nub from './forms/Nub'
 

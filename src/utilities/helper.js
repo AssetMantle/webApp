@@ -1,4 +1,4 @@
-import metaQuery from "persistenceJS/transaction/meta/query";
+import metaQuery from "persistencejs/transaction/meta/query";
 export default class Helper {
 
     GetIdentityID(identity) {

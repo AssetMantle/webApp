@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Identities from "persistenceJS/transaction/identity/nub";
+import Identities from "persistencejs/transaction/identity/nub";
 import InputField from '../../components/inputField'
 import { Form, Button, Modal } from "react-bootstrap";
 

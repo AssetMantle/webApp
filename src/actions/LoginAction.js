@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
-import keyUtils from "persistenceJS/utilities/keys";
+import keyUtils from "persistencejs/utilities/keys";
 
 const LoginAction = () => {
     const history = useHistory();
