@@ -22,11 +22,10 @@ const Nub = () => {
     <div className="accountInfo">
    
           <Modal.Header>
-            <p>nub</p>
+            Nub
           </Modal.Header>
           <Modal.Body>
           <Form onSubmit={handleSubmit}>
-            <h4 className="formTitle">Mutate Asset</h4>
             <InputField 
             className=""
             name="nubID"
@@ -34,43 +33,6 @@ const Nub = () => {
             placeholder="nubID"
             label="nubID"
             />
-            <InputField 
-            className=""
-            name="feesAmount"
-            required="true"
-            placeholder="feesAmount"
-            label="feesAmount"
-            />
-            <InputField 
-            className=""
-            name="feesToken"
-            required="true"
-            placeholder="feesToken"
-            label="feesToken"
-            />
-            <InputField 
-            className=""
-            name="gas"
-            required="true"
-            placeholder="gas"
-            label="gas"
-            />
-            <Form.Group controlId="exampleForm.ControlSelect1">
-              <Form.Label>Popularity</Form.Label>
-              <Form.Control as="select" name="popularity">
-                <option value="alwaysPopular">Always Popular</option>
-                <option value="Very">Very</option>
-                <option value="NotMuch">Not much</option>
-              </Form.Control>
-            </Form.Group>
-            <Form.Group controlId="exampleForm.ControlSelect1">
-              <Form.Label>Customer Satisfaction</Form.Label>
-              <Form.Control as="select" name="satisfaction">
-                <option value="Good">Good</option>
-                <option value="Happy">Happy</option>
-                <option value="NotSatisfied">NotSatisfied</option>
-              </Form.Control>
-            </Form.Group>
             <div className="submitButtonSection">
               <Button variant="primary" type="submit">
                 Submit
@@ -78,11 +40,6 @@ const Nub = () => {
             </div>
           </Form>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="primary" onClick={handleClose}>
-              ok
-            </Button>
-          </Modal.Footer>
       </div>
   );
 };
