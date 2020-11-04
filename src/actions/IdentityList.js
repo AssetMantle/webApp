@@ -49,7 +49,7 @@ const handelModalData = (formName) =>{
 
                         <Dropdown.Menu>
                             <Dropdown.Item onClick={()=>handelModalData("Nub")}>Nub Txn</Dropdown.Item>
-                            <Dropdown.Item onClick={()=>handelModalData("IssueIdentity")}>Issue Identity</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>handelModalData("IssueIdentity")}>Define Identity</Dropdown.Item>
                         </Dropdown.Menu>
                         </Dropdown>
                     {identityList.map((identity, index) => {

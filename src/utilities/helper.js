@@ -99,10 +99,10 @@ export default class Helper {
         let mutableMetaValues = "";
         mutableMetaProperties.map((mutableMetaProperty, idx) => {
         if(idx>0){
-            mutableMetaValues = mutableMetaValues+","+(inputValues[`mutableMetaDataName${idx+1}`]+":"+inputValues[`mutableMetaDataType${idx+1}`]+inputValues[`mutableMetaDataValue${idx+1}`]);
+            mutableMetaValues = mutableMetaValues+","+(inputValues[`MutableMetaDataName${idx+1}`]+":"+inputValues[`MutableMetaDataType${idx+1}`]+inputValues[`MutableMetaDataValue${idx+1}`]);
         }
         else{
-            mutableMetaValues = mutableMetaValues+(inputValues[`mutableMetaDataName${idx+1}`]+":"+inputValues[`mutableMetaDataType${idx+1}`]+inputValues[`mutableMetaDataValue${idx+1}`]);
+            mutableMetaValues = mutableMetaValues+(inputValues[`MutableMetaDataName${idx+1}`]+":"+inputValues[`MutableMetaDataType${idx+1}`]+inputValues[`,MutableMetaDataValue${idx+1}`]);
         }
         })
         return mutableMetaValues;
@@ -131,6 +131,62 @@ export default class Helper {
         })
         return immutableMetaValues;
     }
-    
+    StringChecking(index, inputValues, propertyName){
+        let errorData = false;
+        const stringRegEx = /^[a-zA-Z]*$/;
+        if (!stringRegEx.test(inputValues[`${propertyName}DataValue${index+1}`])) {
+          errorData = true;
+        }
+        return errorData;
+    }
+    NumberChecking(index, inputValues, propertyName){
+        let errorData = false;
+            const numberRegEx = /^[0-9\b]+$/;
+            if (!numberRegEx.test(inputValues[`${propertyName}DataValue${index+1}`])) {
+              errorData = true;
+            }
+        return errorData;
+    }
+    DecimalChecking(index, inputValues, propertyName){
+        let errorData = false;
+            const DecimalRegEx = /^[-+]?[0-9]+\.[0-9]+$/;
+            if (!DecimalRegEx.test(inputValues[`${propertyName}DataValue${index+1}`])) {
+              errorData = true;
+            }
+            return errorData;
+    }
+    DataTypeValidation(index, inputValues, propertyName){
+        let $this = this
+        let errorData = false;
+                if(inputValues[`${propertyName}DataType${index+1}`] === 'S|'){
+                    errorData = $this.StringChecking(index, inputValues, propertyName)
+                    console.log(errorData, "String")
+                }
+                else if(inputValues[`${propertyName}DataType${index+1}`] === 'I|'){
+                    
+                    errorData = $this.NumberChecking(index, inputValues, propertyName)
+                    console.log(errorData, "number")
+                }
+                else if(inputValues[`${propertyName}DataType${index+1}`] === 'H|'){
+                    
+                    errorData = $this.NumberChecking(index, inputValues, propertyName)
+                    console.log(errorData, "number")
+                }
+                else if(inputValues[`${propertyName}DataType${index+1}`] === 'D|'){
+                    
+                    errorData = $this.DecimalChecking(index, inputValues, propertyName)
+                    console.log(errorData, "decimal")
+                }
+        return errorData;
+    }
+    showHideDataTypeError(checkerror, id){
+        if(checkerror){
+            document.getElementById(id).classList.remove('none');
+            document.getElementById(id).classList.add('show');
+          }else{
+            document.getElementById(id).classList.remove('show');
+            document.getElementById(id).classList.add('none');
+          }
+    } 
 }
 

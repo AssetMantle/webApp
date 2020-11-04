@@ -6,6 +6,7 @@ import Helpers from "../../utilities/helper"
 const DefineIdentity = () => {
     const Helper = new Helpers();
   const [show, setShow] = useState(false);
+  const [dataTypeError, setDataTypeError] = useState(false);
   const [responseData, setResponseData] = useState("");
   const [errorData, setErrorData] = useState("");
   const [assetItemsList, setAssetItemsList] = useState([]);
@@ -36,22 +37,46 @@ const DefineIdentity = () => {
     var mutableMetaPropertyValue=""
     var immutablePropertyValue=""
     var immutableMetaPropertyValue=""
-    if(mutableProperties){
-    mutablePropertyValue = Helper.MutablePropertyValues(mutableProperties, inputValues);
+    if(mutableProperties.length !== 0){
+      mutableProperties.map((mutableProperty, idx) => {
+        const checkerror = Helper.DataTypeValidation(idx, inputValues, 'Mutable');
+        Helper.showHideDataTypeError(checkerror, `Mutable${idx}`);
+      })
+      mutablePropertyValue = Helper.MutablePropertyValues(mutableProperties, inputValues);
     }
-    if(mutableMetaProperties){
-    mutableMetaPropertyValue = Helper.MutableMetaPropertyValues(mutableMetaProperties, inputValues);
+    if(mutableMetaProperties.length !== 0){
+          mutableMetaProperties.map((mutableMetaProperty, idx) => {
+            const checkerror = Helper.DataTypeValidation(idx, inputValues, 'MutableMeta');
+            Helper.showHideDataTypeError(checkerror, `MutableMeta${idx}`);
+          })
+          mutableMetaPropertyValue = Helper.MutableMetaPropertyValues(mutableMetaProperties, inputValues);
+          if(immutableProperties.length !== 0){
+              immutableProperties.map((immutableMetaProperty, idx) => {
+                const checkerror = Helper.DataTypeValidation(idx, inputValues, 'Immutable');
+                Helper.showHideDataTypeError(checkerror, `Immutable${idx}`);
+              })
+              immutablePropertyValue = Helper.ImmutablePropertyValues(immutableProperties, inputValues);
+              if(immutableMetaProperties.length !== 0){
+                immutableMetaProperties.map((immutableMetaProperty, idx) => {
+                    const checkerror = Helper.DataTypeValidation(idx, inputValues, 'ImmutableMeta');
+                    Helper.showHideDataTypeError(checkerror, `ImmutableMeta${idx}`);
+                
+                  })
+                  immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableMetaProperties, inputValues);
+                  const defineIdentiyResult = Identities.define(userAddress, "test", userTypeToken, classificationId , mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
+                  console.log(defineIdentiyResult, "result")
+                  evt.target.reset();
+              }else{
+                console.log("fill immutabale metas")
+              }
+          }else{
+            console.log("fill immutabale")
+          }
+    }else{
+      console.log("fill mutabale metas")
     }
-    if(immutableProperties){
-    immutablePropertyValue = Helper.ImmutablePropertyValues(immutableProperties, inputValues);
-    }
-    if(immutableMetaProperties){
-    immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableMetaProperties, inputValues);
-    }
-    const defineIdentiyResult = Identities.define(userAddress, "test", userTypeToken, classificationId , mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
-    console.log(defineIdentiyResult, "result")
-    evt.target.reset();
     setShow(false);
+   
   }
   
   const handleMutableProperties = () => {
@@ -101,8 +126,8 @@ const DefineIdentity = () => {
                 {mutableProperties.map((shareholder, idx) => (
                 <div key={idx}>
                       <Form.Group controlId="exampleForm.ControlSelect1">
-                        <Form.Label>What Gifts</Form.Label>
-                        <Form.Control as="select" name={`MutableDataType${idx + 1}`} onChange={handleChange}>
+                        <Form.Label>Data Type</Form.Label>
+                        <Form.Control as="select" name={`MutableDataType${idx + 1}`} onChange={handleChange} required={true}>
                         <option value="S|">String</option>
                         <option value="D|">Decimal</option>
                         <option value="H|">Height</option>
@@ -120,6 +145,7 @@ const DefineIdentity = () => {
                         onChange={handleChange}
                         />
                     </Form.Group>
+                   
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Data Value</Form.Label>
                         <Form.Control
@@ -131,6 +157,11 @@ const DefineIdentity = () => {
                         onChange={handleChange}
                         />
                     </Form.Group>
+                   
+                     <Form.Text id={`Mutable${idx}`} className="text-muted none">
+                        Enter value based on datatype you choosen
+                      </Form.Text>
+                
                     <button type="button" onClick={handleRemoveMutableProperties(idx)} className="small">-</button>
                 </div>
                 ))}
@@ -138,8 +169,8 @@ const DefineIdentity = () => {
                 {mutableMetaProperties.map((mutableMetaProperty, idx) => (
                 <div key={idx}>
                       <Form.Group controlId="exampleForm.ControlSelect1">
-                        <Form.Label>What Gifts</Form.Label>
-                        <Form.Control as="select" name={`mutableMetaDataType${idx + 1}`} onChange={handleChange}>
+                        <Form.Label>Data Type</Form.Label>
+                        <Form.Control as="select" name={`MutableMetaDataType${idx + 1}`} onChange={handleChange}>
                         <option value="S|">String</option>
                         <option value="D|">Decimal</option>
                         <option value="H|">Height</option>
@@ -151,7 +182,7 @@ const DefineIdentity = () => {
                         <Form.Control
                         type="text"
                         className=""
-                        name={`mutableMetaDataName${idx + 1}`}
+                        name={`MutableMetaDataName${idx + 1}`}
                         required={true}
                         placeholder="Data Name"
                         onChange={handleChange}
@@ -162,12 +193,15 @@ const DefineIdentity = () => {
                         <Form.Control
                         type="text"
                         className=""
-                        name={`mutableMetaDataValue${idx + 1}`}
+                        name={`MutableMetaDataValue${idx + 1}`}
                         required={true}
                         placeholder="Data Value"
                         onChange={handleChange}
                         />
                     </Form.Group>
+                    <Form.Text id={`MutableMeta${idx}`} className="text-muted none">
+                        Enter value based on datatype you choosen
+                      </Form.Text>
                     <button type="button" onClick={handleRemoveMutableMetaProperties(idx)} className="small">-</button>
                 </div>
                 ))}
@@ -175,7 +209,7 @@ const DefineIdentity = () => {
                 {immutableProperties.map((immutableProperty, idx) => (
                 <div key={idx}>
                       <Form.Group controlId="exampleForm.ControlSelect1">
-                        <Form.Label>What Gifts</Form.Label>
+                        <Form.Label>Data Type</Form.Label>
                         <Form.Control as="select" name={`ImmutableDataType${idx + 1}`} onChange={handleChange}>
                         <option value="S|">String</option>
                         <option value="D|">Decimal</option>
@@ -205,6 +239,9 @@ const DefineIdentity = () => {
                         onChange={handleChange}
                         />
                     </Form.Group>
+                    <Form.Text id={`Immutable${idx}`} className="text-muted none">
+                        Enter value based on datatype you choosen
+                      </Form.Text>
                     <button type="button" onClick={handleRemoveImmutableProperties(idx)} className="small">-</button>
                 </div>
                 ))}
@@ -212,7 +249,7 @@ const DefineIdentity = () => {
                 {immutableMetaProperties.map((immutableMetaProperty, idx) => (
                 <div key={idx}>
                       <Form.Group controlId="exampleForm.ControlSelect1">
-                        <Form.Label>What Gifts</Form.Label>
+                        <Form.Label>Data Type</Form.Label>
                         <Form.Control as="select" name={`ImmutableMetaDataType${idx + 1}`} onChange={handleChange}>
                         <option value="S|">String</option>
                         <option value="D|">Decimal</option>
@@ -242,6 +279,9 @@ const DefineIdentity = () => {
                         onChange={handleChange}
                         />
                     </Form.Group>
+                    <Form.Text id={`ImmutableMeta${idx}`} className="text-muted none">
+                        Enter value based on datatype you choosen
+                      </Form.Text>
                     <button type="button" onClick={handleRemoveImmutableMetaProperties(idx)} className="small">-</button>
                 </div>
                 ))}

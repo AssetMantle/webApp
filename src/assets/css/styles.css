@@ -564,4 +564,12 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.text-muted.show {
+  display: show;
+}
+
+.text-muted.none {
+  display: none;
+}
 /*# sourceMappingURL=styles.css.map */
