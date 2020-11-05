@@ -52,14 +52,17 @@ const IssueIdentity = (props) => {
             const mutableType = mutable.value.fact.value.type;
             const mutableName = mutable.value.id.value.idString;
             const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
-            if (index > 0) {
+            if(index === 0){
+              mutableValues = mutableValues + mutableName + ":" + mutableType + "|" + mutableFieldValue;
+            }
+            else{
+            if (index > 1) {
               mutableMetaValues = mutableMetaValues + "," + mutableName + ":" + mutableType + "|" + mutableFieldValue
             } else {
-              mutableMetaValues = mutableMetaValues + mutableName + ":" + mutableType + "|" + mutableFieldValue
+              mutableMetaValues = mutableMetaValues + mutableName + ":"
+                  + mutableType + "|" + mutableFieldValue
             }
-            if(index == 0){
-              mutableValues = mutableMetaValues;
-            }
+          }
         })
       }
       if(immutableList !== null){
@@ -67,14 +70,16 @@ const IssueIdentity = (props) => {
             const immutableType = immutable.value.fact.value.type;
             const immutableName = immutable.value.id.value.idString;
             const immutableFieldValue = inputValues[`${immutableName}|${immutableType}${index}`]
-            if (index > 0) {
+            if(index === 0){
+              immutableValues = immutableValues + immutableName + ":" + immutableType + "|" + immutableFieldValue;  
+            }
+            else{
+            if (index > 1) {
               immutableMetaValues = immutableMetaValues + "," + immutableName + ":" + immutableType + "|" + immutableFieldValue
             } else {
               immutableMetaValues = immutableMetaValues + immutableName + ":" + immutableType + "|" + immutableFieldValue
             }
-            if(index == 0){
-              immutableValues = immutableMetaValues;
-            }
+          }
         })
       }
         const issueIdentityResult = Identities.issue(userAddress, "test", userTypeToken, toAddress, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
