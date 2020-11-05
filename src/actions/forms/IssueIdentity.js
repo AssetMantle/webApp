@@ -45,27 +45,39 @@ const IssueIdentity = (props) => {
         const toAddress = event.target.toAddress.value;
         var mutableValues = "";
         var immutableValues = "";
+        var mutableMetaValues = "";
+        var immutableMetaValues = "";
+        if(mutableList !== null){
         mutableList.map((mutable, index) => {
             const mutableType = mutable.value.fact.value.type;
             const mutableName = mutable.value.id.value.idString;
             const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
             if (index > 0) {
-                mutableValues = mutableValues + "," + mutableName + ":" + mutableType + "|" + mutableFieldValue
+              mutableMetaValues = mutableMetaValues + "," + mutableName + ":" + mutableType + "|" + mutableFieldValue
             } else {
-                mutableValues = mutableValues + mutableName + ":" + mutableType + "|" + mutableFieldValue
+              mutableMetaValues = mutableMetaValues + mutableName + ":" + mutableType + "|" + mutableFieldValue
+            }
+            if(index == 0){
+              mutableValues = mutableMetaValues;
             }
         })
+      }
+      if(immutableList !== null){
         immutableList.map((immutable, index) => {
             const immutableType = immutable.value.fact.value.type;
             const immutableName = immutable.value.id.value.idString;
             const immutableFieldValue = inputValues[`${immutableName}|${immutableType}${index}`]
             if (index > 0) {
-                immutableValues = immutableValues + "," + immutableName + ":" + immutableType + "|" + immutableFieldValue
+              immutableMetaValues = immutableMetaValues + "," + immutableName + ":" + immutableType + "|" + immutableFieldValue
             } else {
-                immutableValues = immutableValues + immutableName + ":" + immutableType + "|" + immutableFieldValue
+              immutableMetaValues = immutableMetaValues + immutableName + ":" + immutableType + "|" + immutableFieldValue
+            }
+            if(index == 0){
+              immutableValues = immutableMetaValues;
             }
         })
-        const issueIdentityResult = Identities.issue(userAddress, "test", userTypeToken, toAddress, FromId, classificationId, mutableValues, immutableValues, "", "", 25, "stake", 200000, "block")
+      }
+        const issueIdentityResult = Identities.issue(userAddress, "test", userTypeToken, toAddress, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
         console.log(issueIdentityResult, "result Issue Identity")
     }
     return (
@@ -127,7 +139,7 @@ const IssueIdentity = (props) => {
                                 placeholder="toAddress"
                             />
                         </Form.Group>
-                        {
+                        {mutableList !== null ?
                             mutableList.map((mutable, index) => {
                                 const mutableType = mutable.value.fact.value.type;
                                 const mutableName = mutable.value.id.value.idString;
@@ -145,9 +157,11 @@ const IssueIdentity = (props) => {
                                     </Form.Group>
                                 )
                             })
+                            :
+                            ""
                         }
 
-                        {
+                        {immutableList !== null ?
                             immutableList.map((immutable, index) => {
                                 const immutableType = immutable.value.fact.value.type;
                                 const immutableName = immutable.value.id.value.idString;
@@ -165,6 +179,8 @@ const IssueIdentity = (props) => {
                                     </Form.Group>
                                 )
                             })
+                            :
+                            ""
                         }
                         <Button variant="primary" type="submit">
                             Submit
