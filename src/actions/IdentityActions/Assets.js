@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import ReactDOM from 'react-dom';
 import Identities from "persistencejs/transaction/identity/query";
 import Splits from "persistencejs/transaction/splits/query";
 import AssetsQuery from "persistencejs/transaction/assets/query";
@@ -60,29 +61,50 @@ const Assets = () => {
                              if(asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null){
                                  mutableProperties = Helper.ParseProperties(asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
                                  }
-                                 
-                             var immutableKeys = Object.keys(immutableProperties);
+                             var immutableKeys = Object.keys(immutableProperties);  
                              var mutableKeys = Object.keys(mutableProperties);
                             return (
                                 <div className="col-md-6" key={index}>
                                 <div className="card">
                              <p>Immutables</p>
                              {
-                             immutableKeys.map((keyName) => {
-                                 const metaQueryResult = metaQuery.queryMetaWithID(immutableProperties[keyName]);
-                                 metaQueryResult.then(function(item) {
-                                 const data = JSON.parse(item);
-                                 let metaValue =  Helper.FetchMetaValue(data, immutableProperties[keyName])
-                                  return (<a key={index + keyName}>{keyName} {metaValue}</a>)
-                                 })
-                               })
+                                          immutableKeys.map((keyName, index1) => {
+                                              if(immutableProperties[keyName] !== ""){
+                                            const metaQueryResult = metaQuery.queryMetaWithID(immutableProperties[keyName]);
+                                            metaQueryResult.then(function(item) {
+                                                const data = JSON.parse(item);
+                                                let myelement = "";
+                                                let metaValue =  Helper.FetchMetaValue(data, immutableProperties[keyName])
+                                                myelement = <span>{metaValue}</span>;
+                                                ReactDOM.render(myelement, document.getElementById(`immutable_asset`+index+`${index1}`));
+                                            });
+                                            return (<a key={index + keyName}><b>{keyName} </b>: <span id={`immutable_asset`+index+`${index1}`}></span></a>)
+                                        }
+                                        else{
+                                            return (<a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
+                                        }
+                                        })
                              }
-                             <p>Mutables</p>
+                              <p>mutables</p>
                              {
-                             mutableKeys.map((keyName) => {
-                             return (<a key={index + keyName}>{keyName} {mutableProperties[keyName]}</a>)
-                             })
-                             }
+                                mutableKeys.map((keyName, index1) => {
+                                    if(mutableProperties[keyName] !== ""){
+                                    const metaQueryResult = metaQuery.queryMetaWithID(mutableProperties[keyName]);
+                                    metaQueryResult.then(function(item) {
+                                        const data = JSON.parse(item);
+                                        let myelement = "";
+                                        let metaValue =  Helper.FetchMetaValue(data, mutableProperties[keyName])
+                                        myelement = <span>{metaValue}</span>;
+                                        ReactDOM.render(myelement, document.getElementById(`mutable_asset`+index+`${index1}`));
+                                    })
+                                    return (<a key={index + keyName}><b>{keyName} </b>: <span id={`mutable_asset`+index+`${index1}`}></span></a>)
+                                    }
+                                    else{
+                                        return (<a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
+                                    }
+                                })
+                                }
+                            
                               </div>
                               </div>
                             )

@@ -2,8 +2,8 @@ import React, {useState, useEffect} from "react";
 import Identities from "persistencejs/transaction/identity/query";
 import OrdersQuery from "persistencejs/transaction/orders/query";
 import Helpers from "../../utilities/helper";
-
-
+import ReactDOM from 'react-dom';
+import metaQuery from "persistencejs/transaction/meta/query";
 import {Modal, Form, Button} from "react-bootstrap";
 
 const Orders = () => {
@@ -58,16 +58,44 @@ const Orders = () => {
               <a href="#" >{order.value.id.value.hashID.value.idString}</a>
               <p>Immutables</p>
               {
-                immutableKeys.map((keyName) => {
-                return (<a key={index + keyName}>{keyName} {immutableProperties[keyName]}</a>)
-                })
-              }
+                         immutableKeys.map((keyName, index1) => {
+                            if(immutableProperties[keyName] !== ""){
+                            const metaQueryResult = metaQuery.queryMetaWithID(immutableProperties[keyName]);
+                            metaQueryResult.then(function(item) {
+                                const data = JSON.parse(item);
+                                let myelement = "";
+                                let metaValue =  Helper.FetchMetaValue(data, immutableProperties[keyName])
+                                myelement = <span>{metaValue}</span>;
+                                ReactDOM.render(myelement, document.getElementById(`immutable_order`+index+`${index1}`));
+                            });
+                            return (<a key={index + keyName}><b>{keyName} </b>: <span id={`immutable_order`+index+`${index1}`}></span></a>)
+                        }
+                        else{
+                            return (<a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
+                        }
+                        })
+                        }	
+             
                 <p>Mutables</p>
-              {
-                mutableKeys.map((keyName) => {
-                return (<a key={index + keyName}>{keyName} {mutableProperties[keyName]}</a>)
-                })
-              }
+
+                {
+                  mutableKeys.map((keyName, index1) => {
+                      if(mutableProperties[keyName] !== ""){
+                      const metaQueryResult = metaQuery.queryMetaWithID(mutableProperties[keyName]);
+                      metaQueryResult.then(function(item) {
+                          const data = JSON.parse(item);
+                          let myelement = "";
+                          let metaValue =  Helper.FetchMetaValue(data, mutableProperties[keyName])
+                          myelement = <span>{metaValue}</span>;
+                          ReactDOM.render(myelement, document.getElementById(`mutable_order`+index+`${index1}`));
+                      });
+                      return (<a key={index + keyName}><b>{keyName} </b>: <span id={`mutable_order`+index+`${index1}`}></span></a>)
+                  }
+                  else{
+                  return (<a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
+                  }
+                  })
+                }
               </div>
               </div>
             )
