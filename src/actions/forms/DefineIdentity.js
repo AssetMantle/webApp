@@ -9,7 +9,7 @@ const DefineIdentity = () => {
     const [show, setShow] = useState(false);
     const [dataTypeError, setDataTypeError] = useState(false);
     const [responseData, setResponseData] = useState("");
-    const [errorData, setErrorData] = useState("");
+    const [dataTypeOption, setDataTypeOption] = useState("S|");
     const [assetItemsList, setAssetItemsList] = useState([]);
     const handleClose = () => {
         setShow(false);
@@ -27,6 +27,12 @@ const DefineIdentity = () => {
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
 
+    const handleSelectChange = evt =>{
+        setDataTypeOption(evt.target.value);
+        const newValue = evt.target.value;
+        setInputValues({...inputValues, [evt.target.name]: newValue});
+
+    }
     const handleSubmit = (evt) => {
         evt.preventDefault();
         const FromId = evt.target.FromId.value;
@@ -127,7 +133,7 @@ const DefineIdentity = () => {
                         <div key={idx}>
                             <Form.Group controlId="exampleForm.ControlSelect1">
                                 <Form.Label>Data Type</Form.Label>
-                                <Form.Control as="select" name={`MutableDataType${idx + 1}`} onChange={handleChange}
+                                <Form.Control as="select" value={dataTypeOption} name={`MutableDataType${idx + 1}`} onChange={handleSelectChange}
                                               required={true}>
                                     <option value="S|">String</option>
                                     <option value="D|">Decimal</option>

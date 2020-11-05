@@ -103,6 +103,9 @@ export default class Helper {
     MutablePropertyValues(mutableProperties, inputValues) {
         let mutableValues = "";
         mutableProperties.map((mutableProperty, idx) => {
+            if(inputValues[`MutableDataType${idx + 1}`] === undefined){
+                inputValues[`MutableDataType${idx + 1}`] = "S|";
+             }
             if (idx > 0) {
                 mutableValues = mutableValues + "," + (inputValues[`MutableDataName${idx + 1}`] + ":" + inputValues[`MutableDataType${idx + 1}`] + inputValues[`MutableDataValue${idx + 1}`]);
             } else {
@@ -115,6 +118,9 @@ export default class Helper {
     MutableMetaPropertyValues(mutableMetaProperties, inputValues) {
         let mutableMetaValues = "";
         mutableMetaProperties.map((mutableMetaProperty, idx) => {
+            if(inputValues[`MutableMetaDataType${idx + 1}`] === undefined){
+                inputValues[`MutableMetaDataType${idx + 1}`] = "S|";
+             }
             if (idx > 0) {
                 mutableMetaValues = mutableMetaValues + "," + (inputValues[`MutableMetaDataName${idx + 1}`] + ":" + inputValues[`MutableMetaDataType${idx + 1}`] + inputValues[`MutableMetaDataValue${idx + 1}`]);
             } else {
@@ -127,6 +133,9 @@ export default class Helper {
     ImmutablePropertyValues(immutableProperties, inputValues) {
         let immutableValues = "";
         immutableProperties.map((immutableProperty, idx) => {
+            if(inputValues[`ImmutableDataType${idx + 1}`] === undefined){
+                inputValues[`ImmutableDataType${idx + 1}`] = "S|";
+             }
             if (idx > 0) {
                 immutableValues = immutableValues + "," + (inputValues[`ImmutableDataName${idx + 1}`] + ":" + inputValues[`ImmutableDataType${idx + 1}`] + inputValues[`ImmutableDataValue${idx + 1}`]);
             } else {
@@ -139,6 +148,9 @@ export default class Helper {
     ImmutableMetaPropertyValues(immutableMetaProperties, inputValues) {
         let immutableMetaValues = "";
         immutableMetaProperties.map((immutableMetaProperty, idx) => {
+            if(inputValues[`ImmutableMetaDataType${idx + 1}`] === undefined){
+                inputValues[`ImmutableMetaDataType${idx + 1}`] = "S|";
+             }
             if (idx > 0) {
                 immutableMetaValues = immutableMetaValues + "," + (inputValues[`ImmutableMetaDataName${idx + 1}`] + ":" + inputValues[`ImmutableMetaDataType${idx + 1}`] + inputValues[`ImmutableMetaDataValue${idx + 1}`]);
             } else {
