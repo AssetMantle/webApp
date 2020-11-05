@@ -1,10 +1,13 @@
 import React, {useState, useEffect} from "react";
 import ReactDOM from 'react-dom';
-import Identities from "persistencejs/transaction/identity/query";
+import identitiesQueryJS from "persistencejs/transaction/identity/query";
 import Helpers from "../utilities/helper";
-import metaQuery from "persistencejs/transaction/meta/query";
+import metasQueryJS from "persistencejs/transaction/meta/query";
 import {Dropdown, Modal, Button} from "react-bootstrap";
 import {Nub, DefineIdentity, IssueIdentity, Provision, UnProvision} from "./forms";
+
+const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const IdentityList = () => {
     const Helper = new Helpers();
@@ -19,7 +22,7 @@ const IdentityList = () => {
     const userAddress = localStorage.getItem('address');
     useEffect(() => {
         const fetchtoIdentities = () => {
-            const identities = Identities.queryIdentityWithID("all")
+            const identities = identitiesQuery.queryIdentityWithID("all")
             identities.then(function (item) {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
@@ -83,7 +86,7 @@ const IdentityList = () => {
                                     {
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
-                                                const metaQueryResult = metaQuery.queryMetaWithID(immutableProperties[keyName]);
+                                                const metaQueryResult = metasQuery.queryMetaWithID(immutableProperties[keyName]);
                                                 metaQueryResult.then(function (item) {
                                                     const data = JSON.parse(item);
                                                     let myelement = "";
@@ -103,7 +106,7 @@ const IdentityList = () => {
                                     {
                                         mutableKeys.map((keyName, index1) => {
                                             if (mutableProperties[keyName] !== "") {
-                                                const metaQueryResult = metaQuery.queryMetaWithID(mutableProperties[keyName]);
+                                                const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
                                                 metaQueryResult.then(function (item) {
                                                     const data = JSON.parse(item);
                                                     let myelement = "";

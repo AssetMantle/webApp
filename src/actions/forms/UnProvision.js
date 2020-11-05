@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from "react";
-import Identities from "persistencejs/transaction/identity/unprovision";
+import identitiesUnprovisionJS from "persistencejs/transaction/identity/unprovision";
 import InputField from '../../components/inputField'
 import {Form, Button, Modal} from "react-bootstrap";
+
+const identitiesUnprovision = new identitiesUnprovisionJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const UnProvision = (props) => {
     const [show, setShow] = useState(false);
@@ -28,7 +30,7 @@ const UnProvision = (props) => {
         const selectValue = event.target.selectAddress.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        const UnProvisionResponse = Identities.unprovision(userAddress, "test", userTypeToken, props.identityId, selectValue, 25, "stake", 200000, "block");
+        const UnProvisionResponse = identitiesUnprovision.unprovision(userAddress, "test", userTypeToken, props.identityId, selectValue, 25, "stake", 200000, "block");
         console.log(UnProvisionResponse, "result Unprovision")
     };
     const handleSelectChange = (evt) => {

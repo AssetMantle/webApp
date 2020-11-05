@@ -1,8 +1,11 @@
 import React, {useState, useEffect} from "react";
-import classification from "persistencejs/transaction/classification/query";
-import Identities from "persistencejs/transaction/identity/issue";
+import classificationsQueryJS from "persistencejs/transaction/classification/query";
+import identitiesIssueJS from "persistencejs/transaction/identity/issue";
 import InputField from '../../components/inputField'
 import {Form, Button, Modal} from "react-bootstrap";
+
+const identitiesIssue = new identitiesIssueJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const classificationsQuery = new classificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const IssueIdentity = (props) => {
     const [showNext, setShowNext] = useState(false);
@@ -28,7 +31,7 @@ const IssueIdentity = (props) => {
         event.preventDefault();
         const ClassificationId = event.target.ClassificationId.value;
         setClassificationId(ClassificationId)
-        const classificationResponse = classification.queryClassificationWithID(ClassificationId)
+        const classificationResponse = classificationsQuery.queryClassificationWithID(ClassificationId)
         classificationResponse.then(function (item) {
             const data = JSON.parse(item);
             const immutablePropertyList = data.result.value.classifications.value.list[0].value.immutableTraits.value.properties.value.propertyList;
@@ -47,42 +50,40 @@ const IssueIdentity = (props) => {
         var immutableValues = "";
         var mutableMetaValues = "";
         var immutableMetaValues = "";
-        if(mutableList !== null){
-        mutableList.map((mutable, index) => {
-            const mutableType = mutable.value.fact.value.type;
-            const mutableName = mutable.value.id.value.idString;
-            const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
-            if(index === 0){
-              mutableValues = mutableValues + mutableName + ":" + mutableType + "|" + mutableFieldValue;
-            }
-            else{
-            if (index > 1) {
-              mutableMetaValues = mutableMetaValues + "," + mutableName + ":" + mutableType + "|" + mutableFieldValue
-            } else {
-              mutableMetaValues = mutableMetaValues + mutableName + ":"
-                  + mutableType + "|" + mutableFieldValue
-            }
-          }
-        })
-      }
-      if(immutableList !== null){
-        immutableList.map((immutable, index) => {
-            const immutableType = immutable.value.fact.value.type;
-            const immutableName = immutable.value.id.value.idString;
-            const immutableFieldValue = inputValues[`${immutableName}|${immutableType}${index}`]
-            if(index === 0){
-              immutableValues = immutableValues + immutableName + ":" + immutableType + "|" + immutableFieldValue;  
-            }
-            else{
-            if (index > 1) {
-              immutableMetaValues = immutableMetaValues + "," + immutableName + ":" + immutableType + "|" + immutableFieldValue
-            } else {
-              immutableMetaValues = immutableMetaValues + immutableName + ":" + immutableType + "|" + immutableFieldValue
-            }
-          }
-        })
-      }
-        const issueIdentityResult = Identities.issue(userAddress, "test", userTypeToken, toAddress, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
+        if (mutableList !== null) {
+            mutableList.map((mutable, index) => {
+                const mutableType = mutable.value.fact.value.type;
+                const mutableName = mutable.value.id.value.idString;
+                const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
+                if (index === 0) {
+                    mutableValues = mutableValues + mutableName + ":" + mutableType + "|" + mutableFieldValue;
+                } else {
+                    if (index > 1) {
+                        mutableMetaValues = mutableMetaValues + "," + mutableName + ":" + mutableType + "|" + mutableFieldValue
+                    } else {
+                        mutableMetaValues = mutableMetaValues + mutableName + ":"
+                            + mutableType + "|" + mutableFieldValue
+                    }
+                }
+            })
+        }
+        if (immutableList !== null) {
+            immutableList.map((immutable, index) => {
+                const immutableType = immutable.value.fact.value.type;
+                const immutableName = immutable.value.id.value.idString;
+                const immutableFieldValue = inputValues[`${immutableName}|${immutableType}${index}`]
+                if (index === 0) {
+                    immutableValues = immutableValues + immutableName + ":" + immutableType + "|" + immutableFieldValue;
+                } else {
+                    if (index > 1) {
+                        immutableMetaValues = immutableMetaValues + "," + immutableName + ":" + immutableType + "|" + immutableFieldValue
+                    } else {
+                        immutableMetaValues = immutableMetaValues + immutableName + ":" + immutableType + "|" + immutableFieldValue
+                    }
+                }
+            })
+        }
+        const issueIdentityResult = identitiesIssue.issue(userAddress, "test", userTypeToken, toAddress, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
         console.log(issueIdentityResult, "result Issue Identity")
     }
     return (

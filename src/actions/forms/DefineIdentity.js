@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from "react";
-import Identities from "persistencejs/transaction/identity/define";
+import identitiesDefineJS from "persistencejs/transaction/identity/define";
 import InputField from '../../components/inputField'
 import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../utilities/helper"
+
+const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const DefineIdentity = () => {
     const Helper = new Helpers();
@@ -27,7 +29,7 @@ const DefineIdentity = () => {
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
 
-    const handleSelectChange = evt =>{
+    const handleSelectChange = evt => {
         setDataTypeOption(evt.target.value);
         const newValue = evt.target.value;
         setInputValues({...inputValues, [evt.target.name]: newValue});
@@ -69,7 +71,7 @@ const DefineIdentity = () => {
 
                     })
                     immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableMetaProperties, inputValues);
-                    const defineIdentiyResult = Identities.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
+                    const defineIdentiyResult = identitiesDefine.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
                     console.log(defineIdentiyResult, "result define Identity")
                     evt.target.reset();
                 } else {
@@ -133,7 +135,8 @@ const DefineIdentity = () => {
                         <div key={idx}>
                             <Form.Group controlId="exampleForm.ControlSelect1">
                                 <Form.Label>Data Type</Form.Label>
-                                <Form.Control as="select" value={dataTypeOption} name={`MutableDataType${idx + 1}`} onChange={handleSelectChange}
+                                <Form.Control as="select" value={dataTypeOption} name={`MutableDataType${idx + 1}`}
+                                              onChange={handleSelectChange}
                                               required={true}>
                                     <option value="S|">String</option>
                                     <option value="D|">Decimal</option>

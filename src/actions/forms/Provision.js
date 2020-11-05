@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from "react";
-import Identities from "persistencejs/transaction/identity/provision";
+import identitiesProvisionJS from "persistencejs/transaction/identity/provision";
 import InputField from '../../components/inputField'
 import {Form, Button, Modal} from "react-bootstrap";
+
+const identitiesProvision = new identitiesProvisionJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Provision = (props) => {
     const [show, setShow] = useState(false);
@@ -18,7 +20,7 @@ const Provision = (props) => {
         const toAddress = event.target.toAddress.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        const provisionResponse = Identities.provision(userAddress, "test", userTypeToken, props.identityId, toAddress, 25, "stake", 200000, "block");
+        const provisionResponse = identitiesProvision.provision(userAddress, "test", userTypeToken, props.identityId, toAddress, 25, "stake", 200000, "block");
         console.log(provisionResponse, "result provision")
     };
 
