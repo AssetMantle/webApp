@@ -1,4 +1,3 @@
-import metaQuery from "persistencejs/transaction/meta/query";
 
 export default class Helper {
 
