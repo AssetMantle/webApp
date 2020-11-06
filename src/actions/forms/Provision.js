@@ -7,9 +7,6 @@ const identitiesProvision = new identitiesProvisionJS(process.env.REACT_APP_ASSE
 
 const Provision = (props) => {
     const [show, setShow] = useState(false);
-    const [responseData, setResponseData] = useState("");
-    const [errorData, setErrorData] = useState("");
-    const [assetItemsList, setAssetItemsList] = useState([]);
     const handleClose = () => {
         setShow(false);
         window.location.reload();
