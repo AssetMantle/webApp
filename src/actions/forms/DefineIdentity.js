@@ -7,10 +7,7 @@ import Helpers from "../../utilities/helper"
 const DefineIdentity = () => {
     const Helper = new Helpers();
     const [show, setShow] = useState(false);
-    const [dataTypeError, setDataTypeError] = useState(false);
-    const [responseData, setResponseData] = useState("");
     const [dataTypeOption, setDataTypeOption] = useState("S|");
-    const [assetItemsList, setAssetItemsList] = useState([]);
     const handleClose = () => {
         setShow(false);
         window.location.reload();
@@ -82,7 +79,6 @@ const DefineIdentity = () => {
             console.log("fill mutabale metas")
         }
         setShow(false);
-
     }
 
     const handleMutableProperties = () => {

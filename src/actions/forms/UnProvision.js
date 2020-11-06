@@ -5,9 +5,7 @@ import {Form, Button, Modal} from "react-bootstrap";
 
 const UnProvision = (props) => {
     const [show, setShow] = useState(false);
-    const [responseData, setResponseData] = useState("");
     const [selectedAddress, setSelectedAddress] = useState("");
-    const [errorData, setErrorData] = useState("");
     const [provisionAddressList, setProvisionAddressList] = useState([]);
     const handleClose = () => {
         setShow(false);

@@ -5,9 +5,6 @@ import {Form, Button, Modal} from "react-bootstrap";
 
 const Provision = (props) => {
     const [show, setShow] = useState(false);
-    const [responseData, setResponseData] = useState("");
-    const [errorData, setErrorData] = useState("");
-    const [assetItemsList, setAssetItemsList] = useState([]);
     const handleClose = () => {
         setShow(false);
         window.location.reload();

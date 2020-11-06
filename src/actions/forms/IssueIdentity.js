@@ -6,17 +6,44 @@ import {Form, Button, Modal} from "react-bootstrap";
 
 const IssueIdentity = (props) => {
     const [showNext, setShowNext] = useState(false);
-    const [responseData, setResponseData] = useState("");
+    const [checkedD, setCheckedD] = useState({});
     const [classificationId, setClassificationId] = useState("");
-    const [errorData, setErrorData] = useState("");
-    const [mutableList, setMutatableList] = useState([]);
+    const [mutableList, setMutableList] = useState([]);
     const [immutableList, setImmutableList] = useState([]);
-    const [assetItemsList, setAssetItemsList] = useState([]);
     const [inputValues, setInputValues] = useState([]);
-
+    const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
+    const [checkboxImmutableNamesList, setCheckboxImmutableNamesList] = useState([]);
     const handleClose = () => {
         setShowNext(false);
     };
+    const handleCheckMutableChange = evt => {
+        const checkedValue = evt.target.checked;
+        const name = evt.target.getAttribute("name")
+        if (checkedValue) {
+            const checkboxNames = evt.target.name;
+            setCheckboxMutableNamesList((checkboxMutableNamesList) => [...checkboxMutableNamesList, checkboxNames]);
+        } else {
+            if (checkboxMutableNamesList.includes(name)) {
+                setCheckboxMutableNamesList(checkboxMutableNamesList.filter(item => item !== name));
+            }
+        }
+    }
+    const handleCheckImmutableChange = evt => {
+        const checkedValue = evt.target.checked;
+        setCheckedD({...checkedD, [evt.target.name]: evt.target.checked});
+
+        const name = evt.target.getAttribute("name")
+        if (checkedValue) {
+            const checkboxNames = evt.target.name;
+            setCheckboxImmutableNamesList((checkboxImmutableNamesList) => [...checkboxImmutableNamesList, checkboxNames]);
+        } else {
+            if (checkboxImmutableNamesList.includes(name)) {
+                // setAssetItemsList(assetItemsList => assetItemsList.filter((item, sidx) => item.name !== name))
+                setCheckboxImmutableNamesList(checkboxImmutableNamesList.filter(item => item !== name));
+            }
+        }
+
+    }
 
     const handleChange = evt => {
         const newValue = evt.target.value;
@@ -33,57 +60,75 @@ const IssueIdentity = (props) => {
             const data = JSON.parse(item);
             const immutablePropertyList = data.result.value.classifications.value.list[0].value.immutableTraits.value.properties.value.propertyList;
             const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
-            setMutatableList(mutablePropertyList)
+            setMutableList(mutablePropertyList)
             setImmutableList(immutablePropertyList)
         })
         setShowNext(true)
     };
     const handleFormSubmit = (event) => {
         event.preventDefault();
-
-        const FromId = event.target.FromId.value;
-        const toAddress = event.target.toAddress.value;
-        var mutableValues = "";
-        var immutableValues = "";
-        var mutableMetaValues = "";
-        var immutableMetaValues = "";
-        if(mutableList !== null){
-        mutableList.map((mutable, index) => {
-            const mutableType = mutable.value.fact.value.type;
-            const mutableName = mutable.value.id.value.idString;
-            const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
-            if(index === 0){
-              mutableValues = mutableValues + mutableName + ":" + mutableType + "|" + mutableFieldValue;
+        if (checkboxMutableNamesList.length === 0) {
+            alert("select mutable meta")
+        } else if (mutableList.length !== 0 && checkboxMutableNamesList.length !== 0 && mutableList.length === checkboxMutableNamesList.length) {
+            alert("you can't select all as mutable meta")
+        } else if (immutableList.length !== 0 && checkboxImmutableNamesList.length !== 0 && immutableList.length === checkboxImmutableNamesList.length) {
+            alert("you can't select all as Immutable meta")
+        } else if (checkboxImmutableNamesList.length === 0) {
+            alert("select immutable meta")
+        } else {
+            const FromId = event.target.FromId.value;
+            const toAddress = event.target.toAddress.value;
+            var mutableValues = "";
+            var immutableValues = "";
+            var mutableMetaValues = "";
+            var immutableMetaValues = "";
+            if (mutableList !== null) {
+                mutableList.map((mutable, index) => {
+                    const mutableType = mutable.value.fact.value.type;
+                    const mutableName = mutable.value.id.value.idString;
+                    const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
+                    const inputName = `${mutableName}|${mutableType}${index}`
+                    if (checkboxMutableNamesList.includes(inputName)) {
+                        if (mutableMetaValues !== "") {
+                            mutableMetaValues = mutableMetaValues + "," + mutableName + ":" + mutableType + "|" + mutableFieldValue
+                        } else {
+                            mutableMetaValues = mutableMetaValues + mutableName + ":"
+                                + mutableType + "|" + mutableFieldValue
+                        }
+                    } else {
+                        if (mutableValues !== "") {
+                            mutableValues = mutableValues + "," + mutableName + ":" + mutableType + "|" + mutableFieldValue
+                        } else {
+                            mutableValues = mutableValues + mutableName + ":"
+                                + mutableType + "|" + mutableFieldValue
+                        }
+                    }
+                })
             }
-            else{
-            if (index > 1) {
-              mutableMetaValues = mutableMetaValues + "," + mutableName + ":" + mutableType + "|" + mutableFieldValue
-            } else {
-              mutableMetaValues = mutableMetaValues + mutableName + ":"
-                  + mutableType + "|" + mutableFieldValue
+            if (immutableList !== null) {
+                immutableList.map((immutable, index) => {
+                    const immutableType = immutable.value.fact.value.type;
+                    const immutableName = immutable.value.id.value.idString;
+                    const immutableFieldValue = inputValues[`${immutableName}|${immutableType}${index}`]
+                    const immutableInputName = `${immutableName}|${immutableType}${index}`
+                    if (checkboxImmutableNamesList.includes(immutableInputName)) {
+                        if (immutableMetaValues !== "") {
+                            immutableMetaValues = immutableMetaValues + "," + immutableName + ":" + immutableType + "|" + immutableFieldValue
+                        } else {
+                            immutableMetaValues = immutableMetaValues + immutableName + ":" + immutableType + "|" + immutableFieldValue
+                        }
+                    } else {
+                        if (immutableValues !== "") {
+                            immutableValues = immutableValues + "," + immutableName + ":" + immutableType + "|" + immutableFieldValue
+                        } else {
+                            immutableValues = immutableValues + immutableName + ":" + immutableType + "|" + immutableFieldValue
+                        }
+                    }
+                })
             }
-          }
-        })
-      }
-      if(immutableList !== null){
-        immutableList.map((immutable, index) => {
-            const immutableType = immutable.value.fact.value.type;
-            const immutableName = immutable.value.id.value.idString;
-            const immutableFieldValue = inputValues[`${immutableName}|${immutableType}${index}`]
-            if(index === 0){
-              immutableValues = immutableValues + immutableName + ":" + immutableType + "|" + immutableFieldValue;  
-            }
-            else{
-            if (index > 1) {
-              immutableMetaValues = immutableMetaValues + "," + immutableName + ":" + immutableType + "|" + immutableFieldValue
-            } else {
-              immutableMetaValues = immutableMetaValues + immutableName + ":" + immutableType + "|" + immutableFieldValue
-            }
-          }
-        })
-      }
-        const issueIdentityResult = Identities.issue(userAddress, "test", userTypeToken, toAddress, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
-        console.log(issueIdentityResult, "result Issue Identity")
+            const issueIdentityResult = Identities.issue(userAddress, "test", userTypeToken, toAddress, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
+            console.log(issueIdentityResult, "result Issue Identity")
+        }
     }
     return (
         <div className="accountInfo">
@@ -149,17 +194,25 @@ const IssueIdentity = (props) => {
                                 const mutableType = mutable.value.fact.value.type;
                                 const mutableName = mutable.value.id.value.idString;
                                 return (
-                                    <Form.Group controlId="formBasicEmail">
-                                        <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            className=""
-                                            name={`${mutableName}|${mutableType}${index}`}
-                                            required={true}
-                                            placeholder="Trait Value"
-                                            onChange={handleChange}
-                                        />
-                                    </Form.Group>
+                                    <>
+                                        <Form.Group controlId="formBasicEmail">
+                                            <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                className=""
+                                                name={`${mutableName}|${mutableType}${index}`}
+                                                required={true}
+                                                placeholder="Trait Value"
+                                                onChange={handleChange}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group controlId="formBasicCheckbox">
+                                            <Form.Check type="checkbox" label="Mutable Meta"
+                                                        name={`${mutableName}|${mutableType}${index}`}
+                                                        onClick={handleCheckMutableChange}
+                                            />
+                                        </Form.Group>
+                                    </>
                                 )
                             })
                             :
@@ -171,17 +224,24 @@ const IssueIdentity = (props) => {
                                 const immutableType = immutable.value.fact.value.type;
                                 const immutableName = immutable.value.id.value.idString;
                                 return (
-                                    <Form.Group controlId="formBasicEmail">
-                                        <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            className=""
-                                            name={`${immutableName}|${immutableType}${index}`}
-                                            required={true}
-                                            placeholder="Trait Value"
-                                            onChange={handleChange}
-                                        />
-                                    </Form.Group>
+                                    <>
+                                        <Form.Group controlId="formBasicEmail">
+                                            <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                className=""
+                                                name={`${immutableName}|${immutableType}${index}`}
+                                                required={true}
+                                                placeholder="Trait Value"
+                                                onChange={handleChange}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group controlId="formBasicCheckbox">
+                                            <Form.Check type="checkbox" label="Immutable Meta"
+                                                        name={`${immutableName}|${immutableType}${index}`}
+                                                        onChange={handleCheckImmutableChange}/>
+                                        </Form.Group>
+                                    </>
                                 )
                             })
                             :
