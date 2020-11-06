@@ -210,7 +210,7 @@ const IssueIdentity = (props) => {
                                             />
                                         </Form.Group>
                                         <Form.Group controlId="formBasicCheckbox">
-                                            <Form.Check type="checkbox" label="Mutable Meta"
+                                            <Form.Check type="checkbox" label="Meta"
                                                         name={`${mutableName}|${mutableType}${index}`}
                                                         onClick={handleCheckMutableChange}
                                             />
@@ -240,7 +240,7 @@ const IssueIdentity = (props) => {
                                             />
                                         </Form.Group>
                                         <Form.Group controlId="formBasicCheckbox">
-                                            <Form.Check type="checkbox" label="Immutable Meta"
+                                            <Form.Check type="checkbox" label="Meta"
                                                         name={`${immutableName}|${immutableType}${index}`}
                                                         onChange={handleCheckImmutableChange}/>
                                         </Form.Group>

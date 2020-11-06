@@ -38,7 +38,7 @@ const UnProvision = (props) => {
         <div className="accountInfo">
 
             <Modal.Header closeButton>
-                Nub
+                Provision
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>

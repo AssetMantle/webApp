@@ -63,12 +63,21 @@ const IdentityList = () => {
                     {filteredIdentitiesList.map((identity, index) => {
                         var immutableProperties = "";
                         var mutableProperties = "";
+                        var provisionedAddressList = "";
+                        var unProvisionedAddressList = "";
                         const identityId = Helper.GetIdentityID(identity)
+                        console.log(identity, "identity list")
                         if (identity.value.immutables.value.properties.value.propertyList !== null) {
                             immutableProperties = Helper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
                         }
                         if (identity.value.mutables.value.properties.value.propertyList !== null) {
                             mutableProperties = Helper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
+                        }
+                        if(identity.value.provisionedAddressList !== null){
+                            provisionedAddressList = identity.value.provisionedAddressList;
+                        }
+                        if(identity.value.provisionedAddressList !== null){
+                            unProvisionedAddressList = identity.value.unprovisionedAddressList;
                         }
                         var immutableKeys = Object.keys(immutableProperties);
                         var mutableKeys = Object.keys(mutableProperties);
@@ -83,7 +92,7 @@ const IdentityList = () => {
                                     </div>
                                     <a href="#">{identityId}</a>
                                     <p>Immutables</p>
-                                    {
+                                    {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
                                                 const metaQueryResult = metasQuery.queryMetaWithID(immutableProperties[keyName]);
@@ -101,9 +110,10 @@ const IdentityList = () => {
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
                                             }
                                         })
+                                        :""
                                     }
                                     <p>Mutables</p>
-                                    {
+                                    {mutableKeys !== null ?
                                         mutableKeys.map((keyName, index1) => {
                                             if (mutableProperties[keyName] !== "") {
                                                 const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
@@ -121,6 +131,21 @@ const IdentityList = () => {
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
                                             }
                                         })
+                                        :""
+                                    }
+                                    <h5>provisionedAddressList</h5>
+                                    {provisionedAddressList !== null ?
+                                        provisionedAddressList.map((provisionedAddress, addressKey) => {
+                                            return (<p key={addressKey}>{provisionedAddress}</p>)
+                                        })
+                                    :""
+                                    }
+                                    <h5>UnProvisionedAddressList</h5>
+                                    {unProvisionedAddressList !== null ?
+                                        unProvisionedAddressList.map((unprovisionedAddress, unprovisionedAddressKey) => {
+                                            return (<p key={unprovisionedAddressKey}>{unprovisionedAddress}</p>)
+                                        })
+                                        :""
                                     }
                                 </div>
                             </div>
