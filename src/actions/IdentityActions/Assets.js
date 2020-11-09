@@ -3,20 +3,32 @@ import ReactDOM from 'react-dom';
 import splitsQueryJS from "persistencejs/transaction/splits/query";
 import assetsQueryJS from "persistencejs/transaction/assets/query";
 import Helpers from "../../utilities/helper";
-import {Modal, Form, Button} from "react-bootstrap";
+import {Dropdown, Modal, Button} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
+import {MintAsset, MutateAsset} from "../forms/assets";
+import AssetDefineJS from "persistencejs/transaction/assets/define";
+import {Define} from "../forms";
+
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetsQuery = new assetsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const splitsQuery = new splitsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
-
+const assetDefine = new AssetDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const Assets = () => {
     const Helper = new Helpers();
+    const [showAsset, setShowAsset] = useState(false);
+    const [externalComponent, setExternalComponent] = useState("");
     const [assetList, setAssetList] = useState([]);
+    const [mutateValues, setMutateValues] = useState([]);
+    const [mutateProperties, setMutateProperties] = useState({});
+    const [asset, setAsset] = useState({});
     const userAddress = localStorage.getItem('address');
+    const handleClose = () => {
+        setShowAsset(false);
+    };
     useEffect(() => {
         const fetchAssets = () => {
             const identities = identitiesQuery.queryIdentityWithID("all")
@@ -53,12 +65,29 @@ const Assets = () => {
         }
         fetchAssets();
     }, []);
+    const handleModalData = (formName, mutableProperties1, asset1) => {
+        setMutateProperties(mutableProperties1)
+        setAsset(asset1)
+        console.log(mutableProperties1, "mutables")
+        setShowAsset(formName);
+        setExternalComponent(formName)
 
+    }
     return (
         <div className="container">
             <div className="accountInfo">
                 <div className="row row-cols-1 row-cols-md-2 card-deck createAccountSection">
-
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            Actions
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={() => handleModalData("DefineAsset")}>Define
+                                Asset</Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleModalData("MintAsset")}>Asset
+                                Mint</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                     {assetList.map((asset, index) => {
                         var immutableProperties = "";
                         var mutableProperties = "";
@@ -68,20 +97,27 @@ const Assets = () => {
                         if (asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
                             mutableProperties = Helper.ParseProperties(asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
                         }
+
                         var immutableKeys = Object.keys(immutableProperties);
                         var mutableKeys = Object.keys(mutableProperties);
                         return (
                             <div className="col-md-6" key={index}>
                                 <div className="card">
+                                    <div>
+                                        <Button variant="secondary"
+                                                onClick={() => handleModalData("MutateAsset", mutableProperties, asset)}>MutateAsset</Button>
+                                    </div>
                                     <p>Immutables</p>
                                     {
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
+                                                console.log(immutableProperties, "Red")
                                                 const metaQueryResult = metasQuery.queryMetaWithID(immutableProperties[keyName]);
                                                 metaQueryResult.then(function (item) {
                                                     const data = JSON.parse(item);
                                                     let myelement = "";
                                                     let metaValue = Helper.FetchMetaValue(data, immutableProperties[keyName])
+
                                                     myelement = <span>{metaValue}</span>;
                                                     ReactDOM.render(myelement, document.getElementById(`immutable_asset` + index + `${index1}`));
                                                 });
@@ -120,22 +156,25 @@ const Assets = () => {
                     })}
                 </div>
                 <Modal
-                    className="accountInfoModel"
+                    show={showAsset}
+                    onHide={handleClose}
+                    backdrop="static"
+                    keyboard={false}
                     centered
                 >
-                    <Modal.Header>
-                        <div className="icon failure-icon">
-                            <i class="mdi mdi-close"></i>
-                        </div>
-                    </Modal.Header>
-                    <Modal.Body>
-
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary">
-                            ok
-                        </Button>
-                    </Modal.Footer>
+                    {externalComponent === 'DefineAsset' ?
+                        <Define ActionName={assetDefine} FormName={'Define Asset'}/> :
+                        null
+                    }
+                    {
+                        externalComponent === 'MintAsset' ?
+                        <MintAsset /> :
+                        null
+                    }
+                    {externalComponent === 'MutateAsset' ?
+                        <MutateAsset mutatePropertiesList={mutateProperties} asset={asset}/> :
+                        null
+                    }
                 </Modal>
             </div>
         </div>

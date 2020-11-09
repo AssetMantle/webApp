@@ -28,7 +28,7 @@ const Nub = () => {
     return (
         <div className="accountInfo">
 
-            <Modal.Header>
+            <Modal.Header closeButton>
                 Nub
             </Modal.Header>
             <Modal.Body>
