@@ -68,7 +68,6 @@ const Assets = () => {
     const handleModalData = (formName, mutableProperties1, asset1) => {
         setMutateProperties(mutableProperties1)
         setAsset(asset1)
-        console.log(mutableProperties1, "mutables")
         setShowAsset(formName);
         setExternalComponent(formName)
 
@@ -113,7 +112,6 @@ const Assets = () => {
                                     {
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
-                                                console.log(immutableProperties, "Red")
                                                 const metaQueryResult = metasQuery.queryMetaWithID(immutableProperties[keyName]);
                                                 metaQueryResult.then(function (item) {
                                                     const data = JSON.parse(item);
