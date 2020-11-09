@@ -35,7 +35,7 @@ const LoginAction = () => {
                                 type="text"
                                 name="mnemonic"
                                 placeholder="Enter Mnemonic"
-                                required="true"
+                                required={true}
                             />
                             <div className="submitButtonSection">
                                 <Button

@@ -6,7 +6,7 @@ import Helpers from "../../utilities/helper";
 import {Dropdown, Modal, Button} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import {MintAsset, MutateAsset} from "../forms/assets";
+import {MintAsset, MutateAsset, BurnAsset} from "../forms/assets";
 import AssetDefineJS from "persistencejs/transaction/assets/define";
 import {Define} from "../forms";
 
@@ -105,7 +105,9 @@ const Assets = () => {
                                 <div className="card">
                                     <div>
                                         <Button variant="secondary"
-                                                onClick={() => handleModalData("MutateAsset", mutableProperties, asset)}>MutateAsset</Button>
+                                                onClick={() => handleModalData("MutateAsset", mutableProperties, asset)}>Mutate Asset</Button>
+                                        <Button variant="secondary"
+                                                onClick={() => handleModalData("BurnAsset", "" , asset)}>Burn Asset</Button>
                                     </div>
                                     <p>Immutables</p>
                                     {
@@ -174,6 +176,11 @@ const Assets = () => {
                     {externalComponent === 'MutateAsset' ?
                         <MutateAsset mutatePropertiesList={mutateProperties} asset={asset}/> :
                         null
+                    }
+                    {
+                        externalComponent === 'BurnAsset' ?
+                            <BurnAsset asset={asset}/> :
+                            null
                     }
                 </Modal>
             </div>

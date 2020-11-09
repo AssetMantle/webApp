@@ -12,7 +12,7 @@ export default class Helper {
     }
 
     GetOrderID(order) {
-        return order.value.id.value.classificationID.value.idString + +
+        return order.value.id.value.classificationID.value.idString + "*" +
                 order.value.id.value.makerOwnableID.value.idString + "*" +
             order.value.id.value.takerOwnableID.value.idString + "*" +
             order.value.id.value.makerID.value.idString + "*" +
