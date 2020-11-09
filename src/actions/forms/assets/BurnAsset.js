@@ -8,9 +8,6 @@ const burnAsset = new burnAssetJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const BurnAsset = (props) => {
     const Helper = new Helpers();
     const [show, setShow] = useState(false);
-    const [responseData, setResponseData] = useState("");
-    const [errorData, setErrorData] = useState("");
-    const [assetItemsList, setAssetItemsList] = useState([]);
     const handleClose = () => {
         setShow(false);
     };
@@ -26,14 +23,7 @@ const BurnAsset = (props) => {
         const burnResponse = burnAsset.burn(userAddress, "test", userTypeToken, FromId, assetId, 25, "stake", 200000, "block");
         console.log(burnResponse, "result burnResponse")
     };
-    const handleBurn = () =>{
-        const asset = props.asset;
-        const userTypeToken = localStorage.getItem('mnemonic');
-        const userAddress = localStorage.getItem('address');
-        const assetId = Helper.GetAssetID(asset.result.value.assets.value.list[0])
-        const burnResponse = burnAsset.burn(userAddress, "test", userTypeToken, assetId, 25, "stake", 200000, "block");
-        console.log(burnResponse, "result burnResponse")
-    }
+
     return (
         <div className="accountInfo">
 
