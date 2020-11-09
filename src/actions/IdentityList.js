@@ -68,7 +68,6 @@ const IdentityList = () => {
                         var provisionedAddressList = "";
                         var unProvisionedAddressList = "";
                         const identityId = Helper.GetIdentityID(identity)
-                        console.log(identity, "identity list")
                         if (identity.value.immutables.value.properties.value.propertyList !== null) {
                             immutableProperties = Helper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
                         }
