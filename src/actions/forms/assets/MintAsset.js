@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
-import IdentitiesIssueJS from "persistencejs/transaction/identity/issue";
+import AssetMintJS from "persistencejs/transaction/assets/mint";
 import {Form, Button, Modal} from "react-bootstrap";
-import Helpers from "../../utilities/helper";
+import Helpers from "../../../utilities/helper";
 
-const identitiesIssue = new IdentitiesIssueJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const assetMint = new AssetMintJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
-const IssueIdentity = () => {
+const MintAsset = (props) => {
     const Helper = new Helpers();
     const [showNext, setShowNext] = useState(false);
     const [checkedD, setCheckedD] = useState({});
@@ -35,6 +35,7 @@ const IssueIdentity = () => {
     const handleCheckImmutableChange = evt => {
         const checkedValue = evt.target.checked;
         setCheckedD({...checkedD, [evt.target.name]: evt.target.checked});
+
         const name = evt.target.getAttribute("name")
         if (checkedValue) {
             const checkboxNames = evt.target.name;
@@ -91,15 +92,13 @@ const IssueIdentity = () => {
                     const mutableName = mutable.value.id.value.idString;
                     const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
                     const inputName = `${mutableName}|${mutableType}${index}`
-
                     const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
-                    if (mutableMetaValuesResponse[0] !== "") {
+                    if(mutableMetaValuesResponse[0] !== "") {
                         mutableValues = mutableMetaValuesResponse[0];
                     }
-                    if (mutableMetaValuesResponse[1] !== "") {
-                        mutableMetaValues = mutableMetaValuesResponse[1];
+                    if(mutableMetaValuesResponse[1] !== "") {
+                        mutableMetaValues =  mutableMetaValuesResponse[1];
                     }
-
                 })
             }
             if (immutableList !== null) {
@@ -110,16 +109,15 @@ const IssueIdentity = () => {
                     const immutableInputName = `${immutableName}|${immutableType}${index}`
 
                     const ImmutableMetaValuesResponse = Helper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
-                    if (ImmutableMetaValuesResponse[0] !== "") {
+                    if(ImmutableMetaValuesResponse[0] !== "") {
                         immutableValues = ImmutableMetaValuesResponse[0];
                     }
-                    if (ImmutableMetaValuesResponse[1] !== "") {
-                        immutableMetaValues = ImmutableMetaValuesResponse[1];
+                    if(ImmutableMetaValuesResponse[1] !== "") {
+                        immutableMetaValues =  ImmutableMetaValuesResponse[1];
                     }
-
                 })
             }
-            const issueIdentityResult = identitiesIssue.issue(userAddress, "test", userTypeToken, toAddress, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
+            const issueIdentityResult = assetMint.mint(userAddress, "test", userTypeToken, toAddress, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
             console.log(issueIdentityResult, "result Issue Identity")
         }
     }
@@ -127,7 +125,7 @@ const IssueIdentity = () => {
         <div className="accountInfo">
 
             <Modal.Header closeButton>
-                Issue Identity
+                Mint Asset
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
@@ -250,4 +248,4 @@ const IssueIdentity = () => {
     );
 };
 
-export default IssueIdentity;
+export default MintAsset;

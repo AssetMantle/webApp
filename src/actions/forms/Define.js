@@ -1,12 +1,8 @@
-import React, {useState, useEffect} from "react";
-import identitiesDefineJS from "persistencejs/transaction/identity/define";
-import InputField from '../../components/inputField'
+import React, {useState} from "react";
 import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../utilities/helper"
 
-const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
-
-const DefineIdentity = () => {
+const Define = (props) => {
     const Helper = new Helpers();
     const [show, setShow] = useState(false);
     const [dataTypeOption, setDataTypeOption] = useState("S|");
@@ -68,7 +64,7 @@ const DefineIdentity = () => {
 
                     })
                     immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableMetaProperties, inputValues);
-                    const defineIdentiyResult = identitiesDefine.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
+                    const defineIdentiyResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
                     console.log(defineIdentiyResult, "result define Identity")
                     evt.target.reset();
                 } else {
@@ -113,7 +109,7 @@ const DefineIdentity = () => {
         <div className="accountInfo">
 
             <Modal.Header closeButton>
-                Define Identity
+                {props.FormName}
             </Modal.Header>
             <Modal.Body>
                 <form onSubmit={handleSubmit}>
@@ -312,4 +308,4 @@ const DefineIdentity = () => {
     );
 };
 
-export default DefineIdentity;
+export default Define;

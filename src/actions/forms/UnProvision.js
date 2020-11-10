@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import identitiesUnprovisionJS from "persistencejs/transaction/identity/unprovision";
-import InputField from '../../components/inputField'
 import {Form, Button, Modal} from "react-bootstrap";
 
 const identitiesUnprovision = new identitiesUnprovisionJS(process.env.REACT_APP_ASSET_MANTLE_API)
