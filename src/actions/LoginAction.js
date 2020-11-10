@@ -2,12 +2,18 @@ import React, {useState} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import keyUtils from "persistencejs/utilities/keys";
+import {LoginMnemonic, PrivateKey} from "./forms/login";
+import {SignUp} from "./forms";
 
 const LoginAction = () => {
     const history = useHistory();
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const [singUpShow, setSingUpShow] = useState(false);
     const [accountData, setAccountData] = useState({});
+    const [externalComponent, setExternalComponent] = useState("");
+    const handleClose = () => {
+        setShow(false)
+    };
     const handleSubmit = async event => {
         const error = keyUtils.createWallet(event.target.mnemonic.value)
         if (error.error != null) {
@@ -18,8 +24,13 @@ const LoginAction = () => {
         localStorage.setItem("mnemonic", event.target.mnemonic.value)
         history.push('/ActionsSwitcher');
     }
-    const handleCreateWallet = () => {
+    const handleRoute = (route) => {
         setShow(true);
+        console.log(route)
+        setExternalComponent(route)
+    };
+    const handleCreateWallet = () => {
+        setSingUpShow(true);
         const walletInfo = keyUtils.createRandomWallet();
         setAccountData(walletInfo)
     }
@@ -28,56 +39,58 @@ const LoginAction = () => {
             <div className="accountInfo">
                 <div className="row row-cols-1 row-cols-md-2 card-deck createAccountSection">
                     <div className="col-md-6 custom-pad signup-box">
-                        <Form onSubmit={handleSubmit}>
-                            <Form.Label>Mnemonic</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="mnemonic"
-                                placeholder="Enter Mnemonic"
-                                required={true}
-                            />
-                            <div className="submitButtonSection">
-                                <Button
-                                    variant="primary"
-                                    type="submit"
-                                >
-                                    Submit
-                                </Button>
-                                <p className="mrt-10">New User ?</p>
-                                <Button
-                                    variant="primary"
-                                    onClick={handleCreateWallet}
-                                >
-                                    Sign Up
-                                </Button>
-                            </div>
-                        </Form>
+                        <div className="mrt-10">
+                        <Button
+                            variant="primary"
+                            onClick={() =>handleRoute("LoginMnemonic")}
+                        >
+                            Login with mnemonic
+                        </Button>
+                        </div>
+                        <div className="mrt-10">
+                        <Button
+                            variant="primary"
+                            onClick={() =>handleRoute("PrivateKey")}
+                        >
+                            Login with privateKey
+                        </Button>
+                        </div>
+                        <div className="mrt-10">
+                        <Button
+                            variant="primary"
+
+                        >
+                            Login with ledger
+                        </Button>
+                        </div>
+                        <div className="mrt-10">
+                        <Button
+                            variant="primary"
+                            onClick={() =>handleRoute("SignUp")}
+                        >
+                            Sign Up
+                        </Button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <Modal show={show} onHide={handleClose} className="accountInfoModel" centered>
-                <Modal.Header>
-                    <div className="icon success-icon">
-                        <i className="mdi mdi-check"></i>
-                    </div>
-                </Modal.Header>
-                <Modal.Body>
-                    <div>
-                        <div className="content">
-                            <p><b>Address: </b> {`${accountData.address}`}</p>
-                            <p><b>Mnemonic:</b> {`${accountData.mnemonic}`}</p>
-                            <p className="note">Note: Welcome
-                                Your account have been created.
-                                Please save above details for future use:</p>
-                        </div>
-                    </div>
+            <Modal show={show} onHide={handleClose}  centered>
+                    {
+                        externalComponent === 'LoginMnemonic' ?
+                            <LoginMnemonic /> :
+                            null
+                    }
+                {
+                    externalComponent === 'PrivateKey' ?
+                        <PrivateKey /> :
+                        null
+                }
+                {
+                    externalComponent === 'SignUp' ?
+                        <SignUp /> :
+                        null
+                }
 
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="primary" onClick={handleClose}>
-                        ok
-                    </Button>
-                </Modal.Footer>
             </Modal>
         </div>
     );

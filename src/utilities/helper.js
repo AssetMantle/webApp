@@ -55,15 +55,25 @@ export default class Helper {
             return identityOwnerIdlist.includes(maintainer.value.id.value.identityID.value.idString)
         })
     }
+    GetIdentityOwnableId(identity) {
+        let ownableId = identity.value.id.value.ownableID.value.idString;
+        return ownableId;
+    }
 
-
-    GetIdentityOwnableId(identities) {
+    GetIdentityOwnableIds(identities) {
         let ownableIdList = [];
+        let $this = this
         identities.forEach(function (identity) {
-            ownableIdList.push(identity.value.id.value.ownableID.value.idString)
-            return ownableIdList;
+            ownableIdList.push($this.GetIdentityOwnableId(identity));
         })
         return ownableIdList;
+        //
+        //
+        // identities.forEach(function (identity) {
+        //     ownableIdList.push(identity.value.id.value.ownableID.value.idString)
+        //     return ownableIdList;
+        // })
+        // return ownableIdList;
     }
 
     FetchMetaValue(data, hash) {
