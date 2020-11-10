@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from "react";
-import Identities from "persistencejs/transaction/identity/query";
+import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
 import maintainersQueryJS from "persistencejs/transaction/maintainers/query";
 import Helpers from "../../utilities/helper";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
+import {Button, Modal} from "react-bootstrap";
+import {Deputize} from "../forms";
 
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const maintainersQuery = new maintainersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -11,8 +13,14 @@ const maintainersQuery = new maintainersQueryJS(process.env.REACT_APP_ASSET_MANT
 const Maintainers = () => {
     const Helper = new Helpers();
     const [maintainersList, setMaintainersList] = useState([]);
-    const [mutableProperties, setMutableProperties] = useState([]);
+    const [maintainer, setMaintainer] = useState({});
     const userAddress = localStorage.getItem('address');
+    const [show, setShow] = useState(false);
+    const [externalComponent, setExternalComponent] = useState("");
+    const [showAsset, setShowAsset] = useState(false);
+    const handleClose = () => {
+        setShow(false);
+    };
     useEffect(() => {
         const fetchOrder = () => {
             const identities = identitiesQuery.queryIdentityWithID("all")
@@ -37,17 +45,30 @@ const Maintainers = () => {
         fetchOrder();
     }, []);
 
+    const handleModalData = (formName, maintainer1) => {
+        setMaintainer(maintainer1)
+        setExternalComponent(formName)
+        setShowAsset(formName);
+    }
+
     return (
         <div className="container">
 
             <div className="accountInfo">
                 <div className="row row-cols-1 row-cols-md-2 card-deck ">
-
                     {maintainersList.map((maintainer, index) => {
+
+
+                        console.log(maintainer, "identityId")
                         const maintainerPropertyList = Helper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList)
                         var keys = Object.keys(maintainerPropertyList);
                         return (<div className="col-md-6" key={index}>
                                 <div className="card">
+                                    {(maintainer.value.addMaintainer) ?
+                                        <div>
+                                            <Button onClick={() => handleModalData('BurnAsset', maintainer)}>Deputize</Button>
+                                        </div>: ""
+                                    }
                                     <a href="#" key={index}>{maintainer.value.id.value.identityID.value.idString}</a>
                                     {
                                         keys.map((keyName) => {
@@ -62,6 +83,20 @@ const Maintainers = () => {
 
                 </div>
             </div>
+            <Modal
+                show={showAsset}
+                onHide={handleClose}
+                backdrop="static"
+                keyboard={false}
+                centered
+            >
+
+                {
+                    externalComponent === 'BurnAsset' ?
+                        <Deputize maintainerData = {maintainer}/> :
+                        null
+                }
+            </Modal>
         </div>
     );
 };

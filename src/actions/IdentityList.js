@@ -1,13 +1,15 @@
 import React, {useState, useEffect} from "react";
 import ReactDOM from 'react-dom';
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
+import identitiesDefineJS from "persistencejs/transaction/identity/define";
 import Helpers from "../utilities/helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {Dropdown, Modal, Button} from "react-bootstrap";
-import {Nub, DefineIdentity, IssueIdentity, Provision, UnProvision} from "./forms";
+import {Nub, Define, IssueIdentity, Provision, UnProvision} from "./forms";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const IdentityList = () => {
     const Helper = new Helpers();
@@ -66,7 +68,6 @@ const IdentityList = () => {
                         var provisionedAddressList = "";
                         var unProvisionedAddressList = "";
                         const identityId = Helper.GetIdentityID(identity)
-                        console.log(identity, "identity list")
                         if (identity.value.immutables.value.properties.value.propertyList !== null) {
                             immutableProperties = Helper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
                         }
@@ -165,11 +166,11 @@ const IdentityList = () => {
                     null
                 }
                 {externalComponent === 'DefineIdentity' ?
-                    <DefineIdentity/> :
+                    <Define ActionName={identitiesDefine}  FormName={'Define Identity'}/> :
                     null
                 }
                 {externalComponent === 'IssueIdentity' ?
-                    <IssueIdentity fetchToggle={handleClose}/> :
+                    <IssueIdentity /> :
                     null
                 }
 

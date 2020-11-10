@@ -1,4 +1,3 @@
-
 export default class Helper {
 
     GetIdentityID(identity) {
@@ -12,8 +11,8 @@ export default class Helper {
     }
 
     GetOrderID(order) {
-        return order.value.id.value.classificationID.value.idString + +
-                order.value.id.value.makerOwnableID.value.idString + "*" +
+        return order.value.id.value.classificationID.value.idString + "*" +
+            order.value.id.value.makerOwnableID.value.idString + "*" +
             order.value.id.value.takerOwnableID.value.idString + "*" +
             order.value.id.value.makerID.value.idString + "*" +
             order.value.id.value.hashID.value.idString
@@ -56,15 +55,25 @@ export default class Helper {
             return identityOwnerIdlist.includes(maintainer.value.id.value.identityID.value.idString)
         })
     }
+    GetIdentityOwnableId(identity) {
+        let ownableId = identity.value.id.value.ownableID.value.idString;
+        return ownableId;
+    }
 
-
-    GetIdentityOwnableId(identities) {
+    GetIdentityOwnableIds(identities) {
         let ownableIdList = [];
+        let $this = this
         identities.forEach(function (identity) {
-            ownableIdList.push(identity.value.id.value.ownableID.value.idString)
-            return ownableIdList;
+            ownableIdList.push($this.GetIdentityOwnableId(identity));
         })
         return ownableIdList;
+        //
+        //
+        // identities.forEach(function (identity) {
+        //     ownableIdList.push(identity.value.id.value.ownableID.value.idString)
+        //     return ownableIdList;
+        // })
+        // return ownableIdList;
     }
 
     FetchMetaValue(data, hash) {
@@ -102,9 +111,9 @@ export default class Helper {
     MutablePropertyValues(mutableProperties, inputValues) {
         let mutableValues = "";
         mutableProperties.map((mutableProperty, idx) => {
-            if(inputValues[`MutableDataType${idx + 1}`] === undefined){
+            if (inputValues[`MutableDataType${idx + 1}`] === undefined) {
                 inputValues[`MutableDataType${idx + 1}`] = "S|";
-             }
+            }
             if (idx > 0) {
                 mutableValues = mutableValues + "," + (inputValues[`MutableDataName${idx + 1}`] + ":" + inputValues[`MutableDataType${idx + 1}`] + inputValues[`MutableDataValue${idx + 1}`]);
             } else {
@@ -117,9 +126,9 @@ export default class Helper {
     MutableMetaPropertyValues(mutableMetaProperties, inputValues) {
         let mutableMetaValues = "";
         mutableMetaProperties.map((mutableMetaProperty, idx) => {
-            if(inputValues[`MutableMetaDataType${idx + 1}`] === undefined){
+            if (inputValues[`MutableMetaDataType${idx + 1}`] === undefined) {
                 inputValues[`MutableMetaDataType${idx + 1}`] = "S|";
-             }
+            }
             if (idx > 0) {
                 mutableMetaValues = mutableMetaValues + "," + (inputValues[`MutableMetaDataName${idx + 1}`] + ":" + inputValues[`MutableMetaDataType${idx + 1}`] + inputValues[`MutableMetaDataValue${idx + 1}`]);
             } else {
@@ -132,9 +141,9 @@ export default class Helper {
     ImmutablePropertyValues(immutableProperties, inputValues) {
         let immutableValues = "";
         immutableProperties.map((immutableProperty, idx) => {
-            if(inputValues[`ImmutableDataType${idx + 1}`] === undefined){
+            if (inputValues[`ImmutableDataType${idx + 1}`] === undefined) {
                 inputValues[`ImmutableDataType${idx + 1}`] = "S|";
-             }
+            }
             if (idx > 0) {
                 immutableValues = immutableValues + "," + (inputValues[`ImmutableDataName${idx + 1}`] + ":" + inputValues[`ImmutableDataType${idx + 1}`] + inputValues[`ImmutableDataValue${idx + 1}`]);
             } else {
@@ -147,9 +156,9 @@ export default class Helper {
     ImmutableMetaPropertyValues(immutableMetaProperties, inputValues) {
         let immutableMetaValues = "";
         immutableMetaProperties.map((immutableMetaProperty, idx) => {
-            if(inputValues[`ImmutableMetaDataType${idx + 1}`] === undefined){
+            if (inputValues[`ImmutableMetaDataType${idx + 1}`] === undefined) {
                 inputValues[`ImmutableMetaDataType${idx + 1}`] = "S|";
-             }
+            }
             if (idx > 0) {
                 immutableMetaValues = immutableMetaValues + "," + (inputValues[`ImmutableMetaDataName${idx + 1}`] + ":" + inputValues[`ImmutableMetaDataType${idx + 1}`] + inputValues[`ImmutableMetaDataValue${idx + 1}`]);
             } else {
@@ -201,14 +210,35 @@ export default class Helper {
         return errorData;
     }
 
-    showHideDataTypeError(checkerror, id) {
-        if (checkerror) {
+    showHideDataTypeError(checkError, id) {
+        if (checkError) {
             document.getElementById(id).classList.remove('none');
             document.getElementById(id).classList.add('show');
         } else {
             document.getElementById(id).classList.remove('show');
             document.getElementById(id).classList.add('none');
         }
+    }
+
+    setTraitValues(checkboxMutableNamesList, mutableValues, MetaValues, inputName, mutableName, mutableType, mutableFieldValue) {
+        var mutable = ""
+        var meta = ""
+        if (checkboxMutableNamesList.includes(inputName)) {
+            console.log("in")
+            if (MetaValues !== "") {
+                meta = MetaValues + "," + mutableName + ":" + mutableType + "|" + mutableFieldValue
+            } else {
+                meta = MetaValues + mutableName + ":" + mutableType + "|" + mutableFieldValue
+            }
+        } else {
+            if (mutableValues !== "") {
+                mutable = mutableValues + "," + mutableName + ":" + mutableType + "|" + mutableFieldValue
+            } else {
+                mutable = mutableValues + mutableName + ":" + mutableType + "|" + mutableFieldValue
+            }
+        }
+        let result = [mutable, meta]
+        return result;
     }
 }
 
