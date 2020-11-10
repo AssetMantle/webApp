@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import keyUtils from "persistencejs/utilities/keys";
-import {LoginMnemonic, PrivateKey} from "./forms/login";
+import {LoginMnemonic, PrivateKey, Ledger} from "./forms/login";
 import {SignUp} from "./forms";
 
 const LoginAction = () => {
@@ -26,7 +26,6 @@ const LoginAction = () => {
     }
     const handleRoute = (route) => {
         setShow(true);
-        console.log(route)
         setExternalComponent(route)
     };
     const handleCreateWallet = () => {
@@ -50,7 +49,7 @@ const LoginAction = () => {
                         <div className="mrt-10">
                         <Button
                             variant="primary"
-                            onClick={() =>handleRoute("PrivateKey")}
+                            onClick={() =>handleRoute("Ledger")}
                         >
                             Login with privateKey
                         </Button>
@@ -58,7 +57,7 @@ const LoginAction = () => {
                         <div className="mrt-10">
                         <Button
                             variant="primary"
-
+                            onClick={() =>handleRoute("Ledger")}
                         >
                             Login with ledger
                         </Button>
@@ -88,6 +87,11 @@ const LoginAction = () => {
                 {
                     externalComponent === 'SignUp' ?
                         <SignUp /> :
+                        null
+                }
+                {
+                    externalComponent === 'Ledger' ?
+                        <Ledger /> :
                         null
                 }
 
