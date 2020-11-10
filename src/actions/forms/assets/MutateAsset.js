@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import {Form, Button, Modal} from "react-bootstrap";
-import ReactDOM from "react-dom";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import Helpers from "../../../utilities/helper";
 import assetMutateJS from "persistencejs/transaction/assets/mutate";
@@ -54,21 +53,15 @@ const MutateAsset = (props) => {
             if (keyList !== null) {
                 keyList.map((key, index) => {
                     const mutableFieldValue = document.getElementById(key + index).value
-                    const mutateType = assetDataTypeList[key]
-                    if (checkboxMutableNamesList.includes(key+index)) {
-                        if (mutableMetaValues !== "") {
-                            mutableMetaValues = mutableMetaValues + "," + key + ":" + mutateType + "|" + mutableFieldValue
-                        } else {
-                            mutableMetaValues = mutableMetaValues + key + ":"
-                                + mutateType + "|" + mutableFieldValue
-                        }
-                    } else {
-                        if (mutableValues !== "") {
-                            mutableValues = mutableValues + "," + key + ":" + mutateType + "|" + mutableFieldValue
-                        } else {
-                            mutableValues = mutableValues + key + ":"
-                                + mutateType + "|" + mutableFieldValue
-                        }
+                    const mutableType = assetDataTypeList[key];
+                    const inputName = (key+index);
+
+                    const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, key, mutableType, mutableFieldValue)
+                    if(mutableMetaValuesResponse[0] !== "") {
+                        mutableValues = mutableMetaValuesResponse[0];
+                    }
+                    if(mutableMetaValuesResponse[1] !== "") {
+                        mutableMetaValues =  mutableMetaValuesResponse[1];
                     }
                     }
                 )

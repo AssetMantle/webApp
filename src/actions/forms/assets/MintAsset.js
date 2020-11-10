@@ -1,12 +1,14 @@
-import React, {useState, useEffect} from "react";
-import classificationsQueryJS from "persistencejs/transaction/classification/query";
-import assetMintJS from "persistencejs/transaction/assets/mint";
+import React, {useState} from "react";
+import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
+import AssetMintJS from "persistencejs/transaction/assets/mint";
 import {Form, Button, Modal} from "react-bootstrap";
+import Helpers from "../../../utilities/helper";
 
-const assetMint = new assetMintJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const classificationsQuery = new classificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const assetMint = new AssetMintJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const MintAsset = (props) => {
+    const Helper = new Helpers();
     const [showNext, setShowNext] = useState(false);
     const [checkedD, setCheckedD] = useState({});
     const [classificationId, setClassificationId] = useState("");
@@ -90,20 +92,12 @@ const MintAsset = (props) => {
                     const mutableName = mutable.value.id.value.idString;
                     const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
                     const inputName = `${mutableName}|${mutableType}${index}`
-                    if (checkboxMutableNamesList.includes(inputName)) {
-                        if (mutableMetaValues !== "") {
-                            mutableMetaValues = mutableMetaValues + "," + mutableName + ":" + mutableType + "|" + mutableFieldValue
-                        } else {
-                            mutableMetaValues = mutableMetaValues + mutableName + ":"
-                                + mutableType + "|" + mutableFieldValue
-                        }
-                    } else {
-                        if (mutableValues !== "") {
-                            mutableValues = mutableValues + "," + mutableName + ":" + mutableType + "|" + mutableFieldValue
-                        } else {
-                            mutableValues = mutableValues + mutableName + ":"
-                                + mutableType + "|" + mutableFieldValue
-                        }
+                    const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
+                    if(mutableMetaValuesResponse[0] !== "") {
+                        mutableValues = mutableMetaValuesResponse[0];
+                    }
+                    if(mutableMetaValuesResponse[1] !== "") {
+                        mutableMetaValues =  mutableMetaValuesResponse[1];
                     }
                 })
             }
@@ -113,18 +107,13 @@ const MintAsset = (props) => {
                     const immutableName = immutable.value.id.value.idString;
                     const immutableFieldValue = inputValues[`${immutableName}|${immutableType}${index}`]
                     const immutableInputName = `${immutableName}|${immutableType}${index}`
-                    if (checkboxImmutableNamesList.includes(immutableInputName)) {
-                        if (immutableMetaValues !== "") {
-                            immutableMetaValues = immutableMetaValues + "," + immutableName + ":" + immutableType + "|" + immutableFieldValue
-                        } else {
-                            immutableMetaValues = immutableMetaValues + immutableName + ":" + immutableType + "|" + immutableFieldValue
-                        }
-                    } else {
-                        if (immutableValues !== "") {
-                            immutableValues = immutableValues + "," + immutableName + ":" + immutableType + "|" + immutableFieldValue
-                        } else {
-                            immutableValues = immutableValues + immutableName + ":" + immutableType + "|" + immutableFieldValue
-                        }
+
+                    const ImmutableMetaValuesResponse = Helper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
+                    if(ImmutableMetaValuesResponse[0] !== "") {
+                        immutableValues = ImmutableMetaValuesResponse[0];
+                    }
+                    if(ImmutableMetaValuesResponse[1] !== "") {
+                        immutableMetaValues =  ImmutableMetaValuesResponse[1];
                     }
                 })
             }

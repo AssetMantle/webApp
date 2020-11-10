@@ -170,7 +170,7 @@ const IdentityList = () => {
                     null
                 }
                 {externalComponent === 'IssueIdentity' ?
-                    <IssueIdentity fetchToggle={handleClose}/> :
+                    <IssueIdentity /> :
                     null
                 }
 

@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import identitiesProvisionJS from "persistencejs/transaction/identity/provision";
-import InputField from '../../components/inputField'
 import {Form, Button, Modal} from "react-bootstrap";
 
 const identitiesProvision = new identitiesProvisionJS(process.env.REACT_APP_ASSET_MANTLE_API)

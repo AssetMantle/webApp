@@ -7,9 +7,7 @@ const identitiesNub = new identitiesNubJS(process.env.REACT_APP_ASSET_MANTLE_API
 
 const Nub = () => {
     const [show, setShow] = useState(false);
-    const [responseData, setResponseData] = useState("");
-    const [errorData, setErrorData] = useState("");
-    const [assetItemsList, setAssetItemsList] = useState([]);
+
     const handleClose = () => {
         setShow(false);
         window.location.reload();

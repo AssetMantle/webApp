@@ -1,13 +1,14 @@
-import React, {useState, useEffect} from "react";
-import classificationsQueryJS from "persistencejs/transaction/classification/query";
-import identitiesIssueJS from "persistencejs/transaction/identity/issue";
-import InputField from '../../components/inputField'
+import React, {useState} from "react";
+import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
+import IdentitiesIssueJS from "persistencejs/transaction/identity/issue";
 import {Form, Button, Modal} from "react-bootstrap";
+import Helpers from "../../utilities/helper";
 
-const identitiesIssue = new identitiesIssueJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const classificationsQuery = new classificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const identitiesIssue = new IdentitiesIssueJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
-const IssueIdentity = (props) => {
+const IssueIdentity = () => {
+    const Helper = new Helpers();
     const [showNext, setShowNext] = useState(false);
     const [checkedD, setCheckedD] = useState({});
     const [classificationId, setClassificationId] = useState("");
@@ -34,7 +35,6 @@ const IssueIdentity = (props) => {
     const handleCheckImmutableChange = evt => {
         const checkedValue = evt.target.checked;
         setCheckedD({...checkedD, [evt.target.name]: evt.target.checked});
-
         const name = evt.target.getAttribute("name")
         if (checkedValue) {
             const checkboxNames = evt.target.name;
@@ -91,21 +91,15 @@ const IssueIdentity = (props) => {
                     const mutableName = mutable.value.id.value.idString;
                     const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
                     const inputName = `${mutableName}|${mutableType}${index}`
-                    if (checkboxMutableNamesList.includes(inputName)) {
-                        if (mutableMetaValues !== "") {
-                            mutableMetaValues = mutableMetaValues + "," + mutableName + ":" + mutableType + "|" + mutableFieldValue
-                        } else {
-                            mutableMetaValues = mutableMetaValues + mutableName + ":"
-                                + mutableType + "|" + mutableFieldValue
-                        }
-                    } else {
-                        if (mutableValues !== "") {
-                            mutableValues = mutableValues + "," + mutableName + ":" + mutableType + "|" + mutableFieldValue
-                        } else {
-                            mutableValues = mutableValues + mutableName + ":"
-                                + mutableType + "|" + mutableFieldValue
-                        }
+
+                    const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
+                    if (mutableMetaValuesResponse[0] !== "") {
+                        mutableValues = mutableMetaValuesResponse[0];
                     }
+                    if (mutableMetaValuesResponse[1] !== "") {
+                        mutableMetaValues = mutableMetaValuesResponse[1];
+                    }
+
                 })
             }
             if (immutableList !== null) {
@@ -114,19 +108,15 @@ const IssueIdentity = (props) => {
                     const immutableName = immutable.value.id.value.idString;
                     const immutableFieldValue = inputValues[`${immutableName}|${immutableType}${index}`]
                     const immutableInputName = `${immutableName}|${immutableType}${index}`
-                    if (checkboxImmutableNamesList.includes(immutableInputName)) {
-                        if (immutableMetaValues !== "") {
-                            immutableMetaValues = immutableMetaValues + "," + immutableName + ":" + immutableType + "|" + immutableFieldValue
-                        } else {
-                            immutableMetaValues = immutableMetaValues + immutableName + ":" + immutableType + "|" + immutableFieldValue
-                        }
-                    } else {
-                        if (immutableValues !== "") {
-                            immutableValues = immutableValues + "," + immutableName + ":" + immutableType + "|" + immutableFieldValue
-                        } else {
-                            immutableValues = immutableValues + immutableName + ":" + immutableType + "|" + immutableFieldValue
-                        }
+
+                    const ImmutableMetaValuesResponse = Helper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
+                    if (ImmutableMetaValuesResponse[0] !== "") {
+                        immutableValues = ImmutableMetaValuesResponse[0];
                     }
+                    if (ImmutableMetaValuesResponse[1] !== "") {
+                        immutableMetaValues = ImmutableMetaValuesResponse[1];
+                    }
+
                 })
             }
             const issueIdentityResult = identitiesIssue.issue(userAddress, "test", userTypeToken, toAddress, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")

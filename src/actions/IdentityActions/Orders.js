@@ -2,10 +2,10 @@ import React, {useState, useEffect} from "react";
 import ordersQueryJS from "persistencejs/transaction/orders/query";
 import Helpers from "../../utilities/helper";
 import ReactDOM from 'react-dom';
-import {Modal, Form, Button, Dropdown} from "react-bootstrap";
+import {Modal, Button, Dropdown} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import {DefineOrder, CancelOrder, Define} from "../forms";
+import {CancelOrder, Define} from "../forms";
 import ordersDefineJS from "persistencejs/transaction/orders/define";
 
 const ordersDefine = new ordersDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)

@@ -7,7 +7,6 @@ const LoginAction = () => {
     const history = useHistory();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const [errorUsername, setErrorUsername] = useState("");
     const [accountData, setAccountData] = useState({});
     const handleSubmit = async event => {
         const error = keyUtils.createWallet(event.target.mnemonic.value)
