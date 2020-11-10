@@ -3,7 +3,7 @@ import {Route, Switch, withRouter} from "react-router-dom";
 import {IdentityList, LoginAction, Assets, Orders, ActionsSwitcher} from "./actions";
 import {HomePage, RouteNotFound, Header} from "./components";
 import offline from "./assets/images/offline.svg";
-
+import runner from "./faucetRunner/iterator"
 const App = () => {
     const routes = [{
         path: '/',
@@ -25,6 +25,7 @@ const App = () => {
         component: ActionsSwitcher,
     }];
 
+    runner()
     const [isOnline, setNetwork] = useState(window.navigator.onLine);
     const updateNetwork = () => {
         setNetwork(window.navigator.onLine);
