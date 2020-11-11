@@ -29,6 +29,7 @@ const SignUp = () => {
         }
         const jsonContent = JSON.stringify(create.Response);
         getJsonname(jsonContent)
+        alert("Please save mnemonic:  " + error.mnemonic)
         localStorage.setItem("address", error.address)
         localStorage.setItem("mnemonic", error.mnemonic)
     }
@@ -109,7 +110,6 @@ const SignUp = () => {
                         <br/>
                         <Button
                             variant="primary"
-                            type="submit"
                             onClick={handleClose}
                         >
                             Done
