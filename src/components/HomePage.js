@@ -10,7 +10,7 @@ class HomePage extends React.Component {
                 <div className="container">
                     <div className="row row-cols-1 row-cols-md-2 card-deck infoRow">
 
-                        <div className="col-md-12 custom-pad appInfoBox">
+                        <div className="col-md-12 appInfoBox">
                             <p>Application implementing the minimum
                                 clique of PersistenceSDK modules enabling interNFT definition,
                                 issuance, ownership transfer and decentralized exchange.</p>
