@@ -3,6 +3,7 @@ import identitiesProvisionJS from "persistencejs/transaction/identity/provision"
 import InputField from '../../components/inputField'
 import {FAUCET_LIST_LIMIT, FaucetList} from '../../constants/faucet'
 import {Form, Button, Modal} from "react-bootstrap";
+import axios from "axios";
 
 
 const Faucet = (props) => {
@@ -14,19 +15,9 @@ const Faucet = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const myAddress = event.target.myAddress.value;
         const userAddress = localStorage.getItem('address');
-        fetch(process.env.REACT_APP_ASSET_MANTLE_API + "/auth/accounts/" + userAddress)
-            .then((response) => response.json())
-            .then(function (accountResponse) {
-                if (FaucetList.length < FAUCET_LIST_LIMIT && !FaucetList.includes(userAddress) && accountResponse.result.value.address == "") {
-                    FaucetList.push(userAddress)
-                    console.log(userAddress, myAddress, "ADDED TO LIST", FAUCET_LIST_LIMIT, FaucetList)
-                } else {
-                    console.log(userAddress, myAddress, "NOT ADDED", FAUCET_LIST_LIMIT, FaucetList)
-                }
-
-            });
+        axios.post(process.env.REACT_APP_FAUCET_SERVER + "/faucetRequest", {address: userAddress})
+            .then(response => console.log(response)).catch(err => console.log(err))
     };
 
     return (
