@@ -2,11 +2,12 @@ import React, {useState} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import keyUtils from "persistencejs/utilities/keys";
+import DownloadLink from "react-download-link";
 
 const SignUp = () => {
     const history = useHistory();
     const [show, setShow] = useState(false);
-
+    const [jsonName, getJsonname] = useState({});
     const [showEncrypt, setShowEncrypt] = useState(false);
     const [showDownload, setShowDownload] = useState(false);
     const handleClose = () =>{
@@ -14,15 +15,23 @@ const SignUp = () => {
         setShowEncrypt(false)
         setShow(false);
     }
-    const handleSubmit = async event => {
-        const error = keyUtils.createWallet(event.target.mnemonic.value)
+    const handleSubmit = e => {
+        e.preventDefault()
+        const password = document.getElementById("password").value
+        const error = keyUtils.createRandomWallet(password)
         if (error.error != null) {
             return (<div>ERROR!!</div>)
         }
-        const wallet = keyUtils.getWallet(event.target.mnemonic.value)
-        localStorage.setItem("address", wallet.address)
-        localStorage.setItem("mnemonic", event.target.mnemonic.value)
-        history.push('/ActionsSwitcher');
+
+        const create = keyUtils.createStore(error.mnemonic, password)
+        if (create.error != null) {
+            return (<div>ERROR!!</div>)
+        }
+        const jsonContent = JSON.stringify(create.Response);
+        getJsonname(jsonContent)
+        alert("Please save mnemonic:  " + error.mnemonic)
+        localStorage.setItem("address", error.address)
+        localStorage.setItem("mnemonic", error.mnemonic)
     }
         const handleEncrypt = () =>{
             setShowEncrypt(true)
@@ -64,8 +73,9 @@ const SignUp = () => {
                     <Form onSubmit={handleSubmit}>
                                 <Form.Label>Enter password to encrypt keystore file</Form.Label>
                                 <Form.Control
-                                    type="text"
+                                    type="password"
                                     name="password"
+                                    id="password"
                                     placeholder="password"
                                     required={true}
                                 />
@@ -90,16 +100,20 @@ const SignUp = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
-
-                                <p>download file</p>
-                                <a href="#" download>keystore.txt</a>
-                                <Button
-                                    variant="primary"
-                                    type="submit"
-                                    onClick={handleEncryptFinal}
-                                >
-                                    SignIn
-                                </Button>
+                        <DownloadLink
+                            label="Download Key File for future use"
+                            filename="key.json"
+                            exportFile={() =>`${jsonName}`}
+                        />
+                        <br/>
+                        After download, please login with private key
+                        <br/>
+                        <Button
+                            variant="primary"
+                            onClick={handleClose}
+                        >
+                            Done
+                        </Button>
                     </Form>
                 </Modal.Body>
             </Modal>

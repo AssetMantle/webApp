@@ -2,10 +2,8 @@ import React, {useState, useEffect} from "react";
 import {Route, Switch, withRouter} from "react-router-dom";
 import {IdentityList, LoginAction, Assets, Orders, ActionsSwitcher} from "./actions";
 import {HomePage, RouteNotFound, Header} from "./components";
-import { ThemeProvider } from 'styled-components';
 import offline from "./assets/images/offline.svg";
-
-import Footer from "./components/footer"
+import Footer from "./components/footer";
 const App = () => {
     const routes = [{
         path: '/',
@@ -41,9 +39,9 @@ const App = () => {
     });
 
     return (
-       
+
             <div className="app">
-            
+
             {
                 !isOnline ?
                     <div className="network-check">
@@ -57,7 +55,7 @@ const App = () => {
             <div className="container-fluid app-nav">
                 <div className="container">
                     <Header/>
-                   
+
                 </div>
             </div>
 
