@@ -224,7 +224,6 @@ export default class Helper {
         var mutable = ""
         var meta = ""
         if (checkboxMutableNamesList.includes(inputName)) {
-            console.log("in")
             if (MetaValues !== "") {
                 meta = MetaValues + "," + mutableName + ":" + mutableType + "|" + mutableFieldValue
             } else {

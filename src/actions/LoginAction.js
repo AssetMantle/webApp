@@ -49,7 +49,7 @@ const LoginAction = () => {
                         <div className="mrt-10">
                         <Button
                             variant="primary"
-                            onClick={() =>handleRoute("Ledger")}
+                            onClick={() =>handleRoute("PrivateKey")}
                         >
                             Login with privateKey
                         </Button>
