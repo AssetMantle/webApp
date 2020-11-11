@@ -9,7 +9,7 @@ import identitiesQueryJS from "persistencejs/transaction/identity/query";
 import {MintAsset, MutateAsset, BurnAsset} from "../forms/assets";
 import AssetDefineJS from "persistencejs/transaction/assets/define";
 import {Define} from "../forms";
-
+import {MakeOrder} from "../forms/orders";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -21,6 +21,7 @@ const Assets = () => {
     const Helper = new Helpers();
     const [showAsset, setShowAsset] = useState(false);
     const [externalComponent, setExternalComponent] = useState("");
+    const [assetId, setAssetId] = useState("");
     const [assetList, setAssetList] = useState([]);
     const [splitList, setSplitList] = useState([]);
     const [mutateValues, setMutateValues] = useState([]);
@@ -72,9 +73,10 @@ const Assets = () => {
         }
         fetchAssets();
     }, []);
-    const handleModalData = (formName, mutableProperties1, asset1) => {
+    const handleModalData = (formName, mutableProperties1, asset1, assetId1) => {
         setMutateProperties(mutableProperties1)
         setAsset(asset1)
+        setAssetId(assetId1)
         setShowAsset(formName);
         setExternalComponent(formName)
 
@@ -121,6 +123,14 @@ const Assets = () => {
                                                 var mutableKeys = Object.keys(mutableProperties);
                                                 return (
                                                     <>
+                                                        <div>
+                                                            <Button variant="secondary"
+                                                                    onClick={() => handleModalData("MutateAsset", mutableProperties, asset)}>Mutate Asset</Button>
+                                                            <Button variant="secondary"
+                                                                    onClick={() => handleModalData("BurnAsset", "" , asset)}>Burn Asset</Button>
+                                                            <Button variant="secondary"
+                                                                    onClick={() => handleModalData("MakeOrder", "" , "", assetId)}>Make</Button>
+                                                        </div>
                                                         <p>Immutables</p>
                                                         {
                                                             immutableKeys.map((keyName, index1) => {
@@ -198,6 +208,11 @@ const Assets = () => {
                     {
                         externalComponent === 'BurnAsset' ?
                             <BurnAsset asset={asset}/> :
+                            null
+                    }
+                    {
+                        externalComponent === 'MakeOrder' ?
+                            <MakeOrder assetId={assetId}/> :
                             null
                     }
                 </Modal>

@@ -5,7 +5,8 @@ import ReactDOM from 'react-dom';
 import {Modal, Button, Dropdown} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import {CancelOrder, Define} from "../forms";
+import {Define} from "../forms";
+import {CancelOrder} from "../forms/orders";
 import ordersDefineJS from "persistencejs/transaction/orders/define";
 
 const ordersDefine = new ordersDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
