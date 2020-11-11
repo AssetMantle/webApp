@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import identitiesProvisionJS from "persistencejs/transaction/identity/provision";
 import InputField from '../../components/inputField'
-import {FAUCET_LIST_LIMIT, FaucetList} from '../../constants/faucet'
 import {Form, Button, Modal} from "react-bootstrap";
 import axios from "axios";
 
