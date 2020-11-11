@@ -18,6 +18,7 @@ const MakeOrder = (props) => {
     const [show, setShow] = useState(false);
     const handleClose = () => {
         setShow(false);
+        setShowNext(false);
     };
 
     const handleCheckMutableChange = evt => {
@@ -61,7 +62,6 @@ const MakeOrder = (props) => {
             const classificationResponse = classificationsQuery.queryClassificationWithID(ClassificationId)
         classificationResponse.then(function (item) {
             const data = JSON.parse(item);
-            console.log(data, "data")
             const immutablePropertyList = data.result.value.classifications.value.list[0].value.immutableTraits.value.properties.value.propertyList;
             const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
             setMutableList(mutablePropertyList)
@@ -120,11 +120,10 @@ const MakeOrder = (props) => {
                     }
                 })
             }
-            console.log(mutableValues,mutableMetaValues, "mutableMetaValues" )
             const userTypeToken = localStorage.getItem('mnemonic');
             const userAddress = localStorage.getItem('address');
             const makeOrderResult = ordersMake.make(userAddress, "test", userTypeToken, FromId, classificationId,assetId, TakerOwnableId,ExpiresIn, Makersplit,  mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
-            console.log(makeOrderResult, "result Issue makeOrderResult")
+            console.log(makeOrderResult, "makeOrderResult")
         }
     }
     return (

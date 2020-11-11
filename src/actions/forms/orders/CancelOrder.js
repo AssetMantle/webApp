@@ -16,10 +16,8 @@ const CancelOrder = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // const toAddress = event.target.toAddress.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        console.log(props.order)
         const cancelOrderResponse = ordersCancel.cancel(userAddress, "test", userTypeToken, props.order.value.id.value.makerID.value.idString, Helper.GetOrderID(props.order), 25, "stake", 200000, "block");
         console.log(cancelOrderResponse, "result provision")
     };

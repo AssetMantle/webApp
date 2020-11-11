@@ -46,14 +46,12 @@ const Assets = () => {
                     if (splitList) {
                         const filterSplitsByIdentities = Helper.FilterSplitsByIdentity(filterIdentities, splitList)
                         setSplitList(filterSplitsByIdentities)
-                        console.log(filterSplitsByIdentities, "ownableIDList")
                         const ownableIDList = Helper.GetIdentityOwnableIds(filterSplitsByIdentities)
                         ownableIDList.forEach((ownableID) => {
                             const filterAssetList = assetsQuery.queryAssetWithID(ownableID);
                             filterAssetList.then(function (Asset) {
                                 const parsedAsset = JSON.parse(Asset);
                                 const assetId = Helper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
-                                console.log(ownableID, assetId, "fun")
                                 if (ownableID === assetId) {
                                     setAssetList((assetList) => [
                                         ...assetList,
