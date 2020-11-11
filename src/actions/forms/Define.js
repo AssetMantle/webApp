@@ -33,7 +33,6 @@ const Define = (props) => {
         const FromId = evt.target.FromId.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-
         var mutablePropertyValue = ""
         var mutableMetaPropertyValue = ""
         var immutablePropertyValue = ""
@@ -66,7 +65,6 @@ const Define = (props) => {
                     immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableMetaProperties, inputValues);
                     const defineIdentiyResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
                     console.log(defineIdentiyResult, "result define Identity")
-                    evt.target.reset();
                 } else {
                     console.log("fill immutabale metas")
                 }

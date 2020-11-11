@@ -3,5 +3,6 @@ build
 .DS_Store
 .env
 .idea
+.sass-cache
 faucet/.env
 faucet/node_modules
