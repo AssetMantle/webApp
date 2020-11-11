@@ -19,9 +19,7 @@ useEffect( () =>{
 
     classificationResponse.then(function (item) {
         const data = JSON.parse(item);
-        console.log(data,"classificationResponse")
         const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
-        console.log(mutablePropertyList, "list")
         setMutableList(mutablePropertyList)
     })
 }, [])
@@ -31,7 +29,6 @@ useEffect( () =>{
         const name = evt.target.value
         if (checkedValue) {
             const checkboxNames = evt.target.value;
-            console.log(checkboxNames)
             setCheckboxMutableNamesList((checkboxMutableNamesList) => [...checkboxMutableNamesList, checkboxNames]);
         } else {
             if (checkboxMutableNamesList.includes(name)) {
@@ -46,18 +43,16 @@ useEffect( () =>{
         const addMaintainer = document.getElementById("addMaintainer").checked
         const mutateMaintainer = document.getElementById("mutateMaintainer").checked
         const removeMaintainer = document.getElementById("removeMaintainer").checked
-        console.log(addMaintainer, mutateMaintainer ,removeMaintainer, "check")
         var maintainedTraits = ""
         checkboxMutableNamesList.forEach((checkboxMutableName) => {
             console.log(checkboxMutableName, "checkboxMutableName")
             maintainedTraits = maintainedTraits + checkboxMutableName;
         })
-        console.log(maintainedTraits, "checkboxMutableNamesList")
         const ToId = event.target.ToId.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
         const DeputizeResponse = deputizeMaintainer.deputize(userAddress, "test", userTypeToken, identityId, classificationId,ToId,maintainedTraits,addMaintainer,removeMaintainer,mutateMaintainer,25, "stake", 200000, "block");
-        console.log(DeputizeResponse, "result nub")
+        console.log(DeputizeResponse, "result DeputizeResponse")
     };
     return (
         <div className="accountInfo">

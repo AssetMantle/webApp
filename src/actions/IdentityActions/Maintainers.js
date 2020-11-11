@@ -20,6 +20,7 @@ const Maintainers = () => {
     const [showAsset, setShowAsset] = useState(false);
     const handleClose = () => {
         setShow(false);
+        setShowAsset(false);
     };
     useEffect(() => {
         const fetchOrder = () => {

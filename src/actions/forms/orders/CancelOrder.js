@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import ordersCancelJS from "persistencejs/transaction/orders/cancel";
 import {Form, Button, Modal} from "react-bootstrap";
-import Helpers from "../../utilities/helper";
+import Helpers from "../../../utilities/helper";
 
 const ordersCancel = new ordersCancelJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
@@ -16,10 +16,8 @@ const CancelOrder = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // const toAddress = event.target.toAddress.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        console.log(props.order)
         const cancelOrderResponse = ordersCancel.cancel(userAddress, "test", userTypeToken, props.order.value.id.value.makerID.value.idString, Helper.GetOrderID(props.order), 25, "stake", 200000, "block");
         console.log(cancelOrderResponse, "result provision")
     };

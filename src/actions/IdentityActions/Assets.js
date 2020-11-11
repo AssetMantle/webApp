@@ -9,7 +9,7 @@ import identitiesQueryJS from "persistencejs/transaction/identity/query";
 import {MintAsset, MutateAsset, BurnAsset} from "../forms/assets";
 import AssetDefineJS from "persistencejs/transaction/assets/define";
 import {Define} from "../forms";
-
+import {MakeOrder} from "../forms/orders";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -21,6 +21,7 @@ const Assets = () => {
     const Helper = new Helpers();
     const [showAsset, setShowAsset] = useState(false);
     const [externalComponent, setExternalComponent] = useState("");
+    const [assetId, setAssetId] = useState("");
     const [assetList, setAssetList] = useState([]);
     const [splitList, setSplitList] = useState([]);
     const [mutateValues, setMutateValues] = useState([]);
@@ -45,14 +46,12 @@ const Assets = () => {
                     if (splitList) {
                         const filterSplitsByIdentities = Helper.FilterSplitsByIdentity(filterIdentities, splitList)
                         setSplitList(filterSplitsByIdentities)
-                        console.log(filterSplitsByIdentities, "ownableIDList")
                         const ownableIDList = Helper.GetIdentityOwnableIds(filterSplitsByIdentities)
                         ownableIDList.forEach((ownableID) => {
                             const filterAssetList = assetsQuery.queryAssetWithID(ownableID);
                             filterAssetList.then(function (Asset) {
                                 const parsedAsset = JSON.parse(Asset);
                                 const assetId = Helper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
-                                console.log(ownableID, assetId, "fun")
                                 if (ownableID === assetId) {
                                     setAssetList((assetList) => [
                                         ...assetList,
@@ -72,9 +71,10 @@ const Assets = () => {
         }
         fetchAssets();
     }, []);
-    const handleModalData = (formName, mutableProperties1, asset1) => {
+    const handleModalData = (formName, mutableProperties1, asset1, assetId1) => {
         setMutateProperties(mutableProperties1)
         setAsset(asset1)
+        setAssetId(assetId1)
         setShowAsset(formName);
         setExternalComponent(formName)
 
@@ -121,6 +121,14 @@ const Assets = () => {
                                                 var mutableKeys = Object.keys(mutableProperties);
                                                 return (
                                                     <>
+                                                        <div>
+                                                            <Button variant="secondary"
+                                                                    onClick={() => handleModalData("MutateAsset", mutableProperties, asset)}>Mutate Asset</Button>
+                                                            <Button variant="secondary"
+                                                                    onClick={() => handleModalData("BurnAsset", "" , asset)}>Burn Asset</Button>
+                                                            <Button variant="secondary"
+                                                                    onClick={() => handleModalData("MakeOrder", "" , "", assetId)}>Make</Button>
+                                                        </div>
                                                         <p>Immutables</p>
                                                         {
                                                             immutableKeys.map((keyName, index1) => {
@@ -198,6 +206,11 @@ const Assets = () => {
                     {
                         externalComponent === 'BurnAsset' ?
                             <BurnAsset asset={asset}/> :
+                            null
+                    }
+                    {
+                        externalComponent === 'MakeOrder' ?
+                            <MakeOrder assetId={assetId}/> :
                             null
                     }
                 </Modal>
