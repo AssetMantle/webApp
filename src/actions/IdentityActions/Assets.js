@@ -46,7 +46,6 @@ const Assets = () => {
                     if (splitList) {
                         const filterSplitsByIdentities = Helper.FilterSplitsByIdentity(filterIdentities, splitList)
                         setSplitList(filterSplitsByIdentities)
-
                         filterSplitsByIdentities.map((split, index) => {
                             const ownableID = Helper.GetIdentityOwnableId(split)
                             const filterAssetList = assetsQuery.queryAssetWithID(ownableID);
@@ -99,8 +98,6 @@ const Assets = () => {
                     } else {
                         console.log("no splits found")
                     }
-
-
                 })
             })
         }
@@ -141,7 +138,7 @@ const Assets = () => {
                                     <p>OwnerId: {ownerId}</p>
                                     <p>Stake: {stake}</p>
                                     {
-                                        assetList.map((asset, assetindex) => {
+                                        assetList.map((asset, assetIndex) => {
                                             const assetId = Helper.GetAssetID(asset.result.value.assets.value.list[0]);
                                             if (ownableID === assetId) {
                                                 var immutableProperties = "";
@@ -155,7 +152,7 @@ const Assets = () => {
                                                 var immutableKeys = Object.keys(immutableProperties);
                                                 var mutableKeys = Object.keys(mutableProperties);
                                                 return (
-                                                    <>
+                                                    <div key={assetIndex}>
                                                         <div>
                                                             <Button variant="secondary"
                                                                     onClick={() => handleModalData("MutateAsset", mutableProperties, asset)}>Mutate
@@ -192,7 +189,7 @@ const Assets = () => {
                                                                 }
                                                             })
                                                         }
-                                                    </>
+                                                    </div>
                                                 )
                                             }
                                         })
