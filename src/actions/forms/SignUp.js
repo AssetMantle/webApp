@@ -1,20 +1,26 @@
-import React, {useState} from "react";
+import React, {useState, useCallback} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import keyUtils from "persistencejs/utilities/keys";
 import DownloadLink from "react-download-link";
 
-const SignUp = () => {
+const SignUp = ({currentState, onShowChange}) => {
     const history = useHistory();
     const [show, setShow] = useState(false);
     const [jsonName, getJsonname] = useState({});
     const [showEncrypt, setShowEncrypt] = useState(false);
     const [showDownload, setShowDownload] = useState(false);
-    const handleClose = () =>{
-        setShowDownload(false)
-        setShowEncrypt(false)
-        setShow(false);
-    }
+
+    const handleClose = useCallback(()=> {
+        onShowChange(false)
+    }, [onShowChange])
+
+    // const handleClose = () =>{
+    //     setShowDownload(false)
+    //     setShowEncrypt(false)
+    //     setShow(false);
+    // }
+
     const handleSubmit = e => {
         e.preventDefault()
         const password = document.getElementById("password").value

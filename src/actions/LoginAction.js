@@ -37,7 +37,7 @@ const LoginAction = () => {
         <div className="container">
             <div className="accountInfo">
                 <div className="row row-cols-1 row-cols-md-2 card-deck createAccountSection">
-                    <div className="col-md-6 custom-pad signup-box">
+                    <div className="col-md-6 signup-box">
                         <div className="mrt-10">
                         <Button
                             variant="primary"
@@ -86,7 +86,7 @@ const LoginAction = () => {
                 }
                 {
                     externalComponent === 'SignUp' ?
-                        <SignUp /> :
+                        <SignUp currentState={show} onShowChange={setShow}/> :
                         null
                 }
                 {

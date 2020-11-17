@@ -39,8 +39,6 @@ const LoginMnemonic = () => {
                             >
                                 Submit
                             </Button>
-                            <p className="mrt-10">New User ?</p>
-
                         </div>
                     </Form>
                 </Modal.Body>

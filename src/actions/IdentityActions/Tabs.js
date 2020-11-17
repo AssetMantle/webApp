@@ -1,24 +1,43 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Tabs, Tab, Button, Modal} from "react-bootstrap";
 import Orders from "./Orders";
 import Maintainers from "./Maintainers";
 import Assets from "./Assets";
-import {Reveal} from "../forms"
+import {Faucet, Reveal} from "../forms"
 import Idenities from "../IdentityList";
+import axios from "axios";
+import { getFaucet } from "../../constants/url";
 
 const ActionsSwitcher = () => {
+    const userAddress = localStorage.getItem('address');
+    const [externalComponent, setExternalComponent] = useState("");
+    const [accountResponse, setAccountResponse] = useState("");
     const [key, setKey] = useState("home");
     const [show, setShow] = useState(false)
-    const handleRoute = () =>{
+    const handleRoute = (route) =>{
         setShow(true);
+        setExternalComponent(route)
     }
-   ;
+    const url = getFaucet(userAddress);
+       useEffect(()=>{
+           axios.get(url)
+               .then((response) => {
+                   setAccountResponse(response.data.result.value.address)
+               }).catch((error) =>{
+               console.log(error, " error section")
+           });
+       })
     const handleClose = () => {
         setShow(false);
+
     };
     return (
         <div className="container">
-            <Button onClick={handleRoute}>Reveal Meta</Button>
+            <Button onClick={()=>handleRoute("Reveal")}>Reveal Meta</Button>
+            {   accountResponse!== "" ?
+                <Button onClick={() => handleRoute("Faucet")}>Faucet</Button>
+                : ""
+            }
             <Tabs
                 id="controlled-tab-example"
                 activeKey={key}
@@ -41,11 +60,16 @@ const ActionsSwitcher = () => {
             <Modal
                 show={show}
                 onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
                 centered
             >
-                <Reveal />
+                {externalComponent === 'Reveal' ?
+                    <Reveal /> :
+                    null
+                }
+                {externalComponent === 'Faucet' ?
+                    <Faucet /> :
+                    null
+                }
             </Modal>
         </div>
     );
