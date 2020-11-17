@@ -51,8 +51,6 @@ const IdentityList = () => {
                                     let myelement = "";
                                     let metaValue = Helper.FetchMetaValue(data, immutableProperties[keyName])
                                     myelement = <span>{metaValue}</span>;
-                                    let idThing = document.getElementById("immutable_identityList" + index + index1);
-                                    console.log(idThing, "immutable_identityList")
                                     ReactDOM.render(myelement, document.getElementById(`immutable_identityList` + index + `${index1}`));
                                 });
                             }
@@ -65,8 +63,6 @@ const IdentityList = () => {
                                     let myelement = "";
                                     let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName])
                                     myelement = <span>{metaValue}</span>;
-                                    let idThing = document.getElementById("mutable_identityList" + index + index1);
-                                    console.log(idThing , "mutable_identityList")
                                     ReactDOM.render(myelement, document.getElementById(`mutable_identityList` + index + `${index1}`));
                                 });
                             }

@@ -17,12 +17,6 @@ const SignUp = ({currentState, onShowChange}) => {
         onShowChange(false)
     }, [onShowChange])
 
-    // const handleClose = () =>{
-    //     setShowDownload(false)
-    //     setShowEncrypt(false)
-    //     setShow(false);
-    // }
-
     const handleSubmit = e => {
         e.preventDefault()
         setShowEncrypt(true)
