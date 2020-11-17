@@ -86,7 +86,7 @@ const LoginAction = () => {
                 }
                 {
                     externalComponent === 'SignUp' ?
-                        <SignUp /> :
+                        <SignUp currentState={show} onShowChange={setShow}/> :
                         null
                 }
                 {

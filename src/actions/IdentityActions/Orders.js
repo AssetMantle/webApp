@@ -100,6 +100,7 @@ const Orders = () => {
                                                     let myelement = "";
                                                     let metaValue = Helper.FetchMetaValue(data, immutableProperties[keyName])
                                                     myelement = <span>{metaValue}</span>;
+                                                    console.log("immutable_order" + index + index1 , "orders")
                                                     ReactDOM.render(myelement, document.getElementById(`immutable_order` + index + `${index1}`));
                                                 });
                                                 return (<a key={index + keyName}><b>{keyName} </b>: <span
@@ -146,7 +147,6 @@ const Orders = () => {
                 keyboard={false}
                 centered
             >
-
                 {externalComponent === 'DefineOrder' ?
                 <Define ActionName={ordersDefine} FormName={'Define Order'}/> :
                 null

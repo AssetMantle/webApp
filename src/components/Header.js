@@ -40,7 +40,6 @@ const Header = () => {
                                 <NavDropdown className="address" title={userAddress} id="basic-nav-dropdown">
                                     <NavDropdown.Item onClick={logout("/")}>Logout</NavDropdown.Item>
                                 </NavDropdown>
-                                <Nav.Link onClick={logout("/")}>Logout</Nav.Link>
                             </Nav>
                     }
                 </Navbar.Collapse>

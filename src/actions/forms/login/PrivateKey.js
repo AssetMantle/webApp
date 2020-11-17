@@ -48,13 +48,14 @@ const PrivateKey = () => {
                         placeholder="password"
                         required={true}
                     />
+                    <div className="submitButtonSection">
                         <Button
                             variant="primary"
                             type="submit"
                         >
                             Sign In
                         </Button>
-
+                    </div>
                 </Form>
             </Modal.Body>
 
