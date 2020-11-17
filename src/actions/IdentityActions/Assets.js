@@ -138,7 +138,6 @@ const Assets = () => {
                                                                         const data = JSON.parse(item);
                                                                         let myelement = "";
                                                                         let metaValue = Helper.FetchMetaValue(data, immutableProperties[keyName])
-                                                                        console.log("immutable_asset" + index + index1 , "asset immutable")
                                                                         myelement = <span>{metaValue}</span>;
                                                                         ReactDOM.render(myelement, document.getElementById(`immutable_asset` + index + `${index1}`));
                                                                     });
@@ -161,7 +160,6 @@ const Assets = () => {
                                                                         let myelement = "";
                                                                         let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName])
                                                                         myelement = <span>{metaValue}</span>;
-                                                                        console.log("immutable_asset" + index + index1 , "asset mutable")
                                                                         ReactDOM.render(myelement, document.getElementById(`mutable_asset` + index + `${index1}`));
                                                                     })
                                                                     return (

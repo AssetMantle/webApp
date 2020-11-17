@@ -4,7 +4,7 @@ import Orders from "./Orders";
 import Maintainers from "./Maintainers";
 import Assets from "./Assets";
 import {Faucet, Reveal} from "../forms"
-import Idenities from "../IdentityList";
+import Identities from "../IdentityList";
 import axios from "axios";
 import { getFaucet } from "../../constants/url";
 
@@ -44,11 +44,11 @@ const ActionsSwitcher = () => {
                 onSelect={(k) => setKey(k)}
                 className="assetTabs Tabs"
             >
-                <Tab eventKey="home" title="Assets">
+                <Tab eventKey="home" title="Assets" >
                     <Assets/>
                 </Tab>
-                <Tab eventKey="Idenities" title="Idenities">
-                    <Idenities/>
+                <Tab eventKey="Identities" title="Identities">
+                    <Identities/>
                 </Tab>
                 <Tab eventKey="profile" title="Orders">
                     <Orders/>

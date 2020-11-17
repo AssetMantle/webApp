@@ -31,6 +31,47 @@ const IdentityList = () => {
                 if (dataList) {
                     const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress);
                     setFilteredIdentitiesList(filterIdentities);
+                    filterIdentities.map((identity, index) => {
+                        var immutableProperties = "";
+                        var mutableProperties = "";
+                        const identityId = Helper.GetIdentityID(identity)
+                        if (identity.value.immutables.value.properties.value.propertyList !== null) {
+                            immutableProperties = Helper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
+                        }
+                        if (identity.value.mutables.value.properties.value.propertyList !== null) {
+                            mutableProperties = Helper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
+                        }
+                        var immutableKeys = Object.keys(immutableProperties);
+                        var mutableKeys = Object.keys(mutableProperties);
+                        immutableKeys.map((keyName, index1) => {
+                            if (immutableProperties[keyName] !== "") {
+                                const metaQueryResult = metasQuery.queryMetaWithID(immutableProperties[keyName]);
+                                metaQueryResult.then(function (item) {
+                                    const data = JSON.parse(item);
+                                    let myelement = "";
+                                    let metaValue = Helper.FetchMetaValue(data, immutableProperties[keyName])
+                                    myelement = <span>{metaValue}</span>;
+                                    let idThing = document.getElementById("immutable_identityList" + index + index1);
+                                    console.log(idThing, "immutable_identityList")
+                                    ReactDOM.render(myelement, document.getElementById(`immutable_identityList` + index + `${index1}`));
+                                });
+                            }
+                        })
+                        mutableKeys.map((keyName, index1) => {
+                            if (mutableProperties[keyName] !== "") {
+                                const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
+                                metaQueryResult.then(function (item) {
+                                    const data = JSON.parse(item);
+                                    let myelement = "";
+                                    let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName])
+                                    myelement = <span>{metaValue}</span>;
+                                    let idThing = document.getElementById("mutable_identityList" + index + index1);
+                                    console.log(idThing , "mutable_identityList")
+                                    ReactDOM.render(myelement, document.getElementById(`mutable_identityList` + index + `${index1}`));
+                                });
+                            }
+                        })
+                    })
                 } else {
                     console.log("no identities found")
                 }
@@ -96,16 +137,8 @@ const IdentityList = () => {
                                     {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
-                                                const metaQueryResult = metasQuery.queryMetaWithID(immutableProperties[keyName]);
-                                                metaQueryResult.then(function (item) {
-                                                    const data = JSON.parse(item);
-                                                    let myelement = "";
-                                                    let metaValue = Helper.FetchMetaValue(data, immutableProperties[keyName])
-                                                    myelement = <span>{metaValue}</span>;
-                                                    ReactDOM.render(myelement, document.getElementById(`immutable` + index + `${index1}`));
-                                                });
                                                 return (<a key={index + keyName}><b>{keyName} </b>: <span
-                                                    id={`immutable` + index + `${index1}`}></span></a>)
+                                                    id={`immutable_identityList` + index + `${index1}`}></span></a>)
                                             } else {
                                                 return (
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
@@ -117,16 +150,8 @@ const IdentityList = () => {
                                     {mutableKeys !== null ?
                                         mutableKeys.map((keyName, index1) => {
                                             if (mutableProperties[keyName] !== "") {
-                                                const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
-                                                metaQueryResult.then(function (item) {
-                                                    const data = JSON.parse(item);
-                                                    let myelement = "";
-                                                    let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName])
-                                                    myelement = <span>{metaValue}</span>;
-                                                    ReactDOM.render(myelement, document.getElementById(`mutable` + index + `${index1}`));
-                                                });
                                                 return (<a key={index + keyName}><b>{keyName} </b>: <span
-                                                    id={`mutable` + index + `${index1}`}></span></a>)
+                                                    id={`mutable_identityList` + index + `${index1}`}></span></a>)
                                             } else {
                                                 return (
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
