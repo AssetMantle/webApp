@@ -42,7 +42,11 @@ const LoginMnemonic = () => {
                         </div>
                     </Form>
                 </Modal.Body>
+                <Modal show={show} onHide={handleClose}  centered>
+                    <Modal.Body>
 
+                    </Modal.Body>
+                </Modal>
             </div>
     );
 }

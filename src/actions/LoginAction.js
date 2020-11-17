@@ -28,11 +28,11 @@ const LoginAction = () => {
         setShow(true);
         setExternalComponent(route)
     };
-    const handleCreateWallet = () => {
-        setSingUpShow(true);
-        const walletInfo = keyUtils.createRandomWallet();
-        setAccountData(walletInfo)
-    }
+    // const handleCreateWallet = () => {
+    //     setSingUpShow(true);
+    //     const walletInfo = keyUtils.createRandomWallet();
+    //     setAccountData(walletInfo)
+    // }
     return (
         <div className="container">
             <div className="accountInfo">

@@ -6,6 +6,7 @@ const Define = (props) => {
     const Helper = new Helpers();
     const [show, setShow] = useState(false);
     const [dataTypeOption, setDataTypeOption] = useState("S|");
+    const [dataResponse, setDataResponse] = useState({});
     const handleClose = () => {
         setShow(false);
         window.location.reload();
@@ -60,11 +61,14 @@ const Define = (props) => {
                     immutableMetaProperties.map((immutableMetaProperty, idx) => {
                         const checkError = Helper.DataTypeValidation(idx, inputValues, 'ImmutableMeta');
                         Helper.showHideDataTypeError(checkError, `ImmutableMeta${idx}`);
-
                     })
                     immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableMetaProperties, inputValues);
-                    const defineIdentiyResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
-                    console.log(defineIdentiyResult, "result define Identity")
+                    const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
+
+                    defineIdentityResult.then(function (item) {
+                        console.log(item, "result define Identity")
+                        setDataResponse(item)
+                    })
                 } else {
                     console.log("fill immutabale metas")
                 }
