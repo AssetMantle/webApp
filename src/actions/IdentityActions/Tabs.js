@@ -5,6 +5,7 @@ import Maintainers from "./Maintainers";
 import Assets from "./Assets";
 import {Faucet, Reveal} from "../forms"
 import Identities from "../IdentityList";
+import Marketplace from "./MarketPlace";
 import axios from "axios";
 import { getFaucet } from "../../constants/url";
 
@@ -19,14 +20,14 @@ const ActionsSwitcher = () => {
         setExternalComponent(route)
     }
     const url = getFaucet(userAddress);
-       useEffect(()=>{
-           axios.get(url)
-               .then((response) => {
-                   setAccountResponse(response.data.result.value.address)
-               }).catch((error) =>{
-               console.log(error, " error section")
-           });
-       })
+    useEffect(()=>{
+        axios.get(url)
+            .then((response) => {
+                setAccountResponse(response.data.result.value.address)
+            }).catch((error) =>{
+            console.log(error, " error section")
+        });
+    })
     const handleClose = () => {
         setShow(false);
 
@@ -55,6 +56,9 @@ const ActionsSwitcher = () => {
                 </Tab>
                 <Tab eventKey="contact" title="Maintainer">
                     <Maintainers/>
+                </Tab>
+                <Tab eventKey="marketPlace" title="Marketplace">
+                    <Marketplace/>
                 </Tab>
             </Tabs>
             <Modal
