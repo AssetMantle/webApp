@@ -14,12 +14,11 @@ const UnWrap = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const FromId = event.target.FromId.value;
-        const CoinAmount = event.target.CoinAmount.value;
         const OwnableId = event.target.OwnableId.value;
         const Split = event.target.Split.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        const UnWrapResponse = UnWrapQuery.unwrap(userAddress, "test", userTypeToken, FromId, OwnableId,Split, CoinAmount, 25, "stake", 200000, "block");
+        const UnWrapResponse = UnWrapQuery.unwrap(userAddress, "test", userTypeToken, FromId, OwnableId, Split, 25, "stake", 200000, "block");
         console.log(UnWrapResponse, "result UnWrapResponse")
     };
 
@@ -42,16 +41,6 @@ const UnWrap = (props) => {
                         />
                     </Form.Group>
 
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Coin Amount </Form.Label>
-                        <Form.Control
-                            type="text"
-                            className=""
-                            name="CoinAmount"
-                            required={true}
-                            placeholder="Coin Amount"
-                        />
-                    </Form.Group>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Ownable Id </Form.Label>
                         <Form.Control

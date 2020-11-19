@@ -6,6 +6,7 @@ const identitiesProvision = new identitiesProvisionJS(process.env.REACT_APP_ASSE
 
 const Provision = (props) => {
     const [show, setShow] = useState(false);
+    const [response, setResponse] = useState({});
     const handleClose = () => {
         setShow(false);
         window.location.reload();
@@ -19,8 +20,9 @@ const Provision = (props) => {
         const provisionResponse = identitiesProvision.provision(userAddress, "test", userTypeToken, props.identityId, toAddress, 25, "stake", 200000, "block");
         console.log(provisionResponse, "result provision")
         provisionResponse.then(function (item) {
-                const data = JSON.parse(JSON.stringify(item));
-                console.log(data, "result define Identity")
+            const data = JSON.parse(JSON.stringify(item));
+            setResponse(data)
+            console.log(data, "result define Identity")
         })
     };
 
@@ -47,6 +49,11 @@ const Provision = (props) => {
                             Submit
                         </Button>
                     </div>
+                    {response.code ?
+                        <p> {response.raw_log}</p>
+                        :
+                        <p> {response.txhash}</p>
+                    }
                 </Form>
             </Modal.Body>
         </div>
