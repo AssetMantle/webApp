@@ -9,20 +9,18 @@ const SignUp = ({currentState, onShowChange}) => {
     const [show, setShow] = useState(false);
     const [jsonName, getJsonname] = useState({});
     const [showEncrypt, setShowEncrypt] = useState(false);
+    const [mnemonic, setMnemonic] = useState("");
+    const [formName, setFormName] = useState("");
     const [showDownload, setShowDownload] = useState(false);
 
     const handleClose = useCallback(()=> {
         onShowChange(false)
     }, [onShowChange])
 
-    // const handleClose = () =>{
-    //     setShowDownload(false)
-    //     setShowEncrypt(false)
-    //     setShow(false);
-    // }
-
     const handleSubmit = e => {
         e.preventDefault()
+        setShowEncrypt(true)
+        setShowDownload(true)
         const password = document.getElementById("password").value
         const error = keyUtils.createRandomWallet(password)
         if (error.error != null) {
@@ -35,16 +33,17 @@ const SignUp = ({currentState, onShowChange}) => {
         }
         const jsonContent = JSON.stringify(create.Response);
         getJsonname(jsonContent)
-        alert("Please save mnemonic:  " + error.mnemonic)
+        setMnemonic(error.mnemonic)
         localStorage.setItem("address", error.address)
         localStorage.setItem("mnemonic", error.mnemonic)
     }
-        const handleEncrypt = () =>{
+
+        const handleEncrypt = (name) =>{
+            setFormName(name)
             setShowEncrypt(true)
+
         }
-        const handleEncryptFinal = () =>{
-            setShowDownload(true)
-        }
+
     return (
         <div className="accountInfo">
             <Modal.Header closeButton>
@@ -55,7 +54,7 @@ const SignUp = ({currentState, onShowChange}) => {
                      <p>choose how you store your key</p>
                     <Button
                         variant="primary"
-                        onClick={handleEncrypt}
+                        onClick={()=>handleEncrypt("Login with PrivateKey")}
                     >
                         mnemonic/privatekey
                     </Button>
@@ -73,56 +72,53 @@ const SignUp = ({currentState, onShowChange}) => {
                 centered
             >
                 <Modal.Header closeButton>
-                    Login with PrivateKey
+                    {formName}
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit={handleSubmit}>
-                                <Form.Label>Enter password to encrypt keystore file</Form.Label>
-                                <Form.Control
-                                    type="password"
-                                    name="password"
-                                    id="password"
-                                    placeholder="password"
-                                    required={true}
-                                />
-                                <Button
-                                    variant="primary"
-                                    type="submit"
-                                    onClick={handleEncryptFinal}
-                                >
-                                    Next
-                                </Button>
+                    {!showDownload ?
+                        <Form onSubmit={handleSubmit}>
+                            <Form.Label>Enter password to encrypt keystore file</Form.Label>
+                            <Form.Control
+                                type="password"
+                                name="password"
+                                id="password"
+                                placeholder="password"
+                                required={true}
+                            />
+                            <Button
+                                variant="primary"
+                                type="submit"
+                            >
+                                Next
+                            </Button>
 
-                    </Form>
+                        </Form>
+                        : ""
+                    }
+                    {showDownload ?
+                        <div >
+                            <p><b>Please save mnemonic:</b> {mnemonic}</p>
+                            <DownloadLink
+                                label="Download Key File for future use"
+                                filename="key.json"
+                                exportFile={() =>`${jsonName}`}
+                            />
+                            <br/>
+                            After download, please login with private key
+                            <br/>
+                            <Button
+                                variant="primary"
+                                onClick={handleClose}
+                            >
+                                Done
+                            </Button>
+                        </div>
+                        :
+                        ""
+                    }
                 </Modal.Body>
             </Modal>
-            <Modal
-                show={showDownload}
-                onHide={handleClose}
-                centered
-            >
-                <Modal.Header closeButton>
-                    Login with PrivateKey
-                </Modal.Header>
-                <Modal.Body>
-                    <Form onSubmit={handleSubmit}>
-                        <DownloadLink
-                            label="Download Key File for future use"
-                            filename="key.json"
-                            exportFile={() =>`${jsonName}`}
-                        />
-                        <br/>
-                        After download, please login with private key
-                        <br/>
-                        <Button
-                            variant="primary"
-                            onClick={handleClose}
-                        >
-                            Done
-                        </Button>
-                    </Form>
-                </Modal.Body>
-            </Modal>
+
         </div>
     );
 }

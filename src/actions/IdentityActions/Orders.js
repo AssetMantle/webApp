@@ -28,7 +28,6 @@ const Orders = () => {
     };
 
     useEffect(() => {
-        console.log("this is raju")
         const fetchOrder = () => {
             const identities = identitiesQuery.queryIdentityWithID("all")
             identities.then(function (item) {

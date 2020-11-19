@@ -6,6 +6,7 @@ import keyUtils from "persistencejs/utilities/keys";
 const PrivateKey = () => {
     const history = useHistory();
     const [show, setShow] = useState(false);
+    const [incorrectPassword, setIncorrectPassword] = useState(false);
     const handleClose = () => setShow(false);
     const [files, setFiles] = useState("");
     const handleSubmit = e => {
@@ -18,10 +19,9 @@ const PrivateKey = () => {
             setFiles(e.target.result);
             const error = keyUtils.decryptStore(res, password)
             if (error.error != null) {
-                alert("Incorrect password.")
+                setIncorrectPassword(true)
                 return (<div>ERROR!!</div>)
             }else{
-                alert("You have been logged in.")
                 const wallet = keyUtils.getWallet(error.mnemonic)
                 localStorage.setItem("address", wallet.address)
                 localStorage.setItem("mnemonic", error.mnemonic)
@@ -48,6 +48,12 @@ const PrivateKey = () => {
                         placeholder="password"
                         required={true}
                     />
+                    {incorrectPassword ?
+                        <Form.Text className="text-muted">
+                            Incorrect Password
+                        </Form.Text>
+                        : ""
+                    }
                     <div className="submitButtonSection">
                         <Button
                             variant="primary"
@@ -56,9 +62,14 @@ const PrivateKey = () => {
                             Sign In
                         </Button>
                     </div>
+
                 </Form>
             </Modal.Body>
+            <Modal show={show} onHide={handleClose}  centered>
+                <Modal.Body>
 
+                </Modal.Body>
+            </Modal>
         </div>
     );
 }
