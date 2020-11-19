@@ -6,7 +6,7 @@ import Helpers from "../../utilities/helper";
 import {Dropdown, Modal, Button} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import {MintAsset, MutateAsset, BurnAsset} from "../forms/assets";
+import {MintAsset, MutateAsset, BurnAsset,Wrap, UnWrap} from "../forms/assets";
 import AssetDefineJS from "persistencejs/transaction/assets/define";
 import {Define} from "../forms";
 import {MakeOrder} from "../forms/orders";
@@ -53,10 +53,7 @@ const Assets = () => {
                                 const parsedAsset = JSON.parse(Asset);
                                 const assetId = Helper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
                                 if (ownableID === assetId) {
-                                    setAssetList((assetList) => [
-                                        ...assetList,
-                                        parsedAsset,
-                                    ]);
+                                    setAssetList(assetList => [...assetList, parsedAsset]);
                                     var immutableProperties = "";
                                     var mutableProperties = "";
                                     if (parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
@@ -124,21 +121,30 @@ const Assets = () => {
                                 Asset</Dropdown.Item>
                             <Dropdown.Item onClick={() => handleModalData("MintAsset")}>Asset
                                 Mint</Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleModalData("Wrap")}>Wrap
+                                Mint</Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleModalData("UnWrap")}>UnWrap
+                                </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                     {splitList.map((split, index) => {
-                        const ownableID = Helper.GetIdentityOwnableId(split)
-                        const ownableId = split.value.id.value.ownableID.value.idString;
-                        const ownerId = split.value.id.value.ownerID.value.idString;
-                        const stake = split.value.split;
+                        let ownableID = Helper.GetIdentityOwnableId(split)
+                        let ownableId = split.value.id.value.ownableID.value.idString;
+                        let ownerId = split.value.id.value.ownerID.value.idString;
+                        let stake = split.value.split;
                         return (
                             <div className="col-md-6" key={index}>
                                 <div className="card">
                                     <p>OwnableId: {ownableId}</p>
                                     <p>OwnerId: {ownerId}</p>
                                     <p>Stake: {stake}</p>
+                                    <div>
+                                    <Button variant="secondary"
+                                            onClick={() => handleModalData("MakeOrder", "", "", ownableID)}>Make</Button>
+                                    </div>
                                     {
                                         assetList.map((asset, assetIndex) => {
+
                                             const assetId = Helper.GetAssetID(asset.result.value.assets.value.list[0]);
                                             if (ownableID === assetId) {
                                                 var immutableProperties = "";
@@ -160,8 +166,7 @@ const Assets = () => {
                                                             <Button variant="secondary"
                                                                     onClick={() => handleModalData("BurnAsset", "", asset)}>Burn
                                                                 Asset</Button>
-                                                            <Button variant="secondary"
-                                                                    onClick={() => handleModalData("MakeOrder", "", "", assetId)}>Make</Button>
+
                                                         </div>
                                                         <p>Immutables</p>
                                                         {
@@ -228,6 +233,16 @@ const Assets = () => {
                     {
                         externalComponent === 'MakeOrder' ?
                             <MakeOrder assetId={assetId}/> :
+                            null
+                    }
+                    {
+                        externalComponent === 'Wrap' ?
+                            <Wrap  FormName={'Wrap'}/> :
+                            null
+                    }
+                    {
+                        externalComponent === 'UnWrap' ?
+                            <UnWrap  FormName={'UnWrap'}/> :
                             null
                     }
                 </Modal>

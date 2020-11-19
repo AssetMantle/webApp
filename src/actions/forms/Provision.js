@@ -19,7 +19,7 @@ const Provision = (props) => {
         const provisionResponse = identitiesProvision.provision(userAddress, "test", userTypeToken, props.identityId, toAddress, 25, "stake", 200000, "block");
         console.log(provisionResponse, "result provision")
         provisionResponse.then(function (item) {
-                const data = JSON.parse(item);
+                const data = JSON.parse(JSON.stringify(item));
                 console.log(data, "result define Identity")
         })
     };
