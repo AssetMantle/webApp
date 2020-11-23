@@ -49,12 +49,11 @@ const Define = (props) => {
             orderSpecificMutables='exchangeRate:D|,expiry:H|,makerOwnableSplit:D|,takerID:I|';
         }
         const FromId = evt.target.FromId.value;
-        let staticImmutables = "";
         let staticImmutableMeta = "";
         const ImmutableDescription = evt.target.ImmutableDescription.value;
         const ImmutableIdentifier = evt.target.ImmutableIdentifier.value;
         const ImmutableClassifier = evt.target.ImmutableClassifier.value;
-        staticImmutables = `style:S|${mutableStyle},type:S|${typeOption}`;
+        let staticImmutables = `style:S|${mutableStyle},type:S|${typeOption}`;
         staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription}`
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
@@ -87,7 +86,13 @@ const Define = (props) => {
                         Helper.showHideDataTypeError(checkError, `ImmutableMeta${idx}`);
                     })
                     immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableMetaProperties, inputValues);
-                    mutableMetaPropertyValue = mutableMetaPropertyValue+','+assetSpecificMutables+','+orderSpecificMutables;
+                    // mutableMetaPropertyValue = mutableMetaPropertyValue+','+assetSpecificMutables+','+orderSpecificMutables;
+                    if(typeOption === 'asset'){
+                        mutableMetaPropertyValue = mutableMetaPropertyValue+','+assetSpecificMutables;
+                    }
+                    if(typeOption === 'order'){
+                        mutableMetaPropertyValue = mutableMetaPropertyValue+','+orderSpecificMutables;
+                    }
                     immutablePropertyValue = immutablePropertyValue+','+staticImmutables;
                     immutableMetaPropertyValue = immutableMetaPropertyValue+','+staticImmutableMeta;
                     const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
