@@ -156,7 +156,7 @@ const Define = (props) => {
                                     type="text"
                                     className=""
                                     name={`MutableDataValue${idx + 1}`}
-                                    required={true}
+                                    required={false}
                                     placeholder="Data Value"
                                     onChange={handleChange}
                                 />
@@ -200,7 +200,7 @@ const Define = (props) => {
                                     type="text"
                                     className=""
                                     name={`MutableMetaDataValue${idx + 1}`}
-                                    required={true}
+                                    required={false}
                                     placeholder="Data Value"
                                     onChange={handleChange}
                                 />
@@ -242,7 +242,7 @@ const Define = (props) => {
                                     type="text"
                                     className=""
                                     name={`ImmutableDataValue${idx + 1}`}
-                                    required={true}
+                                    required={false}
                                     placeholder="Data Value"
                                     onChange={handleChange}
                                 />
@@ -284,7 +284,7 @@ const Define = (props) => {
                                     type="text"
                                     className=""
                                     name={`ImmutableMetaDataValue${idx + 1}`}
-                                    required={true}
+                                    required={false}
                                     placeholder="Data Value"
                                     onChange={handleChange}
                                 />
