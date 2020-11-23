@@ -85,10 +85,10 @@ const MakeOrder = (props) => {
         } else if (checkboxImmutableNamesList.length === 0) {
             alert("select immutable meta")
         } else {
-            var mutableValues = "";
-            var immutableValues = "";
-            var mutableMetaValues = "";
-            var immutableMetaValues = "";
+            let mutableValues = "";
+            let immutableValues = "";
+            let mutableMetaValues = "";
+            let immutableMetaValues = "";
             if (mutableList !== null) {
                 mutableList.map((mutable, index) => {
                     const mutableType = mutable.value.fact.value.type;

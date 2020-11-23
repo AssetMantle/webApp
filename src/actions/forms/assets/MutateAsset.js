@@ -48,8 +48,8 @@ const MutateAsset = (props) => {
         } else if (keyList.length !== 0 && checkboxMutableNamesList.length !== 0 && keyList.length === checkboxMutableNamesList.length) {
             alert("you can't select all as mutable meta")
         } else {
-            var mutableValues = "";
-            var mutableMetaValues = "";
+            let mutableValues = "";
+            let mutableMetaValues = "";
             if (keyList !== null) {
                 keyList.map((key, index) => {
                     const mutableFieldValue = document.getElementById(key + index).value
