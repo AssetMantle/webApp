@@ -32,8 +32,8 @@ const IdentityList = () => {
                     const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress);
                     setFilteredIdentitiesList(filterIdentities);
                     filterIdentities.map((identity, index) => {
-                        var immutableProperties = "";
-                        var mutableProperties = "";
+                        let immutableProperties = "";
+                        let mutableProperties = "";
                         const identityId = Helper.GetIdentityID(identity)
                         if (identity.value.immutables.value.properties.value.propertyList !== null) {
                             immutableProperties = Helper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
@@ -41,17 +41,17 @@ const IdentityList = () => {
                         if (identity.value.mutables.value.properties.value.propertyList !== null) {
                             mutableProperties = Helper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
                         }
-                        var immutableKeys = Object.keys(immutableProperties);
-                        var mutableKeys = Object.keys(mutableProperties);
+                        let immutableKeys = Object.keys(immutableProperties);
+                        let mutableKeys = Object.keys(mutableProperties);
                         immutableKeys.map((keyName, index1) => {
                             if (immutableProperties[keyName] !== "") {
                                 const metaQueryResult = metasQuery.queryMetaWithID(immutableProperties[keyName]);
                                 metaQueryResult.then(function (item) {
                                     const data = JSON.parse(item);
-                                    let myelement = "";
+                                    let myElement = "";
                                     let metaValue = Helper.FetchMetaValue(data, immutableProperties[keyName])
-                                    myelement = <span>{metaValue}</span>;
-                                    ReactDOM.render(myelement, document.getElementById(`immutable_identityList` + index + `${index1}`));
+                                    myElement = <span>{metaValue}</span>;
+                                    ReactDOM.render(myElement, document.getElementById(`immutable_identityList` + index + `${index1}`));
                                 });
                             }
                         })
@@ -60,10 +60,10 @@ const IdentityList = () => {
                                 const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
                                 metaQueryResult.then(function (item) {
                                     const data = JSON.parse(item);
-                                    let myelement = "";
+                                    let myElement = "";
                                     let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName])
-                                    myelement = <span>{metaValue}</span>;
-                                    ReactDOM.render(myelement, document.getElementById(`mutable_identityList` + index + `${index1}`));
+                                    myElement = <span>{metaValue}</span>;
+                                    ReactDOM.render(myElement, document.getElementById(`mutable_identityList` + index + `${index1}`));
                                 });
                             }
                         })
@@ -100,10 +100,10 @@ const IdentityList = () => {
                         </Dropdown.Menu>
                     </Dropdown>
                     {filteredIdentitiesList.map((identity, index) => {
-                        var immutableProperties = "";
-                        var mutableProperties = "";
-                        var provisionedAddressList = "";
-                        var unProvisionedAddressList = "";
+                        let immutableProperties = "";
+                        let mutableProperties = "";
+                        let provisionedAddressList = "";
+                        let unProvisionedAddressList = "";
                         const identityId = Helper.GetIdentityID(identity)
                         if (identity.value.immutables.value.properties.value.propertyList !== null) {
                             immutableProperties = Helper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
@@ -117,8 +117,8 @@ const IdentityList = () => {
                         if(identity.value.provisionedAddressList !== null){
                             unProvisionedAddressList = identity.value.unprovisionedAddressList;
                         }
-                        var immutableKeys = Object.keys(immutableProperties);
-                        var mutableKeys = Object.keys(mutableProperties);
+                        let immutableKeys = Object.keys(immutableProperties);
+                        let mutableKeys = Object.keys(mutableProperties);
                         return (
                             <div className="col-md-6" key={index}>
                                 <div className="card">

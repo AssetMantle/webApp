@@ -21,7 +21,6 @@ const Orders = () => {
     const userAddress = localStorage.getItem('address');
     const [showOrder, setShowOrder] = useState(false);
     const [externalComponent, setExternalComponent] = useState("");
-    const [orderId, setOrderId] = useState("");
     const [order, setOrder] = useState([]);
     const handleClose = () => {
         setShowOrder(false);
@@ -42,25 +41,25 @@ const Orders = () => {
                         const filterOrdersByIdentities = Helper.FilterOrdersByIdentity(filterIdentities, ordersDataList)
                         setOrderList(filterOrdersByIdentities);
                         filterOrdersByIdentities.map((order, index) => {
-                            var immutableProperties = "";
-                            var mutableProperties = "";
+                            let immutableProperties = "";
+                            let mutableProperties = "";
                             if (order.value.immutables.value.properties.value.propertyList !== null) {
                                 immutableProperties = Helper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
                             }
                             if (order.value.mutables.value.properties.value.propertyList !== null) {
                                 mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
                             }
-                            var immutableKeys = Object.keys(immutableProperties);
-                            var mutableKeys = Object.keys(mutableProperties);
+                            let immutableKeys = Object.keys(immutableProperties);
+                            let mutableKeys = Object.keys(mutableProperties);
                             immutableKeys.map((keyName, index1) => {
                                 if (immutableProperties[keyName] !== "") {
                                     const metaQueryResult = metasQuery.queryMetaWithID(immutableProperties[keyName]);
                                     metaQueryResult.then(function (item) {
                                         const data = JSON.parse(item);
-                                        let myelement = "";
+                                        let myElement = "";
                                         let metaValue = Helper.FetchMetaValue(data, immutableProperties[keyName])
-                                        myelement = <span>{metaValue}</span>;
-                                        ReactDOM.render(myelement, document.getElementById(`immutable_order` + index + `${index1}`));
+                                        myElement = <span>{metaValue}</span>;
+                                        ReactDOM.render(myElement, document.getElementById(`immutable_order` + index + `${index1}`));
                                     });
                                 }
                             })
@@ -69,10 +68,10 @@ const Orders = () => {
                                     const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
                                     metaQueryResult.then(function (item) {
                                         const data = JSON.parse(item);
-                                        let myelement = "";
+                                        let myElement = "";
                                         let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName])
-                                        myelement = <span>{metaValue}</span>;
-                                        ReactDOM.render(myelement, document.getElementById(`mutable_order` + index + `${index1}`));
+                                        myElement = <span>{metaValue}</span>;
+                                        ReactDOM.render(myElement, document.getElementById(`mutable_order` + index + `${index1}`));
                                     });
                                 }
                             })
@@ -90,7 +89,6 @@ const Orders = () => {
     const handleModalData = (formName, order) => {
         console.log("1")
         setOrder(order);
-        // setOrderId(orderID)
         setShowOrder(true)
         setExternalComponent(formName)
     }
@@ -108,8 +106,8 @@ const Orders = () => {
                         </Dropdown.Menu>
                     </Dropdown>
                     {orderList.map((order, index) => {
-                        var immutableProperties = "";
-                        var mutableProperties = "";
+                        let immutableProperties = "";
+                        let mutableProperties = "";
                         if (order.value.immutables.value.properties.value.propertyList !== null) {
                             immutableProperties = Helper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
                         }
@@ -117,8 +115,8 @@ const Orders = () => {
                             mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
                         }
 
-                        var immutableKeys = Object.keys(immutableProperties);
-                        var mutableKeys = Object.keys(mutableProperties);
+                        let immutableKeys = Object.keys(immutableProperties);
+                        let mutableKeys = Object.keys(mutableProperties);
                         return (<div className="col-md-6" key={index}>
                                 <div className="card">
                                     <div>

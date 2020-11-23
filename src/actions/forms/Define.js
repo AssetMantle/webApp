@@ -34,10 +34,10 @@ const Define = (props) => {
         const FromId = evt.target.FromId.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        var mutablePropertyValue = ""
-        var mutableMetaPropertyValue = ""
-        var immutablePropertyValue = ""
-        var immutableMetaPropertyValue = ""
+        let mutablePropertyValue = ""
+        let mutableMetaPropertyValue = ""
+        let immutablePropertyValue = ""
+        let immutableMetaPropertyValue = ""
         if (mutableProperties.length !== 0) {
             mutableProperties.map((mutableProperty, idx) => {
                 const checkError = Helper.DataTypeValidation(idx, inputValues, 'Mutable');

@@ -81,10 +81,10 @@ const IssueIdentity = () => {
         } else {
             const FromId = event.target.FromId.value;
             const toAddress = event.target.toAddress.value;
-            var mutableValues = "";
-            var immutableValues = "";
-            var mutableMetaValues = "";
-            var immutableMetaValues = "";
+            let mutableValues = "";
+            let immutableValues = "";
+            let mutableMetaValues = "";
+            let immutableMetaValues = "";
             if (mutableList !== null) {
                 mutableList.map((mutable, index) => {
                     const mutableType = mutable.value.fact.value.type;

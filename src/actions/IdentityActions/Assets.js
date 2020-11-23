@@ -6,7 +6,7 @@ import Helpers from "../../utilities/helper";
 import {Dropdown, Modal, Button} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import {MintAsset, MutateAsset, BurnAsset} from "../forms/assets";
+import {MintAsset, MutateAsset, BurnAsset,Wrap, UnWrap} from "../forms/assets";
 import AssetDefineJS from "persistencejs/transaction/assets/define";
 import {Define} from "../forms";
 import {MakeOrder} from "../forms/orders";
@@ -24,7 +24,6 @@ const Assets = () => {
     const [assetId, setAssetId] = useState("");
     const [assetList, setAssetList] = useState([]);
     const [splitList, setSplitList] = useState([]);
-    const [mutateValues, setMutateValues] = useState([]);
     const [mutateProperties, setMutateProperties] = useState({});
     const [asset, setAsset] = useState({});
     const userAddress = localStorage.getItem('address');
@@ -53,29 +52,26 @@ const Assets = () => {
                                 const parsedAsset = JSON.parse(Asset);
                                 const assetId = Helper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
                                 if (ownableID === assetId) {
-                                    setAssetList((assetList) => [
-                                        ...assetList,
-                                        parsedAsset,
-                                    ]);
-                                    var immutableProperties = "";
-                                    var mutableProperties = "";
+                                    setAssetList(assetList => [...assetList, parsedAsset]);
+                                    let immutableProperties = "";
+                                    let mutableProperties = "";
                                     if (parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
                                         immutableProperties = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
                                     }
                                     if (parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
                                         mutableProperties = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
                                     }
-                                    var immutableKeys = Object.keys(immutableProperties);
-                                    var mutableKeys = Object.keys(mutableProperties);
+                                    let immutableKeys = Object.keys(immutableProperties);
+                                    let mutableKeys = Object.keys(mutableProperties);
                                     immutableKeys.map((keyName, index1) => {
                                         if (immutableProperties[keyName] !== "") {
                                             const metaQueryResult = metasQuery.queryMetaWithID(immutableProperties[keyName]);
                                             metaQueryResult.then(function (item) {
                                                 const data = JSON.parse(item);
-                                                let myelement = "";
+                                                let myElement = "";
                                                 let metaValue = Helper.FetchMetaValue(data, immutableProperties[keyName])
-                                                myelement = <span>{metaValue}</span>;
-                                                ReactDOM.render(myelement, document.getElementById(`immutable_asset` + index + `${index1}`));
+                                                myElement = <span>{metaValue}</span>;
+                                                ReactDOM.render(myElement, document.getElementById(`immutable_asset` + index + `${index1}`));
                                             });
                                         }
                                     })
@@ -84,10 +80,10 @@ const Assets = () => {
                                             const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
                                             metaQueryResult.then(function (item) {
                                                 const data = JSON.parse(item);
-                                                let myelement = "";
+                                                let myElement = "";
                                                 let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName])
-                                                myelement = <span>{metaValue}</span>;
-                                                ReactDOM.render(myelement, document.getElementById(`mutable_asset` + index + `${index1}`));
+                                                myElement = <span>{metaValue}</span>;
+                                                ReactDOM.render(myElement, document.getElementById(`mutable_asset` + index + `${index1}`));
                                             })
                                         }
                                     })
@@ -124,33 +120,42 @@ const Assets = () => {
                                 Asset</Dropdown.Item>
                             <Dropdown.Item onClick={() => handleModalData("MintAsset")}>Asset
                                 Mint</Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleModalData("Wrap")}>Wrap
+                                Mint</Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleModalData("UnWrap")}>UnWrap
+                                </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                     {splitList.map((split, index) => {
-                        const ownableID = Helper.GetIdentityOwnableId(split)
-                        const ownableId = split.value.id.value.ownableID.value.idString;
-                        const ownerId = split.value.id.value.ownerID.value.idString;
-                        const stake = split.value.split;
+                        let ownableID = Helper.GetIdentityOwnableId(split)
+                        let ownableId = split.value.id.value.ownableID.value.idString;
+                        let ownerId = split.value.id.value.ownerID.value.idString;
+                        let stake = split.value.split;
                         return (
                             <div className="col-md-6" key={index}>
                                 <div className="card">
                                     <p>OwnableId: {ownableId}</p>
                                     <p>OwnerId: {ownerId}</p>
                                     <p>Stake: {stake}</p>
+                                    <div>
+                                    <Button variant="secondary"
+                                            onClick={() => handleModalData("MakeOrder", "", "", ownableID)}>Make</Button>
+                                    </div>
                                     {
                                         assetList.map((asset, assetIndex) => {
+
                                             const assetId = Helper.GetAssetID(asset.result.value.assets.value.list[0]);
                                             if (ownableID === assetId) {
-                                                var immutableProperties = "";
-                                                var mutableProperties = "";
+                                                let immutableProperties = "";
+                                                let mutableProperties = "";
                                                 if (asset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
                                                     immutableProperties = Helper.ParseProperties(asset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
                                                 }
                                                 if (asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
                                                     mutableProperties = Helper.ParseProperties(asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
                                                 }
-                                                var immutableKeys = Object.keys(immutableProperties);
-                                                var mutableKeys = Object.keys(mutableProperties);
+                                                let immutableKeys = Object.keys(immutableProperties);
+                                                let mutableKeys = Object.keys(mutableProperties);
                                                 return (
                                                     <div key={assetIndex}>
                                                         <div>
@@ -160,8 +165,7 @@ const Assets = () => {
                                                             <Button variant="secondary"
                                                                     onClick={() => handleModalData("BurnAsset", "", asset)}>Burn
                                                                 Asset</Button>
-                                                            <Button variant="secondary"
-                                                                    onClick={() => handleModalData("MakeOrder", "", "", assetId)}>Make</Button>
+
                                                         </div>
                                                         <p>Immutables</p>
                                                         {
@@ -228,6 +232,16 @@ const Assets = () => {
                     {
                         externalComponent === 'MakeOrder' ?
                             <MakeOrder assetId={assetId}/> :
+                            null
+                    }
+                    {
+                        externalComponent === 'Wrap' ?
+                            <Wrap  FormName={'Wrap'}/> :
+                            null
+                    }
+                    {
+                        externalComponent === 'UnWrap' ?
+                            <UnWrap  FormName={'UnWrap'}/> :
                             null
                     }
                 </Modal>

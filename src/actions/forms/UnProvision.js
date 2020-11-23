@@ -6,6 +6,7 @@ const identitiesUnprovision = new identitiesUnprovisionJS(process.env.REACT_APP_
 
 const UnProvision = (props) => {
     const [show, setShow] = useState(false);
+    const [response, setResponse] = useState({});
     const [selectedAddress, setSelectedAddress] = useState("");
     const [provisionAddressList, setProvisionAddressList] = useState([]);
     const handleClose = () => {
@@ -29,6 +30,10 @@ const UnProvision = (props) => {
         const userAddress = localStorage.getItem('address');
         const UnProvisionResponse = identitiesUnprovision.unprovision(userAddress, "test", userTypeToken, props.identityId, selectValue, 25, "stake", 200000, "block");
         console.log(UnProvisionResponse, "result Unprovision")
+        UnProvisionResponse.then(function (item) {
+            const data = JSON.parse(JSON.stringify(item));
+            setResponse(data)
+        })
     };
     const handleSelectChange = (evt) => {
         setSelectedAddress(evt.target.value);
@@ -62,6 +67,11 @@ const UnProvision = (props) => {
                         <Button variant="primary" type="submit">
                             Submit
                         </Button>
+                        {response.code ?
+                            <p> {response.raw_log}</p>
+                            :
+                            <p> {response.txhash}</p>
+                        }
                     </div>
                 </Form>
             </Modal.Body>

@@ -56,8 +56,7 @@ export default class Helper {
         })
     }
     GetIdentityOwnableId(identity) {
-        let ownableId = identity.value.id.value.ownableID.value.idString;
-        return ownableId;
+        return identity.value.id.value.ownableID.value.idString;
     }
 
     GetIdentityOwnableIds(identities) {
@@ -221,8 +220,8 @@ export default class Helper {
     }
 
     setTraitValues(checkboxMutableNamesList, mutableValues, MetaValues, inputName, mutableName, mutableType, mutableFieldValue) {
-        var mutable = ""
-        var meta = ""
+        let mutable = ""
+        let meta = ""
         if (checkboxMutableNamesList.includes(inputName)) {
             if (MetaValues !== "") {
                 meta = MetaValues + "," + mutableName + ":" + mutableType + "|" + mutableFieldValue

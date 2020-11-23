@@ -43,7 +43,7 @@ useEffect( () =>{
         const addMaintainer = document.getElementById("addMaintainer").checked
         const mutateMaintainer = document.getElementById("mutateMaintainer").checked
         const removeMaintainer = document.getElementById("removeMaintainer").checked
-        var maintainedTraits = ""
+        let maintainedTraits = ""
         checkboxMutableNamesList.forEach((checkboxMutableName) => {
             console.log(checkboxMutableName, "checkboxMutableName")
             maintainedTraits = maintainedTraits + checkboxMutableName;
