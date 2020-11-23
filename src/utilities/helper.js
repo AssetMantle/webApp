@@ -113,6 +113,9 @@ export default class Helper {
             if (inputValues[`MutableDataType${idx + 1}`] === undefined) {
                 inputValues[`MutableDataType${idx + 1}`] = "S|";
             }
+            if (inputValues[`MutableDataValue${idx + 1}`] === undefined) {
+                inputValues[`MutableDataValue${idx + 1}`] = "";
+            }
             if (idx > 0) {
                 mutableValues = mutableValues + "," + (inputValues[`MutableDataName${idx + 1}`] + ":" + inputValues[`MutableDataType${idx + 1}`] + inputValues[`MutableDataValue${idx + 1}`]);
             } else {
@@ -127,6 +130,9 @@ export default class Helper {
         mutableMetaProperties.map((mutableMetaProperty, idx) => {
             if (inputValues[`MutableMetaDataType${idx + 1}`] === undefined) {
                 inputValues[`MutableMetaDataType${idx + 1}`] = "S|";
+            }
+            if (inputValues[`MutableMetaDataValue${idx + 1}`] === undefined) {
+                inputValues[`MutableMetaDataValue${idx + 1}`] = "";
             }
             if (idx > 0) {
                 mutableMetaValues = mutableMetaValues + "," + (inputValues[`MutableMetaDataName${idx + 1}`] + ":" + inputValues[`MutableMetaDataType${idx + 1}`] + inputValues[`MutableMetaDataValue${idx + 1}`]);
@@ -143,6 +149,9 @@ export default class Helper {
             if (inputValues[`ImmutableDataType${idx + 1}`] === undefined) {
                 inputValues[`ImmutableDataType${idx + 1}`] = "S|";
             }
+            if (inputValues[`ImmutableDataValue${idx + 1}`] === undefined) {
+                inputValues[`ImmutableDataValue${idx + 1}`] = "";
+            }
             if (idx > 0) {
                 immutableValues = immutableValues + "," + (inputValues[`ImmutableDataName${idx + 1}`] + ":" + inputValues[`ImmutableDataType${idx + 1}`] + inputValues[`ImmutableDataValue${idx + 1}`]);
             } else {
@@ -157,6 +166,9 @@ export default class Helper {
         immutableMetaProperties.map((immutableMetaProperty, idx) => {
             if (inputValues[`ImmutableMetaDataType${idx + 1}`] === undefined) {
                 inputValues[`ImmutableMetaDataType${idx + 1}`] = "S|";
+            }
+            if (inputValues[`ImmutableMetaDataValue${idx + 1}`] === undefined) {
+                inputValues[`ImmutableMetaDataValue${idx + 1}`] = "";
             }
             if (idx > 0) {
                 immutableMetaValues = immutableMetaValues + "," + (inputValues[`ImmutableMetaDataName${idx + 1}`] + ":" + inputValues[`ImmutableMetaDataType${idx + 1}`] + inputValues[`ImmutableMetaDataValue${idx + 1}`]);
