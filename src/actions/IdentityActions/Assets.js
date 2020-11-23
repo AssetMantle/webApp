@@ -24,7 +24,6 @@ const Assets = () => {
     const [assetId, setAssetId] = useState("");
     const [assetList, setAssetList] = useState([]);
     const [splitList, setSplitList] = useState([]);
-    const [mutateValues, setMutateValues] = useState([]);
     const [mutateProperties, setMutateProperties] = useState({});
     const [asset, setAsset] = useState({});
     const userAddress = localStorage.getItem('address');
@@ -54,25 +53,25 @@ const Assets = () => {
                                 const assetId = Helper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
                                 if (ownableID === assetId) {
                                     setAssetList(assetList => [...assetList, parsedAsset]);
-                                    var immutableProperties = "";
-                                    var mutableProperties = "";
+                                    let immutableProperties = "";
+                                    let mutableProperties = "";
                                     if (parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
                                         immutableProperties = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
                                     }
                                     if (parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
                                         mutableProperties = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
                                     }
-                                    var immutableKeys = Object.keys(immutableProperties);
-                                    var mutableKeys = Object.keys(mutableProperties);
+                                    let immutableKeys = Object.keys(immutableProperties);
+                                    let mutableKeys = Object.keys(mutableProperties);
                                     immutableKeys.map((keyName, index1) => {
                                         if (immutableProperties[keyName] !== "") {
                                             const metaQueryResult = metasQuery.queryMetaWithID(immutableProperties[keyName]);
                                             metaQueryResult.then(function (item) {
                                                 const data = JSON.parse(item);
-                                                let myelement = "";
+                                                let myElement = "";
                                                 let metaValue = Helper.FetchMetaValue(data, immutableProperties[keyName])
-                                                myelement = <span>{metaValue}</span>;
-                                                ReactDOM.render(myelement, document.getElementById(`immutable_asset` + index + `${index1}`));
+                                                myElement = <span>{metaValue}</span>;
+                                                ReactDOM.render(myElement, document.getElementById(`immutable_asset` + index + `${index1}`));
                                             });
                                         }
                                     })
@@ -81,10 +80,10 @@ const Assets = () => {
                                             const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
                                             metaQueryResult.then(function (item) {
                                                 const data = JSON.parse(item);
-                                                let myelement = "";
+                                                let myElement = "";
                                                 let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName])
-                                                myelement = <span>{metaValue}</span>;
-                                                ReactDOM.render(myelement, document.getElementById(`mutable_asset` + index + `${index1}`));
+                                                myElement = <span>{metaValue}</span>;
+                                                ReactDOM.render(myElement, document.getElementById(`mutable_asset` + index + `${index1}`));
                                             })
                                         }
                                     })
@@ -147,16 +146,16 @@ const Assets = () => {
 
                                             const assetId = Helper.GetAssetID(asset.result.value.assets.value.list[0]);
                                             if (ownableID === assetId) {
-                                                var immutableProperties = "";
-                                                var mutableProperties = "";
+                                                let immutableProperties = "";
+                                                let mutableProperties = "";
                                                 if (asset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
                                                     immutableProperties = Helper.ParseProperties(asset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
                                                 }
                                                 if (asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
                                                     mutableProperties = Helper.ParseProperties(asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
                                                 }
-                                                var immutableKeys = Object.keys(immutableProperties);
-                                                var mutableKeys = Object.keys(mutableProperties);
+                                                let immutableKeys = Object.keys(immutableProperties);
+                                                let mutableKeys = Object.keys(mutableProperties);
                                                 return (
                                                     <div key={assetIndex}>
                                                         <div>

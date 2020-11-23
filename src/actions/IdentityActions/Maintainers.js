@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react";
-import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
 import maintainersQueryJS from "persistencejs/transaction/maintainers/query";
 import Helpers from "../../utilities/helper";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
@@ -59,7 +58,7 @@ const Maintainers = () => {
                 <div className="row row-cols-1 row-cols-md-2 card-deck ">
                     {maintainersList.map((maintainer, index) => {
                         const maintainerPropertyList = Helper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList)
-                        var keys = Object.keys(maintainerPropertyList);
+                        let keys = Object.keys(maintainerPropertyList);
                         return (<div className="col-md-6" key={index}>
                                 <div className="card">
                                     {(maintainer.value.addMaintainer) ?

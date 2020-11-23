@@ -81,11 +81,11 @@ const MintAsset = (props) => {
             alert("select immutable meta")
         } else {
             const FromId = event.target.FromId.value;
-            const toAddress = event.target.toAddress.value;
-            var mutableValues = "";
-            var immutableValues = "";
-            var mutableMetaValues = "";
-            var immutableMetaValues = "";
+            const toID = event.target.toID.value;
+            let mutableValues = "";
+            let immutableValues = "";
+            let mutableMetaValues = "";
+            let immutableMetaValues = "";
             if (mutableList !== null) {
                 mutableList.map((mutable, index) => {
                     const mutableType = mutable.value.fact.value.type;
@@ -117,8 +117,8 @@ const MintAsset = (props) => {
                     }
                 })
             }
-            const issueIdentityResult = assetMint.mint(userAddress, "test", userTypeToken, toAddress, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
-            console.log(issueIdentityResult, "result Issue Identity")
+            const assetMintResult = assetMint.mint(userAddress, "test", userTypeToken, toID, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
+            console.log(assetMintResult, "result Mint Asset")
         }
     }
     return (
@@ -156,7 +156,7 @@ const MintAsset = (props) => {
                 centered
             >
                 <Modal.Header closeButton>
-                    Issue Identity
+                    Mint Asset
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleFormSubmit}>
@@ -171,13 +171,13 @@ const MintAsset = (props) => {
                             />
                         </Form.Group>
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Label> To Address</Form.Label>
+                            <Form.Label> To ID</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
-                                name="toAddress"
+                                name="toID"
                                 required={true}
-                                placeholder="toAddress"
+                                placeholder="toID"
                             />
                         </Form.Group>
                         {mutableList !== null ?
