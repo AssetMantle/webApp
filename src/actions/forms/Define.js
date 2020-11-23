@@ -6,6 +6,8 @@ const Define = (props) => {
     const Helper = new Helpers();
     const [show, setShow] = useState(false);
     const [dataTypeOption, setDataTypeOption] = useState("S|");
+    const [typeOption, setTypeOption] = useState("identity");
+    const [mutableStyle, setMutableStyle] = useState("ERC20");
     const [dataResponse, setDataResponse] = useState({});
     const handleClose = () => {
         setShow(false);
@@ -23,6 +25,13 @@ const Define = (props) => {
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
 
+    const handleChangeType = evt =>{
+        setTypeOption(evt.target.value);
+    }
+    const handleChangeStyle = evt =>{
+        setMutableStyle(evt.target.value);
+    }
+
     const handleSelectChange = evt => {
         setDataTypeOption(evt.target.value);
         const newValue = evt.target.value;
@@ -31,7 +40,22 @@ const Define = (props) => {
     }
     const handleSubmit = (evt) => {
         evt.preventDefault();
+        let assetSpecificMutables='';
+        if(typeOption === 'asset'){
+            assetSpecificMutables='burn:H|,lock:H|';
+        }
+        let orderSpecificMutables='';
+        if(typeOption === 'order'){
+            orderSpecificMutables='exchangeRate:D|,expiry:H|,makerOwnableSplit:D|,takerID:I|';
+        }
         const FromId = evt.target.FromId.value;
+        let staticImmutables = "";
+        let staticImmutableMeta = "";
+        const ImmutableDescription = evt.target.ImmutableDescription.value;
+        const ImmutableIdentifier = evt.target.ImmutableIdentifier.value;
+        const ImmutableClassifier = evt.target.ImmutableClassifier.value;
+        staticImmutables = `style:S|${mutableStyle},type:S|${typeOption}`;
+        staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription}`
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
         let mutablePropertyValue = ""
@@ -63,6 +87,9 @@ const Define = (props) => {
                         Helper.showHideDataTypeError(checkError, `ImmutableMeta${idx}`);
                     })
                     immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableMetaProperties, inputValues);
+                    mutableMetaPropertyValue = mutableMetaPropertyValue+','+assetSpecificMutables+','+orderSpecificMutables;
+                    immutablePropertyValue = immutablePropertyValue+','+staticImmutables;
+                    immutableMetaPropertyValue = immutableMetaPropertyValue+','+staticImmutableMeta;
                     const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
 
                     defineIdentityResult.then(function (item) {
@@ -109,12 +136,12 @@ const Define = (props) => {
     }
     return (
         <div className="accountInfo">
-
             <Modal.Header closeButton>
                 {props.FormName}
             </Modal.Header>
             <Modal.Body>
                 <form onSubmit={handleSubmit}>
+
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>FromId</Form.Label>
                         <Form.Control
@@ -125,6 +152,137 @@ const Define = (props) => {
                             placeholder="FromId"
                         />
                     </Form.Group>
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Label>Immutable style:S| </Form.Label>
+                        <Form.Control as="select" onChange={handleChangeStyle} name="ImmutableStyle"
+                                      required={true}>
+                            <option value="ERC20"> ERC20</option>
+                            <option value="ERC721">ERC721</option>
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Label>Immutable type:S| </Form.Label>
+                        <Form.Control as="select"  name="type"
+                                      required={true}  onChange={handleChangeType}>
+                            <option value="identitiy">identitiy</option>
+                            <option value="asset">asset</option>
+                            <option value="order">order</option>
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Label>Immutable classifier:S| </Form.Label>
+                        <Form.Control
+                            type="text"
+                            className=""
+                            name="ImmutableClassifier"
+                            required={true}
+                            placeholder="Classifier"
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Label>Immutable identifier:S| </Form.Label>
+                        <Form.Control
+                            type="text"
+                            className=""
+                            name="ImmutableIdentifier"
+                            required={true}
+                            placeholder="identifier"
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Label>Immutable description:S| </Form.Label>
+                        <Form.Control
+                            type="text"
+                            className=""
+                            name="ImmutableDescription"
+                            required={true}
+                            placeholder="description"
+                        />
+                    </Form.Group>
+                    {typeOption === 'asset'
+                        ?
+                        <>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Mutable burn:H| </Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    className=""
+                                    name="MutableBurn"
+                                    required={true}
+                                    placeholder="Trait Value"
+                                    value={-1}
+                                    disabled={true}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Mutable lock:H| </Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    className=""
+                                    name="MutableLock"
+                                    required={true}
+                                    placeholder="Trait Value"
+                                    value={-1}
+                                    disabled={true}
+                                />
+                            </Form.Group>
+                        </>
+                        :""
+                    }
+                    {typeOption === 'order'
+                        ?
+                        <>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Mutable exchangeRate:D| </Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    className=""
+                                    name="MutableexchangeRate"
+                                    required={true}
+                                    placeholder="exchangeRate"
+                                    value={-1}
+                                    disabled={true}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Mutable expiry:H| </Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    className=""
+                                    name="Mutableexpiry"
+                                    required={true}
+                                    placeholder="expiry"
+                                    value={-1}
+                                    disabled={true}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Mutable makerOwnableSplit:D| </Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    className=""
+                                    name="MutablemakerOwnableSplit"
+                                    required={true}
+                                    placeholder="makerOwnableSplit"
+                                    value={-1}
+                                    disabled={true}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Mutable takerID:D| </Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    className=""
+                                    name="MutabletakerID"
+                                    required={true}
+                                    placeholder="takerID"
+                                    value={-1}
+                                    disabled={true}
+                                />
+                            </Form.Group>   `
+                        </>
+                        :""
+                    }
                     {mutableProperties.map((shareholder, idx) => (
                         <div key={idx}>
                             <Form.Group controlId="exampleForm.ControlSelect1">

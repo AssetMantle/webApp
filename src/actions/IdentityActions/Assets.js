@@ -212,7 +212,7 @@ const Assets = () => {
                     centered
                 >
                     {externalComponent === 'DefineAsset' ?
-                        <Define ActionName={assetDefine} FormName={'Define Asset'}/> :
+                        <Define ActionName={assetDefine} FormName={'Define Asset'} type={'asset'}/> :
                         null
                     }
                     {
