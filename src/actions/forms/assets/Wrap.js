@@ -14,11 +14,11 @@ const Wrap = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const FromId = event.target.FromId.value;
-        const CoinDemon = event.target.CoinDemon.value;
+        const CoinDenom = event.target.CoinDenom.value;
         const CoinAmount = event.target.CoinAmount.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        const WrapResponse = WrapQuery.wrap(userAddress, "test", userTypeToken, FromId, CoinDemon, CoinAmount, 25, "stake", 200000, "block");
+        const WrapResponse = WrapQuery.wrap(userAddress, "test", userTypeToken, FromId, CoinAmount+CoinDenom, 25, "stake", 200000, "block");
         console.log(WrapResponse, "result WrapResponse")
     };
 
@@ -42,13 +42,13 @@ const Wrap = (props) => {
                     </Form.Group>
 
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Coin Demon </Form.Label>
+                        <Form.Label>Coin Denom </Form.Label>
                         <Form.Control
                             type="text"
                             className=""
-                            name="CoinDemon"
+                            name="CoinDenom"
                             required={true}
-                            placeholder="Coin Demon"
+                            placeholder="Coin Denom"
                         />
                     </Form.Group>
                     <Form.Group controlId="formBasicEmail">
