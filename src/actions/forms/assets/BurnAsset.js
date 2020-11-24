@@ -8,6 +8,7 @@ const burnAsset = new burnAssetJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const BurnAsset = (props) => {
     const Helper = new Helpers();
     const [show, setShow] = useState(false);
+    const [response, setResponse] = useState({});
     const handleClose = () => {
         setShow(false);
     };
@@ -21,7 +22,11 @@ const BurnAsset = (props) => {
         const userAddress = localStorage.getItem('address');
         const assetId = Helper.GetAssetID(asset.result.value.assets.value.list[0])
         const burnResponse = burnAsset.burn(userAddress, "test", userTypeToken, FromId, assetId, 25, "stake", 200000, "block");
-        console.log(burnResponse, "result burnResponse")
+        burnResponse.then(function (item) {
+            const data = JSON.parse(JSON.stringify(item));
+            setResponse(data)
+            console.log(data, "result burnResponse")
+        })
     };
 
     return (
@@ -49,6 +54,11 @@ const BurnAsset = (props) => {
                     <Button variant="secondary" onClick={handleClose}>
                         No
                     </Button>
+                    {response.code ?
+                        <p> {response.raw_log}</p>
+                        :
+                        <p> {response.txhash}</p>
+                    }
                 </Form>
             </Modal.Body>
         </div>

@@ -11,6 +11,7 @@ const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_AS
 const MakeOrder = (props) => {
     const [showNext, setShowNext] = useState(false);
     const [classificationId, setClassificationId] = useState("");
+    const [response, setResponse] = useState({});
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     const [mutableList, setMutableList] = useState([]);
     const [immutableList, setImmutableList] = useState([]);
@@ -129,7 +130,11 @@ const MakeOrder = (props) => {
             const userTypeToken = localStorage.getItem('mnemonic');
             const userAddress = localStorage.getItem('address');
             const makeOrderResult = ordersMake.make(userAddress, "test", userTypeToken, FromId, classificationId, assetId, TakerOwnableId, ExpiresIn, Makersplit, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
-            console.log(makeOrderResult, "makeOrderResult")
+            makeOrderResult.then(function (item) {
+                const data = JSON.parse(JSON.stringify(item));
+                setResponse(data)
+                console.log(data, "result makeOrder")
+            })
         }
     }
     return (
@@ -271,6 +276,11 @@ const MakeOrder = (props) => {
                         <Button variant="primary" type="submit">
                             Submit
                         </Button>
+                        {response.code ?
+                            <p> {response.raw_log}</p>
+                            :
+                            <p> {response.txhash}</p>
+                        }
                     </Form>
                 </Modal.Body>
             </Modal>

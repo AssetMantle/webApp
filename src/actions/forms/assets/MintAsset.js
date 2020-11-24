@@ -9,8 +9,9 @@ const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMint = new AssetMintJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
-const MintAsset = (props) => {
+const MintAsset = () => {
     const Helper = new Helpers();
+    const [response, setResponse] = useState({});
     const [showNext, setShowNext] = useState(false);
     const [checkedD, setCheckedD] = useState({});
     const [classificationId, setClassificationId] = useState("");
@@ -127,7 +128,11 @@ const MintAsset = (props) => {
                 })
             }
             const assetMintResult = assetMint.mint(userAddress, "test", userTypeToken, toID, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
-            console.log(assetMintResult, "result Mint Asset")
+            assetMintResult.then(function (item) {
+                const data = JSON.parse(JSON.stringify(item));
+                setResponse(data)
+                console.log(data, "result Mint Asset")
+            })
         }
     }
     return (
@@ -252,6 +257,11 @@ const MintAsset = (props) => {
                         <Button variant="primary" type="submit">
                             Submit
                         </Button>
+                        {response.code ?
+                            <p> {response.raw_log}</p>
+                            :
+                            <p> {response.txhash}</p>
+                        }
                     </Form>
                 </Modal.Body>
             </Modal>

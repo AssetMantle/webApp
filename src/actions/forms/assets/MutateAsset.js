@@ -10,6 +10,7 @@ const assetMutate = new assetMutateJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const MutateAsset = (props) => {
     const Helper = new Helpers();
     const [keyList, setKeyList] = useState([]);
+    const [response, setResponse] = useState({});
     const [mutableProperties, setMutableProperties] = useState([]);
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     useEffect(() => {
@@ -70,7 +71,12 @@ const MutateAsset = (props) => {
             const userTypeToken = localStorage.getItem('mnemonic');
             const userAddress = localStorage.getItem('address');
             const mutateResponse = assetMutate.mutate(userAddress, "test", userTypeToken, FromId, assetId, mutableValues, mutableMetaValues, 25, "stake", 200000, "block");
-            console.log(mutateResponse, "mutateResponse")
+            mutateResponse.then(function (item) {
+                const data = JSON.parse(JSON.stringify(item));
+                setResponse(data)
+                console.log(data, "mutateResponse")
+            })
+
         }
     };
 
@@ -129,6 +135,11 @@ const MutateAsset = (props) => {
                             Submit
                         </Button>
                     </div>
+                    {response.code ?
+                        <p> {response.raw_log}</p>
+                        :
+                        <p> {response.txhash}</p>
+                    }
                 </Form>
             </Modal.Body>
         </div>

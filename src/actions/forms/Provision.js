@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import identitiesProvisionJS from "persistencejs/transaction/identity/provision";
 import {Form, Button, Modal} from "react-bootstrap";
+import InputField from "../../components/inputField"
 
 const identitiesProvision = new identitiesProvisionJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
@@ -34,16 +35,15 @@ const Provision = (props) => {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>New Address to Provision</Form.Label>
-                        <Form.Control
+                        <InputField
                             type="text"
                             className=""
                             name="toAddress"
                             required={true}
                             placeholder="Input Address"
-                        />
-                    </Form.Group>
+                            label="New Address to Provision"
+                            disabled={false}
+                            />
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
                             Submit

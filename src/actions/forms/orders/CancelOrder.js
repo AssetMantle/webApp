@@ -7,7 +7,7 @@ const ordersCancel = new ordersCancelJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const CancelOrder = (props) => {
     const Helper = new Helpers();
-
+    const [response, setResponse] = useState({});
     const [show, setShow] = useState(false);
     const handleClose = () => {
         setShow(false);
@@ -19,7 +19,11 @@ const CancelOrder = (props) => {
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
         const cancelOrderResponse = ordersCancel.cancel(userAddress, "test", userTypeToken, props.order.value.id.value.makerID.value.idString, Helper.GetOrderID(props.order), 25, "stake", 200000, "block");
-        console.log(cancelOrderResponse, "result provision")
+        cancelOrderResponse.then(function (item) {
+            const data = JSON.parse(JSON.stringify(item));
+            setResponse(data)
+            console.log(data, "result provision")
+        })
     };
 
     return (
@@ -40,6 +44,11 @@ const CancelOrder = (props) => {
                             Submit
                         </Button>
                     </div>
+                    {response.code ?
+                        <p> {response.raw_log}</p>
+                        :
+                        <p> {response.txhash}</p>
+                    }
                 </Form>
             </Modal.Body>
         </div>

@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../utilities/Helper"
-
+import InputField from "../../components/inputField"
 const Define = (props) => {
     const Helper = new Helpers();
     const [show, setShow] = useState(false);
@@ -145,7 +145,6 @@ const Define = (props) => {
             </Modal.Header>
             <Modal.Body>
                 <form onSubmit={handleSubmit}>
-
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>FromId</Form.Label>
                         <Form.Control
@@ -173,114 +172,102 @@ const Define = (props) => {
                             <option value="order">order</option>
                         </Form.Control>
                     </Form.Group>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Immutable classifier:S| </Form.Label>
-                        <Form.Control
-                            type="text"
-                            className=""
-                            name="ImmutableClassifier"
-                            placeholder="Classifier"
-                        />
-                    </Form.Group>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Immutable identifier:S| </Form.Label>
-                        <Form.Control
-                            type="text"
-                            className=""
-                            name="ImmutableIdentifier"
-                            placeholder="identifier"
-                        />
-                    </Form.Group>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Immutable description:S| </Form.Label>
-                        <Form.Control
-                            type="text"
-                            className=""
-                            name="ImmutableDescription"
-                            placeholder="description"
-                        />
-                    </Form.Group>
+                    <InputField
+                        type="text"
+                        className=""
+                        name="ImmutableClassifier"
+                        required={false}
+                        placeholder="Classifier"
+                        label="Immutable classifier:S|"
+                        disabled={false}
+                    />
+                    <InputField
+                        type="text"
+                        className=""
+                        name="ImmutableIdentifier"
+                        required={false}
+                        placeholder="identifier"
+                        label="Immutable identifier:S|"
+                        disabled={false}
+                    />
+                    <InputField
+                        type="text"
+                        className=""
+                        name="ImmutableDescription"
+                        required={false}
+                        placeholder="description"
+                        label="Immutable description:S|"
+                        disabled={false}
+                    />
                     {typeOption === 'asset'
                         ?
                         <>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Mutable burn:H| </Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    className=""
-                                    name="MutableBurn"
-                                    required={true}
-                                    placeholder="Trait Value"
-                                    value={-1}
-                                    disabled={true}
-                                />
-                            </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Mutable lock:H| </Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    className=""
-                                    name="MutableLock"
-                                    required={true}
-                                    placeholder="Trait Value"
-                                    value={-1}
-                                    disabled={true}
-                                />
-                            </Form.Group>
+                            <InputField
+                                type="text"
+                                className=""
+                                name="MutableBurn"
+                                required={true}
+                                value={-1}
+                                placeholder="Trait Value"
+                                label="Mutable burn:H|"
+                                disabled={true}
+                            />
+                            <InputField
+                                type="text"
+                                className=""
+                                name="MutableLock"
+                                required={true}
+                                value={-1}
+                                placeholder="Trait Value"
+                                label="Mutable lock:H|"
+                                disabled={true}
+                            />
                         </>
                         : ""
                     }
                     {typeOption === 'order'
                         ?
                         <>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Mutable exchangeRate:D| </Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    className=""
-                                    name="MutableexchangeRate"
-                                    required={true}
-                                    placeholder="exchangeRate"
-                                    value={-1}
-                                    disabled={true}
-                                />
-                            </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Mutable expiry:H| </Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    className=""
-                                    name="Mutableexpiry"
-                                    required={true}
-                                    placeholder="expiry"
-                                    value={-1}
-                                    disabled={true}
-                                />
-                            </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Mutable makerOwnableSplit:D| </Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    className=""
-                                    name="MutablemakerOwnableSplit"
-                                    required={true}
-                                    placeholder="makerOwnableSplit"
-                                    value={-1}
-                                    disabled={true}
-                                />
-                            </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Mutable takerID:D| </Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    className=""
-                                    name="MutabletakerID"
-                                    required={true}
-                                    placeholder="takerID"
-                                    value={-1}
-                                    disabled={true}
-                                />
-                            </Form.Group> `
+                            <InputField
+                                type="text"
+                                className=""
+                                name="MutableexchangeRate"
+                                required={true}
+                                placeholder="exchangeRate"
+                                label="Mutable exchangeRate:D|"
+                                value={-1}
+                                disabled={true}
+                            />
+                            <InputField
+                                type="text"
+                                className=""
+                                name="Mutableexpiry"
+                                required={true}
+                                placeholder="expiry"
+                                label="Mutable expiry:H|"
+                                value={-1}
+                                disabled={true}
+                            />
+                            <InputField
+                                type="text"
+                                className=""
+                                name="MutablemakerOwnableSplit"
+                                required={true}
+                                placeholder="makerOwnableSplit"
+                                label="Mutable makerOwnableSplit:D|"
+                                value={-1}
+                                disabled={true}
+                            />
+                            <InputField
+                                type="text"
+                                className=""
+                                name="MutabletakerID"
+                                required={true}
+                                placeholder="takerID"
+                                label="Mutable takerID:D|"
+                                value={-1}
+                                disabled={true}
+                            />
                         </>
                         : ""
                     }

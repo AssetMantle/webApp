@@ -10,6 +10,7 @@ import {MintAsset, MutateAsset, BurnAsset, Wrap, UnWrap} from "../forms/assets";
 import AssetDefineJS from "persistencejs/transaction/assets/define";
 import {Define} from "../forms";
 import {MakeOrder} from "../forms/orders";
+import loader from "../../assets/images/loader.svg"
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -45,6 +46,7 @@ const Assets = () => {
                     if (splitList) {
                         const filterSplitsByIdentities = Helper.FilterSplitsByIdentity(filterIdentities, splitList)
                         setSplitList(filterSplitsByIdentities)
+
                         filterSplitsByIdentities.map((split, index) => {
                             const ownableID = Helper.GetIdentityOwnableId(split)
                             const filterAssetList = assetsQuery.queryAssetWithID(ownableID);
