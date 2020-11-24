@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Form, Button, Modal} from "react-bootstrap";
-import Helpers from "../../utilities/helper"
+import Helpers from "../../utilities/Helper"
 
 const Define = (props) => {
     const Helper = new Helpers();
@@ -86,7 +86,6 @@ const Define = (props) => {
                         Helper.showHideDataTypeError(checkError, `ImmutableMeta${idx}`);
                     })
                     immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableMetaProperties, inputValues);
-                    // mutableMetaPropertyValue = mutableMetaPropertyValue+','+assetSpecificMutables+','+orderSpecificMutables;
                     if(typeOption === 'asset'){
                         mutableMetaPropertyValue = mutableMetaPropertyValue+','+assetSpecificMutables;
                     }
@@ -180,7 +179,6 @@ const Define = (props) => {
                             type="text"
                             className=""
                             name="ImmutableClassifier"
-                            required={true}
                             placeholder="Classifier"
                         />
                     </Form.Group>
@@ -190,7 +188,6 @@ const Define = (props) => {
                             type="text"
                             className=""
                             name="ImmutableIdentifier"
-                            required={true}
                             placeholder="identifier"
                         />
                     </Form.Group>
@@ -200,7 +197,6 @@ const Define = (props) => {
                             type="text"
                             className=""
                             name="ImmutableDescription"
-                            required={true}
                             placeholder="description"
                         />
                     </Form.Group>

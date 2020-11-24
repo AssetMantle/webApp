@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import ReactDOM from 'react-dom';
 import splitsQueryJS from "persistencejs/transaction/splits/query";
 import assetsQueryJS from "persistencejs/transaction/assets/query";
-import Helpers from "../../utilities/helper";
+import Helpers from "../../utilities/Helper";
 import {Dropdown, Modal, Button} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
@@ -103,7 +103,7 @@ const Assets = () => {
         setMutateProperties(mutableProperties1)
         setAsset(asset1)
         setAssetId(assetId1)
-        setShowAsset(formName);
+        setShowAsset(true);
         setExternalComponent(formName)
 
     }

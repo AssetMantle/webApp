@@ -1,7 +1,7 @@
 import React from 'react';
-import { useDarkMode } from '../darkmode/useDarkMode';
-import { lightTheme, darkTheme } from '../darkmode/theme';
-import { GlobalStyles } from '../darkmode/global';
+import { useDarkMode } from './darkmode/useDarkMode';
+import { lightTheme, darkTheme } from './darkmode/theme';
+import { GlobalStyles } from './darkmode/global';
 import { ThemeProvider } from 'styled-components';
 const Footer = () => {
     const [theme, toggleTheme, componentMounted] = useDarkMode();

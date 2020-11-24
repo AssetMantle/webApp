@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import burnAssetJS from "persistencejs/transaction/assets/burn";
 import {Form, Button, Modal} from "react-bootstrap";
-import Helpers from "../../../utilities/helper";
+import Helpers from "../../../utilities/Helper";
 
 const burnAsset = new burnAssetJS(process.env.REACT_APP_ASSET_MANTLE_API)
 

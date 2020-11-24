@@ -1,9 +1,12 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
 import AssetMintJS from "persistencejs/transaction/assets/mint";
 import {Form, Button, Modal} from "react-bootstrap";
-import Helpers from "../../../utilities/helper";
+import Helpers from "../../../utilities/Helper";
+import ReactDOM from "react-dom";
+import metasQueryJS from "persistencejs/transaction/meta/query";
 
+const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMint = new AssetMintJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
@@ -32,6 +35,7 @@ const MintAsset = (props) => {
             }
         }
     }
+
     const handleCheckImmutableChange = evt => {
         const checkedValue = evt.target.checked;
         setCheckedD({...checkedD, [evt.target.name]: evt.target.checked});
@@ -57,16 +61,22 @@ const MintAsset = (props) => {
     const userAddress = localStorage.getItem('address');
     const handleSubmit = (event) => {
         event.preventDefault();
+
         const ClassificationId = event.target.ClassificationId.value;
         setClassificationId(ClassificationId)
         const classificationResponse = classificationsQuery.queryClassificationWithID(ClassificationId)
+
         classificationResponse.then(function (item) {
-            const data = JSON.parse(item);
-            const immutablePropertyList = data.result.value.classifications.value.list[0].value.immutableTraits.value.properties.value.propertyList;
-            const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
-            setMutableList(mutablePropertyList)
-            setImmutableList(immutablePropertyList)
+            const data = JSON.parse(JSON.parse(JSON.stringify(item)));
+            if(data.result.value.classifications.value.list !== null) {
+                const immutablePropertyList = data.result.value.classifications.value.list[0].value.immutableTraits.value.properties.value.propertyList;
+                const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
+                Helper.FetchInputFieldMeta(immutablePropertyList,metasQuery, "MintAsset");
+                setMutableList(mutablePropertyList)
+                setImmutableList(immutablePropertyList)
+            }
         })
+
         setShowNext(true)
     };
     const handleFormSubmit = (event) => {
@@ -129,7 +139,7 @@ const MintAsset = (props) => {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group>
                         <Form.Label>Classification Id </Form.Label>
                         <Form.Control
                             type="text"
@@ -185,7 +195,7 @@ const MintAsset = (props) => {
                                 const mutableType = mutable.value.fact.value.type;
                                 const mutableName = mutable.value.id.value.idString;
                                 return (
-                                    <>
+                                    <div key={index}>
                                         <Form.Group controlId="formBasicEmail">
                                             <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
                                             <Form.Control
@@ -203,7 +213,7 @@ const MintAsset = (props) => {
                                                         onClick={handleCheckMutableChange}
                                             />
                                         </Form.Group>
-                                    </>
+                                    </div>
                                 )
                             })
                             :
@@ -216,18 +226,20 @@ const MintAsset = (props) => {
                                 const immutableName = immutable.value.id.value.idString;
                                 return (
                                     <>
-                                        <Form.Group controlId="formBasicEmail">
+                                        <Form.Group>
                                             <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 className=""
                                                 name={`${immutableName}|${immutableType}${index}`}
+                                                id={`MintAsset${immutableName}|${immutableType}${index}`}
                                                 required={true}
                                                 placeholder="Trait Value"
                                                 onChange={handleChange}
+                                                disabled={false}
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="formBasicCheckbox">
+                                        <Form.Group >
                                             <Form.Check type="checkbox" label="Meta"
                                                         name={`${immutableName}|${immutableType}${index}`}
                                                         onChange={handleCheckImmutableChange}/>

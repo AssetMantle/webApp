@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import maintainersQueryJS from "persistencejs/transaction/maintainers/query";
-import Helpers from "../../utilities/helper";
+import Helpers from "../../utilities/Helper";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
 import {Button, Modal} from "react-bootstrap";
 import {Deputize} from "../forms";

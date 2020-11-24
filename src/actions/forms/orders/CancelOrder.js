@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import ordersCancelJS from "persistencejs/transaction/orders/cancel";
 import {Form, Button, Modal} from "react-bootstrap";
-import Helpers from "../../../utilities/helper";
+import Helpers from "../../../utilities/Helper";
 
 const ordersCancel = new ordersCancelJS(process.env.REACT_APP_ASSET_MANTLE_API)
 

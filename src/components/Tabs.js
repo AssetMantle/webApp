@@ -1,13 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Tabs, Tab, Button, Modal} from "react-bootstrap";
-import Orders from "./Orders";
-import Maintainers from "./Maintainers";
-import Assets from "./Assets";
-import {Faucet, Reveal} from "../forms"
-import Identities from "../IdentityList";
-import Marketplace from "./MarketPlace";
+import {Maintainers, Identities, Assets, Orders, Marketplace} from "../actions/views"
+import {Faucet, Reveal} from "../actions/forms"
 import axios from "axios";
-import { getFaucet } from "../../constants/url";
+import { getFaucet } from "../constants/url";
 
 const ActionsSwitcher = () => {
     const userAddress = localStorage.getItem('address');

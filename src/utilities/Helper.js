@@ -250,5 +250,37 @@ export default class Helper {
         let result = [mutable, meta]
         return result;
     }
+
+
+   FetchInputFieldMeta (immutableList, metasQuery, FileName) {
+       let $this = this
+        if (immutableList !== null) {
+
+            immutableList.map((immutable, index) => {
+
+                const immutableType = immutable.value.fact.value.type;
+                const immutableHash = immutable.value.fact.value.hash;
+                const immutableName = immutable.value.id.value.idString;
+                const id=`${FileName}${immutableName}|${immutableType}${index}`
+
+                if(immutableHash !== "" && immutableHash !== null) {
+                    console.log(immutableHash, "Raju")
+                    const metaQueryResult = metasQuery.queryMetaWithID(immutableHash);
+
+                    metaQueryResult.then(function (item) {
+
+                        const data = JSON.parse(JSON.parse(JSON.stringify(item)));
+
+                        let metaValue = $this.FetchMetaValue(data, immutableHash)
+
+                        if (document.getElementById(id)) {
+                            document.getElementById(id).value = metaValue;
+                        }
+                    })
+                }
+
+            })
+        }
+    }
 }
 

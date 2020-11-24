@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Form, Button, Modal} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
-import Helpers from "../../../utilities/helper";
+import Helpers from "../../../utilities/Helper";
 import assetMutateJS from "persistencejs/transaction/assets/mutate";
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMutate = new assetMutateJS(process.env.REACT_APP_ASSET_MANTLE_API)
