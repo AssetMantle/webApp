@@ -63,8 +63,9 @@ const Maintainers = () => {
                                 <div className="card">
                                     {(maintainer.value.addMaintainer) ?
                                         <div>
-                                            <Button onClick={() => handleModalData('BurnAsset', maintainer)}>Deputize</Button>
-                                        </div>: ""
+                                            <Button
+                                                onClick={() => handleModalData('BurnAsset', maintainer)}>Deputize</Button>
+                                        </div> : ""
                                     }
                                     <a href="#" key={index}>{maintainer.value.id.value.identityID.value.idString}</a>
                                     {
@@ -90,7 +91,7 @@ const Maintainers = () => {
 
                 {
                     externalComponent === 'BurnAsset' ?
-                        <Deputize maintainerData = {maintainer}/> :
+                        <Deputize maintainerData={maintainer}/> :
                         null
                 }
             </Modal>

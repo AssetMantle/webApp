@@ -25,10 +25,10 @@ const Define = (props) => {
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
 
-    const handleChangeType = evt =>{
+    const handleChangeType = evt => {
         setTypeOption(evt.target.value);
     }
-    const handleChangeStyle = evt =>{
+    const handleChangeStyle = evt => {
         setMutableStyle(evt.target.value);
     }
 
@@ -40,13 +40,13 @@ const Define = (props) => {
     }
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        let assetSpecificMutables='';
-        if(typeOption === 'asset'){
-            assetSpecificMutables='burn:H|,lock:H|';
+        let assetSpecificMutables = '';
+        if (typeOption === 'asset') {
+            assetSpecificMutables = 'burn:H|,lock:H|';
         }
-        let orderSpecificMutables='';
-        if(typeOption === 'order'){
-            orderSpecificMutables='exchangeRate:D|,expiry:H|,makerOwnableSplit:D|,takerID:I|';
+        let orderSpecificMutables = '';
+        if (typeOption === 'order') {
+            orderSpecificMutables = 'exchangeRate:D|,expiry:H|,makerOwnableSplit:D|,takerID:I|';
         }
         const FromId = evt.target.FromId.value;
         let staticImmutableMeta = "";
@@ -86,14 +86,14 @@ const Define = (props) => {
                         Helper.showHideDataTypeError(checkError, `ImmutableMeta${idx}`);
                     })
                     immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableMetaProperties, inputValues);
-                    if(typeOption === 'asset'){
-                        mutableMetaPropertyValue = mutableMetaPropertyValue+','+assetSpecificMutables;
+                    if (typeOption === 'asset') {
+                        mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + assetSpecificMutables;
                     }
-                    if(typeOption === 'order'){
-                        mutableMetaPropertyValue = mutableMetaPropertyValue+','+orderSpecificMutables;
+                    if (typeOption === 'order') {
+                        mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + orderSpecificMutables;
                     }
-                    immutablePropertyValue = immutablePropertyValue+','+staticImmutables;
-                    immutableMetaPropertyValue = immutableMetaPropertyValue+','+staticImmutableMeta;
+                    immutablePropertyValue = immutablePropertyValue + ',' + staticImmutables;
+                    immutableMetaPropertyValue = immutableMetaPropertyValue + ',' + staticImmutableMeta;
                     const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
 
                     defineIdentityResult.then(function (item) {
@@ -166,8 +166,8 @@ const Define = (props) => {
                     </Form.Group>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Immutable type:S| </Form.Label>
-                        <Form.Control as="select"  name="type"
-                                      required={true}  onChange={handleChangeType}>
+                        <Form.Control as="select" name="type"
+                                      required={true} onChange={handleChangeType}>
                             <option value="identitiy">identitiy</option>
                             <option value="asset">asset</option>
                             <option value="order">order</option>
@@ -228,7 +228,7 @@ const Define = (props) => {
                                 />
                             </Form.Group>
                         </>
-                        :""
+                        : ""
                     }
                     {typeOption === 'order'
                         ?
@@ -280,9 +280,9 @@ const Define = (props) => {
                                     value={-1}
                                     disabled={true}
                                 />
-                            </Form.Group>   `
+                            </Form.Group> `
                         </>
-                        :""
+                        : ""
                     }
                     {mutableProperties.map((shareholder, idx) => (
                         <div key={idx}>

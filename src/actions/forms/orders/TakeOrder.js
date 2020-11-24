@@ -18,7 +18,7 @@ const TakeOrder = (props) => {
         const ownableAmount = event.target.ownableAmount.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        const takeOrderResponse = takeOrder.take(userAddress, "test", userTypeToken, FromId, ownableAmount, orderId,25, "stake", 200000, "block");
+        const takeOrderResponse = takeOrder.take(userAddress, "test", userTypeToken, FromId, ownableAmount, orderId, 25, "stake", 200000, "block");
         console.log(takeOrderResponse, "result takeOrderResponse")
     };
 

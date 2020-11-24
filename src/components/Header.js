@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React, {useEffect} from "react";
 import {withRouter} from "react-router-dom";
 import {useHistory} from "react-router-dom";
 import {Navbar, Nav, NavDropdown} from "react-bootstrap";
@@ -14,12 +14,12 @@ const Header = () => {
         localStorage.clear();
         history.push('/');
     }
-    useEffect(()=>{
+    useEffect(() => {
         const userAddress = localStorage.getItem('address');
-        if(userAddress === null){
+        if (userAddress === null) {
             history.push('/LoginAction');
         }
-    },[])
+    }, [])
     return (
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">

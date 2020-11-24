@@ -111,10 +111,10 @@ const Identities = () => {
                         if (identity.value.mutables.value.properties.value.propertyList !== null) {
                             mutableProperties = Helper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
                         }
-                        if(identity.value.provisionedAddressList !== null){
+                        if (identity.value.provisionedAddressList !== null) {
                             provisionedAddressList = identity.value.provisionedAddressList;
                         }
-                        if(identity.value.provisionedAddressList !== null){
+                        if (identity.value.provisionedAddressList !== null) {
                             unProvisionedAddressList = identity.value.unprovisionedAddressList;
                         }
                         let immutableKeys = Object.keys(immutableProperties);
@@ -140,7 +140,7 @@ const Identities = () => {
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
                                             }
                                         })
-                                        :""
+                                        : ""
                                     }
                                     <p>Mutables</p>
                                     {mutableKeys !== null ?
@@ -153,21 +153,21 @@ const Identities = () => {
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
                                             }
                                         })
-                                        :""
+                                        : ""
                                     }
                                     <h5>provisionedAddressList</h5>
                                     {provisionedAddressList !== null ?
                                         provisionedAddressList.map((provisionedAddress, addressKey) => {
                                             return (<p key={addressKey}>{provisionedAddress}</p>)
                                         })
-                                    :""
+                                        : ""
                                     }
                                     <h5>UnProvisionedAddressList</h5>
                                     {unProvisionedAddressList !== null ?
                                         unProvisionedAddressList.map((unprovisionedAddress, unprovisionedAddressKey) => {
                                             return (<p key={unprovisionedAddressKey}>{unprovisionedAddress}</p>)
                                         })
-                                        :""
+                                        : ""
                                     }
                                 </div>
                             </div>
@@ -187,11 +187,11 @@ const Identities = () => {
                     null
                 }
                 {externalComponent === 'DefineIdentity' ?
-                    <Define ActionName={identitiesDefine}  FormName={'Define Identity'}/> :
+                    <Define ActionName={identitiesDefine} FormName={'Define Identity'}/> :
                     null
                 }
                 {externalComponent === 'IssueIdentity' ?
-                    <IssueIdentity /> :
+                    <IssueIdentity/> :
                     null
                 }
 

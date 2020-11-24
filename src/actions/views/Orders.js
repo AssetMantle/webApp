@@ -165,8 +165,8 @@ const Orders = () => {
                 centered
             >
                 {externalComponent === 'DefineOrder' ?
-                <Define ActionName={ordersDefine} FormName={'Define Order'}/> :
-                null
+                    <Define ActionName={ordersDefine} FormName={'Define Order'}/> :
+                    null
                 }
 
                 {externalComponent === 'CancelOrder' ?

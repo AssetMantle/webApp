@@ -3,7 +3,7 @@ import {Tabs, Tab, Button, Modal} from "react-bootstrap";
 import {Maintainers, Identities, Assets, Orders, Marketplace} from "../actions/views"
 import {Faucet, Reveal} from "../actions/forms"
 import axios from "axios";
-import { getFaucet } from "../constants/url";
+import {getFaucet} from "../constants/url";
 
 const ActionsSwitcher = () => {
     const userAddress = localStorage.getItem('address');
@@ -11,16 +11,16 @@ const ActionsSwitcher = () => {
     const [accountResponse, setAccountResponse] = useState("");
     const [key, setKey] = useState("home");
     const [show, setShow] = useState(false)
-    const handleRoute = (route) =>{
+    const handleRoute = (route) => {
         setShow(true);
         setExternalComponent(route)
     }
     const url = getFaucet(userAddress);
-    useEffect(()=>{
+    useEffect(() => {
         axios.get(url)
             .then((response) => {
                 setAccountResponse(response.data.result.value.address)
-            }).catch((error) =>{
+            }).catch((error) => {
             console.log(error, " error section")
         });
     })
@@ -30,8 +30,8 @@ const ActionsSwitcher = () => {
     };
     return (
         <div className="container">
-            <Button onClick={()=>handleRoute("Reveal")}>Reveal Meta</Button>
-            {   accountResponse!== "" ?
+            <Button onClick={() => handleRoute("Reveal")}>Reveal Meta</Button>
+            {accountResponse !== "" ?
                 <Button onClick={() => handleRoute("Faucet")}>Faucet</Button>
                 : ""
             }
@@ -41,7 +41,7 @@ const ActionsSwitcher = () => {
                 onSelect={(k) => setKey(k)}
                 className="assetTabs Tabs"
             >
-                <Tab eventKey="home" title="Assets" >
+                <Tab eventKey="home" title="Assets">
                     <Assets/>
                 </Tab>
                 <Tab eventKey="Identities" title="Identities">
@@ -63,11 +63,11 @@ const ActionsSwitcher = () => {
                 centered
             >
                 {externalComponent === 'Reveal' ?
-                    <Reveal /> :
+                    <Reveal/> :
                     null
                 }
                 {externalComponent === 'Faucet' ?
-                    <Faucet /> :
+                    <Faucet/> :
                     null
                 }
             </Modal>

@@ -55,6 +55,7 @@ export default class Helper {
             return identityOwnerIdlist.includes(maintainer.value.id.value.identityID.value.idString)
         })
     }
+
     GetIdentityOwnableId(identity) {
         return identity.value.id.value.ownableID.value.idString;
     }
@@ -252,8 +253,8 @@ export default class Helper {
     }
 
 
-   FetchInputFieldMeta (immutableList, metasQuery, FileName) {
-       let $this = this
+    FetchInputFieldMeta(immutableList, metasQuery, FileName) {
+        let $this = this
         if (immutableList !== null) {
 
             immutableList.map((immutable, index) => {
@@ -261,9 +262,9 @@ export default class Helper {
                 const immutableType = immutable.value.fact.value.type;
                 const immutableHash = immutable.value.fact.value.hash;
                 const immutableName = immutable.value.id.value.idString;
-                const id=`${FileName}${immutableName}|${immutableType}${index}`
+                const id = `${FileName}${immutableName}|${immutableType}${index}`
 
-                if(immutableHash !== "" && immutableHash !== null) {
+                if (immutableHash !== "" && immutableHash !== null) {
                     console.log(immutableHash, "Raju")
                     const metaQueryResult = metasQuery.queryMetaWithID(immutableHash);
 

@@ -4,6 +4,7 @@ import IdentitiesIssueJS from "persistencejs/transaction/identity/issue";
 import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../utilities/Helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
+
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesIssue = new IdentitiesIssueJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -62,10 +63,10 @@ const IssueIdentity = () => {
         const classificationResponse = classificationsQuery.queryClassificationWithID(ClassificationId)
         classificationResponse.then(function (item) {
             const data = JSON.parse(JSON.parse(JSON.stringify(item)));
-            if(data.result.value.classifications.value.list !== null) {
+            if (data.result.value.classifications.value.list !== null) {
                 const immutablePropertyList = data.result.value.classifications.value.list[0].value.immutableTraits.value.properties.value.propertyList;
                 const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
-                console.log(immutablePropertyList,"immutablePropertyList")
+                console.log(immutablePropertyList, "immutablePropertyList")
                 Helper.FetchInputFieldMeta(immutablePropertyList, metasQuery, "IssueIdentity");
                 setMutableList(mutablePropertyList)
                 setImmutableList(immutablePropertyList)

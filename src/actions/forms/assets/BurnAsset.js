@@ -32,17 +32,17 @@ const BurnAsset = (props) => {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label>From Id </Form.Label>
-                    <Form.Control
-                        type="text"
-                        className=""
-                        name="FromId"
-                        required={true}
-                        placeholder="FromId"
-                    />
-                </Form.Group>
-                <p>Are you sure</p>
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Label>From Id </Form.Label>
+                        <Form.Control
+                            type="text"
+                            className=""
+                            name="FromId"
+                            required={true}
+                            placeholder="FromId"
+                        />
+                    </Form.Group>
+                    <p>Are you sure</p>
                     <Button variant="primary" type="submit">
                         Yes
                     </Button>

@@ -3,6 +3,7 @@ import {Form, Button, Modal} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import Helpers from "../../../utilities/Helper";
 import assetMutateJS from "persistencejs/transaction/assets/mutate";
+
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMutate = new assetMutateJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
@@ -19,7 +20,7 @@ const MutateAsset = (props) => {
             setKeyList(mutableKeys);
         }
         fetchList();
-    },[])
+    }, [])
 
     const handleCheckMutableChange = evt => {
         const checkedValue = evt.target.checked;
@@ -52,23 +53,23 @@ const MutateAsset = (props) => {
             let mutableMetaValues = "";
             if (keyList !== null) {
                 keyList.map((key, index) => {
-                    const mutableFieldValue = document.getElementById(key + index).value
-                    const mutableType = assetDataTypeList[key];
-                    const inputName = (key+index);
+                        const mutableFieldValue = document.getElementById(key + index).value
+                        const mutableType = assetDataTypeList[key];
+                        const inputName = (key + index);
 
-                    const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, key, mutableType, mutableFieldValue)
-                    if(mutableMetaValuesResponse[0] !== "") {
-                        mutableValues = mutableMetaValuesResponse[0];
-                    }
-                    if(mutableMetaValuesResponse[1] !== "") {
-                        mutableMetaValues =  mutableMetaValuesResponse[1];
-                    }
+                        const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, key, mutableType, mutableFieldValue)
+                        if (mutableMetaValuesResponse[0] !== "") {
+                            mutableValues = mutableMetaValuesResponse[0];
+                        }
+                        if (mutableMetaValuesResponse[1] !== "") {
+                            mutableMetaValues = mutableMetaValuesResponse[1];
+                        }
                     }
                 )
             }
             const userTypeToken = localStorage.getItem('mnemonic');
             const userAddress = localStorage.getItem('address');
-            const mutateResponse = assetMutate.mutate(userAddress, "test", userTypeToken,FromId, assetId, mutableValues, mutableMetaValues, 25, "stake", 200000, "block");
+            const mutateResponse = assetMutate.mutate(userAddress, "test", userTypeToken, FromId, assetId, mutableValues, mutableMetaValues, 25, "stake", 200000, "block");
             console.log(mutateResponse, "mutateResponse")
         }
     };
@@ -91,12 +92,12 @@ const MutateAsset = (props) => {
                         />
                     </Form.Group>
                     {keyList.map((keyName, idx) => {
-                        if(mutableProperties[keyName] !== "" && mutableProperties[keyName] !== null) {
+                        if (mutableProperties[keyName] !== "" && mutableProperties[keyName] !== null) {
                             const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
                             metaQueryResult.then(function (item) {
                                 const data = JSON.parse(item);
                                 let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName]);
-                                if(document.getElementById(keyName + idx)) {
+                                if (document.getElementById(keyName + idx)) {
                                     document.getElementById(keyName + idx).value = metaValue;
                                 }
                             });
@@ -120,7 +121,7 @@ const MutateAsset = (props) => {
                                     />
                                 </Form.Group>
                             </div>
-                            )
+                        )
                     })
                     }
                     <div className="submitButtonSection">

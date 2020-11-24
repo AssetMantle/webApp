@@ -3,7 +3,6 @@ import ClassificationsQueryJS from "persistencejs/transaction/classification/que
 import AssetMintJS from "persistencejs/transaction/assets/mint";
 import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../../utilities/Helper";
-import ReactDOM from "react-dom";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -68,10 +67,10 @@ const MintAsset = (props) => {
 
         classificationResponse.then(function (item) {
             const data = JSON.parse(JSON.parse(JSON.stringify(item)));
-            if(data.result.value.classifications.value.list !== null) {
+            if (data.result.value.classifications.value.list !== null) {
                 const immutablePropertyList = data.result.value.classifications.value.list[0].value.immutableTraits.value.properties.value.propertyList;
                 const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
-                Helper.FetchInputFieldMeta(immutablePropertyList,metasQuery, "MintAsset");
+                Helper.FetchInputFieldMeta(immutablePropertyList, metasQuery, "MintAsset");
                 setMutableList(mutablePropertyList)
                 setImmutableList(immutablePropertyList)
             }
@@ -103,11 +102,11 @@ const MintAsset = (props) => {
                     const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
                     const inputName = `${mutableName}|${mutableType}${index}`
                     const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
-                    if(mutableMetaValuesResponse[0] !== "") {
+                    if (mutableMetaValuesResponse[0] !== "") {
                         mutableValues = mutableMetaValuesResponse[0];
                     }
-                    if(mutableMetaValuesResponse[1] !== "") {
-                        mutableMetaValues =  mutableMetaValuesResponse[1];
+                    if (mutableMetaValuesResponse[1] !== "") {
+                        mutableMetaValues = mutableMetaValuesResponse[1];
                     }
                 })
             }
@@ -119,11 +118,11 @@ const MintAsset = (props) => {
                     const immutableInputName = `${immutableName}|${immutableType}${index}`
 
                     const ImmutableMetaValuesResponse = Helper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
-                    if(ImmutableMetaValuesResponse[0] !== "") {
+                    if (ImmutableMetaValuesResponse[0] !== "") {
                         immutableValues = ImmutableMetaValuesResponse[0];
                     }
-                    if(ImmutableMetaValuesResponse[1] !== "") {
-                        immutableMetaValues =  ImmutableMetaValuesResponse[1];
+                    if (ImmutableMetaValuesResponse[1] !== "") {
+                        immutableMetaValues = ImmutableMetaValuesResponse[1];
                     }
                 })
             }
@@ -239,7 +238,7 @@ const MintAsset = (props) => {
                                                 disabled={false}
                                             />
                                         </Form.Group>
-                                        <Form.Group >
+                                        <Form.Group>
                                             <Form.Check type="checkbox" label="Meta"
                                                         name={`${immutableName}|${immutableType}${index}`}
                                                         onChange={handleCheckImmutableChange}/>
