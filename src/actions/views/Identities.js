@@ -2,16 +2,16 @@ import React, {useState, useEffect} from "react";
 import ReactDOM from 'react-dom';
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
 import identitiesDefineJS from "persistencejs/transaction/identity/define";
-import Helpers from "../utilities/helper";
+import Helpers from "../../utilities/Helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {Dropdown, Modal, Button} from "react-bootstrap";
-import {Nub, Define, IssueIdentity, Provision, UnProvision} from "./forms";
+import {Nub, Define, IssueIdentity, Provision, UnProvision} from "../forms";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
-const IdentityList = () => {
+const Identities = () => {
     const Helper = new Helpers();
     const [showIdentity, setShowIdentity] = useState(false);
     const [externalComponent, setExternalComponent] = useState("");
@@ -23,7 +23,7 @@ const IdentityList = () => {
     };
     const userAddress = localStorage.getItem('address');
     useEffect(() => {
-        const fetchtoIdentities = () => {
+        const fetchToIdentities = () => {
             const identities = identitiesQuery.queryIdentityWithID("all")
             identities.then(function (item) {
                 const data = JSON.parse(item);
@@ -74,7 +74,7 @@ const IdentityList = () => {
 
             })
         }
-        fetchtoIdentities();
+        fetchToIdentities();
     }, []);
 
     const handleModalData = (formName, identityId, identity) => {
@@ -111,10 +111,10 @@ const IdentityList = () => {
                         if (identity.value.mutables.value.properties.value.propertyList !== null) {
                             mutableProperties = Helper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
                         }
-                        if(identity.value.provisionedAddressList !== null){
+                        if (identity.value.provisionedAddressList !== null) {
                             provisionedAddressList = identity.value.provisionedAddressList;
                         }
-                        if(identity.value.provisionedAddressList !== null){
+                        if (identity.value.provisionedAddressList !== null) {
                             unProvisionedAddressList = identity.value.unprovisionedAddressList;
                         }
                         let immutableKeys = Object.keys(immutableProperties);
@@ -140,7 +140,7 @@ const IdentityList = () => {
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
                                             }
                                         })
-                                        :""
+                                        : ""
                                     }
                                     <p>Mutables</p>
                                     {mutableKeys !== null ?
@@ -153,21 +153,21 @@ const IdentityList = () => {
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
                                             }
                                         })
-                                        :""
+                                        : ""
                                     }
                                     <h5>provisionedAddressList</h5>
                                     {provisionedAddressList !== null ?
                                         provisionedAddressList.map((provisionedAddress, addressKey) => {
                                             return (<p key={addressKey}>{provisionedAddress}</p>)
                                         })
-                                    :""
+                                        : ""
                                     }
                                     <h5>UnProvisionedAddressList</h5>
                                     {unProvisionedAddressList !== null ?
                                         unProvisionedAddressList.map((unprovisionedAddress, unprovisionedAddressKey) => {
                                             return (<p key={unprovisionedAddressKey}>{unprovisionedAddress}</p>)
                                         })
-                                        :""
+                                        : ""
                                     }
                                 </div>
                             </div>
@@ -187,11 +187,11 @@ const IdentityList = () => {
                     null
                 }
                 {externalComponent === 'DefineIdentity' ?
-                    <Define ActionName={identitiesDefine}  FormName={'Define Identity'}/> :
+                    <Define ActionName={identitiesDefine} FormName={'Define Identity'}/> :
                     null
                 }
                 {externalComponent === 'IssueIdentity' ?
-                    <IssueIdentity /> :
+                    <IssueIdentity/> :
                     null
                 }
 
@@ -207,4 +207,4 @@ const IdentityList = () => {
         </div>
     );
 }
-export default IdentityList
+export default Identities

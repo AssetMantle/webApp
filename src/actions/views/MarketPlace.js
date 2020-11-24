@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import ordersQueryJS from "persistencejs/transaction/orders/query";
-import Helpers from "../../utilities/helper";
+import Helpers from "../../utilities/Helper";
 import {Button, Modal} from "react-bootstrap";
 import {TakeOrder} from "../forms/orders";
 import ReactDOM from "react-dom";

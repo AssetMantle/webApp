@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import burnAssetJS from "persistencejs/transaction/assets/burn";
 import {Form, Button, Modal} from "react-bootstrap";
-import Helpers from "../../../utilities/helper";
+import Helpers from "../../../utilities/Helper";
 
 const burnAsset = new burnAssetJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
@@ -32,17 +32,17 @@ const BurnAsset = (props) => {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label>From Id </Form.Label>
-                    <Form.Control
-                        type="text"
-                        className=""
-                        name="FromId"
-                        required={true}
-                        placeholder="FromId"
-                    />
-                </Form.Group>
-                <p>Are you sure</p>
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Label>From Id </Form.Label>
+                        <Form.Control
+                            type="text"
+                            className=""
+                            name="FromId"
+                            required={true}
+                            placeholder="FromId"
+                        />
+                    </Form.Group>
+                    <p>Are you sure</p>
                     <Button variant="primary" type="submit">
                         Yes
                     </Button>

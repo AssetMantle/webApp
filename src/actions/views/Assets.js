@@ -2,11 +2,11 @@ import React, {useState, useEffect} from "react";
 import ReactDOM from 'react-dom';
 import splitsQueryJS from "persistencejs/transaction/splits/query";
 import assetsQueryJS from "persistencejs/transaction/assets/query";
-import Helpers from "../../utilities/helper";
+import Helpers from "../../utilities/Helper";
 import {Dropdown, Modal, Button} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import {MintAsset, MutateAsset, BurnAsset,Wrap, UnWrap} from "../forms/assets";
+import {MintAsset, MutateAsset, BurnAsset, Wrap, UnWrap} from "../forms/assets";
 import AssetDefineJS from "persistencejs/transaction/assets/define";
 import {Define} from "../forms";
 import {MakeOrder} from "../forms/orders";
@@ -103,7 +103,7 @@ const Assets = () => {
         setMutateProperties(mutableProperties1)
         setAsset(asset1)
         setAssetId(assetId1)
-        setShowAsset(formName);
+        setShowAsset(true);
         setExternalComponent(formName)
 
     }
@@ -123,7 +123,7 @@ const Assets = () => {
                             <Dropdown.Item onClick={() => handleModalData("Wrap")}>Wrap
                                 Mint</Dropdown.Item>
                             <Dropdown.Item onClick={() => handleModalData("UnWrap")}>UnWrap
-                                </Dropdown.Item>
+                            </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                     {splitList.map((split, index) => {
@@ -138,8 +138,8 @@ const Assets = () => {
                                     <p>OwnerId: {ownerId}</p>
                                     <p>Stake: {stake}</p>
                                     <div>
-                                    <Button variant="secondary"
-                                            onClick={() => handleModalData("MakeOrder", "", "", ownableID)}>Make</Button>
+                                        <Button variant="secondary"
+                                                onClick={() => handleModalData("MakeOrder", "", "", ownableID)}>Make</Button>
                                     </div>
                                     {
                                         assetList.map((asset, assetIndex) => {
@@ -212,7 +212,7 @@ const Assets = () => {
                     centered
                 >
                     {externalComponent === 'DefineAsset' ?
-                        <Define ActionName={assetDefine} FormName={'Define Asset'}/> :
+                        <Define ActionName={assetDefine} FormName={'Define Asset'} type={'asset'}/> :
                         null
                     }
                     {
@@ -236,12 +236,12 @@ const Assets = () => {
                     }
                     {
                         externalComponent === 'Wrap' ?
-                            <Wrap  FormName={'Wrap'}/> :
+                            <Wrap FormName={'Wrap'}/> :
                             null
                     }
                     {
                         externalComponent === 'UnWrap' ?
-                            <UnWrap  FormName={'UnWrap'}/> :
+                            <UnWrap FormName={'UnWrap'}/> :
                             null
                     }
                 </Modal>

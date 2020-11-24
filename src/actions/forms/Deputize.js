@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import deputizeJS from "persistencejs/transaction/maintainers/deputize";
 import {Form, Button, Modal} from "react-bootstrap";
 import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
+
 const deputizeMaintainer = new deputizeJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -13,16 +14,16 @@ const Deputize = (props) => {
     const handleClose = () => {
         setShow(false);
     };
-useEffect( () =>{
-    const classificationId = props.maintainerData.value.id.value.classificationID.value.idString
-    const classificationResponse = classificationsQuery.queryClassificationWithID(classificationId)
+    useEffect(() => {
+        const classificationId = props.maintainerData.value.id.value.classificationID.value.idString
+        const classificationResponse = classificationsQuery.queryClassificationWithID(classificationId)
 
-    classificationResponse.then(function (item) {
-        const data = JSON.parse(item);
-        const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
-        setMutableList(mutablePropertyList)
-    })
-}, [])
+        classificationResponse.then(function (item) {
+            const data = JSON.parse(item);
+            const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
+            setMutableList(mutablePropertyList)
+        })
+    }, [])
 
     const handleCheckMutableChange = evt => {
         const checkedValue = evt.target.checked;
@@ -51,7 +52,7 @@ useEffect( () =>{
         const ToId = event.target.ToId.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        const DeputizeResponse = deputizeMaintainer.deputize(userAddress, "test", userTypeToken, identityId, classificationId,ToId,maintainedTraits,addMaintainer,removeMaintainer,mutateMaintainer,25, "stake", 200000, "block");
+        const DeputizeResponse = deputizeMaintainer.deputize(userAddress, "test", userTypeToken, identityId, classificationId, ToId, maintainedTraits, addMaintainer, removeMaintainer, mutateMaintainer, 25, "stake", 200000, "block");
         console.log(DeputizeResponse, "result DeputizeResponse")
     };
     return (
@@ -109,7 +110,7 @@ useEffect( () =>{
                                     </div>
                                 )
                             })
-                            :""
+                            : ""
                         }
                     </div>
                     <div className="submitButtonSection">

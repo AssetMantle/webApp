@@ -39,49 +39,49 @@ const LoginAction = () => {
                 <div className="row row-cols-1 row-cols-md-2 card-deck createAccountSection">
                     <div className="col-md-6 signup-box">
                         <div className="mrt-10">
-                        <Button
-                            variant="primary"
-                            onClick={() =>handleRoute("LoginMnemonic")}
-                        >
-                            Login with mnemonic
-                        </Button>
+                            <Button
+                                variant="primary"
+                                onClick={() => handleRoute("LoginMnemonic")}
+                            >
+                                Login with mnemonic
+                            </Button>
                         </div>
                         <div className="mrt-10">
-                        <Button
-                            variant="primary"
-                            onClick={() =>handleRoute("PrivateKey")}
-                        >
-                            Login with privateKey
-                        </Button>
+                            <Button
+                                variant="primary"
+                                onClick={() => handleRoute("PrivateKey")}
+                            >
+                                Login with privateKey
+                            </Button>
                         </div>
                         <div className="mrt-10">
-                        <Button
-                            variant="primary"
-                            onClick={() =>handleRoute("Ledger")}
-                        >
-                            Login with ledger
-                        </Button>
+                            <Button
+                                variant="primary"
+                                onClick={() => handleRoute("Ledger")}
+                            >
+                                Login with ledger
+                            </Button>
                         </div>
                         <div className="mrt-10">
-                        <Button
-                            variant="primary"
-                            onClick={() =>handleRoute("SignUp")}
-                        >
-                            Sign Up
-                        </Button>
+                            <Button
+                                variant="primary"
+                                onClick={() => handleRoute("SignUp")}
+                            >
+                                Sign Up
+                            </Button>
                         </div>
                     </div>
                 </div>
             </div>
-            <Modal show={show} onHide={handleClose}  centered>
-                    {
-                        externalComponent === 'LoginMnemonic' ?
-                            <LoginMnemonic /> :
-                            null
-                    }
+            <Modal show={show} onHide={handleClose} centered>
+                {
+                    externalComponent === 'LoginMnemonic' ?
+                        <LoginMnemonic/> :
+                        null
+                }
                 {
                     externalComponent === 'PrivateKey' ?
-                        <PrivateKey /> :
+                        <PrivateKey/> :
                         null
                 }
                 {
@@ -91,7 +91,7 @@ const LoginAction = () => {
                 }
                 {
                     externalComponent === 'Ledger' ?
-                        <Ledger /> :
+                        <Ledger/> :
                         null
                 }
 

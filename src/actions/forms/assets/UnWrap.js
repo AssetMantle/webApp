@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from "react";
 import UnWrapJS from "persistencejs/transaction/splits/unwrap";
 import {Form, Button, Modal} from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
+
 const UnWrapQuery = new UnWrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const UnWrap = (props) => {

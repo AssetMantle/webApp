@@ -1,7 +1,9 @@
 .app{
-    min-height: 100vh;
-    display: block;
+ padding-bottom: 124px;
+}
+#root{
     position: relative;
+    min-height: 100vh;
 }
 .navbar-dark{
     .navbar-nav .nav-link{

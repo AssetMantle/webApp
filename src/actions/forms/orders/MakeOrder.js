@@ -1,8 +1,11 @@
 import React, {useState} from "react";
 import {Form, Button, Modal} from "react-bootstrap";
-import Helpers from "../../../utilities/helper";
+import Helpers from "../../../utilities/Helper";
 import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
 import ordersMakeJS from "persistencejs/transaction/orders/make";
+import metasQueryJS from "persistencejs/transaction/meta/query";
+
+const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const ordersMake = new ordersMakeJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const MakeOrder = (props) => {
@@ -59,13 +62,16 @@ const MakeOrder = (props) => {
 
         const ClassificationId = event.target.ClassificationId.value;
         setClassificationId(ClassificationId)
-            const classificationResponse = classificationsQuery.queryClassificationWithID(ClassificationId)
+        const classificationResponse = classificationsQuery.queryClassificationWithID(ClassificationId)
         classificationResponse.then(function (item) {
-            const data = JSON.parse(item);
-            const immutablePropertyList = data.result.value.classifications.value.list[0].value.immutableTraits.value.properties.value.propertyList;
-            const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
-            setMutableList(mutablePropertyList)
-            setImmutableList(immutablePropertyList)
+            const data = JSON.parse(JSON.parse(JSON.stringify(item)));
+            if (data.result.value.classifications.value.list !== null) {
+                const immutablePropertyList = data.result.value.classifications.value.list[0].value.immutableTraits.value.properties.value.propertyList;
+                const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
+                Helper.FetchInputFieldMeta(immutablePropertyList, metasQuery, "MakeOrder");
+                setMutableList(mutablePropertyList)
+                setImmutableList(immutablePropertyList)
+            }
         })
         setShowNext(true)
     };
@@ -96,11 +102,11 @@ const MakeOrder = (props) => {
                     const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
                     const inputName = `${mutableName}|${mutableType}${index}`
                     const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
-                    if(mutableMetaValuesResponse[0] !== "") {
+                    if (mutableMetaValuesResponse[0] !== "") {
                         mutableValues = mutableMetaValuesResponse[0];
                     }
-                    if(mutableMetaValuesResponse[1] !== "") {
-                        mutableMetaValues =  mutableMetaValuesResponse[1];
+                    if (mutableMetaValuesResponse[1] !== "") {
+                        mutableMetaValues = mutableMetaValuesResponse[1];
                     }
                 })
             }
@@ -112,17 +118,17 @@ const MakeOrder = (props) => {
                     const immutableInputName = `${immutableName}|${immutableType}${index}`
 
                     const ImmutableMetaValuesResponse = Helper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
-                    if(ImmutableMetaValuesResponse[0] !== "") {
+                    if (ImmutableMetaValuesResponse[0] !== "") {
                         immutableValues = ImmutableMetaValuesResponse[0];
                     }
-                    if(ImmutableMetaValuesResponse[1] !== "") {
-                        immutableMetaValues =  ImmutableMetaValuesResponse[1];
+                    if (ImmutableMetaValuesResponse[1] !== "") {
+                        immutableMetaValues = ImmutableMetaValuesResponse[1];
                     }
                 })
             }
             const userTypeToken = localStorage.getItem('mnemonic');
             const userAddress = localStorage.getItem('address');
-            const makeOrderResult = ordersMake.make(userAddress, "test", userTypeToken, FromId, classificationId,assetId, TakerOwnableId,ExpiresIn, Makersplit,  mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
+            const makeOrderResult = ordersMake.make(userAddress, "test", userTypeToken, FromId, classificationId, assetId, TakerOwnableId, ExpiresIn, Makersplit, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
             console.log(makeOrderResult, "makeOrderResult")
         }
     }
@@ -238,18 +244,20 @@ const MakeOrder = (props) => {
                                 const immutableName = immutable.value.id.value.idString;
                                 return (
                                     <>
-                                        <Form.Group controlId="formBasicEmail">
+                                        <Form.Group>
                                             <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 className=""
                                                 name={`${immutableName}|${immutableType}${index}`}
+                                                id={`MakeOrder${immutableName}|${immutableType}${index}`}
                                                 required={true}
                                                 placeholder="Trait Value"
                                                 onChange={handleChange}
+                                                disabled={false}
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="formBasicCheckbox">
+                                        <Form.Group>
                                             <Form.Check type="checkbox" label="Meta"
                                                         name={`${immutableName}|${immutableType}${index}`}
                                                         onChange={handleCheckImmutableChange}/>

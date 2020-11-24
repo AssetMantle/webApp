@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {withRouter} from "react-router-dom";
 import {useHistory} from "react-router-dom";
 import {Navbar, Nav, NavDropdown} from "react-bootstrap";
@@ -14,6 +14,12 @@ const Header = () => {
         localStorage.clear();
         history.push('/');
     }
+    useEffect(() => {
+        const userAddress = localStorage.getItem('address');
+        if (userAddress === null) {
+            history.push('/LoginAction');
+        }
+    }, [])
     return (
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -21,7 +27,7 @@ const Header = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link>Mainsite</Nav.Link>
+                        <Nav.Link>MainSite</Nav.Link>
                         <Nav.Link>Explorer</Nav.Link>
                         <Nav.Link>Docs</Nav.Link>
                         <Nav.Link>Dashboard</Nav.Link>

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import ordersQueryJS from "persistencejs/transaction/orders/query";
-import Helpers from "../../utilities/helper";
+import Helpers from "../../utilities/Helper";
 import ReactDOM from 'react-dom';
 import {Modal, Button, Dropdown} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
@@ -165,8 +165,8 @@ const Orders = () => {
                 centered
             >
                 {externalComponent === 'DefineOrder' ?
-                <Define ActionName={ordersDefine} FormName={'Define Order'}/> :
-                null
+                    <Define ActionName={ordersDefine} FormName={'Define Order'}/> :
+                    null
                 }
 
                 {externalComponent === 'CancelOrder' ?

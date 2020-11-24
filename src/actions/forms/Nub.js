@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import identitiesNubJS from "persistencejs/transaction/identity/nub";
-import InputField from '../../components/inputField'
 import {Form, Button, Modal} from "react-bootstrap";
 
 const identitiesNub = new identitiesNubJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -31,13 +30,15 @@ const Nub = () => {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <InputField
-                        className=""
-                        name="nubID"
-                        required="true"
-                        placeholder="nubID"
-                        label="nubID"
-                    />
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Label>nubID</Form.Label>
+                        <Form.Control
+                            type="text"
+                            name="nubID"
+                            required={true}
+                            placeholder="nubID"
+                        />
+                    </Form.Group>
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
                             Submit
