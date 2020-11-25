@@ -5,7 +5,8 @@ import identitiesDefineJS from "persistencejs/transaction/identity/define";
 import Helpers from "../../utilities/Helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {Dropdown, Modal, Button} from "react-bootstrap";
-import {Nub, Define, IssueIdentity, Provision, UnProvision} from "../forms";
+import {Define} from "../forms";
+import {Nub, IssueIdentity, Provision, UnProvision} from "../forms/identities";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)

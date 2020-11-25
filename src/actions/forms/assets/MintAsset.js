@@ -115,9 +115,8 @@ const MintAsset = () => {
                 immutableList.map((immutable, index) => {
                     const immutableType = immutable.value.fact.value.type;
                     const immutableName = immutable.value.id.value.idString;
-                    const immutableFieldValue = inputValues[`${immutableName}|${immutableType}${index}`]
                     const immutableInputName = `${immutableName}|${immutableType}${index}`
-
+                    const immutableFieldValue = document.getElementById(`MintAsset${immutableName}|${immutableType}${index}`).value;
                     const ImmutableMetaValuesResponse = Helper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
                     if (ImmutableMetaValuesResponse[0] !== "") {
                         immutableValues = ImmutableMetaValuesResponse[0];

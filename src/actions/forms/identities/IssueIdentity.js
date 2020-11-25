@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
 import IdentitiesIssueJS from "persistencejs/transaction/identity/issue";
 import {Form, Button, Modal} from "react-bootstrap";
-import Helpers from "../../utilities/Helper";
+import Helpers from "../../../utilities/Helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -44,7 +44,6 @@ const IssueIdentity = () => {
             setCheckboxImmutableNamesList((checkboxImmutableNamesList) => [...checkboxImmutableNamesList, checkboxNames]);
         } else {
             if (checkboxImmutableNamesList.includes(name)) {
-                // setAssetItemsList(assetItemsList => assetItemsList.filter((item, sidx) => item.name !== name))
                 setCheckboxImmutableNamesList(checkboxImmutableNamesList.filter(item => item !== name));
             }
         }

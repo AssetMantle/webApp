@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from "react";
-import identitiesProvisionJS from "persistencejs/transaction/identity/provision";
+import identitiesNubJS from "persistencejs/transaction/identity/nub";
 import {Form, Button, Modal} from "react-bootstrap";
-import InputField from "../../components/inputField"
+import InputField from "../../../components/inputField"
 
-const identitiesProvision = new identitiesProvisionJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const identitiesNub = new identitiesNubJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
-const Provision = (props) => {
+const Nub = () => {
     const [show, setShow] = useState(false);
     const [response, setResponse] = useState({});
     const handleClose = () => {
@@ -13,17 +13,17 @@ const Provision = (props) => {
         window.location.reload();
     };
 
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        const toAddress = event.target.toAddress.value;
+        const nubId = event.target.nubID.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        const provisionResponse = identitiesProvision.provision(userAddress, "test", userTypeToken, props.identityId, toAddress, 25, "stake", 200000, "block");
-        console.log(provisionResponse, "result provision")
-        provisionResponse.then(function (item) {
+        const nubResponse = identitiesNub.nub(userAddress, "test", userTypeToken, nubId, 25, "stake", 200000, "block");
+        nubResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             setResponse(data)
-            console.log(data, "result define Identity")
+            console.log(data, "result nub")
         })
     };
 
@@ -31,19 +31,19 @@ const Provision = (props) => {
         <div className="accountInfo">
 
             <Modal.Header closeButton>
-                Provision
+                Nub
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                        <InputField
-                            type="text"
-                            className=""
-                            name="toAddress"
-                            required={true}
-                            placeholder="Input Address"
-                            label="New Address to Provision"
-                            disabled={false}
-                            />
+                    <InputField
+                        type="text"
+                        className=""
+                        name="nubID"
+                        required={true}
+                        placeholder="nubID"
+                        label="nubID"
+                        disabled={false}
+                    />
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
                             Submit
@@ -60,4 +60,4 @@ const Provision = (props) => {
     );
 };
 
-export default Provision;
+export default Nub;

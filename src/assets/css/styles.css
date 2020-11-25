@@ -133,7 +133,7 @@
     width: 150px; }
 
 .text-muted.show {
-  display: show; }
+  display: block; }
 
 .text-muted.none {
   display: none; }
@@ -148,5 +148,13 @@
 
 .submitButtonSection {
   margin-top: 10px; }
+
+.tabs-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+  .tabs-top-bar p {
+    margin: 0;
+    color: #fff; }
 
 /*# sourceMappingURL=styles.css.map */
