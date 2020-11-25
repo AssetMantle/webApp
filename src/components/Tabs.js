@@ -45,10 +45,10 @@ const ActionsSwitcher = () => {
                         : ""
                     }
                 </div>
-                {accountResponse.coins ? <p>
-                        Amount: {accountResponse.coins[0].amount}
+                    {(accountResponse.coins !== undefined && accountResponse.coins.length ) ?
+                        <p>Amount: {accountResponse.coins[0].amount}
                     </p>
-                    : "0"
+                    : "Amount: 0"
                 }
             </div>
             <Tabs
