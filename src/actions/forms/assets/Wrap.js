@@ -7,6 +7,7 @@ const WrapQuery = new WrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Wrap = (props) => {
     const [show, setShow] = useState(false);
+    const [response, setResponse] = useState({});
     const handleClose = () => {
         setShow(false);
     };
@@ -19,8 +20,12 @@ const Wrap = (props) => {
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
         const WrapResponse = WrapQuery.wrap(userAddress, "test", userTypeToken, FromId, CoinAmount + CoinDenom, 25, "stake", 200000, "block");
-        console.log(WrapResponse, "result WrapResponse")
-    };
+        WrapResponse.then(function (item) {
+            const data = JSON.parse(JSON.stringify(item));
+            setResponse(data)
+            console.log(data, "result WrapResponse")
+        })
+    };  
 
     return (
         <div className="accountInfo">
@@ -67,6 +72,11 @@ const Wrap = (props) => {
                             Submit
                         </Button>
                     </div>
+                    {response.code ?
+                        <p> {response.raw_log}</p>
+                        :
+                        <p> {response.txhash}</p>
+                    }
                 </Form>
             </Modal.Body>
         </div>

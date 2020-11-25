@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import RevealMetaJS from "persistencejs/transaction/meta/reveal";
 import {Form, Button, Modal} from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import InputField from "../../components/inputField";
 const RevealMeta = new RevealMetaJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Reveal = () => {
@@ -10,7 +11,6 @@ const Reveal = () => {
     const [dataTypeOption, setDataTypeOption] = useState("S|");
     const handleClose = () => {
         setShow(false);
-        // history.push('ActionsSwitcher')
     };
 
     const handleSelectChange = evt => {
@@ -20,7 +20,6 @@ const Reveal = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const MutableDataName = event.target.MutableDataName.value;
-
         const metaFact = dataTypeOption + MutableDataName
         console.log(metaFact, "Dataoption")
         const userTypeToken = localStorage.getItem('mnemonic');
@@ -48,16 +47,15 @@ const Reveal = () => {
                             <option value="I|">IDtype</option>
                         </Form.Control>
                     </Form.Group>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Data Name </Form.Label>
-                        <Form.Control
-                            type="text"
-                            className=""
-                            name="MutableDataName"
-                            required={true}
-                            placeholder="Data Name"
-                        />
-                    </Form.Group>
+                    <InputField
+                        type="text"
+                        className=""
+                        name="MutableDataName"
+                        required={true}
+                        placeholder="Data Name"
+                        label="Data Name "
+                        disabled={false}
+                    />
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
                             Submit

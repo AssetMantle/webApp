@@ -10,6 +10,7 @@ import {MintAsset, MutateAsset, BurnAsset, Wrap, UnWrap} from "../forms/assets";
 import AssetDefineJS from "persistencejs/transaction/assets/define";
 import {Define} from "../forms";
 import {MakeOrder} from "../forms/orders";
+import loader from "../../assets/images/loader.svg"
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -36,65 +37,68 @@ const Assets = () => {
             identities.then(function (item) {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
-                const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
-                const splits = splitsQuery.querySplitsWithID("all")
+                if(dataList) {
+                    const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
+                    const splits = splitsQuery.querySplitsWithID("all")
 
-                splits.then(function (splitsItem) {
-                    const splitData = JSON.parse(splitsItem);
-                    const splitList = splitData.result.value.splits.value.list;
-                    if (splitList) {
-                        const filterSplitsByIdentities = Helper.FilterSplitsByIdentity(filterIdentities, splitList)
-                        setSplitList(filterSplitsByIdentities)
-                        filterSplitsByIdentities.map((split, index) => {
-                            const ownableID = Helper.GetIdentityOwnableId(split)
-                            const filterAssetList = assetsQuery.queryAssetWithID(ownableID);
-                            filterAssetList.then(function (Asset) {
-                                const parsedAsset = JSON.parse(Asset);
-                                const assetId = Helper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
-                                if (ownableID === assetId) {
-                                    setAssetList(assetList => [...assetList, parsedAsset]);
-                                    let immutableProperties = "";
-                                    let mutableProperties = "";
-                                    if (parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
-                                        immutableProperties = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
-                                    }
-                                    if (parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
-                                        mutableProperties = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
-                                    }
-                                    let immutableKeys = Object.keys(immutableProperties);
-                                    let mutableKeys = Object.keys(mutableProperties);
-                                    immutableKeys.map((keyName, index1) => {
-                                        if (immutableProperties[keyName] !== "") {
-                                            const metaQueryResult = metasQuery.queryMetaWithID(immutableProperties[keyName]);
-                                            metaQueryResult.then(function (item) {
-                                                const data = JSON.parse(item);
-                                                let myElement = "";
-                                                let metaValue = Helper.FetchMetaValue(data, immutableProperties[keyName])
-                                                myElement = <span>{metaValue}</span>;
-                                                ReactDOM.render(myElement, document.getElementById(`immutable_asset` + index + `${index1}`));
-                                            });
+                    splits.then(function (splitsItem) {
+                        const splitData = JSON.parse(splitsItem);
+                        const splitList = splitData.result.value.splits.value.list;
+                        if (splitList) {
+                            const filterSplitsByIdentities = Helper.FilterSplitsByIdentity(filterIdentities, splitList)
+                            setSplitList(filterSplitsByIdentities)
+
+                            filterSplitsByIdentities.map((split, index) => {
+                                const ownableID = Helper.GetIdentityOwnableId(split)
+                                const filterAssetList = assetsQuery.queryAssetWithID(ownableID);
+                                filterAssetList.then(function (Asset) {
+                                    const parsedAsset = JSON.parse(Asset);
+                                    const assetId = Helper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
+                                    if (ownableID === assetId) {
+                                        setAssetList(assetList => [...assetList, parsedAsset]);
+                                        let immutableProperties = "";
+                                        let mutableProperties = "";
+                                        if (parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
+                                            immutableProperties = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
                                         }
-                                    })
-                                    mutableKeys.map((keyName, index1) => {
-                                        if (mutableProperties[keyName] !== "") {
-                                            const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
-                                            metaQueryResult.then(function (item) {
-                                                const data = JSON.parse(item);
-                                                let myElement = "";
-                                                let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName])
-                                                myElement = <span>{metaValue}</span>;
-                                                ReactDOM.render(myElement, document.getElementById(`mutable_asset` + index + `${index1}`));
-                                            })
+                                        if (parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
+                                            mutableProperties = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
                                         }
-                                    })
-                                }
+                                        let immutableKeys = Object.keys(immutableProperties);
+                                        let mutableKeys = Object.keys(mutableProperties);
+                                        immutableKeys.map((keyName, index1) => {
+                                            if (immutableProperties[keyName] !== "") {
+                                                const metaQueryResult = metasQuery.queryMetaWithID(immutableProperties[keyName]);
+                                                metaQueryResult.then(function (item) {
+                                                    const data = JSON.parse(item);
+                                                    let myElement = "";
+                                                    let metaValue = Helper.FetchMetaValue(data, immutableProperties[keyName])
+                                                    myElement = <span>{metaValue}</span>;
+                                                    ReactDOM.render(myElement, document.getElementById(`immutable_asset` + index + `${index1}`));
+                                                });
+                                            }
+                                        })
+                                        mutableKeys.map((keyName, index1) => {
+                                            if (mutableProperties[keyName] !== "") {
+                                                const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
+                                                metaQueryResult.then(function (item) {
+                                                    const data = JSON.parse(item);
+                                                    let myElement = "";
+                                                    let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName])
+                                                    myElement = <span>{metaValue}</span>;
+                                                    ReactDOM.render(myElement, document.getElementById(`mutable_asset` + index + `${index1}`));
+                                                })
+                                            }
+                                        })
+                                    }
+                                })
                             })
-                        })
 
-                    } else {
-                        console.log("no splits found")
-                    }
-                })
+                        } else {
+                            console.log("no splits found")
+                        }
+                    })
+                }
             })
         }
         fetchAssets();

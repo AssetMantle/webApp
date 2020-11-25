@@ -8,6 +8,7 @@ const UnWrapQuery = new UnWrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const UnWrap = (props) => {
     const history = useHistory();
     const [show, setShow] = useState(false);
+    const [response, setResponse] = useState({});
     const handleClose = () => {
         setShow(false);
     };
@@ -20,7 +21,11 @@ const UnWrap = (props) => {
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
         const UnWrapResponse = UnWrapQuery.unwrap(userAddress, "test", userTypeToken, FromId, OwnableId, Split, 25, "stake", 200000, "block");
-        console.log(UnWrapResponse, "result UnWrapResponse")
+        UnWrapResponse.then(function (item) {
+            const data = JSON.parse(JSON.stringify(item));
+            setResponse(data)
+            console.log(data, "result UnWrapResponse")
+        })
     };
 
     return (
@@ -68,6 +73,11 @@ const UnWrap = (props) => {
                             Submit
                         </Button>
                     </div>
+                    {response.code ?
+                        <p> {response.raw_log}</p>
+                        :
+                        <p> {response.txhash}</p>
+                    }
                 </Form>
             </Modal.Body>
         </div>

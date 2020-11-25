@@ -12,6 +12,7 @@ const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_AS
 const IssueIdentity = () => {
     const Helper = new Helpers();
     const [showNext, setShowNext] = useState(false);
+    const [response, setResponse] = useState({});
     const [checkedD, setCheckedD] = useState({});
     const [classificationId, setClassificationId] = useState("");
     const [mutableList, setMutableList] = useState([]);
@@ -126,7 +127,11 @@ const IssueIdentity = () => {
                 })
             }
             const issueIdentityResult = identitiesIssue.issue(userAddress, "test", userTypeToken, toAddress, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
-            console.log(issueIdentityResult, "result Issue Identity")
+            issueIdentityResult.then(function (item) {
+                const data = JSON.parse(JSON.stringify(item));
+                setResponse(data)
+                console.log(data, "result Issue Identity")
+            })
         }
     }
     return (
@@ -251,6 +256,11 @@ const IssueIdentity = () => {
                         <Button variant="primary" type="submit">
                             Submit
                         </Button>
+                        {response.code ?
+                            <p> {response.raw_log}</p>
+                            :
+                            <p> {response.txhash}</p>
+                        }
                     </Form>
                 </Modal.Body>
             </Modal>

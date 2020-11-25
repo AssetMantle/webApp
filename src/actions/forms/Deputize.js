@@ -9,6 +9,7 @@ const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_AS
 const Deputize = (props) => {
     const [show, setShow] = useState(false);
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
+    const [response, setResponse] = useState({});
     const [mutableList, setMutableList] = useState([]);
     const [externalComponent, setExternalComponent] = useState("");
     const handleClose = () => {
@@ -53,7 +54,12 @@ const Deputize = (props) => {
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
         const DeputizeResponse = deputizeMaintainer.deputize(userAddress, "test", userTypeToken, identityId, classificationId, ToId, maintainedTraits, addMaintainer, removeMaintainer, mutateMaintainer, 25, "stake", 200000, "block");
-        console.log(DeputizeResponse, "result DeputizeResponse")
+        DeputizeResponse.then(function (item) {
+            const data = JSON.parse(JSON.stringify(item));
+            setResponse(data)
+            console.log(data, "result DeputizeResponse")
+        })
+
     };
     return (
         <div className="accountInfo">
@@ -118,6 +124,11 @@ const Deputize = (props) => {
                             Submit
                         </Button>
                     </div>
+                    {response.code ?
+                        <p> {response.raw_log}</p>
+                        :
+                        <p> {response.txhash}</p>
+                    }
                 </Form>
             </Modal.Body>
         </div>

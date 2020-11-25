@@ -19,7 +19,11 @@ const TakeOrder = (props) => {
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
         const takeOrderResponse = takeOrder.take(userAddress, "test", userTypeToken, FromId, ownableAmount, orderId, 25, "stake", 200000, "block");
-        console.log(takeOrderResponse, "result takeOrderResponse")
+        takeOrderResponse.then(function (item) {
+            const data = JSON.parse(JSON.stringify(item));
+            setResponse(data)
+            console.log(data, "result takeOrderResponse")
+        })
     };
 
     return (
@@ -54,6 +58,11 @@ const TakeOrder = (props) => {
                             Submit
                         </Button>
                     </div>
+                    {response.code ?
+                        <p> {response.raw_log}</p>
+                        :
+                        <p> {response.txhash}</p>
+                    }
                 </Form>
             </Modal.Body>
         </div>

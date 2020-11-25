@@ -32,55 +32,56 @@ const Orders = () => {
             identities.then(function (item) {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
-                const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
-                const ordersData = ordersQuery.queryOrderWithID("all")
-                ordersData.then(function (item) {
-                    const ordersData = JSON.parse(item);
-                    const ordersDataList = ordersData.result.value.orders.value.list;
-                    if (ordersDataList) {
-                        const filterOrdersByIdentities = Helper.FilterOrdersByIdentity(filterIdentities, ordersDataList)
-                        setOrderList(filterOrdersByIdentities);
-                        filterOrdersByIdentities.map((order, index) => {
-                            let immutableProperties = "";
-                            let mutableProperties = "";
-                            if (order.value.immutables.value.properties.value.propertyList !== null) {
-                                immutableProperties = Helper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
-                            }
-                            if (order.value.mutables.value.properties.value.propertyList !== null) {
-                                mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
-                            }
-                            let immutableKeys = Object.keys(immutableProperties);
-                            let mutableKeys = Object.keys(mutableProperties);
-                            immutableKeys.map((keyName, index1) => {
-                                if (immutableProperties[keyName] !== "") {
-                                    const metaQueryResult = metasQuery.queryMetaWithID(immutableProperties[keyName]);
-                                    metaQueryResult.then(function (item) {
-                                        const data = JSON.parse(item);
-                                        let myElement = "";
-                                        let metaValue = Helper.FetchMetaValue(data, immutableProperties[keyName])
-                                        myElement = <span>{metaValue}</span>;
-                                        ReactDOM.render(myElement, document.getElementById(`immutable_order` + index + `${index1}`));
-                                    });
+                if(dataList) {
+                    const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
+                    const ordersData = ordersQuery.queryOrderWithID("all")
+                    ordersData.then(function (item) {
+                        const ordersData = JSON.parse(item);
+                        const ordersDataList = ordersData.result.value.orders.value.list;
+                        if (ordersDataList) {
+                            const filterOrdersByIdentities = Helper.FilterOrdersByIdentity(filterIdentities, ordersDataList)
+                            setOrderList(filterOrdersByIdentities);
+                            filterOrdersByIdentities.map((order, index) => {
+                                let immutableProperties = "";
+                                let mutableProperties = "";
+                                if (order.value.immutables.value.properties.value.propertyList !== null) {
+                                    immutableProperties = Helper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
                                 }
-                            })
-                            mutableKeys.map((keyName, index1) => {
-                                if (mutableProperties[keyName] !== "") {
-                                    const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
-                                    metaQueryResult.then(function (item) {
-                                        const data = JSON.parse(item);
-                                        let myElement = "";
-                                        let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName])
-                                        myElement = <span>{metaValue}</span>;
-                                        ReactDOM.render(myElement, document.getElementById(`mutable_order` + index + `${index1}`));
-                                    });
+                                if (order.value.mutables.value.properties.value.propertyList !== null) {
+                                    mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
                                 }
+                                let immutableKeys = Object.keys(immutableProperties);
+                                let mutableKeys = Object.keys(mutableProperties);
+                                immutableKeys.map((keyName, index1) => {
+                                    if (immutableProperties[keyName] !== "") {
+                                        const metaQueryResult = metasQuery.queryMetaWithID(immutableProperties[keyName]);
+                                        metaQueryResult.then(function (item) {
+                                            const data = JSON.parse(item);
+                                            let myElement = "";
+                                            let metaValue = Helper.FetchMetaValue(data, immutableProperties[keyName])
+                                            myElement = <span>{metaValue}</span>;
+                                            ReactDOM.render(myElement, document.getElementById(`immutable_order` + index + `${index1}`));
+                                        });
+                                    }
+                                })
+                                mutableKeys.map((keyName, index1) => {
+                                    if (mutableProperties[keyName] !== "") {
+                                        const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
+                                        metaQueryResult.then(function (item) {
+                                            const data = JSON.parse(item);
+                                            let myElement = "";
+                                            let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName])
+                                            myElement = <span>{metaValue}</span>;
+                                            ReactDOM.render(myElement, document.getElementById(`mutable_order` + index + `${index1}`));
+                                        });
+                                    }
+                                })
                             })
-                        })
-                    } else {
-                        console.log("no orders found")
-                    }
-                })
-
+                        } else {
+                            console.log("no orders found")
+                        }
+                    })
+                }
             })
         }
         fetchOrder();
