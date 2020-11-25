@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Tabs, Tab, Button, Modal} from "react-bootstrap";
 import {Maintainers, Identities, Assets, Orders, Marketplace} from "../actions/views"
-import {Reveal} from "../actions/forms"
+import {Reveal, SendCoin} from "../actions/forms"
 import axios from "axios";
 import {getFaucet} from "../constants/url";
 
@@ -26,21 +26,31 @@ const ActionsSwitcher = () => {
     useEffect(() => {
         axios.get(url)
             .then((response) => {
-                setAccountResponse(response.data.result.value.address)
+                setAccountResponse(response.data.result.value)
             }).catch((error) => {
-            console.log(error, " error section")
+            console.log(error, "error section")
         });
-    })
+    }, [])
     const handleClose = () => {
         setShow(false);
     };
     return (
         <div className="container">
-            <Button onClick={() => handleRoute("Reveal")}>Reveal Meta</Button>
-            {accountResponse == "" ?
-                <Button onClick={handleFaucet}>Faucet</Button>
-                : ""
-            }
+            <div className="tabs-top-bar">
+                <div className="buttons">
+                    <Button onClick={() => handleRoute("Reveal")}>Reveal Meta</Button>
+                    <Button onClick={() => handleRoute("SendCoin")}>Send Coin</Button>
+                    {accountResponse.address == "" ?
+                        <Button onClick={handleFaucet}>Faucet</Button>
+                        : ""
+                    }
+                </div>
+                {accountResponse.coins ? <p>
+                        Amount: {accountResponse.coins[0].amount}
+                    </p>
+                    : "0"
+                }
+            </div>
             <Tabs
                 id="controlled-tab-example"
                 activeKey={key}
@@ -74,6 +84,10 @@ const ActionsSwitcher = () => {
                 }
                 {externalComponent === 'Faucet' ?
                     <Faucet/> :
+                    null
+                }
+                {externalComponent === 'SendCoin' ?
+                    <SendCoin/> :
                     null
                 }
             </Modal>

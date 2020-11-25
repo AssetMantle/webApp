@@ -59,7 +59,6 @@ const Maintainers = () => {
                 <div className="row row-cols-1 row-cols-md-2 card-deck ">
                     {maintainersList.map((maintainer, index) => {
                         const maintainerPropertyList = Helper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList)
-                        console.log(maintainer, "maintainer")
                         let keys = Object.keys(maintainerPropertyList);
                         return (<div className="col-md-6" key={index}>
                                 <div className="card">

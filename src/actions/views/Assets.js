@@ -53,7 +53,6 @@ const Assets = () => {
                                 const filterAssetList = assetsQuery.queryAssetWithID(ownableID);
                                 filterAssetList.then(function (Asset) {
                                     const parsedAsset = JSON.parse(Asset);
-                                    console.log(parsedAsset, "parsedAsset")
                                     if(parsedAsset.result.value.assets.value.list !== null) {
                                         const assetId = Helper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
                                         if (ownableID === assetId) {

@@ -181,7 +181,7 @@ padding: 0;
 }
 
 .text-muted.show{
-display: show;
+display: block;
 }
 
 
@@ -200,4 +200,14 @@ display: show;
 
 .submitButtonSection{
     margin-top: 10px;
+}
+
+.tabs-top-bar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    p{
+        margin: 0;
+        color: #fff;
+    }
 }
