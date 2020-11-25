@@ -97,6 +97,7 @@ const IssueIdentity = () => {
                     const mutableType = mutable.value.fact.value.type;
                     const mutableName = mutable.value.id.value.idString;
                     const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
+                    console.log(mutableFieldValue, "mutableFieldValue")
                     const inputName = `${mutableName}|${mutableType}${index}`
 
                     const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
@@ -113,9 +114,8 @@ const IssueIdentity = () => {
                 immutableList.map((immutable, index) => {
                     const immutableType = immutable.value.fact.value.type;
                     const immutableName = immutable.value.id.value.idString;
-                    const immutableFieldValue = inputValues[`${immutableName}|${immutableType}${index}`]
                     const immutableInputName = `${immutableName}|${immutableType}${index}`
-
+                    const immutableFieldValue = document.getElementById(`IssueIdentity${immutableName}|${immutableType}${index}`).value;
                     const ImmutableMetaValuesResponse = Helper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
                     if (ImmutableMetaValuesResponse[0] !== "") {
                         immutableValues = ImmutableMetaValuesResponse[0];
