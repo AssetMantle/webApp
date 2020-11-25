@@ -27,19 +27,20 @@ const Maintainers = () => {
             identities.then(function (item) {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
-                const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
-                const maintainersData = maintainersQuery.queryMaintainerWithID("all")
-                maintainersData.then(function (item) {
-                    const parsedMaintainersData = JSON.parse(item);
-                    const maintainersDataList = parsedMaintainersData.result.value.maintainers.value.list;
-                    if (maintainersDataList) {
-                        const filterMaintainersByIdentity = Helper.FilterMaintainersByIdentity(filterIdentities, maintainersDataList)
-                        setMaintainersList(filterMaintainersByIdentity);
-                    } else {
-                        console.log("no maintainers found")
-                    }
-                })
-
+                if(dataList) {
+                    const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
+                    const maintainersData = maintainersQuery.queryMaintainerWithID("all")
+                    maintainersData.then(function (item) {
+                        const parsedMaintainersData = JSON.parse(item);
+                        const maintainersDataList = parsedMaintainersData.result.value.maintainers.value.list;
+                        if (maintainersDataList) {
+                            const filterMaintainersByIdentity = Helper.FilterMaintainersByIdentity(filterIdentities, maintainersDataList)
+                            setMaintainersList(filterMaintainersByIdentity);
+                        } else {
+                            console.log("no maintainers found")
+                        }
+                    })
+                }
             })
         }
         fetchOrder();

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Tabs, Tab, Button, Modal} from "react-bootstrap";
 import {Maintainers, Identities, Assets, Orders, Marketplace} from "../actions/views"
-import {Faucet, Reveal} from "../actions/forms"
+import {Reveal} from "../actions/forms"
 import axios from "axios";
 import {getFaucet} from "../constants/url";
 
@@ -15,6 +15,13 @@ const ActionsSwitcher = () => {
         setShow(true);
         setExternalComponent(route)
     }
+
+    const handleFaucet = () => {
+        const userAddress = localStorage.getItem('address');
+        axios.post(process.env.REACT_APP_FAUCET_SERVER + "/faucetRequest", {address: userAddress})
+            .then(response => console.log(response)).catch(err => console.log(err))
+    };
+
     const url = getFaucet(userAddress);
     useEffect(() => {
         axios.get(url)
@@ -26,13 +33,12 @@ const ActionsSwitcher = () => {
     })
     const handleClose = () => {
         setShow(false);
-
     };
     return (
         <div className="container">
             <Button onClick={() => handleRoute("Reveal")}>Reveal Meta</Button>
-            {accountResponse !== "" ?
-                <Button onClick={() => handleRoute("Faucet")}>Faucet</Button>
+            {accountResponse == "" ?
+                <Button onClick={handleFaucet}>Faucet</Button>
                 : ""
             }
             <Tabs

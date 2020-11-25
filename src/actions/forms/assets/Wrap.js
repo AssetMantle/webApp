@@ -25,7 +25,7 @@ const Wrap = (props) => {
             setResponse(data)
             console.log(data, "result WrapResponse")
         })
-    };
+    };  
 
     return (
         <div className="accountInfo">
