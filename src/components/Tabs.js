@@ -18,7 +18,7 @@ const ActionsSwitcher = () => {
 
     const handleFaucet = () => {
         const userAddress = localStorage.getItem('address');
-        axios.post(process.env.REACT_APP_FAUCET_SERVER + "/faucetRequest", {address: userAddress}, { crossDomain: true })
+        axios.post(process.env.REACT_APP_FAUCET_SERVER + "/faucetRequest", {address: userAddress})
             .then(response => console.log(response)).catch(err => console.log(err))
     };
 
