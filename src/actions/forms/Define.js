@@ -7,7 +7,7 @@ const Define = (props) => {
     const [dataTypeOption, setDataTypeOption] = useState("S|");
     const [typeOption, setTypeOption] = useState("identity");
     const [mutableStyle, setMutableStyle] = useState("ERC20");
-
+    const [response, setResponse] = useState({});
     const [mutableProperties, setMutableProperties] = useState([]);
     const [mutableMetaProperties, setMutableMetaProperties] = useState([]);
     const [immutableProperties, setImmutableProperties] = useState([]);
@@ -56,55 +56,64 @@ const Define = (props) => {
         let mutableMetaPropertyValue = ""
         let immutablePropertyValue = ""
         let immutableMetaPropertyValue = ""
-        if (mutableProperties.length !== 0) {
             mutableProperties.map((mutableProperty, idx) => {
                 const checkError = Helper.DataTypeValidation(idx, inputValues, 'Mutable');
                 Helper.showHideDataTypeError(checkError, `Mutable${idx}`);
             })
             mutablePropertyValue = Helper.MutablePropertyValues(mutableProperties, inputValues);
-        }
-        if (mutableMetaProperties.length !== 0) {
             mutableMetaProperties.map((mutableMetaProperty, idx) => {
                 const checkError = Helper.DataTypeValidation(idx, inputValues, 'MutableMeta');
                 Helper.showHideDataTypeError(checkError, `MutableMeta${idx}`);
             })
             mutableMetaPropertyValue = Helper.MutableMetaPropertyValues(mutableMetaProperties, inputValues);
-            if (immutableProperties.length !== 0) {
                 immutableProperties.map((immutableMetaProperty, idx) => {
                     const checkError = Helper.DataTypeValidation(idx, inputValues, 'Immutable');
                     Helper.showHideDataTypeError(checkError, `Immutable${idx}`);
                 })
                 immutablePropertyValue = Helper.ImmutablePropertyValues(immutableProperties, inputValues);
-                if (immutableMetaProperties.length !== 0) {
                     immutableMetaProperties.map((immutableMetaProperty, idx) => {
                         const checkError = Helper.DataTypeValidation(idx, inputValues, 'ImmutableMeta');
                         Helper.showHideDataTypeError(checkError, `ImmutableMeta${idx}`);
                     })
                     immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableMetaProperties, inputValues);
                     if (typeOption === 'asset') {
-                        mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + assetSpecificMutables;
+                        if(mutableMetaPropertyValue) {
+                            mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + assetSpecificMutables;
+                        }else {
+                            mutableMetaPropertyValue = assetSpecificMutables;
+                        }
                     }
                     if (typeOption === 'order') {
-                        mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + orderSpecificMutables;
+                        if(mutableMetaPropertyValue) {
+                            mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + orderSpecificMutables;
+                        }else {
+                            mutableMetaPropertyValue = orderSpecificMutables;
+                        }
                     }
-                    immutablePropertyValue = immutablePropertyValue + ',' + staticImmutables;
-                    immutableMetaPropertyValue = immutableMetaPropertyValue + ',' + staticImmutableMeta;
-                    const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
+                    if(immutablePropertyValue) {
+                        immutablePropertyValue = immutablePropertyValue + ',' + staticImmutables;
+                    }else {
+                        immutablePropertyValue = staticImmutables;
+                    }
+                    if(immutableMetaPropertyValue) {
+                        immutableMetaPropertyValue = immutableMetaPropertyValue + ',' + staticImmutableMeta;
+                    }else {
+                        immutableMetaPropertyValue = staticImmutableMeta;
+                    }
+                    if(mutablePropertyValue !== "") {
+                        if(mutableMetaPropertyValue !== "") {
+                            const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
+                            defineIdentityResult.then(function (item) {
+                                setResponse(item)
+                                console.log(item, "result define Identity")
+                            })
+                        }else {
+                            console.log("add Mutable Meta property")
+                        }
+                    }else {
+                        console.log("add mutable property")
+                    }
 
-                    defineIdentityResult.then(function (item) {
-                        console.log(item, "result define Identity")
-                        setDataResponse(item)
-                    })
-                } else {
-                    console.log("fill immutabale metas")
-                }
-            } else {
-                console.log("fill immutabale")
-            }
-        } else {
-            console.log("fill mutabale metas")
-        }
-        setShow(false);
     }
 
     const handleMutableProperties = () => {
@@ -259,7 +268,7 @@ const Define = (props) => {
                                 name="MutabletakerID"
                                 required={true}
                                 placeholder="takerID"
-                                label="Mutable takerID:D|"
+                                label="takerID:D|"
                                 value={-1}
                                 disabled={true}
                             />
@@ -445,6 +454,11 @@ const Define = (props) => {
                             Submit
                         </Button>
                     </div>
+                    {response.code ?
+                        <p> {response.raw_log}</p>
+                        :
+                        <p> {response.txhash}</p>
+                    }
                 </form>
             </Modal.Body>
         </div>

@@ -67,7 +67,7 @@ const Maintainers = () => {
                                                 onClick={() => handleModalData('BurnAsset', maintainer)}>Deputize</Button>
                                         </div> : ""
                                     }
-                                    <a href="#" key={index}>{maintainer.value.id.value.classificationID.value.idString}|{maintainer.value.id.value.identityID.value.idString}</a>
+                                    <a href="#" key={index}>{maintainer.value.id.value.classificationID.value.idString}*{maintainer.value.id.value.identityID.value.idString}</a>
                                     {
                                         keys.map((keyName) => {
                                             return (
