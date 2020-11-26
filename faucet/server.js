@@ -7,6 +7,7 @@ const port = 5000
 const cors = require('cors')
 
 app.use(cors())
+app.options('*', cors());
 app.use(express.json());       // to support JSON-encoded bodies
 app.post('/faucetRequest', (req, res) => {
 
@@ -17,6 +18,6 @@ app.post('/faucetRequest', (req, res) => {
 
 iterator.runner()
 
-app.listen(port, "0.0.0.0",() => {
+app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
