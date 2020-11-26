@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react";
-import ReactDOM from 'react-dom';
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
 import identitiesDefineJS from "persistencejs/transaction/identity/define";
 import Helpers from "../../utilities/Helper";
@@ -44,30 +43,8 @@ const Identities = () => {
                         }
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
-                        immutableKeys.map((keyName, index1) => {
-                            if (immutableProperties[keyName] !== "") {
-                                const metaQueryResult = metasQuery.queryMetaWithID(immutableProperties[keyName]);
-                                metaQueryResult.then(function (item) {
-                                    const data = JSON.parse(item);
-                                    let myElement = "";
-                                    let metaValue = Helper.FetchMetaValue(data, immutableProperties[keyName])
-                                    myElement = <span>{metaValue}</span>;
-                                    ReactDOM.render(myElement, document.getElementById(`immutable_identityList` + index + `${index1}`));
-                                });
-                            }
-                        })
-                        mutableKeys.map((keyName, index1) => {
-                            if (mutableProperties[keyName] !== "") {
-                                const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
-                                metaQueryResult.then(function (item) {
-                                    const data = JSON.parse(item);
-                                    let myElement = "";
-                                    let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName])
-                                    myElement = <span>{metaValue}</span>;
-                                    ReactDOM.render(myElement, document.getElementById(`mutable_identityList` + index + `${index1}`));
-                                });
-                            }
-                        })
+                        Helper.AssignMetaValue(immutableKeys,immutableProperties, metasQuery, 'immutable_identityList', index);
+                        Helper.AssignMetaValue(mutableKeys,mutableProperties, metasQuery, 'mutable_identityList', index);
                     })
                 } else {
                     console.log("no identities found")

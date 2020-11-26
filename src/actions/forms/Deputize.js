@@ -4,17 +4,12 @@ import {Form, Button, Modal} from "react-bootstrap";
 import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
 
 const deputizeMaintainer = new deputizeJS(process.env.REACT_APP_ASSET_MANTLE_API)
-
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const Deputize = (props) => {
-    const [show, setShow] = useState(false);
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     const [response, setResponse] = useState({});
     const [mutableList, setMutableList] = useState([]);
-    const [externalComponent, setExternalComponent] = useState("");
-    const handleClose = () => {
-        setShow(false);
-    };
+
     useEffect(() => {
         const classificationId = props.maintainerData.value.id.value.classificationID.value.idString
         const classificationResponse = classificationsQuery.queryClassificationWithID(classificationId)
@@ -63,7 +58,6 @@ const Deputize = (props) => {
     };
     return (
         <div className="accountInfo">
-
             <Modal.Header closeButton>
                 Deputize
             </Modal.Header>

@@ -19,35 +19,35 @@ const LoginMnemonic = () => {
     }
 
     return (
-            <div className="accountInfo">
-                <Modal.Header closeButton>
-                    Login with mnemonic
-                </Modal.Header>
+        <div className="accountInfo">
+            <Modal.Header closeButton>
+                Login with mnemonic
+            </Modal.Header>
+            <Modal.Body>
+                <Form onSubmit={handleSubmit}>
+                    <Form.Label>Mnemonic</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="mnemonic"
+                        placeholder="Enter Mnemonic"
+                        required={true}
+                    />
+                    <div className="submitButtonSection">
+                        <Button
+                            variant="primary"
+                            type="submit"
+                        >
+                            Submit
+                        </Button>
+                    </div>
+                </Form>
+            </Modal.Body>
+            <Modal show={show} onHide={handleClose} centered>
                 <Modal.Body>
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Label>Mnemonic</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="mnemonic"
-                            placeholder="Enter Mnemonic"
-                            required={true}
-                        />
-                        <div className="submitButtonSection">
-                            <Button
-                                variant="primary"
-                                type="submit"
-                            >
-                                Submit
-                            </Button>
-                        </div>
-                    </Form>
-                </Modal.Body>
-                <Modal show={show} onHide={handleClose}  centered>
-                    <Modal.Body>
 
-                    </Modal.Body>
-                </Modal>
-            </div>
+                </Modal.Body>
+            </Modal>
+        </div>
     );
 }
 export default LoginMnemonic

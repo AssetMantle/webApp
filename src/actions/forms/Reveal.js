@@ -1,18 +1,11 @@
 import React, {useState, useEffect} from "react";
 import RevealMetaJS from "persistencejs/transaction/meta/reveal";
 import {Form, Button, Modal} from "react-bootstrap";
-import { useHistory } from "react-router-dom";
 import InputField from "../../components/inputField";
 const RevealMeta = new RevealMetaJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Reveal = () => {
-    const history = useHistory();
-    const [show, setShow] = useState(false);
     const [dataTypeOption, setDataTypeOption] = useState("S|");
-    const handleClose = () => {
-        setShow(false);
-    };
-
     const handleSelectChange = evt => {
         setDataTypeOption(evt.target.value);
     }
@@ -21,7 +14,6 @@ const Reveal = () => {
         event.preventDefault();
         const MutableDataName = event.target.MutableDataName.value;
         const metaFact = dataTypeOption + MutableDataName
-        console.log(metaFact, "Dataoption")
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
         const RevealMetaResponse = RevealMeta.reveal(userAddress, "test", userTypeToken, metaFact, 25, "stake", 200000, "block");

@@ -5,12 +5,6 @@ import {Form, Button, Modal} from "react-bootstrap";
 const takeOrder = new TakeOrderJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const TakeOrder = (props) => {
-    const [show, setShow] = useState(false);
-    const handleClose = () => {
-        setShow(false);
-        window.location.reload();
-    };
-
     const handleSubmit = (event) => {
         event.preventDefault();
         const orderId = props.id;

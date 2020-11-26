@@ -13,7 +13,6 @@ const BurnAsset = (props) => {
         setShow(false);
     };
 
-
     const handleSubmit = (event) => {
         event.preventDefault();
         const asset = props.asset;
@@ -31,7 +30,6 @@ const BurnAsset = (props) => {
 
     return (
         <div className="accountInfo">
-
             <Modal.Header closeButton>
                 Burn Asset
             </Modal.Header>

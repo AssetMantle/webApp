@@ -6,12 +6,7 @@ import InputField from "../../../components/inputField"
 const identitiesProvision = new identitiesProvisionJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Provision = (props) => {
-    const [show, setShow] = useState(false);
     const [response, setResponse] = useState({});
-    const handleClose = () => {
-        setShow(false);
-        window.location.reload();
-    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -29,7 +24,6 @@ const Provision = (props) => {
 
     return (
         <div className="accountInfo">
-
             <Modal.Header closeButton>
                 Provision
             </Modal.Header>

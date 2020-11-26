@@ -1,13 +1,10 @@
 import React, {useState, useEffect} from "react";
-import {useHistory} from "react-router-dom";
 import {Modal, Form, Button} from "react-bootstrap";
 import SendCoinJS from "persistencejs/transaction/bank/sendCoin";
 
 const SendCoinQuery = new SendCoinJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const SendCoin = () => {
-    const history = useHistory();
     const [response, setResponse] = useState({});
-
     const handleSubmit = (event) => {
         event.preventDefault();
         const denom = event.target.denom.value;

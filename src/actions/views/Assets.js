@@ -10,7 +10,6 @@ import {MintAsset, MutateAsset, BurnAsset, Wrap, UnWrap} from "../forms/assets";
 import AssetDefineJS from "persistencejs/transaction/assets/define";
 import {Define} from "../forms";
 import {MakeOrder} from "../forms/orders";
-import loader from "../../assets/images/loader.svg"
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -67,30 +66,8 @@ const Assets = () => {
                                             }
                                             let immutableKeys = Object.keys(immutableProperties);
                                             let mutableKeys = Object.keys(mutableProperties);
-                                            immutableKeys.map((keyName, index1) => {
-                                                if (immutableProperties[keyName] !== "") {
-                                                    const metaQueryResult = metasQuery.queryMetaWithID(immutableProperties[keyName]);
-                                                    metaQueryResult.then(function (item) {
-                                                        const data = JSON.parse(item);
-                                                        let myElement = "";
-                                                        let metaValue = Helper.FetchMetaValue(data, immutableProperties[keyName])
-                                                        myElement = <span>{metaValue}</span>;
-                                                        ReactDOM.render(myElement, document.getElementById(`immutable_asset` + index + `${index1}`));
-                                                    });
-                                                }
-                                            })
-                                            mutableKeys.map((keyName, index1) => {
-                                                if (mutableProperties[keyName] !== "") {
-                                                    const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
-                                                    metaQueryResult.then(function (item) {
-                                                        const data = JSON.parse(item);
-                                                        let myElement = "";
-                                                        let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName])
-                                                        myElement = <span>{metaValue}</span>;
-                                                        ReactDOM.render(myElement, document.getElementById(`mutable_asset` + index + `${index1}`));
-                                                    })
-                                                }
-                                            })
+                                            Helper.AssignMetaValue(immutableKeys,immutableProperties, metasQuery, 'immutable_asset', index);
+                                            Helper.AssignMetaValue(mutableKeys,mutableProperties, metasQuery, 'mutable_asset', index);
                                         }
                                     }
                                 })
@@ -111,8 +88,8 @@ const Assets = () => {
         setAssetId(assetId1)
         setShowAsset(true);
         setExternalComponent(formName)
-
     }
+
     return (
         <div className="container">
             <div className="accountInfo">
@@ -133,7 +110,7 @@ const Assets = () => {
                         </Dropdown.Menu>
                     </Dropdown>
                     {splitList.map((split, index) => {
-                        let ownableID = Helper.GetIdentityOwnableId(split)
+                        const ownableID = Helper.GetIdentityOwnableId(split)
                         let ownableId = split.value.id.value.ownableID.value.idString;
                         let ownerId = split.value.id.value.ownerID.value.idString;
                         let stake = split.value.split;

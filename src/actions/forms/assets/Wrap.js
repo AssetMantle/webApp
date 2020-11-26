@@ -1,16 +1,11 @@
 import React, {useState, useEffect} from "react";
 import WrapJS from "persistencejs/transaction/splits/wrap";
 import {Form, Button, Modal} from "react-bootstrap";
-import {useHistory} from "react-router-dom";
 
 const WrapQuery = new WrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Wrap = (props) => {
-    const [show, setShow] = useState(false);
     const [response, setResponse] = useState({});
-    const handleClose = () => {
-        setShow(false);
-    };
 
     const handleSubmit = (event) => {
         event.preventDefault();

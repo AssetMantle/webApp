@@ -8,12 +8,6 @@ const ordersCancel = new ordersCancelJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const CancelOrder = (props) => {
     const Helper = new Helpers();
     const [response, setResponse] = useState({});
-    const [show, setShow] = useState(false);
-    const handleClose = () => {
-        setShow(false);
-        window.location.reload();
-    };
-
     const handleSubmit = (event) => {
         event.preventDefault();
         const userTypeToken = localStorage.getItem('mnemonic');
@@ -28,7 +22,6 @@ const CancelOrder = (props) => {
 
     return (
         <div className="accountInfo">
-
             <Modal.Header closeButton>
                 Cancel
             </Modal.Header>

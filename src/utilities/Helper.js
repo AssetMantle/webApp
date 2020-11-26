@@ -1,3 +1,6 @@
+import ReactDOM from "react-dom";
+import React from "react";
+
 export default class Helper {
 
     GetIdentityID(identity) {
@@ -67,13 +70,6 @@ export default class Helper {
             ownableIdList.push($this.GetIdentityOwnableId(identity));
         })
         return ownableIdList;
-        //
-        //
-        // identities.forEach(function (identity) {
-        //     ownableIdList.push(identity.value.id.value.ownableID.value.idString)
-        //     return ownableIdList;
-        // })
-        // return ownableIdList;
     }
 
     FetchMetaValue(data, hash) {
@@ -283,5 +279,22 @@ export default class Helper {
             })
         }
     }
+
+    AssignMetaValue(keys,properties, metasQuery, idPrefix, index){
+        let $this = this
+        keys.map((keyName, index1) => {
+            if (properties[keyName] !== "") {
+                const metaQueryResult = metasQuery.queryMetaWithID(properties[keyName]);
+                metaQueryResult.then(function (item) {
+                    const data = JSON.parse(item);
+                    let myElement = "";
+                    let metaValue = $this.FetchMetaValue(data, properties[keyName])
+                    myElement = <span>{metaValue}</span>;
+                    ReactDOM.render(myElement, document.getElementById(idPrefix + index + `${index1}`));
+                });
+            }
+        })
+    }
+
 }
 

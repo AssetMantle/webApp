@@ -6,13 +6,7 @@ import InputField from "../../../components/inputField"
 const identitiesNub = new identitiesNubJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Nub = () => {
-    const [show, setShow] = useState(false);
     const [response, setResponse] = useState({});
-    const handleClose = () => {
-        setShow(false);
-        window.location.reload();
-    };
-
 
     const handleSubmit = (event) => {
         event.preventDefault();

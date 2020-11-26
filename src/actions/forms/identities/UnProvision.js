@@ -5,14 +5,10 @@ import {Form, Button, Modal} from "react-bootstrap";
 const identitiesUnprovision = new identitiesUnprovisionJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const UnProvision = (props) => {
-    const [show, setShow] = useState(false);
     const [response, setResponse] = useState({});
     const [selectedAddress, setSelectedAddress] = useState("");
     const [provisionAddressList, setProvisionAddressList] = useState([]);
-    const handleClose = () => {
-        setShow(false);
-        window.location.reload();
-    };
+
     useEffect(() => {
         const provisionedAddressList = props.identityIdList.value.provisionedAddressList;
         provisionedAddressList.map((address) => {
@@ -42,12 +38,12 @@ const UnProvision = (props) => {
         <div className="accountInfo">
 
             <Modal.Header closeButton>
-                Provision
+                UnProvision
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>New Address to Provision</Form.Label>
+                        <Form.Label>Address to Provision</Form.Label>
                         <Form.Control
                             as="select"
                             name="selectAddress"

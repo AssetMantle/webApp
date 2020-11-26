@@ -8,7 +8,6 @@ import {Deputize} from "../forms";
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const maintainersQuery = new maintainersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
-
 const Maintainers = () => {
     const Helper = new Helpers();
     const [maintainersList, setMaintainersList] = useState([]);
@@ -68,7 +67,7 @@ const Maintainers = () => {
                                                 onClick={() => handleModalData('BurnAsset', maintainer)}>Deputize</Button>
                                         </div> : ""
                                     }
-                                    <a href="#" key={index}>{maintainer.value.id.value.classificationID.value.idString}|{maintainer.value.id.value.identityID.value.idString}</a>
+                                    <a href="#" key={index}>{maintainer.value.id.value.classificationID.value.idString}*{maintainer.value.id.value.identityID.value.idString}</a>
                                     {
                                         keys.map((keyName) => {
                                             return (
