@@ -3,8 +3,6 @@ import ordersQueryJS from "persistencejs/transaction/orders/query";
 import Helpers from "../../utilities/Helper";
 import {Button, Modal} from "react-bootstrap";
 import {TakeOrder} from "../forms/orders";
-import ReactDOM from "react-dom";
-
 import metasQueryJS from "persistencejs/transaction/meta/query";
 
 const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -39,30 +37,8 @@ const Marketplace = () => {
                         }
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
-                        immutableKeys.map((keyName, index1) => {
-                            if (immutableProperties[keyName] !== "") {
-                                const metaQueryResult = metasQuery.queryMetaWithID(immutableProperties[keyName]);
-                                metaQueryResult.then(function (item) {
-                                    const data = JSON.parse(item);
-                                    let myElement = "";
-                                    let metaValue = Helper.FetchMetaValue(data, immutableProperties[keyName])
-                                    myElement = <span>{metaValue}</span>;
-                                    ReactDOM.render(myElement, document.getElementById(`immutable_order` + index + `${index1}`));
-                                });
-                            }
-                        })
-                        mutableKeys.map((keyName, index1) => {
-                            if (mutableProperties[keyName] !== "") {
-                                const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
-                                metaQueryResult.then(function (item) {
-                                    const data = JSON.parse(item);
-                                    let myElement = "";
-                                    let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName])
-                                    myElement = <span>{metaValue}</span>;
-                                    ReactDOM.render(myElement, document.getElementById(`mutable_order` + index + `${index1}`));
-                                });
-                            }
-                        })
+                        Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_market', index);
+                        Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_market', index);
                     })
                 } else {
                     console.log("no orders found")
@@ -107,7 +83,7 @@ const Marketplace = () => {
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
                                                 return (<a key={index + keyName}><b>{keyName} </b>: <span
-                                                    id={`immutable_order` + index + `${index1}`}></span></a>)
+                                                    id={`immutable_order_market` + index + `${index1}`}></span></a>)
                                             } else {
                                                 return (
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
@@ -121,7 +97,7 @@ const Marketplace = () => {
                                         mutableKeys.map((keyName, index1) => {
                                             if (mutableProperties[keyName] !== "") {
                                                 return (<a key={index + keyName}><b>{keyName} </b>: <span
-                                                    id={`mutable_order` + index + `${index1}`}></span></a>)
+                                                    id={`mutable_order_market` + index + `${index1}`}></span></a>)
                                             } else {
                                                 return (
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)

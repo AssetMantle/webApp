@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import ordersQueryJS from "persistencejs/transaction/orders/query";
 import Helpers from "../../utilities/Helper";
-import ReactDOM from 'react-dom';
 import {Modal, Button, Dropdown} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
@@ -52,30 +51,8 @@ const Orders = () => {
                                 }
                                 let immutableKeys = Object.keys(immutableProperties);
                                 let mutableKeys = Object.keys(mutableProperties);
-                                immutableKeys.map((keyName, index1) => {
-                                    if (immutableProperties[keyName] !== "") {
-                                        const metaQueryResult = metasQuery.queryMetaWithID(immutableProperties[keyName]);
-                                        metaQueryResult.then(function (item) {
-                                            const data = JSON.parse(item);
-                                            let myElement = "";
-                                            let metaValue = Helper.FetchMetaValue(data, immutableProperties[keyName])
-                                            myElement = <span>{metaValue}</span>;
-                                            ReactDOM.render(myElement, document.getElementById(`immutable_order` + index + `${index1}`));
-                                        });
-                                    }
-                                })
-                                mutableKeys.map((keyName, index1) => {
-                                    if (mutableProperties[keyName] !== "") {
-                                        const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
-                                        metaQueryResult.then(function (item) {
-                                            const data = JSON.parse(item);
-                                            let myElement = "";
-                                            let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName])
-                                            myElement = <span>{metaValue}</span>;
-                                            ReactDOM.render(myElement, document.getElementById(`mutable_order` + index + `${index1}`));
-                                        });
-                                    }
-                                })
+                                Helper.AssignMetaValue(immutableKeys,immutableProperties, metasQuery, 'immutable_order', index);
+                                Helper.AssignMetaValue(mutableKeys,mutableProperties, metasQuery, 'mutable_order', index);
                             })
                         } else {
                             console.log("no orders found")

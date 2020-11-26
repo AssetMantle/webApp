@@ -1,12 +1,9 @@
 import React, {useState, useCallback} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
-import {useHistory} from "react-router-dom";
 import keyUtils from "persistencejs/utilities/keys";
 import DownloadLink from "react-download-link";
 
 const SignUp = ({currentState, onShowChange}) => {
-    const history = useHistory();
-    const [show, setShow] = useState(false);
     const [jsonName, getJsonname] = useState({});
     const [showEncrypt, setShowEncrypt] = useState(false);
     const [mnemonic, setMnemonic] = useState("");

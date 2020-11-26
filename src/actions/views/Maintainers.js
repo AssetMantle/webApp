@@ -8,7 +8,6 @@ import {Deputize} from "../forms";
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const maintainersQuery = new maintainersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
-
 const Maintainers = () => {
     const Helper = new Helpers();
     const [maintainersList, setMaintainersList] = useState([]);

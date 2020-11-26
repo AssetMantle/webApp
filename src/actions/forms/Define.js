@@ -4,15 +4,10 @@ import Helpers from "../../utilities/Helper"
 import InputField from "../../components/inputField"
 const Define = (props) => {
     const Helper = new Helpers();
-    const [show, setShow] = useState(false);
     const [dataTypeOption, setDataTypeOption] = useState("S|");
     const [typeOption, setTypeOption] = useState("identity");
     const [mutableStyle, setMutableStyle] = useState("ERC20");
-    const [dataResponse, setDataResponse] = useState({});
-    const handleClose = () => {
-        setShow(false);
-        window.location.reload();
-    };
+
     const [mutableProperties, setMutableProperties] = useState([]);
     const [mutableMetaProperties, setMutableMetaProperties] = useState([]);
     const [immutableProperties, setImmutableProperties] = useState([]);

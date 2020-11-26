@@ -1,38 +1,18 @@
 import React, {useState} from "react";
-import {Modal, Form, Button} from "react-bootstrap";
-import {useHistory} from "react-router-dom";
-import keyUtils from "persistencejs/utilities/keys";
+import {Modal, Button} from "react-bootstrap";
 import {LoginMnemonic, PrivateKey, Ledger} from "./forms/login";
 import {SignUp} from "./forms";
 
 const LoginAction = () => {
-    const history = useHistory();
     const [show, setShow] = useState(false);
-    const [singUpShow, setSingUpShow] = useState(false);
-    const [accountData, setAccountData] = useState({});
     const [externalComponent, setExternalComponent] = useState("");
     const handleClose = () => {
         setShow(false)
     };
-    const handleSubmit = async event => {
-        const error = keyUtils.createWallet(event.target.mnemonic.value)
-        if (error.error != null) {
-            return (<div>ERROR!!</div>)
-        }
-        const wallet = keyUtils.getWallet(event.target.mnemonic.value)
-        localStorage.setItem("address", wallet.address)
-        localStorage.setItem("mnemonic", event.target.mnemonic.value)
-        history.push('/ActionsSwitcher');
-    }
     const handleRoute = (route) => {
         setShow(true);
         setExternalComponent(route)
     };
-    // const handleCreateWallet = () => {
-    //     setSingUpShow(true);
-    //     const walletInfo = keyUtils.createRandomWallet();
-    //     setAccountData(walletInfo)
-    // }
     return (
         <div className="container">
             <div className="accountInfo">
