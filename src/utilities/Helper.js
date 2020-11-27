@@ -261,11 +261,8 @@ export default class Helper {
                 const id = `${FileName}${immutableName}|${immutableType}${index}`
 
                 if (immutableHash !== "" && immutableHash !== null) {
-                    console.log(immutableHash, "Raju")
                     const metaQueryResult = metasQuery.queryMetaWithID(immutableHash);
-
                     metaQueryResult.then(function (item) {
-
                         const data = JSON.parse(JSON.parse(JSON.stringify(item)));
 
                         let metaValue = $this.FetchMetaValue(data, immutableHash)
