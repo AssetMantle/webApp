@@ -9,7 +9,9 @@ const cors = require('cors')
 app.use(cors())
 app.use(express.json());       // to support JSON-encoded bodies
 app.post('/faucetRequest', (req, res) => {
-
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Methods', 'DELETE, PUT');
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     console.log(req.body.address)
     const response = iterator.handleFaucetRequest(req.body.address)
     res.send(response)

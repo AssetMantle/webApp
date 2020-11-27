@@ -6,12 +6,12 @@ const SendCoinQuery = new SendCoinJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const SendCoin = () => {
     const [response, setResponse] = useState({});
     const handleSubmit = (event) => {
-        event.preventDefault();
+        event.preventDefault();toAddress
+        const toAddress = event.target.toAddress.value;
         const denom = event.target.denom.value;
         const amountData = event.target.amount.value;
         const userTypeToken = localStorage.getItem('mnemonic');
-        const userAddress = localStorage.getItem('address');
-        const sendCoinResponse = SendCoinQuery.sendCoin("test", userTypeToken, userAddress, denom, amountData, 25, "stake", 200000, "block");
+        const sendCoinResponse = SendCoinQuery.sendCoin("test", userTypeToken, toAddress, denom, amountData, 25, "stake", 200000, "block");
         sendCoinResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             setResponse(data)
@@ -28,6 +28,16 @@ const SendCoin = () => {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Label> To Address</Form.Label>
+                        <Form.Control
+                            type="text"
+                            className=""
+                            name="toAddress"
+                            required={true}
+                            placeholder="toAddress"
+                        />
+                    </Form.Group>
                     <Form.Group>
                         <Form.Label>Denom </Form.Label>
                         <Form.Control

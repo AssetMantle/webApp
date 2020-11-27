@@ -268,7 +268,7 @@ const Define = (props) => {
                                 name="MutabletakerID"
                                 required={true}
                                 placeholder="takerID"
-                                label="takerID:D|"
+                                label="takerID:I|"
                                 value={-1}
                                 disabled={true}
                             />
