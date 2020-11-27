@@ -225,7 +225,7 @@ const MakeOrder = (props) => {
                                                 type="text"
                                                 className=""
                                                 name={`${mutableName}|${mutableType}${index}`}
-                                                required={true}
+                                                required={false}
                                                 placeholder="Trait Value"
                                                 onChange={handleChange}
                                             />
