@@ -64,7 +64,7 @@ const Deputize = (props) => {
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>FromId</Form.Label>
+                        <Form.Label>ToId</Form.Label>
                         <Form.Control
                             type="text"
                             className=""
