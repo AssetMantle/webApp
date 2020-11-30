@@ -18,10 +18,7 @@ const ActionsSwitcher = () => {
 
     const handleFaucet = () => {
         const userAddress = localStorage.getItem('address');
-        axios.post(process.env.REACT_APP_FAUCET_SERVER + "/faucetRequest",{
-            data:{address: userAddress},
-            headers: {"Access-Control-Allow-Origin": "*"}
-        })
+        axios.post(process.env.REACT_APP_FAUCET_SERVER + "/faucetRequest", {address: userAddress})
             .then(response => console.log(response)).catch(err => console.log(err))
     };
 
