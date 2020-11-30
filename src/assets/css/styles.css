@@ -1,0 +1,160 @@
+.app {
+  padding-bottom: 124px; }
+
+#root {
+  position: relative;
+  min-height: 100vh; }
+
+.navbar-dark .navbar-nav .nav-link {
+  padding: 1.3rem 1rem !important;
+  font-weight: 500; }
+.navbar-dark .navbar-brand a {
+  font-weight: 500; }
+
+.navbar-dark {
+  padding: 0; }
+  .navbar-dark .navbar-nav .nav-link {
+    padding: 1rem 1rem; }
+
+.btn .btn-outline-info {
+  color: #fff;
+  border: 1px solid #fff; }
+
+.errorText {
+  color: #ff0033;
+  font-size: 0.785rem; }
+
+.address .dropdown-toggle {
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; }
+
+.homeSection {
+  padding-top: 20px; }
+  .homeSection .col-md-3, .homeSection .col-md-6 {
+    color: #fff; }
+    .homeSection .col-md-3:not(:first-child), .homeSection .col-md-6:not(:first-child) {
+      border-left: 1px solid #fff; }
+  .homeSection .col-md-6 {
+    flex: 50%;
+    max-width: 50%; }
+  .homeSection .appInfoBox {
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+    .homeSection .appInfoBox p {
+      width: 70%;
+      font-weight: 500;
+      font-size: 2rem;
+      text-align: center;
+      padding: 50px; }
+
+.createAccountSection {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px; }
+  .createAccountSection .submitButtonSection {
+    text-align: center;
+    margin-top: 30px; }
+
+.card-deck .card {
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  margin-right: 0;
+  margin-left: 0;
+  border-radius: 5px; }
+  .card-deck .card .card-title {
+    text-transform: uppercase; }
+
+.accountInfo {
+  margin-top: 20px; }
+  .accountInfo .tab-content {
+    padding: 15px; }
+    .accountInfo .tab-content form input {
+      width: 300px; }
+  .accountInfo .button {
+    margin-right: 10px; }
+  .accountInfo .signup-box {
+    padding: 50px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    border-radius: 5px; }
+    .accountInfo .signup-box .mrt-10 {
+      margin-top: 10px; }
+    .accountInfo .signup-box .btn-primary:not(:disabled):not(.disabled).active,
+    .accountInfo .signup-box .btn-primary:not(:disabled):not(.disabled):active,
+    .accountInfo .signup-box .show > .btn-primary.dropdown-toggle,
+    .accountInfo .signup-box .btn-primary {
+      background-color: #145827;
+      border-color: #145827;
+      box-shadow: none; }
+    .accountInfo .signup-box .btn.focus, .accountInfo .signup-box .btn:focus {
+      outline: 0;
+      box-shadow: none; }
+
+.pageError {
+  height: calc(100vh - 66px);
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform: -webkit-translate(-50%, -50%);
+  transform: -moz-translate(-50%, -50%);
+  transform: -ms-translate(-50%, -50%);
+  z-index: 1; }
+
+.dropdown-item.active, .dropdown-item:active {
+  background-color: #124623 !important;
+  color: #ccc; }
+
+.Tabs {
+  display: flex;
+  background: #dee2e6; }
+  .Tabs .nav-link {
+    flex: 1;
+    text-align: center; }
+
+.network-check {
+  position: absolute;
+  width: 100%;
+  background: #dee2e6f0;
+  z-index: 1;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+  .network-check .center {
+    text-align: center; }
+  .network-check img {
+    width: 150px; }
+
+.text-muted.show {
+  display: block; }
+
+.text-muted.none {
+  display: none; }
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 30px 0;
+  font-size: 0.875rem;
+  text-align: center; }
+
+.submitButtonSection {
+  margin-top: 10px; }
+
+.tabs-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+  .tabs-top-bar p {
+    margin: 0;
+    color: #fff; }
+
+/*# sourceMappingURL=styles.css.map */

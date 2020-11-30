@@ -1,0 +1,39 @@
+{
+  "name": "assetdapp",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "main": "src/index.js",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.31",
+    "@fortawesome/free-solid-svg-icons": "^5.15.0",
+    "@fortawesome/react-fontawesome": "^0.1.11",
+    "axios": "^0.19.2",
+    "bootstrap": "4.3.1",
+    "history": "^4.10.1",
+    "persistencejs": "https://github.com/persistenceOne/persistenceJS.git#exceptions",
+    "react": "^16.8.6",
+    "react-bootstrap": "^1.4.0",
+    "react-countup": "^4.3.3",
+    "styled-components": "^5.2.1",
+    "react-dom": "^16.8.6",
+    "react-download-link": "^2.3.0",
+    "react-router-dom": "5.2.0",
+    "react-scripts": "^4.0.0"
+  },
+  "devDependencies": {
+    "typescript": "3.3.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
