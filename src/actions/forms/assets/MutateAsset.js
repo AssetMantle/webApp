@@ -10,7 +10,7 @@ const assetMutate = new assetMutateJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const MutateAsset = (props) => {
     const Helper = new Helpers();
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const [keyList, setKeyList] = useState([]);
     const [response, setResponse] = useState({});
     const [mutableProperties, setMutableProperties] = useState([]);
@@ -76,6 +76,7 @@ const MutateAsset = (props) => {
             mutateResponse.then(function (item) {
                 const data = JSON.parse(JSON.stringify(item));
                 setResponse(data)
+                window.location.reload();
                 console.log(data, "mutateResponse")
             })
 
@@ -134,7 +135,7 @@ const MutateAsset = (props) => {
                     }
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            {T("submit")}
+                            {t("submit")}
                         </Button>
                     </div>
                     {response.code ?

@@ -8,7 +8,7 @@ const identitiesProvision = new identitiesProvisionJS(process.env.REACT_APP_ASSE
 
 const Provision = (props) => {
     const [response, setResponse] = useState({});
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const handleSubmit = (event) => {
         event.preventDefault();
         const toAddress = event.target.toAddress.value;
@@ -19,6 +19,7 @@ const Provision = (props) => {
         provisionResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             setResponse(data)
+            window.location.reload();
             console.log(data, "result define Identity")
         })
     };

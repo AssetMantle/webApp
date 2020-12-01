@@ -4,8 +4,10 @@ import {LoginAction} from "./actions";
 import {HomePage, RouteNotFound, Header, ActionsSwitcher} from "./components";
 import offline from "./assets/images/offline.svg";
 import Footer from "./components/Footer"
+import {useTranslation} from "react-i18next";
 
 const App = () => {
+    const {t} = useTranslation();
     const routes = [{
         path: '/',
         component: HomePage,

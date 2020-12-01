@@ -3,6 +3,7 @@ import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../utilities/Helper"
 import InputField from "../../components/inputField"
 import {useTranslation} from "react-i18next";
+
 const Define = (props) => {
     const Helper = new Helpers();
     const [dataTypeOption, setDataTypeOption] = useState("S|");
@@ -57,63 +58,64 @@ const Define = (props) => {
         let mutableMetaPropertyValue = ""
         let immutablePropertyValue = ""
         let immutableMetaPropertyValue = ""
-            mutableProperties.map((mutableProperty, idx) => {
-                const checkError = Helper.DataTypeValidation(idx, inputValues, 'Mutable');
-                Helper.showHideDataTypeError(checkError, `Mutable${idx}`);
-            })
-            mutablePropertyValue = Helper.MutablePropertyValues(mutableProperties, inputValues);
-            mutableMetaProperties.map((mutableMetaProperty, idx) => {
-                const checkError = Helper.DataTypeValidation(idx, inputValues, 'MutableMeta');
-                Helper.showHideDataTypeError(checkError, `MutableMeta${idx}`);
-            })
-            mutableMetaPropertyValue = Helper.MutableMetaPropertyValues(mutableMetaProperties, inputValues);
-                immutableProperties.map((immutableMetaProperty, idx) => {
-                    const checkError = Helper.DataTypeValidation(idx, inputValues, 'Immutable');
-                    Helper.showHideDataTypeError(checkError, `Immutable${idx}`);
+        mutableProperties.map((mutableProperty, idx) => {
+            const checkError = Helper.DataTypeValidation(idx, inputValues, 'Mutable');
+            Helper.showHideDataTypeError(checkError, `Mutable${idx}`);
+        })
+        mutablePropertyValue = Helper.MutablePropertyValues(mutableProperties, inputValues);
+        mutableMetaProperties.map((mutableMetaProperty, idx) => {
+            const checkError = Helper.DataTypeValidation(idx, inputValues, 'MutableMeta');
+            Helper.showHideDataTypeError(checkError, `MutableMeta${idx}`);
+        })
+        mutableMetaPropertyValue = Helper.MutableMetaPropertyValues(mutableMetaProperties, inputValues);
+        immutableProperties.map((immutableMetaProperty, idx) => {
+            const checkError = Helper.DataTypeValidation(idx, inputValues, 'Immutable');
+            Helper.showHideDataTypeError(checkError, `Immutable${idx}`);
+        })
+        immutablePropertyValue = Helper.ImmutablePropertyValues(immutableProperties, inputValues);
+        immutableMetaProperties.map((immutableMetaProperty, idx) => {
+            const checkError = Helper.DataTypeValidation(idx, inputValues, 'ImmutableMeta');
+            Helper.showHideDataTypeError(checkError, `ImmutableMeta${idx}`);
+        })
+        immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableMetaProperties, inputValues);
+        if (typeOption === 'asset') {
+            if (mutableMetaPropertyValue) {
+                mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + assetSpecificMutables;
+            } else {
+                mutableMetaPropertyValue = assetSpecificMutables;
+            }
+        }
+        if (typeOption === 'order') {
+            if (mutableMetaPropertyValue) {
+                mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + orderSpecificMutables;
+            } else {
+                mutableMetaPropertyValue = orderSpecificMutables;
+            }
+        }
+        if (immutablePropertyValue) {
+            immutablePropertyValue = immutablePropertyValue + ',' + staticImmutables;
+        } else {
+            immutablePropertyValue = staticImmutables;
+        }
+        if (immutableMetaPropertyValue) {
+            immutableMetaPropertyValue = immutableMetaPropertyValue + ',' + staticImmutableMeta;
+        } else {
+            immutableMetaPropertyValue = staticImmutableMeta;
+        }
+        if (mutablePropertyValue !== "") {
+            if (mutableMetaPropertyValue !== "") {
+                const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
+                defineIdentityResult.then(function (item) {
+                    setResponse(item)
+                    window.location.reload();
+                    console.log(item, "result define Identity")
                 })
-                immutablePropertyValue = Helper.ImmutablePropertyValues(immutableProperties, inputValues);
-                    immutableMetaProperties.map((immutableMetaProperty, idx) => {
-                        const checkError = Helper.DataTypeValidation(idx, inputValues, 'ImmutableMeta');
-                        Helper.showHideDataTypeError(checkError, `ImmutableMeta${idx}`);
-                    })
-                    immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableMetaProperties, inputValues);
-                    if (typeOption === 'asset') {
-                        if(mutableMetaPropertyValue) {
-                            mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + assetSpecificMutables;
-                        }else {
-                            mutableMetaPropertyValue = assetSpecificMutables;
-                        }
-                    }
-                    if (typeOption === 'order') {
-                        if(mutableMetaPropertyValue) {
-                            mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + orderSpecificMutables;
-                        }else {
-                            mutableMetaPropertyValue = orderSpecificMutables;
-                        }
-                    }
-                    if(immutablePropertyValue) {
-                        immutablePropertyValue = immutablePropertyValue + ',' + staticImmutables;
-                    }else {
-                        immutablePropertyValue = staticImmutables;
-                    }
-                    if(immutableMetaPropertyValue) {
-                        immutableMetaPropertyValue = immutableMetaPropertyValue + ',' + staticImmutableMeta;
-                    }else {
-                        immutableMetaPropertyValue = staticImmutableMeta;
-                    }
-                    if(mutablePropertyValue !== "") {
-                        if(mutableMetaPropertyValue !== "") {
-                            const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
-                            defineIdentityResult.then(function (item) {
-                                setResponse(item)
-                                console.log(item, "result define Identity")
-                            })
-                        }else {
-                            console.log("add Mutable Meta property")
-                        }
-                    }else {
-                        console.log("add mutable property")
-                    }
+            } else {
+                console.log("add Mutable Meta property")
+            }
+        } else {
+            console.log("add mutable property")
+        }
 
     }
 

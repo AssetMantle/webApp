@@ -6,11 +6,11 @@ import {useTranslation} from "react-i18next";
 const WrapQuery = new WrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Wrap = (props) => {
+    const {t} = useTranslation();
     const [response, setResponse] = useState({});
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const { t } = useTranslation();
         const FromId = event.target.FromId.value;
         const CoinDenom = event.target.CoinDenom.value;
         const CoinAmount = event.target.CoinAmount.value;
@@ -20,9 +20,10 @@ const Wrap = (props) => {
         WrapResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             setResponse(data)
+            window.location.reload();
             console.log(data, "result WrapResponse")
         })
-    };  
+    };
 
     return (
         <div className="accountInfo">
@@ -33,7 +34,7 @@ const Wrap = (props) => {
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>{T("FROM_ID")} </Form.Label>
+                        <Form.Label>{t("FROM_ID")} </Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -44,7 +45,7 @@ const Wrap = (props) => {
                     </Form.Group>
 
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>{T("COIN_DENOM")} </Form.Label>
+                        <Form.Label>{t("COIN_DENOM")} </Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -54,7 +55,7 @@ const Wrap = (props) => {
                         />
                     </Form.Group>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>{T("COIN_AMOUNT")}</Form.Label>
+                        <Form.Label>{t("COIN_AMOUNT")}</Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -66,7 +67,7 @@ const Wrap = (props) => {
 
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            {T("SUBMIT")}
+                            {t("SUBMIT")}
                         </Button>
                     </div>
                     {response.code ?

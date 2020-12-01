@@ -38,7 +38,7 @@ const Assets = () => {
             identities.then(function (item) {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
-                if(dataList) {
+                if (dataList) {
                     const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
                     const splits = splitsQuery.querySplitsWithID("all")
 
@@ -54,7 +54,7 @@ const Assets = () => {
                                 const filterAssetList = assetsQuery.queryAssetWithID(ownableID);
                                 filterAssetList.then(function (Asset) {
                                     const parsedAsset = JSON.parse(Asset);
-                                    if(parsedAsset.result.value.assets.value.list !== null) {
+                                    if (parsedAsset.result.value.assets.value.list !== null) {
                                         const assetId = Helper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
                                         if (ownableID === assetId) {
                                             setAssetList(assetList => [...assetList, parsedAsset]);
@@ -68,8 +68,8 @@ const Assets = () => {
                                             }
                                             let immutableKeys = Object.keys(immutableProperties);
                                             let mutableKeys = Object.keys(mutableProperties);
-                                            Helper.AssignMetaValue(immutableKeys,immutableProperties, metasQuery, 'immutable_asset', index);
-                                            Helper.AssignMetaValue(mutableKeys,mutableProperties, metasQuery, 'mutable_asset', index);
+                                            Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset', index);
+                                            Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset', index);
                                         }
                                     }
                                 })
@@ -102,11 +102,11 @@ const Assets = () => {
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             <Dropdown.Item onClick={() => handleModalData("DefineAsset")}>{t("DEFINE_ASSET")}
-                                </Dropdown.Item>
+                            </Dropdown.Item>
                             <Dropdown.Item onClick={() => handleModalData("MintAsset")}>{t("MINT_ASSET")}
-                                </Dropdown.Item>
+                            </Dropdown.Item>
                             <Dropdown.Item onClick={() => handleModalData("Wrap")}>{t("WRAP")}
-                                </Dropdown.Item>
+                            </Dropdown.Item>
                             <Dropdown.Item onClick={() => handleModalData("UnWrap")}>{t("UN_WRAP")}
                             </Dropdown.Item>
                         </Dropdown.Menu>
@@ -145,11 +145,11 @@ const Assets = () => {
                                                     <div key={assetIndex}>
                                                         <div>
                                                             <Button variant="secondary"
-                                                                    onClick={() => handleModalData("MutateAsset", mutableProperties, asset)}>Mutate
-                                                                Asset</Button>
+                                                                    onClick={() => handleModalData("MutateAsset", mutableProperties, asset)}>{t("MUTATE_ASSET")}
+                                                                </Button>
                                                             <Button variant="secondary"
-                                                                    onClick={() => handleModalData("BurnAsset", "", asset)}>Burn
-                                                                Asset</Button>
+                                                                    onClick={() => handleModalData("BurnAsset", "", asset)}>{t("BURN_ASSET")}
+                                                                </Button>
 
                                                         </div>
                                                         <p>Immutables</p>

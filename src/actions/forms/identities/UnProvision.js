@@ -9,7 +9,7 @@ const UnProvision = (props) => {
     const [response, setResponse] = useState({});
     const [selectedAddress, setSelectedAddress] = useState("");
     const [provisionAddressList, setProvisionAddressList] = useState([]);
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     useEffect(() => {
         const provisionedAddressList = props.identityIdList.value.provisionedAddressList;
         provisionedAddressList.map((address) => {
@@ -30,6 +30,7 @@ const UnProvision = (props) => {
         UnProvisionResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             setResponse(data)
+            window.location.reload();
         })
     };
     const handleSelectChange = (evt) => {

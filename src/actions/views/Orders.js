@@ -33,7 +33,7 @@ const Orders = () => {
             identities.then(function (item) {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
-                if(dataList) {
+                if (dataList) {
                     const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
                     const ordersData = ordersQuery.queryOrderWithID("all")
                     ordersData.then(function (item) {
@@ -53,8 +53,8 @@ const Orders = () => {
                                 }
                                 let immutableKeys = Object.keys(immutableProperties);
                                 let mutableKeys = Object.keys(mutableProperties);
-                                Helper.AssignMetaValue(immutableKeys,immutableProperties, metasQuery, 'immutable_order', index);
-                                Helper.AssignMetaValue(mutableKeys,mutableProperties, metasQuery, 'mutable_order', index);
+                                Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order', index);
+                                Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order', index);
                             })
                         } else {
                             console.log("no orders found")
@@ -82,7 +82,8 @@ const Orders = () => {
                             {t("ACTIONS")}
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => handleModalData("DefineOrder")}>{t("DEFINE_ORDER")}</Dropdown.Item>
+                            <Dropdown.Item
+                                onClick={() => handleModalData("DefineOrder")}>{t("DEFINE_ORDER")}</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                     {orderList.map((order, index) => {

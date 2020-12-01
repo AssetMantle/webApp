@@ -2,15 +2,17 @@ import React, {useState, useCallback} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import keyUtils from "persistencejs/utilities/keys";
 import DownloadLink from "react-download-link";
+import {useTranslation} from "react-i18next";
 
 const SignUp = ({currentState, onShowChange}) => {
+    const {t} = useTranslation();
     const [jsonName, getJsonname] = useState({});
     const [showEncrypt, setShowEncrypt] = useState(false);
     const [mnemonic, setMnemonic] = useState("");
     const [formName, setFormName] = useState("");
     const [showDownload, setShowDownload] = useState(false);
 
-    const handleClose = useCallback(()=> {
+    const handleClose = useCallback(() => {
         onShowChange(false)
     }, [onShowChange])
 
@@ -35,11 +37,10 @@ const SignUp = ({currentState, onShowChange}) => {
         localStorage.setItem("mnemonic", error.mnemonic)
     }
 
-        const handleEncrypt = (name) =>{
-            setFormName(name)
-            setShowEncrypt(true)
-
-        }
+    const handleEncrypt = (name) => {
+        setFormName(name)
+        setShowEncrypt(true)
+    }
 
     return (
         <div className="accountInfo">
@@ -48,10 +49,10 @@ const SignUp = ({currentState, onShowChange}) => {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                     <p> {t("SIGNUP_NOTE")}</p>
+                    <p> {t("SIGNUP_NOTE")}</p>
                     <Button
                         variant="primary"
-                        onClick={()=>handleEncrypt("Login with PrivateKey")}
+                        onClick={() => handleEncrypt("Login with PrivateKey")}
                     >
                         {t("MNEMONIC")}/{t("PRIVATE_KEY")}
                     </Button>
@@ -93,12 +94,12 @@ const SignUp = ({currentState, onShowChange}) => {
                         : ""
                     }
                     {showDownload ?
-                        <div >
+                        <div>
                             <p><b>{t("SAVE_MNEMONIC")}:</b> {mnemonic}</p>
                             <DownloadLink
                                 label="Download Key File for future use"
                                 filename="key.json"
-                                exportFile={() =>`${jsonName}`}
+                                exportFile={() => `${jsonName}`}
                             />
                             <br/>
                             {t("DOWNLOAD_KEY")}

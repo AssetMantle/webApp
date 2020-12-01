@@ -12,7 +12,7 @@ const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_AS
 
 const IssueIdentity = () => {
     const Helper = new Helpers();
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const [showNext, setShowNext] = useState(false);
     const [response, setResponse] = useState({});
     const [checkedD, setCheckedD] = useState({});
@@ -131,6 +131,7 @@ const IssueIdentity = () => {
             issueIdentityResult.then(function (item) {
                 const data = JSON.parse(JSON.stringify(item));
                 setResponse(data)
+                window.location.reload();
                 console.log(data, "result Issue Identity")
             })
         }

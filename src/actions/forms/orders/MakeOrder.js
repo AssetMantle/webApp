@@ -134,6 +134,7 @@ const MakeOrder = (props) => {
             makeOrderResult.then(function (item) {
                 const data = JSON.parse(JSON.stringify(item));
                 setResponse(data)
+                window.location.reload();
                 console.log(data, "result makeOrder")
             })
         }

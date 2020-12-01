@@ -8,7 +8,7 @@ const identitiesNub = new identitiesNubJS(process.env.REACT_APP_ASSET_MANTLE_API
 
 const Nub = () => {
     const [response, setResponse] = useState({});
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const handleSubmit = (event) => {
         event.preventDefault();
         const nubId = event.target.nubID.value;
@@ -18,6 +18,7 @@ const Nub = () => {
         nubResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             setResponse(data)
+            window.location.reload();
             console.log(data, "result nub")
         })
     };

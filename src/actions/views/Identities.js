@@ -45,8 +45,8 @@ const Identities = () => {
                         }
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
-                        Helper.AssignMetaValue(immutableKeys,immutableProperties, metasQuery, 'immutable_identityList', index);
-                        Helper.AssignMetaValue(mutableKeys,mutableProperties, metasQuery, 'mutable_identityList', index);
+                        Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList', index);
+                        Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index);
                     })
                 } else {
                     console.log("no identities found")
@@ -74,9 +74,9 @@ const Identities = () => {
                         <Dropdown.Menu>
                             <Dropdown.Item onClick={() => handleModalData("Nub")}>{t("NUB")}</Dropdown.Item>
                             <Dropdown.Item onClick={() => handleModalData("DefineIdentity")}>{t("DEFINE_IDENTITY")}
-                                </Dropdown.Item>
+                            </Dropdown.Item>
                             <Dropdown.Item onClick={() => handleModalData("IssueIdentity")}>{t("ISSUE_IDENTITY")}
-                                </Dropdown.Item>
+                            </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                     {filteredIdentitiesList.map((identity, index) => {

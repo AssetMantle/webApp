@@ -23,11 +23,11 @@ const PrivateKey = () => {
             if (error.error != null) {
                 setIncorrectPassword(true)
                 return (<div>ERROR!!</div>)
-            }else{
+            } else {
                 const wallet = keyUtils.getWallet(error.mnemonic)
                 localStorage.setItem("address", wallet.address)
                 localStorage.setItem("mnemonic", error.mnemonic)
-                 history.push('/ActionsSwitcher');
+                history.push('/ActionsSwitcher');
             }
         };
     }
@@ -39,8 +39,8 @@ const PrivateKey = () => {
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group>
-                    <p>{t("UPLOAD_KEY")}</p>
-                        <input type="file" name="uploadFile" accept=".json" required  />
+                        <p>{t("UPLOAD_KEY")}</p>
+                        <input type="file" name="uploadFile" accept=".json" required/>
                     </Form.Group>
                     <Form.Label>{t("DECRYPT_KEY_STORE")}</Form.Label>
                     <Form.Control

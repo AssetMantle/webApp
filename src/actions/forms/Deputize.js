@@ -54,6 +54,7 @@ const Deputize = (props) => {
         DeputizeResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             setResponse(data)
+            window.location.reload();
             console.log(data, "result DeputizeResponse")
         })
 

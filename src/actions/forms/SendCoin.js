@@ -5,10 +5,10 @@ import {useTranslation} from "react-i18next";
 
 const SendCoinQuery = new SendCoinJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const SendCoin = () => {
+    const {t} = useTranslation();
     const [response, setResponse] = useState({});
     const handleSubmit = (event) => {
         event.preventDefault();
-        const {t} = useTranslation();
         const toAddress = event.target.toAddress.value;
         const denom = event.target.denom.value;
         const amountData = event.target.amount.value;
@@ -17,6 +17,7 @@ const SendCoin = () => {
         sendCoinResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             setResponse(data)
+            window.location.reload();
             console.log(data, "result WrapResponse")
         })
         event.preventDefault();

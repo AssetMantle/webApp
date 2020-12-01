@@ -3,7 +3,7 @@ import ClassificationsQueryJS from "persistencejs/transaction/classification/que
 import AssetMintJS from "persistencejs/transaction/assets/mint";
 import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../../utilities/Helper";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -12,7 +12,7 @@ const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_AS
 
 const MintAsset = () => {
     const Helper = new Helpers();
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const [response, setResponse] = useState({});
     const [showNext, setShowNext] = useState(false);
     const [checkedD, setCheckedD] = useState({});
@@ -132,6 +132,7 @@ const MintAsset = () => {
             assetMintResult.then(function (item) {
                 const data = JSON.parse(JSON.stringify(item));
                 setResponse(data)
+                window.location.reload();
                 console.log(data, "result Mint Asset")
             })
         }

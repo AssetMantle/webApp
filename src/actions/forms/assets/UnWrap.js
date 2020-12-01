@@ -7,10 +7,9 @@ const UnWrapQuery = new UnWrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const UnWrap = (props) => {
     const [response, setResponse] = useState({});
-
+    const {t} = useTranslation();
     const handleSubmit = (event) => {
         event.preventDefault();
-        const { t } = useTranslation();
         const FromId = event.target.FromId.value;
         const OwnableId = event.target.OwnableId.value;
         const Split = event.target.Split.value;
@@ -20,6 +19,7 @@ const UnWrap = (props) => {
         UnWrapResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             setResponse(data)
+            window.location.reload();
             console.log(data, "result UnWrapResponse")
         })
     };
@@ -33,7 +33,7 @@ const UnWrap = (props) => {
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>{("FROM_ID")} </Form.Label>
+                        <Form.Label>{t("FROM_ID")} </Form.Label>
                         <Form.Control
                             type="text"
                             className=""

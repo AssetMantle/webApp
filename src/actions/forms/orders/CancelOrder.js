@@ -2,11 +2,13 @@ import React, {useState} from "react";
 import ordersCancelJS from "persistencejs/transaction/orders/cancel";
 import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../../utilities/Helper";
+import {useTranslation} from "react-i18next";
 
 const ordersCancel = new ordersCancelJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const CancelOrder = (props) => {
     const Helper = new Helpers();
+    const {t} = useTranslation();
     const [response, setResponse] = useState({});
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -16,6 +18,7 @@ const CancelOrder = (props) => {
         cancelOrderResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             setResponse(data)
+            window.location.reload();
             console.log(data, "result provision")
         })
     };

@@ -6,9 +6,9 @@ import {useTranslation} from "react-i18next";
 const takeOrder = new TakeOrderJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const TakeOrder = (props) => {
+    const {t} = useTranslation();
     const handleSubmit = (event) => {
         event.preventDefault();
-        const {t} = useTranslation();
         const orderId = props.id;
         const FromId = event.target.FromId.value;
         const ownableAmount = event.target.ownableAmount.value;
@@ -18,6 +18,7 @@ const TakeOrder = (props) => {
         takeOrderResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             setResponse(data)
+            window.location.reload();
             console.log(data, "result takeOrderResponse")
         })
     };
