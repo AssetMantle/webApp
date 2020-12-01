@@ -10,6 +10,7 @@ import {MintAsset, MutateAsset, BurnAsset, Wrap, UnWrap} from "../forms/assets";
 import AssetDefineJS from "persistencejs/transaction/assets/define";
 import {Define} from "../forms";
 import {MakeOrder} from "../forms/orders";
+import {useTranslation} from "react-i18next";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -19,6 +20,7 @@ const splitsQuery = new splitsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetDefine = new AssetDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const Assets = () => {
     const Helper = new Helpers();
+    const {t} = useTranslation();
     const [showAsset, setShowAsset] = useState(false);
     const [externalComponent, setExternalComponent] = useState("");
     const [assetId, setAssetId] = useState("");
@@ -99,13 +101,13 @@ const Assets = () => {
                             Actions
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => handleModalData("DefineAsset")}>Define
-                                Asset</Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleModalData("MintAsset")}>Asset
-                                Mint</Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleModalData("Wrap")}>Wrap
-                                Mint</Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleModalData("UnWrap")}>UnWrap
+                            <Dropdown.Item onClick={() => handleModalData("DefineAsset")}>{t("DEFINE_ASSET")}
+                                </Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleModalData("MintAsset")}>{t("MINT_ASSET")}
+                                </Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleModalData("Wrap")}>{t("WRAP")}
+                                </Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleModalData("UnWrap")}>{t("UN_WRAP")}
                             </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
@@ -117,12 +119,12 @@ const Assets = () => {
                         return (
                             <div className="col-md-6" key={index}>
                                 <div className="card">
-                                    <p>OwnableId: {ownableId}</p>
-                                    <p>OwnerId: {ownerId}</p>
-                                    <p>Stake: {stake}</p>
+                                    <p>{t("OWNABLE_ID")}: {ownableId}</p>
+                                    <p>{t("OWNER_ID")}: {ownerId}</p>
+                                    <p>{t("STAKE")}: {stake}</p>
                                     <div>
                                         <Button variant="secondary"
-                                                onClick={() => handleModalData("MakeOrder", "", "", ownableID)}>Make</Button>
+                                                onClick={() => handleModalData("MakeOrder", "", "", ownableID)}>{t("MAKE")}</Button>
                                     </div>
                                     {
                                         assetList.map((asset, assetIndex) => {

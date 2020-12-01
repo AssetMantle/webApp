@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from "react";
 import TakeOrderJS from "persistencejs/transaction/orders/take";
 import {Form, Button, Modal} from "react-bootstrap";
+import {useTranslation} from "react-i18next";
 
 const takeOrder = new TakeOrderJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const TakeOrder = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
+        const {t} = useTranslation();
         const orderId = props.id;
         const FromId = event.target.FromId.value;
         const ownableAmount = event.target.ownableAmount.value;
@@ -28,7 +30,7 @@ const TakeOrder = (props) => {
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>FromId</Form.Label>
+                        <Form.Label>{t("FROM_ID")}</Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -38,7 +40,7 @@ const TakeOrder = (props) => {
                         />
                     </Form.Group>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Taker Ownable Amount</Form.Label>
+                        <Form.Label>{t("TAKER_OWNABLE_AMOUNT")}</Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -49,7 +51,7 @@ const TakeOrder = (props) => {
                     </Form.Group>
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            Submit
+                            {t("SUBMIT")}
                         </Button>
                     </div>
                     {response.code ?

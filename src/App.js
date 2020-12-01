@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from "react";
 import {Route, Switch, withRouter} from "react-router-dom";
-import { LoginAction} from "./actions";
+import {LoginAction} from "./actions";
 import {HomePage, RouteNotFound, Header, ActionsSwitcher} from "./components";
-
 import offline from "./assets/images/offline.svg";
-
 import Footer from "./components/Footer"
+
 const App = () => {
     const routes = [{
         path: '/',
@@ -32,38 +31,38 @@ const App = () => {
     });
 
     return (
-       
-            <div className="app">
+
+        <div className="app">
             <div>
-            {
-                !isOnline ?
-                    <div className="network-check">
-                        <div className="center">
-                            <img src={offline} alt="offline"/>
-                            <p>Network Disconnected. Check your data or wifi connection.</p>
-                        </div>
-                    </div>
-                    : ""
-            }
-            <div className="container-fluid app-nav">
-                <div className="container">
-                    <Header/>
-                </div>
-            </div>
-
-            <Switch>
                 {
-                    routes.map((route) =>
-                        <Route
-                            key={route.path}
-                            exact
-                            component={route.component}
-                            path={route.path}/>,
-                    )
+                    !isOnline ?
+                        <div className="network-check">
+                            <div className="center">
+                                <img src={offline} alt="offline"/>
+                                <p>{t("NETWORK_ERROR")}</p>
+                            </div>
+                        </div>
+                        : ""
                 }
+                <div className="container-fluid app-nav">
+                    <div className="container">
+                        <Header/>
+                    </div>
+                </div>
 
-                <Route component={RouteNotFound}/>
-            </Switch>
+                <Switch>
+                    {
+                        routes.map((route) =>
+                            <Route
+                                key={route.path}
+                                exact
+                                component={route.component}
+                                path={route.path}/>,
+                        )
+                    }
+
+                    <Route component={RouteNotFound}/>
+                </Switch>
             </div>
             <Footer/>
 

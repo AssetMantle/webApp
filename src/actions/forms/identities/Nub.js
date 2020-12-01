@@ -2,12 +2,13 @@ import React, {useState, useEffect} from "react";
 import identitiesNubJS from "persistencejs/transaction/identity/nub";
 import {Form, Button, Modal} from "react-bootstrap";
 import InputField from "../../../components/inputField"
+import {useTranslation} from "react-i18next";
 
 const identitiesNub = new identitiesNubJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Nub = () => {
     const [response, setResponse] = useState({});
-
+    const { t } = useTranslation();
     const handleSubmit = (event) => {
         event.preventDefault();
         const nubId = event.target.nubID.value;
@@ -25,7 +26,7 @@ const Nub = () => {
         <div className="accountInfo">
 
             <Modal.Header closeButton>
-                Nub
+                {t("NUB")}
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
@@ -40,7 +41,7 @@ const Nub = () => {
                     />
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            Submit
+                            {t("SUBMIT")}
                         </Button>
                     </div>
                     {response.code ?

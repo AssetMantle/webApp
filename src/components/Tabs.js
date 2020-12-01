@@ -4,8 +4,10 @@ import {Maintainers, Identities, Assets, Orders, Marketplace} from "../actions/v
 import {Reveal, SendCoin} from "../actions/forms"
 import axios from "axios";
 import {getFaucet} from "../constants/url";
+import {useTranslation} from "react-i18next";
 
 const ActionsSwitcher = () => {
+    const { t } = useTranslation();
     const userAddress = localStorage.getItem('address');
     const [externalComponent, setExternalComponent] = useState("");
     const [accountResponse, setAccountResponse] = useState("");
@@ -38,10 +40,10 @@ const ActionsSwitcher = () => {
         <div className="container">
             <div className="tabs-top-bar">
                 <div className="buttons">
-                    <Button onClick={() => handleRoute("Reveal")}>Reveal Meta</Button>
-                    <Button onClick={() => handleRoute("SendCoin")}>Send Coin</Button>
+                    <Button onClick={() => handleRoute("Reveal")}>{t("REVEAL_META")}</Button>
+                    <Button onClick={() => handleRoute("SendCoin")}>{t("SEND_COIN")}</Button>
                     {accountResponse.address == "" ?
-                        <Button onClick={handleFaucet}>Faucet</Button>
+                        <Button onClick={handleFaucet}>{t("FAUCET")}</Button>
                         : ""
                     }
                 </div>

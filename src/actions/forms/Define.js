@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../utilities/Helper"
 import InputField from "../../components/inputField"
+import {useTranslation} from "react-i18next";
 const Define = (props) => {
     const Helper = new Helpers();
     const [dataTypeOption, setDataTypeOption] = useState("S|");
@@ -13,7 +14,7 @@ const Define = (props) => {
     const [immutableProperties, setImmutableProperties] = useState([]);
     const [immutableMetaProperties, setImmutableMetaProperties] = useState([]);
     const [inputValues, setInputValues] = useState([]);
-
+    const {t} = useTranslation();
 
     const handleChange = evt => {
         const newValue = evt.target.value;
@@ -150,7 +151,7 @@ const Define = (props) => {
             <Modal.Body>
                 <form onSubmit={handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>FromId</Form.Label>
+                        <Form.Label>{t("FROM_ID")}</Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -171,9 +172,9 @@ const Define = (props) => {
                         <Form.Label>Immutable type:S| </Form.Label>
                         <Form.Control as="select" name="type"
                                       required={true} onChange={handleChangeType}>
-                            <option value="identitiy">identitiy</option>
-                            <option value="asset">asset</option>
-                            <option value="order">order</option>
+                            <option value="identitiy">{t("IDENTITY")}</option>
+                            <option value="asset">{t("ASSET")}</option>
+                            <option value="order">{t("ORDER")}</option>
                         </Form.Control>
                     </Form.Group>
                     <InputField
@@ -278,18 +279,18 @@ const Define = (props) => {
                     {mutableProperties.map((shareholder, idx) => (
                         <div key={idx}>
                             <Form.Group controlId="exampleForm.ControlSelect1">
-                                <Form.Label>Data Type</Form.Label>
+                                <Form.Label>{t("DATA_TYPE")}</Form.Label>
                                 <Form.Control as="select" value={dataTypeOption} name={`MutableDataType${idx + 1}`}
                                               onChange={handleSelectChange}
                                               required={true}>
-                                    <option value="S|">String</option>
-                                    <option value="D|">Decimal</option>
-                                    <option value="H|">Height</option>
-                                    <option value="I|">IDtype</option>
+                                    <option value="S|">{t("STRING")}</option>
+                                    <option value="D|">{t("DECIMAL")}</option>
+                                    <option value="H|">{t("HEIGHT")}</option>
+                                    <option value="I|">{t("ID_TYPE")}</option>
                                 </Form.Control>
                             </Form.Group>
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Data Name </Form.Label>
+                                <Form.Label>{t("DATA_NAME")}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     className=""
@@ -301,7 +302,7 @@ const Define = (props) => {
                             </Form.Group>
 
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Data Value</Form.Label>
+                                <Form.Label>{t("DATA_VALUE")}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     className=""
@@ -313,7 +314,7 @@ const Define = (props) => {
                             </Form.Group>
 
                             <Form.Text id={`Mutable${idx}`} className="text-muted none">
-                                Enter value based on datatype you choosen
+                                {t("DATA_TYPE_ERROR")}
                             </Form.Text>
 
                             <button type="button" onClick={handleRemoveMutableProperties(idx)} className="small">-
@@ -324,17 +325,17 @@ const Define = (props) => {
                     {mutableMetaProperties.map((mutableMetaProperty, idx) => (
                         <div key={idx}>
                             <Form.Group controlId="exampleForm.ControlSelect1">
-                                <Form.Label>Data Type</Form.Label>
+                                <Form.Label>{t("DATA_TYPE")}</Form.Label>
                                 <Form.Control as="select" name={`MutableMetaDataType${idx + 1}`}
                                               onChange={handleChange}>
-                                    <option value="S|">String</option>
-                                    <option value="D|">Decimal</option>
-                                    <option value="H|">Height</option>
-                                    <option value="I|">IDtype</option>
+                                    <option value="S|">{t("STRING")}</option>
+                                    <option value="D|">{t("DECIMAL")}</option>
+                                    <option value="H|">{t("HEIGHT")}</option>
+                                    <option value="I|">{t("ID_TYPE")}</option>
                                 </Form.Control>
                             </Form.Group>
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Data Name </Form.Label>
+                                <Form.Label>{t("DATA_NAME")}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     className=""
@@ -345,7 +346,7 @@ const Define = (props) => {
                                 />
                             </Form.Group>
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Data Value</Form.Label>
+                                <Form.Label>{t("DATA_VALUE")}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     className=""
@@ -356,7 +357,7 @@ const Define = (props) => {
                                 />
                             </Form.Group>
                             <Form.Text id={`MutableMeta${idx}`} className="text-muted none">
-                                Enter value based on datatype you choosen
+                                {t("DATA_TYPE_ERROR")}
                             </Form.Text>
                             <button type="button" onClick={handleRemoveMutableMetaProperties(idx)} className="small">-
                             </button>
@@ -367,16 +368,16 @@ const Define = (props) => {
                     {immutableProperties.map((immutableProperty, idx) => (
                         <div key={idx}>
                             <Form.Group controlId="exampleForm.ControlSelect1">
-                                <Form.Label>Data Type</Form.Label>
+                                <Form.Label>{t("DATA_TYPE")}</Form.Label>
                                 <Form.Control as="select" name={`ImmutableDataType${idx + 1}`} onChange={handleChange}>
-                                    <option value="S|">String</option>
-                                    <option value="D|">Decimal</option>
-                                    <option value="H|">Height</option>
-                                    <option value="I|">IDtype</option>
+                                    <option value="S|">{t("STRING")}</option>
+                                    <option value="D|">{t("DECIMAL")}</option>
+                                    <option value="H|">{t("HEIGHT")}</option>
+                                    <option value="I|">{t("ID_TYPE")}</option>
                                 </Form.Control>
                             </Form.Group>
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Data Name </Form.Label>
+                                <Form.Label>{t("DATA_NAME")}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     className=""
@@ -387,7 +388,7 @@ const Define = (props) => {
                                 />
                             </Form.Group>
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Data Value</Form.Label>
+                                <Form.Label>{t("DATA_VALUE")}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     className=""
@@ -398,7 +399,7 @@ const Define = (props) => {
                                 />
                             </Form.Group>
                             <Form.Text id={`Immutable${idx}`} className="text-muted none">
-                                Enter value based on datatype you choosen
+                                {t("DATA_TYPE_ERROR")}
                             </Form.Text>
                             <button type="button" onClick={handleRemoveImmutableProperties(idx)} className="small">-
                             </button>
@@ -408,17 +409,17 @@ const Define = (props) => {
                     {immutableMetaProperties.map((immutableMetaProperty, idx) => (
                         <div key={idx}>
                             <Form.Group controlId="exampleForm.ControlSelect1">
-                                <Form.Label>Data Type</Form.Label>
+                                <Form.Label>{t("DATA_TYPE")}</Form.Label>
                                 <Form.Control as="select" name={`ImmutableMetaDataType${idx + 1}`}
                                               onChange={handleChange}>
-                                    <option value="S|">String</option>
-                                    <option value="D|">Decimal</option>
-                                    <option value="H|">Height</option>
-                                    <option value="I|">IDtype</option>
+                                    <option value="S|">{t("STRING")}</option>
+                                    <option value="D|">{t("DECIMAL")}</option>
+                                    <option value="H|">{t("HEIGHT")}</option>
+                                    <option value="I|">{t("ID_TYPE")}</option>
                                 </Form.Control>
                             </Form.Group>
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Data Name </Form.Label>
+                                <Form.Label>{t("DATA_NAME")}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     className=""
@@ -429,7 +430,7 @@ const Define = (props) => {
                                 />
                             </Form.Group>
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Data Value</Form.Label>
+                                <Form.Label>{t("DATA_VALUE")}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     className=""
@@ -440,7 +441,7 @@ const Define = (props) => {
                                 />
                             </Form.Group>
                             <Form.Text id={`ImmutableMeta${idx}`} className="text-muted none">
-                                Enter value based on datatype you choosen
+                                {t("DATA_TYPE_ERROR")}
                             </Form.Text>
                             <button type="button" onClick={handleRemoveImmutableMetaProperties(idx)}
                                     className="small">-
@@ -451,7 +452,7 @@ const Define = (props) => {
                     </button>
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            Submit
+                            {t("SUBMIT")}
                         </Button>
                     </div>
                     {response.code ?

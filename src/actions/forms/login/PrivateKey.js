@@ -2,8 +2,10 @@ import React, {useState} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import keyUtils from "persistencejs/utilities/keys";
+import {useTranslation} from "react-i18next";
 
 const PrivateKey = () => {
+    const {t} = useTranslation();
     const history = useHistory();
     const [show, setShow] = useState(false);
     const [incorrectPassword, setIncorrectPassword] = useState(false);
@@ -32,15 +34,15 @@ const PrivateKey = () => {
     return (
         <div className="accountInfo">
             <Modal.Header closeButton>
-                Login with PrivateKey
+                {t("LOGIN_PRIVATE_KEY")}
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group>
-                    <p>upload private key file</p>
+                    <p>{t("UPLOAD_KEY")}</p>
                         <input type="file" name="uploadFile" accept=".json" required  />
                     </Form.Group>
-                    <Form.Label>Enter password to decrypt keystore file</Form.Label>
+                    <Form.Label>{t("DECRYPT_KEY_STORE")}</Form.Label>
                     <Form.Control
                         type="password"
                         name="password"
@@ -50,7 +52,7 @@ const PrivateKey = () => {
                     />
                     {incorrectPassword ?
                         <Form.Text className="text-muted">
-                            Incorrect Password
+                            {t("INCORRECT_PASSWORD")}
                         </Form.Text>
                         : ""
                     }
@@ -65,11 +67,6 @@ const PrivateKey = () => {
 
                 </Form>
             </Modal.Body>
-            <Modal show={show} onHide={handleClose}  centered>
-                <Modal.Body>
-
-                </Modal.Body>
-            </Modal>
         </div>
     );
 }

@@ -44,21 +44,21 @@ const SignUp = ({currentState, onShowChange}) => {
     return (
         <div className="accountInfo">
             <Modal.Header closeButton>
-                Login with PrivateKey
+                {t("SIGNUP")}
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                     <p>choose how you store your key</p>
+                     <p> {t("SIGNUP_NOTE")}</p>
                     <Button
                         variant="primary"
                         onClick={()=>handleEncrypt("Login with PrivateKey")}
                     >
-                        mnemonic/privatekey
+                        {t("MNEMONIC")}/{t("PRIVATE_KEY")}
                     </Button>
                     <Button
                         variant="primary"
                     >
-                        store in ledger
+                        {t("LEDGER_STORE")}
                     </Button>
 
                 </Form>
@@ -74,7 +74,7 @@ const SignUp = ({currentState, onShowChange}) => {
                 <Modal.Body>
                     {!showDownload ?
                         <Form onSubmit={handleSubmit}>
-                            <Form.Label>Enter password to encrypt keystore file</Form.Label>
+                            <Form.Label>{t("ENCRYPT_KEY_STORE")}</Form.Label>
                             <Form.Control
                                 type="password"
                                 name="password"
@@ -86,7 +86,7 @@ const SignUp = ({currentState, onShowChange}) => {
                                 variant="primary"
                                 type="submit"
                             >
-                                Next
+                                {t("NEXT")}
                             </Button>
 
                         </Form>
@@ -94,20 +94,20 @@ const SignUp = ({currentState, onShowChange}) => {
                     }
                     {showDownload ?
                         <div >
-                            <p><b>Please save mnemonic:</b> {mnemonic}</p>
+                            <p><b>{t("SAVE_MNEMONIC")}:</b> {mnemonic}</p>
                             <DownloadLink
                                 label="Download Key File for future use"
                                 filename="key.json"
                                 exportFile={() =>`${jsonName}`}
                             />
                             <br/>
-                            After download, please login with private key
+                            {t("DOWNLOAD_KEY")}
                             <br/>
                             <Button
                                 variant="primary"
                                 onClick={handleClose}
                             >
-                                Done
+                                {t("DONE")}
                             </Button>
                         </div>
                         :

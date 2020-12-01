@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import WrapJS from "persistencejs/transaction/splits/wrap";
 import {Form, Button, Modal} from "react-bootstrap";
+import {useTranslation} from "react-i18next";
 
 const WrapQuery = new WrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
@@ -9,6 +10,7 @@ const Wrap = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        const { t } = useTranslation();
         const FromId = event.target.FromId.value;
         const CoinDenom = event.target.CoinDenom.value;
         const CoinAmount = event.target.CoinAmount.value;
@@ -31,7 +33,7 @@ const Wrap = (props) => {
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>FromId </Form.Label>
+                        <Form.Label>{T("FROM_ID")} </Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -42,7 +44,7 @@ const Wrap = (props) => {
                     </Form.Group>
 
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Coin Denom </Form.Label>
+                        <Form.Label>{T("COIN_DENOM")} </Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -52,7 +54,7 @@ const Wrap = (props) => {
                         />
                     </Form.Group>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Coin Amount </Form.Label>
+                        <Form.Label>{T("COIN_AMOUNT")}</Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -64,7 +66,7 @@ const Wrap = (props) => {
 
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            Submit
+                            {T("SUBMIT")}
                         </Button>
                     </div>
                     {response.code ?

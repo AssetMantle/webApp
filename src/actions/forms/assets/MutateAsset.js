@@ -3,12 +3,14 @@ import {Form, Button, Modal} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import Helpers from "../../../utilities/Helper";
 import assetMutateJS from "persistencejs/transaction/assets/mutate";
+import {useTranslation} from "react-i18next";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMutate = new assetMutateJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const MutateAsset = (props) => {
     const Helper = new Helpers();
+    const { t } = useTranslation();
     const [keyList, setKeyList] = useState([]);
     const [response, setResponse] = useState({});
     const [mutableProperties, setMutableProperties] = useState([]);
@@ -83,12 +85,12 @@ const MutateAsset = (props) => {
     return (
         <div className="accountInfo">
             <Modal.Header closeButton>
-                Mutate Asset
+                {t("MUTATE_ASSET")}
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>From Id </Form.Label>
+                        <Form.Label>{t("FROM_ID")}</Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -132,7 +134,7 @@ const MutateAsset = (props) => {
                     }
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            Submit
+                            {T("submit")}
                         </Button>
                     </div>
                     {response.code ?

@@ -4,6 +4,7 @@ import IdentitiesIssueJS from "persistencejs/transaction/identity/issue";
 import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../../utilities/Helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
+import {useTranslation} from "react-i18next";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesIssue = new IdentitiesIssueJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -11,6 +12,7 @@ const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_AS
 
 const IssueIdentity = () => {
     const Helper = new Helpers();
+    const { t } = useTranslation();
     const [showNext, setShowNext] = useState(false);
     const [response, setResponse] = useState({});
     const [checkedD, setCheckedD] = useState({});
@@ -137,12 +139,12 @@ const IssueIdentity = () => {
         <div className="accountInfo">
 
             <Modal.Header closeButton>
-                Issue Identity
+                {t("ISSUE_IDENTITY")}
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Classification Id </Form.Label>
+                        <Form.Label>{t("CLASSIFICATION_ID")}</Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -154,7 +156,7 @@ const IssueIdentity = () => {
 
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            Next
+                            {t("NEXT")}
                         </Button>
                     </div>
                 </Form>
@@ -168,12 +170,12 @@ const IssueIdentity = () => {
                 centered
             >
                 <Modal.Header closeButton>
-                    Issue Identity
+                    {t("ISSUE_IDENTITY")}
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleFormSubmit}>
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Label>From Id </Form.Label>
+                            <Form.Label>{("FROM_ID")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -183,7 +185,7 @@ const IssueIdentity = () => {
                             />
                         </Form.Group>
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Label> To Address</Form.Label>
+                            <Form.Label>{t("TO_ADDRESS")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -253,7 +255,7 @@ const IssueIdentity = () => {
                             ""
                         }
                         <Button variant="primary" type="submit">
-                            Submit
+                            {t("SUBMIT")}
                         </Button>
                         {response.code ?
                             <p> {response.raw_log}</p>

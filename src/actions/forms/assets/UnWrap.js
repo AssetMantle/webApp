@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import UnWrapJS from "persistencejs/transaction/splits/unwrap";
 import {Form, Button, Modal} from "react-bootstrap";
+import {useTranslation} from "react-i18next";
 
 const UnWrapQuery = new UnWrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
@@ -9,6 +10,7 @@ const UnWrap = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        const { t } = useTranslation();
         const FromId = event.target.FromId.value;
         const OwnableId = event.target.OwnableId.value;
         const Split = event.target.Split.value;
@@ -31,7 +33,7 @@ const UnWrap = (props) => {
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>FromId </Form.Label>
+                        <Form.Label>{("FROM_ID")} </Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -42,7 +44,7 @@ const UnWrap = (props) => {
                     </Form.Group>
 
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Ownable Id </Form.Label>
+                        <Form.Label>{t("OWNABLE_ID")} </Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -52,7 +54,7 @@ const UnWrap = (props) => {
                         />
                     </Form.Group>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Split </Form.Label>
+                        <Form.Label>{t("SPLIT")} </Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -64,7 +66,7 @@ const UnWrap = (props) => {
 
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            Submit
+                            {t("SUBMIT")}
                         </Button>
                     </div>
                     {response.code ?

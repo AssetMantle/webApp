@@ -1,19 +1,13 @@
 import React from "react";
-
-class HomePage extends React.Component {
-
-
-    render() {
-
+import {useTranslation} from "react-i18next";
+const HomePage = () => {
+    const { t } = useTranslation();
         return (
             <div className="homeSection">
                 <div className="container">
                     <div className="row row-cols-1 row-cols-md-2 card-deck infoRow">
-
                         <div className="col-md-12 appInfoBox">
-                            <p>Application implementing the minimum
-                                clique of PersistenceSDK modules enabling interNFT definition,
-                                issuance, ownership transfer and decentralized exchange.</p>
+                            <p>{t("BANNER_CONTENT")}</p>
                         </div>
                     </div>
                 </div>
@@ -21,6 +15,5 @@ class HomePage extends React.Component {
             </div>
         );
     }
-}
 
 export default HomePage

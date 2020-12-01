@@ -2,8 +2,10 @@ import React, {useState} from "react";
 import {Modal, Button} from "react-bootstrap";
 import {LoginMnemonic, PrivateKey, Ledger} from "./forms/login";
 import {SignUp} from "./forms";
+import {useTranslation} from "react-i18next";
 
 const LoginAction = () => {
+    const {t} = useTranslation();
     const [show, setShow] = useState(false);
     const [externalComponent, setExternalComponent] = useState("");
     const handleClose = () => {
@@ -23,7 +25,7 @@ const LoginAction = () => {
                                 variant="primary"
                                 onClick={() => handleRoute("LoginMnemonic")}
                             >
-                                Login with mnemonic
+                                {t("LOGIN_MNEMONIC")}
                             </Button>
                         </div>
                         <div className="mrt-10">
@@ -31,7 +33,7 @@ const LoginAction = () => {
                                 variant="primary"
                                 onClick={() => handleRoute("PrivateKey")}
                             >
-                                Login with privateKey
+                                {t("LOGIN_PRIVATE_KEY")}
                             </Button>
                         </div>
                         <div className="mrt-10">
@@ -39,7 +41,7 @@ const LoginAction = () => {
                                 variant="primary"
                                 onClick={() => handleRoute("Ledger")}
                             >
-                                Login with ledger
+                                {t("LEDGER_LOGIN")}
                             </Button>
                         </div>
                         <div className="mrt-10">
@@ -47,7 +49,7 @@ const LoginAction = () => {
                                 variant="primary"
                                 onClick={() => handleRoute("SignUp")}
                             >
-                                Sign Up
+                                {t("SIGNUP")}
                             </Button>
                         </div>
                     </div>

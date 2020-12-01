@@ -3,6 +3,7 @@ import ClassificationsQueryJS from "persistencejs/transaction/classification/que
 import AssetMintJS from "persistencejs/transaction/assets/mint";
 import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../../utilities/Helper";
+import { useTranslation } from "react-i18next";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -11,6 +12,7 @@ const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_AS
 
 const MintAsset = () => {
     const Helper = new Helpers();
+    const { t } = useTranslation();
     const [response, setResponse] = useState({});
     const [showNext, setShowNext] = useState(false);
     const [checkedD, setCheckedD] = useState({});
@@ -138,12 +140,12 @@ const MintAsset = () => {
         <div className="accountInfo">
 
             <Modal.Header closeButton>
-                Mint Asset
+                {t("MINT_ASSET")}
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group>
-                        <Form.Label>Classification Id </Form.Label>
+                        <Form.Label>{t("CLASSIFICATION_ID")} </Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -155,7 +157,7 @@ const MintAsset = () => {
 
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            Next
+                            {t("NEXT")}
                         </Button>
                     </div>
                 </Form>
@@ -169,12 +171,12 @@ const MintAsset = () => {
                 centered
             >
                 <Modal.Header closeButton>
-                    Mint Asset
+                    {t("MINT_ASSET")}
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleFormSubmit}>
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Label>From Id </Form.Label>
+                            <Form.Label>{t("FROM_ID")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -184,7 +186,7 @@ const MintAsset = () => {
                             />
                         </Form.Group>
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Label> To ID</Form.Label>
+                            <Form.Label>{t("TO_ID")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -254,7 +256,7 @@ const MintAsset = () => {
                             ""
                         }
                         <Button variant="primary" type="submit">
-                            Submit
+                            {t("SUBMIT")}
                         </Button>
                         {response.code ?
                             <p> {response.raw_log}</p>

@@ -2,12 +2,13 @@ import React, {useState, useEffect} from "react";
 import identitiesProvisionJS from "persistencejs/transaction/identity/provision";
 import {Form, Button, Modal} from "react-bootstrap";
 import InputField from "../../../components/inputField"
+import {useTranslation} from "react-i18next";
 
 const identitiesProvision = new identitiesProvisionJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Provision = (props) => {
     const [response, setResponse] = useState({});
-
+    const { t } = useTranslation();
     const handleSubmit = (event) => {
         event.preventDefault();
         const toAddress = event.target.toAddress.value;
@@ -25,7 +26,7 @@ const Provision = (props) => {
     return (
         <div className="accountInfo">
             <Modal.Header closeButton>
-                Provision
+                {t("PROVISION")}
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
@@ -40,7 +41,7 @@ const Provision = (props) => {
                     />
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            Submit
+                            {t("SUBMIT")}
                         </Button>
                     </div>
                     {response.code ?

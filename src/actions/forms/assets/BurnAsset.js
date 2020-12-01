@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import burnAssetJS from "persistencejs/transaction/assets/burn";
 import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../../utilities/Helper";
-
+import { useTranslation } from "react-i18next";
 const burnAsset = new burnAssetJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const BurnAsset = (props) => {
@@ -15,6 +15,7 @@ const BurnAsset = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        const { t } = useTranslation();
         const asset = props.asset;
         const FromId = event.target.FromId.value;
         const userTypeToken = localStorage.getItem('mnemonic');
@@ -31,7 +32,7 @@ const BurnAsset = (props) => {
     return (
         <div className="accountInfo">
             <Modal.Header closeButton>
-                Burn Asset
+                {t("BURN_ASSET")}
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
@@ -45,12 +46,12 @@ const BurnAsset = (props) => {
                             placeholder="FromId"
                         />
                     </Form.Group>
-                    <p>Are you sure</p>
+                    <p>{T("ARE_YOU_SURE")}</p>
                     <Button variant="primary" type="submit">
-                        Yes
+                        {T("YES")}
                     </Button>
                     <Button variant="secondary" onClick={handleClose}>
-                        No
+                        {T("NO")}
                     </Button>
                     {response.code ?
                         <p> {response.raw_log}</p>

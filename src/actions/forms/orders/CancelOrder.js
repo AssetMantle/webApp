@@ -23,7 +23,7 @@ const CancelOrder = (props) => {
     return (
         <div className="accountInfo">
             <Modal.Header closeButton>
-                Cancel
+                {t("ORDER_CANCEL")}
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
@@ -34,7 +34,7 @@ const CancelOrder = (props) => {
                     </Form.Group>
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            Submit
+                            {t("SUBMIT")}
                         </Button>
                     </div>
                     {response.code ?

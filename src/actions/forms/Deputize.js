@@ -2,10 +2,12 @@ import React, {useState, useEffect} from "react";
 import deputizeJS from "persistencejs/transaction/maintainers/deputize";
 import {Form, Button, Modal} from "react-bootstrap";
 import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
+import {useTranslation} from "react-i18next";
 
 const deputizeMaintainer = new deputizeJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const Deputize = (props) => {
+    const {t} = useTranslation();
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     const [response, setResponse] = useState({});
     const [mutableList, setMutableList] = useState([]);
@@ -59,12 +61,12 @@ const Deputize = (props) => {
     return (
         <div className="accountInfo">
             <Modal.Header closeButton>
-                Deputize
+                {t("DEPUTIZE")}
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>ToId</Form.Label>
+                        <Form.Label> {t("TO_ID")}</Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -115,7 +117,7 @@ const Deputize = (props) => {
                     </div>
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            Submit
+                            {t("SUBMIT")}
                         </Button>
                     </div>
                     {response.code ?

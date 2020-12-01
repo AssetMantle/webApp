@@ -7,6 +7,7 @@ import identitiesQueryJS from "persistencejs/transaction/identity/query";
 import {Define} from "../forms";
 import {CancelOrder} from "../forms/orders";
 import ordersDefineJS from "persistencejs/transaction/orders/define";
+import {useTranslation} from "react-i18next";
 
 const ordersDefine = new ordersDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -16,6 +17,7 @@ const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Orders = () => {
     const Helper = new Helpers();
+    const {t} = useTranslation();
     const [orderList, setOrderList] = useState([]);
     const userAddress = localStorage.getItem('address');
     const [showOrder, setShowOrder] = useState(false);
@@ -77,10 +79,10 @@ const Orders = () => {
                 <div className="row row-cols-1 row-cols-md-2 card-deck ">
                     <Dropdown>
                         <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            Actions
+                            {t("ACTIONS")}
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => handleModalData("DefineOrder")}>Define Order</Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleModalData("DefineOrder")}>{t("DEFINE_ORDER")}</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                     {orderList.map((order, index) => {
@@ -102,7 +104,7 @@ const Orders = () => {
                                                 onClick={() => handleModalData("CancelOrder", order)}>Cancel</Button>
                                     </div>
                                     <a href="#">{Helper.GetOrderID(order)}</a>
-                                    <p>Immutables</p>
+                                    <p>{t("IMMUTABLES")}</p>
                                     {
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
@@ -115,7 +117,7 @@ const Orders = () => {
                                         })
                                     }
 
-                                    <p>Mutables</p>
+                                    <p>{t("MUTABLES")}</p>
 
                                     {
                                         mutableKeys.map((keyName, index1) => {

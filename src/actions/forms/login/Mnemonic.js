@@ -1,12 +1,12 @@
-import React, {useState} from "react";
+import React from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import keyUtils from "persistencejs/utilities/keys";
+import {useTranslation} from "react-i18next";
 
 const LoginMnemonic = () => {
     const history = useHistory();
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const {t} = useTranslation();
     const handleSubmit = async event => {
         const error = keyUtils.createWallet(event.target.mnemonic.value)
         if (error.error != null) {
@@ -21,11 +21,11 @@ const LoginMnemonic = () => {
     return (
         <div className="accountInfo">
             <Modal.Header closeButton>
-                Login with mnemonic
+                {t("LOGIN_MNEMONIC")}
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Label>Mnemonic</Form.Label>
+                    <Form.Label>{("MNEMONIC")}</Form.Label>
                     <Form.Control
                         type="text"
                         name="mnemonic"
@@ -37,16 +37,11 @@ const LoginMnemonic = () => {
                             variant="primary"
                             type="submit"
                         >
-                            Submit
+                            {t("SUBMIT")}
                         </Button>
                     </div>
                 </Form>
             </Modal.Body>
-            <Modal show={show} onHide={handleClose} centered>
-                <Modal.Body>
-
-                </Modal.Body>
-            </Modal>
         </div>
     );
 }

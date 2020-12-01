@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import SendCoinJS from "persistencejs/transaction/bank/sendCoin";
+import {useTranslation} from "react-i18next";
 
 const SendCoinQuery = new SendCoinJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const SendCoin = () => {
     const [response, setResponse] = useState({});
     const handleSubmit = (event) => {
-        event.preventDefault();toAddress
+        event.preventDefault();
+        const {t} = useTranslation();
         const toAddress = event.target.toAddress.value;
         const denom = event.target.denom.value;
         const amountData = event.target.amount.value;
@@ -24,12 +26,12 @@ const SendCoin = () => {
     return (
         <div className="accountInfo">
             <Modal.Header closeButton>
-                Send Coin
+                {t("SEND_COIN")}
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label> To Address</Form.Label>
+                        <Form.Label>{t("TO_ADDRESS")}</Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -39,7 +41,7 @@ const SendCoin = () => {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Denom </Form.Label>
+                        <Form.Label>{t("DENOM")} </Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -49,7 +51,7 @@ const SendCoin = () => {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Amount</Form.Label>
+                        <Form.Label>{t("AMOUNT")}</Form.Label>
                         <Form.Control
                             type="text"
                             name="amount"
@@ -62,7 +64,7 @@ const SendCoin = () => {
                             variant="primary"
                             type="submit"
                         >
-                            Submit
+                            {t("SUBMIT")}
                         </Button>
                     </div>
                     {response.code ?

@@ -4,11 +4,13 @@ import Helpers from "../../../utilities/Helper";
 import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
 import ordersMakeJS from "persistencejs/transaction/orders/make";
 import metasQueryJS from "persistencejs/transaction/meta/query";
+import {useTranslation} from "react-i18next";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const ordersMake = new ordersMakeJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const MakeOrder = (props) => {
+    const {t} = useTranslation();
     const [showNext, setShowNext] = useState(false);
     const [classificationId, setClassificationId] = useState("");
     const [response, setResponse] = useState({});
@@ -139,12 +141,12 @@ const MakeOrder = (props) => {
     return (
         <div className="accountInfo">
             <Modal.Header closeButton>
-                Make Order
+                {t("MAKE_ORDER")}
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Classification Id </Form.Label>
+                        <Form.Label>{t("CLASSIFICATION_ID")}</Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -156,7 +158,7 @@ const MakeOrder = (props) => {
 
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            Next
+                            {t("NEXT")}
                         </Button>
                     </div>
                 </Form>
@@ -169,12 +171,12 @@ const MakeOrder = (props) => {
                 centered
             >
                 <Modal.Header closeButton>
-                    Make
+                    {t("MAKE_ORDER")}
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleFormSubmit}>
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Label>From Id </Form.Label>
+                            <Form.Label>{t("FROM_ID")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -184,7 +186,7 @@ const MakeOrder = (props) => {
                             />
                         </Form.Group>
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Label> Taker OwnableId</Form.Label>
+                            <Form.Label>{t("TAKER_OWNABLE_SPLIT")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -194,7 +196,7 @@ const MakeOrder = (props) => {
                             />
                         </Form.Group>
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Label> Maker Split</Form.Label>
+                            <Form.Label>{t("MAKER_SPLIT")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -204,7 +206,7 @@ const MakeOrder = (props) => {
                             />
                         </Form.Group>
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Label>Expires In</Form.Label>
+                            <Form.Label>{t("EXPIRES_IN")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -273,7 +275,7 @@ const MakeOrder = (props) => {
                             ""
                         }
                         <Button variant="primary" type="submit">
-                            Submit
+                            {t("SUBMIT")}
                         </Button>
                         {response.code ?
                             <p> {response.raw_log}</p>

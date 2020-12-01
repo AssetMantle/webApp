@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import identitiesUnprovisionJS from "persistencejs/transaction/identity/unprovision";
 import {Form, Button, Modal} from "react-bootstrap";
+import {useTranslation} from "react-i18next";
 
 const identitiesUnprovision = new identitiesUnprovisionJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
@@ -8,7 +9,7 @@ const UnProvision = (props) => {
     const [response, setResponse] = useState({});
     const [selectedAddress, setSelectedAddress] = useState("");
     const [provisionAddressList, setProvisionAddressList] = useState([]);
-
+    const { t } = useTranslation();
     useEffect(() => {
         const provisionedAddressList = props.identityIdList.value.provisionedAddressList;
         provisionedAddressList.map((address) => {
@@ -38,12 +39,12 @@ const UnProvision = (props) => {
         <div className="accountInfo">
 
             <Modal.Header closeButton>
-                UnProvision
+                {t("UN_PROVISION")}
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Address to Provision</Form.Label>
+                        <Form.Label>{t("ADDRESS_TO_PROVISION")}</Form.Label>
                         <Form.Control
                             as="select"
                             name="selectAddress"
@@ -61,7 +62,7 @@ const UnProvision = (props) => {
                     </Form.Group>
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            Submit
+                            {t("SUBMIT")}
                         </Button>
                         {response.code ?
                             <p> {response.raw_log}</p>

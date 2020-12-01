@@ -4,12 +4,14 @@ import Helpers from "../../utilities/Helper";
 import {Button, Modal} from "react-bootstrap";
 import {TakeOrder} from "../forms/orders";
 import metasQueryJS from "persistencejs/transaction/meta/query";
+import {useTranslation} from "react-i18next";
 
 const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Marketplace = () => {
     const Helper = new Helpers();
+    const {t} = useTranslation();
     const [showOrder, setShowOrder] = useState(false);
     const [externalComponent, setExternalComponent] = useState("");
     const [orderId, setOrderId] = useState("");
@@ -75,10 +77,10 @@ const Marketplace = () => {
                                 <div className="card">
                                     <div>
                                         <Button variant="secondary"
-                                                onClick={() => handleModalData("TakeOrder", orderIdData)}>Take</Button>
+                                                onClick={() => handleModalData("TakeOrder", orderIdData)}>{t("TAKE")}</Button>
                                     </div>
                                     <a href="#">{orderIdData}</a>
-                                    <p>Immutables</p>
+                                    <p>{t("IMMUTABLES")}</p>
                                     {
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
@@ -91,7 +93,7 @@ const Marketplace = () => {
                                         })
                                     }
 
-                                    <p>Mutables</p>
+                                    <p>{t("MUTABLES")}</p>
 
                                     {
                                         mutableKeys.map((keyName, index1) => {
