@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 const burnAsset = new burnAssetJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const BurnAsset = (props) => {
+    const { t } = useTranslation();
     const Helper = new Helpers();
     const [show, setShow] = useState(false);
     const [response, setResponse] = useState({});
@@ -15,7 +16,6 @@ const BurnAsset = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const { t } = useTranslation();
         const asset = props.asset;
         const FromId = event.target.FromId.value;
         const userTypeToken = localStorage.getItem('mnemonic');
@@ -38,7 +38,7 @@ const BurnAsset = (props) => {
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>From Id </Form.Label>
+                        <Form.Label>{t("FROM_ID")}</Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -47,12 +47,12 @@ const BurnAsset = (props) => {
                             placeholder="FromId"
                         />
                     </Form.Group>
-                    <p>{T("ARE_YOU_SURE")}</p>
+                    <p>{t("ARE_YOU_SURE")}</p>
                     <Button variant="primary" type="submit">
-                        {T("YES")}
+                        {t("YES")}
                     </Button>
                     <Button variant="secondary" onClick={handleClose}>
-                        {T("NO")}
+                        {t("NO")}
                     </Button>
                     {response.code ?
                         <p> {response.raw_log}</p>
