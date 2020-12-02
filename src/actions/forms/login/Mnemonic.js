@@ -25,7 +25,7 @@ const LoginMnemonic = () => {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Label>{("MNEMONIC")}</Form.Label>
+                    <Form.Label>{t("MNEMONIC")}</Form.Label>
                     <Form.Control
                         type="text"
                         name="mnemonic"

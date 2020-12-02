@@ -23,6 +23,7 @@
     "react-i18next": "^11.7.3",
     "react-router-dom": "5.2.0",
     "react-scripts": "^4.0.0",
+    "request": "^2.88.2",
     "styled-components": "^5.2.1"
   },
   "devDependencies": {

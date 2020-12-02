@@ -2,12 +2,14 @@ import React, {useState, useEffect} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import SendCoinJS from "persistencejs/transaction/bank/sendCoin";
 import {useTranslation} from "react-i18next";
-
+import { pollTxHash } from '../../utilities/Helper'
 const SendCoinQuery = new SendCoinJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const SendCoin = () => {
     const {t} = useTranslation();
+    const url = process.env.REACT_APP_ASSET_MANTLE_API;
     const [response, setResponse] = useState({});
     const handleSubmit = (event) => {
+
         event.preventDefault();
         const toAddress = event.target.toAddress.value;
         const denom = event.target.denom.value;
@@ -16,9 +18,14 @@ const SendCoin = () => {
         const sendCoinResponse = SendCoinQuery.sendCoin("test", userTypeToken, toAddress, denom, amountData, 25, "stake", 200000, "block");
         sendCoinResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
-            setResponse(data)
-            window.location.reload();
-            console.log(data, "result WrapResponse")
+            if(data.txhash){
+                let queryHashResponse =  pollTxHash(url, data.txhash);
+                queryHashResponse.then(function (queryItem) {
+                    const queryData = JSON.parse(queryItem);
+                    setResponse(queryData)
+                    console.log(queryData, "queryHashResponse")
+                })
+            }
         })
         event.preventDefault();
         event.target.reset();

@@ -1,5 +1,7 @@
 import ReactDOM from "react-dom";
 import React from "react";
+import config from "../config.json"
+const request = require('request');
 
 export default class Helper {
 
@@ -292,6 +294,38 @@ export default class Helper {
             }
         })
     }
-
 }
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+async function queryTxHash(lcd, txHash) {
+    return new Promise((resolve, reject) => {
+        request(lcd + "/txs/" + txHash, (error, response, body) => {
+            if (error) reject(error);
+            if (response.statusCode !== 200) {
+                reject('Invalid status code <' + response.statusCode + '>' + " response: " + body);
+            }
+            resolve(body);
+        });
+    });
+}
+
+export async function pollTxHash(lcd, txHash) {
+    await delay(config.initialTxHashQueryDelay);
+    for (let i = 0; i < config.numberOfRetries; i++) {
+        try {
+            const result = await queryTxHash(lcd, txHash)
+            return result
+        } catch (error) {
+            console.log(error)
+            console.log("retrying in "+ config.scheduledTxHashQueryDelay +": ", i, "th time")
+            await delay(config.scheduledTxHashQueryDelay);
+        }
+    }
+    return JSON.stringify({
+        "txhash": txHash,
+        "height": 0,
+        "code": 111,
+        "raw_log": "failed all retries"
+    })
+}
+
 

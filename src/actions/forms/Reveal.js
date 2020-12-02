@@ -3,11 +3,13 @@ import RevealMetaJS from "persistencejs/transaction/meta/reveal";
 import {Form, Button, Modal} from "react-bootstrap";
 import InputField from "../../components/inputField";
 import {useTranslation} from "react-i18next";
-
+import { pollTxHash } from '../../utilities/Helper'
 const RevealMeta = new RevealMetaJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Reveal = () => {
+    const url = process.env.REACT_APP_ASSET_MANTLE_API;
     const {t} = useTranslation();
+    const [response, setResponse] = useState({});
     const [dataTypeOption, setDataTypeOption] = useState("S|");
     const handleSelectChange = evt => {
         setDataTypeOption(evt.target.value);
@@ -22,11 +24,15 @@ const Reveal = () => {
         const RevealMetaResponse = RevealMeta.reveal(userAddress, "test", userTypeToken, metaFact, 25, "stake", 200000, "block");
         RevealMetaResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
-            setResponse(data)
-            window.location.reload();
-            console.log(data, "result RevealMeta")
+            if(data.txhash){
+                let queryHashResponse =  pollTxHash(url, data.txhash);
+                queryHashResponse.then(function (queryItem) {
+                    const queryData = JSON.parse(queryItem);
+                    setResponse(queryData)
+                    console.log(queryData, "queryHashResponse")
+                })
+            }
         })
-
     };
 
     return (
