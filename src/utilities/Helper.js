@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 import React from "react";
-import config from "../config.json"
 const request = require('request');
+import config from "../constants/config.json"
 
 export default class Helper {
 

@@ -3,7 +3,8 @@ import RevealMetaJS from "persistencejs/transaction/meta/reveal";
 import {Form, Button, Modal} from "react-bootstrap";
 import InputField from "../../components/inputField";
 import {useTranslation} from "react-i18next";
-import { pollTxHash } from '../../utilities/Helper'
+import { pollTxHash } from '../../utilities/Helper';
+import config from "../../constants/config.json"
 const RevealMeta = new RevealMetaJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Reveal = () => {
@@ -21,7 +22,7 @@ const Reveal = () => {
         const metaFact = dataTypeOption + MutableDataName
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        const RevealMetaResponse = RevealMeta.reveal(userAddress, "test", userTypeToken, metaFact, 25, "stake", 200000, "block");
+        const RevealMetaResponse = RevealMeta.reveal(userAddress, "test", userTypeToken, metaFact, config.feesAmount, config.feesToken, 200000, config.mode);
         RevealMetaResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             if(data.txhash){
@@ -68,6 +69,11 @@ const Reveal = () => {
                             {t("SUBMIT")}
                         </Button>
                     </div>
+                    {response.code ?
+                        <p> {response.raw_log}</p>
+                        :
+                        <p> {response.txhash}</p>
+                    }
                 </Form>
             </Modal.Body>
         </div>

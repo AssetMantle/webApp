@@ -3,18 +3,25 @@ import {Modal, Form, Button} from "react-bootstrap";
 import keyUtils from "persistencejs/utilities/keys";
 import DownloadLink from "react-download-link";
 import {useTranslation} from "react-i18next";
+import {useHistory} from "react-router-dom";
 
-const SignUp = ({currentState, onShowChange}) => {
+const SignUp = () => {
     const {t} = useTranslation();
+    const history = useHistory();
+    const [show, setShow] = useState(true);
     const [jsonName, getJsonname] = useState({});
     const [showEncrypt, setShowEncrypt] = useState(false);
     const [mnemonic, setMnemonic] = useState("");
     const [formName, setFormName] = useState("");
     const [showDownload, setShowDownload] = useState(false);
-
-    const handleClose = useCallback(() => {
-        onShowChange(false)
-    }, [onShowChange])
+    const handleClose = () => {
+        setShow(false)
+        history.push('/');
+    };
+    const handleCloseEncrypt = () => {
+        setShowEncrypt(false)
+        history.push('/');
+    };
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -38,35 +45,49 @@ const SignUp = ({currentState, onShowChange}) => {
     }
 
     const handleEncrypt = (name) => {
+        setShow(false)
         setFormName(name)
         setShowEncrypt(true)
     }
 
     return (
         <div className="accountInfo">
+            <Modal show={show} onHide={handleClose} className="signup-section" centered>
             <Modal.Header closeButton>
-                {t("SIGNUP")}
+                {t("SIGNING_UP")}
             </Modal.Header>
             <Modal.Body>
-                <Form onSubmit={handleSubmit}>
-                    <p> {t("SIGNUP_NOTE")}</p>
-                    <Button
-                        variant="primary"
-                        onClick={() => handleEncrypt("Login with PrivateKey")}
-                    >
-                        {t("MNEMONIC")}/{t("PRIVATE_KEY")}
-                    </Button>
-                    <Button
-                        variant="primary"
-                    >
-                        {t("LEDGER_STORE")}
-                    </Button>
-
+                <Form>
+                    <p>({t("SIGNUP_NOTE")})</p>
+                    <div>
+                        <Button
+                            variant="primary"
+                            className="button-signup-mnemonic button-signup"
+                            onClick={() => handleEncrypt("SignUp with PrivateKey")}
+                        >
+                            {t("MNEMONIC")}/{t("PRIVATE_KEY")}
+                        </Button>
+                        <div>
+                        </div>
+                        <Button
+                            variant="primary"
+                            className="button-signup button-signup-ledger"
+                        >
+                            {t("LEDGER_STORE")}
+                        </Button>
+                    </div>
                 </Form>
             </Modal.Body>
+            <Modal.Footer>
+                    <Form.Check custom type="checkbox" label="Accept Terms&Conditions"
+                                name="removeMaintainer"
+                                id="removeMaintainer"
+                    />
+            </Modal.Footer>
+            </Modal>
             <Modal
                 show={showEncrypt}
-                onHide={handleClose}
+                onHide={handleCloseEncrypt}
                 centered
             >
                 <Modal.Header closeButton>

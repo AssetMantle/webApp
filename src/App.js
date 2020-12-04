@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Route, Switch, withRouter} from "react-router-dom";
 import {LoginAction} from "./actions";
+import {SignUp} from "./actions/forms";
 import {HomePage, RouteNotFound, Header, ActionsSwitcher} from "./components";
 import offline from "./assets/images/offline.svg";
 import Footer from "./components/Footer"
@@ -14,7 +15,10 @@ const App = () => {
     }, {
         path: '/LoginAction',
         component: LoginAction,
-    }, {
+    },  {
+        path: '/SignUp',
+        component: SignUp,
+    },{
         path: '/ActionsSwitcher',
         component: ActionsSwitcher,
     }];
@@ -46,8 +50,8 @@ const App = () => {
                         </div>
                         : ""
                 }
-                <div className="container-fluid app-nav">
-                    <div className="container">
+                <div className="container app-nav">
+                    <div className="">
                         <Header/>
                     </div>
                 </div>

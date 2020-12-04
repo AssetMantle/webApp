@@ -6,14 +6,15 @@ let en = {
         "Welcometitle": "Welcome En",
         "NETWORK_ERROR": "Network Disconnected. Check your data or wifi connection.",
         "TITLE": "Asset Mantle",
-        "MAIN_SITE": "MainSite",
-        "EXPLORER": "Explorer",
-        "DOCS": "Docs",
-        "DASHBOARD": "Dashboard",
-        "LOGIN": "Login",
+        "MAIN_SITE": "MAINSITE",
+        "EXPLORER": "EXPLORER",
+        "DOCS": "DOCS",
+        "DASHBOARD": "DASHBOARD",
+        "LOGIN": "LOGIN",
         "LOGOUT": "Logout",
-        "SIGNUP": "SignUp",
-        "CONTACT_US": "ContactUs",
+        "SIGNUP": "SIGN UP",
+        "SIGNING_UP":"Signing Up",
+        "CONTACT_US": "CONTACT US",
         "BURN_ASSET": "Burn Asset",
         "ARE_YOU_SURE": "Are you sure",
         "YES": "Yes",
@@ -69,7 +70,7 @@ let en = {
         "DENOM":"Denom",
         "SIGNUP_NOTE":"choose how you store your key",
         "PRIVATE_KEY":"Private Key",
-        "LEDGER_STORE":"store in ledger",
+        "LEDGER_STORE":"Store in Ledger",
         "ENCRYPT_KEY_STORE":"Enter password to encrypt keystore file",
         "DOWNLOAD_KEY":"After download, please login with private key",
         "SAVE_MNEMONIC":"Please save mnemonic",
@@ -86,8 +87,11 @@ let en = {
         "TAKE":"Take",
         "DEFINE_ORDER":"Define Order",
         "APP_TITLE":"Asset DApp",
-        "BANNER_CONTENT":"Application implementing the minimum clique of PersistenceSDK modules enabling interNFT definition,issuance, ownership transfer and decentralized exchange",
-        "REVEAL_META":"Reveal Meta"
+        "BANNER_CONTENT":"Application implementing the minimum clique of PersistenceSDK modules enabling interNFT definition, issuance, ownership transfer and decentralized exchange.",
+        "REVEAL_META":"Reveal Meta",
+        "KNOW_MORE":"KNOW MORE",
+        "SECURE_NFT_WALLET":"Secure NFT wallet"
+
 
 
     }

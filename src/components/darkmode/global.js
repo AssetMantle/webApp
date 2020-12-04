@@ -13,7 +13,7 @@ html{
     align-items: center;
     background: ${({ theme }) => theme.body};
     color: ${({ theme }) => theme.text};
-    font-family: 'Montserrat', sans-serif;
+    font-family: ${({ theme }) => theme.fontFamily}
     height: 100%;
   }
   .bg-dark, .app-nav {
@@ -65,6 +65,15 @@ border-bottom: 1px solid ${({ theme }) => theme.tabBackground};
 .nav-tabs .nav-link.active {
       color:${({ theme }) => theme.tabActiveNavLinkColor};
     background: ${({ theme }) => theme.tabBackground};
+}
+.banner-heading{
+  color:${({ theme }) => theme.bannerHeadingColor};
+}
+.banner-content{
+  color:${({ theme }) => theme.bannerContentColor};
+}
+.modal-header{
+  color:${({ theme }) => theme.modalHeaderColor};
 }
   `;
 

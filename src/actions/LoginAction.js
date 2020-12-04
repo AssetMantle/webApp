@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {Modal, Button} from "react-bootstrap";
 import {LoginMnemonic, PrivateKey, Ledger} from "./forms/login";
-import {SignUp} from "./forms";
 import {useTranslation} from "react-i18next";
 
 const LoginAction = () => {
@@ -44,14 +43,7 @@ const LoginAction = () => {
                                 {t("LEDGER_LOGIN")}
                             </Button>
                         </div>
-                        <div className="mrt-10">
-                            <Button
-                                variant="primary"
-                                onClick={() => handleRoute("SignUp")}
-                            >
-                                {t("SIGNUP")}
-                            </Button>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -64,11 +56,6 @@ const LoginAction = () => {
                 {
                     externalComponent === 'PrivateKey' ?
                         <PrivateKey/> :
-                        null
-                }
-                {
-                    externalComponent === 'SignUp' ?
-                        <SignUp currentState={show} onShowChange={setShow}/> :
                         null
                 }
                 {

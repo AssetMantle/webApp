@@ -7,14 +7,41 @@
 
 .navbar-dark .navbar-nav .nav-link {
   padding: 1.3rem 1rem !important;
-  font-weight: 500; }
+  font-weight: 500;
+  font-size: 14px; }
 .navbar-dark .navbar-brand a {
-  font-weight: 500; }
+  padding-left: 0;
+  font-weight: bold;
+  font-size: 24px; }
 
-.navbar-dark {
-  padding: 0; }
-  .navbar-dark .navbar-nav .nav-link {
-    padding: 1rem 1rem; }
+.app-nav {
+  padding: 40px 0 0 0; }
+
+.navbar-dark .navbar-nav .nav-link {
+  padding: 1rem 1rem; }
+.navbar-dark .navbar-nav .button-login-section {
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 16px; }
+  .navbar-dark .navbar-nav .button-login-section .button-double-border {
+    padding: 3px .75rem; }
+
+.button-double-border {
+  background: #FFFFFF;
+  color: #262A2B;
+  border: 0px solid;
+  border-radius: 15px;
+  box-shadow: 0px 0px 0 1px #ffffff, 0px 0px 0 3px #ffffff, 4px 4px 0 2px #262A2B, 4px 4px 0 3px #FFFFFF; }
+  .button-double-border:hover {
+    color: #262a2b;
+    background-color: #efcc30;
+    border-color: #ffffff; }
+
+.button-double-border:not(:disabled):not(.disabled).active:focus, .button-double-border:not(:disabled):not(.disabled):active:focus, .show > .button-double-border.dropdown-toggle:focus, .button-double-border.focus, .button-double-border:focus {
+  color: #262a2b;
+  background-color: #efcc30;
+  box-shadow: 0px 0px 0 1px #ffffff, 0px 0px 0 3px #ffffff, 4px 4px 0 2px #262A2B, 4px 4px 0 3px #FFFFFF;
+  border-color: #ffffff; }
 
 .btn .btn-outline-info {
   color: #fff;
@@ -32,6 +59,9 @@
 
 .homeSection {
   padding-top: 20px; }
+  .homeSection .row {
+    margin-left: auto;
+    margin-right: auto; }
   .homeSection .col-md-3, .homeSection .col-md-6 {
     color: #fff; }
     .homeSection .col-md-3:not(:first-child), .homeSection .col-md-6:not(:first-child) {
@@ -40,15 +70,14 @@
     flex: 50%;
     max-width: 50%; }
   .homeSection .appInfoBox {
-    display: flex;
-    align-items: center;
-    justify-content: center; }
-    .homeSection .appInfoBox p {
-      width: 70%;
-      font-weight: 500;
-      font-size: 2rem;
-      text-align: center;
-      padding: 50px; }
+    padding: 200px 0; }
+    .homeSection .appInfoBox .banner-heading {
+      font-weight: bold;
+      font-size: 64px;
+      line-height: 96px; }
+    .homeSection .appInfoBox .banner-content {
+      line-height: 2;
+      margin-bottom: 25px; }
 
 .createAccountSection {
   display: flex;
@@ -66,30 +95,28 @@
   .card-deck .card .card-title {
     text-transform: uppercase; }
 
-.accountInfo {
-  margin-top: 20px; }
-  .accountInfo .tab-content {
-    padding: 15px; }
-    .accountInfo .tab-content form input {
-      width: 300px; }
-  .accountInfo .button {
-    margin-right: 10px; }
-  .accountInfo .signup-box {
-    padding: 50px;
-    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-    border-radius: 5px; }
-    .accountInfo .signup-box .mrt-10 {
-      margin-top: 10px; }
-    .accountInfo .signup-box .btn-primary:not(:disabled):not(.disabled).active,
-    .accountInfo .signup-box .btn-primary:not(:disabled):not(.disabled):active,
-    .accountInfo .signup-box .show > .btn-primary.dropdown-toggle,
-    .accountInfo .signup-box .btn-primary {
-      background-color: #145827;
-      border-color: #145827;
-      box-shadow: none; }
-    .accountInfo .signup-box .btn.focus, .accountInfo .signup-box .btn:focus {
-      outline: 0;
-      box-shadow: none; }
+.accountInfo .tab-content {
+  padding: 15px; }
+  .accountInfo .tab-content form input {
+    width: 300px; }
+.accountInfo .button {
+  margin-right: 10px; }
+.accountInfo .signup-box {
+  padding: 50px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  border-radius: 5px; }
+  .accountInfo .signup-box .mrt-10 {
+    margin-top: 10px; }
+  .accountInfo .signup-box .btn-primary:not(:disabled):not(.disabled).active,
+  .accountInfo .signup-box .btn-primary:not(:disabled):not(.disabled):active,
+  .accountInfo .signup-box .show > .btn-primary.dropdown-toggle,
+  .accountInfo .signup-box .btn-primary {
+    background-color: #145827;
+    border-color: #145827;
+    box-shadow: none; }
+  .accountInfo .signup-box .btn.focus, .accountInfo .signup-box .btn:focus {
+    outline: 0;
+    box-shadow: none; }
 
 .pageError {
   height: calc(100vh - 66px);
@@ -156,5 +183,55 @@
   .tabs-top-bar p {
     margin: 0;
     color: #fff; }
+
+.banner-image-section {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; }
+  .banner-image-section img {
+    margin-right: -50px; }
+
+.modal-content {
+  border-radius: 15px; }
+  .modal-content .modal-header {
+    display: block;
+    padding: 20px;
+    font-weight: 500;
+    font-size: 14px;
+    text-align: center; }
+  .modal-content .modal-body {
+    padding: 25px;
+    text-align: center; }
+  .modal-content .modal-footer {
+    justify-content: center; }
+
+.btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus, .btn-primary.focus, .btn-primary:focus {
+  color: #262a2b;
+  background-color: #efcc30;
+  border-color: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05); }
+
+.signup-section .button-signup {
+  padding: 15px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 14px;
+  width: 250px;
+  border: 1px solid #F5F5F5;
+  background: #FFFFFF;
+  color: #262A2B; }
+  .signup-section .button-signup:hover {
+    color: #262A2B;
+    background-color: #efcc30;
+    border: 1px solid #efcc30;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05); }
+.signup-section .button-signup-mnemonic {
+  margin-bottom: 15px; }
+.signup-section .modal-footer .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+  background-color: #efcc30;
+  border: 0px solid; }
+.signup-section .modal-footer .custom-checkbox input {
+  margin-top: 5px; }
 
 /*# sourceMappingURL=styles.css.map */

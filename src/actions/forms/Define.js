@@ -3,9 +3,12 @@ import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../utilities/Helper"
 import InputField from "../../components/inputField"
 import {useTranslation} from "react-i18next";
+import { pollTxHash } from '../../utilities/Helper'
+import config from "../../constants/config.json"
 
 const Define = (props) => {
     const Helper = new Helpers();
+    const url = process.env.REACT_APP_ASSET_MANTLE_API;
     const [dataTypeOption, setDataTypeOption] = useState("S|");
     const [typeOption, setTypeOption] = useState("identity");
     const [mutableStyle, setMutableStyle] = useState("ERC20");
@@ -104,11 +107,17 @@ const Define = (props) => {
         }
         if (mutablePropertyValue !== "") {
             if (mutableMetaPropertyValue !== "") {
-                const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
+                const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, config.feesAmount, config.feesToken, 200000, config.mode)
                 defineIdentityResult.then(function (item) {
-                    setResponse(item)
-                    window.location.reload();
-                    console.log(item, "result define Identity")
+                    const data = JSON.parse(JSON.stringify(item));
+                    if(data.txhash){
+                        let queryHashResponse =  pollTxHash(url, data.txhash);
+                        queryHashResponse.then(function (queryItem) {
+                            const queryData = JSON.parse(queryItem);
+                            setResponse(queryData)
+                            console.log(queryData, "queryHashResponse")
+                        })
+                    }
                 })
             } else {
                 console.log("add Mutable Meta property")
