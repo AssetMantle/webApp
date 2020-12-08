@@ -3,6 +3,8 @@ import burnAssetJS from "persistencejs/transaction/assets/burn";
 import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../../utilities/Helper";
 import { useTranslation } from "react-i18next";
+import Loader from "../../../components/loader"
+import ModalCommon from "../../../components/modal"
 const burnAsset = new burnAssetJS(process.env.REACT_APP_ASSET_MANTLE_API)
 import { pollTxHash } from '../../../utilities/Helper'
 import config from "../../../constants/config.json"
@@ -11,13 +13,16 @@ const BurnAsset = (props) => {
     const url = process.env.REACT_APP_ASSET_MANTLE_API;
     const { t } = useTranslation();
     const Helper = new Helpers();
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(true);
+    const [loader, setLoader] = useState(false)
     const [response, setResponse] = useState({});
     const handleClose = () => {
         setShow(false);
+        props.setExternalComponent("");
     };
 
     const handleSubmit = (event) => {
+        setLoader(true)
         event.preventDefault();
         const asset = props.asset;
         const FromId = event.target.FromId.value;
@@ -32,7 +37,8 @@ const BurnAsset = (props) => {
                 queryHashResponse.then(function (queryItem) {
                     const queryData = JSON.parse(queryItem);
                     setResponse(queryData)
-                    console.log(queryData, "queryHashResponse")
+                    setShow(false);
+                    setLoader(false)
                 })
             }
         })
@@ -40,12 +46,19 @@ const BurnAsset = (props) => {
 
     return (
         <div className="accountInfo">
+            <Modal show={show} onHide={handleClose} centered>
             <Modal.Header closeButton>
                 {t("BURN_ASSET")}
             </Modal.Header>
+                <div>
+                    {loader ?
+                        <Loader />
+                        : ""
+                    }
+                </div>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group>
                         <Form.Label>{t("FROM_ID")}</Form.Label>
                         <Form.Control
                             type="text"
@@ -69,6 +82,11 @@ const BurnAsset = (props) => {
                     }
                 </Form>
             </Modal.Body>
+            </Modal>
+            {!(Object.keys(response).length === 0) ?
+                <ModalCommon data={response}/>
+                : ""
+            }
         </div>
     );
 };

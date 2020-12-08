@@ -6,6 +6,8 @@ import {HomePage, RouteNotFound, Header, ActionsSwitcher} from "./components";
 import offline from "./assets/images/offline.svg";
 import Footer from "./components/Footer"
 import {useTranslation} from "react-i18next";
+import './assets/css/styles.css'
+import './assets/css/mediaqueries.css'
 
 const App = () => {
     const {t} = useTranslation();

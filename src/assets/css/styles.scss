@@ -177,23 +177,19 @@
     padding: 50px;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
     border-radius: 5px;
-
-    .btn-primary:not(:disabled):not(.disabled).active,
-    .btn-primary:not(:disabled):not(.disabled):active,
-    .show > .btn-primary.dropdown-toggle,
-    .btn-primary {
-      background-color: #145827;
-      border-color: #145827;
-      box-shadow: none;
-    }
-
-    .btn.focus, .btn:focus {
-      outline: 0;
-      box-shadow: none;
-    }
-
   }
+}
 
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.show > .btn-primary.dropdown-toggle,
+.btn-primary, .btn-primary:hover {
+  border-color: #efcc30;
+}
+
+.btn.focus, .btn:focus {
+  outline: 0;
+  box-shadow: none;
 }
 
 .pageError {
@@ -211,7 +207,7 @@
   transform: -webkit-translate(-50%, -50%);
   transform: -moz-translate(-50%, -50%);
   transform: -ms-translate(-50%, -50%);
-  z-index: 1;
+  z-index: 99999;
 }
 
 .dropdown-item.active, .dropdown-item:active {
@@ -300,13 +296,12 @@
     display: block;
     padding: 20px;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 18px;
     text-align: center;
   }
 
   .modal-body {
     padding: 25px;
-    text-align: center;
   }
 
   .modal-footer {
@@ -315,13 +310,15 @@
 }
 
 .btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus, .btn-primary.focus, .btn-primary:focus {
-  color: #262a2b;
-  background-color: #efcc30;
   border-color: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
 }
 
 .signup-section {
+  .modal-body {
+    text-align: center;
+  }
+
   .button-signup {
     padding: 15px;
     border-radius: 14px;
@@ -333,8 +330,6 @@
     color: #262A2B;
 
     &:hover {
-      color: #262A2B;
-      background-color: #efcc30;
       border: 1px solid #efcc30;
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
     }
@@ -343,18 +338,27 @@
   .button-signup-mnemonic {
     margin-bottom: 15px;
   }
+}
 
-  .modal-footer {
-    .custom-checkbox {
-      .custom-control-input:checked ~ .custom-control-label::before {
-        background-color: #efcc30;
-        border: 0px solid;
-      }
+.custom-checkbox, .custom-switch {
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #efcc30;
+    border: 0px solid;
+  }
 
-      input {
-        margin-top: 5px;
-      }
-    }
+  input {
+    margin-top: 5px;
   }
 }
 
+.loader .modal-content {
+  border: 0;
+  background: none;
+}
+
+.tx-hash {
+  word-break: break-all;
+}
+.error-response{
+  color: #dc3545;
+}

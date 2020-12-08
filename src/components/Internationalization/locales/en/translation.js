@@ -32,7 +32,7 @@ let en = {
         "COIN_DENOM": "Coin Denom",
         "COIN_AMOUNT": "Coin Amount",
         "ISSUE_IDENTITY": "Issue Identity",
-        "PROVISION": "Provision,",
+        "PROVISION": "Provision",
         "UN_PROVISION": "UnProvision",
         "NUB_ID": "Nub Id",
         "TO_ADDRESS": "To Address",
@@ -90,7 +90,8 @@ let en = {
         "BANNER_CONTENT":"Application implementing the minimum clique of PersistenceSDK modules enabling interNFT definition, issuance, ownership transfer and decentralized exchange.",
         "REVEAL_META":"Reveal Meta",
         "KNOW_MORE":"KNOW MORE",
-        "SECURE_NFT_WALLET":"Secure NFT wallet"
+        "SECURE_NFT_WALLET":"Secure NFT wallet",
+        "TAKER_OWNABLE_SPLIT":"Taker Ownable Split"
 
 
 

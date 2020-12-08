@@ -3,7 +3,7 @@ import maintainersQueryJS from "persistencejs/transaction/maintainers/query";
 import Helpers from "../../utilities/Helper";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
 import {Button, Modal} from "react-bootstrap";
-import {Deputize} from "../forms";
+import {Deputize} from "../forms/maintainers";
 
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const maintainersQuery = new maintainersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -13,13 +13,8 @@ const Maintainers = () => {
     const [maintainersList, setMaintainersList] = useState([]);
     const [maintainer, setMaintainer] = useState({});
     const userAddress = localStorage.getItem('address');
-    const [show, setShow] = useState(false);
     const [externalComponent, setExternalComponent] = useState("");
-    const [showAsset, setShowAsset] = useState(false);
-    const handleClose = () => {
-        setShow(false);
-        setShowAsset(false);
-    };
+
     useEffect(() => {
         const fetchOrder = () => {
             const identities = identitiesQuery.queryIdentityWithID("all")
@@ -48,7 +43,6 @@ const Maintainers = () => {
     const handleModalData = (formName, maintainer1) => {
         setMaintainer(maintainer1)
         setExternalComponent(formName)
-        setShowAsset(formName);
     }
 
     return (
@@ -81,20 +75,14 @@ const Maintainers = () => {
 
                 </div>
             </div>
-            <Modal
-                show={showAsset}
-                onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
-                centered
-            >
+            <div>
 
                 {
                     externalComponent === 'BurnAsset' ?
-                        <Deputize maintainerData={maintainer}/> :
+                        <Deputize setExternalComponent={setExternalComponent} maintainerData={maintainer}/> :
                         null
                 }
-            </Modal>
+            </div>
         </div>
     );
 };

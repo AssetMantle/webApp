@@ -107,16 +107,16 @@
   border-radius: 5px; }
   .accountInfo .signup-box .mrt-10 {
     margin-top: 10px; }
-  .accountInfo .signup-box .btn-primary:not(:disabled):not(.disabled).active,
-  .accountInfo .signup-box .btn-primary:not(:disabled):not(.disabled):active,
-  .accountInfo .signup-box .show > .btn-primary.dropdown-toggle,
-  .accountInfo .signup-box .btn-primary {
-    background-color: #145827;
-    border-color: #145827;
-    box-shadow: none; }
-  .accountInfo .signup-box .btn.focus, .accountInfo .signup-box .btn:focus {
-    outline: 0;
-    box-shadow: none; }
+
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.show > .btn-primary.dropdown-toggle,
+.btn-primary, .btn-primary:hover {
+  border-color: #efcc30; }
+
+.btn.focus, .btn:focus {
+  outline: 0;
+  box-shadow: none; }
 
 .pageError {
   height: calc(100vh - 66px);
@@ -132,7 +132,7 @@
   transform: -webkit-translate(-50%, -50%);
   transform: -moz-translate(-50%, -50%);
   transform: -ms-translate(-50%, -50%);
-  z-index: 1; }
+  z-index: 99999; }
 
 .dropdown-item.active, .dropdown-item:active {
   background-color: #124623 !important;
@@ -198,20 +198,19 @@
     display: block;
     padding: 20px;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 18px;
     text-align: center; }
   .modal-content .modal-body {
-    padding: 25px;
-    text-align: center; }
+    padding: 25px; }
   .modal-content .modal-footer {
     justify-content: center; }
 
 .btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus, .btn-primary.focus, .btn-primary:focus {
-  color: #262a2b;
-  background-color: #efcc30;
   border-color: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05); }
 
+.signup-section .modal-body {
+  text-align: center; }
 .signup-section .button-signup {
   padding: 15px;
   border-radius: 14px;
@@ -222,16 +221,25 @@
   background: #FFFFFF;
   color: #262A2B; }
   .signup-section .button-signup:hover {
-    color: #262A2B;
-    background-color: #efcc30;
     border: 1px solid #efcc30;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05); }
 .signup-section .button-signup-mnemonic {
   margin-bottom: 15px; }
-.signup-section .modal-footer .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before, .custom-switch .custom-control-input:checked ~ .custom-control-label::before {
   background-color: #efcc30;
   border: 0px solid; }
-.signup-section .modal-footer .custom-checkbox input {
+.custom-checkbox input, .custom-switch input {
   margin-top: 5px; }
+
+.loader .modal-content {
+  border: 0;
+  background: none; }
+
+.tx-hash {
+  word-break: break-all; }
+
+.error-response {
+  color: #dc3545; }
 
 /*# sourceMappingURL=styles.css.map */

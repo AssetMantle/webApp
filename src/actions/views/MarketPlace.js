@@ -12,13 +12,10 @@ const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const Marketplace = () => {
     const Helper = new Helpers();
     const {t} = useTranslation();
-    const [showOrder, setShowOrder] = useState(false);
     const [externalComponent, setExternalComponent] = useState("");
     const [orderId, setOrderId] = useState("");
     const [orderList, setOrderList] = useState([]);
-    const handleClose = () => {
-        setShowOrder(false);
-    };
+
 
     useEffect(() => {
         const fetchOrder = () => {
@@ -53,7 +50,6 @@ const Marketplace = () => {
 
     const handleModalData = (formName, orderId) => {
         setOrderId(orderId)
-        setShowOrder(true)
         setExternalComponent(formName)
     }
     return (
@@ -81,7 +77,7 @@ const Marketplace = () => {
                                     </div>
                                     <a href="#">{orderIdData}</a>
                                     <p>{t("IMMUTABLES")}</p>
-                                    {
+                                    {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
                                                 return (<a key={index + keyName}><b>{keyName} </b>: <span
@@ -91,11 +87,12 @@ const Marketplace = () => {
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
                                             }
                                         })
+                                        :""
                                     }
 
                                     <p>{t("MUTABLES")}</p>
 
-                                    {
+                                    {mutableKeys !== null ?
                                         mutableKeys.map((keyName, index1) => {
                                             if (mutableProperties[keyName] !== "") {
                                                 return (<a key={index + keyName}><b>{keyName} </b>: <span
@@ -105,6 +102,7 @@ const Marketplace = () => {
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
                                             }
                                         })
+                                        :""
                                     }
                                 </div>
                             </div>
@@ -112,18 +110,12 @@ const Marketplace = () => {
 
                     })}
                 </div>
-                <Modal
-                    show={showOrder}
-                    onHide={handleClose}
-                    backdrop="static"
-                    keyboard={false}
-                    centered
-                >
+                <div>
                     {externalComponent === 'TakeOrder' ?
-                        <TakeOrder id={orderId} FormName={'Take Order'}/> :
+                        <TakeOrder setExternalComponent={setExternalComponent} id={orderId} FormName={'Take Order'}/> :
                         null
                     }
-                </Modal>
+                </div>
             </div>
         </div>
     );

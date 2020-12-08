@@ -20,12 +20,8 @@ const Orders = () => {
     const {t} = useTranslation();
     const [orderList, setOrderList] = useState([]);
     const userAddress = localStorage.getItem('address');
-    const [showOrder, setShowOrder] = useState(false);
     const [externalComponent, setExternalComponent] = useState("");
     const [order, setOrder] = useState([]);
-    const handleClose = () => {
-        setShowOrder(false);
-    };
 
     useEffect(() => {
         const fetchOrder = () => {
@@ -69,7 +65,6 @@ const Orders = () => {
     const handleModalData = (formName, order) => {
         console.log("1")
         setOrder(order);
-        setShowOrder(true)
         setExternalComponent(formName)
     }
 
@@ -106,7 +101,7 @@ const Orders = () => {
                                     </div>
                                     <a href="#">{Helper.GetOrderID(order)}</a>
                                     <p>{t("IMMUTABLES")}</p>
-                                    {
+                                    {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
                                                 return (<a key={index + keyName}><b>{keyName} </b>: <span
@@ -116,11 +111,12 @@ const Orders = () => {
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
                                             }
                                         })
+                                        :""
                                     }
 
                                     <p>{t("MUTABLES")}</p>
 
-                                    {
+                                    {mutableKeys !== null ?
                                         mutableKeys.map((keyName, index1) => {
                                             if (mutableProperties[keyName] !== "") {
                                                 return (<a key={index + keyName}><b>{keyName} </b>: <span
@@ -130,6 +126,7 @@ const Orders = () => {
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
                                             }
                                         })
+                                        :""
                                     }
                                 </div>
                             </div>
@@ -138,23 +135,17 @@ const Orders = () => {
                     })}
                 </div>
             </div>
-            <Modal
-                show={showOrder}
-                onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
-                centered
-            >
+            <div>
                 {externalComponent === 'DefineOrder' ?
-                    <Define ActionName={ordersDefine} FormName={'Define Order'}/> :
+                    <Define setExternalComponent={setExternalComponent} ActionName={ordersDefine} FormName={'Define Order'}/> :
                     null
                 }
 
                 {externalComponent === 'CancelOrder' ?
-                    <CancelOrder order={order}/> :
+                    <CancelOrder setExternalComponent={setExternalComponent} order={order}/> :
                     null
                 }
-            </Modal>
+            </div>
         </div>
     );
 };

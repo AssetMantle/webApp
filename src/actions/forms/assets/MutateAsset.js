@@ -4,6 +4,9 @@ import metasQueryJS from "persistencejs/transaction/meta/query";
 import Helpers from "../../../utilities/Helper";
 import assetMutateJS from "persistencejs/transaction/assets/mutate";
 import {useTranslation} from "react-i18next";
+import Loader from "../../../components/loader"
+import ModalCommon from "../../../components/modal"
+import config from "../../../constants/config.json"
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMutate = new assetMutateJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -11,6 +14,9 @@ const assetMutate = new assetMutateJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const MutateAsset = (props) => {
     const Helper = new Helpers();
     const {t} = useTranslation();
+    const [show, setShow] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [loader, setLoader] = useState(false)
     const [keyList, setKeyList] = useState([]);
     const [response, setResponse] = useState({});
     const [mutableProperties, setMutableProperties] = useState([]);
@@ -24,7 +30,10 @@ const MutateAsset = (props) => {
         }
         fetchList();
     }, [])
-
+    const handleClose = () => {
+        setShow(false);
+        props.setExternalComponent("");
+    };
     const handleCheckMutableChange = evt => {
         const checkedValue = evt.target.checked;
         const name = evt.target.getAttribute("name")
@@ -38,6 +47,7 @@ const MutateAsset = (props) => {
         }
     }
     const handleSubmit = (event) => {
+        setLoader(true)
         event.preventDefault();
         const asset = props.asset;
         const FromId = event.target.FromId.value;
@@ -48,9 +58,11 @@ const MutateAsset = (props) => {
             assetDataTypeList[item.value.id.value.idString] = item.value.fact.value.type;
         })
         if (checkboxMutableNamesList.length === 0) {
-            alert("select mutable meta")
+            setErrorMessage("select mutable meta")
+            setLoader(false)
         } else if (keyList.length !== 0 && checkboxMutableNamesList.length !== 0 && keyList.length === checkboxMutableNamesList.length) {
-            alert("you can't select all as mutable meta")
+            setErrorMessage("you can't select all as mutable meta")
+            setLoader(false)
         } else {
             let mutableValues = "";
             let mutableMetaValues = "";
@@ -72,79 +84,92 @@ const MutateAsset = (props) => {
             }
             const userTypeToken = localStorage.getItem('mnemonic');
             const userAddress = localStorage.getItem('address');
-            const mutateResponse = assetMutate.mutate(userAddress, "test", userTypeToken, FromId, assetId, mutableValues, mutableMetaValues, 25, "stake", 200000, "block");
+            const mutateResponse = assetMutate.mutate(userAddress, "test", userTypeToken, FromId, assetId, mutableValues, mutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode);
             mutateResponse.then(function (item) {
                 const data = JSON.parse(JSON.stringify(item));
                 setResponse(data)
-                window.location.reload();
-                console.log(data, "mutateResponse")
+                setShow(false);
+                setLoader(false)
             })
-
         }
     };
 
     return (
         <div className="accountInfo">
-            <Modal.Header closeButton>
-                {t("MUTATE_ASSET")}
-            </Modal.Header>
-            <Modal.Body>
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>{t("FROM_ID")}</Form.Label>
-                        <Form.Control
-                            type="text"
-                            className=""
-                            name="FromId"
-                            required={true}
-                            placeholder="FromId"
-                        />
-                    </Form.Group>
-                    {keyList.map((keyName, idx) => {
-                        if (mutableProperties[keyName] !== "" && mutableProperties[keyName] !== null) {
-                            const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
-                            metaQueryResult.then(function (item) {
-                                const data = JSON.parse(item);
-                                let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName]);
-                                if (document.getElementById(keyName + idx)) {
-                                    document.getElementById(keyName + idx).value = metaValue;
-                                }
-                            });
+
+            <Modal show={show} onHide={handleClose} centered>
+                <Modal.Header closeButton>
+                    {t("MUTATE_ASSET")}
+                </Modal.Header>
+                <div>
+                    {loader ?
+                        <Loader/>
+                        : ""
+                    }
+                </div>
+                <Modal.Body>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group>
+                            <Form.Label>{t("FROM_ID")}</Form.Label>
+                            <Form.Control
+                                type="text"
+                                className=""
+                                name="FromId"
+                                required={true}
+                                placeholder="FromId"
+                            />
+                        </Form.Group>
+                        {keyList.map((keyName, idx) => {
+                            if (mutableProperties[keyName] !== "" && mutableProperties[keyName] !== null) {
+                                const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
+                                metaQueryResult.then(function (item) {
+                                    const data = JSON.parse(item);
+                                    let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName]);
+                                    if (document.getElementById(keyName + idx)) {
+                                        document.getElementById(keyName + idx).value = metaValue;
+                                    }
+                                });
+                            }
+                            return (
+                                <div key={idx}>
+                                    <Form.Group>
+                                        <Form.Label>{keyName}</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            className=""
+                                            required={true}
+                                            id={keyName + idx}
+                                            name={keyName + idx}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Check custom type="checkbox" label="Meta"
+                                                    name={keyName + idx}
+                                                    id={`checkbox${keyName + idx}`}
+                                                    onClick={handleCheckMutableChange}
+                                        />
+                                    </Form.Group>
+                                </div>
+                            )
+                        })
                         }
-                        return (
-                            <div key={idx}>
-                                <Form.Group>
-                                    <Form.Label>{keyName}</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        className=""
-                                        required={true}
-                                        id={keyName + idx}
-                                        name={keyName + idx}
-                                    />
-                                </Form.Group>
-                                <Form.Group controlId="formBasicCheckbox">
-                                    <Form.Check type="checkbox" label="Meta"
-                                                name={keyName + idx}
-                                                onClick={handleCheckMutableChange}
-                                    />
-                                </Form.Group>
-                            </div>
-                        )
-                    })
-                    }
-                    <div className="submitButtonSection">
-                        <Button variant="primary" type="submit">
-                            {t("submit")}
-                        </Button>
-                    </div>
-                    {response.code ?
-                        <p> {response.raw_log}</p>
-                        :
-                        <p> {response.txhash}</p>
-                    }
-                </Form>
-            </Modal.Body>
+                        {errorMessage !== "" ?
+                            <span className="error-response">{errorMessage}</span>
+                            :""
+
+                        }
+                        <div className="submitButtonSection">
+                            <Button variant="primary" type="submit">
+                                {t("submit")}
+                            </Button>
+                        </div>
+                    </Form>
+                </Modal.Body>
+            </Modal>
+            {!(Object.keys(response).length === 0) ?
+                <ModalCommon data={response}/>
+                : ""
+            }
         </div>
     );
 };

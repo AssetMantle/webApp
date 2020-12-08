@@ -9,7 +9,7 @@ const SignUp = () => {
     const {t} = useTranslation();
     const history = useHistory();
     const [show, setShow] = useState(true);
-    const [jsonName, getJsonname] = useState({});
+    const [jsonName, setJsonName] = useState({});
     const [showEncrypt, setShowEncrypt] = useState(false);
     const [mnemonic, setMnemonic] = useState("");
     const [formName, setFormName] = useState("");
@@ -38,7 +38,7 @@ const SignUp = () => {
             return (<div>ERROR!!</div>)
         }
         const jsonContent = JSON.stringify(create.Response);
-        getJsonname(jsonContent)
+        setJsonName(jsonContent)
         setMnemonic(error.mnemonic)
         localStorage.setItem("address", error.address)
         localStorage.setItem("mnemonic", error.mnemonic)
@@ -104,13 +104,14 @@ const SignUp = () => {
                                 placeholder="password"
                                 required={true}
                             />
+                            <div className="submitButtonSection">
                             <Button
                                 variant="primary"
                                 type="submit"
                             >
                                 {t("NEXT")}
                             </Button>
-
+                            </div>
                         </Form>
                         : ""
                     }

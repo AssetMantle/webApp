@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from "react";
 import {Tabs, Tab, Button, Modal} from "react-bootstrap";
 import {Maintainers, Identities, Assets, Orders, Marketplace} from "../actions/views"
-import {Reveal, SendCoin} from "../actions/forms"
+import {SendCoin} from "../actions/forms/bank"
+import {Reveal} from "../actions/forms/metas"
 import axios from "axios";
 import {getFaucet} from "../constants/url";
 import {useTranslation} from "react-i18next";
 
 const ActionsSwitcher = () => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const userAddress = localStorage.getItem('address');
     const [externalComponent, setExternalComponent] = useState("");
     const [accountResponse, setAccountResponse] = useState("");
@@ -47,8 +48,8 @@ const ActionsSwitcher = () => {
                         : ""
                     }
                 </div>
-                    {(accountResponse.coins !== undefined && accountResponse.coins.length ) ?
-                        <p>Amount: {accountResponse.coins[0].amount}
+                {(accountResponse.coins !== undefined && accountResponse.coins.length) ?
+                    <p>Amount: {accountResponse.coins[0].amount}
                     </p>
                     : "Amount: 0"
                 }

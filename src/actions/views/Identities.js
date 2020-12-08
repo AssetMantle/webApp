@@ -15,14 +15,10 @@ const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANT
 const Identities = () => {
     const Helper = new Helpers();
     const {t} = useTranslation();
-    const [showIdentity, setShowIdentity] = useState(false);
     const [externalComponent, setExternalComponent] = useState("");
     const [identityId, setIdentityId] = useState("");
     const [identity, setIdentity] = useState([]);
     const [filteredIdentitiesList, setFilteredIdentitiesList] = useState([]);
-    const handleClose = () => {
-        setShowIdentity(false);
-    };
     const userAddress = localStorage.getItem('address');
     useEffect(() => {
         const fetchToIdentities = () => {
@@ -58,11 +54,11 @@ const Identities = () => {
     }, []);
 
     const handleModalData = (formName, identityId, identity) => {
+        setExternalComponent(formName)
         setIdentity(identity);
         setIdentityId(identityId)
-        setShowIdentity(true)
-        setExternalComponent(formName)
     }
+
     return (
         <div className="container">
             <div className="accountInfo">
@@ -155,35 +151,30 @@ const Identities = () => {
                     })}
                 </div>
             </div>
-            <Modal
-                show={showIdentity}
-                onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
-                centered
-            >
+            <div>
                 {externalComponent === 'Nub' ?
-                    <Nub/> :
+                    <Nub setExternalComponent={setExternalComponent} /> :
                     null
                 }
                 {externalComponent === 'DefineIdentity' ?
-                    <Define ActionName={identitiesDefine} FormName={'Define Identity'}/> :
+                    <Define setExternalComponent={setExternalComponent} ActionName={identitiesDefine} FormName={'Define Identity'}/> :
                     null
                 }
                 {externalComponent === 'IssueIdentity' ?
-                    <IssueIdentity/> :
+
+                    <IssueIdentity setExternalComponent={setExternalComponent} /> :
                     null
                 }
 
                 {externalComponent === 'Provision' ?
-                    <Provision identityId={identityId}/> :
+                    <Provision setExternalComponent={setExternalComponent} identityId={identityId}/> :
                     null
                 }
                 {externalComponent === 'UnProvision' ?
-                    <UnProvision identityId={identityId} identityIdList={identity}/> :
+                    <UnProvision setExternalComponent={setExternalComponent} identityId={identityId} identityIdList={identity}/> :
                     null
                 }
-            </Modal>
+            </div>
         </div>
     );
 }

@@ -21,7 +21,6 @@ const assetDefine = new AssetDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const Assets = () => {
     const Helper = new Helpers();
     const {t} = useTranslation();
-    const [showAsset, setShowAsset] = useState(false);
     const [externalComponent, setExternalComponent] = useState("");
     const [assetId, setAssetId] = useState("");
     const [assetList, setAssetList] = useState([]);
@@ -29,9 +28,7 @@ const Assets = () => {
     const [mutateProperties, setMutateProperties] = useState({});
     const [asset, setAsset] = useState({});
     const userAddress = localStorage.getItem('address');
-    const handleClose = () => {
-        setShowAsset(false);
-    };
+
     useEffect(() => {
         const fetchAssets = () => {
             const identities = identitiesQuery.queryIdentityWithID("all")
@@ -88,7 +85,6 @@ const Assets = () => {
         setMutateProperties(mutableProperties1)
         setAsset(asset1)
         setAssetId(assetId1)
-        setShowAsset(true);
         setExternalComponent(formName)
     }
 
@@ -152,8 +148,8 @@ const Assets = () => {
                                                                 </Button>
 
                                                         </div>
-                                                        <p>Immutables</p>
-                                                        {
+                                                        <p>{t("IMMUTABLES")}</p>
+                                                        {immutableKeys !== null ?
                                                             immutableKeys.map((keyName, index1) => {
                                                                 if (immutableProperties[keyName] !== "") {
                                                                     return (
@@ -164,9 +160,10 @@ const Assets = () => {
                                                                         <a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
                                                                 }
                                                             })
+                                                            :""
                                                         }
-                                                        <p>mutables</p>
-                                                        {
+                                                        <p>{t("MUTABLES")}</p>
+                                                        {mutableKeys !== null ?
                                                             mutableKeys.map((keyName, index1) => {
                                                                 if (mutableProperties[keyName] !== "") {
                                                                     return (
@@ -177,6 +174,7 @@ const Assets = () => {
                                                                         <a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
                                                                 }
                                                             })
+                                                            :""
                                                         }
                                                     </div>
                                                 )
@@ -189,47 +187,41 @@ const Assets = () => {
                         )
                     })}
                 </div>
-                <Modal
-                    show={showAsset}
-                    onHide={handleClose}
-                    backdrop="static"
-                    keyboard={false}
-                    centered
-                >
+                <div>
                     {externalComponent === 'DefineAsset' ?
-                        <Define ActionName={assetDefine} FormName={'Define Asset'} type={'asset'}/> :
+                        <Define setExternalComponent={setExternalComponent} ActionName={assetDefine} FormName={'Define Asset'} type={'asset'}/> :
                         null
                     }
                     {
                         externalComponent === 'MintAsset' ?
-                            <MintAsset/> :
+                            <MintAsset setExternalComponent={setExternalComponent}/> :
                             null
                     }
                     {externalComponent === 'MutateAsset' ?
-                        <MutateAsset mutatePropertiesList={mutateProperties} asset={asset}/> :
+                        <MutateAsset setExternalComponent={setExternalComponent} mutatePropertiesList={mutateProperties} asset={asset}/> :
                         null
                     }
                     {
                         externalComponent === 'BurnAsset' ?
-                            <BurnAsset asset={asset}/> :
+                            <BurnAsset setExternalComponent={setExternalComponent} asset={asset}/> :
                             null
                     }
                     {
                         externalComponent === 'MakeOrder' ?
-                            <MakeOrder assetId={assetId}/> :
+                            <MakeOrder setExternalComponent={setExternalComponent} assetId={assetId}/> :
                             null
                     }
                     {
                         externalComponent === 'Wrap' ?
-                            <Wrap FormName={'Wrap'}/> :
+                            <Wrap setExternalComponent={setExternalComponent} FormName={'Wrap'}/> :
                             null
                     }
                     {
                         externalComponent === 'UnWrap' ?
-                            <UnWrap FormName={'UnWrap'}/> :
+                            <UnWrap setExternalComponent={setExternalComponent} FormName={'UnWrap'}/> :
                             null
                     }
-                </Modal>
+                </div>
             </div>
         </div>
     );

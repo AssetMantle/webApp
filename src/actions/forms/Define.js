@@ -5,10 +5,14 @@ import InputField from "../../components/inputField"
 import {useTranslation} from "react-i18next";
 import { pollTxHash } from '../../utilities/Helper'
 import config from "../../constants/config.json"
+import ModalCommon from "../../components/modal";
+import Loader from "../../components/loader";
 
 const Define = (props) => {
-    const Helper = new Helpers();
     const url = process.env.REACT_APP_ASSET_MANTLE_API;
+    const Helper = new Helpers();
+    const [loader, setLoader] = useState(false)
+    const [show, setShow] = useState(true);
     const [dataTypeOption, setDataTypeOption] = useState("S|");
     const [typeOption, setTypeOption] = useState("identity");
     const [mutableStyle, setMutableStyle] = useState("ERC20");
@@ -24,7 +28,9 @@ const Define = (props) => {
         const newValue = evt.target.value;
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
-
+    const handleClose = () => {
+        setShow(false)
+    };
     const handleChangeType = evt => {
         setTypeOption(evt.target.value);
     }
@@ -40,6 +46,7 @@ const Define = (props) => {
     }
     const handleSubmit = (evt) => {
         evt.preventDefault();
+        setLoader(true);
         let assetSpecificMutables = '';
         if (typeOption === 'asset') {
             assetSpecificMutables = 'burn:H|,lock:H|';
@@ -107,7 +114,7 @@ const Define = (props) => {
         }
         if (mutablePropertyValue !== "") {
             if (mutableMetaPropertyValue !== "") {
-                const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, config.feesAmount, config.feesToken, 200000, config.mode)
+                const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, config.feesAmount, config.feesToken, config.gas, config.mode)
                 defineIdentityResult.then(function (item) {
                     const data = JSON.parse(JSON.stringify(item));
                     if(data.txhash){
@@ -115,7 +122,8 @@ const Define = (props) => {
                         queryHashResponse.then(function (queryItem) {
                             const queryData = JSON.parse(queryItem);
                             setResponse(queryData)
-                            console.log(queryData, "queryHashResponse")
+                            setShow(false)
+                            setLoader(false);
                         })
                     }
                 })
@@ -156,12 +164,17 @@ const Define = (props) => {
     }
     return (
         <div className="accountInfo">
+            <Modal show={show} onHide={handleClose}  centered>
             <Modal.Header closeButton>
                 {props.FormName}
             </Modal.Header>
+                {loader ?
+                    <Loader />
+                    :""
+                }
             <Modal.Body>
                 <form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group>
                         <Form.Label>{t("FROM_ID")}</Form.Label>
                         <Form.Control
                             type="text"
@@ -171,7 +184,7 @@ const Define = (props) => {
                             placeholder="FromId"
                         />
                     </Form.Group>
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group>
                         <Form.Label>Immutable style:S| </Form.Label>
                         <Form.Control as="select" onChange={handleChangeStyle} name="ImmutableStyle"
                                       required={true}>
@@ -179,7 +192,7 @@ const Define = (props) => {
                             <option value="ERC721">ERC721</option>
                         </Form.Control>
                     </Form.Group>
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group>
                         <Form.Label>Immutable type:S| </Form.Label>
                         <Form.Control as="select" name="type"
                                       required={true} onChange={handleChangeType}>
@@ -300,7 +313,7 @@ const Define = (props) => {
                                     <option value="I|">{t("ID_TYPE")}</option>
                                 </Form.Control>
                             </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
+                            <Form.Group>
                                 <Form.Label>{t("DATA_NAME")}</Form.Label>
                                 <Form.Control
                                     type="text"
@@ -312,7 +325,7 @@ const Define = (props) => {
                                 />
                             </Form.Group>
 
-                            <Form.Group controlId="formBasicEmail">
+                            <Form.Group>
                                 <Form.Label>{t("DATA_VALUE")}</Form.Label>
                                 <Form.Control
                                     type="text"
@@ -345,7 +358,7 @@ const Define = (props) => {
                                     <option value="I|">{t("ID_TYPE")}</option>
                                 </Form.Control>
                             </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
+                            <Form.Group>
                                 <Form.Label>{t("DATA_NAME")}</Form.Label>
                                 <Form.Control
                                     type="text"
@@ -356,7 +369,7 @@ const Define = (props) => {
                                     onChange={handleChange}
                                 />
                             </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
+                            <Form.Group>
                                 <Form.Label>{t("DATA_VALUE")}</Form.Label>
                                 <Form.Control
                                     type="text"
@@ -387,7 +400,7 @@ const Define = (props) => {
                                     <option value="I|">{t("ID_TYPE")}</option>
                                 </Form.Control>
                             </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
+                            <Form.Group>
                                 <Form.Label>{t("DATA_NAME")}</Form.Label>
                                 <Form.Control
                                     type="text"
@@ -398,7 +411,7 @@ const Define = (props) => {
                                     onChange={handleChange}
                                 />
                             </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
+                            <Form.Group>
                                 <Form.Label>{t("DATA_VALUE")}</Form.Label>
                                 <Form.Control
                                     type="text"
@@ -429,7 +442,7 @@ const Define = (props) => {
                                     <option value="I|">{t("ID_TYPE")}</option>
                                 </Form.Control>
                             </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
+                            <Form.Group>
                                 <Form.Label>{t("DATA_NAME")}</Form.Label>
                                 <Form.Control
                                     type="text"
@@ -440,7 +453,7 @@ const Define = (props) => {
                                     onChange={handleChange}
                                 />
                             </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
+                            <Form.Group>
                                 <Form.Label>{t("DATA_VALUE")}</Form.Label>
                                 <Form.Control
                                     type="text"
@@ -466,13 +479,13 @@ const Define = (props) => {
                             {t("SUBMIT")}
                         </Button>
                     </div>
-                    {response.code ?
-                        <p> {response.raw_log}</p>
-                        :
-                        <p> {response.txhash}</p>
-                    }
                 </form>
             </Modal.Body>
+            </Modal>
+            { !(Object.keys(response).length === 0) ?
+                <ModalCommon data={response}/>
+                :""
+            }
         </div>
     );
 };

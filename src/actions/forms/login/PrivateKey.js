@@ -39,8 +39,7 @@ const PrivateKey = () => {
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group>
-                        <p>{t("UPLOAD_KEY")}</p>
-                        <input type="file" name="uploadFile" accept=".json" required/>
+                        <Form.File id="exampleFormControlFile1" name="uploadFile" accept=".json" label="upload private key file" />
                     </Form.Group>
                     <Form.Label>{t("DECRYPT_KEY_STORE")}</Form.Label>
                     <Form.Control

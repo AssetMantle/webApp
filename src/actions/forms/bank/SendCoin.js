@@ -2,8 +2,8 @@ import React, {useState, useEffect} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import SendCoinJS from "persistencejs/transaction/bank/sendCoin";
 import {useTranslation} from "react-i18next";
-import { pollTxHash } from '../../utilities/Helper'
-import config from "../../constants/config.json"
+import { pollTxHash } from '../../../utilities/Helper'
+import config from "../../../constants/config.json"
 const SendCoinQuery = new SendCoinJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const SendCoin = () => {
     const {t} = useTranslation();
@@ -16,7 +16,7 @@ const SendCoin = () => {
         const denom = event.target.denom.value;
         const amountData = event.target.amount.value;
         const userTypeToken = localStorage.getItem('mnemonic');
-        const sendCoinResponse = SendCoinQuery.sendCoin("test", userTypeToken, toAddress, denom, amountData, config.feesAmount, config.feesToken, 200000, config.mode);
+        const sendCoinResponse = SendCoinQuery.sendCoin("test", userTypeToken, toAddress, denom, amountData, config.feesAmount, config.feesToken, config.gas, config.mode);
         sendCoinResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             if(data.txhash){
@@ -39,7 +39,7 @@ const SendCoin = () => {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group>
                         <Form.Label>{t("TO_ADDRESS")}</Form.Label>
                         <Form.Control
                             type="text"
