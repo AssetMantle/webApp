@@ -18,6 +18,7 @@ const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const Orders = () => {
     const Helper = new Helpers();
     const {t} = useTranslation();
+    const [emptyOrders, setEmptyOrders] = useState("");
     const [orderList, setOrderList] = useState([]);
     const userAddress = localStorage.getItem('address');
     const [externalComponent, setExternalComponent] = useState("");
@@ -37,23 +38,24 @@ const Orders = () => {
                         const ordersDataList = ordersData.result.value.orders.value.list;
                         if (ordersDataList) {
                             const filterOrdersByIdentities = Helper.FilterOrdersByIdentity(filterIdentities, ordersDataList)
-                            setOrderList(filterOrdersByIdentities);
-                            filterOrdersByIdentities.map((order, index) => {
-                                let immutableProperties = "";
-                                let mutableProperties = "";
-                                if (order.value.immutables.value.properties.value.propertyList !== null) {
-                                    immutableProperties = Helper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
-                                }
-                                if (order.value.mutables.value.properties.value.propertyList !== null) {
-                                    mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
-                                }
-                                let immutableKeys = Object.keys(immutableProperties);
-                                let mutableKeys = Object.keys(mutableProperties);
-                                Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order', index);
-                                Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order', index);
-                            })
-                        } else {
-                            console.log("no orders found")
+                            if (filterOrdersByIdentities.length) {
+                                setOrderList(filterOrdersByIdentities);
+                                filterOrdersByIdentities.map((order, index) => {
+
+                                    let immutableProperties = "";
+                                    let mutableProperties = "";
+                                    if (order.value.immutables.value.properties.value.propertyList !== null) {
+                                        immutableProperties = Helper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
+                                    }
+                                    if (order.value.mutables.value.properties.value.propertyList !== null) {
+                                        mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                                    }
+                                    let immutableKeys = Object.keys(immutableProperties);
+                                    let mutableKeys = Object.keys(mutableProperties);
+                                    Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order', index);
+                                    Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order', index);
+                                })
+                            }
                         }
                     })
                 }
@@ -63,7 +65,6 @@ const Orders = () => {
     }, []);
 
     const handleModalData = (formName, order) => {
-        console.log("1")
         setOrder(order);
         setExternalComponent(formName)
     }
@@ -81,7 +82,8 @@ const Orders = () => {
                                 onClick={() => handleModalData("DefineOrder")}>{t("DEFINE_ORDER")}</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
-                    {orderList.map((order, index) => {
+                    {orderList.length ?
+                        orderList.map((order, index) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
                         if (order.value.immutables.value.properties.value.propertyList !== null) {
@@ -132,7 +134,9 @@ const Orders = () => {
                             </div>
                         )
 
-                    })}
+                    })
+                    :<p>{t("ORDERS_NOT_FOUND")}</p>
+                    }
                 </div>
             </div>
             <div>

@@ -79,7 +79,6 @@ const IssueIdentity = (props) => {
             if (data.result.value.classifications.value.list !== null) {
                 const immutablePropertyList = data.result.value.classifications.value.list[0].value.immutableTraits.value.properties.value.propertyList;
                 const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
-                console.log(immutablePropertyList, "immutablePropertyList")
                 Helper.FetchInputFieldMeta(immutablePropertyList, metasQuery, "IssueIdentity");
                 setMutableList(mutablePropertyList)
                 setImmutableList(immutablePropertyList)
@@ -115,7 +114,6 @@ const IssueIdentity = (props) => {
                     const mutableType = mutable.value.fact.value.type;
                     const mutableName = mutable.value.id.value.idString;
                     const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
-                    console.log(mutableFieldValue, "mutableFieldValue")
                     const inputName = `${mutableName}|${mutableType}${index}`
 
                     const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
@@ -281,7 +279,6 @@ const IssueIdentity = (props) => {
                         {errorMessage !== "" ?
                             <span className="error-response">{errorMessage}</span>
                             : ""
-
                         }
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">

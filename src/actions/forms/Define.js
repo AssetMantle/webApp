@@ -13,6 +13,7 @@ const Define = (props) => {
     const Helper = new Helpers();
     const [loader, setLoader] = useState(false)
     const [show, setShow] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
     const [dataTypeOption, setDataTypeOption] = useState("S|");
     const [typeOption, setTypeOption] = useState("identity");
     const [mutableStyle, setMutableStyle] = useState("ERC20");
@@ -128,10 +129,12 @@ const Define = (props) => {
                     }
                 })
             } else {
-                console.log("add Mutable Meta property")
+                setErrorMessage("add Mutable Meta property")
+                setLoader(false);
             }
         } else {
-            console.log("add mutable property")
+            setErrorMessage("add mutable property")
+            setLoader(false);
         }
 
     }
@@ -474,6 +477,10 @@ const Define = (props) => {
                     ))}
                     <button type="button" onClick={handleImmutableMetaProperties} className="small">Add Immutable Meta
                     </button>
+                    {errorMessage !== "" ?
+                        <p className="error-response">{errorMessage}</p>
+                        : ""
+                    }
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
                             {t("SUBMIT")}

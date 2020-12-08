@@ -72,8 +72,6 @@ const Assets = () => {
                                 })
                             })
 
-                        } else {
-                            console.log("no splits found")
                         }
                     })
                 }
@@ -107,7 +105,8 @@ const Assets = () => {
                             </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
-                    {splitList.map((split, index) => {
+                    {splitList.length ?
+                        splitList.map((split, index) => {
                         const ownableID = Helper.GetIdentityOwnableId(split)
                         let ownableId = split.value.id.value.ownableID.value.idString;
                         let ownerId = split.value.id.value.ownerID.value.idString;
@@ -185,7 +184,8 @@ const Assets = () => {
                                 </div>
                             </div>
                         )
-                    })}
+                    })
+                    : <p>{t("ASSETS_NOT_FOUND")}</p>}
                 </div>
                 <div>
                     {externalComponent === 'DefineAsset' ?

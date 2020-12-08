@@ -91,7 +91,11 @@ let en = {
         "REVEAL_META":"Reveal Meta",
         "KNOW_MORE":"KNOW MORE",
         "SECURE_NFT_WALLET":"Secure NFT wallet",
-        "TAKER_OWNABLE_SPLIT":"Taker Ownable Split"
+        "TAKER_OWNABLE_SPLIT":"Taker Ownable Split",
+        "ORDERS_NOT_FOUND":"Orders Not Found",
+        "MAINTAINERS_NOT_FOUND":"No Maintainers found",
+        "IDENTITIES_NOT_FOUND":"No Identities found",
+        "ASSETS_NOT_FOUND":"No assets found"
 
 
 

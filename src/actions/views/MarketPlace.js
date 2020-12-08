@@ -39,8 +39,6 @@ const Marketplace = () => {
                         Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_market', index);
                         Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_market', index);
                     })
-                } else {
-                    console.log("no orders found")
                 }
             })
 
@@ -56,7 +54,8 @@ const Marketplace = () => {
         <div className="container">
             <div className="accountInfo">
                 <div className="row row-cols-1 row-cols-md-2 card-deck createAccountSection">
-                    {orderList.map((order, index) => {
+                    {orderList.length ?
+                        orderList.map((order, index) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
                         if (order.value.immutables.value.properties.value.propertyList !== null) {
@@ -108,7 +107,9 @@ const Marketplace = () => {
                             </div>
                         )
 
-                    })}
+                    })
+                        :<p>{t("ORDERS_NOT_FOUND")}</p>
+                    }
                 </div>
                 <div>
                     {externalComponent === 'TakeOrder' ?

@@ -34,7 +34,6 @@ const UnProvision = (props) => {
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
         const UnProvisionResponse = identitiesUnprovision.unprovision(userAddress, "test", userTypeToken, props.identityId, selectValue, config.feesAmount, config.feesToken, config.gas, config.mode);
-        console.log(UnProvisionResponse, "result Unprovision")
         UnProvisionResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             setResponse(data)

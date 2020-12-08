@@ -44,10 +44,7 @@ const Identities = () => {
                         Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList', index);
                         Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index);
                     })
-                } else {
-                    console.log("no identities found")
                 }
-
             })
         }
         fetchToIdentities();
@@ -75,7 +72,8 @@ const Identities = () => {
                             </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
-                    {filteredIdentitiesList.map((identity, index) => {
+                    {filteredIdentitiesList.length ?
+                        filteredIdentitiesList.map((identity, index) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
                         let provisionedAddressList = "";
@@ -148,7 +146,8 @@ const Identities = () => {
                                 </div>
                             </div>
                         )
-                    })}
+                    })
+                    :<p>{t("IDENTITIES_NOT_FOUND")}</p>}
                 </div>
             </div>
             <div>

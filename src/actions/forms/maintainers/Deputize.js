@@ -51,7 +51,6 @@ const Deputize = (props) => {
         const removeMaintainer = document.getElementById("removeMaintainer").checked
         let maintainedTraits = ""
         checkboxMutableNamesList.forEach((checkboxMutableName) => {
-            console.log(checkboxMutableName, "checkboxMutableName")
             maintainedTraits = maintainedTraits + checkboxMutableName;
         })
         const ToId = event.target.ToId.value;

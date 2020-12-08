@@ -4,12 +4,14 @@ import Helpers from "../../utilities/Helper";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
 import {Button, Modal} from "react-bootstrap";
 import {Deputize} from "../forms/maintainers";
+import {useTranslation} from "react-i18next";
 
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const maintainersQuery = new maintainersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Maintainers = () => {
     const Helper = new Helpers();
+    const {t} = useTranslation();
     const [maintainersList, setMaintainersList] = useState([]);
     const [maintainer, setMaintainer] = useState({});
     const userAddress = localStorage.getItem('address');
@@ -30,8 +32,6 @@ const Maintainers = () => {
                         if (maintainersDataList) {
                             const filterMaintainersByIdentity = Helper.FilterMaintainersByIdentity(filterIdentities, maintainersDataList)
                             setMaintainersList(filterMaintainersByIdentity);
-                        } else {
-                            console.log("no maintainers found")
                         }
                     })
                 }
@@ -47,10 +47,10 @@ const Maintainers = () => {
 
     return (
         <div className="container">
-
             <div className="accountInfo">
                 <div className="row row-cols-1 row-cols-md-2 card-deck ">
-                    {maintainersList.map((maintainer, index) => {
+                    {maintainersList.length ?
+                        maintainersList.map((maintainer, index) => {
                         const maintainerPropertyList = Helper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList)
                         let keys = Object.keys(maintainerPropertyList);
                         return (<div className="col-md-6" key={index}>
@@ -71,7 +71,8 @@ const Maintainers = () => {
                                 </div>
                             </div>
                         )
-                    })}
+                    })
+                    :<p>{t("MAINTAINERS_NOT_FOUND")}</p>}
 
                 </div>
             </div>

@@ -2,15 +2,21 @@ import React, {useState, useEffect} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import SendCoinJS from "persistencejs/transaction/bank/sendCoin";
 import {useTranslation} from "react-i18next";
-import { pollTxHash } from '../../../utilities/Helper'
 import config from "../../../constants/config.json"
+import Loader from "../../../components/loader"
+import ModalCommon from "../../../components/modal"
 const SendCoinQuery = new SendCoinJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const SendCoin = () => {
+const SendCoin = (props) => {
     const {t} = useTranslation();
-    const url = process.env.REACT_APP_ASSET_MANTLE_API;
+    const [show, setShow] = useState(true);
     const [response, setResponse] = useState({});
+    const [loader, setLoader] = useState(false)
+    const handleClose = () => {
+        setShow(false);
+        props.setExternalComponent("");
+    };
     const handleSubmit = (event) => {
-
+        setLoader(true)
         event.preventDefault();
         const toAddress = event.target.toAddress.value;
         const denom = event.target.denom.value;
@@ -19,24 +25,24 @@ const SendCoin = () => {
         const sendCoinResponse = SendCoinQuery.sendCoin("test", userTypeToken, toAddress, denom, amountData, config.feesAmount, config.feesToken, config.gas, config.mode);
         sendCoinResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
-            if(data.txhash){
-                let queryHashResponse =  pollTxHash(url, data.txhash);
-                queryHashResponse.then(function (queryItem) {
-                    const queryData = JSON.parse(queryItem);
-                    setResponse(queryData)
-                    console.log(queryData, "queryHashResponse")
-                })
-            }
+                    setResponse(data)
+                    setShow(false);
+                    setLoader(false)
         })
-        event.preventDefault();
-        event.target.reset();
     };
 
     return (
         <div className="accountInfo">
+            <Modal show={show} onHide={handleClose} centered>
             <Modal.Header closeButton>
                 {t("SEND_COIN")}
             </Modal.Header>
+            <div>
+                {loader ?
+                    <Loader />
+                    : ""
+                }
+            </div>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group>
@@ -76,13 +82,14 @@ const SendCoin = () => {
                             {t("SUBMIT")}
                         </Button>
                     </div>
-                    {response.code ?
-                        <p> {response.raw_log}</p>
-                        :
-                        <p> {response.txhash}</p>
-                    }
+
                 </Form>
             </Modal.Body>
+            </Modal>
+            {!(Object.keys(response).length === 0) ?
+                <ModalCommon data={response}/>
+                : ""
+            }
         </div>
 
     );

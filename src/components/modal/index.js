@@ -3,7 +3,6 @@ import {Form, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 
 const ModalCommon = (props) => {
-    console.log(props, "raju")
     const {t} = useTranslation();
     const [showIdentity, setShowIdentity] = useState(true);
     const handleClose = () => {

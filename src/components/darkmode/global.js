@@ -28,7 +28,8 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   .modal-content {
-    background-color: ${({theme}) => theme.signupBackground}
+    background-color: ${({theme}) => theme.signupBackground};
+    color: ${({theme}) => theme.cardTextColor};
   }
 
   .modal-header {
@@ -42,9 +43,12 @@ export const GlobalStyles = createGlobalStyle`
   .navbar-dark .navbar-nav .nav-link {
     color: ${({theme}) => theme.navLinkColor};
   }
-
+  label{
+    color: ${({theme}) => theme.cardTextColor};
+  }
   .card {
-    background-color: ${({theme}) => theme.signupBackground}
+    background-color: ${({theme}) => theme.signupBackground};
+    color: ${({theme}) => theme.cardTextColor};
   }
 
   .footer {
