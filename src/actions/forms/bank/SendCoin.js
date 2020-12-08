@@ -1,35 +1,52 @@
 import React, {useState, useEffect} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import SendCoinJS from "persistencejs/transaction/bank/sendCoin";
-
+import {useTranslation} from "react-i18next";
+import config from "../../../constants/config.json"
+import Loader from "../../../components/loader"
+import ModalCommon from "../../../components/modal"
 const SendCoinQuery = new SendCoinJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const SendCoin = () => {
+const SendCoin = (props) => {
+    const {t} = useTranslation();
+    const [show, setShow] = useState(true);
     const [response, setResponse] = useState({});
+    const [loader, setLoader] = useState(false)
+    const handleClose = () => {
+        setShow(false);
+        props.setExternalComponent("");
+    };
     const handleSubmit = (event) => {
-        event.preventDefault();toAddress
+        setLoader(true)
+        event.preventDefault();
         const toAddress = event.target.toAddress.value;
         const denom = event.target.denom.value;
         const amountData = event.target.amount.value;
         const userTypeToken = localStorage.getItem('mnemonic');
-        const sendCoinResponse = SendCoinQuery.sendCoin("test", userTypeToken, toAddress, denom, amountData, 25, "stake", 200000, "block");
+        const sendCoinResponse = SendCoinQuery.sendCoin("test", userTypeToken, toAddress, denom, amountData, config.feesAmount, config.feesToken, config.gas, config.mode);
         sendCoinResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
-            setResponse(data)
-            console.log(data, "result WrapResponse")
+                    setResponse(data)
+                    setShow(false);
+                    setLoader(false)
         })
-        event.preventDefault();
-        event.target.reset();
     };
 
     return (
         <div className="accountInfo">
+            <Modal show={show} onHide={handleClose} centered>
             <Modal.Header closeButton>
-                Send Coin
+                {t("SEND_COIN")}
             </Modal.Header>
+            <div>
+                {loader ?
+                    <Loader />
+                    : ""
+                }
+            </div>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label> To Address</Form.Label>
+                    <Form.Group>
+                        <Form.Label>{t("TO_ADDRESS")}</Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -39,7 +56,7 @@ const SendCoin = () => {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Denom </Form.Label>
+                        <Form.Label>{t("DENOM")} </Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -49,7 +66,7 @@ const SendCoin = () => {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Amount</Form.Label>
+                        <Form.Label>{t("AMOUNT")}</Form.Label>
                         <Form.Control
                             type="text"
                             name="amount"
@@ -62,16 +79,17 @@ const SendCoin = () => {
                             variant="primary"
                             type="submit"
                         >
-                            Submit
+                            {t("SUBMIT")}
                         </Button>
                     </div>
-                    {response.code ?
-                        <p> {response.raw_log}</p>
-                        :
-                        <p> {response.txhash}</p>
-                    }
+
                 </Form>
             </Modal.Body>
+            </Modal>
+            {!(Object.keys(response).length === 0) ?
+                <ModalCommon data={response}/>
+                : ""
+            }
         </div>
 
     );

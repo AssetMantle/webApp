@@ -4,19 +4,17 @@ import Helpers from "../../utilities/Helper";
 import {Button, Modal} from "react-bootstrap";
 import {TakeOrder} from "../forms/orders";
 import metasQueryJS from "persistencejs/transaction/meta/query";
+import {useTranslation} from "react-i18next";
 
 const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Marketplace = () => {
     const Helper = new Helpers();
-    const [showOrder, setShowOrder] = useState(false);
+    const {t} = useTranslation();
     const [externalComponent, setExternalComponent] = useState("");
     const [orderId, setOrderId] = useState("");
     const [orderList, setOrderList] = useState([]);
-    const handleClose = () => {
-        setShowOrder(false);
-    };
 
     useEffect(() => {
         const fetchOrder = () => {
@@ -40,8 +38,6 @@ const Marketplace = () => {
                         Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_market', index);
                         Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_market', index);
                     })
-                } else {
-                    console.log("no orders found")
                 }
             })
 
@@ -51,14 +47,14 @@ const Marketplace = () => {
 
     const handleModalData = (formName, orderId) => {
         setOrderId(orderId)
-        setShowOrder(true)
         setExternalComponent(formName)
     }
     return (
         <div className="container">
             <div className="accountInfo">
                 <div className="row row-cols-1 row-cols-md-2 card-deck createAccountSection">
-                    {orderList.map((order, index) => {
+                    {orderList.length ?
+                        orderList.map((order, index) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
                         if (order.value.immutables.value.properties.value.propertyList !== null) {
@@ -75,11 +71,11 @@ const Marketplace = () => {
                                 <div className="card">
                                     <div>
                                         <Button variant="secondary"
-                                                onClick={() => handleModalData("TakeOrder", orderIdData)}>Take</Button>
+                                                onClick={() => handleModalData("TakeOrder", orderIdData)}>{t("TAKE")}</Button>
                                     </div>
                                     <a href="#">{orderIdData}</a>
-                                    <p>Immutables</p>
-                                    {
+                                    <p>{t("IMMUTABLES")}</p>
+                                    {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
                                                 return (<a key={index + keyName}><b>{keyName} </b>: <span
@@ -89,11 +85,12 @@ const Marketplace = () => {
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
                                             }
                                         })
+                                        :""
                                     }
 
-                                    <p>Mutables</p>
+                                    <p>{t("MUTABLES")}</p>
 
-                                    {
+                                    {mutableKeys !== null ?
                                         mutableKeys.map((keyName, index1) => {
                                             if (mutableProperties[keyName] !== "") {
                                                 return (<a key={index + keyName}><b>{keyName} </b>: <span
@@ -103,25 +100,22 @@ const Marketplace = () => {
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
                                             }
                                         })
+                                        :""
                                     }
                                 </div>
                             </div>
                         )
 
-                    })}
+                    })
+                        :<p>{t("ORDERS_NOT_FOUND")}</p>
+                    }
                 </div>
-                <Modal
-                    show={showOrder}
-                    onHide={handleClose}
-                    backdrop="static"
-                    keyboard={false}
-                    centered
-                >
+                <div>
                     {externalComponent === 'TakeOrder' ?
-                        <TakeOrder id={orderId} FormName={'Take Order'}/> :
+                        <TakeOrder setExternalComponent={setExternalComponent} id={orderId} FormName={'Take Order'}/> :
                         null
                     }
-                </Modal>
+                </div>
             </div>
         </div>
     );

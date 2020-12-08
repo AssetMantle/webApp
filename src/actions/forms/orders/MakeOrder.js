@@ -4,11 +4,18 @@ import Helpers from "../../../utilities/Helper";
 import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
 import ordersMakeJS from "persistencejs/transaction/orders/make";
 import metasQueryJS from "persistencejs/transaction/meta/query";
-
+import {useTranslation} from "react-i18next";
+import Loader from "../../../components/loader"
+import ModalCommon from "../../../components/modal"
+import config from "../../../constants/config.json"
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const ordersMake = new ordersMakeJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const MakeOrder = (props) => {
+    const {t} = useTranslation();
+    const [show, setShow] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [loader, setLoader] = useState(false)
     const [showNext, setShowNext] = useState(false);
     const [classificationId, setClassificationId] = useState("");
     const [response, setResponse] = useState({});
@@ -19,12 +26,14 @@ const MakeOrder = (props) => {
     const [checkedD, setCheckedD] = useState({});
     const [checkboxImmutableNamesList, setCheckboxImmutableNamesList] = useState([]);
     const Helper = new Helpers();
-    const [show, setShow] = useState(false);
+    const handleCloseNext = () => {
+        setShowNext(false);
+        props.setExternalComponent("");
+    };
     const handleClose = () => {
         setShow(false);
-        setShowNext(false);
+        props.setExternalComponent("");
     };
-
     const handleCheckMutableChange = evt => {
         const checkedValue = evt.target.checked;
         const name = evt.target.getAttribute("name")
@@ -75,8 +84,10 @@ const MakeOrder = (props) => {
             }
         })
         setShowNext(true)
+        setShow(false);
     };
     const handleFormSubmit = (event) => {
+        setLoader(true)
         event.preventDefault();
         const assetId = props.assetId;
         const FromId = event.target.FromId.value;
@@ -84,13 +95,17 @@ const MakeOrder = (props) => {
         const Makersplit = event.target.Makersplit.value;
         const ExpiresIn = event.target.expiresInD.value;
         if (checkboxMutableNamesList.length === 0) {
-            alert("select mutable meta")
+            setErrorMessage(t("SELECT_MUTABLE_META"))
+            setLoader(false)
         } else if (mutableList.length !== 0 && checkboxMutableNamesList.length !== 0 && mutableList.length === checkboxMutableNamesList.length) {
-            alert("you can't select all as mutable meta")
+            setErrorMessage(t("SELECT_ALL_MUTABLE_ERROR"))
+            setLoader(false)
         } else if (immutableList.length !== 0 && checkboxImmutableNamesList.length !== 0 && immutableList.length === checkboxImmutableNamesList.length) {
-            alert("you can't select all as Immutable meta")
+            setErrorMessage(t("SELECT_ALL_IMMUTABLE_ERROR"))
+            setLoader(false)
         } else if (checkboxImmutableNamesList.length === 0) {
-            alert("select immutable meta")
+            setErrorMessage("SELECT_IMMUTABLE_META")
+            setLoader(false)
         } else {
             let mutableValues = "";
             let immutableValues = "";
@@ -128,23 +143,25 @@ const MakeOrder = (props) => {
             }
             const userTypeToken = localStorage.getItem('mnemonic');
             const userAddress = localStorage.getItem('address');
-            const makeOrderResult = ordersMake.make(userAddress, "test", userTypeToken, FromId, classificationId, assetId, TakerOwnableId, ExpiresIn, Makersplit, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
+            const makeOrderResult = ordersMake.make(userAddress, "test", userTypeToken, FromId, classificationId, assetId, TakerOwnableId, ExpiresIn, Makersplit, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode)
             makeOrderResult.then(function (item) {
                 const data = JSON.parse(JSON.stringify(item));
                 setResponse(data)
-                console.log(data, "result makeOrder")
+                setShowNext(false);
+                setLoader(false)
             })
         }
     }
     return (
         <div className="accountInfo">
+            <Modal show={show} onHide={handleClose}  centered>
             <Modal.Header closeButton>
-                Make Order
+                {t("MAKE_ORDER")}
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Classification Id </Form.Label>
+                    <Form.Group>
+                        <Form.Label>{t("CLASSIFICATION_ID")}</Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -156,25 +173,32 @@ const MakeOrder = (props) => {
 
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            Next
+                            {t("NEXT")}
                         </Button>
                     </div>
                 </Form>
             </Modal.Body>
+            </Modal>
             <Modal
                 show={showNext}
-                onHide={handleClose}
+                onHide={handleCloseNext}
                 backdrop="static"
                 keyboard={false}
                 centered
             >
                 <Modal.Header closeButton>
-                    Make
+                    {t("MAKE_ORDER")}
                 </Modal.Header>
+                <div>
+                    {loader ?
+                        <Loader/>
+                        : ""
+                    }
+                </div>
                 <Modal.Body>
                     <Form onSubmit={handleFormSubmit}>
-                        <Form.Group controlId="formBasicEmail">
-                            <Form.Label>From Id </Form.Label>
+                        <Form.Group>
+                            <Form.Label>{t("FROM_ID")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -183,8 +207,8 @@ const MakeOrder = (props) => {
                                 placeholder="FromId"
                             />
                         </Form.Group>
-                        <Form.Group controlId="formBasicEmail">
-                            <Form.Label> Taker OwnableId</Form.Label>
+                        <Form.Group>
+                            <Form.Label>{t("TAKER_OWNABLE_SPLIT")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -193,8 +217,8 @@ const MakeOrder = (props) => {
                                 placeholder="TakerOwnableId"
                             />
                         </Form.Group>
-                        <Form.Group controlId="formBasicEmail">
-                            <Form.Label> Maker Split</Form.Label>
+                        <Form.Group>
+                            <Form.Label>{t("MAKER_SPLIT")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -203,8 +227,8 @@ const MakeOrder = (props) => {
                                 placeholder="split"
                             />
                         </Form.Group>
-                        <Form.Group controlId="formBasicEmail">
-                            <Form.Label>Expires In</Form.Label>
+                        <Form.Group>
+                            <Form.Label>{t("EXPIRES_IN")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -218,8 +242,8 @@ const MakeOrder = (props) => {
                                 const mutableType = mutable.value.fact.value.type;
                                 const mutableName = mutable.value.id.value.idString;
                                 return (
-                                    <>
-                                        <Form.Group controlId="formBasicEmail">
+                                    <div key={index}>
+                                        <Form.Group>
                                             <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
                                             <Form.Control
                                                 type="text"
@@ -231,12 +255,13 @@ const MakeOrder = (props) => {
                                             />
                                         </Form.Group>
                                         <Form.Group controlId="formBasicCheckbox">
-                                            <Form.Check type="checkbox" label="Meta"
+                                            <Form.Check custom type="checkbox" label="Meta"
                                                         name={`${mutableName}|${mutableType}${index}`}
+                                                        id={`checkbox${mutableName}|${mutableType}${index}`}
                                                         onClick={handleCheckMutableChange}
                                             />
                                         </Form.Group>
-                                    </>
+                                    </div>
                                 )
                             })
                             :
@@ -247,7 +272,7 @@ const MakeOrder = (props) => {
                                 const immutableType = immutable.value.fact.value.type;
                                 const immutableName = immutable.value.id.value.idString;
                                 return (
-                                    <>
+                                    <div key={index}>
                                         <Form.Group>
                                             <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
                                             <Form.Control
@@ -262,27 +287,34 @@ const MakeOrder = (props) => {
                                             />
                                         </Form.Group>
                                         <Form.Group>
-                                            <Form.Check type="checkbox" label="Meta"
+                                            <Form.Check custom type="checkbox" label="Meta"
                                                         name={`${immutableName}|${immutableType}${index}`}
+                                                        id={`checkbox${immutableName}|${immutableType}${index}`}
                                                         onChange={handleCheckImmutableChange}/>
                                         </Form.Group>
-                                    </>
+                                    </div>
                                 )
                             })
                             :
                             ""
                         }
-                        <Button variant="primary" type="submit">
-                            Submit
-                        </Button>
-                        {response.code ?
-                            <p> {response.raw_log}</p>
-                            :
-                            <p> {response.txhash}</p>
+                        {errorMessage !== "" ?
+                            <span className="error-response">{errorMessage}</span>
+                            :""
+
                         }
+                        <div className="submitButtonSection">
+                        <Button variant="primary" type="submit">
+                            {t("SUBMIT")}
+                        </Button>
+                        </div>
                     </Form>
                 </Modal.Body>
             </Modal>
+            {!(Object.keys(response).length === 0) ?
+                <ModalCommon data={response}/>
+                : ""
+            }
         </div>
     );
 };

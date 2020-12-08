@@ -7,6 +7,7 @@ import identitiesQueryJS from "persistencejs/transaction/identity/query";
 import {Define} from "../forms";
 import {CancelOrder} from "../forms/orders";
 import ordersDefineJS from "persistencejs/transaction/orders/define";
+import {useTranslation} from "react-i18next";
 
 const ordersDefine = new ordersDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -16,14 +17,12 @@ const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Orders = () => {
     const Helper = new Helpers();
+    const {t} = useTranslation();
+    const [emptyOrders, setEmptyOrders] = useState("");
     const [orderList, setOrderList] = useState([]);
     const userAddress = localStorage.getItem('address');
-    const [showOrder, setShowOrder] = useState(false);
     const [externalComponent, setExternalComponent] = useState("");
     const [order, setOrder] = useState([]);
-    const handleClose = () => {
-        setShowOrder(false);
-    };
 
     useEffect(() => {
         const fetchOrder = () => {
@@ -31,7 +30,7 @@ const Orders = () => {
             identities.then(function (item) {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
-                if(dataList) {
+                if (dataList) {
                     const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
                     const ordersData = ordersQuery.queryOrderWithID("all")
                     ordersData.then(function (item) {
@@ -39,23 +38,24 @@ const Orders = () => {
                         const ordersDataList = ordersData.result.value.orders.value.list;
                         if (ordersDataList) {
                             const filterOrdersByIdentities = Helper.FilterOrdersByIdentity(filterIdentities, ordersDataList)
-                            setOrderList(filterOrdersByIdentities);
-                            filterOrdersByIdentities.map((order, index) => {
-                                let immutableProperties = "";
-                                let mutableProperties = "";
-                                if (order.value.immutables.value.properties.value.propertyList !== null) {
-                                    immutableProperties = Helper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
-                                }
-                                if (order.value.mutables.value.properties.value.propertyList !== null) {
-                                    mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
-                                }
-                                let immutableKeys = Object.keys(immutableProperties);
-                                let mutableKeys = Object.keys(mutableProperties);
-                                Helper.AssignMetaValue(immutableKeys,immutableProperties, metasQuery, 'immutable_order', index);
-                                Helper.AssignMetaValue(mutableKeys,mutableProperties, metasQuery, 'mutable_order', index);
-                            })
-                        } else {
-                            console.log("no orders found")
+                            if (filterOrdersByIdentities.length) {
+                                setOrderList(filterOrdersByIdentities);
+                                filterOrdersByIdentities.map((order, index) => {
+
+                                    let immutableProperties = "";
+                                    let mutableProperties = "";
+                                    if (order.value.immutables.value.properties.value.propertyList !== null) {
+                                        immutableProperties = Helper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
+                                    }
+                                    if (order.value.mutables.value.properties.value.propertyList !== null) {
+                                        mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                                    }
+                                    let immutableKeys = Object.keys(immutableProperties);
+                                    let mutableKeys = Object.keys(mutableProperties);
+                                    Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order', index);
+                                    Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order', index);
+                                })
+                            }
                         }
                     })
                 }
@@ -65,9 +65,7 @@ const Orders = () => {
     }, []);
 
     const handleModalData = (formName, order) => {
-        console.log("1")
         setOrder(order);
-        setShowOrder(true)
         setExternalComponent(formName)
     }
 
@@ -77,13 +75,15 @@ const Orders = () => {
                 <div className="row row-cols-1 row-cols-md-2 card-deck ">
                     <Dropdown>
                         <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            Actions
+                            {t("ACTIONS")}
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => handleModalData("DefineOrder")}>Define Order</Dropdown.Item>
+                            <Dropdown.Item
+                                onClick={() => handleModalData("DefineOrder")}>{t("DEFINE_ORDER")}</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
-                    {orderList.map((order, index) => {
+                    {orderList.length ?
+                        orderList.map((order, index) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
                         if (order.value.immutables.value.properties.value.propertyList !== null) {
@@ -102,8 +102,8 @@ const Orders = () => {
                                                 onClick={() => handleModalData("CancelOrder", order)}>Cancel</Button>
                                     </div>
                                     <a href="#">{Helper.GetOrderID(order)}</a>
-                                    <p>Immutables</p>
-                                    {
+                                    <p>{t("IMMUTABLES")}</p>
+                                    {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
                                                 return (<a key={index + keyName}><b>{keyName} </b>: <span
@@ -113,11 +113,12 @@ const Orders = () => {
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
                                             }
                                         })
+                                        :""
                                     }
 
-                                    <p>Mutables</p>
+                                    <p>{t("MUTABLES")}</p>
 
-                                    {
+                                    {mutableKeys !== null ?
                                         mutableKeys.map((keyName, index1) => {
                                             if (mutableProperties[keyName] !== "") {
                                                 return (<a key={index + keyName}><b>{keyName} </b>: <span
@@ -127,31 +128,28 @@ const Orders = () => {
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
                                             }
                                         })
+                                        :""
                                     }
                                 </div>
                             </div>
                         )
 
-                    })}
+                    })
+                    :<p>{t("ORDERS_NOT_FOUND")}</p>
+                    }
                 </div>
             </div>
-            <Modal
-                show={showOrder}
-                onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
-                centered
-            >
+            <div>
                 {externalComponent === 'DefineOrder' ?
-                    <Define ActionName={ordersDefine} FormName={'Define Order'}/> :
+                    <Define setExternalComponent={setExternalComponent} ActionName={ordersDefine} FormName={'Define Order'}/> :
                     null
                 }
 
                 {externalComponent === 'CancelOrder' ?
-                    <CancelOrder order={order}/> :
+                    <CancelOrder setExternalComponent={setExternalComponent} order={order}/> :
                     null
                 }
-            </Modal>
+            </div>
         </div>
     );
 };

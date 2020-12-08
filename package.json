@@ -11,15 +11,20 @@
     "axios": "^0.19.2",
     "bootstrap": "4.3.1",
     "history": "^4.10.1",
-    "persistencejs": "https://github.com/persistenceOne/persistenceJS.git#exceptions",
+    "i18next": "^19.8.4",
+    "i18next-browser-languagedetector": "^6.0.1",
+    "i18next-xhr-backend": "^3.2.2",
+    "persistencejs": "https://github.com/persistenceOne/persistenceJS.git#SDKv0.1.0",
     "react": "^16.8.6",
     "react-bootstrap": "^1.4.0",
     "react-countup": "^4.3.3",
-    "styled-components": "^5.2.1",
     "react-dom": "^16.8.6",
     "react-download-link": "^2.3.0",
+    "react-i18next": "^11.7.3",
     "react-router-dom": "5.2.0",
-    "react-scripts": "^4.0.0"
+    "react-scripts": "^4.0.0",
+    "request": "^2.88.2",
+    "styled-components": "^5.2.1"
   },
   "devDependencies": {
     "typescript": "3.3.3"

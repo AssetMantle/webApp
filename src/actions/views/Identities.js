@@ -6,6 +6,7 @@ import metasQueryJS from "persistencejs/transaction/meta/query";
 import {Dropdown, Modal, Button} from "react-bootstrap";
 import {Define} from "../forms";
 import {Nub, IssueIdentity, Provision, UnProvision} from "../forms/identities";
+import {useTranslation} from "react-i18next";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -13,14 +14,11 @@ const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANT
 
 const Identities = () => {
     const Helper = new Helpers();
-    const [showIdentity, setShowIdentity] = useState(false);
+    const {t} = useTranslation();
     const [externalComponent, setExternalComponent] = useState("");
     const [identityId, setIdentityId] = useState("");
     const [identity, setIdentity] = useState([]);
     const [filteredIdentitiesList, setFilteredIdentitiesList] = useState([]);
-    const handleClose = () => {
-        setShowIdentity(false);
-    };
     const userAddress = localStorage.getItem('address');
     useEffect(() => {
         const fetchToIdentities = () => {
@@ -43,41 +41,39 @@ const Identities = () => {
                         }
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
-                        Helper.AssignMetaValue(immutableKeys,immutableProperties, metasQuery, 'immutable_identityList', index);
-                        Helper.AssignMetaValue(mutableKeys,mutableProperties, metasQuery, 'mutable_identityList', index);
+                        Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList', index);
+                        Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index);
                     })
-                } else {
-                    console.log("no identities found")
                 }
-
             })
         }
         fetchToIdentities();
     }, []);
 
     const handleModalData = (formName, identityId, identity) => {
+        setExternalComponent(formName)
         setIdentity(identity);
         setIdentityId(identityId)
-        setShowIdentity(true)
-        setExternalComponent(formName)
     }
+
     return (
         <div className="container">
             <div className="accountInfo">
                 <div className="row row-cols-1 row-cols-md-2 card-deck">
                     <Dropdown>
                         <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            Actions
+                            {t("ACTIONS")}
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => handleModalData("Nub")}>Nub Txn</Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleModalData("DefineIdentity")}>Define
-                                Identity</Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleModalData("IssueIdentity")}>Issue
-                                Identity</Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleModalData("Nub")}>{t("NUB")}</Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleModalData("DefineIdentity")}>{t("DEFINE_IDENTITY")}
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleModalData("IssueIdentity")}>{t("ISSUE_IDENTITY")}
+                            </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
-                    {filteredIdentitiesList.map((identity, index) => {
+                    {filteredIdentitiesList.length ?
+                        filteredIdentitiesList.map((identity, index) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
                         let provisionedAddressList = "";
@@ -102,12 +98,12 @@ const Identities = () => {
                                 <div className="card">
                                     <div>
                                         <Button variant="secondary"
-                                                onClick={() => handleModalData("Provision", identityId)}>Provision</Button>
+                                                onClick={() => handleModalData("Provision", identityId)}>{t("PROVISION")}</Button>
                                         <Button variant="secondary"
-                                                onClick={() => handleModalData("UnProvision", identityId, identity)}>UnProvision</Button>
+                                                onClick={() => handleModalData("UnProvision", identityId, identity)}>{t("UN_PROVISION")}</Button>
                                     </div>
                                     <a href="#">{identityId}</a>
-                                    <p>Immutables</p>
+                                    <p>{t("IMMUTABLES")}</p>
                                     {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
@@ -120,7 +116,7 @@ const Identities = () => {
                                         })
                                         : ""
                                     }
-                                    <p>Mutables</p>
+                                    <p>{t("MUTABLES")}</p>
                                     {mutableKeys !== null ?
                                         mutableKeys.map((keyName, index1) => {
                                             if (mutableProperties[keyName] !== "") {
@@ -150,38 +146,34 @@ const Identities = () => {
                                 </div>
                             </div>
                         )
-                    })}
+                    })
+                    :<p>{t("IDENTITIES_NOT_FOUND")}</p>}
                 </div>
             </div>
-            <Modal
-                show={showIdentity}
-                onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
-                centered
-            >
+            <div>
                 {externalComponent === 'Nub' ?
-                    <Nub/> :
+                    <Nub setExternalComponent={setExternalComponent} /> :
                     null
                 }
                 {externalComponent === 'DefineIdentity' ?
-                    <Define ActionName={identitiesDefine} FormName={'Define Identity'}/> :
+                    <Define setExternalComponent={setExternalComponent} ActionName={identitiesDefine} FormName={'Define Identity'}/> :
                     null
                 }
                 {externalComponent === 'IssueIdentity' ?
-                    <IssueIdentity/> :
+
+                    <IssueIdentity setExternalComponent={setExternalComponent} /> :
                     null
                 }
 
                 {externalComponent === 'Provision' ?
-                    <Provision identityId={identityId}/> :
+                    <Provision setExternalComponent={setExternalComponent} identityId={identityId}/> :
                     null
                 }
                 {externalComponent === 'UnProvision' ?
-                    <UnProvision identityId={identityId} identityIdList={identity}/> :
+                    <UnProvision setExternalComponent={setExternalComponent} identityId={identityId} identityIdList={identity}/> :
                     null
                 }
-            </Modal>
+            </div>
         </div>
     );
 }

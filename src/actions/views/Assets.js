@@ -10,6 +10,7 @@ import {MintAsset, MutateAsset, BurnAsset, Wrap, UnWrap} from "../forms/assets";
 import AssetDefineJS from "persistencejs/transaction/assets/define";
 import {Define} from "../forms";
 import {MakeOrder} from "../forms/orders";
+import {useTranslation} from "react-i18next";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -19,7 +20,7 @@ const splitsQuery = new splitsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetDefine = new AssetDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const Assets = () => {
     const Helper = new Helpers();
-    const [showAsset, setShowAsset] = useState(false);
+    const {t} = useTranslation();
     const [externalComponent, setExternalComponent] = useState("");
     const [assetId, setAssetId] = useState("");
     const [assetList, setAssetList] = useState([]);
@@ -27,16 +28,14 @@ const Assets = () => {
     const [mutateProperties, setMutateProperties] = useState({});
     const [asset, setAsset] = useState({});
     const userAddress = localStorage.getItem('address');
-    const handleClose = () => {
-        setShowAsset(false);
-    };
+
     useEffect(() => {
         const fetchAssets = () => {
             const identities = identitiesQuery.queryIdentityWithID("all")
             identities.then(function (item) {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
-                if(dataList) {
+                if (dataList) {
                     const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
                     const splits = splitsQuery.querySplitsWithID("all")
 
@@ -52,7 +51,7 @@ const Assets = () => {
                                 const filterAssetList = assetsQuery.queryAssetWithID(ownableID);
                                 filterAssetList.then(function (Asset) {
                                     const parsedAsset = JSON.parse(Asset);
-                                    if(parsedAsset.result.value.assets.value.list !== null) {
+                                    if (parsedAsset.result.value.assets.value.list !== null) {
                                         const assetId = Helper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
                                         if (ownableID === assetId) {
                                             setAssetList(assetList => [...assetList, parsedAsset]);
@@ -66,15 +65,13 @@ const Assets = () => {
                                             }
                                             let immutableKeys = Object.keys(immutableProperties);
                                             let mutableKeys = Object.keys(mutableProperties);
-                                            Helper.AssignMetaValue(immutableKeys,immutableProperties, metasQuery, 'immutable_asset', index);
-                                            Helper.AssignMetaValue(mutableKeys,mutableProperties, metasQuery, 'mutable_asset', index);
+                                            Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset', index);
+                                            Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset', index);
                                         }
                                     }
                                 })
                             })
 
-                        } else {
-                            console.log("no splits found")
                         }
                     })
                 }
@@ -86,7 +83,6 @@ const Assets = () => {
         setMutateProperties(mutableProperties1)
         setAsset(asset1)
         setAssetId(assetId1)
-        setShowAsset(true);
         setExternalComponent(formName)
     }
 
@@ -99,17 +95,18 @@ const Assets = () => {
                             Actions
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => handleModalData("DefineAsset")}>Define
-                                Asset</Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleModalData("MintAsset")}>Asset
-                                Mint</Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleModalData("Wrap")}>Wrap
-                                Mint</Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleModalData("UnWrap")}>UnWrap
+                            <Dropdown.Item onClick={() => handleModalData("DefineAsset")}>{t("DEFINE_ASSET")}
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleModalData("MintAsset")}>{t("MINT_ASSET")}
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleModalData("Wrap")}>{t("WRAP")}
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleModalData("UnWrap")}>{t("UN_WRAP")}
                             </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
-                    {splitList.map((split, index) => {
+                    {splitList.length ?
+                        splitList.map((split, index) => {
                         const ownableID = Helper.GetIdentityOwnableId(split)
                         let ownableId = split.value.id.value.ownableID.value.idString;
                         let ownerId = split.value.id.value.ownerID.value.idString;
@@ -117,12 +114,12 @@ const Assets = () => {
                         return (
                             <div className="col-md-6" key={index}>
                                 <div className="card">
-                                    <p>OwnableId: {ownableId}</p>
-                                    <p>OwnerId: {ownerId}</p>
-                                    <p>Stake: {stake}</p>
+                                    <p>{t("OWNABLE_ID")}: {ownableId}</p>
+                                    <p>{t("OWNER_ID")}: {ownerId}</p>
+                                    <p>{t("STAKE")}: {stake}</p>
                                     <div>
                                         <Button variant="secondary"
-                                                onClick={() => handleModalData("MakeOrder", "", "", ownableID)}>Make</Button>
+                                                onClick={() => handleModalData("MakeOrder", "", "", ownableID)}>{t("MAKE")}</Button>
                                     </div>
                                     {
                                         assetList.map((asset, assetIndex) => {
@@ -143,15 +140,15 @@ const Assets = () => {
                                                     <div key={assetIndex}>
                                                         <div>
                                                             <Button variant="secondary"
-                                                                    onClick={() => handleModalData("MutateAsset", mutableProperties, asset)}>Mutate
-                                                                Asset</Button>
+                                                                    onClick={() => handleModalData("MutateAsset", mutableProperties, asset)}>{t("MUTATE_ASSET")}
+                                                                </Button>
                                                             <Button variant="secondary"
-                                                                    onClick={() => handleModalData("BurnAsset", "", asset)}>Burn
-                                                                Asset</Button>
+                                                                    onClick={() => handleModalData("BurnAsset", "", asset)}>{t("BURN_ASSET")}
+                                                                </Button>
 
                                                         </div>
-                                                        <p>Immutables</p>
-                                                        {
+                                                        <p>{t("IMMUTABLES")}</p>
+                                                        {immutableKeys !== null ?
                                                             immutableKeys.map((keyName, index1) => {
                                                                 if (immutableProperties[keyName] !== "") {
                                                                     return (
@@ -162,9 +159,10 @@ const Assets = () => {
                                                                         <a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
                                                                 }
                                                             })
+                                                            :""
                                                         }
-                                                        <p>mutables</p>
-                                                        {
+                                                        <p>{t("MUTABLES")}</p>
+                                                        {mutableKeys !== null ?
                                                             mutableKeys.map((keyName, index1) => {
                                                                 if (mutableProperties[keyName] !== "") {
                                                                     return (
@@ -175,6 +173,7 @@ const Assets = () => {
                                                                         <a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
                                                                 }
                                                             })
+                                                            :""
                                                         }
                                                     </div>
                                                 )
@@ -185,49 +184,44 @@ const Assets = () => {
                                 </div>
                             </div>
                         )
-                    })}
+                    })
+                    : <p>{t("ASSETS_NOT_FOUND")}</p>}
                 </div>
-                <Modal
-                    show={showAsset}
-                    onHide={handleClose}
-                    backdrop="static"
-                    keyboard={false}
-                    centered
-                >
+                <div>
                     {externalComponent === 'DefineAsset' ?
-                        <Define ActionName={assetDefine} FormName={'Define Asset'} type={'asset'}/> :
+                        <Define setExternalComponent={setExternalComponent} ActionName={assetDefine} FormName={'Define Asset'} type={'asset'}/> :
                         null
                     }
                     {
                         externalComponent === 'MintAsset' ?
-                            <MintAsset/> :
+                            <MintAsset setExternalComponent={setExternalComponent}/> :
                             null
                     }
                     {externalComponent === 'MutateAsset' ?
-                        <MutateAsset mutatePropertiesList={mutateProperties} asset={asset}/> :
+                        <MutateAsset setExternalComponent={setExternalComponent} mutatePropertiesList={mutateProperties} asset={asset}/> :
                         null
                     }
                     {
                         externalComponent === 'BurnAsset' ?
-                            <BurnAsset asset={asset}/> :
+                            <BurnAsset setExternalComponent={setExternalComponent} asset={asset}/> :
                             null
                     }
                     {
                         externalComponent === 'MakeOrder' ?
-                            <MakeOrder assetId={assetId}/> :
+                            <MakeOrder setExternalComponent={setExternalComponent} assetId={assetId}/> :
                             null
                     }
                     {
                         externalComponent === 'Wrap' ?
-                            <Wrap FormName={'Wrap'}/> :
+                            <Wrap setExternalComponent={setExternalComponent} FormName={'Wrap'}/> :
                             null
                     }
                     {
                         externalComponent === 'UnWrap' ?
-                            <UnWrap FormName={'UnWrap'}/> :
+                            <UnWrap setExternalComponent={setExternalComponent} FormName={'UnWrap'}/> :
                             null
                     }
-                </Modal>
+                </div>
             </div>
         </div>
     );

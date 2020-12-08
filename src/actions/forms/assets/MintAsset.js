@@ -3,15 +3,23 @@ import ClassificationsQueryJS from "persistencejs/transaction/classification/que
 import AssetMintJS from "persistencejs/transaction/assets/mint";
 import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../../utilities/Helper";
+import {useTranslation} from "react-i18next";
 import metasQueryJS from "persistencejs/transaction/meta/query";
+import config from "../../../constants/config.json"
+import Loader from "../../../components/loader";
+import ModalCommon from "../../../components/modal";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMint = new AssetMintJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
-const MintAsset = () => {
+const MintAsset = (props) => {
     const Helper = new Helpers();
+    const {t} = useTranslation();
+    const [show, setShow] = useState(true);
+    const [loader, setLoader] = useState(false)
     const [response, setResponse] = useState({});
+    const [errorMessage, setErrorMessage] = useState("");
     const [showNext, setShowNext] = useState(false);
     const [checkedD, setCheckedD] = useState({});
     const [classificationId, setClassificationId] = useState("");
@@ -20,8 +28,13 @@ const MintAsset = () => {
     const [inputValues, setInputValues] = useState([]);
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     const [checkboxImmutableNamesList, setCheckboxImmutableNamesList] = useState([]);
-    const handleClose = () => {
+    const handleCloseNext = () => {
         setShowNext(false);
+        props.setExternalComponent("");
+    };
+    const handleClose = () => {
+        setShow(false);
+        props.setExternalComponent("");
     };
     const handleCheckMutableChange = evt => {
         const checkedValue = evt.target.checked;
@@ -46,7 +59,6 @@ const MintAsset = () => {
             setCheckboxImmutableNamesList((checkboxImmutableNamesList) => [...checkboxImmutableNamesList, checkboxNames]);
         } else {
             if (checkboxImmutableNamesList.includes(name)) {
-                // setAssetItemsList(assetItemsList => assetItemsList.filter((item, sidx) => item.name !== name))
                 setCheckboxImmutableNamesList(checkboxImmutableNamesList.filter(item => item !== name));
             }
         }
@@ -61,11 +73,9 @@ const MintAsset = () => {
     const userAddress = localStorage.getItem('address');
     const handleSubmit = (event) => {
         event.preventDefault();
-
         const ClassificationId = event.target.ClassificationId.value;
         setClassificationId(ClassificationId)
         const classificationResponse = classificationsQuery.queryClassificationWithID(ClassificationId)
-
         classificationResponse.then(function (item) {
             const data = JSON.parse(JSON.parse(JSON.stringify(item)));
             if (data.result.value.classifications.value.list !== null) {
@@ -78,17 +88,23 @@ const MintAsset = () => {
         })
 
         setShowNext(true)
+        setShow(false);
     };
     const handleFormSubmit = (event) => {
+        setLoader(true)
         event.preventDefault();
         if (checkboxMutableNamesList.length === 0) {
-            alert("select mutable meta")
+            setErrorMessage(t("SELECT_MUTABLE_META"))
+            setLoader(false)
         } else if (mutableList.length !== 0 && checkboxMutableNamesList.length !== 0 && mutableList.length === checkboxMutableNamesList.length) {
-            alert("you can't select all as mutable meta")
+            setErrorMessage(t("SELECT_ALL_MUTABLE_ERROR"))
+            setLoader(false)
         } else if (immutableList.length !== 0 && checkboxImmutableNamesList.length !== 0 && immutableList.length === checkboxImmutableNamesList.length) {
-            alert("you can't select all as Immutable meta")
+            setErrorMessage(t("SELECT_ALL_IMMUTABLE_ERROR"))
+            setLoader(false)
         } else if (checkboxImmutableNamesList.length === 0) {
-            alert("select immutable meta")
+            setErrorMessage(t("SELECT_IMMUTABLE_META"))
+            setLoader(false)
         } else {
             const FromId = event.target.FromId.value;
             const toID = event.target.toID.value;
@@ -126,24 +142,25 @@ const MintAsset = () => {
                     }
                 })
             }
-            const assetMintResult = assetMint.mint(userAddress, "test", userTypeToken, toID, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
+            const assetMintResult = assetMint.mint(userAddress, "test", userTypeToken, toID, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode)
             assetMintResult.then(function (item) {
                 const data = JSON.parse(JSON.stringify(item));
                 setResponse(data)
-                console.log(data, "result Mint Asset")
+                setShowNext(false)
+                setLoader(false)
             })
         }
     }
     return (
         <div className="accountInfo">
-
+            <Modal show={show} onHide={handleClose} centered>
             <Modal.Header closeButton>
-                Mint Asset
+                {t("MINT_ASSET")}
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group>
-                        <Form.Label>Classification Id </Form.Label>
+                        <Form.Label>{t("CLASSIFICATION_ID")} </Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -155,26 +172,32 @@ const MintAsset = () => {
 
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            Next
+                            {t("NEXT")}
                         </Button>
                     </div>
                 </Form>
             </Modal.Body>
-
+            </Modal>
             <Modal
                 show={showNext}
-                onHide={handleClose}
+                onHide={handleCloseNext}
                 backdrop="static"
                 keyboard={false}
                 centered
             >
+                <div>
+                    {loader ?
+                        <Loader />
+                        : ""
+                    }
+                </div>
                 <Modal.Header closeButton>
-                    Mint Asset
+                    {t("MINT_ASSET")}
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleFormSubmit}>
-                        <Form.Group controlId="formBasicEmail">
-                            <Form.Label>From Id </Form.Label>
+                        <Form.Group>
+                            <Form.Label>{t("FROM_ID")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -183,8 +206,8 @@ const MintAsset = () => {
                                 placeholder="FromId"
                             />
                         </Form.Group>
-                        <Form.Group controlId="formBasicEmail">
-                            <Form.Label> To ID</Form.Label>
+                        <Form.Group>
+                            <Form.Label>{t("TO_ID")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -199,7 +222,7 @@ const MintAsset = () => {
                                 const mutableName = mutable.value.id.value.idString;
                                 return (
                                     <div key={index}>
-                                        <Form.Group controlId="formBasicEmail">
+                                        <Form.Group>
                                             <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
                                             <Form.Control
                                                 type="text"
@@ -211,8 +234,9 @@ const MintAsset = () => {
                                             />
                                         </Form.Group>
                                         <Form.Group controlId="formBasicCheckbox">
-                                            <Form.Check type="checkbox" label="Meta"
+                                            <Form.Check custom type="checkbox" label="Meta"
                                                         name={`${mutableName}|${mutableType}${index}`}
+                                                        id={`checkbox${mutableName}|${mutableType}${index}`}
                                                         onClick={handleCheckMutableChange}
                                             />
                                         </Form.Group>
@@ -228,7 +252,7 @@ const MintAsset = () => {
                                 const immutableType = immutable.value.fact.value.type;
                                 const immutableName = immutable.value.id.value.idString;
                                 return (
-                                    <>
+                                    <div key={index}>
                                         <Form.Group>
                                             <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
                                             <Form.Control
@@ -243,27 +267,34 @@ const MintAsset = () => {
                                             />
                                         </Form.Group>
                                         <Form.Group>
-                                            <Form.Check type="checkbox" label="Meta"
+                                            <Form.Check custom type="checkbox" label="Meta"
                                                         name={`${immutableName}|${immutableType}${index}`}
+                                                        id={`checkbox${immutableName}|${immutableType}${index}`}
                                                         onChange={handleCheckImmutableChange}/>
                                         </Form.Group>
-                                    </>
+                                    </div>
                                 )
                             })
                             :
                             ""
                         }
-                        <Button variant="primary" type="submit">
-                            Submit
-                        </Button>
-                        {response.code ?
-                            <p> {response.raw_log}</p>
-                            :
-                            <p> {response.txhash}</p>
+                        {errorMessage !== "" ?
+                            <span className="error-response">{errorMessage}</span>
+                            :""
+
                         }
+                        <div className="submitButtonSection">
+                        <Button variant="primary" type="submit">
+                            {t("SUBMIT")}
+                        </Button>
+                        </div>
                     </Form>
                 </Modal.Body>
             </Modal>
+            {!(Object.keys(response).length === 0) ?
+                <ModalCommon data={response}/>
+                : ""
+            }
         </div>
     );
 };

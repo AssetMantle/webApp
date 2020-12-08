@@ -4,15 +4,23 @@ import IdentitiesIssueJS from "persistencejs/transaction/identity/issue";
 import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../../utilities/Helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
+import {useTranslation} from "react-i18next";
+import config from "../../../constants/config.json"
+import Loader from "../../../components/loader"
+import ModalCommon from "../../../components/modal"
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesIssue = new IdentitiesIssueJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
-const IssueIdentity = () => {
+const IssueIdentity = (props) => {
     const Helper = new Helpers();
+    const {t} = useTranslation();
+    const [show, setShow] = useState(true);
     const [showNext, setShowNext] = useState(false);
+    const [loader, setLoader] = useState(false)
     const [response, setResponse] = useState({});
+    const [errorMessage, setErrorMessage] = useState("");
     const [checkedD, setCheckedD] = useState({});
     const [classificationId, setClassificationId] = useState("");
     const [mutableList, setMutableList] = useState([]);
@@ -21,7 +29,12 @@ const IssueIdentity = () => {
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     const [checkboxImmutableNamesList, setCheckboxImmutableNamesList] = useState([]);
     const handleClose = () => {
+        setShow(false);
+        props.setExternalComponent("");
+    };
+    const handleCloseNext = () => {
         setShowNext(false);
+        props.setExternalComponent("");
     };
     const handleCheckMutableChange = evt => {
         const checkedValue = evt.target.checked;
@@ -66,24 +79,29 @@ const IssueIdentity = () => {
             if (data.result.value.classifications.value.list !== null) {
                 const immutablePropertyList = data.result.value.classifications.value.list[0].value.immutableTraits.value.properties.value.propertyList;
                 const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
-                console.log(immutablePropertyList, "immutablePropertyList")
                 Helper.FetchInputFieldMeta(immutablePropertyList, metasQuery, "IssueIdentity");
                 setMutableList(mutablePropertyList)
                 setImmutableList(immutablePropertyList)
             }
         })
-        setShowNext(true)
+        setShowNext(true);
+        setShow(false);
     };
     const handleFormSubmit = (event) => {
+        setLoader(true);
         event.preventDefault();
         if (checkboxMutableNamesList.length === 0) {
-            alert("select mutable meta")
+            setErrorMessage(t("SELECT_MUTABLE_META"))
+            setLoader(false)
         } else if (mutableList.length !== 0 && checkboxMutableNamesList.length !== 0 && mutableList.length === checkboxMutableNamesList.length) {
-            alert("you can't select all as mutable meta")
+            setErrorMessage(t("SELECT_ALL_MUTABLE_ERROR"))
+            setLoader(false)
         } else if (immutableList.length !== 0 && checkboxImmutableNamesList.length !== 0 && immutableList.length === checkboxImmutableNamesList.length) {
-            alert("you can't select all as Immutable meta")
+            setErrorMessage(t("SELECT_ALL_IMMUTABLE_ERROR"))
+            setLoader(false)
         } else if (checkboxImmutableNamesList.length === 0) {
-            alert("select immutable meta")
+            setErrorMessage(t("SELECT_IMMUTABLE_META"))
+            setLoader(false)
         } else {
             const FromId = event.target.FromId.value;
             const toAddress = event.target.toAddress.value;
@@ -96,7 +114,6 @@ const IssueIdentity = () => {
                     const mutableType = mutable.value.fact.value.type;
                     const mutableName = mutable.value.id.value.idString;
                     const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
-                    console.log(mutableFieldValue, "mutableFieldValue")
                     const inputName = `${mutableName}|${mutableType}${index}`
 
                     const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
@@ -106,7 +123,6 @@ const IssueIdentity = () => {
                     if (mutableMetaValuesResponse[1] !== "") {
                         mutableMetaValues = mutableMetaValuesResponse[1];
                     }
-
                 })
             }
             if (immutableList !== null) {
@@ -122,58 +138,64 @@ const IssueIdentity = () => {
                     if (ImmutableMetaValuesResponse[1] !== "") {
                         immutableMetaValues = ImmutableMetaValuesResponse[1];
                     }
-
                 })
             }
-            const issueIdentityResult = identitiesIssue.issue(userAddress, "test", userTypeToken, toAddress, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, 25, "stake", 200000, "block")
+            const issueIdentityResult = identitiesIssue.issue(userAddress, "test", userTypeToken, toAddress, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode)
             issueIdentityResult.then(function (item) {
                 const data = JSON.parse(JSON.stringify(item));
-                setResponse(data)
-                console.log(data, "result Issue Identity")
+                setResponse(data);
+                setShowNext(false);
+                setLoader(false);
             })
         }
     }
     return (
         <div className="accountInfo">
+            <Modal show={show} onHide={handleClose} centered>
+                <Modal.Header closeButton>
+                    {t("ISSUE_IDENTITY")}
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group>
+                            <Form.Label>{t("CLASSIFICATION_ID")}</Form.Label>
+                            <Form.Control
+                                type="text"
+                                className=""
+                                name="ClassificationId"
+                                required={true}
+                                placeholder="ClassificationId"
+                            />
+                        </Form.Group>
 
-            <Modal.Header closeButton>
-                Issue Identity
-            </Modal.Header>
-            <Modal.Body>
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Classification Id </Form.Label>
-                        <Form.Control
-                            type="text"
-                            className=""
-                            name="ClassificationId"
-                            required={true}
-                            placeholder="ClassificationId"
-                        />
-                    </Form.Group>
-
-                    <div className="submitButtonSection">
-                        <Button variant="primary" type="submit">
-                            Next
-                        </Button>
-                    </div>
-                </Form>
-            </Modal.Body>
-
+                        <div className="submitButtonSection">
+                            <Button variant="primary" type="submit">
+                                {t("NEXT")}
+                            </Button>
+                        </div>
+                    </Form>
+                </Modal.Body>
+            </Modal>
             <Modal
                 show={showNext}
-                onHide={handleClose}
+                onHide={handleCloseNext}
                 backdrop="static"
                 keyboard={false}
                 centered
             >
+                <div>
+                    {loader ?
+                        <Loader/>
+                        : ""
+                    }
+                </div>
                 <Modal.Header closeButton>
-                    Issue Identity
+                    {t("ISSUE_IDENTITY")}
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleFormSubmit}>
-                        <Form.Group controlId="formBasicEmail">
-                            <Form.Label>From Id </Form.Label>
+                        <Form.Group>
+                            <Form.Label>{("FROM_ID")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -182,8 +204,8 @@ const IssueIdentity = () => {
                                 placeholder="FromId"
                             />
                         </Form.Group>
-                        <Form.Group controlId="formBasicEmail">
-                            <Form.Label> To Address</Form.Label>
+                        <Form.Group>
+                            <Form.Label>{t("TO_ADDRESS")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -198,7 +220,7 @@ const IssueIdentity = () => {
                                 const mutableName = mutable.value.id.value.idString;
                                 return (
                                     <div key={index}>
-                                        <Form.Group controlId="formBasicEmail">
+                                        <Form.Group>
                                             <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
                                             <Form.Control
                                                 type="text"
@@ -209,9 +231,10 @@ const IssueIdentity = () => {
                                                 onChange={handleChange}
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="formBasicCheckbox">
-                                            <Form.Check type="checkbox" label="Meta"
+                                        <Form.Group>
+                                            <Form.Check custom type="checkbox" label="Meta"
                                                         name={`${mutableName}|${mutableType}${index}`}
+                                                        id={`checkbox${mutableName}|${mutableType}${index}`}
                                                         onClick={handleCheckMutableChange}
                                             />
                                         </Form.Group>
@@ -242,8 +265,9 @@ const IssueIdentity = () => {
                                             />
                                         </Form.Group>
                                         <Form.Group>
-                                            <Form.Check type="checkbox" label="Meta"
+                                            <Form.Check custom type="checkbox" label="Meta"
                                                         name={`${immutableName}|${immutableType}${index}`}
+                                                        id={`checkbox${immutableName}|${immutableType}${index}`}
                                                         onChange={handleCheckImmutableChange}/>
                                         </Form.Group>
                                     </>
@@ -252,17 +276,22 @@ const IssueIdentity = () => {
                             :
                             ""
                         }
-                        <Button variant="primary" type="submit">
-                            Submit
-                        </Button>
-                        {response.code ?
-                            <p> {response.raw_log}</p>
-                            :
-                            <p> {response.txhash}</p>
+                        {errorMessage !== "" ?
+                            <span className="error-response">{errorMessage}</span>
+                            : ""
                         }
+                        <div className="submitButtonSection">
+                            <Button variant="primary" type="submit">
+                                {t("SUBMIT")}
+                            </Button>
+                        </div>
                     </Form>
                 </Modal.Body>
             </Modal>
+            {!(Object.keys(response).length === 0) ?
+                <ModalCommon data={response}/>
+                : ""
+            }
         </div>
     );
 };

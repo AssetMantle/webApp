@@ -2,12 +2,15 @@ import React, {useState} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import keyUtils from "persistencejs/utilities/keys";
+import {useTranslation} from "react-i18next";
+import privateKeyIcon from "../../../assets/images/PrivatekeyIcon.svg";
+import arrowRightIcon from "../../../assets/images/arrowRightIcon.svg";
 
-const PrivateKey = () => {
+const PrivateKey = (props) => {
+    const {t} = useTranslation();
     const history = useHistory();
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(true);
     const [incorrectPassword, setIncorrectPassword] = useState(false);
-    const handleClose = () => setShow(false);
     const [files, setFiles] = useState("");
     const handleSubmit = e => {
         e.preventDefault()
@@ -21,26 +24,39 @@ const PrivateKey = () => {
             if (error.error != null) {
                 setIncorrectPassword(true)
                 return (<div>ERROR!!</div>)
-            }else{
+            } else {
                 const wallet = keyUtils.getWallet(error.mnemonic)
                 localStorage.setItem("address", wallet.address)
                 localStorage.setItem("mnemonic", error.mnemonic)
-                 history.push('/ActionsSwitcher');
+                history.push('/ActionsSwitcher');
             }
         };
     }
+    const handleClose = () => {
+        setShow(false);
+        props.setExternalComponent("");
+        history.push('/');
+    };
     return (
         <div className="accountInfo">
+            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select" centered>
             <Modal.Header closeButton>
-                Login with PrivateKey
+                {t("LOGIN_FORM")}
             </Modal.Header>
             <Modal.Body>
+                <div className="mrt-10">
+                    <div className="button-view">
+                        <div className="icon-section">
+                            <div className="icon"><img src={privateKeyIcon} alt="privateKeyIcon"/> </div>
+                            {t("LOGIN_PRIVATE_KEY")}</div>
+                        <img className="arrow-icon" src={arrowRightIcon} alt="arrowRightIcon"/>
+                    </div>
+                </div>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group>
-                    <p>upload private key file</p>
-                        <input type="file" name="uploadFile" accept=".json" required  />
+                        <Form.File id="exampleFormControlFile1" name="uploadFile" accept=".json" label="upload private key file" required={true}/>
                     </Form.Group>
-                    <Form.Label>Enter password to decrypt keystore file</Form.Label>
+                    <Form.Label>{t("DECRYPT_KEY_STORE")}</Form.Label>
                     <Form.Control
                         type="password"
                         name="password"
@@ -50,7 +66,7 @@ const PrivateKey = () => {
                     />
                     {incorrectPassword ?
                         <Form.Text className="text-muted">
-                            Incorrect Password
+                            {t("INCORRECT_PASSWORD")}
                         </Form.Text>
                         : ""
                     }
@@ -58,17 +74,14 @@ const PrivateKey = () => {
                         <Button
                             variant="primary"
                             type="submit"
+                            className="button-double-border"
                         >
-                            Sign In
+                            {t("LOGIN")}
                         </Button>
                     </div>
 
                 </Form>
             </Modal.Body>
-            <Modal show={show} onHide={handleClose}  centered>
-                <Modal.Body>
-
-                </Modal.Body>
             </Modal>
         </div>
     );

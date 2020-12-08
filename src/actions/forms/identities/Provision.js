@@ -2,31 +2,49 @@ import React, {useState, useEffect} from "react";
 import identitiesProvisionJS from "persistencejs/transaction/identity/provision";
 import {Form, Button, Modal} from "react-bootstrap";
 import InputField from "../../../components/inputField"
+import {useTranslation} from "react-i18next";
+import config from "../../../constants/config.json"
+import Loader from "../../../components/loader"
+import ModalCommon from "../../../components/modal"
 
 const identitiesProvision = new identitiesProvisionJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Provision = (props) => {
-    const [response, setResponse] = useState({});
 
+    const [response, setResponse] = useState({});
+    const {t} = useTranslation();
+    const [show, setShow] = useState(true);
+    const [loader, setLoader] = useState(false)
     const handleSubmit = (event) => {
+        setLoader(true)
         event.preventDefault();
         const toAddress = event.target.toAddress.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        const provisionResponse = identitiesProvision.provision(userAddress, "test", userTypeToken, props.identityId, toAddress, 25, "stake", 200000, "block");
-        console.log(provisionResponse, "result provision")
+        const provisionResponse = identitiesProvision.provision(userAddress, "test", userTypeToken, props.identityId, toAddress, config.feesAmount, config.feesToken, config.gas, config.mode);
         provisionResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             setResponse(data)
-            console.log(data, "result define Identity")
+            setShow(false);
+            setLoader(false)
         })
     };
-
+    const handleClose = () => {
+             setShow(false);
+                props.setExternalComponent("");
+    };
     return (
         <div className="accountInfo">
+            <Modal show={show} onHide={handleClose} centered>
             <Modal.Header closeButton>
-                Provision
+                {t("PROVISION")}
             </Modal.Header>
+                <div>
+                    {loader ?
+                        <Loader />
+                        : ""
+                    }
+                </div>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <InputField
@@ -40,16 +58,17 @@ const Provision = (props) => {
                     />
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            Submit
+                            {t("SUBMIT")}
                         </Button>
                     </div>
-                    {response.code ?
-                        <p> {response.raw_log}</p>
-                        :
-                        <p> {response.txhash}</p>
-                    }
+
                 </Form>
             </Modal.Body>
+            </Modal>
+            {!(Object.keys(response).length === 0) ?
+                <ModalCommon data={response}/>
+                : ""
+            }
         </div>
     );
 };

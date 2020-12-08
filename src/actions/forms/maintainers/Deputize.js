@@ -2,10 +2,18 @@ import React, {useState, useEffect} from "react";
 import deputizeJS from "persistencejs/transaction/maintainers/deputize";
 import {Form, Button, Modal} from "react-bootstrap";
 import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
+import {useTranslation} from "react-i18next";
+import ModalCommon from "../../../components/modal";
+import Loader from "../../../components/loader";
 
+import config from "../../../constants/config.json"
 const deputizeMaintainer = new deputizeJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
+
 const Deputize = (props) => {
+    const {t} = useTranslation();
+    const [loader, setLoader] = useState(false)
+    const [show, setShow] = useState(true);
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     const [response, setResponse] = useState({});
     const [mutableList, setMutableList] = useState([]);
@@ -34,6 +42,7 @@ const Deputize = (props) => {
         }
     }
     const handleSubmit = (event) => {
+        setLoader(true);
         event.preventDefault();
         const classificationId = props.maintainerData.value.id.value.classificationID.value.idString
         const identityId = props.maintainerData.value.id.value.identityID.value.idString
@@ -42,29 +51,37 @@ const Deputize = (props) => {
         const removeMaintainer = document.getElementById("removeMaintainer").checked
         let maintainedTraits = ""
         checkboxMutableNamesList.forEach((checkboxMutableName) => {
-            console.log(checkboxMutableName, "checkboxMutableName")
             maintainedTraits = maintainedTraits + checkboxMutableName;
         })
         const ToId = event.target.ToId.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        const DeputizeResponse = deputizeMaintainer.deputize(userAddress, "test", userTypeToken, identityId, classificationId, ToId, maintainedTraits, addMaintainer, removeMaintainer, mutateMaintainer, 25, "stake", 200000, "block");
+        const DeputizeResponse = deputizeMaintainer.deputize(userAddress, "test", userTypeToken, identityId, classificationId, ToId, maintainedTraits, addMaintainer, removeMaintainer, mutateMaintainer, config.feesAmount, config.feesToken, config.gas, config.mode);
         DeputizeResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             setResponse(data)
-            console.log(data, "result DeputizeResponse")
+            setShow(false)
+            setLoader(false);
         })
 
     };
+    const handleClose = () => {
+        setShow(false)
+    };
     return (
         <div className="accountInfo">
+            <Modal show={show} onHide={handleClose}  centered>
             <Modal.Header closeButton>
-                Deputize
+                {t("DEPUTIZE")}
             </Modal.Header>
+                {loader ?
+                    <Loader />
+                    :""
+                }
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>ToId</Form.Label>
+                    <Form.Group>
+                        <Form.Label> {t("TO_ID")}</Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -74,20 +91,20 @@ const Deputize = (props) => {
                         />
                     </Form.Group>
 
-                    <Form.Group controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" label="Can add"
+                    <Form.Group>
+                        <Form.Check custom type="checkbox" label="Can add"
                                     name="addMaintainer"
                                     id="addMaintainer"
                         />
                     </Form.Group>
-                    <Form.Group controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" label="Can mutate"
+                    <Form.Group>
+                        <Form.Check custom type="checkbox" label="Can mutate"
                                     name="mutateMaintainer"
                                     id="mutateMaintainer"
                         />
                     </Form.Group>
-                    <Form.Group controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" label="Can remove"
+                    <Form.Group>
+                        <Form.Check custom type="checkbox" label="Can remove"
                                     name="removeMaintainer"
                                     id="removeMaintainer"
                         />
@@ -100,9 +117,10 @@ const Deputize = (props) => {
                                 const mutableName = mutable.value.id.value.idString;
                                 return (
                                     <div key={index}>
-                                        <Form.Group controlId="formBasicCheckbox">
-                                            <Form.Check type="checkbox" label={mutableName}
+                                        <Form.Group >
+                                            <Form.Check custom type="checkbox" label={mutableName}
                                                         name={`${mutableName}:${mutableType}|${index}`}
+                                                        id={`${mutableName}:${mutableType}|${index}`}
                                                         value={`${mutableName}:${mutableType}|`}
                                                         onClick={handleCheckMutableChange}
                                             />
@@ -115,16 +133,17 @@ const Deputize = (props) => {
                     </div>
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            Submit
+                            {t("SUBMIT")}
                         </Button>
                     </div>
-                    {response.code ?
-                        <p> {response.raw_log}</p>
-                        :
-                        <p> {response.txhash}</p>
-                    }
+
                 </Form>
             </Modal.Body>
+            </Modal>
+                { !(Object.keys(response).length === 0) ?
+                    <ModalCommon data={response}/>
+                    :""
+                }
         </div>
     );
 };

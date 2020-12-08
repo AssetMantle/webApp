@@ -5,3 +5,20 @@
     max-width: 40%;
 }
 }
+@media (max-width: 768px){
+    .banner-image-section {
+        display: none !important;
+    }
+}
+@media (max-width: 1400px){
+    .banner-image-section imge{
+        margin-right: auto;
+    }
+}
+@media (max-width: 576px)
+{
+    .row{
+        margin: auto;
+    }
+
+}
