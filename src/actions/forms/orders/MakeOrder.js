@@ -95,16 +95,16 @@ const MakeOrder = (props) => {
         const Makersplit = event.target.Makersplit.value;
         const ExpiresIn = event.target.expiresInD.value;
         if (checkboxMutableNamesList.length === 0) {
-            setErrorMessage("select mutable meta")
+            setErrorMessage(t("SELECT_MUTABLE_META"))
             setLoader(false)
         } else if (mutableList.length !== 0 && checkboxMutableNamesList.length !== 0 && mutableList.length === checkboxMutableNamesList.length) {
-            setErrorMessage("you can't select all as mutable meta")
+            setErrorMessage(t("SELECT_ALL_MUTABLE_ERROR"))
             setLoader(false)
         } else if (immutableList.length !== 0 && checkboxImmutableNamesList.length !== 0 && immutableList.length === checkboxImmutableNamesList.length) {
-            setErrorMessage("you can't select all as Immutable meta")
+            setErrorMessage(t("SELECT_ALL_IMMUTABLE_ERROR"))
             setLoader(false)
         } else if (checkboxImmutableNamesList.length === 0) {
-            setErrorMessage("select immutable meta")
+            setErrorMessage("SELECT_IMMUTABLE_META")
             setLoader(false)
         } else {
             let mutableValues = "";

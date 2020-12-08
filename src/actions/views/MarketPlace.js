@@ -16,7 +16,6 @@ const Marketplace = () => {
     const [orderId, setOrderId] = useState("");
     const [orderList, setOrderList] = useState([]);
 
-
     useEffect(() => {
         const fetchOrder = () => {
             const ordersData = ordersQuery.queryOrderWithID("all")

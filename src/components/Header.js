@@ -1,25 +1,21 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {withRouter} from "react-router-dom";
 import {useHistory} from "react-router-dom";
-import {Navbar, Nav, NavDropdown, Button, Modal} from "react-bootstrap";
-import { useTranslation } from "react-i18next";
+import {Navbar, Nav, NavDropdown, Button} from "react-bootstrap";
+import {useTranslation} from "react-i18next";
 
 const Header = () => {
     const history = useHistory();
-    const { t } = useTranslation();
-
+    const {t} = useTranslation();
     const userTypeToken = localStorage.getItem('mnemonic');
     const userAddress = localStorage.getItem('address');
-    const [externalComponent, setExternalComponent] = useState("");
     const handleRoute = route => () => {
         history.push(route)
     };
     const handleModelRoute = (route) => {
         history.push(`/${route}`);
     };
-    const handleClose = () => {
-        setShow(false)
-    };
+
     const logout = route => () => {
         localStorage.clear();
         history.push('/');
@@ -27,7 +23,7 @@ const Header = () => {
     useEffect(() => {
         const userAddress = localStorage.getItem('address');
         if (userAddress === null) {
-            history.push('/LoginAction');
+            history.push('/Login');
         }
     }, [])
     return (
@@ -49,7 +45,8 @@ const Header = () => {
                             <Nav>
                                 <Nav.Link onClick={() => handleModelRoute("SignUp")}>{t("SIGNUP")}</Nav.Link>
                                 <div className="button-login-section">
-                                <Button variant="primary" className="button-double-border" onClick={handleRoute("/LoginAction")}>{t("LOGIN")}</Button>
+                                    <Button variant="primary" className="button-double-border"
+                                            onClick={handleRoute("/Login")}>{t("LOGIN")}</Button>
                                 </div>
 
                             </Nav>

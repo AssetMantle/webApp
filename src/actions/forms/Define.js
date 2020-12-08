@@ -129,11 +129,11 @@ const Define = (props) => {
                     }
                 })
             } else {
-                setErrorMessage("add Mutable Meta property")
+                setErrorMessage(t("ADD_MUTABLE_META_PROPERTY"))
                 setLoader(false);
             }
         } else {
-            setErrorMessage("add mutable property")
+            setErrorMessage(t("ADD_MUTABLE_PROPERTY"))
             setLoader(false);
         }
 

@@ -31,16 +31,16 @@
   color: #262A2B;
   border: 0px solid;
   border-radius: 15px;
-  box-shadow: 0px 0px 0 1px #ffffff, 0px 0px 0 3px #ffffff, 4px 4px 0 2px #262A2B, 4px 4px 0 3px #FFFFFF; }
+  box-shadow: 0px 0px 0 0px #ffffff, 0px 0px 0 0px #ffffff, 4px 4px 0 1px #262A2B, 4px 4px 0 2px #FFFFFF; }
   .button-double-border:hover {
     color: #262a2b;
     background-color: #efcc30;
     border-color: #ffffff; }
 
-.button-double-border:not(:disabled):not(.disabled).active:focus, .button-double-border:not(:disabled):not(.disabled):active:focus, .show > .button-double-border.dropdown-toggle:focus, .button-double-border.focus, .button-double-border:focus {
+.btn-primary.button-double-border:not(:disabled):not(.disabled).active:focus, .btn-primary.button-double-border:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.button-double-border.dropdown-toggle:focus, .btn-primary.button-double-border.focus, .btn-primary.button-double-border:focus {
   color: #262a2b;
   background-color: #efcc30;
-  box-shadow: 0px 0px 0 1px #ffffff, 0px 0px 0 3px #ffffff, 4px 4px 0 2px #262A2B, 4px 4px 0 3px #FFFFFF;
+  box-shadow: 0px 0px 0 0px #ffffff, 0px 0px 0 0px #ffffff, 4px 4px 0 1px #262A2B, 4px 4px 0 2px #FFFFFF;
   border-color: #ffffff; }
 
 .btn .btn-outline-info {
@@ -59,6 +59,8 @@
 
 .homeSection {
   padding-top: 20px; }
+  .homeSection .btn-primary {
+    background: #FFFFFF; }
   .homeSection .row {
     margin-left: auto;
     margin-right: auto; }
@@ -105,8 +107,6 @@
   padding: 50px;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
   border-radius: 5px; }
-  .accountInfo .signup-box .mrt-10 {
-    margin-top: 10px; }
 
 .btn-primary:not(:disabled):not(.disabled).active,
 .btn-primary:not(:disabled):not(.disabled):active,
@@ -129,9 +129,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  transform: -webkit-translate(-50%, -50%);
-  transform: -moz-translate(-50%, -50%);
-  transform: -ms-translate(-50%, -50%);
   z-index: 99999; }
 
 .dropdown-item.active, .dropdown-item:active {
@@ -172,9 +169,11 @@
   padding: 30px 0;
   font-size: 0.875rem;
   text-align: center; }
+  .footer label {
+    color: #FFFFFF; }
 
 .submitButtonSection {
-  margin-top: 10px; }
+  margin-top: 20px; }
 
 .tabs-top-bar {
   display: flex;
@@ -194,6 +193,8 @@
 
 .modal-content {
   border-radius: 15px; }
+  .modal-content .mrt-10 {
+    margin-top: 10px; }
   .modal-content .modal-header {
     display: block;
     padding: 20px;
@@ -201,7 +202,7 @@
     font-size: 18px;
     text-align: center; }
   .modal-content .modal-body {
-    padding: 25px; }
+    padding: 25px 25px 40px 25px; }
   .modal-content .modal-footer {
     justify-content: center; }
 
@@ -211,6 +212,51 @@
 
 .signup-section .modal-body {
   text-align: center; }
+.signup-section .private-key {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+  .signup-section .private-key label {
+    font-size: 12px;
+    color: #262A2B;
+    margin-bottom: 15px; }
+  .signup-section .private-key input {
+    min-width: 200px;
+    max-width: 300px;
+    padding: 20px; }
+  .signup-section .private-key button {
+    min-width: 200px;
+    max-width: 300px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 14px;
+    padding: 15px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #262A2B; }
+  .signup-section .private-key .mnemonic-note {
+    font-weight: 500;
+    color: #E95D54;
+    font-size: 14px; }
+  .signup-section .private-key .mnemonic-text {
+    padding: 10px 20px;
+    background: rgba(239, 203, 48, 0.04);
+    border: 0.2px solid #262A2B;
+    box-sizing: border-box;
+    border-radius: 14px;
+    text-align: justify;
+    color: #262A2B; }
+  .signup-section .private-key .key-download {
+    margin: 0; }
+    .signup-section .private-key .key-download a {
+      color: #000000 !important;
+      font-weight: 500;
+      font-size: 14px; }
+    .signup-section .private-key .key-download img {
+      transform: rotate(90deg);
+      height: 5px; }
+  .signup-section .private-key .download-note {
+    font-size: 12px; }
 .signup-section .button-signup {
   padding: 15px;
   border-radius: 14px;
@@ -241,5 +287,84 @@
 
 .error-response {
   color: #dc3545; }
+
+.login-section .mrt-10 {
+  display: flex;
+  justify-content: center; }
+.login-section .button-view {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  width: 400px;
+  justify-content: space-between;
+  padding: 18px 25px 18px 15px;
+  background: #FFFFFF;
+  border: 1px solid #F5F5F5;
+  border-radius: 14px; }
+  .login-section .button-view .icon-section {
+    display: flex;
+    align-items: center; }
+    .login-section .button-view .icon-section .icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      margin-right: 15px;
+      background: #EFCB30;
+      position: relative; }
+      .login-section .button-view .icon-section .icon img {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        margin: auto; }
+
+.mnemonic-login-section.login-section .button-view {
+  background: #EFCB30;
+  border: 1px solid #F5F5F5; }
+  .mnemonic-login-section.login-section .button-view .icon-section .icon {
+    background: #FFFFFF; }
+  .mnemonic-login-section.login-section .button-view .arrow-icon {
+    transform: rotate(90deg); }
+.mnemonic-login-section.login-section form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px; }
+  .mnemonic-login-section.login-section form textarea {
+    min-width: 200px;
+    max-width: 400px;
+    background: rgba(239, 203, 48, 0.04);
+    border: 0.2px solid #262A2B;
+    box-sizing: border-box;
+    border-radius: 14px; }
+    .mnemonic-login-section.login-section form textarea::placeholder {
+      color: #999999;
+      font-size: 12px; }
+  .mnemonic-login-section.login-section form .button-double-border {
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: 0px 0px 0 0px #ffffff, 0px 0px 0 2px #efcc30, 4px 4px 0 1px #ffffff, 4px 4px 0 2px #262A2B; }
+    .mnemonic-login-section.login-section form .button-double-border:hover {
+      color: #262a2b;
+      background-color: #efcc30;
+      border-color: #ffffff; }
+  .mnemonic-login-section.login-section form .btn-primary.button-double-border:not(:disabled):not(.disabled).active:focus, .mnemonic-login-section.login-section form .btn-primary.button-double-border:not(:disabled):not(.disabled):active:focus, .mnemonic-login-section.login-section form .show > .btn-primary.button-double-border.dropdown-toggle:focus, .mnemonic-login-section.login-section form .btn-primary.button-double-border.focus, .mnemonic-login-section.login-section form .btn-primary.button-double-border:focus {
+    color: #262a2b;
+    background-color: #efcc30;
+    box-shadow: 0px 0px 0 0px #ffffff, 0px 0px 0 0px #ffffff, 4px 4px 0 1px #ffffff, 4px 4px 0 2px #262A2B;
+    border-color: #ffffff; }
+
+.mnemonic-login-section.login-section.key-select form {
+  align-items: start;
+  padding-left: 25px;
+  margin: 15px 0; }
+  .mnemonic-login-section.login-section.key-select form input {
+    min-width: 200px;
+    max-width: 400px; }
+  .mnemonic-login-section.login-section.key-select form .submitButtonSection {
+    text-align: center;
+    width: 100%; }
 
 /*# sourceMappingURL=styles.css.map */

@@ -50,7 +50,7 @@
   color: #262A2B;
   border: 0px solid;
   border-radius: 15px;
-  box-shadow: 0px 0px 0 1px #ffffff, 0px 0px 0 3px #ffffff, 4px 4px 0 2px #262A2B, 4px 4px 0 3px #FFFFFF;
+  box-shadow: 0px 0px 0 0px #ffffff, 0px 0px 0 0px #ffffff, 4px 4px 0 1px #262A2B, 4px 4px 0 2px #FFFFFF;
 
   &:hover {
     color: #262a2b;
@@ -59,10 +59,10 @@
   }
 }
 
-.button-double-border:not(:disabled):not(.disabled).active:focus, .button-double-border:not(:disabled):not(.disabled):active:focus, .show > .button-double-border.dropdown-toggle:focus, .button-double-border.focus, .button-double-border:focus {
+.btn-primary.button-double-border:not(:disabled):not(.disabled).active:focus, .btn-primary.button-double-border:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.button-double-border.dropdown-toggle:focus, .btn-primary.button-double-border.focus, .btn-primary.button-double-border:focus {
   color: #262a2b;
   background-color: #efcc30;
-  box-shadow: 0px 0px 0 1px #ffffff, 0px 0px 0 3px #ffffff, 4px 4px 0 2px #262A2B, 4px 4px 0 3px #FFFFFF;
+  box-shadow: 0px 0px 0 0px #ffffff, 0px 0px 0 0px #ffffff, 4px 4px 0 1px #262A2B, 4px 4px 0 2px #FFFFFF;
   border-color: #ffffff;
 }
 
@@ -90,6 +90,10 @@
 .homeSection {
   padding-top: 20px;
 
+  .btn-primary {
+    background: #FFFFFF;
+  }
+
   .row {
     margin-left: auto;
     margin-right: auto;
@@ -106,12 +110,6 @@
   .col-md-6 {
     flex: 50%;
     max-width: 50%;
-  }
-
-  .infoRow {
-    //background-image: url("../images/homeBanner.svg");
-    //background-position: 100% 50%;
-    //background-repeat: no-repeat;
   }
 
   .appInfoBox {
@@ -170,14 +168,11 @@
   }
 
   .signup-box {
-    .mrt-10 {
-      margin-top: 10px;
-    }
-
     padding: 50px;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
     border-radius: 5px;
   }
+
 }
 
 .btn-primary:not(:disabled):not(.disabled).active,
@@ -204,9 +199,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  transform: -webkit-translate(-50%, -50%);
-  transform: -moz-translate(-50%, -50%);
-  transform: -ms-translate(-50%, -50%);
   z-index: 99999;
 }
 
@@ -261,10 +253,14 @@
   padding: 30px 0;
   font-size: 0.875rem;
   text-align: center;
+
+  label {
+    color: #FFFFFF;
+  }
 }
 
 .submitButtonSection {
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .tabs-top-bar {
@@ -292,6 +288,10 @@
 .modal-content {
   border-radius: 15px;
 
+  .mrt-10 {
+    margin-top: 10px;
+  }
+
   .modal-header {
     display: block;
     padding: 20px;
@@ -301,7 +301,7 @@
   }
 
   .modal-body {
-    padding: 25px;
+    padding: 25px 25px 40px 25px;
   }
 
   .modal-footer {
@@ -318,6 +318,72 @@
   .modal-body {
     text-align: center;
   }
+
+  .private-key {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    label {
+      font-size: 12px;
+      color: #262A2B;
+      margin-bottom: 15px;
+    }
+
+    input {
+      min-width: 200px;
+      max-width: 300px;
+      padding: 20px;
+    }
+
+    button {
+      min-width: 200px;
+      max-width: 300px;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+      border-radius: 14px;
+      padding: 15px;
+      font-weight: 600;
+      font-size: 14px;
+      color: #262A2B;
+    }
+
+    .mnemonic-note {
+      font-weight: 500;
+      color: #E95D54;
+      font-size: 14px;
+    }
+
+    .mnemonic-text {
+      padding: 10px 20px;
+      background: rgba(239, 203, 48, 0.04);
+      border: 0.2px solid #262A2B;
+      box-sizing: border-box;
+      border-radius: 14px;
+      text-align: justify;
+      color: #262A2B;
+    }
+
+    .key-download {
+      margin: 0;
+
+      a {
+        color: #000000 !important;
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      img {
+        transform: rotate(90deg);
+        height: 5px;
+      }
+    }
+
+    .download-note {
+      font-size: 12px;
+    }
+  }
+
 
   .button-signup {
     padding: 15px;
@@ -359,6 +425,125 @@
 .tx-hash {
   word-break: break-all;
 }
-.error-response{
+
+.error-response {
   color: #dc3545;
+}
+
+.login-section {
+  .mrt-10 {
+    display: flex;
+    justify-content: center;
+  }
+
+  .button-view {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    width: 400px;
+    justify-content: space-between;
+    padding: 18px 25px 18px 15px;
+    background: #FFFFFF;
+    border: 1px solid #F5F5F5;
+    border-radius: 14px;
+
+    .icon-section {
+      display: flex;
+      align-items: center;
+
+      .icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        margin-right: 15px;
+        background: #EFCB30;
+        position: relative;
+
+        img {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          top: 0;
+          margin: auto;
+        }
+      }
+    }
+  }
+}
+
+.mnemonic-login-section.login-section {
+  .button-view {
+    background: #EFCB30;
+    border: 1px solid #F5F5F5;
+
+    .icon-section {
+      .icon {
+        background: #FFFFFF;
+      }
+    }
+
+    .arrow-icon {
+      transform: rotate(90deg);
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+
+    textarea {
+      min-width: 200px;
+      max-width: 400px;
+      background: rgba(239, 203, 48, 0.04);
+      border: 0.2px solid #262A2B;
+      box-sizing: border-box;
+      border-radius: 14px;
+
+      &::placeholder {
+        color: #999999;
+        font-size: 12px;
+      }
+    }
+
+    .button-double-border {
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0px 0px 0 0px #ffffff, 0px 0px 0 2px #efcc30, 4px 4px 0 1px #ffffff, 4px 4px 0 2px #262A2B;
+
+      &:hover {
+        color: #262a2b;
+        background-color: #efcc30;
+        border-color: #ffffff;
+      }
+    }
+
+    .btn-primary.button-double-border:not(:disabled):not(.disabled).active:focus, .btn-primary.button-double-border:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.button-double-border.dropdown-toggle:focus, .btn-primary.button-double-border.focus, .btn-primary.button-double-border:focus {
+      color: #262a2b;
+      background-color: #efcc30;
+      box-shadow: 0px 0px 0 0px #ffffff, 0px 0px 0 0px #ffffff, 4px 4px 0 1px #ffffff, 4px 4px 0 2px #262A2B;
+      border-color: #ffffff;
+    }
+  }
+}
+
+.mnemonic-login-section.login-section.key-select {
+  form {
+    align-items: start;
+    padding-left: 25px;
+    margin: 15px 0;
+
+    input {
+      min-width: 200px;
+      max-width: 400px;
+    }
+
+    .submitButtonSection {
+      text-align: center;
+      width: 100%;
+    }
+  }
 }

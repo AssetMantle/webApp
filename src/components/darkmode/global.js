@@ -100,7 +100,10 @@ export const GlobalStyles = createGlobalStyle`
     color: ${({theme}) => theme.modalHeaderColor};
   }
 
-  .btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus, .btn-primary.focus, .btn-primary:focus,
+  .btn-primary:not(:disabled):not(.disabled).active:focus, 
+  .btn-primary:not(:disabled):not(.disabled):active:focus, 
+  .show > .btn-primary.dropdown-toggle:focus, 
+  .btn-primary.focus, .btn-primary:focus,
   .btn-primary:not(:disabled):not(.disabled).active,
   .btn-primary:not(:disabled):not(.disabled):active,
   .show > .btn-primary.dropdown-toggle,

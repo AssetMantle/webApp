@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {Route, Switch, withRouter} from "react-router-dom";
-import {LoginAction} from "./actions";
+import {Login} from "./actions";
 import {SignUp} from "./actions/forms";
 import {HomePage, RouteNotFound, Header, ActionsSwitcher} from "./components";
 import offline from "./assets/images/offline.svg";
@@ -15,8 +15,8 @@ const App = () => {
         path: '/',
         component: HomePage,
     }, {
-        path: '/LoginAction',
-        component: LoginAction,
+        path: '/Login',
+        component: Login,
     },  {
         path: '/SignUp',
         component: SignUp,

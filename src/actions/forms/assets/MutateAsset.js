@@ -58,10 +58,10 @@ const MutateAsset = (props) => {
             assetDataTypeList[item.value.id.value.idString] = item.value.fact.value.type;
         })
         if (checkboxMutableNamesList.length === 0) {
-            setErrorMessage("select mutable meta")
+            setErrorMessage(t("SELECT_MUTABLE_META"))
             setLoader(false)
         } else if (keyList.length !== 0 && checkboxMutableNamesList.length !== 0 && keyList.length === checkboxMutableNamesList.length) {
-            setErrorMessage("you can't select all as mutable meta")
+            setErrorMessage(t("SELECT_ALL_MUTABLE_ERROR"))
             setLoader(false)
         } else {
             let mutableValues = "";

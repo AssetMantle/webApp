@@ -31,7 +31,7 @@ const Provision = (props) => {
     };
     const handleClose = () => {
              setShow(false);
-            props.setExternalComponent("");
+                props.setExternalComponent("");
     };
     return (
         <div className="accountInfo">

@@ -4,7 +4,7 @@ import keyUtils from "persistencejs/utilities/keys";
 import DownloadLink from "react-download-link";
 import {useTranslation} from "react-i18next";
 import {useHistory} from "react-router-dom";
-
+import rightArrow from "../../assets/images/arrowRightIcon.svg"
 const SignUp = () => {
     const {t} = useTranslation();
     const history = useHistory();
@@ -89,11 +89,12 @@ const SignUp = () => {
                 show={showEncrypt}
                 onHide={handleCloseEncrypt}
                 centered
+                className="signup-section"
             >
                 <Modal.Header closeButton>
                     {formName}
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className="private-key">
                     {!showDownload ?
                         <Form onSubmit={handleSubmit}>
                             <Form.Label>{t("ENCRYPT_KEY_STORE")}</Form.Label>
@@ -117,15 +118,17 @@ const SignUp = () => {
                     }
                     {showDownload ?
                         <div>
-                            <p><b>{t("SAVE_MNEMONIC")}:</b> {mnemonic}</p>
-                            <DownloadLink
+                            <p className="mnemonic-note">({t("SAVE_MNEMONIC")}) </p>
+                            <p className="mnemonic-text">{mnemonic}</p>
+                            <p className="key-download">
+                                <DownloadLink
                                 label="Download Key File for future use"
                                 filename="key.json"
                                 exportFile={() => `${jsonName}`}
                             />
-                            <br/>
-                            {t("DOWNLOAD_KEY")}
-                            <br/>
+                                <img src={rightArrow} alt="rightArrow" />
+                            </p>
+                            <p className="download-note">({t("DOWNLOAD_KEY")})</p>
                             <Button
                                 variant="primary"
                                 onClick={handleClose}

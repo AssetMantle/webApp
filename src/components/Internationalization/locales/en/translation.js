@@ -11,6 +11,7 @@ let en = {
         "DOCS": "DOCS",
         "DASHBOARD": "DASHBOARD",
         "LOGIN": "LOGIN",
+        "LOGIN_FORM": "Login",
         "LOGOUT": "Logout",
         "SIGNUP": "SIGN UP",
         "SIGNING_UP":"Signing Up",
@@ -72,7 +73,7 @@ let en = {
         "PRIVATE_KEY":"Private Key",
         "LEDGER_STORE":"Store in Ledger",
         "ENCRYPT_KEY_STORE":"Enter password to encrypt keystore file",
-        "DOWNLOAD_KEY":"After download, please login with private key",
+        "DOWNLOAD_KEY":"Use Private key to login",
         "SAVE_MNEMONIC":"Please save mnemonic",
         "DEFINE_ASSET":"Define Asset",
         "WRAP":"Wrap",
@@ -95,8 +96,14 @@ let en = {
         "ORDERS_NOT_FOUND":"Orders Not Found",
         "MAINTAINERS_NOT_FOUND":"No Maintainers found",
         "IDENTITIES_NOT_FOUND":"No Identities found",
-        "ASSETS_NOT_FOUND":"No assets found"
-
+        "ASSETS_NOT_FOUND":"No assets found",
+        "DONE":"Done!",
+        "SELECT_MUTABLE_META":"select mutable meta",
+        "SELECT_ALL_MUTABLE_ERROR":"you can't select all as mutable meta",
+        "SELECT_ALL_IMMUTABLE_ERROR":"you can't select all as Immutable meta",
+        "SELECT_IMMUTABLE_META":"select immutable meta",
+        "ADD_MUTABLE_PROPERTY":"add Mutable property",
+        "ADD_MUTABLE_META_PROPERTY":"add Mutable Meta property",
 
 
     }

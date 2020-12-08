@@ -14,10 +14,7 @@ const TakeOrder = (props) => {
     const [response, setResponse] = useState({});
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false)
-    const handleClose = () => {
-        setShow(false);
-        props.setExternalComponent("");
-    };
+
     const handleSubmit = (event) => {
         setLoader(true)
         event.preventDefault();
@@ -34,7 +31,10 @@ const TakeOrder = (props) => {
             setLoader(false)
         })
     };
-
+    const handleClose = () => {
+        setShow(false);
+        props.setExternalComponent("");
+    };
     return (
         <div className="accountInfo">
             <Modal show={show} onHide={handleClose} centered>

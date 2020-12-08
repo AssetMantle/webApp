@@ -91,19 +91,19 @@ const Deputize = (props) => {
                         />
                     </Form.Group>
 
-                    <Form.Group controlId="formBasicCheckbox">
+                    <Form.Group>
                         <Form.Check custom type="checkbox" label="Can add"
                                     name="addMaintainer"
                                     id="addMaintainer"
                         />
                     </Form.Group>
-                    <Form.Group controlId="formBasicCheckbox">
+                    <Form.Group>
                         <Form.Check custom type="checkbox" label="Can mutate"
                                     name="mutateMaintainer"
                                     id="mutateMaintainer"
                         />
                     </Form.Group>
-                    <Form.Group controlId="formBasicCheckbox">
+                    <Form.Group>
                         <Form.Check custom type="checkbox" label="Can remove"
                                     name="removeMaintainer"
                                     id="removeMaintainer"
