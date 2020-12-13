@@ -58,7 +58,7 @@ function handleFaucetRequest(userAddress) {
             return JSON.stringify({result: "Success, your address will be faucet"})
         } else {
             console.log(userAddress, "NOT ADDED: total = ", constants.FaucetList.length)
-            return JSON.stringify({result: "Failure, your account cannot be faucet right now, please try after sometime"})
+            return JSON.stringify({result: "Failure, your sidebar cannot be faucet right now, please try after sometime"})
         }
     } catch (e) {
         return JSON.stringify({result: "Failure, incorrect address"})

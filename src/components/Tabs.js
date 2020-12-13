@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {Tabs, Tab, Button, Modal} from "react-bootstrap";
-import {Maintainers, Identities, Assets, Orders, Marketplace} from "../actions/views"
+import {Tabs, Tab, Button} from "react-bootstrap";
+import {Maintainers, Identities, Assets, Orders, MarketPlace} from "../actions/views"
 import {SendCoin} from "../actions/forms/bank"
 import {Reveal} from "../actions/forms/metas"
 import axios from "axios";
@@ -25,9 +25,9 @@ const ActionsSwitcher = () => {
         const userAddress = localStorage.getItem('address');
         axios.post(process.env.REACT_APP_FAUCET_SERVER + "/faucetRequest", {address: userAddress})
             .then(response => {
-                console.log(response)
-                setLoader(false)
-            }
+                    console.log(response)
+                    setLoader(false)
+                }
             )
             .catch(err => {
                 console.log(err)
@@ -46,10 +46,10 @@ const ActionsSwitcher = () => {
     }, [])
 
     return (
-        <div className="container">
+        <div>
             <div>
                 {loader ?
-                    <Loader />
+                    <Loader/>
                     : ""
                 }
             </div>
@@ -86,8 +86,8 @@ const ActionsSwitcher = () => {
                 <Tab eventKey="contact" title="Maintainer">
                     <Maintainers/>
                 </Tab>
-                <Tab eventKey="marketPlace" title="Marketplace">
-                    <Marketplace/>
+                <Tab eventKey="marketPlace" title="MarketPlace">
+                    <MarketPlace/>
                 </Tab>
             </Tabs>
             <div>

@@ -3,8 +3,12 @@ import {withRouter} from "react-router-dom";
 import {useHistory} from "react-router-dom";
 import {Navbar, Nav, NavDropdown, Button} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
+import {Search} from "../../components/search";
+import {NavLink} from 'react-router-dom';
+import logo from '../../assets/images/logo.svg'
+import profileIcon from "../../assets/images/profile.svg"
 
-const Header = () => {
+const HeaderAfterLogin = () => {
     const history = useHistory();
     const {t} = useTranslation();
     const userTypeToken = localStorage.getItem('mnemonic');
@@ -29,15 +33,13 @@ const Header = () => {
     return (
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-                <Navbar.Brand><Nav.Link onClick={handleRoute("/")}>{t("TITLE")}</Nav.Link></Navbar.Brand>
+                <Navbar.Brand><Nav.Link onClick={handleRoute("/")}>
+                    <img src={logo} alt="logo"/>
+                </Nav.Link></Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                 <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="mr-auto ml-auto">
-                        <Nav.Link>{t("MAIN_SITE")}</Nav.Link>
-                        <Nav.Link>{t("EXPLORER")}</Nav.Link>
-                        <Nav.Link>{t("DOCS")}</Nav.Link>
-                        <Nav.Link>{t("DASHBOARD")}</Nav.Link>
-                        <Nav.Link>{t("CONTACT_US")}</Nav.Link>
+                    <Nav className="search-section ml-auto mr-auto">
+                        <Search/>
                     </Nav>
 
                     {
@@ -52,9 +54,27 @@ const Header = () => {
                             </Nav>
                             :
                             <Nav>
-                                <NavDropdown className="address" title={userAddress} id="basic-nav-dropdown">
+                                <NavLink className="nav-link" to="/assets">{t("ASSETS")}</NavLink>
+                                <NavLink className="nav-link" to="/identities">{t("IDENTITIES")}</NavLink>
+                                <NavLink className="nav-link" to="/orders">{t("ORDERS")}</NavLink>
+                                <NavLink className="nav-link" to="/maintainers">{t("MAINTAINERS")}</NavLink>
+                                <NavLink className="nav-link" to="/marketplace">{t("MARKET_PLACE")}</NavLink>
+                                <NavDropdown title={
+                                    <div className="profile-icon">
+                                        <p className="address">{userAddress}</p>
+                                        <img className="thumbnail-image"
+                                             src={profileIcon}
+                                             alt="user pic"
+                                        />
+
+
+                                    </div>
+                                }
+
+                                             id="basic-nav-dropdown">
                                     <NavDropdown.Item onClick={logout("/")}>{t("LOGOUT")}</NavDropdown.Item>
                                 </NavDropdown>
+
                             </Nav>
                     }
                 </Navbar.Collapse>
@@ -64,4 +84,4 @@ const Header = () => {
 }
 
 
-export default withRouter(Header);
+export default withRouter(HeaderAfterLogin);

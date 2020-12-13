@@ -1,21 +1,46 @@
-.app {
-  padding-bottom: 124px; }
-
 #root {
   position: relative;
   min-height: 100vh; }
 
-.navbar-dark .navbar-nav .nav-link {
-  padding: 1.3rem 1rem !important;
-  font-weight: 500;
-  font-size: 14px; }
-.navbar-dark .navbar-brand a {
-  padding-left: 0;
-  font-weight: bold;
-  font-size: 24px; }
+html, body, #root, .app {
+  height: 100%; }
+
+.navbar-dark {
+  margin: 0 35px;
+  padding: 0; }
+  .navbar-dark .navbar-nav .nav-link {
+    padding: 0 1rem !important;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    border-bottom: 3px solid transparent; }
+  .navbar-dark .nav-link.active {
+    border-bottom: 3px solid #EFCB30; }
+  .navbar-dark .navbar-brand {
+    padding: 0 0 10px 0; }
+    .navbar-dark .navbar-brand a {
+      text-decoration: underline;
+      font-weight: bold;
+      padding: 0;
+      font-size: 24px; }
+      .navbar-dark .navbar-brand a img {
+        width: 160px; }
 
 .app-nav {
-  padding: 40px 0 0 0; }
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05); }
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 12px;
+  border-radius: 4px; }
+
+::-webkit-scrollbar-thumb {
+  border: 0 solid #fff;
+  border-radius: 20px;
+  background: #EFCB30; }
 
 .navbar-dark .navbar-nav .nav-link {
   padding: 1rem 1rem; }
@@ -25,6 +50,12 @@
   padding: 0 0 0 16px; }
   .navbar-dark .navbar-nav .button-login-section .button-double-border {
     padding: 3px .75rem; }
+.navbar-dark .navbar-nav .dropdown-toggle .profile-icon {
+  display: flex; }
+  .navbar-dark .navbar-nav .dropdown-toggle .profile-icon p {
+    margin: 0; }
+.navbar-dark .navbar-nav .dropdown-toggle::after {
+  display: none; }
 
 .button-double-border {
   background: #FFFFFF;
@@ -51,11 +82,21 @@
   color: #ff0033;
   font-size: 0.785rem; }
 
-.address .dropdown-toggle {
-  width: 250px;
+.address {
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; }
+  text-overflow: ellipsis;
+  max-width: 150px; }
+
+.list-container {
+  width: 100%; }
+  .list-container .empty-list {
+    color: #999999;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
 
 .homeSection {
   padding-top: 20px; }
@@ -97,16 +138,21 @@
   .card-deck .card .card-title {
     text-transform: uppercase; }
 
-.accountInfo .tab-content {
-  padding: 15px; }
-  .accountInfo .tab-content form input {
-    width: 300px; }
-.accountInfo .button {
-  margin-right: 10px; }
-.accountInfo .signup-box {
-  padding: 50px;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-  border-radius: 5px; }
+.accountInfo {
+  flex: 1; }
+  .accountInfo .tab-content {
+    padding: 15px; }
+    .accountInfo .tab-content form input {
+      width: 300px; }
+  .accountInfo .button {
+    margin-right: 10px; }
+  .accountInfo .signup-box {
+    padding: 50px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    border-radius: 5px; }
+
+.word-break {
+  word-break: break-word; }
 
 .btn-primary:not(:disabled):not(.disabled).active,
 .btn-primary:not(:disabled):not(.disabled):active,
@@ -132,8 +178,8 @@
   z-index: 99999; }
 
 .dropdown-item.active, .dropdown-item:active {
-  background-color: #124623 !important;
-  color: #ccc; }
+  background-color: #EFCB30 !important;
+  color: #262a2b; }
 
 .Tabs {
   display: flex;
@@ -366,5 +412,107 @@
   .mnemonic-login-section.login-section.key-select form .submitButtonSection {
     text-align: center;
     width: 100%; }
+
+.search-section .input-group input {
+  min-width: 70px;
+  background: transparent;
+  border: 1px solid #434849;
+  border-left: 0px solid; }
+  .search-section .input-group input:focus {
+    box-shadow: none; }
+.search-section .input-group .input-group-text {
+  background: transparent;
+  border: 1px solid #434849;
+  border-right: 0px solid; }
+
+.content-section {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+  height: calc(100% - 65px); }
+  .content-section .accountInfo .row {
+    margin: 0; }
+  .content-section .accountInfo .col-md-9 {
+    background: #F5F5F5;
+    padding: 0;
+    margin: 0; }
+    .content-section .accountInfo .col-md-9 .card-deck {
+      overflow-y: auto;
+      height: calc(100vh - 131px);
+      scrollbar-color: #C2D2E4 transparent;
+      scrollbar-width: thin;
+      scrollbar-radius: 4px; }
+
+.side-bar {
+  padding: 20px 0px 20px 0px;
+  min-width: 250px;
+  max-width: 250px;
+  background: #2E3031;
+  color: #6b6b6b;
+  transition: all 0.3s;
+  position: relative;
+  overflow-y: auto; }
+  .side-bar .header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px; }
+    .side-bar .header-section p {
+      margin: 0;
+      font-weight: bold;
+      font-size: 14px;
+      text-transform: uppercase;
+      color: #E3E3E3; }
+    .side-bar .header-section img {
+      transform: rotate(0deg);
+      width: 15px; }
+  .side-bar .sidebar-buttons button {
+    background: #373A3A;
+    border-radius: 45px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #999999;
+    border: 0px solid;
+    width: 150px;
+    padding: 6px;
+    margin-bottom: 15px; }
+  .side-bar .content {
+    padding: 0 20px 0 30px; }
+
+.side-bar.active {
+  margin-left: -210px; }
+  .side-bar.active img {
+    transform: rotate(180deg); }
+
+.dropdown-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  padding: 15px 25px; }
+  .dropdown-section .dropdown button, .dropdown-section .dropdown .show > .btn-success.dropdown-toggle {
+    background: #F5F5F5 !important;
+    border: 1px solid #CCCCCC !important;
+    box-sizing: border-box;
+    border-radius: 7px;
+    color: #999999 !important; }
+  .dropdown-section .dropdown .btn-success:not(:disabled):not(.disabled):active:focus {
+    box-shadow: none; }
+  .dropdown-section h4 {
+    font-weight: bold;
+    font-size: 16px;
+    color: #262A2B; }
+
+.summery-section {
+  padding: 15px 40px 15px 15px;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+  overflow-y: auto; }
+  .summery-section p {
+    font-weight: bold;
+    font-size: 16px;
+    color: #262A2B; }
 
 /*# sourceMappingURL=styles.css.map */

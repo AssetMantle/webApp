@@ -1,20 +1,19 @@
 import React, {useState, useEffect} from "react";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import identitiesDefineJS from "persistencejs/transaction/identity/define";
-import Helpers from "../../utilities/Helper";
+import Helpers from "../../../utilities/Helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
-import {Dropdown, Modal, Button} from "react-bootstrap";
-import {Define} from "../forms";
-import {Nub, IssueIdentity, Provision, UnProvision} from "../forms/identities";
+import {Button} from "react-bootstrap";
+import {Provision, UnProvision} from "../../forms/identities";
 import {useTranslation} from "react-i18next";
+import Loader from "../../../components/loader"
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
-const Identities = () => {
+const IdentityList = () => {
     const Helper = new Helpers();
     const {t} = useTranslation();
+    const [loader, setLoader] = useState(true)
     const [externalComponent, setExternalComponent] = useState("");
     const [identityId, setIdentityId] = useState("");
     const [identity, setIdentity] = useState([]);
@@ -28,22 +27,29 @@ const Identities = () => {
                 const dataList = data.result.value.identities.value.list;
                 if (dataList) {
                     const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress);
-                    setFilteredIdentitiesList(filterIdentities);
-                    filterIdentities.map((identity, index) => {
-                        let immutableProperties = "";
-                        let mutableProperties = "";
-                        const identityId = Helper.GetIdentityID(identity)
-                        if (identity.value.immutables.value.properties.value.propertyList !== null) {
-                            immutableProperties = Helper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
-                        }
-                        if (identity.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = Helper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
-                        }
-                        let immutableKeys = Object.keys(immutableProperties);
-                        let mutableKeys = Object.keys(mutableProperties);
-                        Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList', index);
-                        Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index);
-                    })
+                    if (filterIdentities.length) {
+                        setFilteredIdentitiesList(filterIdentities);
+                        filterIdentities.map((identity, index) => {
+                            let immutableProperties = "";
+                            let mutableProperties = "";
+                            const identityId = Helper.GetIdentityID(identity)
+                            if (identity.value.immutables.value.properties.value.propertyList !== null) {
+                                immutableProperties = Helper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
+                            }
+                            if (identity.value.mutables.value.properties.value.propertyList !== null) {
+                                mutableProperties = Helper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
+                            }
+                            let immutableKeys = Object.keys(immutableProperties);
+                            let mutableKeys = Object.keys(mutableProperties);
+                            Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList', index);
+                            Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index);
+                            setLoader(false)
+                        })
+                    } else {
+                        setLoader(false)
+                    }
+                } else {
+                    setLoader(false)
                 }
             })
         }
@@ -57,23 +63,14 @@ const Identities = () => {
     }
 
     return (
-        <div className="container">
-            <div className="accountInfo">
-                <div className="row row-cols-1 row-cols-md-2 card-deck">
-                    <Dropdown>
-                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            {t("ACTIONS")}
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => handleModalData("Nub")}>{t("NUB")}</Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleModalData("DefineIdentity")}>{t("DEFINE_IDENTITY")}
-                            </Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleModalData("IssueIdentity")}>{t("ISSUE_IDENTITY")}
-                            </Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                    {filteredIdentitiesList.length ?
-                        filteredIdentitiesList.map((identity, index) => {
+        <div className="list-container">
+            {loader ?
+                <Loader/>
+                : ""
+            }
+            <div className="row card-deck">
+                {filteredIdentitiesList.length ?
+                    filteredIdentitiesList.map((identity, index) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
                         let provisionedAddressList = "";
@@ -147,34 +144,20 @@ const Identities = () => {
                             </div>
                         )
                     })
-                    :<p>{t("IDENTITIES_NOT_FOUND")}</p>}
-                </div>
+                    : <p className="empty-list">{t("IDENTITIES_NOT_FOUND")}</p>}
             </div>
             <div>
-                {externalComponent === 'Nub' ?
-                    <Nub setExternalComponent={setExternalComponent} /> :
-                    null
-                }
-                {externalComponent === 'DefineIdentity' ?
-                    <Define setExternalComponent={setExternalComponent} ActionName={identitiesDefine} FormName={'Define Identity'}/> :
-                    null
-                }
-                {externalComponent === 'IssueIdentity' ?
-
-                    <IssueIdentity setExternalComponent={setExternalComponent} /> :
-                    null
-                }
-
                 {externalComponent === 'Provision' ?
                     <Provision setExternalComponent={setExternalComponent} identityId={identityId}/> :
                     null
                 }
                 {externalComponent === 'UnProvision' ?
-                    <UnProvision setExternalComponent={setExternalComponent} identityId={identityId} identityIdList={identity}/> :
+                    <UnProvision setExternalComponent={setExternalComponent} identityId={identityId}
+                                 identityIdList={identity}/> :
                     null
                 }
             </div>
         </div>
     );
 }
-export default Identities
+export default IdentityList

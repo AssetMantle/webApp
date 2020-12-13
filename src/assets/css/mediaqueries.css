@@ -1,27 +1,19 @@
 @media (min-width: 768px) {
   .col-md-6 {
     -ms-flex: 0 0 50%;
-    -webkit-box-flex: 0;
-            flex: 0 0 40%;
-    max-width: 40%;
-  }
-}
-
+    flex: 0 0 40%;
+    max-width: 40%; } }
 @media (max-width: 768px) {
   .banner-image-section {
-    display: none !important;
-  }
-}
-
+    display: none !important; } }
 @media (max-width: 1400px) {
   .banner-image-section imge {
-    margin-right: auto;
-  }
-}
-
+    margin-right: auto; } }
 @media (max-width: 576px) {
   .row {
-    margin: auto;
-  }
-}
+    margin: auto; } }
+@media (max-width: 991px) {
+  .navbar-dark .navbar-brand a img {
+    width: 130px; } }
+
 /*# sourceMappingURL=mediaqueries.css.map */

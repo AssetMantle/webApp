@@ -1,17 +1,19 @@
 import React, {useState, useEffect} from "react";
 import ordersQueryJS from "persistencejs/transaction/orders/query";
-import Helpers from "../../utilities/Helper";
-import {Button, Modal} from "react-bootstrap";
-import {TakeOrder} from "../forms/orders";
+import Helpers from "../../../utilities/Helper";
+import {Button} from "react-bootstrap";
+import {TakeOrder} from "../../forms/orders";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
+import Loader from "../../../components/loader"
 
 const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
-const Marketplace = () => {
+const TotalOrders = () => {
     const Helper = new Helpers();
     const {t} = useTranslation();
+    const [loader, setLoader] = useState(true)
     const [externalComponent, setExternalComponent] = useState("");
     const [orderId, setOrderId] = useState("");
     const [orderList, setOrderList] = useState([]);
@@ -37,7 +39,10 @@ const Marketplace = () => {
                         let mutableKeys = Object.keys(mutableProperties);
                         Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_market', index);
                         Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_market', index);
+                        setLoader(false)
                     })
+                } else {
+                    setLoader(false)
                 }
             })
 
@@ -50,11 +55,14 @@ const Marketplace = () => {
         setExternalComponent(formName)
     }
     return (
-        <div className="container">
-            <div className="accountInfo">
-                <div className="row row-cols-1 row-cols-md-2 card-deck createAccountSection">
-                    {orderList.length ?
-                        orderList.map((order, index) => {
+        <div className="list-container">
+            {loader ?
+                <Loader/>
+                : ""
+            }
+            <div className="row card-deck">
+                {orderList.length ?
+                    orderList.map((order, index) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
                         if (order.value.immutables.value.properties.value.propertyList !== null) {
@@ -73,7 +81,7 @@ const Marketplace = () => {
                                         <Button variant="secondary"
                                                 onClick={() => handleModalData("TakeOrder", orderIdData)}>{t("TAKE")}</Button>
                                     </div>
-                                    <a href="#">{orderIdData}</a>
+                                    <a href="#" className="word-break">{orderIdData}</a>
                                     <p>{t("IMMUTABLES")}</p>
                                     {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
@@ -85,7 +93,7 @@ const Marketplace = () => {
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
                                             }
                                         })
-                                        :""
+                                        : ""
                                     }
 
                                     <p>{t("MUTABLES")}</p>
@@ -100,25 +108,24 @@ const Marketplace = () => {
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
                                             }
                                         })
-                                        :""
+                                        : ""
                                     }
                                 </div>
                             </div>
                         )
 
                     })
-                        :<p>{t("ORDERS_NOT_FOUND")}</p>
-                    }
-                </div>
-                <div>
-                    {externalComponent === 'TakeOrder' ?
-                        <TakeOrder setExternalComponent={setExternalComponent} id={orderId} FormName={'Take Order'}/> :
-                        null
-                    }
-                </div>
+                    : <p className="empty-list">{t("ORDERS_NOT_FOUND")}</p>
+                }
+            </div>
+            <div>
+                {externalComponent === 'TakeOrder' ?
+                    <TakeOrder setExternalComponent={setExternalComponent} id={orderId} FormName={'Take Order'}/> :
+                    null
+                }
             </div>
         </div>
     );
 };
 
-export default Marketplace;
+export default TotalOrders;
