@@ -337,7 +337,6 @@ const Define = (props) => {
                             <Form.Text id={`Mutable${idx}`} className="text-muted none">
                                 {t("DATA_TYPE_ERROR")}
                             </Form.Text>
-
                             <button type="button" onClick={handleRemoveMutableProperties(idx)} className="small">-
                             </button>
                         </div>

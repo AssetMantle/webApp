@@ -5,6 +5,16 @@
     max-width: 40%;
 }
 }
+@media (max-width: 420px){
+    .footer{
+        bottom: initial;
+    }
+    .homeSection .appInfoBox {
+        .banner-heading {
+            font-size: 30px;
+        }
+    }
+}
 @media (max-width: 768px){
     .banner-image-section {
         display: none !important;
@@ -30,6 +40,7 @@
     .nav-items{
         display: inline-flex;
     }
+
 }
 @media (max-width: 1400px){
     .banner-image-section imge{
@@ -40,6 +51,9 @@
 {
     .row{
         margin: auto;
+    }
+    .homeSection .appInfoBox {
+        padding: 50px 0;
     }
 
 }
@@ -55,10 +69,55 @@
         margin: 14px 0;
 
     }
-    .navbar-toggler-icon{
+    .navbar-toggler-icon {
         width: 1rem;
         height: 1rem;
     }
+    .banner-image-section {
+        img{
+            margin-right: -30px;
+            width: 300px;
+        }
+    }
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        right: 0;
+        width: 100%;
+    }
+    .login-before {
+        .navbar{
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+            max-width: 720px;
+        }
+    }
+    .content-section{
+        padding-top: 60px;
+        height: 100%;
+        .accountInfo .row{
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+            .col-md-9, .col-md-3{
+                flex: initial;
+                max-width: initial;
+            }
+            .col-md-9{
+                flex-direction: column;
+                .card-deck{
+                    height: auto;
+                }
+            }
+            .summary-section{
+                height: auto;
+            }
+        }
+    }
+
 }
 //@media (min-width: 991px){
 //    .navbar-dark .navbar-brand a img {
@@ -69,5 +128,9 @@
     .navbar-dark .navbar-nav .nav-link{
         padding: 0 0.75rem !important;
         font-size: 12px;
+    }
+    .banner-image-section img{
+        margin-right: -30px;
+        width: 350px;
     }
 }

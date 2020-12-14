@@ -22,6 +22,7 @@ const TotalOrders = () => {
         const fetchOrder = () => {
             const ordersData = ordersQuery.queryOrderWithID("all")
             ordersData.then(function (item) {
+                console.log()
                 const ordersData = JSON.parse(item);
                 const ordersDataList = ordersData.result.value.orders.value.list;
                 if (ordersDataList) {

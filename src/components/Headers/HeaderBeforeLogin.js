@@ -22,7 +22,7 @@ const HeaderBeforeLogin = () => {
         }
     }, [])
     return (
-        <div className="container">
+        <div className="container login-before">
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Navbar.Brand><Nav.Link onClick={handleRoute("/")}>
                     <img src={logo} alt="logo"/>

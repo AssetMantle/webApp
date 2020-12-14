@@ -4,7 +4,7 @@ export const lightTheme = {
     text: '#FAFAFA',
     toggleBorder: '#fff',
     gradient: 'linear-gradient(#39598A, #79D7ED)',
-    navigationBackground: 'transparent',
+    navigationBackground: '#262A2B',
     signupBackground: '#F5F5F5',
     navLinkColor: '#999999',
     ActiveNavLinkColor: '#fff',
