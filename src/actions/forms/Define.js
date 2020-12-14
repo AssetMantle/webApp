@@ -118,15 +118,9 @@ const Define = (props) => {
                 const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, config.feesAmount, config.feesToken, config.gas, config.mode)
                 defineIdentityResult.then(function (item) {
                     const data = JSON.parse(JSON.stringify(item));
-                    if(data.txhash){
-                        let queryHashResponse =  pollTxHash(url, data.txhash);
-                        queryHashResponse.then(function (queryItem) {
-                            const queryData = JSON.parse(queryItem);
-                            setResponse(queryData)
+                            setResponse(data)
                             setShow(false)
                             setLoader(false);
-                        })
-                    }
                 })
             } else {
                 setErrorMessage(t("ADD_MUTABLE_META_PROPERTY"))

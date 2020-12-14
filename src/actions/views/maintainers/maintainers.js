@@ -1,7 +1,7 @@
 import React from "react";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
-import {Summery} from "../../../components/summery";
+import {Summary} from "../../../components/summary";
 import MaintainerList from "./maintainerList"
 
 const Maintainers = () => {
@@ -17,8 +17,8 @@ const Maintainers = () => {
                         </div>
                         <MaintainerList/>
                     </div>
-                    <div className="col-md-3 summery-section">
-                        <Summery/>
+                    <div className="col-md-3 summary-section">
+                        <Summary/>
                     </div>
                 </div>
             </div>

@@ -6,7 +6,7 @@ import {Nub, IssueIdentity} from "../../forms/identities";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
 import IdentityList from "./identityList"
-import {Summery} from "../../../components/summery";
+import {Summary} from "../../../components/summary";
 
 const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
@@ -47,8 +47,8 @@ const Identities = () => {
                         </div>
                         <IdentityList/>
                     </div>
-                    <div className="col-md-3 summery-section">
-                        <Summery/>
+                    <div className="col-md-3 summary-section">
+                        <Summary/>
                     </div>
 
                 </div>

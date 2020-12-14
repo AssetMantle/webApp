@@ -34,12 +34,10 @@ const AssetList = () => {
             if(identities) {
                 identities.then(function (item) {
                     const data = JSON.parse(item);
-                    console.log(data, "identities")
                     const dataList = data.result.value.identities.value.list;
                     if (dataList) {
                         const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
                         const splits = splitsQuery.querySplitsWithID("all")
-
                         splits.then(function (splitsItem) {
                             const splitData = JSON.parse(splitsItem);
                             const splitList = splitData.result.value.splits.value.list;

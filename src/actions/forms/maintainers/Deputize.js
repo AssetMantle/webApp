@@ -17,6 +17,7 @@ const Deputize = (props) => {
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     const [response, setResponse] = useState({});
     const [mutableList, setMutableList] = useState([]);
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
         const classificationId = props.maintainerData.value.id.value.classificationID.value.idString
@@ -56,13 +57,19 @@ const Deputize = (props) => {
         const ToId = event.target.ToId.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        const DeputizeResponse = deputizeMaintainer.deputize(userAddress, "test", userTypeToken, identityId, classificationId, ToId, maintainedTraits, addMaintainer, removeMaintainer, mutateMaintainer, config.feesAmount, config.feesToken, config.gas, config.mode);
-        DeputizeResponse.then(function (item) {
-            const data = JSON.parse(JSON.stringify(item));
-            setResponse(data)
-            setShow(false)
-            setLoader(false);
-        })
+        if (maintainedTraits !== "") {
+            const DeputizeResponse = deputizeMaintainer.deputize(userAddress, "test", userTypeToken, identityId, classificationId, ToId, maintainedTraits, addMaintainer, removeMaintainer, mutateMaintainer, config.feesAmount, config.feesToken, config.gas, config.mode);
+            DeputizeResponse.then(function (item) {
+                console.log(item, "Asdf")
+                const data = JSON.parse(JSON.stringify(item));
+                setResponse(data)
+                setShow(false)
+                setLoader(false);
+            })
+        } else {
+        setErrorMessage(t("SELECT_ANY_MUTABLE_TRAITS"))
+        setLoader(false);
+    }
 
     };
     const handleClose = () => {
@@ -131,6 +138,10 @@ const Deputize = (props) => {
                             : ""
                         }
                     </div>
+                    {errorMessage !== "" ?
+                        <p className="error-response">{errorMessage}</p>
+                        : ""
+                    }
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
                             {t("SUBMIT")}

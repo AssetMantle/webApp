@@ -39,7 +39,7 @@ let en = {
         "TO_ADDRESS": "To Address",
         "ADDRESS_TO_PROVISION": "Address to Provision",
         "LEDGER_LOGIN": "Login with ledger",
-        "LEDGER_CONNECT": "Connecting Ledger",
+        "LEDGER_CONNECT": "To be implemented",
         "LOGIN_MNEMONIC": "Login with Mnemonic",
         "MNEMONIC": "Mnemonic",
         "LOGIN_PRIVATE_KEY": "Login with Private key",
@@ -108,7 +108,8 @@ let en = {
         "ORDERS": "Orders",
         "IDENTITIES": "Identities",
         "MAINTAINERS": "Maintainers",
-        "MARKET_PLACE": "Marketplace"
+        "MARKET_PLACE": "Marketplace",
+        "SELECT_ANY_MUTABLE_TRAITS":"Select any mutable trait"
 
 
     }

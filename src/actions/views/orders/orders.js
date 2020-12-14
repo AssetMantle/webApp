@@ -6,7 +6,7 @@ import ordersDefineJS from "persistencejs/transaction/orders/define";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
 import OrderList from "./orderList";
-import {Summery} from "../../../components/summery";
+import {Summary} from "../../../components/summary";
 
 const ordersDefine = new ordersDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
@@ -40,8 +40,8 @@ const Orders = () => {
                         </div>
                         <OrderList/>
                     </div>
-                    <div className="col-md-3 summery-section">
-                        <Summery/>
+                    <div className="col-md-3 summary-section">
+                        <Summary/>
                     </div>
                 </div>
             </div>

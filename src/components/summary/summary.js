@@ -1,11 +1,11 @@
 import React from "react";
 import {useTranslation} from "react-i18next";
 
-const Summery = () => {
+const Summary = () => {
     const { t } = useTranslation();
     return (
-      <p>Summery</p>
+      <p>Summary</p>
     );
 }
 
-export default Summery
+export default Summary
