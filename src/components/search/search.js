@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import {useTranslation} from "react-i18next";
 import searchIcon from "../../assets/images/searchIcon.svg"
 import {InputGroup, FormControl} from "react-bootstrap";
 
 const Search = () => {
     const {t} = useTranslation();
+    const [showSearch, setShowSearch] = useState(false)
     return (
         <InputGroup>
             <InputGroup.Prepend>

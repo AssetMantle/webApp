@@ -31,66 +31,70 @@ const AssetList = () => {
     useEffect(() => {
         const fetchAssets = () => {
             const identities = identitiesQuery.queryIdentityWithID("all")
+            if(identities) {
+                identities.then(function (item) {
+                    const data = JSON.parse(item);
+                    console.log(data, "identities")
+                    const dataList = data.result.value.identities.value.list;
+                    if (dataList) {
+                        const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
+                        const splits = splitsQuery.querySplitsWithID("all")
 
-            identities.then(function (item) {
-                const data = JSON.parse(item);
-                const dataList = data.result.value.identities.value.list;
-                if (dataList) {
-                    const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
-                    const splits = splitsQuery.querySplitsWithID("all")
+                        splits.then(function (splitsItem) {
+                            const splitData = JSON.parse(splitsItem);
+                            const splitList = splitData.result.value.splits.value.list;
+                            if (splitList) {
+                                const filterSplitsByIdentities = Helper.FilterSplitsByIdentity(filterIdentities, splitList)
+                                if (filterSplitsByIdentities.length) {
+                                    setSplitList(filterSplitsByIdentities)
+                                    filterSplitsByIdentities.map((split, index) => {
+                                        const ownableID = Helper.GetIdentityOwnableId(split)
+                                        const filterAssetList = assetsQuery.queryAssetWithID(ownableID);
+                                        if (filterAssetList.length) {
+                                            filterAssetList.then(function (Asset) {
+                                                const parsedAsset = JSON.parse(Asset);
 
-                    splits.then(function (splitsItem) {
-                        const splitData = JSON.parse(splitsItem);
-                        const splitList = splitData.result.value.splits.value.list;
-                        if (splitList) {
-                            const filterSplitsByIdentities = Helper.FilterSplitsByIdentity(filterIdentities, splitList)
-                            if (filterSplitsByIdentities.length) {
-                                setSplitList(filterSplitsByIdentities)
-                                filterSplitsByIdentities.map((split, index) => {
-                                    const ownableID = Helper.GetIdentityOwnableId(split)
-                                    const filterAssetList = assetsQuery.queryAssetWithID(ownableID);
-                                    if (filterAssetList.length) {
-                                        filterAssetList.then(function (Asset) {
-                                            const parsedAsset = JSON.parse(Asset);
+                                                if (parsedAsset.result.value.assets.value.list !== null) {
+                                                    const assetId = Helper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
+                                                    if (ownableID === assetId) {
 
-                                            if (parsedAsset.result.value.assets.value.list !== null) {
-                                                const assetId = Helper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
-                                                if (ownableID === assetId) {
-
-                                                    setAssetList(assetList => [...assetList, parsedAsset]);
-                                                    let immutableProperties = "";
-                                                    let mutableProperties = "";
-                                                    if (parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
-                                                        immutableProperties = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
+                                                        setAssetList(assetList => [...assetList, parsedAsset]);
+                                                        let immutableProperties = "";
+                                                        let mutableProperties = "";
+                                                        if (parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
+                                                            immutableProperties = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
+                                                        }
+                                                        if (parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
+                                                            mutableProperties = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
+                                                        }
+                                                        let immutableKeys = Object.keys(immutableProperties);
+                                                        let mutableKeys = Object.keys(mutableProperties);
+                                                        Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset', index);
+                                                        Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset', index);
+                                                        setLoader(false)
+                                                    } else {
+                                                        setLoader(false)
                                                     }
-                                                    if (parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
-                                                        mutableProperties = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
-                                                    }
-                                                    let immutableKeys = Object.keys(immutableProperties);
-                                                    let mutableKeys = Object.keys(mutableProperties);
-                                                    Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset', index);
-                                                    Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset', index);
-                                                    setLoader(false)
-                                                } else {
-                                                    setLoader(false)
                                                 }
-                                            }
-                                        })
-                                    } else {
-                                        setLoader(false)
-                                    }
-                                })
+                                            })
+                                        } else {
+                                            setLoader(false)
+                                        }
+                                    })
+                                } else {
+                                    setLoader(false)
+                                }
                             } else {
                                 setLoader(false)
                             }
-                        } else {
-                            setLoader(false)
-                        }
-                    })
-                } else {
-                    setLoader(false)
-                }
-            })
+                        })
+                    } else {
+                        setLoader(false)
+                    }
+                })
+            }else {
+                setLoader(false)
+            }
         }
         fetchAssets();
     }, []);

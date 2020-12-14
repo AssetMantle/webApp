@@ -25,6 +25,7 @@ const SendCoin = (props) => {
         const sendCoinResponse = SendCoinQuery.sendCoin("test", userTypeToken, toAddress, denom, amountData, config.feesAmount, config.feesToken, config.gas, config.mode);
         sendCoinResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
+
                     setResponse(data)
                     setShow(false);
                     setLoader(false)

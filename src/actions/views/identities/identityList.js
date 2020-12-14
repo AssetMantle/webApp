@@ -22,36 +22,41 @@ const IdentityList = () => {
     useEffect(() => {
         const fetchToIdentities = () => {
             const identities = identitiesQuery.queryIdentityWithID("all")
-            identities.then(function (item) {
-                const data = JSON.parse(item);
-                const dataList = data.result.value.identities.value.list;
-                if (dataList) {
-                    const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress);
-                    if (filterIdentities.length) {
-                        setFilteredIdentitiesList(filterIdentities);
-                        filterIdentities.map((identity, index) => {
-                            let immutableProperties = "";
-                            let mutableProperties = "";
-                            const identityId = Helper.GetIdentityID(identity)
-                            if (identity.value.immutables.value.properties.value.propertyList !== null) {
-                                immutableProperties = Helper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
-                            }
-                            if (identity.value.mutables.value.properties.value.propertyList !== null) {
-                                mutableProperties = Helper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
-                            }
-                            let immutableKeys = Object.keys(immutableProperties);
-                            let mutableKeys = Object.keys(mutableProperties);
-                            Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList', index);
-                            Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index);
+            if(identities) {
+                identities.then(function (item) {
+                    console.log(item, "item")
+                    const data = JSON.parse(item);
+                    const dataList = data.result.value.identities.value.list;
+                    if (dataList) {
+                        const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress);
+                        if (filterIdentities.length) {
+                            setFilteredIdentitiesList(filterIdentities);
+                            filterIdentities.map((identity, index) => {
+                                let immutableProperties = "";
+                                let mutableProperties = "";
+                                const identityId = Helper.GetIdentityID(identity)
+                                if (identity.value.immutables.value.properties.value.propertyList !== null) {
+                                    immutableProperties = Helper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
+                                }
+                                if (identity.value.mutables.value.properties.value.propertyList !== null) {
+                                    mutableProperties = Helper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
+                                }
+                                let immutableKeys = Object.keys(immutableProperties);
+                                let mutableKeys = Object.keys(mutableProperties);
+                                Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList', index);
+                                Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index);
+                                setLoader(false)
+                            })
+                        } else {
                             setLoader(false)
-                        })
+                        }
                     } else {
                         setLoader(false)
                     }
-                } else {
-                    setLoader(false)
-                }
-            })
+                })
+            }else {
+                setLoader(false)
+            }
         }
         fetchToIdentities();
     }, []);

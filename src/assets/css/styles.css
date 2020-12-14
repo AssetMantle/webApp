@@ -429,7 +429,7 @@ html, body, #root, .app {
   display: flex;
   width: 100%;
   align-items: stretch;
-  height: calc(100% - 65px); }
+  height: calc(100% - 60px); }
   .content-section .accountInfo .row {
     margin: 0; }
   .content-section .accountInfo .col-md-9 {
@@ -491,7 +491,7 @@ html, body, #root, .app {
   background: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
   width: 100%;
-  padding: 15px 25px; }
+  padding: 0; }
   .dropdown-section .dropdown button, .dropdown-section .dropdown .show > .btn-success.dropdown-toggle {
     background: #F5F5F5 !important;
     border: 1px solid #CCCCCC !important;
@@ -503,9 +503,12 @@ html, body, #root, .app {
   .dropdown-section h4 {
     font-weight: bold;
     font-size: 16px;
-    color: #262A2B; }
+    color: #262A2B;
+    padding: 26px;
+    margin: 0; }
 
 .summery-section {
+  height: calc(100vh - 60px);
   padding: 15px 40px 15px 15px;
   background: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);

@@ -11,6 +11,7 @@ import {SendCoin} from "../../actions/forms/bank";
 const Sidebar = () => {
     const {t} = useTranslation();
     const userAddress = localStorage.getItem('address');
+    const [loader, setLoader] = useState(true)
     const url = getFaucet(userAddress);
     const [externalComponent, setExternalComponent] = useState("");
     const [accountResponse, setAccountResponse] = useState("");

@@ -53,7 +53,7 @@ const HeaderAfterLogin = () => {
 
                             </Nav>
                             :
-                            <Nav>
+                            <Nav className="nav-items">
                                 <NavLink className="nav-link" to="/assets">{t("ASSETS")}</NavLink>
                                 <NavLink className="nav-link" to="/identities">{t("IDENTITIES")}</NavLink>
                                 <NavLink className="nav-link" to="/orders">{t("ORDERS")}</NavLink>

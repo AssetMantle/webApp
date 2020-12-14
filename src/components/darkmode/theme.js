@@ -6,7 +6,7 @@ export const lightTheme = {
     gradient: 'linear-gradient(#39598A, #79D7ED)',
     navigationBackground: 'transparent',
     signupBackground: '#F5F5F5',
-    navLinkColor: '999999',
+    navLinkColor: '#999999',
     ActiveNavLinkColor: '#fff',
     cardTextColor: '#363537',
     modalHeaderBorderColor: 'rgba(38, 42, 43, 0.06)',
