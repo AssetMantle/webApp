@@ -18,7 +18,7 @@ const LoginMnemonic = (props) => {
         const wallet = keyUtils.getWallet(event.target.mnemonic.value)
         localStorage.setItem("address", wallet.address)
         localStorage.setItem("mnemonic", event.target.mnemonic.value)
-        history.push('/ActionsSwitcher');
+        history.push('/assets');
     }
     const handleClose = () => {
         setShow(false);

@@ -1,24 +1,22 @@
 import React, {useState, useEffect} from "react";
 import ordersQueryJS from "persistencejs/transaction/orders/query";
-import Helpers from "../../utilities/Helper";
-import {Modal, Button, Dropdown} from "react-bootstrap";
+import Helpers from "../../../utilities/Helper";
+import {Button} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import {Define} from "../forms";
-import {CancelOrder} from "../forms/orders";
-import ordersDefineJS from "persistencejs/transaction/orders/define";
+import {CancelOrder} from "../../forms/orders";
 import {useTranslation} from "react-i18next";
+import Loader from "../../../components/loader"
 
-const ordersDefine = new ordersDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 
-const Orders = () => {
+const OrderList = () => {
     const Helper = new Helpers();
     const {t} = useTranslation();
-    const [emptyOrders, setEmptyOrders] = useState("");
+    const [loader, setLoader] = useState(true)
     const [orderList, setOrderList] = useState([]);
     const userAddress = localStorage.getItem('address');
     const [externalComponent, setExternalComponent] = useState("");
@@ -27,6 +25,7 @@ const Orders = () => {
     useEffect(() => {
         const fetchOrder = () => {
             const identities = identitiesQuery.queryIdentityWithID("all")
+
             identities.then(function (item) {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
@@ -39,6 +38,7 @@ const Orders = () => {
                         if (ordersDataList) {
                             const filterOrdersByIdentities = Helper.FilterOrdersByIdentity(filterIdentities, ordersDataList)
                             if (filterOrdersByIdentities.length) {
+                                console.log(filterOrdersByIdentities.length, "filterOrdersByIdentities.length")
                                 setOrderList(filterOrdersByIdentities);
                                 filterOrdersByIdentities.map((order, index) => {
 
@@ -54,8 +54,13 @@ const Orders = () => {
                                     let mutableKeys = Object.keys(mutableProperties);
                                     Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order', index);
                                     Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order', index);
+                                    setLoader(false)
                                 })
+                            } else {
+                                setLoader(false)
                             }
+                        } else {
+                            setLoader(false)
                         }
                     })
                 }
@@ -70,20 +75,14 @@ const Orders = () => {
     }
 
     return (
-        <div className="container">
-            <div className="accountInfo">
-                <div className="row row-cols-1 row-cols-md-2 card-deck ">
-                    <Dropdown>
-                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            {t("ACTIONS")}
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            <Dropdown.Item
-                                onClick={() => handleModalData("DefineOrder")}>{t("DEFINE_ORDER")}</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                    {orderList.length ?
-                        orderList.map((order, index) => {
+        <div className="list-container">
+            {loader ?
+                <Loader/>
+                : ""
+            }
+            <div className="row card-deck">
+                {orderList.length ?
+                    orderList.map((order, index) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
                         if (order.value.immutables.value.properties.value.propertyList !== null) {
@@ -113,7 +112,7 @@ const Orders = () => {
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
                                             }
                                         })
-                                        :""
+                                        : ""
                                     }
 
                                     <p>{t("MUTABLES")}</p>
@@ -128,23 +127,17 @@ const Orders = () => {
                                                     <a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
                                             }
                                         })
-                                        :""
+                                        : ""
                                     }
                                 </div>
                             </div>
                         )
 
                     })
-                    :<p>{t("ORDERS_NOT_FOUND")}</p>
-                    }
-                </div>
+                    : <p className="empty-list">{t("ORDERS_NOT_FOUND")}</p>
+                }
             </div>
             <div>
-                {externalComponent === 'DefineOrder' ?
-                    <Define setExternalComponent={setExternalComponent} ActionName={ordersDefine} FormName={'Define Order'}/> :
-                    null
-                }
-
                 {externalComponent === 'CancelOrder' ?
                     <CancelOrder setExternalComponent={setExternalComponent} order={order}/> :
                     null
@@ -154,4 +147,4 @@ const Orders = () => {
     );
 };
 
-export default Orders;
+export default OrderList;

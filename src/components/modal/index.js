@@ -3,6 +3,7 @@ import {Form, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 
 const ModalCommon = (props) => {
+    console.log(props, "daa")
     const {t} = useTranslation();
     const [showIdentity, setShowIdentity] = useState(true);
     const handleClose = () => {
@@ -25,6 +26,7 @@ const ModalCommon = (props) => {
                     <p>Error: {props.data.raw_log}</p>
                     :
                     <p className="tx-hash">TxHash: {props.data.txhash}</p>
+
                 }
             </Modal.Body>
         </Modal>

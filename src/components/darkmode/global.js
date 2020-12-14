@@ -16,7 +16,6 @@ export const GlobalStyles = createGlobalStyle`
     background: ${({theme}) => theme.body};
     color: ${({theme}) => theme.text};
     font-family: ${({theme}) => theme.fontFamily}
-    height: 100%;
   }
 
   .bg-dark, .app-nav {
@@ -43,9 +42,11 @@ export const GlobalStyles = createGlobalStyle`
   .navbar-dark .navbar-nav .nav-link {
     color: ${({theme}) => theme.navLinkColor};
   }
-  label{
+
+  label {
     color: ${({theme}) => theme.cardTextColor};
   }
+
   .card {
     background-color: ${({theme}) => theme.signupBackground};
     color: ${({theme}) => theme.cardTextColor};
@@ -53,7 +54,7 @@ export const GlobalStyles = createGlobalStyle`
 
   .footer {
     background-color: ${({theme}) => theme.navigationBackground};
-    color: ${({theme}) => theme.navLinkColor};
+    color: ${({theme}) => theme.ActiveNavLinkColor};
   }
 
   .form-control {
@@ -100,9 +101,9 @@ export const GlobalStyles = createGlobalStyle`
     color: ${({theme}) => theme.modalHeaderColor};
   }
 
-  .btn-primary:not(:disabled):not(.disabled).active:focus, 
-  .btn-primary:not(:disabled):not(.disabled):active:focus, 
-  .show > .btn-primary.dropdown-toggle:focus, 
+  .btn-primary:not(:disabled):not(.disabled).active:focus,
+  .btn-primary:not(:disabled):not(.disabled):active:focus,
+  .show > .btn-primary.dropdown-toggle:focus,
   .btn-primary.focus, .btn-primary:focus,
   .btn-primary:not(:disabled):not(.disabled).active,
   .btn-primary:not(:disabled):not(.disabled):active,
