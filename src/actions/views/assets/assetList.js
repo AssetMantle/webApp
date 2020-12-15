@@ -5,7 +5,7 @@ import Helpers from "../../../utilities/Helper";
 import {Button} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import {MutateAsset, BurnAsset} from "../../forms/assets";
+import {MutateAsset, BurnAsset, SendSplit} from "../../forms/assets";
 import AssetDefineJS from "persistencejs/transaction/assets/define";
 import {MakeOrder} from "../../forms/orders";
 import {useTranslation} from "react-i18next";
@@ -21,6 +21,7 @@ const AssetList = () => {
     const {t} = useTranslation();
     const [externalComponent, setExternalComponent] = useState("");
     const [assetId, setAssetId] = useState("");
+    const [ownableId, setOwnableId] = useState("");
     const [assetList, setAssetList] = useState([]);
     const [loader, setLoader] = useState(true)
     const [splitList, setSplitList] = useState([]);
@@ -93,11 +94,12 @@ const AssetList = () => {
         fetchAssets();
     }, []);
 
-    const handleModalData = (formName, mutableProperties1, asset1, assetId1) => {
+    const handleModalData = (formName, mutableProperties1, asset1, assetId1, ownableId) => {
         setMutateProperties(mutableProperties1)
         setAsset(asset1)
         setAssetId(assetId1)
         setExternalComponent(formName)
+        setOwnableId(ownableId)
     }
 
     return (
@@ -122,6 +124,8 @@ const AssetList = () => {
                                     <div>
                                         <Button variant="secondary"
                                                 onClick={() => handleModalData("MakeOrder", "", "", ownableID)}>{t("MAKE")}</Button>
+                                        <Button variant="secondary"
+                                                onClick={() => handleModalData("SendSplit", "", "", ownerId, ownableID) }>{t("SEND_SPLITS")}</Button>
                                     </div>
                                     {
                                         assetList.map((asset, assetIndex) => {
@@ -206,7 +210,11 @@ const AssetList = () => {
                         <MakeOrder setExternalComponent={setExternalComponent} assetId={assetId}/> :
                         null
                 }
-
+                {
+                    externalComponent === 'SendSplit' ?
+                        <SendSplit setExternalComponent={setExternalComponent} ownerid={assetId} ownableId={ownableId}/> :
+                        null
+                }
             </div>
         </div>
     );
