@@ -21,15 +21,26 @@ const MutateAsset = (props) => {
     const [response, setResponse] = useState({});
     const [mutableProperties, setMutableProperties] = useState([]);
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
+
     useEffect(() => {
-        const fetchList = async () => {
-            const mutateProperties = props.mutatePropertiesList
-            const mutableKeys = Object.keys(mutateProperties);
-            setMutableProperties(mutateProperties);
-            setKeyList(mutableKeys);
-        }
-        fetchList();
+        const mutateProperties = props.mutatePropertiesList
+        const mutableKeys = Object.keys(mutateProperties);
+        setMutableProperties(mutateProperties);
+        setKeyList(mutableKeys);
+        mutableKeys.map((keyName, idx) => {
+            if (mutateProperties[keyName] !== "" && mutateProperties[keyName] !== null) {
+                const metaQueryResult = metasQuery.queryMetaWithID(mutateProperties[keyName]);
+                metaQueryResult.then(function (item) {
+                    const data = JSON.parse(item);
+                    let metaValue = Helper.FetchMetaValue(data, mutateProperties[keyName]);
+                    if (document.getElementById(keyName + idx)) {
+                        document.getElementById(keyName + idx).value = metaValue;
+                    }
+                });
+            }
+        })
     }, [])
+
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
@@ -120,16 +131,6 @@ const MutateAsset = (props) => {
                             />
                         </Form.Group>
                         {keyList.map((keyName, idx) => {
-                            if (mutableProperties[keyName] !== "" && mutableProperties[keyName] !== null) {
-                                const metaQueryResult = metasQuery.queryMetaWithID(mutableProperties[keyName]);
-                                metaQueryResult.then(function (item) {
-                                    const data = JSON.parse(item);
-                                    let metaValue = Helper.FetchMetaValue(data, mutableProperties[keyName]);
-                                    if (document.getElementById(keyName + idx)) {
-                                        document.getElementById(keyName + idx).value = metaValue;
-                                    }
-                                });
-                            }
                             return (
                                 <div key={idx}>
                                     <Form.Group>
@@ -155,7 +156,7 @@ const MutateAsset = (props) => {
                         }
                         {errorMessage !== "" ?
                             <span className="error-response">{errorMessage}</span>
-                            :""
+                            : ""
 
                         }
                         <div className="submitButtonSection">
