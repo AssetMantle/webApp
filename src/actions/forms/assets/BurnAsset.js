@@ -25,7 +25,7 @@ const BurnAsset = (props) => {
         setLoader(true)
         event.preventDefault();
         const asset = props.asset;
-        const FromId = event.target.FromId.value;
+        const FromId =  props.assetId;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
         const assetId = Helper.GetAssetID(asset.result.value.assets.value.list[0])
@@ -58,16 +58,6 @@ const BurnAsset = (props) => {
                 </div>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group>
-                        <Form.Label>{t("FROM_ID")}</Form.Label>
-                        <Form.Control
-                            type="text"
-                            className=""
-                            name="FromId"
-                            required={true}
-                            placeholder="FromId"
-                        />
-                    </Form.Group>
                     <p>{t("ARE_YOU_SURE")}</p>
                     <Button variant="primary" type="submit">
                         {t("YES")}

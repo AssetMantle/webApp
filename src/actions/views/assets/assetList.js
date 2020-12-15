@@ -70,9 +70,10 @@ const AssetList = () => {
                                                     } else {
                                                         setLoader(false)
                                                     }
+                                                }else {
+                                                    setLoader(false)
                                                 }
                                             })
-
                                     })
                                 } else {
                                     setLoader(false)
@@ -144,7 +145,7 @@ const AssetList = () => {
                                                                     onClick={() => handleModalData("MutateAsset", mutableProperties, asset)}>{t("MUTATE_ASSET")}
                                                             </Button>
                                                             <Button variant="secondary"
-                                                                    onClick={() => handleModalData("BurnAsset", "", asset)}>{t("BURN_ASSET")}
+                                                                    onClick={() => handleModalData("BurnAsset", "", asset, ownerId)}>{t("BURN_ASSET")}
                                                             </Button>
 
                                                         </div>
@@ -197,7 +198,7 @@ const AssetList = () => {
                 }
                 {
                     externalComponent === 'BurnAsset' ?
-                        <BurnAsset setExternalComponent={setExternalComponent} asset={asset}/> :
+                        <BurnAsset setExternalComponent={setExternalComponent} asset={asset} assetId={assetId}/> :
                         null
                 }
                 {
