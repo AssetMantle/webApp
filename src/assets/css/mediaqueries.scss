@@ -55,9 +55,15 @@
     .homeSection .appInfoBox {
         padding: 50px 0;
     }
-
 }
 @media (max-width: 991px){
+    .navbar-collapse{
+        -webkit-transition: all 0.3s ease-out;
+        -moz-transition: all 0.3s ease-out;
+        -ms-transition: all 0.3s ease-out;
+        -o-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out;
+    }
     .navbar-dark .navbar-brand a img {
         width: 130px;
     }

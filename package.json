@@ -14,7 +14,7 @@
     "i18next": "^19.8.4",
     "i18next-browser-languagedetector": "^6.0.1",
     "i18next-xhr-backend": "^3.2.2",
-    "persistencejs": "https://github.com/persistenceOne/persistenceJS.git#SDKv0.1.0",
+    "persistencejs": "https://github.com/persistenceOne/persistenceJS/tree/v0.1.0",
     "react": "^16.8.6",
     "react-bootstrap": "^1.4.0",
     "react-countup": "^4.3.3",

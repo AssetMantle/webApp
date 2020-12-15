@@ -95,7 +95,7 @@ const IdentityList = () => {
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
                         return (
-                            <div className="col-md-6" key={index}>
+                            <div className="col-md-4 col-sm-12" key={index}>
                                 <div className="card">
                                     <div>
                                         <Button variant="secondary"

@@ -91,7 +91,8 @@ html, body, #root, .app {
   max-width: 150px; }
 
 .list-container {
-  width: 100%; }
+  width: 100%;
+  padding: 20px 0 0 0; }
   .list-container .empty-list {
     color: #999999;
     text-align: center;
@@ -443,10 +444,15 @@ html, body, #root, .app {
     margin: 0; }
     .content-section .accountInfo .col-md-9 .card-deck {
       overflow-y: auto;
-      height: calc(100vh - 131px);
+      height: calc(100vh - 151px);
       scrollbar-color: #C2D2E4 transparent;
       scrollbar-width: thin;
       scrollbar-radius: 4px; }
+      .content-section .accountInfo .col-md-9 .card-deck .card {
+        height: 400px;
+        overflow: auto;
+        padding: 15px;
+        margin: 10px; }
 
 .side-bar {
   padding: 20px 0px 20px 0px;
