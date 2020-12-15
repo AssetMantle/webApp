@@ -43,7 +43,7 @@ const Deputize = (props) => {
         }
     }
     const handleSubmit = (event) => {
-        setLoader(true);
+        setLoader(false);
         event.preventDefault();
         const classificationId = props.maintainerData.value.id.value.classificationID.value.idString
         const identityId = props.maintainerData.value.id.value.identityID.value.idString
@@ -52,7 +52,13 @@ const Deputize = (props) => {
         const removeMaintainer = document.getElementById("removeMaintainer").checked
         let maintainedTraits = ""
         checkboxMutableNamesList.forEach((checkboxMutableName) => {
-            maintainedTraits = maintainedTraits + checkboxMutableName;
+            console.log(checkboxMutableName, "checkboxMutableName")
+            if (maintainedTraits === "") {
+                maintainedTraits = maintainedTraits + checkboxMutableName;
+            }
+            else{
+                maintainedTraits = maintainedTraits + "," + checkboxMutableName;
+            }
         })
         const ToId = event.target.ToId.value;
         const userTypeToken = localStorage.getItem('mnemonic');
