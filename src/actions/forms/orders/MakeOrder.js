@@ -115,18 +115,20 @@ const MakeOrder = (props) => {
                 mutableList.map((mutable, index) => {
                     let mutableType = mutable.value.fact.value.type;
                     let mutableName = mutable.value.id.value.idString;
-                    let mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
-                    if (mutableFieldValue === undefined) {
-                        mutableFieldValue = "";
-                    }
-                    console.log(mutableFieldValue, "mutableFieldValue", `${mutableName}|${mutableType}${index}`)
-                    const inputName = `${mutableName}|${mutableType}${index}`
-                    const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
-                    if (mutableMetaValuesResponse[0] !== "") {
-                        mutableValues = mutableMetaValuesResponse[0];
-                    }
-                    if (mutableMetaValuesResponse[1] !== "") {
-                        mutableMetaValues = mutableMetaValuesResponse[1];
+                    if((mutableName !== 'expiry') && (mutableName !== "makerOwnableSplit")) {
+                        let mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
+                        if (mutableFieldValue === undefined) {
+                            mutableFieldValue = "";
+                        }
+                        console.log(mutableFieldValue, "mutableFieldValue", `${mutableName}|${mutableType}${index}`)
+                        const inputName = `${mutableName}|${mutableType}${index}`
+                        const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
+                        if (mutableMetaValuesResponse[0] !== "") {
+                            mutableValues = mutableMetaValuesResponse[0];
+                        }
+                        if (mutableMetaValuesResponse[1] !== "") {
+                            mutableMetaValues = mutableMetaValuesResponse[1];
+                        }
                     }
                 })
             }
