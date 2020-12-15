@@ -112,7 +112,8 @@ let en = {
         "SELECT_ANY_MUTABLE_TRAITS":"Select any mutable trait",
         "SEND_TO_ID":"Send To Id",
         "SPLIT_AMOUNT":"Split Amount",
-        "SEND":"Send"
+        "SEND":"Send",
+        "SEND_SPLITS":"Send Splits"
 
 
     }
