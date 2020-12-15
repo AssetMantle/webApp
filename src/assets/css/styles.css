@@ -59,6 +59,11 @@ html, body, #root, .app {
 .navbar-dark .navbar-nav .dropdown-toggle::after {
   display: none; }
 
+.sub-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #999999; }
+
 .button-double-border {
   background: #FFFFFF;
   color: #262A2B;
@@ -560,5 +565,18 @@ html, body, #root, .app {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; }
+
+.list-item {
+  display: flex;
+  margin-bottom: 5px; }
+  .list-item .list-item-label {
+    width: 130px;
+    text-align: left;
+    margin: 0; }
+  .list-item .list-item-value {
+    text-align: left;
+    margin: 0 0 0 5px;
+    word-break: break-word;
+    flex: 1; }
 
 /*# sourceMappingURL=styles.css.map */

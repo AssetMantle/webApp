@@ -115,18 +115,20 @@ const MakeOrder = (props) => {
                 mutableList.map((mutable, index) => {
                     let mutableType = mutable.value.fact.value.type;
                     let mutableName = mutable.value.id.value.idString;
-                    let mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
-                    if (mutableFieldValue === undefined) {
-                        mutableFieldValue = "";
-                    }
-                    console.log(mutableFieldValue, "mutableFieldValue", `${mutableName}|${mutableType}${index}`)
-                    const inputName = `${mutableName}|${mutableType}${index}`
-                    const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
-                    if (mutableMetaValuesResponse[0] !== "") {
-                        mutableValues = mutableMetaValuesResponse[0];
-                    }
-                    if (mutableMetaValuesResponse[1] !== "") {
-                        mutableMetaValues = mutableMetaValuesResponse[1];
+                    if((mutableName !== 'expiry') && (mutableName !== "makerOwnableSplit")) {
+                        let mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
+                        if (mutableFieldValue === undefined) {
+                            mutableFieldValue = "";
+                        }
+                        console.log(mutableFieldValue, "mutableFieldValue", `${mutableName}|${mutableType}${index}`)
+                        const inputName = `${mutableName}|${mutableType}${index}`
+                        const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
+                        if (mutableMetaValuesResponse[0] !== "") {
+                            mutableValues = mutableMetaValuesResponse[0];
+                        }
+                        if (mutableMetaValuesResponse[1] !== "") {
+                            mutableMetaValues = mutableMetaValuesResponse[1];
+                        }
                     }
                 })
             }
@@ -245,28 +247,31 @@ const MakeOrder = (props) => {
                             mutableList.map((mutable, index) => {
                                 const mutableType = mutable.value.fact.value.type;
                                 const mutableName = mutable.value.id.value.idString;
-                                return (
-                                    <div key={index}>
-                                        <Form.Group>
-                                            <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                className=""
-                                                name={`${mutableName}|${mutableType}${index}`}
-                                                required={false}
-                                                placeholder="Trait Value"
-                                                onChange={handleChange}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="formBasicCheckbox">
-                                            <Form.Check custom type="checkbox" label="Meta"
-                                                        name={`${mutableName}|${mutableType}${index}`}
-                                                        id={`checkbox${mutableName}|${mutableType}${index}`}
-                                                        onClick={handleCheckMutableChange}
-                                            />
-                                        </Form.Group>
-                                    </div>
-                                )
+                                console.log(mutableName, "mutableName")
+                                if((mutableName !== 'expiry') && (mutableName !== "makerOwnableSplit")) {
+                                    return (
+                                        <div key={index}>
+                                            <Form.Group>
+                                                <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    className=""
+                                                    name={`${mutableName}|${mutableType}${index}`}
+                                                    required={false}
+                                                    placeholder="Trait Value"
+                                                    onChange={handleChange}
+                                                />
+                                            </Form.Group>
+                                            <Form.Group controlId="formBasicCheckbox">
+                                                <Form.Check custom type="checkbox" label="Meta"
+                                                            name={`${mutableName}|${mutableType}${index}`}
+                                                            id={`checkbox${mutableName}|${mutableType}${index}`}
+                                                            onClick={handleCheckMutableChange}
+                                                />
+                                            </Form.Group>
+                                        </div>
+                                    )
+                                }
                             })
                             :
                             ""
