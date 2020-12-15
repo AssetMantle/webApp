@@ -136,19 +136,19 @@ const IdentityList = () => {
                                         })
                                         : ""
                                     }
-                                    <h5>provisionedAddressList</h5>
+                                    <p className="sub-title">provisionedAddressList</p>
                                     {provisionedAddressList !== null ?
                                         provisionedAddressList.map((provisionedAddress, addressKey) => {
                                             return (<p key={addressKey}>{provisionedAddress}</p>)
                                         })
-                                        : ""
+                                        : <p>Empty</p>
                                     }
-                                    <h5>UnProvisionedAddressList</h5>
+                                    <p className="sub-title">UnProvisionedAddressList</p>
                                     {unProvisionedAddressList !== null ?
                                         unProvisionedAddressList.map((unprovisionedAddress, unprovisionedAddressKey) => {
                                             return (<p key={unprovisionedAddressKey}>{unprovisionedAddress}</p>)
                                         })
-                                        : ""
+                                        : <p>Empty</p>
                                     }
                                 </div>
                             </div>

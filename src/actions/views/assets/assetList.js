@@ -50,11 +50,9 @@ const AssetList = () => {
                                         const filterAssetList = assetsQuery.queryAssetWithID(ownableID);
                                             filterAssetList.then(function (Asset) {
                                                 const parsedAsset = JSON.parse(Asset);
-
                                                 if (parsedAsset.result.value.assets.value.list !== null) {
                                                     const assetId = Helper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
                                                     if (ownableID === assetId) {
-
                                                         setAssetList(assetList => [...assetList, parsedAsset]);
                                                         let immutableProperties = "";
                                                         let mutableProperties = "";

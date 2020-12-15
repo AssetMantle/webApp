@@ -826,13 +826,15 @@ html, body, #root, .app {
 
 .list-item{
   display: flex;
+  margin-bottom: 5px;
   .list-item-label{
     width: 130px;
     text-align: left;
+    margin: 0;
   }
   .list-item-value{
     text-align: left;
-    margin-left: 5px;
+    margin:0 0 0 5px;
     word-break: break-word;
     flex: 1;
   }

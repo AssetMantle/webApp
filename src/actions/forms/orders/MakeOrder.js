@@ -245,28 +245,31 @@ const MakeOrder = (props) => {
                             mutableList.map((mutable, index) => {
                                 const mutableType = mutable.value.fact.value.type;
                                 const mutableName = mutable.value.id.value.idString;
-                                return (
-                                    <div key={index}>
-                                        <Form.Group>
-                                            <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                className=""
-                                                name={`${mutableName}|${mutableType}${index}`}
-                                                required={false}
-                                                placeholder="Trait Value"
-                                                onChange={handleChange}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="formBasicCheckbox">
-                                            <Form.Check custom type="checkbox" label="Meta"
-                                                        name={`${mutableName}|${mutableType}${index}`}
-                                                        id={`checkbox${mutableName}|${mutableType}${index}`}
-                                                        onClick={handleCheckMutableChange}
-                                            />
-                                        </Form.Group>
-                                    </div>
-                                )
+                                console.log(mutableName, "mutableName")
+                                if((mutableName !== 'expiry') && (mutableName !== "makerOwnableSplit")) {
+                                    return (
+                                        <div key={index}>
+                                            <Form.Group>
+                                                <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    className=""
+                                                    name={`${mutableName}|${mutableType}${index}`}
+                                                    required={false}
+                                                    placeholder="Trait Value"
+                                                    onChange={handleChange}
+                                                />
+                                            </Form.Group>
+                                            <Form.Group controlId="formBasicCheckbox">
+                                                <Form.Check custom type="checkbox" label="Meta"
+                                                            name={`${mutableName}|${mutableType}${index}`}
+                                                            id={`checkbox${mutableName}|${mutableType}${index}`}
+                                                            onClick={handleCheckMutableChange}
+                                                />
+                                            </Form.Group>
+                                        </div>
+                                    )
+                                }
                             })
                             :
                             ""
