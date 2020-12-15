@@ -48,7 +48,6 @@ const AssetList = () => {
                                     filterSplitsByIdentities.map((split, index) => {
                                         const ownableID = Helper.GetIdentityOwnableId(split)
                                         const filterAssetList = assetsQuery.queryAssetWithID(ownableID);
-                                        if (filterAssetList.length) {
                                             filterAssetList.then(function (Asset) {
                                                 const parsedAsset = JSON.parse(Asset);
 
@@ -75,9 +74,7 @@ const AssetList = () => {
                                                     }
                                                 }
                                             })
-                                        } else {
-                                            setLoader(false)
-                                        }
+
                                     })
                                 } else {
                                     setLoader(false)

@@ -96,7 +96,7 @@ const IdentityList = () => {
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
                         return (
-                            <div className="col-md-4 col-sm-12" key={index}>
+                            <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
                                     <div>
                                         <Button variant="secondary"
@@ -110,28 +110,28 @@ const IdentityList = () => {
                                         id={identityId}/>
                                     </div>
 
-                                    <p>{t("IMMUTABLES")}</p>
+                                    <p className="sub-title">{t("IMMUTABLES")}</p>
                                     {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
-                                                return (<a key={index + keyName}><b>{keyName} </b>: <span
-                                                    id={`immutable_identityList` + index + `${index1}`}></span></a>)
+                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
+                                                    id={`immutable_identityList` + index + `${index1}`} className="list-item-value"></p></div>)
                                             } else {
                                                 return (
-                                                    <a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
+                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{immutableProperties[keyName]}</p></div>)
                                             }
                                         })
                                         : ""
                                     }
-                                    <p>{t("MUTABLES")}</p>
+                                    <p className="sub-title">{t("MUTABLES")}</p>
                                     {mutableKeys !== null ?
                                         mutableKeys.map((keyName, index1) => {
                                             if (mutableProperties[keyName] !== "") {
-                                                return (<a key={index + keyName}><b>{keyName} </b>: <span
-                                                    id={`mutable_identityList` + index + `${index1}`}></span></a>)
+                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
+                                                    id={`mutable_identityList` + index + `${index1}`}  className="list-item-value"></p></div>)
                                             } else {
                                                 return (
-                                                    <a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
+                                                    <div key={index + keyName} className="list-item"><p>{keyName} </p>: <p className="list-item-hash-value">{mutableProperties[keyName]}</p></div>)
                                             }
                                         })
                                         : ""
