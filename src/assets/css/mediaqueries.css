@@ -3,6 +3,12 @@
     -ms-flex: 0 0 50%;
     flex: 0 0 40%;
     max-width: 40%; } }
+@media (max-width: 420px) {
+  .footer {
+    bottom: initial; }
+
+  .homeSection .appInfoBox .banner-heading {
+    font-size: 30px; } }
 @media (max-width: 768px) {
   .banner-image-section {
     display: none !important; }
@@ -10,7 +16,7 @@
   .content-section .accountInfo .col-md-9 .card-deck {
     height: auto; }
 
-  .summery-section {
+  .summary-section {
     height: auto; }
 
   .navbar-dark .navbar-toggler {
@@ -30,7 +36,10 @@
     margin-right: auto; } }
 @media (max-width: 576px) {
   .row {
-    margin: auto; } }
+    margin: auto; }
+
+  .homeSection .appInfoBox {
+    padding: 50px 0; } }
 @media (max-width: 991px) {
   .navbar-dark .navbar-brand a img {
     width: 130px; }
@@ -44,10 +53,49 @@
 
   .navbar-toggler-icon {
     width: 1rem;
-    height: 1rem; } }
+    height: 1rem; }
+
+  .banner-image-section img {
+    margin-right: -30px;
+    width: 300px; }
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    right: 0;
+    width: 100%; }
+
+  .login-before .navbar {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 720px; }
+
+  .content-section {
+    padding-top: 60px;
+    height: 100%; }
+    .content-section .accountInfo .row {
+      height: calc(100vh - 60px);
+      overflow-y: auto; }
+      .content-section .accountInfo .row .col-md-9, .content-section .accountInfo .row .col-md-3 {
+        flex: initial;
+        max-width: initial; }
+      .content-section .accountInfo .row .col-md-9 {
+        flex-direction: column; }
+        .content-section .accountInfo .row .col-md-9 .card-deck {
+          height: auto; }
+      .content-section .accountInfo .row .summary-section {
+        height: auto; } }
 @media (min-width: 992px) and (max-width: 1080px) {
   .navbar-dark .navbar-nav .nav-link {
     padding: 0 0.75rem !important;
-    font-size: 12px; } }
+    font-size: 12px; }
+
+  .banner-image-section img {
+    margin-right: -30px;
+    width: 350px; } }
 
 /*# sourceMappingURL=mediaqueries.css.map */

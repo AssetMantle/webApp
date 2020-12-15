@@ -9,16 +9,22 @@ import arrowRightIcon from "../../../assets/images/arrowRightIcon.svg";
 const LoginMnemonic = (props) => {
     const history = useHistory();
     const [show, setShow] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
     const {t} = useTranslation();
     const handleSubmit = async event => {
+        event.preventDefault();
         const error = keyUtils.createWallet(event.target.mnemonic.value)
+        console.log(error, "error")
         if (error.error != null) {
-            return (<div>ERROR!!</div>)
+            setErrorMessage(error.error);
         }
-        const wallet = keyUtils.getWallet(event.target.mnemonic.value)
-        localStorage.setItem("address", wallet.address)
-        localStorage.setItem("mnemonic", event.target.mnemonic.value)
-        history.push('/assets');
+        else {
+            const wallet = keyUtils.getWallet(event.target.mnemonic.value)
+            console.log(wallet, "wallet")
+            localStorage.setItem("address", wallet.address)
+            localStorage.setItem("mnemonic", event.target.mnemonic.value)
+            history.push('/assets');
+        }
     }
     const handleClose = () => {
         setShow(false);
@@ -44,6 +50,10 @@ const LoginMnemonic = (props) => {
                     <Form.Control as="textarea" rows={5} name="mnemonic"
                                   placeholder="Enter Mnemonic"
                                   required={true}/>
+                    {errorMessage !== "" ?
+                        <div className="login-error"><p className="error-response">{errorMessage}</p></div>
+                        : ""
+                    }
                     <div className="submitButtonSection">
                         <Button
                             variant="primary"

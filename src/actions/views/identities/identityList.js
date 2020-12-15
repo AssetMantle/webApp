@@ -24,7 +24,6 @@ const IdentityList = () => {
             const identities = identitiesQuery.queryIdentityWithID("all")
             if(identities) {
                 identities.then(function (item) {
-                    console.log(item, "item")
                     const data = JSON.parse(item);
                     const dataList = data.result.value.identities.value.list;
                     if (dataList) {

@@ -65,7 +65,7 @@ const PrivateKey = (props) => {
                         required={true}
                     />
                     {incorrectPassword ?
-                        <Form.Text className="text-muted">
+                        <Form.Text className="error-response">
                             {t("INCORRECT_PASSWORD")}
                         </Form.Text>
                         : ""

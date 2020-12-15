@@ -32,7 +32,7 @@ const HeaderAfterLogin = () => {
     }, [])
     return (
         <>
-            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="login-after">
                 <Navbar.Brand><Nav.Link onClick={handleRoute("/")}>
                     <img src={logo} alt="logo"/>
                 </Nav.Link></Navbar.Brand>

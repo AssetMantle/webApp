@@ -24,10 +24,7 @@ const App = () => {
     }, {
         path: '/SignUp',
         component: SignUp,
-    }, {
-        path: '/ActionsSwitcher',
-        component: ActionsSwitcher,
-    }, {
+    },  {
         path: '/assets',
         component: Assets,
     }, {

@@ -5,8 +5,10 @@
 html, body, #root, .app {
   height: 100%; }
 
+.navbar-dark.login-after {
+  padding: 0 35px; }
+
 .navbar-dark {
-  margin: 0 35px;
   padding: 0; }
   .navbar-dark .navbar-nav .nav-link {
     padding: 0 1rem !important;
@@ -116,7 +118,7 @@ html, body, #root, .app {
     padding: 200px 0; }
     .homeSection .appInfoBox .banner-heading {
       font-weight: bold;
-      font-size: 64px;
+      font-size: 58px;
       line-height: 96px; }
     .homeSection .appInfoBox .banner-content {
       line-height: 2;
@@ -235,7 +237,7 @@ html, body, #root, .app {
   align-items: center;
   justify-content: flex-end; }
   .banner-image-section img {
-    margin-right: -50px; }
+    margin-right: -45px; }
 
 .modal-content {
   border-radius: 15px; }
@@ -251,6 +253,9 @@ html, body, #root, .app {
     padding: 25px 25px 40px 25px; }
   .modal-content .modal-footer {
     justify-content: center; }
+
+.login-error p {
+  margin: 5px 0; }
 
 .btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus, .btn-primary.focus, .btn-primary:focus {
   border-color: #ffffff;
@@ -464,8 +469,10 @@ html, body, #root, .app {
       text-transform: uppercase;
       color: #E3E3E3; }
     .side-bar .header-section img {
+      cursor: pointer;
       transform: rotate(0deg);
-      width: 15px; }
+      width: 25px;
+      padding: 5px; }
   .side-bar .sidebar-buttons button {
     background: #373A3A;
     border-radius: 45px;
@@ -478,6 +485,8 @@ html, body, #root, .app {
     margin-bottom: 15px; }
   .side-bar .content {
     padding: 0 20px 0 30px; }
+  .side-bar .footer {
+    background: transparent; }
 
 .side-bar.active {
   margin-left: -210px; }
@@ -491,7 +500,7 @@ html, body, #root, .app {
   background: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
   width: 100%;
-  padding: 0; }
+  padding: 0 75px 0 25px; }
   .dropdown-section .dropdown button, .dropdown-section .dropdown .show > .btn-success.dropdown-toggle {
     background: #F5F5F5 !important;
     border: 1px solid #CCCCCC !important;
@@ -504,16 +513,16 @@ html, body, #root, .app {
     font-weight: bold;
     font-size: 16px;
     color: #262A2B;
-    padding: 26px;
+    padding: 26px 0;
     margin: 0; }
 
-.summery-section {
+.summary-section {
   height: calc(100vh - 60px);
   padding: 15px 40px 15px 15px;
   background: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
   overflow-y: auto; }
-  .summery-section p {
+  .summary-section p {
     font-weight: bold;
     font-size: 16px;
     color: #262A2B; }
