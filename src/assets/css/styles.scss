@@ -140,6 +140,7 @@ html, body, #root, .app {
 
 .list-container {
   width: 100%;
+  padding: 20px 0 0 0;
   .empty-list {
     color: #999999;
     text-align: center;
@@ -661,10 +662,16 @@ html, body, #root, .app {
 
       .card-deck {
         overflow-y: auto;
-        height: calc(100vh - 131px);
+        height: calc(100vh - 151px);
         scrollbar-color: #C2D2E4 transparent;
         scrollbar-width: thin;
         scrollbar-radius: 4px;
+        .card{
+          height: 400px;
+          overflow: auto;
+          padding: 15px;
+          margin:10px
+        }
       }
     }
   }
@@ -773,5 +780,41 @@ html, body, #root, .app {
     font-weight: bold;
     font-size: 16px;
     color: #262A2B;
+  }
+}
+
+.copy-section{
+  position       : relative;
+  display        : flex;
+  justify-content: center;
+
+  .copy-icon {
+    width      : 20px;
+    height     : 20px;
+    cursor     : pointer;
+    margin-left: 5px;
+  }
+
+  .copy-result {
+    position: absolute;
+    top     : -25px;
+    right   : -15px;
+
+    span {
+      color      : #000;
+      font-size  : 12px;
+      font-weight: 600;
+    }
+  }
+}
+.id-section{
+  display: flex;
+  margin: 15px 0;
+  .id{
+    margin: 0;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

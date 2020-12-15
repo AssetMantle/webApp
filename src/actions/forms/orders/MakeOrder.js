@@ -87,7 +87,7 @@ const MakeOrder = (props) => {
         setShow(false);
     };
     const handleFormSubmit = (event) => {
-        setLoader(true)
+        setLoader(false)
         event.preventDefault();
         const assetId = props.assetId;
         const FromId = event.target.FromId.value;
@@ -113,9 +113,13 @@ const MakeOrder = (props) => {
             let immutableMetaValues = "";
             if (mutableList !== null) {
                 mutableList.map((mutable, index) => {
-                    const mutableType = mutable.value.fact.value.type;
-                    const mutableName = mutable.value.id.value.idString;
-                    const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
+                    let mutableType = mutable.value.fact.value.type;
+                    let mutableName = mutable.value.id.value.idString;
+                    let mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
+                    if (mutableFieldValue === undefined) {
+                        mutableFieldValue = "";
+                    }
+                    console.log(mutableFieldValue, "mutableFieldValue", `${mutableName}|${mutableType}${index}`)
                     const inputName = `${mutableName}|${mutableType}${index}`
                     const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
                     if (mutableMetaValuesResponse[0] !== "") {

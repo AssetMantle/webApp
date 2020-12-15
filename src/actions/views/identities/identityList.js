@@ -6,6 +6,7 @@ import {Button} from "react-bootstrap";
 import {Provision, UnProvision} from "../../forms/identities";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
+import Copy from "../../../components/copy"
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -22,7 +23,7 @@ const IdentityList = () => {
     useEffect(() => {
         const fetchToIdentities = () => {
             const identities = identitiesQuery.queryIdentityWithID("all")
-            if(identities) {
+            if (identities) {
                 identities.then(function (item) {
                     const data = JSON.parse(item);
                     const dataList = data.result.value.identities.value.list;
@@ -53,7 +54,7 @@ const IdentityList = () => {
                         setLoader(false)
                     }
                 })
-            }else {
+            } else {
                 setLoader(false)
             }
         }
@@ -95,7 +96,7 @@ const IdentityList = () => {
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
                         return (
-                            <div className="col-md-6" key={index}>
+                            <div className="col-md-4 col-sm-12" key={index}>
                                 <div className="card">
                                     <div>
                                         <Button variant="secondary"
@@ -103,7 +104,12 @@ const IdentityList = () => {
                                         <Button variant="secondary"
                                                 onClick={() => handleModalData("UnProvision", identityId, identity)}>{t("UN_PROVISION")}</Button>
                                     </div>
-                                    <a href="#">{identityId}</a>
+                                    <div className="id-section">
+                                        <p className="id" title={identityId}>{identityId}</p>
+                                        <Copy
+                                        id={identityId}/>
+                                    </div>
+
                                     <p>{t("IMMUTABLES")}</p>
                                     {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
