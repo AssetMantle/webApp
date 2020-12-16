@@ -3,4 +3,5 @@ import MutateAsset from "./MutateAsset"
 import BurnAsset from "./BurnAsset"
 import Wrap from "./Wrap"
 import UnWrap from "./UnWrap"
-export {MintAsset, MutateAsset, BurnAsset, Wrap,UnWrap };
+import SendSplit from "./sendSplit"
+export {SendSplit, MintAsset, MutateAsset, BurnAsset, Wrap,UnWrap };

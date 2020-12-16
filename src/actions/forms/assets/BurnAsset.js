@@ -65,11 +65,6 @@ const BurnAsset = (props) => {
                     <Button variant="secondary" onClick={handleClose}>
                         {t("NO")}
                     </Button>
-                    {response.code ?
-                        <p> {response.raw_log}</p>
-                        :
-                        <p> {response.txhash}</p>
-                    }
                 </Form>
             </Modal.Body>
             </Modal>
