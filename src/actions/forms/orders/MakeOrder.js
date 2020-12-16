@@ -8,6 +8,7 @@ import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
 import ModalCommon from "../../../components/modal"
 import config from "../../../constants/config.json"
+
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const ordersMake = new ordersMakeJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -115,7 +116,7 @@ const MakeOrder = (props) => {
                 mutableList.map((mutable, index) => {
                     let mutableType = mutable.value.fact.value.type;
                     let mutableName = mutable.value.id.value.idString;
-                    if((mutableName !== 'expiry') && (mutableName !== "makerOwnableSplit")) {
+                    if ((mutableName !== 'expiry') && (mutableName !== "makerOwnableSplit")) {
                         let mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
                         if (mutableFieldValue === undefined) {
                             mutableFieldValue = "";
@@ -160,30 +161,30 @@ const MakeOrder = (props) => {
     }
     return (
         <div className="accountInfo">
-            <Modal show={show} onHide={handleClose}  centered>
-            <Modal.Header closeButton>
-                {t("MAKE_ORDER")}
-            </Modal.Header>
-            <Modal.Body>
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group>
-                        <Form.Label>{t("CLASSIFICATION_ID")}</Form.Label>
-                        <Form.Control
-                            type="text"
-                            className=""
-                            name="ClassificationId"
-                            required={true}
-                            placeholder="ClassificationId"
-                        />
-                    </Form.Group>
+            <Modal show={show} onHide={handleClose} centered>
+                <Modal.Header closeButton>
+                    {t("MAKE_ORDER")}
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group>
+                            <Form.Label>{t("CLASSIFICATION_ID")}</Form.Label>
+                            <Form.Control
+                                type="text"
+                                className=""
+                                name="ClassificationId"
+                                required={true}
+                                placeholder="ClassificationId"
+                            />
+                        </Form.Group>
 
-                    <div className="submitButtonSection">
-                        <Button variant="primary" type="submit">
-                            {t("NEXT")}
-                        </Button>
-                    </div>
-                </Form>
-            </Modal.Body>
+                        <div className="submitButtonSection">
+                            <Button variant="primary" type="submit">
+                                {t("NEXT")}
+                            </Button>
+                        </div>
+                    </Form>
+                </Modal.Body>
             </Modal>
             <Modal
                 show={showNext}
@@ -247,31 +248,57 @@ const MakeOrder = (props) => {
                             mutableList.map((mutable, index) => {
                                 const mutableType = mutable.value.fact.value.type;
                                 const mutableName = mutable.value.id.value.idString;
-                                console.log(mutableName, "mutableName")
-                                if((mutableName !== 'expiry') && (mutableName !== "makerOwnableSplit")) {
-                                    return (
-                                        <div key={index}>
-                                            <Form.Group>
-                                                <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
-                                                <Form.Control
-                                                    type="text"
-                                                    className=""
-                                                    name={`${mutableName}|${mutableType}${index}`}
-                                                    required={false}
-                                                    placeholder="Trait Value"
-                                                    onChange={handleChange}
-                                                />
-                                            </Form.Group>
-                                            <Form.Group controlId="formBasicCheckbox">
-                                                <Form.Check custom type="checkbox" label="Meta"
-                                                            name={`${mutableName}|${mutableType}${index}`}
-                                                            id={`checkbox${mutableName}|${mutableType}${index}`}
-                                                            onClick={handleCheckMutableChange}
-                                                />
-                                            </Form.Group>
-                                        </div>
-                                    )
+
+                                if ((mutableName !== 'expiry') && (mutableName !== "makerOwnableSplit")) {
+                                    if (mutableName === 'takerID') {
+                                        return (
+                                            <div key={index} className="hidden">
+                                                <Form.Group>
+                                                    <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
+                                                    <Form.Control
+                                                        type="text"
+                                                        className=""
+                                                        name={`${mutableName}|${mutableType}${index}`}
+                                                        required={false}
+                                                        placeholder="Trait Value"
+                                                        onChange={handleChange}
+                                                    />
+                                                </Form.Group>
+                                                <Form.Group controlId="formBasicCheckbox">
+                                                    <Form.Check custom type="checkbox" label="Meta"
+                                                                name={`${mutableName}|${mutableType}${index}`}
+                                                                id={`checkbox${mutableName}|${mutableType}${index}`}
+                                                                onClick={handleCheckMutableChange}
+                                                    />
+                                                </Form.Group>
+                                            </div>
+                                        )
+                                    } else {
+                                        return (
+                                            <div key={index}>
+                                                <Form.Group>
+                                                    <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
+                                                    <Form.Control
+                                                        type="text"
+                                                        className=""
+                                                        name={`${mutableName}|${mutableType}${index}`}
+                                                        required={false}
+                                                        placeholder="Trait Value"
+                                                        onChange={handleChange}
+                                                    />
+                                                </Form.Group>
+                                                <Form.Group controlId="formBasicCheckbox">
+                                                    <Form.Check custom type="checkbox" label="Meta"
+                                                                name={`${mutableName}|${mutableType}${index}`}
+                                                                id={`checkbox${mutableName}|${mutableType}${index}`}
+                                                                onClick={handleCheckMutableChange}
+                                                    />
+                                                </Form.Group>
+                                            </div>
+                                        )
+                                    }
                                 }
+
                             })
                             :
                             ""
@@ -309,13 +336,13 @@ const MakeOrder = (props) => {
                         }
                         {errorMessage !== "" ?
                             <span className="error-response">{errorMessage}</span>
-                            :""
+                            : ""
 
                         }
                         <div className="submitButtonSection">
-                        <Button variant="primary" type="submit">
-                            {t("SUBMIT")}
-                        </Button>
+                            <Button variant="primary" type="submit">
+                                {t("SUBMIT")}
+                            </Button>
                         </div>
                     </Form>
                 </Modal.Body>

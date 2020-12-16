@@ -7,6 +7,7 @@ import identitiesQueryJS from "persistencejs/transaction/identity/query";
 import {CancelOrder} from "../../forms/orders";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
+import Copy from "../../../components/copy"
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -38,10 +39,8 @@ const OrderList = () => {
                         if (ordersDataList) {
                             const filterOrdersByIdentities = Helper.FilterOrdersByIdentity(filterIdentities, ordersDataList)
                             if (filterOrdersByIdentities.length) {
-                                console.log(filterOrdersByIdentities.length, "filterOrdersByIdentities.length")
                                 setOrderList(filterOrdersByIdentities);
                                 filterOrdersByIdentities.map((order, index) => {
-
                                     let immutableProperties = "";
                                     let mutableProperties = "";
                                     if (order.value.immutables.value.properties.value.propertyList !== null) {
@@ -91,40 +90,49 @@ const OrderList = () => {
                         if (order.value.mutables.value.properties.value.propertyList !== null) {
                             mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
                         }
-
+                        let orderId = Helper.GetOrderID(order);
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
-                        return (<div className="col-md-6" key={index}>
+                        return (
+                            <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
                                     <div>
                                         <Button variant="secondary"
                                                 onClick={() => handleModalData("CancelOrder", order)}>Cancel</Button>
                                     </div>
-                                    <a href="#">{Helper.GetOrderID(order)}</a>
-                                    <p>{t("IMMUTABLES")}</p>
+                                    <div className="list-item">
+                                        <p className="list-item-label">{t("ORDER_ID")}</p>
+                                        <div className="list-item-value id-section">
+                                            <p className="id-string" title={orderId}>: {orderId}</p>
+                                            <Copy
+                                                id={orderId}/>
+                                        </div>
+                                    </div>
+
+                                    <p className="sub-title">{t("IMMUTABLES")}</p>
                                     {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
-                                                return (<a key={index + keyName}><b>{keyName} </b>: <span
-                                                    id={`immutable_order` + index + `${index1}`}></span></a>)
+                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
+                                                    id={`immutable_order` + index + `${index1}`} className="list-item-value"></p></div>)
                                             } else {
                                                 return (
-                                                    <a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
+                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{immutableProperties[keyName]}</p></div>)
                                             }
                                         })
                                         : ""
                                     }
 
-                                    <p>{t("MUTABLES")}</p>
+                                    <p className="sub-title">{t("MUTABLES")}</p>
 
                                     {mutableKeys !== null ?
                                         mutableKeys.map((keyName, index1) => {
                                             if (mutableProperties[keyName] !== "") {
-                                                return (<a key={index + keyName}><b>{keyName} </b>: <span
-                                                    id={`mutable_order` + index + `${index1}`}></span></a>)
+                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-value"
+                                                    id={`mutable_order` + index + `${index1}`}></p></div>)
                                             } else {
                                                 return (
-                                                    <a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
+                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{mutableProperties[keyName]}</p></div>)
                                             }
                                         })
                                         : ""

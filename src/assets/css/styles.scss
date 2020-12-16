@@ -813,15 +813,21 @@ html, body, #root, .app {
     }
   }
 }
+.hidden{
+  display: none;
+}
+.id-string{
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .id-section{
   display: flex;
   margin: 15px 0;
-  .id{
+  .id-string {
     margin: 0;
-    width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 }
 

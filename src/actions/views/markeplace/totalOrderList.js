@@ -76,7 +76,8 @@ const TotalOrders = () => {
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
                         let orderIdData = Helper.GetOrderID(order);
-                        return (<div className="col-md-6" key={index}>
+                        return (
+                            <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
                                     <div>
                                         <Button variant="secondary"
