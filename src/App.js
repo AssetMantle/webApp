@@ -11,6 +11,7 @@ import Footer from "./components/Footer"
 import {useTranslation} from "react-i18next";
 import './assets/css/styles.css'
 import './assets/css/mediaqueries.css'
+import SearchAsset from "./components/search/searchAsset";
 
 const App = () => {
     const {t} = useTranslation();
@@ -39,6 +40,9 @@ const App = () => {
     }, {
         path: '/marketplace',
         component: MarketPlace,
+    }, {
+        path: '/SearchAsset',
+        component: SearchAsset,
     }];
 
     const [isOnline, setNetwork] = useState(window.navigator.onLine);

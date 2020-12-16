@@ -49,32 +49,32 @@ const AssetList = () => {
                                     filterSplitsByIdentities.map((split, index) => {
                                         const ownableID = Helper.GetIdentityOwnableId(split)
                                         const filterAssetList = assetsQuery.queryAssetWithID(ownableID);
-                                            filterAssetList.then(function (Asset) {
-                                                const parsedAsset = JSON.parse(Asset);
-                                                if (parsedAsset.result.value.assets.value.list !== null) {
-                                                    const assetId = Helper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
-                                                    if (ownableID === assetId) {
-                                                        setAssetList(assetList => [...assetList, parsedAsset]);
-                                                        let immutableProperties = "";
-                                                        let mutableProperties = "";
-                                                        if (parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
-                                                            immutableProperties = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
-                                                        }
-                                                        if (parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
-                                                            mutableProperties = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
-                                                        }
-                                                        let immutableKeys = Object.keys(immutableProperties);
-                                                        let mutableKeys = Object.keys(mutableProperties);
-                                                        Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset', index);
-                                                        Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset', index);
-                                                        setLoader(false)
-                                                    } else {
-                                                        setLoader(false)
+                                        filterAssetList.then(function (Asset) {
+                                            const parsedAsset = JSON.parse(Asset);
+                                            if (parsedAsset.result.value.assets.value.list !== null) {
+                                                const assetId = Helper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
+                                                if (ownableID === assetId) {
+                                                    setAssetList(assetList => [...assetList, parsedAsset]);
+                                                    let immutableProperties = "";
+                                                    let mutableProperties = "";
+                                                    if (parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
+                                                        immutableProperties = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
                                                     }
-                                                }else {
+                                                    if (parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
+                                                        mutableProperties = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
+                                                    }
+                                                    let immutableKeys = Object.keys(immutableProperties);
+                                                    let mutableKeys = Object.keys(mutableProperties);
+                                                    Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset', index);
+                                                    Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset', index);
+                                                    setLoader(false)
+                                                } else {
                                                     setLoader(false)
                                                 }
-                                            })
+                                            }else {
+                                                setLoader(false)
+                                            }
+                                        })
                                     })
                                 } else {
                                     setLoader(false)
@@ -108,6 +108,7 @@ const AssetList = () => {
                 <Loader/>
                 : ""
             }
+
             <div className="row card-deck">
                 {splitList.length ?
                     splitList.map((split, index) => {
@@ -115,12 +116,23 @@ const AssetList = () => {
                         let ownableId = split.value.id.value.ownableID.value.idString;
                         let ownerId = split.value.id.value.ownerID.value.idString;
                         let stake = split.value.split;
+                        console.log(split,"ownableID", index)
                         return (
-                            <div className="col-md-6" key={index}>
+                            <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
-                                    <p>{t("OWNABLE_ID")}: {ownableId}</p>
-                                    <p>{t("OWNER_ID")}: {ownerId}</p>
-                                    <p>{t("STAKE")}: {stake}</p>
+                                    <div className="list-item">
+                                        <p className="list-item-label">{t("OWNABLE_ID")}</p>
+                                        <p className="list-item-value id-string" title={ownableId}>{ownableId}</p>
+                                    </div>
+                                    <div className="list-item">
+                                        <p className="list-item-label">{t("OWNER_ID")}</p>
+                                        <p className="list-item-value id-string" title={ownerId}>{ownerId}</p>
+                                    </div>
+                                    <div className="list-item">
+                                        <p className="list-item-label">{t("STAKE")}</p>
+                                        <p className="list-item-value id-string" title={stake}>{stake}</p>
+                                    </div>
+
                                     <div>
                                         <Button variant="secondary"
                                                 onClick={() => handleModalData("MakeOrder", "", "", ownableID)}>{t("MAKE")}</Button>
@@ -129,9 +141,9 @@ const AssetList = () => {
                                     </div>
                                     {
                                         assetList.map((asset, assetIndex) => {
-
-                                            const assetId = Helper.GetAssetID(asset.result.value.assets.value.list[0]);
-                                            if (ownableID === assetId) {
+                                            const assetItemId = Helper.GetAssetID(asset.result.value.assets.value.list[0]);
+                                            // console.log(assetItemId,"assetId")
+                                            if (ownableID === assetItemId) {
                                                 let immutableProperties = "";
                                                 let mutableProperties = "";
                                                 if (asset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
@@ -153,30 +165,30 @@ const AssetList = () => {
                                                             </Button>
 
                                                         </div>
-                                                        <p>{t("IMMUTABLES")}</p>
+                                                        <p className="sub-title">{t("IMMUTABLES")}</p>
                                                         {immutableKeys !== null ?
                                                             immutableKeys.map((keyName, index1) => {
                                                                 if (immutableProperties[keyName] !== "") {
                                                                     return (
-                                                                        <a key={index + keyName}><b>{keyName} </b>: <span
-                                                                            id={`immutable_asset` + index + `${index1}`}></span></a>)
+                                                                        <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
+                                                                            id={`immutable_asset` + index + `${index1}`} className="list-item-value"></p></div>)
                                                                 } else {
                                                                     return (
-                                                                        <a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
+                                                                        <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{immutableProperties[keyName]}</p></div>)
                                                                 }
                                                             })
                                                             : ""
                                                         }
-                                                        <p>{t("MUTABLES")}</p>
+                                                        <p className="sub-title">{t("MUTABLES")}</p>
                                                         {mutableKeys !== null ?
                                                             mutableKeys.map((keyName, index1) => {
                                                                 if (mutableProperties[keyName] !== "") {
                                                                     return (
-                                                                        <a key={index + keyName}><b>{keyName} </b>: <span
-                                                                            id={`mutable_asset` + index + `${index1}`}></span></a>)
+                                                                        <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
+                                                                            id={`mutable_asset` + index + `${index1}`} className="list-item-value"></p></div>)
                                                                 } else {
                                                                     return (
-                                                                        <a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
+                                                                        <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{mutableProperties[keyName]}</p></div>)
                                                                 }
                                                             })
                                                             : ""

@@ -11,7 +11,7 @@ import Copy from "../../../components/copy"
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
-const IdentityList = () => {
+const IdentityList = React.memo((props) => {
     const Helper = new Helpers();
     const {t} = useTranslation();
     const [loader, setLoader] = useState(true)
@@ -105,7 +105,7 @@ const IdentityList = () => {
                                                 onClick={() => handleModalData("UnProvision", identityId, identity)}>{t("UN_PROVISION")}</Button>
                                     </div>
                                     <div className="id-section">
-                                        <p className="id" title={identityId}>{identityId}</p>
+                                        <p className="id-string" title={identityId}>{identityId}</p>
                                         <Copy
                                         id={identityId}/>
                                     </div>
@@ -169,5 +169,6 @@ const IdentityList = () => {
             </div>
         </div>
     );
-}
+})
+
 export default IdentityList

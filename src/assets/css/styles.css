@@ -557,15 +557,20 @@ html, body, #root, .app {
       font-size: 12px;
       font-weight: 600; }
 
+.hidden {
+  display: none; }
+
+.id-string {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; }
+
 .id-section {
   display: flex;
   margin: 15px 0; }
-  .id-section .id {
-    margin: 0;
-    width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; }
+  .id-section .id-string {
+    margin: 0; }
 
 .list-item {
   display: flex;
