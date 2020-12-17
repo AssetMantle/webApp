@@ -138,15 +138,15 @@ const IdentityList = React.memo((props) => {
                                     }
                                     <p className="sub-title">{t("PROVISION_ADDRESS_LIST")}</p>
                                     {provisionedAddressList !== null && provisionedAddressList !== "" ?
-                                        provisionedAddressList.map((provisionedAddress, addressKey) => {
-                                            return (<p key={addressKey} className="provision-address address" title={provisionedAddress}>{provisionedAddress}</p>)
+                                        provisionedAddressList.map((provisionedAddress, provisionedAddressKey) => {
+                                            return (<p key={provisionedAddressKey} className="provision-address" title={provisionedAddress}>{provisionedAddress}</p>)
                                         })
                                         : <p>--</p>
                                     }
                                     <p className="sub-title">{t("UN_PROVISION_ADDRESS_LIST")}</p>
                                     {unProvisionedAddressList !== null && unProvisionedAddressList !==  "" ?
                                         unProvisionedAddressList.map((unprovisionedAddress, unprovisionedAddressKey) => {
-                                            return (<p key={unprovisionedAddressKey}  className="provision-address address" title={unprovisionedAddress}>{unprovisionedAddress}</p>)
+                                            return (<p key={unprovisionedAddressKey}  className="provision-address" title={unprovisionedAddress}>{unprovisionedAddress}</p>)
                                         })
                                         : <p>--</p>
                                     }
