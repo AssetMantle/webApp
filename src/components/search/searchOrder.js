@@ -52,7 +52,7 @@ const SearchOrder = React.memo((props) => {
                 <div className="row">
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
-                            <h4>Search Results: {props.location.data.data}</h4>
+                            <h4>Search Results : {props.location.data !== undefined ? props.location.data.data : ""}</h4>
                         </div>
                         <div className="list-container">
                             <div className="row card-deck">

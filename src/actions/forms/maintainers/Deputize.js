@@ -82,7 +82,7 @@ const Deputize = (props) => {
         setShow(false)
     };
     return (
-        <div className="accountInfo">
+        <div>
             <Modal show={show} onHide={handleClose}  centered>
             <Modal.Header closeButton>
                 {t("DEPUTIZE")}

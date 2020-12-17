@@ -51,7 +51,7 @@ const SignUp = () => {
     }
 
     return (
-        <div className="accountInfo">
+        <div>
             <Modal show={show} onHide={handleClose} className="signup-section" centered>
             <Modal.Header closeButton>
                 {t("SIGNING_UP")}
@@ -71,7 +71,7 @@ const SignUp = () => {
                         </div>
                         <Button
                             variant="primary"
-                            className="button-signup button-signup-ledger"
+                            className="button-signup button-signup-ledger disabled"
                         >
                             {t("LEDGER_STORE")}
                         </Button>

@@ -33,7 +33,7 @@ const SendCoin = (props) => {
     };
 
     return (
-        <div className="accountInfo">
+        <div>
             <Modal show={show} onHide={handleClose} centered>
             <Modal.Header closeButton>
                 {t("SEND_COIN")}

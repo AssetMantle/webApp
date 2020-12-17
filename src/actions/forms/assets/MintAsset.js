@@ -152,7 +152,7 @@ const MintAsset = (props) => {
         }
     }
     return (
-        <div className="accountInfo">
+        <div>
             <Modal show={show} onHide={handleClose} centered>
             <Modal.Header closeButton>
                 {t("MINT_ASSET")}

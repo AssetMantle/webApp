@@ -35,7 +35,7 @@ const Wrap = (props) => {
         props.setExternalComponent("");
     };
     return (
-        <div className="accountInfo">
+        <div>
 
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>

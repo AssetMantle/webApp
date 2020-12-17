@@ -32,7 +32,7 @@ const CancelOrder = (props) => {
         props.setExternalComponent("");
     };
     return (
-        <div className="accountInfo">
+        <div>
             <Modal show={show} onHide={handleClose}  centered>
             <Modal.Header closeButton>
                 {t("ORDER_CANCEL")}
@@ -45,17 +45,13 @@ const CancelOrder = (props) => {
             </div>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group>
-                        <Form.Check custom type="checkbox" label="sure"
-                                    id="confirmation"
-                                    name="name"
-                        />
-                    </Form.Group>
-                    <div className="submitButtonSection">
-                        <Button variant="primary" type="submit">
-                            {t("SUBMIT")}
-                        </Button>
-                    </div>
+                    <p>{t("ARE_YOU_SURE")}</p>
+                    <Button variant="primary" type="submit">
+                        {t("YES")}
+                    </Button>
+                    <Button variant="secondary" onClick={handleClose}>
+                        {t("NO")}
+                    </Button>
                 </Form>
             </Modal.Body>
             </Modal>
