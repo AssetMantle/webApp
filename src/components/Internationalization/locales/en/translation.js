@@ -54,7 +54,7 @@ let en = {
         "EXPIRES_IN": "Expires In",
         "TAKER_OWNABLE_AMOUNT": "Taker Ownable Amount",
         "IDENTITY": "Identitiy",
-        "ASSET": "ASSET",
+        "ASSET": "Asset",
         "ORDER": "Order",
         "DATA_TYPE": "Data Type",
         "DATA_VALUE": "Data Value",
