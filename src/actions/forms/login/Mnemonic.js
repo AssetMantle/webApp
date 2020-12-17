@@ -32,7 +32,7 @@ const LoginMnemonic = React.memo((props) => {
         props.setExternalComponent("");
     };
     return (
-        <div className="accountInfo">
+        <div>
             <Modal show={show} onHide={handleClose}  className="mnemonic-login-section login-section" centered>
             <Modal.Header closeButton>
                 {t("LOGIN_FORM")}

@@ -40,7 +40,7 @@ const Reveal = (props) => {
     };
 
     return (
-        <div className="accountInfo">
+        <div>
             <Modal show={show} onHide={handleClose} centered>
             <Modal.Header closeButton>
                 {t("META_REVEAL")}

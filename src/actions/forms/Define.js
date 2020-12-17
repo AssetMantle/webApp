@@ -31,6 +31,7 @@ const Define = (props) => {
     }
     const handleClose = () => {
         setShow(false)
+        props.setExternalComponent("");
     };
     const handleChangeType = evt => {
         setTypeOption(evt.target.value);
@@ -160,7 +161,7 @@ const Define = (props) => {
         setImmutableMetaProperties(immutableMetaProperties => immutableMetaProperties.filter((s, sidx) => idx !== sidx));
     }
     return (
-        <div className="accountInfo">
+        <div>
             <Modal show={show} onHide={handleClose}  centered>
             <Modal.Header closeButton>
                 {props.FormName}

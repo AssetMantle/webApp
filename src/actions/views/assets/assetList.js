@@ -10,6 +10,7 @@ import AssetDefineJS from "persistencejs/transaction/assets/define";
 import {MakeOrder} from "../../forms/orders";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
+import Copy from "../../../components/copy";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -119,14 +120,32 @@ const AssetList = React.memo((props) => {
                         return (
                             <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
-                                    <div className="list-item">
-                                        <p className="list-item-label">{t("OWNABLE_ID")}</p>
-                                        <p className="list-item-value id-string" title={ownableId}>{ownableId}</p>
-                                    </div>
+                                    {ownableId !== "stake" ?
+                                        <div className="list-item">
+                                            <p className="list-item-label">{t("OWNABLE_ID")}</p>
+                                            <div className="list-item-value id-section">
+                                                <p className="id-string" title={ownableId}>: {ownableId}</p>
+                                                <Copy
+                                                    id={ownableId}/>
+                                            </div>
+                                        </div>
+                                        :
+                                        <div className="list-item">
+                                            <p className="list-item-label">{t("OWNABLE_ID")}</p>
+                                            <p className="list-item-value" title={ownableId}>{ownableId}</p>
+                                        </div>
+
+                                    }
+
                                     <div className="list-item">
                                         <p className="list-item-label">{t("OWNER_ID")}</p>
-                                        <p className="list-item-value id-string" title={ownerId}>{ownerId}</p>
+                                        <div className="list-item-value id-section">
+                                            <p className="id-string" title={ownerId}>: {ownerId}</p>
+                                            <Copy
+                                                id={ownerId}/>
+                                        </div>
                                     </div>
+
                                     <div className="list-item">
                                         <p className="list-item-label">{t("STAKE")}</p>
                                         <p className="list-item-value id-string" title={stake}>{stake}</p>

@@ -35,7 +35,7 @@ const Nub = (props) => {
     };
 
     return (
-        <div className="accountInfo">
+        <div>
 
             <Modal
                 show={showIdentity}

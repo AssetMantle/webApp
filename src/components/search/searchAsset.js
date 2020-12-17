@@ -20,12 +20,10 @@ const SearchAsset = React.memo((props) => {
                 const parsedAsset = JSON.parse(Asset);
                 if (parsedAsset.result.value.assets.value.list !== null) {
                     const assetItems = parsedAsset.result.value.assets.value.list
-                    console.log(assetItems, "properties")
                     setAssetList(assetItems);
                     assetItems.map((asset, index) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
-                        console.log(asset, "asset")
                         if (asset.value.immutables.value.properties.value.propertyList !== null) {
                             immutableProperties = Helper.ParseProperties(asset.value.immutables.value.properties.value.propertyList);
                         }
@@ -49,7 +47,7 @@ const SearchAsset = React.memo((props) => {
                 <div className="row">
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
-                            <h4>Search Results: {props.location.data.data}</h4>
+                            <h4>Search Results : {props.location.data !== undefined ? props.location.data.data : ""}</h4>
 
                         </div>
 

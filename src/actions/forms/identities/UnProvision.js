@@ -45,7 +45,7 @@ const UnProvision = (props) => {
         setSelectedAddress(evt.target.value);
     };
     return (
-        <div className="accountInfo">
+        <div>
             <Modal show={show} onHide={handleClose} centered>
             <Modal.Header closeButton>
                 {t("UN_PROVISION")}

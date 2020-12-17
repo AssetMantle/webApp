@@ -4,7 +4,6 @@ import Helpers from "../../utilities/Helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../sidebar/sidebar";
-
 import {Summary} from "../summary";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
 import {Button} from "react-bootstrap";
@@ -52,7 +51,7 @@ const SearchIdentity = React.memo((props) => {
                 <div className="row">
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
-                            <h4>Search Results : {props.location.data.data}</h4>
+                            <h4>Search Results : {props.location.data !== undefined ? props.location.data.data : ""}</h4>
                         </div>
                         <div className="list-container">
                             <div className="row card-deck">
