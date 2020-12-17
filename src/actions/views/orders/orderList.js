@@ -98,7 +98,7 @@ const OrderList = React.memo((props) => {
                                 <div className="card">
                                     <div>
                                         <Button variant="secondary" size="sm"
-                                                onClick={() => handleModalData("CancelOrder", order)}>> {t("CANCEL")}</Button>
+                                                onClick={() => handleModalData("CancelOrder", order)}>{t("CANCEL")}</Button>
                                     </div>
                                     <div className="list-item">
                                         <p className="list-item-label">{t("ORDER_ID")}</p>
