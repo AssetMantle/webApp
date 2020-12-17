@@ -7,7 +7,9 @@ import {Deputize} from "../../forms/maintainers";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
 import Copy from "../../../components/copy";
+import metasQueryJS from "persistencejs/transaction/meta/query";
 
+const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const maintainersQuery = new maintainersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
@@ -34,7 +36,21 @@ const MaintainerList = React.memo((props) => {
                         const maintainersDataList = parsedMaintainersData.result.value.maintainers.value.list;
                         if (maintainersDataList) {
                             const filterMaintainersByIdentity = Helper.FilterMaintainersByIdentity(filterIdentities, maintainersDataList)
-                            setMaintainersList(filterMaintainersByIdentity);
+                            console.log(filterMaintainersByIdentity, "horse")
+                            if (filterMaintainersByIdentity.length) {
+                                setMaintainersList(filterMaintainersByIdentity);
+                                filterMaintainersByIdentity.map((identity, index) => {
+                                    let maintainedTraits = "";
+                                    if (identity.value.maintainedTraits.value.properties.value.propertyList !== null) {
+                                        maintainedTraits = Helper.ParseProperties(identity.value.maintainedTraits.value.properties.value.propertyList);
+                                    }
+                                    let maintainedTraitsKeys = Object.keys(maintainedTraits);
+                                    Helper.AssignMetaValue(maintainedTraitsKeys, maintainedTraits, metasQuery, 'maintainedTraits', index);
+                                    setLoader(false)
+                                })
+                            } else {
+                                setLoader(false)
+                            }
                             setLoader(false)
                         }
                     })
@@ -60,7 +76,10 @@ const MaintainerList = React.memo((props) => {
             <div className="row card-deck">
                 {maintainersList.length ?
                     maintainersList.map((maintainer, index) => {
-                        const maintainerPropertyList = Helper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList)
+                        let maintainerPropertyList = "";
+                        if (maintainer.value.maintainedTraits.value.properties.value.propertyList !== null) {
+                            maintainerPropertyList = Helper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList);
+                        }
                         let keys = Object.keys(maintainerPropertyList);
                         let id = maintainer.value.id.value.classificationID.value.idString+"*"+maintainer.value.id.value.identityID.value.idString
                         return (
@@ -80,12 +99,17 @@ const MaintainerList = React.memo((props) => {
                                                 id={id}/>
                                         </div>
                                     </div>
-                                    {
-                                        keys.map((keyName) => {
-                                            return (
-                                                <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value id-string" title={maintainerPropertyList[keyName]}>{maintainerPropertyList[keyName]}</p></div>
-                                                )
+                                    {keys !== null ?
+                                        keys.map((keyName, index1) => {
+                                            if (maintainerPropertyList[keyName] !== "") {
+                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
+                                                    id={`maintainedTraits` + index + `${index1}`} className="list-item-value"></p></div>)
+                                            } else {
+                                                return (
+                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{maintainerPropertyList[keyName]}</p></div>)
+                                            }
                                         })
+                                        : ""
                                     }
                                 </div>
                             </div>
