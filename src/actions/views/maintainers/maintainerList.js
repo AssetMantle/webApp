@@ -36,7 +36,6 @@ const MaintainerList = React.memo((props) => {
                         const maintainersDataList = parsedMaintainersData.result.value.maintainers.value.list;
                         if (maintainersDataList) {
                             const filterMaintainersByIdentity = Helper.FilterMaintainersByIdentity(filterIdentities, maintainersDataList)
-                            console.log(filterMaintainersByIdentity, "horse")
                             if (filterMaintainersByIdentity.length) {
                                 setMaintainersList(filterMaintainersByIdentity);
                                 filterMaintainersByIdentity.map((identity, index) => {
