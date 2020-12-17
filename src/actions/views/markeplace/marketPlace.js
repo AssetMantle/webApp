@@ -13,7 +13,7 @@ const MarketPlace = () => {
                 <div className="row">
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
-                            <h4>Marketplace</h4>
+                            <h4>{t("MARKET_PLACE")}</h4>
                         </div>
                         <TotalOrders/>
                     </div>

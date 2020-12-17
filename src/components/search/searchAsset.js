@@ -14,31 +14,32 @@ const SearchAsset = React.memo((props) => {
     const {t} = useTranslation();
     const [assetList, setAssetList] = useState([]);
     useEffect(()=>{
-            const filterAssetList = assetsQuery.queryAssetWithID(props.location.data);
+        if(props.location.data !== undefined) {
+            const filterAssetList = assetsQuery.queryAssetWithID(props.location.data.data);
             filterAssetList.then(function (Asset) {
                 const parsedAsset = JSON.parse(Asset);
                 if (parsedAsset.result.value.assets.value.list !== null) {
                     const assetItems = parsedAsset.result.value.assets.value.list
                     console.log(assetItems, "properties")
-                        setAssetList(assetItems);
-                        assetItems.map((asset, index) => {
-                            let immutableProperties = "";
-                            let mutableProperties = "";
-                            console.log(asset, "asset")
-                            if (asset.value.immutables.value.properties.value.propertyList !== null) {
-                                immutableProperties = Helper.ParseProperties(asset.value.immutables.value.properties.value.propertyList);
-                            }
-                            if (asset.value.mutables.value.properties.value.propertyList !== null) {
-                                mutableProperties = Helper.ParseProperties(asset.value.mutables.value.properties.value.propertyList)
-                            }
-                            let immutableKeys = Object.keys(immutableProperties);
-                            let mutableKeys = Object.keys(mutableProperties);
-                            Helper.AssignSearchMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset_search' , index);
-                            Helper.AssignSearchMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset_search', index);
-                        })
+                    setAssetList(assetItems);
+                    assetItems.map((asset, index) => {
+                        let immutableProperties = "";
+                        let mutableProperties = "";
+                        console.log(asset, "asset")
+                        if (asset.value.immutables.value.properties.value.propertyList !== null) {
+                            immutableProperties = Helper.ParseProperties(asset.value.immutables.value.properties.value.propertyList);
+                        }
+                        if (asset.value.mutables.value.properties.value.propertyList !== null) {
+                            mutableProperties = Helper.ParseProperties(asset.value.mutables.value.properties.value.propertyList)
+                        }
+                        let immutableKeys = Object.keys(immutableProperties);
+                        let mutableKeys = Object.keys(mutableProperties);
+                        Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset_search', index);
+                        Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset_search', index);
+                    })
                 }
             })
-
+        }
     },[])
 
     return (
@@ -48,7 +49,7 @@ const SearchAsset = React.memo((props) => {
                 <div className="row">
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
-                            <h4>Search Results</h4>
+                            <h4>Search Results: {props.location.data.data}</h4>
 
                         </div>
 
@@ -78,7 +79,7 @@ const SearchAsset = React.memo((props) => {
                                                             if (immutableProperties[keyName] !== "") {
                                                                 return (
                                                                     <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
-                                                                        id={`immutable_asset_search`+ index1 + index} className="list-item-value"></p></div>)
+                                                                        id={`immutable_asset_search`+ index + index1} className="list-item-value"></p></div>)
                                                             } else {
                                                                 return (
                                                                     <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{immutableProperties[keyName]}</p></div>)
@@ -92,7 +93,7 @@ const SearchAsset = React.memo((props) => {
                                                             if (mutableProperties[keyName] !== "") {
                                                                 return (
                                                                     <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
-                                                                        id={`mutable_asset_search`+index1+index} className="list-item-value"></p></div>)
+                                                                        id={`mutable_asset_search`+index+index1} className="list-item-value"></p></div>)
                                                             } else {
                                                                 return (
                                                                     <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{mutableProperties[keyName]}</p></div>)

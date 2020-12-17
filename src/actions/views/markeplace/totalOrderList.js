@@ -6,11 +6,12 @@ import {TakeOrder} from "../../forms/orders";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
+import Copy from "../../../components/copy";
 
 const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
-const TotalOrders = () => {
+const TotalOrders = React.memo((props) => {
     const Helper = new Helpers();
     const {t} = useTranslation();
     const [loader, setLoader] = useState(true)
@@ -80,19 +81,26 @@ const TotalOrders = () => {
                             <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
                                     <div>
-                                        <Button variant="secondary"
+                                        <Button variant="secondary" size="sm"
                                                 onClick={() => handleModalData("TakeOrder", orderIdData)}>{t("TAKE")}</Button>
                                     </div>
-                                    <a href="#" className="word-break">{orderIdData}</a>
+                                    <div className="list-item">
+                                        <p className="list-item-label">{t("ORDER_ID")}</p>
+                                        <div className="list-item-value id-section">
+                                            <p className="id-string" title={orderIdData}>: {orderIdData}</p>
+                                            <Copy
+                                                id={orderIdData}/>
+                                        </div>
+                                    </div>
                                     <p>{t("IMMUTABLES")}</p>
                                     {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
-                                                return (<a key={index + keyName}><b>{keyName} </b>: <span
-                                                    id={`immutable_order_market` + index + `${index1}`}></span></a>)
+                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
+                                                    id={`immutable_order_market` + index + `${index1}`} className="list-item-value"></p></div>)
                                             } else {
                                                 return (
-                                                    <a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
+                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{immutableProperties[keyName]}</p></div>)
                                             }
                                         })
                                         : ""
@@ -103,11 +111,11 @@ const TotalOrders = () => {
                                     {mutableKeys !== null ?
                                         mutableKeys.map((keyName, index1) => {
                                             if (mutableProperties[keyName] !== "") {
-                                                return (<a key={index + keyName}><b>{keyName} </b>: <span
-                                                    id={`mutable_order_market` + index + `${index1}`}></span></a>)
+                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
+                                                    id={`mutable_order_market` + index + `${index1}`} className="list-item-value"></p></div>)
                                             } else {
                                                 return (
-                                                    <a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
+                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-ite-hash-value">{mutableProperties[keyName]}</p></div>)
                                             }
                                         })
                                         : ""
@@ -128,6 +136,6 @@ const TotalOrders = () => {
             </div>
         </div>
     );
-};
+});
 
 export default TotalOrders;

@@ -14,7 +14,7 @@ const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE
 const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 
-const OrderList = () => {
+const OrderList = React.memo((props) => {
     const Helper = new Helpers();
     const {t} = useTranslation();
     const [loader, setLoader] = useState(true)
@@ -97,8 +97,8 @@ const OrderList = () => {
                             <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
                                     <div>
-                                        <Button variant="secondary"
-                                                onClick={() => handleModalData("CancelOrder", order)}>Cancel</Button>
+                                        <Button variant="secondary" size="sm"
+                                                onClick={() => handleModalData("CancelOrder", order)}>{t("CANCEL")}</Button>
                                     </div>
                                     <div className="list-item">
                                         <p className="list-item-label">{t("ORDER_ID")}</p>
@@ -153,6 +153,6 @@ const OrderList = () => {
             </div>
         </div>
     );
-};
+})
 
 export default OrderList;

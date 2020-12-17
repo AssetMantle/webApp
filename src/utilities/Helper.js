@@ -280,30 +280,6 @@ export default class Helper {
         }
     }
 
-    AssignSearchMetaValue(keys, properties, metasQuery, idPrefix, index) {
-        let $this = this
-
-        keys.map((keyName, index1) => {
-            if (properties[keyName] !== "") {
-                const metaQueryResult = metasQuery.queryMetaWithID(properties[keyName]);
-
-                metaQueryResult.then(function (item) {
-                    const data = JSON.parse(item);
-                    let myElement = "";
-                    let metaValue = $this.FetchMetaValue(data, properties[keyName])
-                    myElement = <span>{metaValue}</span>;
-                    var element = document.getElementById(idPrefix + index1 +index)
-                    if (typeof (element) != 'undefined' && element != null) {
-
-                        ReactDOM.render(myElement, document.getElementById(idPrefix + index1 +index));
-                    } else {
-                        console.log('Element does not exist!', idPrefix + index1 +index);
-                    }
-                });
-            }
-        })
-    }
-
     AssignMetaValue(keys, properties, metasQuery, idPrefix, index) {
         let $this = this
         keys.map((keyName, index1) => {
@@ -314,11 +290,11 @@ export default class Helper {
                     let myElement = "";
                     let metaValue = $this.FetchMetaValue(data, properties[keyName])
                     myElement = <span>{metaValue}</span>;
-                    var element = document.getElementById(idPrefix + index + `${index1}`)
+                    var element = document.getElementById(idPrefix + index + index1)
                     if (typeof (element) != 'undefined' && element != null) {
-                        ReactDOM.render(myElement, document.getElementById(idPrefix + index + `${index1}`));
+                        ReactDOM.render(myElement, document.getElementById(idPrefix + index + index1));
                     } else {
-                        console.log('Element does not exist!', idPrefix + index + `${index1}`);
+                        console.log('Element does not exist!', idPrefix + index + index1);
                     }
                 });
             }

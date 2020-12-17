@@ -6,11 +6,12 @@ import {Button, Modal} from "react-bootstrap";
 import {Deputize} from "../../forms/maintainers";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
+import Copy from "../../../components/copy";
 
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const maintainersQuery = new maintainersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
-const MaintainerList = () => {
+const MaintainerList = React.memo((props) => {
     const Helper = new Helpers();
     const {t} = useTranslation();
     const [loader, setLoader] = useState(true)
@@ -61,21 +62,29 @@ const MaintainerList = () => {
                     maintainersList.map((maintainer, index) => {
                         const maintainerPropertyList = Helper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList)
                         let keys = Object.keys(maintainerPropertyList);
+                        let id = maintainer.value.id.value.classificationID.value.idString+"*"+maintainer.value.id.value.identityID.value.idString
                         return (
                             <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
-                                <div className="card">
+                                <div className="card height-medium">
                                     {(maintainer.value.addMaintainer) ?
                                         <div>
-                                            <Button
+                                            <Button size="sm" variant="secondary"
                                                 onClick={() => handleModalData('BurnAsset', maintainer)}>Deputize</Button>
                                         </div> : ""
                                     }
-                                    <a href="#" key={index}
-                                       className="word-break">{maintainer.value.id.value.classificationID.value.idString}*{maintainer.value.id.value.identityID.value.idString}</a>
+                                    <div className="list-item">
+                                        <p className="list-item-label">{t("ID")}</p>
+                                        <div className="list-item-value id-section">
+                                            <p className="id-string" title={id}>: {id}</p>
+                                            <Copy
+                                                id={id}/>
+                                        </div>
+                                    </div>
                                     {
                                         keys.map((keyName) => {
                                             return (
-                                                <a key={index + keyName}>{keyName} {maintainerPropertyList[keyName]}</a>)
+                                                <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value id-string" title={maintainerPropertyList[keyName]}>{maintainerPropertyList[keyName]}</p></div>
+                                                )
                                         })
                                     }
                                 </div>
@@ -94,6 +103,6 @@ const MaintainerList = () => {
             </div>
         </div>
     );
-};
+})
 
 export default MaintainerList;

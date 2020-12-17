@@ -8,7 +8,6 @@ import ordersQueryJS from "persistencejs/transaction/orders/query";
 import { Redirect } from "react-router-dom";
 import {InputGroup, FormControl} from "react-bootstrap";
 
-import {getIdentitiesURL} from "../../utilities/url"
 
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -42,6 +41,12 @@ const Search = () => {
     if(redirect) {
         if (window.location.pathname === "/assets") {
             return <Redirect to={{pathname: '/SearchAsset',  data: {data} }}/>
+        }else if (window.location.pathname === "/identities") {
+            return <Redirect to={{pathname: '/SearchIdentity',  data: {data} }}/>
+        }else if (window.location.pathname === "/orders" || window.location.pathname === "/marketplace") {
+            return <Redirect to={{pathname: '/SearchOrder',  data: {data} }}/>
+        }else if (window.location.pathname === "/maintainers") {
+            return <Redirect to={{pathname: '/SearchMaintainer',  data: {data} }}/>
         }
         setRedirect(false);
     }

@@ -6,7 +6,7 @@ import {useTranslation} from "react-i18next";
 import MnemonicIcon from "../../../assets/images/MnemonicIcon.svg";
 import arrowRightIcon from "../../../assets/images/arrowRightIcon.svg";
 
-const LoginMnemonic = (props) => {
+const LoginMnemonic = React.memo((props) => {
     const history = useHistory();
     const [show, setShow] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
@@ -68,5 +68,5 @@ const LoginMnemonic = (props) => {
             </Modal>
         </div>
     );
-}
+})
 export default LoginMnemonic
