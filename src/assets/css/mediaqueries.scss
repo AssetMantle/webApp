@@ -5,13 +5,11 @@
 //    max-width: 40%;
 //}
 //}
-//@media (min-width: 768px){
-//.col-md-6 {
-//    -ms-flex: 0 0 50%;
-//    flex: 0 0 40%;
-//    max-width: 40%;
-//}
-//}
+@media (min-width: 769px){
+    .provision-address.address{
+        max-width: initial;
+    }
+}
 @media (max-width: 420px){
     .footer{
         bottom: initial;
@@ -21,7 +19,16 @@
             font-size: 30px;
         }
     }
+    .list-item .list-item-label{
+        width: 80px;
+        margin-right: 10px;
+    }
+    .id-string {
+        width: 100px;
+    }
+
 }
+
 @media (max-width: 768px){
     .banner-image-section {
         display: none !important;
@@ -62,6 +69,17 @@
     .homeSection .appInfoBox {
         padding: 50px 0;
     }
+    .side-bar{
+        position: fixed;
+        overflow-y: auto;
+        top: 60px;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+    .accountInfo{
+        margin-left: 50px;
+    }
 
 }
 @media (max-width: 991px){
@@ -97,7 +115,7 @@
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 1;
+        z-index: 2;
         right: 0;
         width: 100%;
     }
@@ -146,5 +164,11 @@
     .banner-image-section img{
         margin-right: -30px;
         width: 350px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .search-section{
+        margin-left:180px;
     }
 }

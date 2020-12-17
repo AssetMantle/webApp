@@ -16,7 +16,7 @@ const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE
 const assetsQuery = new assetsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const splitsQuery = new splitsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
-const AssetList = () => {
+const AssetList = React.memo((props) => {
     const Helper = new Helpers();
     const {t} = useTranslation();
     const [externalComponent, setExternalComponent] = useState("");
@@ -133,16 +133,15 @@ const AssetList = () => {
                                         <p className="list-item-value id-string" title={stake}>{stake}</p>
                                     </div>
 
-                                    <div>
-                                        <Button variant="secondary"
+                                    <div className="button-group">
+                                        <Button variant="secondary"  size="sm"
                                                 onClick={() => handleModalData("MakeOrder", "", "", ownableID)}>{t("MAKE")}</Button>
-                                        <Button variant="secondary"
+                                        <Button variant="secondary"  size="sm"
                                                 onClick={() => handleModalData("SendSplit", "", "", ownerId, ownableID) }>{t("SEND_SPLITS")}</Button>
                                     </div>
                                     {
                                         assetList.map((asset, assetIndex) => {
                                             const assetItemId = Helper.GetAssetID(asset.result.value.assets.value.list[0]);
-                                            // console.log(assetItemId,"assetId")
                                             if (ownableID === assetItemId) {
                                                 let immutableProperties = "";
                                                 let mutableProperties = "";
@@ -157,10 +156,10 @@ const AssetList = () => {
                                                 return (
                                                     <div key={assetIndex}>
                                                         <div>
-                                                            <Button variant="secondary"
+                                                            <Button variant="secondary"  size="sm"
                                                                     onClick={() => handleModalData("MutateAsset", mutableProperties, asset)}>{t("MUTATE_ASSET")}
                                                             </Button>
-                                                            <Button variant="secondary"
+                                                            <Button variant="secondary"  size="sm"
                                                                     onClick={() => handleModalData("BurnAsset", "", asset, ownerId)}>{t("BURN_ASSET")}
                                                             </Button>
 
@@ -230,6 +229,6 @@ const AssetList = () => {
             </div>
         </div>
     );
-};
+});
 
 export default AssetList;

@@ -50,9 +50,10 @@ const Login = () => {
                         </div>
                     </div>
                     <div className="mrt-10">
-                        <div className="button-view"
-                             onClick={() => handleRoute("Ledger")}
-                             disabled >
+                        <div className="button-view disabled"
+                             // onClick={() => handleRoute("Ledger")}
+                            title="To be implemented"
+                        >
                             <div className="icon-section">
                                 <div className="icon"><img src={LedgerIcon} alt="LedgerIcon"/> </div>
                                 {t("LEDGER_LOGIN")}

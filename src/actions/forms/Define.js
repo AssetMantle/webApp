@@ -286,11 +286,11 @@ const Define = (props) => {
                             />
                             <InputField
                                 type="text"
-                                className=""
+                                className="hidden"
                                 name="MutabletakerID"
                                 required={true}
                                 placeholder="takerID"
-                                label="takerID:I|"
+                                label="takerID:I|asdf"
                                 value={-1}
                                 disabled={true}
                             />
@@ -337,11 +337,11 @@ const Define = (props) => {
                             <Form.Text id={`Mutable${idx}`} className="text-muted none">
                                 {t("DATA_TYPE_ERROR")}
                             </Form.Text>
-                            <button type="button" onClick={handleRemoveMutableProperties(idx)} className="small">-
-                            </button>
+                            <Button variant="warning" type="button" size="sm" onClick={handleRemoveMutableProperties(idx)} className="small button-define">remove
+                            </Button>
                         </div>
                     ))}
-                    <button type="button" onClick={handleMutableProperties} className="small">Add Mutable</button>
+                    <Button type="button" variant="secondary" size="sm" onClick={handleMutableProperties} className="small button-define">Add Mutable</Button>
                     {mutableMetaProperties.map((mutableMetaProperty, idx) => (
                         <div key={idx}>
                             <Form.Group controlId="exampleForm.ControlSelect1">
@@ -379,12 +379,12 @@ const Define = (props) => {
                             <Form.Text id={`MutableMeta${idx}`} className="text-muted none">
                                 {t("DATA_TYPE_ERROR")}
                             </Form.Text>
-                            <button type="button" onClick={handleRemoveMutableMetaProperties(idx)} className="small">-
-                            </button>
+                            <Button variant="warning" type="button" size="sm" onClick={handleRemoveMutableMetaProperties(idx)} className="small button-define">remove
+                            </Button>
                         </div>
                     ))}
-                    <button type="button" onClick={handleMutableMetaProperties} className="small">Add mutable Meta
-                    </button>
+                    <Button type="button" variant="secondary" size="sm" onClick={handleMutableMetaProperties} className="small button-define">Add mutable Meta
+                    </Button>
                     {immutableProperties.map((immutableProperty, idx) => (
                         <div key={idx}>
                             <Form.Group controlId="exampleForm.ControlSelect1">
@@ -421,11 +421,11 @@ const Define = (props) => {
                             <Form.Text id={`Immutable${idx}`} className="text-muted none">
                                 {t("DATA_TYPE_ERROR")}
                             </Form.Text>
-                            <button type="button" onClick={handleRemoveImmutableProperties(idx)} className="small">-
-                            </button>
+                            <Button type="button" variant="warning" size="sm" onClick={handleRemoveImmutableProperties(idx)} className="small button-define">remove
+                            </Button>
                         </div>
                     ))}
-                    <button type="button" onClick={handleImmutableProperties} className="small">Add Immutable</button>
+                    <Button type="button" variant="secondary" size="sm" onClick={handleImmutableProperties} className="small button-define">Add Immutable</Button>
                     {immutableMetaProperties.map((immutableMetaProperty, idx) => (
                         <div key={idx}>
                             <Form.Group controlId="exampleForm.ControlSelect1">
@@ -463,13 +463,13 @@ const Define = (props) => {
                             <Form.Text id={`ImmutableMeta${idx}`} className="text-muted none">
                                 {t("DATA_TYPE_ERROR")}
                             </Form.Text>
-                            <button type="button" onClick={handleRemoveImmutableMetaProperties(idx)}
-                                    className="small">-
-                            </button>
+                            <Button variant="warning" type="button" size="sm" onClick={handleRemoveImmutableMetaProperties(idx)}
+                                    className="small button-define">remove
+                            </Button>
                         </div>
                     ))}
-                    <button type="button" onClick={handleImmutableMetaProperties} className="small">Add Immutable Meta
-                    </button>
+                    <Button type="button" variant="secondary" size="sm" onClick={handleImmutableMetaProperties} className="small button-define">Add Immutable Meta
+                    </Button>
                     {errorMessage !== "" ?
                         <p className="error-response">{errorMessage}</p>
                         : ""

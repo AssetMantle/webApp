@@ -25,10 +25,8 @@ const SignUp = () => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        setShowEncrypt(true)
-        setShowDownload(true)
         const password = document.getElementById("password").value
-        const error = keyUtils.createRandomWallet(password)
+        const error = keyUtils.createRandomWallet()
         if (error.error != null) {
             return (<div>ERROR!!</div>)
         }
@@ -38,10 +36,12 @@ const SignUp = () => {
             return (<div>ERROR!!</div>)
         }
         const jsonContent = JSON.stringify(create.Response);
-        setJsonName(jsonContent)
-        setMnemonic(error.mnemonic)
         localStorage.setItem("address", error.address)
         localStorage.setItem("mnemonic", error.mnemonic)
+        setJsonName(jsonContent)
+        setMnemonic(error.mnemonic)
+        setShowEncrypt(true)
+        setShowDownload(true)
     }
 
     const handleEncrypt = (name) => {

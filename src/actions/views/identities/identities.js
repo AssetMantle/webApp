@@ -31,7 +31,7 @@ const Identities = () => {
                         <div className="dropdown-section">
                             <h4>Identities</h4>
                             <Dropdown>
-                                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                <Dropdown.Toggle  id="dropdown-basic">
                                     {t("ACTIONS")}
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>

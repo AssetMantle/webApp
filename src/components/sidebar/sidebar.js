@@ -7,11 +7,12 @@ import {getFaucet} from "../../constants/url";
 import axios from "axios";
 import {Reveal} from "../../actions/forms/metas";
 import {SendCoin} from "../../actions/forms/bank";
+import Loader from "../loader";
 
 const Sidebar = () => {
     const {t} = useTranslation();
     const userAddress = localStorage.getItem('address');
-    const [loader, setLoader] = useState(true)
+    const [loader, setLoader] = useState(false)
     const url = getFaucet(userAddress);
     const [externalComponent, setExternalComponent] = useState("");
     const [accountResponse, setAccountResponse] = useState("");
@@ -46,10 +47,15 @@ const Sidebar = () => {
         setHideSideNav(!hideSideNav)
     }
 
-    return (<div className={hideSideNav ? "side-bar active" : "side-bar"}>
+    return (
+        <div className={hideSideNav ? "side-bar active" : "side-bar"}>
             <div className="content">
+                {loader ?
+                    <Loader/>
+                    : ""
+                }
                 <div className="header-section">
-                    <p>My Account</p>
+                    <p>{t("MY_ACCOUNT")}</p>
                     <img src={sidebarIcon} alt="sidebarIcon" onClick={toggleClass}/>
                 </div>
                 <div className="sidebar-buttons">
@@ -60,11 +66,6 @@ const Sidebar = () => {
                         : ""
                     }
                 </div>
-                {(accountResponse.coins !== undefined && accountResponse.coins.length) ?
-                    <p>Amount: {accountResponse.coins[0].amount}
-                    </p>
-                    : "Amount: 0"
-                }
             </div>
             <Footer/>
             {externalComponent === 'Reveal' ?

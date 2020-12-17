@@ -7,12 +7,15 @@ import {Search} from "../../components/search";
 import {NavLink} from 'react-router-dom';
 import logo from '../../assets/images/logo.svg'
 import profileIcon from "../../assets/images/profile.svg"
+import Footer from "../Footer";
 
 const HeaderAfterLogin = () => {
     const history = useHistory();
     const {t} = useTranslation();
     const userTypeToken = localStorage.getItem('mnemonic');
     const userAddress = localStorage.getItem('address');
+    console.log(userTypeToken, "mnemonic")
+    console.log(userAddress, "userAddress")
     const handleRoute = route => () => {
         history.push(route)
     };
@@ -24,8 +27,12 @@ const HeaderAfterLogin = () => {
         localStorage.clear();
         history.push('/');
     }
+
     useEffect(() => {
         const userAddress = localStorage.getItem('address');
+        if(userTypeToken !== null  && window.location.pathname === "/"){
+            history.push('/assets');
+        }
         if (userAddress === null) {
             history.push('/Login');
         }
@@ -33,12 +40,12 @@ const HeaderAfterLogin = () => {
     return (
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="login-after">
-                <Navbar.Brand><Nav.Link onClick={handleRoute("/")}>
+                <Navbar.Brand><Nav.Link onClick={handleRoute("/assets")}>
                     <img src={logo} alt="logo"/>
                 </Nav.Link></Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                 <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="search-section ml-auto mr-auto">
+                    <Nav className="search-section mr-auto">
                         <Search/>
                     </Nav>
 
@@ -55,10 +62,8 @@ const HeaderAfterLogin = () => {
                             :
                             <Nav className="nav-items">
                                 <NavLink className="nav-link" to="/assets">{t("ASSETS")}</NavLink>
-                                <NavLink className="nav-link" to="/identities">{t("IDENTITIES")}</NavLink>
                                 <NavLink className="nav-link" to="/orders">{t("ORDERS")}</NavLink>
-                                <NavLink className="nav-link" to="/maintainers">{t("MAINTAINERS")}</NavLink>
-                                <NavLink className="nav-link" to="/marketplace">{t("MARKET_PLACE")}</NavLink>
+                                <NavLink className="nav-link" to="/identities">{t("IDENTITIES")}</NavLink>
                                 <NavDropdown title={
                                     <div className="profile-icon">
                                         <p className="address">{userAddress}</p>
@@ -72,6 +77,9 @@ const HeaderAfterLogin = () => {
                                 }
 
                                              id="basic-nav-dropdown">
+                                    <NavLink className="dropdown-item" to="/marketplace">{t("MARKET_PLACE")}</NavLink>
+                                    <NavLink className="dropdown-item" to="/maintainers">{t("MAINTAINERS")}</NavLink>
+                                    <NavLink className="dropdown-item" to="/Profile">{t("PROFILE")}</NavLink>
                                     <NavDropdown.Item onClick={logout("/")}>{t("LOGOUT")}</NavDropdown.Item>
                                 </NavDropdown>
 

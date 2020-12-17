@@ -26,8 +26,8 @@ const Assets = () => {
                         <div className="dropdown-section">
                             <h4>Assets</h4>
                             <Dropdown>
-                                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                    Actions
+                                <Dropdown.Toggle  id="dropdown-basic">
+                                    {t("ACTIONS")}
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                     <Dropdown.Item onClick={() => handleModalData("DefineAsset")}>{t("DEFINE_ASSET")}

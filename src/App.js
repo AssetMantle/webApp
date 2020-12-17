@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {Route, Switch, withRouter} from "react-router-dom";
 import {Login} from "./actions";
 import {SignUp} from "./actions/forms";
-import {HomePage, RouteNotFound, ActionsSwitcher} from "./components";
+import {HomePage, RouteNotFound,  Profile} from "./components";
 import HeaderAfterLogin from "./components/Headers/HeaderAfterLogin";
 import HeaderBeforeLogin from "./components/Headers/HeaderBeforeLogin";
 import offline from "./assets/images/offline.svg";
@@ -11,7 +11,7 @@ import Footer from "./components/Footer"
 import {useTranslation} from "react-i18next";
 import './assets/css/styles.css'
 import './assets/css/mediaqueries.css'
-import SearchAsset from "./components/search/searchAsset";
+import {SearchAsset, SearchIdentity, SearchOrder, SearchMaintainer} from "./components/search";
 
 const App = () => {
     const {t} = useTranslation();
@@ -43,6 +43,18 @@ const App = () => {
     }, {
         path: '/SearchAsset',
         component: SearchAsset,
+    }, {
+        path: '/SearchIdentity',
+        component: SearchIdentity,
+    }, {
+        path: '/Profile',
+        component: Profile,
+    }, {
+        path: '/SearchOrder',
+        component: SearchOrder,
+    }, {
+        path: '/SearchMaintainer',
+        component: SearchMaintainer,
     }];
 
     const [isOnline, setNetwork] = useState(window.navigator.onLine);

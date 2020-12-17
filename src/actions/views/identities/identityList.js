@@ -99,9 +99,9 @@ const IdentityList = React.memo((props) => {
                             <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
                                     <div>
-                                        <Button variant="secondary"
+                                        <Button variant="secondary" size="sm"
                                                 onClick={() => handleModalData("Provision", identityId)}>{t("PROVISION")}</Button>
-                                        <Button variant="secondary"
+                                        <Button variant="secondary" size="sm"
                                                 onClick={() => handleModalData("UnProvision", identityId, identity)}>{t("UN_PROVISION")}</Button>
                                     </div>
                                     <div className="id-section">
@@ -136,19 +136,19 @@ const IdentityList = React.memo((props) => {
                                         })
                                         : ""
                                     }
-                                    <p className="sub-title">provisionedAddressList</p>
-                                    {provisionedAddressList !== null ?
+                                    <p className="sub-title">{t("PROVISION_ADDRESS_LIST")}</p>
+                                    {provisionedAddressList !== null && provisionedAddressList !== "" ?
                                         provisionedAddressList.map((provisionedAddress, addressKey) => {
-                                            return (<p key={addressKey}>{provisionedAddress}</p>)
+                                            return (<p key={addressKey} className="provision-address address" title={provisionedAddress}>{provisionedAddress}</p>)
                                         })
-                                        : <p>Empty</p>
+                                        : <p>--</p>
                                     }
-                                    <p className="sub-title">UnProvisionedAddressList</p>
-                                    {unProvisionedAddressList !== null ?
+                                    <p className="sub-title">{t("UN_PROVISION_ADDRESS_LIST")}</p>
+                                    {unProvisionedAddressList !== null && unProvisionedAddressList !==  "" ?
                                         unProvisionedAddressList.map((unprovisionedAddress, unprovisionedAddressKey) => {
-                                            return (<p key={unprovisionedAddressKey}>{unprovisionedAddress}</p>)
+                                            return (<p key={unprovisionedAddressKey}  className="provision-address address" title={unprovisionedAddress}>{unprovisionedAddress}</p>)
                                         })
-                                        : <p>Empty</p>
+                                        : <p>--</p>
                                     }
                                 </div>
                             </div>

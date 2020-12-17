@@ -113,7 +113,18 @@ let en = {
         "SEND_TO_ID":"Send To Id",
         "SPLIT_AMOUNT":"Split Amount",
         "SEND":"Send",
-        "SEND_SPLITS":"Send Splits"
+        "SEND_SPLITS":"Send Splits",
+        "FAUCET":"Faucet",
+        "MY_ACCOUNT":"My Account",
+        "PROFILE":"Profile",
+        "TOTAL_BALANCE":"Total Balance",
+        "PENDING_TRANSACTIONS":"Pending Transactions",
+        "HARDWARE_DEVICES":"Hardware Devices",
+        "ENABLE_LEDGER":"Enable Ledger",
+        "CONNECT":"Connect",
+        "CANCEL":"Cancel",
+        "PROVISION_ADDRESS_LIST":"ProvisionAddress List",
+        "UN_PROVISION_ADDRESS_LIST":"UnProvisionAddress List"
 
 
     }

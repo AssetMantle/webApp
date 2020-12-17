@@ -1,9 +1,19 @@
+@media (min-width: 769px) {
+  .provision-address.address {
+    max-width: initial; } }
 @media (max-width: 420px) {
   .footer {
     bottom: initial; }
 
   .homeSection .appInfoBox .banner-heading {
-    font-size: 30px; } }
+    font-size: 30px; }
+
+  .list-item .list-item-label {
+    width: 80px;
+    margin-right: 10px; }
+
+  .id-string {
+    width: 100px; } }
 @media (max-width: 768px) {
   .banner-image-section {
     display: none !important; }
@@ -34,7 +44,18 @@
     margin: auto; }
 
   .homeSection .appInfoBox {
-    padding: 50px 0; } }
+    padding: 50px 0; }
+
+  .side-bar {
+    position: fixed;
+    overflow-y: auto;
+    top: 60px;
+    left: 0;
+    bottom: 0;
+    z-index: 1; }
+
+  .accountInfo {
+    margin-left: 50px; } }
 @media (max-width: 991px) {
   .navbar-collapse {
     -webkit-transition: all 0.3s ease-out;
@@ -65,7 +86,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1;
+    z-index: 2;
     right: 0;
     width: 100%; }
 
@@ -99,5 +120,8 @@
   .banner-image-section img {
     margin-right: -30px;
     width: 350px; } }
+@media (min-width: 1200px) {
+  .search-section {
+    margin-left: 180px; } }
 
 /*# sourceMappingURL=mediaqueries.css.map */
