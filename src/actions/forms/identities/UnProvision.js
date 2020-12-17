@@ -84,7 +84,7 @@ const UnProvision = (props) => {
             </Modal.Body>
             </Modal>
             {!(Object.keys(response).length === 0) ?
-                <ModalCommon data={response}/>
+                <ModalCommon data={response} setExternal={handleClose}/>
                 : ""
             }
         </div>
