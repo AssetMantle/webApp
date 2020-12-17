@@ -32,15 +32,9 @@ const BurnAsset = (props) => {
         const burnResponse = burnAsset.burn(userAddress, "test", userTypeToken, FromId, assetId, config.feesAmount, config.feesToken, config.gas, config.mode);
         burnResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
-            if(data.txhash){
-                let queryHashResponse =  pollTxHash(url, data.txhash);
-                queryHashResponse.then(function (queryItem) {
-                    const queryData = JSON.parse(queryItem);
-                    setResponse(queryData)
+                    setResponse(data)
                     setShow(false);
                     setLoader(false)
-                })
-            }
         })
     };
 
