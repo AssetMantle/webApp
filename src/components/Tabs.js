@@ -1,25 +1,38 @@
 import React, {useEffect, useState} from "react";
-import {Tabs, Tab, Button, Modal} from "react-bootstrap";
-import {Maintainers, Identities, Assets, Orders, Marketplace} from "../actions/views"
-import {Reveal, SendCoin} from "../actions/forms"
+import {Tabs, Tab, Button} from "react-bootstrap";
+import {Maintainers, Identities, Assets, Orders, MarketPlace} from "../actions/views"
+import {SendCoin} from "../actions/forms/bank"
+import {Reveal} from "../actions/forms/metas"
 import axios from "axios";
 import {getFaucet} from "../constants/url";
+import {useTranslation} from "react-i18next";
+import Loader from "../components/loader"
 
 const ActionsSwitcher = () => {
+    const {t} = useTranslation();
+    const [loader, setLoader] = useState(false)
     const userAddress = localStorage.getItem('address');
     const [externalComponent, setExternalComponent] = useState("");
     const [accountResponse, setAccountResponse] = useState("");
     const [key, setKey] = useState("home");
-    const [show, setShow] = useState(false)
+
     const handleRoute = (route) => {
-        setShow(true);
         setExternalComponent(route)
     }
 
     const handleFaucet = () => {
+        setLoader(true)
         const userAddress = localStorage.getItem('address');
         axios.post(process.env.REACT_APP_FAUCET_SERVER + "/faucetRequest", {address: userAddress})
-            .then(response => console.log(response)).catch(err => console.log(err))
+            .then(response => {
+                    console.log(response)
+                    setLoader(false)
+                }
+            )
+            .catch(err => {
+                console.log(err)
+                setLoader(false)
+            })
     };
 
     const url = getFaucet(userAddress);
@@ -31,22 +44,26 @@ const ActionsSwitcher = () => {
             console.log(error, "error section")
         });
     }, [])
-    const handleClose = () => {
-        setShow(false);
-    };
+
     return (
-        <div className="container">
+        <div>
+            <div>
+                {loader ?
+                    <Loader/>
+                    : ""
+                }
+            </div>
             <div className="tabs-top-bar">
                 <div className="buttons">
-                    <Button onClick={() => handleRoute("Reveal")}>Reveal Meta</Button>
-                    <Button onClick={() => handleRoute("SendCoin")}>Send Coin</Button>
+                    <Button onClick={() => handleRoute("Reveal")}>{t("REVEAL_META")}</Button>
+                    <Button onClick={() => handleRoute("SendCoin")}>{t("SEND_COIN")}</Button>
                     {accountResponse.address == "" ?
-                        <Button onClick={handleFaucet}>Faucet</Button>
+                        <Button onClick={handleFaucet}>{t("FAUCET")}</Button>
                         : ""
                     }
                 </div>
-                    {(accountResponse.coins !== undefined && accountResponse.coins.length ) ?
-                        <p>Amount: {accountResponse.coins[0].amount}
+                {(accountResponse.coins !== undefined && accountResponse.coins.length) ?
+                    <p>Amount: {accountResponse.coins[0].amount}
                     </p>
                     : "Amount: 0"
                 }
@@ -69,28 +86,21 @@ const ActionsSwitcher = () => {
                 <Tab eventKey="contact" title="Maintainer">
                     <Maintainers/>
                 </Tab>
-                <Tab eventKey="marketPlace" title="Marketplace">
-                    <Marketplace/>
+                <Tab eventKey="marketPlace" title="MarketPlace">
+                    <MarketPlace/>
                 </Tab>
             </Tabs>
-            <Modal
-                show={show}
-                onHide={handleClose}
-                centered
-            >
+            <div>
                 {externalComponent === 'Reveal' ?
-                    <Reveal/> :
+                    <Reveal setExternalComponent={setExternalComponent}/> :
                     null
                 }
-                {externalComponent === 'Faucet' ?
-                    <Faucet/> :
-                    null
-                }
+
                 {externalComponent === 'SendCoin' ?
-                    <SendCoin/> :
+                    <SendCoin setExternalComponent={setExternalComponent}/> :
                     null
                 }
-            </Modal>
+            </div>
         </div>
     );
 };

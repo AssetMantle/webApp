@@ -1,79 +1,96 @@
 import React, {useState, useEffect} from "react";
 import UnWrapJS from "persistencejs/transaction/splits/unwrap";
 import {Form, Button, Modal} from "react-bootstrap";
+import {useTranslation} from "react-i18next";
+import config from "../../../constants/config.json"
+import Loader from "../../../components/loader"
+import ModalCommon from "../../../components/modal"
 
 const UnWrapQuery = new UnWrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const UnWrap = (props) => {
     const [response, setResponse] = useState({});
-
+    const [show, setShow] = useState(true);
+    const [loader, setLoader] = useState(false)
+    const {t} = useTranslation();
     const handleSubmit = (event) => {
+        setLoader(true)
         event.preventDefault();
         const FromId = event.target.FromId.value;
         const OwnableId = event.target.OwnableId.value;
         const Split = event.target.Split.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        const UnWrapResponse = UnWrapQuery.unwrap(userAddress, "test", userTypeToken, FromId, OwnableId, Split, 25, "stake", 200000, "block");
+        const UnWrapResponse = UnWrapQuery.unwrap(userAddress, "test", userTypeToken, FromId, OwnableId, Split, config.feesAmount, config.feesToken, config.gas, config.mode);
         UnWrapResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             setResponse(data)
-            console.log(data, "result UnWrapResponse")
+            setShow(false);
+            setLoader(false)
         })
     };
-
+    const handleClose = () => {
+        setShow(false);
+        props.setExternalComponent("");
+    };
     return (
-        <div className="accountInfo">
-
-            <Modal.Header closeButton>
-                {props.FormName}
-            </Modal.Header>
-            <Modal.Body>
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>FromId </Form.Label>
-                        <Form.Control
-                            type="text"
-                            className=""
-                            name="FromId"
-                            required={true}
-                            placeholder="FromId"
-                        />
-                    </Form.Group>
-
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Ownable Id </Form.Label>
-                        <Form.Control
-                            type="text"
-                            className=""
-                            name="OwnableId"
-                            required={true}
-                            placeholder="Ownable Id"
-                        />
-                    </Form.Group>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Split </Form.Label>
-                        <Form.Control
-                            type="text"
-                            className=""
-                            name="Split"
-                            required={true}
-                            placeholder="Split"
-                        />
-                    </Form.Group>
-
-                    <div className="submitButtonSection">
-                        <Button variant="primary" type="submit">
-                            Submit
-                        </Button>
-                    </div>
-                    {response.code ?
-                        <p> {response.raw_log}</p>
-                        :
-                        <p> {response.txhash}</p>
+        <div>
+            <Modal show={show} onHide={handleClose}  centered>
+                <Modal.Header closeButton>
+                    {props.FormName}
+                </Modal.Header>
+                <div>
+                    {loader ?
+                        <Loader/>
+                        : ""
                     }
-                </Form>
-            </Modal.Body>
+                </div>
+                <Modal.Body>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group>
+                            <Form.Label>{t("FROM_ID")} </Form.Label>
+                            <Form.Control
+                                type="text"
+                                className=""
+                                name="FromId"
+                                required={true}
+                                placeholder="FromId"
+                            />
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label>{t("OWNABLE_ID")} </Form.Label>
+                            <Form.Control
+                                type="text"
+                                className=""
+                                name="OwnableId"
+                                required={true}
+                                placeholder="Ownable Id"
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>{t("SPLIT")} </Form.Label>
+                            <Form.Control
+                                type="text"
+                                className=""
+                                name="Split"
+                                required={true}
+                                placeholder="Split"
+                            />
+                        </Form.Group>
+
+                        <div className="submitButtonSection">
+                            <Button variant="primary" type="submit">
+                                {t("SUBMIT")}
+                            </Button>
+                        </div>
+                    </Form>
+                </Modal.Body>
+            </Modal>
+            {!(Object.keys(response).length === 0) ?
+                <ModalCommon data={response} setExternal={handleClose}/>
+                : ""
+            }
         </div>
     );
 };

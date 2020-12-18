@@ -1,0 +1,9 @@
+{
+  "initialTxHashQueryDelay": 20000,
+  "scheduledTxHashQueryDelay": 8000,
+  "numberOfRetries": 20,
+  "feesAmount": 0,
+  "feesToken": "stake",
+  "mode": "sync",
+  "gas": 200000
+}

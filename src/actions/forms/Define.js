@@ -2,8 +2,18 @@ import React, {useState} from "react";
 import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../utilities/Helper"
 import InputField from "../../components/inputField"
+import {useTranslation} from "react-i18next";
+import { pollTxHash } from '../../utilities/Helper'
+import config from "../../constants/config.json"
+import ModalCommon from "../../components/modal";
+import Loader from "../../components/loader";
+
 const Define = (props) => {
+    const url = process.env.REACT_APP_ASSET_MANTLE_API;
     const Helper = new Helpers();
+    const [loader, setLoader] = useState(false)
+    const [show, setShow] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
     const [dataTypeOption, setDataTypeOption] = useState("S|");
     const [typeOption, setTypeOption] = useState("identity");
     const [mutableStyle, setMutableStyle] = useState("ERC20");
@@ -13,13 +23,16 @@ const Define = (props) => {
     const [immutableProperties, setImmutableProperties] = useState([]);
     const [immutableMetaProperties, setImmutableMetaProperties] = useState([]);
     const [inputValues, setInputValues] = useState([]);
-
+    const {t} = useTranslation();
 
     const handleChange = evt => {
         const newValue = evt.target.value;
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
-
+    const handleClose = () => {
+        setShow(false)
+        props.setExternalComponent("");
+    };
     const handleChangeType = evt => {
         setTypeOption(evt.target.value);
     }
@@ -35,6 +48,7 @@ const Define = (props) => {
     }
     const handleSubmit = (evt) => {
         evt.preventDefault();
+        setLoader(true);
         let assetSpecificMutables = '';
         if (typeOption === 'asset') {
             assetSpecificMutables = 'burn:H|,lock:H|';
@@ -56,63 +70,67 @@ const Define = (props) => {
         let mutableMetaPropertyValue = ""
         let immutablePropertyValue = ""
         let immutableMetaPropertyValue = ""
-            mutableProperties.map((mutableProperty, idx) => {
-                const checkError = Helper.DataTypeValidation(idx, inputValues, 'Mutable');
-                Helper.showHideDataTypeError(checkError, `Mutable${idx}`);
-            })
-            mutablePropertyValue = Helper.MutablePropertyValues(mutableProperties, inputValues);
-            mutableMetaProperties.map((mutableMetaProperty, idx) => {
-                const checkError = Helper.DataTypeValidation(idx, inputValues, 'MutableMeta');
-                Helper.showHideDataTypeError(checkError, `MutableMeta${idx}`);
-            })
-            mutableMetaPropertyValue = Helper.MutableMetaPropertyValues(mutableMetaProperties, inputValues);
-                immutableProperties.map((immutableMetaProperty, idx) => {
-                    const checkError = Helper.DataTypeValidation(idx, inputValues, 'Immutable');
-                    Helper.showHideDataTypeError(checkError, `Immutable${idx}`);
+        mutableProperties.map((mutableProperty, idx) => {
+            const checkError = Helper.DataTypeValidation(idx, inputValues, 'Mutable');
+            Helper.showHideDataTypeError(checkError, `Mutable${idx}`);
+        })
+        mutablePropertyValue = Helper.MutablePropertyValues(mutableProperties, inputValues);
+        mutableMetaProperties.map((mutableMetaProperty, idx) => {
+            const checkError = Helper.DataTypeValidation(idx, inputValues, 'MutableMeta');
+            Helper.showHideDataTypeError(checkError, `MutableMeta${idx}`);
+        })
+        mutableMetaPropertyValue = Helper.MutableMetaPropertyValues(mutableMetaProperties, inputValues);
+        immutableProperties.map((immutableMetaProperty, idx) => {
+            const checkError = Helper.DataTypeValidation(idx, inputValues, 'Immutable');
+            Helper.showHideDataTypeError(checkError, `Immutable${idx}`);
+        })
+        immutablePropertyValue = Helper.ImmutablePropertyValues(immutableProperties, inputValues);
+        immutableMetaProperties.map((immutableMetaProperty, idx) => {
+            const checkError = Helper.DataTypeValidation(idx, inputValues, 'ImmutableMeta');
+            Helper.showHideDataTypeError(checkError, `ImmutableMeta${idx}`);
+        })
+        immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableMetaProperties, inputValues);
+        if (typeOption === 'asset') {
+            if (mutableMetaPropertyValue) {
+                mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + assetSpecificMutables;
+            } else {
+                mutableMetaPropertyValue = assetSpecificMutables;
+            }
+        }
+        if (typeOption === 'order') {
+            if (mutableMetaPropertyValue) {
+                mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + orderSpecificMutables;
+            } else {
+                mutableMetaPropertyValue = orderSpecificMutables;
+            }
+        }
+        if (immutablePropertyValue) {
+            immutablePropertyValue = immutablePropertyValue + ',' + staticImmutables;
+        } else {
+            immutablePropertyValue = staticImmutables;
+        }
+        if (immutableMetaPropertyValue) {
+            immutableMetaPropertyValue = immutableMetaPropertyValue + ',' + staticImmutableMeta;
+        } else {
+            immutableMetaPropertyValue = staticImmutableMeta;
+        }
+        if (mutablePropertyValue !== "") {
+            if (mutableMetaPropertyValue !== "") {
+                const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, config.feesAmount, config.feesToken, config.gas, config.mode)
+                defineIdentityResult.then(function (item) {
+                    const data = JSON.parse(JSON.stringify(item));
+                            setResponse(data)
+                            setShow(false)
+                            setLoader(false);
                 })
-                immutablePropertyValue = Helper.ImmutablePropertyValues(immutableProperties, inputValues);
-                    immutableMetaProperties.map((immutableMetaProperty, idx) => {
-                        const checkError = Helper.DataTypeValidation(idx, inputValues, 'ImmutableMeta');
-                        Helper.showHideDataTypeError(checkError, `ImmutableMeta${idx}`);
-                    })
-                    immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableMetaProperties, inputValues);
-                    if (typeOption === 'asset') {
-                        if(mutableMetaPropertyValue) {
-                            mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + assetSpecificMutables;
-                        }else {
-                            mutableMetaPropertyValue = assetSpecificMutables;
-                        }
-                    }
-                    if (typeOption === 'order') {
-                        if(mutableMetaPropertyValue) {
-                            mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + orderSpecificMutables;
-                        }else {
-                            mutableMetaPropertyValue = orderSpecificMutables;
-                        }
-                    }
-                    if(immutablePropertyValue) {
-                        immutablePropertyValue = immutablePropertyValue + ',' + staticImmutables;
-                    }else {
-                        immutablePropertyValue = staticImmutables;
-                    }
-                    if(immutableMetaPropertyValue) {
-                        immutableMetaPropertyValue = immutableMetaPropertyValue + ',' + staticImmutableMeta;
-                    }else {
-                        immutableMetaPropertyValue = staticImmutableMeta;
-                    }
-                    if(mutablePropertyValue !== "") {
-                        if(mutableMetaPropertyValue !== "") {
-                            const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, 25, "stake", 200000, "block")
-                            defineIdentityResult.then(function (item) {
-                                setResponse(item)
-                                console.log(item, "result define Identity")
-                            })
-                        }else {
-                            console.log("add Mutable Meta property")
-                        }
-                    }else {
-                        console.log("add mutable property")
-                    }
+            } else {
+                setErrorMessage(t("ADD_MUTABLE_META_PROPERTY"))
+                setLoader(false);
+            }
+        } else {
+            setErrorMessage(t("ADD_MUTABLE_PROPERTY"))
+            setLoader(false);
+        }
 
     }
 
@@ -143,14 +161,19 @@ const Define = (props) => {
         setImmutableMetaProperties(immutableMetaProperties => immutableMetaProperties.filter((s, sidx) => idx !== sidx));
     }
     return (
-        <div className="accountInfo">
+        <div>
+            <Modal show={show} onHide={handleClose}  centered>
             <Modal.Header closeButton>
                 {props.FormName}
             </Modal.Header>
+                {loader ?
+                    <Loader />
+                    :""
+                }
             <Modal.Body>
                 <form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>FromId</Form.Label>
+                    <Form.Group>
+                        <Form.Label>{t("FROM_ID")}</Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -159,7 +182,7 @@ const Define = (props) => {
                             placeholder="FromId"
                         />
                     </Form.Group>
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group>
                         <Form.Label>Immutable style:S| </Form.Label>
                         <Form.Control as="select" onChange={handleChangeStyle} name="ImmutableStyle"
                                       required={true}>
@@ -167,13 +190,13 @@ const Define = (props) => {
                             <option value="ERC721">ERC721</option>
                         </Form.Control>
                     </Form.Group>
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group>
                         <Form.Label>Immutable type:S| </Form.Label>
                         <Form.Control as="select" name="type"
                                       required={true} onChange={handleChangeType}>
-                            <option value="identitiy">identitiy</option>
-                            <option value="asset">asset</option>
-                            <option value="order">order</option>
+                            <option value="identitiy">{t("IDENTITY")}</option>
+                            <option value="asset">{t("ASSET")}</option>
+                            <option value="order">{t("ORDER")}</option>
                         </Form.Control>
                     </Form.Group>
                     <InputField
@@ -264,11 +287,11 @@ const Define = (props) => {
                             />
                             <InputField
                                 type="text"
-                                className=""
+                                className="hidden"
                                 name="MutabletakerID"
                                 required={true}
                                 placeholder="takerID"
-                                label="takerID:I|"
+                                label="takerID:I|asdf"
                                 value={-1}
                                 disabled={true}
                             />
@@ -278,18 +301,18 @@ const Define = (props) => {
                     {mutableProperties.map((shareholder, idx) => (
                         <div key={idx}>
                             <Form.Group controlId="exampleForm.ControlSelect1">
-                                <Form.Label>Data Type</Form.Label>
+                                <Form.Label>{t("DATA_TYPE")}</Form.Label>
                                 <Form.Control as="select" value={dataTypeOption} name={`MutableDataType${idx + 1}`}
                                               onChange={handleSelectChange}
                                               required={true}>
-                                    <option value="S|">String</option>
-                                    <option value="D|">Decimal</option>
-                                    <option value="H|">Height</option>
-                                    <option value="I|">IDtype</option>
+                                    <option value="S|">{t("STRING")}</option>
+                                    <option value="D|">{t("DECIMAL")}</option>
+                                    <option value="H|">{t("HEIGHT")}</option>
+                                    <option value="I|">{t("ID_TYPE")}</option>
                                 </Form.Control>
                             </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Data Name </Form.Label>
+                            <Form.Group>
+                                <Form.Label>{t("DATA_NAME")}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     className=""
@@ -300,8 +323,8 @@ const Define = (props) => {
                                 />
                             </Form.Group>
 
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Data Value</Form.Label>
+                            <Form.Group>
+                                <Form.Label>{t("DATA_VALUE")}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     className=""
@@ -313,28 +336,27 @@ const Define = (props) => {
                             </Form.Group>
 
                             <Form.Text id={`Mutable${idx}`} className="text-muted none">
-                                Enter value based on datatype you choosen
+                                {t("DATA_TYPE_ERROR")}
                             </Form.Text>
-
-                            <button type="button" onClick={handleRemoveMutableProperties(idx)} className="small">-
-                            </button>
+                            <Button variant="warning" type="button" size="sm" onClick={handleRemoveMutableProperties(idx)} className="small button-define">remove
+                            </Button>
                         </div>
                     ))}
-                    <button type="button" onClick={handleMutableProperties} className="small">Add Mutable</button>
+                    <Button type="button" variant="secondary" size="sm" onClick={handleMutableProperties} className="small button-define">Add Mutable</Button>
                     {mutableMetaProperties.map((mutableMetaProperty, idx) => (
                         <div key={idx}>
                             <Form.Group controlId="exampleForm.ControlSelect1">
-                                <Form.Label>Data Type</Form.Label>
+                                <Form.Label>{t("DATA_TYPE")}</Form.Label>
                                 <Form.Control as="select" name={`MutableMetaDataType${idx + 1}`}
                                               onChange={handleChange}>
-                                    <option value="S|">String</option>
-                                    <option value="D|">Decimal</option>
-                                    <option value="H|">Height</option>
-                                    <option value="I|">IDtype</option>
+                                    <option value="S|">{t("STRING")}</option>
+                                    <option value="D|">{t("DECIMAL")}</option>
+                                    <option value="H|">{t("HEIGHT")}</option>
+                                    <option value="I|">{t("ID_TYPE")}</option>
                                 </Form.Control>
                             </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Data Name </Form.Label>
+                            <Form.Group>
+                                <Form.Label>{t("DATA_NAME")}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     className=""
@@ -344,8 +366,8 @@ const Define = (props) => {
                                     onChange={handleChange}
                                 />
                             </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Data Value</Form.Label>
+                            <Form.Group>
+                                <Form.Label>{t("DATA_VALUE")}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     className=""
@@ -356,27 +378,27 @@ const Define = (props) => {
                                 />
                             </Form.Group>
                             <Form.Text id={`MutableMeta${idx}`} className="text-muted none">
-                                Enter value based on datatype you choosen
+                                {t("DATA_TYPE_ERROR")}
                             </Form.Text>
-                            <button type="button" onClick={handleRemoveMutableMetaProperties(idx)} className="small">-
-                            </button>
+                            <Button variant="warning" type="button" size="sm" onClick={handleRemoveMutableMetaProperties(idx)} className="small button-define">remove
+                            </Button>
                         </div>
                     ))}
-                    <button type="button" onClick={handleMutableMetaProperties} className="small">Add mutable Meta
-                    </button>
+                    <Button type="button" variant="secondary" size="sm" onClick={handleMutableMetaProperties} className="small button-define">Add mutable Meta
+                    </Button>
                     {immutableProperties.map((immutableProperty, idx) => (
                         <div key={idx}>
                             <Form.Group controlId="exampleForm.ControlSelect1">
-                                <Form.Label>Data Type</Form.Label>
+                                <Form.Label>{t("DATA_TYPE")}</Form.Label>
                                 <Form.Control as="select" name={`ImmutableDataType${idx + 1}`} onChange={handleChange}>
-                                    <option value="S|">String</option>
-                                    <option value="D|">Decimal</option>
-                                    <option value="H|">Height</option>
-                                    <option value="I|">IDtype</option>
+                                    <option value="S|">{t("STRING")}</option>
+                                    <option value="D|">{t("DECIMAL")}</option>
+                                    <option value="H|">{t("HEIGHT")}</option>
+                                    <option value="I|">{t("ID_TYPE")}</option>
                                 </Form.Control>
                             </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Data Name </Form.Label>
+                            <Form.Group>
+                                <Form.Label>{t("DATA_NAME")}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     className=""
@@ -386,8 +408,8 @@ const Define = (props) => {
                                     onChange={handleChange}
                                 />
                             </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Data Value</Form.Label>
+                            <Form.Group>
+                                <Form.Label>{t("DATA_VALUE")}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     className=""
@@ -398,27 +420,27 @@ const Define = (props) => {
                                 />
                             </Form.Group>
                             <Form.Text id={`Immutable${idx}`} className="text-muted none">
-                                Enter value based on datatype you choosen
+                                {t("DATA_TYPE_ERROR")}
                             </Form.Text>
-                            <button type="button" onClick={handleRemoveImmutableProperties(idx)} className="small">-
-                            </button>
+                            <Button type="button" variant="warning" size="sm" onClick={handleRemoveImmutableProperties(idx)} className="small button-define">remove
+                            </Button>
                         </div>
                     ))}
-                    <button type="button" onClick={handleImmutableProperties} className="small">Add Immutable</button>
+                    <Button type="button" variant="secondary" size="sm" onClick={handleImmutableProperties} className="small button-define">Add Immutable</Button>
                     {immutableMetaProperties.map((immutableMetaProperty, idx) => (
                         <div key={idx}>
                             <Form.Group controlId="exampleForm.ControlSelect1">
-                                <Form.Label>Data Type</Form.Label>
+                                <Form.Label>{t("DATA_TYPE")}</Form.Label>
                                 <Form.Control as="select" name={`ImmutableMetaDataType${idx + 1}`}
                                               onChange={handleChange}>
-                                    <option value="S|">String</option>
-                                    <option value="D|">Decimal</option>
-                                    <option value="H|">Height</option>
-                                    <option value="I|">IDtype</option>
+                                    <option value="S|">{t("STRING")}</option>
+                                    <option value="D|">{t("DECIMAL")}</option>
+                                    <option value="H|">{t("HEIGHT")}</option>
+                                    <option value="I|">{t("ID_TYPE")}</option>
                                 </Form.Control>
                             </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Data Name </Form.Label>
+                            <Form.Group>
+                                <Form.Label>{t("DATA_NAME")}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     className=""
@@ -428,8 +450,8 @@ const Define = (props) => {
                                     onChange={handleChange}
                                 />
                             </Form.Group>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Data Value</Form.Label>
+                            <Form.Group>
+                                <Form.Label>{t("DATA_VALUE")}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     className=""
@@ -440,27 +462,31 @@ const Define = (props) => {
                                 />
                             </Form.Group>
                             <Form.Text id={`ImmutableMeta${idx}`} className="text-muted none">
-                                Enter value based on datatype you choosen
+                                {t("DATA_TYPE_ERROR")}
                             </Form.Text>
-                            <button type="button" onClick={handleRemoveImmutableMetaProperties(idx)}
-                                    className="small">-
-                            </button>
+                            <Button variant="warning" type="button" size="sm" onClick={handleRemoveImmutableMetaProperties(idx)}
+                                    className="small button-define">remove
+                            </Button>
                         </div>
                     ))}
-                    <button type="button" onClick={handleImmutableMetaProperties} className="small">Add Immutable Meta
-                    </button>
+                    <Button type="button" variant="secondary" size="sm" onClick={handleImmutableMetaProperties} className="small button-define">Add Immutable Meta
+                    </Button>
+                    {errorMessage !== "" ?
+                        <p className="error-response">{errorMessage}</p>
+                        : ""
+                    }
                     <div className="submitButtonSection">
                         <Button variant="primary" type="submit">
-                            Submit
+                            {t("SUBMIT")}
                         </Button>
                     </div>
-                    {response.code ?
-                        <p> {response.raw_log}</p>
-                        :
-                        <p> {response.txhash}</p>
-                    }
                 </form>
             </Modal.Body>
+            </Modal>
+            { !(Object.keys(response).length === 0) ?
+                <ModalCommon data={response} setExternal={handleClose}/>
+                :""
+            }
         </div>
     );
 };

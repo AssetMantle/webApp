@@ -2,52 +2,71 @@ import React, {useState} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import keyUtils from "persistencejs/utilities/keys";
+import {useTranslation} from "react-i18next";
+import MnemonicIcon from "../../../assets/images/MnemonicIcon.svg";
+import arrowRightIcon from "../../../assets/images/arrowRightIcon.svg";
 
-const LoginMnemonic = () => {
+const LoginMnemonic = React.memo((props) => {
     const history = useHistory();
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const [show, setShow] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
+    const {t} = useTranslation();
     const handleSubmit = async event => {
+        event.preventDefault();
         const error = keyUtils.createWallet(event.target.mnemonic.value)
+        console.log(error, "error")
         if (error.error != null) {
-            return (<div>ERROR!!</div>)
+            setErrorMessage(error.error);
         }
-        const wallet = keyUtils.getWallet(event.target.mnemonic.value)
-        localStorage.setItem("address", wallet.address)
-        localStorage.setItem("mnemonic", event.target.mnemonic.value)
-        history.push('/ActionsSwitcher');
+        else {
+            const wallet = keyUtils.getWallet(event.target.mnemonic.value)
+            console.log(wallet, "wallet")
+            localStorage.setItem("address", wallet.address)
+            localStorage.setItem("mnemonic", event.target.mnemonic.value)
+            history.push('/assets');
+        }
     }
-
+    const handleClose = () => {
+        setShow(false);
+        history.push('/');
+        props.setExternalComponent("");
+    };
     return (
-        <div className="accountInfo">
+        <div>
+            <Modal show={show} onHide={handleClose}  className="mnemonic-login-section login-section" centered>
             <Modal.Header closeButton>
-                Login with mnemonic
+                {t("LOGIN_FORM")}
             </Modal.Header>
             <Modal.Body>
+                <div className="mrt-10">
+                    <div className="button-view">
+                        <div className="icon-section">
+                            <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/> </div>
+                            {t("LOGIN_MNEMONIC")}</div>
+                        <img className="arrow-icon" src={arrowRightIcon} alt="arrowRightIcon"/>
+                    </div>
+                </div>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Label>Mnemonic</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="mnemonic"
-                        placeholder="Enter Mnemonic"
-                        required={true}
-                    />
+                    <Form.Control as="textarea" rows={5} name="mnemonic"
+                                  placeholder="Enter Mnemonic"
+                                  required={true}/>
+                    {errorMessage !== "" ?
+                        <div className="login-error"><p className="error-response">{errorMessage}</p></div>
+                        : ""
+                    }
                     <div className="submitButtonSection">
                         <Button
                             variant="primary"
                             type="submit"
+                            className="button-double-border"
                         >
-                            Submit
+                            {t("LOGIN")}
                         </Button>
                     </div>
                 </Form>
             </Modal.Body>
-            <Modal show={show} onHide={handleClose} centered>
-                <Modal.Body>
-
-                </Modal.Body>
             </Modal>
         </div>
     );
-}
+})
 export default LoginMnemonic

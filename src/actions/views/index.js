@@ -1,7 +1,7 @@
-import Identities from "./Identities"
-import Assets from "./Assets"
-import Orders from "./Orders"
-import Maintainers from "./Maintainers"
-import Marketplace from "./MarketPlace"
+import Identities from "./identities/identities"
+import Assets from "./assets/assets"
+import Orders from "./orders/orders"
+import Maintainers from "./maintainers/maintainers"
+import MarketPlace from "./markeplace/marketPlace.js"
 
-export {Maintainers, Identities, Assets, Orders, Marketplace};
+export {Maintainers, Identities, Assets, Orders, MarketPlace};

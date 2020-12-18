@@ -1,21 +1,60 @@
 import React, {useState, useEffect} from "react";
 import {Route, Switch, withRouter} from "react-router-dom";
-import { LoginAction} from "./actions";
-import {HomePage, RouteNotFound, Header, ActionsSwitcher} from "./components";
-
+import {Login} from "./actions";
+import {SignUp} from "./actions/forms";
+import {HomePage, RouteNotFound,  Profile} from "./components";
+import HeaderAfterLogin from "./components/Headers/HeaderAfterLogin";
+import HeaderBeforeLogin from "./components/Headers/HeaderBeforeLogin";
 import offline from "./assets/images/offline.svg";
-
+import {Maintainers, Identities, Assets, Orders, MarketPlace} from "./actions/views"
 import Footer from "./components/Footer"
+import {useTranslation} from "react-i18next";
+import './assets/css/styles.css'
+import './assets/css/mediaqueries.css'
+import {SearchAsset, SearchIdentity, SearchOrder, SearchMaintainer} from "./components/search";
+
 const App = () => {
+    const {t} = useTranslation();
+    const userTypeToken = localStorage.getItem('mnemonic');
     const routes = [{
         path: '/',
         component: HomePage,
     }, {
-        path: '/LoginAction',
-        component: LoginAction,
+        path: '/Login',
+        component: Login,
     }, {
-        path: '/ActionsSwitcher',
-        component: ActionsSwitcher,
+        path: '/SignUp',
+        component: SignUp,
+    },  {
+        path: '/assets',
+        component: Assets,
+    }, {
+        path: '/orders',
+        component: Orders,
+    }, {
+        path: '/identities',
+        component: Identities,
+    }, {
+        path: '/maintainers',
+        component: Maintainers,
+    }, {
+        path: '/marketplace',
+        component: MarketPlace,
+    }, {
+        path: '/SearchAsset',
+        component: SearchAsset,
+    }, {
+        path: '/SearchIdentity',
+        component: SearchIdentity,
+    }, {
+        path: '/Profile',
+        component: Profile,
+    }, {
+        path: '/SearchOrder',
+        component: SearchOrder,
+    }, {
+        path: '/SearchMaintainer',
+        component: SearchMaintainer,
     }];
 
     const [isOnline, setNetwork] = useState(window.navigator.onLine);
@@ -30,25 +69,25 @@ const App = () => {
             window.removeEventListener("online", updateNetwork);
         };
     });
-
     return (
-       
-            <div className="app">
-            <div>
+        <div className="app">
             {
                 !isOnline ?
                     <div className="network-check">
                         <div className="center">
                             <img src={offline} alt="offline"/>
-                            <p>Network Disconnected. Check your data or wifi connection.</p>
+                            <p>{t("NETWORK_ERROR")}</p>
                         </div>
                     </div>
                     : ""
             }
-            <div className="container-fluid app-nav">
-                <div className="container">
-                    <Header/>
-                </div>
+            <div className="app-nav">
+                {
+                    userTypeToken == null ?
+                        <HeaderBeforeLogin/>
+                        :
+                        <HeaderAfterLogin/>
+                }
             </div>
 
             <Switch>
@@ -64,9 +103,12 @@ const App = () => {
 
                 <Route component={RouteNotFound}/>
             </Switch>
-            </div>
-            <Footer/>
-
+            {
+                userTypeToken === null || window.location.pathname === "/" ?
+                    <Footer/>
+                    :
+                    ""
+            }
         </div>
     );
 }

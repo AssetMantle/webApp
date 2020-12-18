@@ -1,27 +1,29 @@
 import React, {useState, useEffect} from "react";
 import ordersQueryJS from "persistencejs/transaction/orders/query";
-import Helpers from "../../utilities/Helper";
-import {Button, Modal} from "react-bootstrap";
-import {TakeOrder} from "../forms/orders";
+import Helpers from "../../../utilities/Helper";
+import {Button} from "react-bootstrap";
+import {TakeOrder} from "../../forms/orders";
 import metasQueryJS from "persistencejs/transaction/meta/query";
+import {useTranslation} from "react-i18next";
+import Loader from "../../../components/loader"
+import Copy from "../../../components/copy";
 
 const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
-const Marketplace = () => {
+const TotalOrders = React.memo((props) => {
     const Helper = new Helpers();
-    const [showOrder, setShowOrder] = useState(false);
+    const {t} = useTranslation();
+    const [loader, setLoader] = useState(true)
     const [externalComponent, setExternalComponent] = useState("");
     const [orderId, setOrderId] = useState("");
     const [orderList, setOrderList] = useState([]);
-    const handleClose = () => {
-        setShowOrder(false);
-    };
 
     useEffect(() => {
         const fetchOrder = () => {
             const ordersData = ordersQuery.queryOrderWithID("all")
             ordersData.then(function (item) {
+                console.log()
                 const ordersData = JSON.parse(item);
                 const ordersDataList = ordersData.result.value.orders.value.list;
                 if (ordersDataList) {
@@ -39,9 +41,10 @@ const Marketplace = () => {
                         let mutableKeys = Object.keys(mutableProperties);
                         Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_market', index);
                         Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_market', index);
+                        setLoader(false)
                     })
                 } else {
-                    console.log("no orders found")
+                    setLoader(false)
                 }
             })
 
@@ -51,14 +54,17 @@ const Marketplace = () => {
 
     const handleModalData = (formName, orderId) => {
         setOrderId(orderId)
-        setShowOrder(true)
         setExternalComponent(formName)
     }
     return (
-        <div className="container">
-            <div className="accountInfo">
-                <div className="row row-cols-1 row-cols-md-2 card-deck createAccountSection">
-                    {orderList.map((order, index) => {
+        <div className="list-container">
+            {loader ?
+                <Loader/>
+                : ""
+            }
+            <div className="row card-deck">
+                {orderList.length ?
+                    orderList.map((order, index) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
                         if (order.value.immutables.value.properties.value.propertyList !== null) {
@@ -71,60 +77,65 @@ const Marketplace = () => {
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
                         let orderIdData = Helper.GetOrderID(order);
-                        return (<div className="col-md-6" key={index}>
+                        return (
+                            <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
                                     <div>
-                                        <Button variant="secondary"
-                                                onClick={() => handleModalData("TakeOrder", orderIdData)}>Take</Button>
+                                        <Button variant="secondary" size="sm"
+                                                onClick={() => handleModalData("TakeOrder", orderIdData)}>{t("TAKE")}</Button>
                                     </div>
-                                    <a href="#">{orderIdData}</a>
-                                    <p>Immutables</p>
-                                    {
+                                    <div className="list-item">
+                                        <p className="list-item-label">{t("ORDER_ID")}</p>
+                                        <div className="list-item-value id-section">
+                                            <p className="id-string" title={orderIdData}>: {orderIdData}</p>
+                                            <Copy
+                                                id={orderIdData}/>
+                                        </div>
+                                    </div>
+                                    <p>{t("IMMUTABLES")}</p>
+                                    {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
-                                                return (<a key={index + keyName}><b>{keyName} </b>: <span
-                                                    id={`immutable_order_market` + index + `${index1}`}></span></a>)
+                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
+                                                    id={`immutable_order_market` + index + `${index1}`} className="list-item-value"></p></div>)
                                             } else {
                                                 return (
-                                                    <a key={index + keyName}><b>{keyName} </b>: <span>{immutableProperties[keyName]}</span></a>)
+                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{immutableProperties[keyName]}</p></div>)
                                             }
                                         })
+                                        : ""
                                     }
 
-                                    <p>Mutables</p>
+                                    <p>{t("MUTABLES")}</p>
 
-                                    {
+                                    {mutableKeys !== null ?
                                         mutableKeys.map((keyName, index1) => {
                                             if (mutableProperties[keyName] !== "") {
-                                                return (<a key={index + keyName}><b>{keyName} </b>: <span
-                                                    id={`mutable_order_market` + index + `${index1}`}></span></a>)
+                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
+                                                    id={`mutable_order_market` + index + `${index1}`} className="list-item-value"></p></div>)
                                             } else {
                                                 return (
-                                                    <a key={index + keyName}><b>{keyName} </b>: <span>{mutableProperties[keyName]}</span></a>)
+                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-ite-hash-value">{mutableProperties[keyName]}</p></div>)
                                             }
                                         })
+                                        : ""
                                     }
                                 </div>
                             </div>
                         )
 
-                    })}
-                </div>
-                <Modal
-                    show={showOrder}
-                    onHide={handleClose}
-                    backdrop="static"
-                    keyboard={false}
-                    centered
-                >
-                    {externalComponent === 'TakeOrder' ?
-                        <TakeOrder id={orderId} FormName={'Take Order'}/> :
-                        null
-                    }
-                </Modal>
+                    })
+                    : <p className="empty-list">{t("ORDERS_NOT_FOUND")}</p>
+                }
+            </div>
+            <div>
+                {externalComponent === 'TakeOrder' ?
+                    <TakeOrder setExternalComponent={setExternalComponent} id={orderId} FormName={'Take Order'}/> :
+                    null
+                }
             </div>
         </div>
     );
-};
+});
 
-export default Marketplace;
+export default TotalOrders;

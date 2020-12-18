@@ -1,6 +1,9 @@
 import ReactDOM from "react-dom";
 import React from "react";
 
+const request = require('request');
+import config from "../constants/config.json"
+
 export default class Helper {
 
     GetIdentityID(identity) {
@@ -259,7 +262,7 @@ export default class Helper {
                 const immutableHash = immutable.value.fact.value.hash;
                 const immutableName = immutable.value.id.value.idString;
                 const id = `${FileName}${immutableName}|${immutableType}${index}`
-
+                console.log(id, "id")
                 if (immutableHash !== "" && immutableHash !== null) {
                     const metaQueryResult = metasQuery.queryMetaWithID(immutableHash);
                     metaQueryResult.then(function (item) {
@@ -277,7 +280,7 @@ export default class Helper {
         }
     }
 
-    AssignMetaValue(keys,properties, metasQuery, idPrefix, index){
+    AssignMetaValue(keys, properties, metasQuery, idPrefix, index) {
         let $this = this
         keys.map((keyName, index1) => {
             if (properties[keyName] !== "") {
@@ -287,11 +290,49 @@ export default class Helper {
                     let myElement = "";
                     let metaValue = $this.FetchMetaValue(data, properties[keyName])
                     myElement = <span>{metaValue}</span>;
-                    ReactDOM.render(myElement, document.getElementById(idPrefix + index + `${index1}`));
+                    var element = document.getElementById(idPrefix + index + index1)
+                    if (typeof (element) != 'undefined' && element != null) {
+                        ReactDOM.render(myElement, document.getElementById(idPrefix + index + index1));
+                    } else {
+                        console.log('Element does not exist!', idPrefix + index + index1);
+                    }
                 });
             }
         })
     }
-
 }
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+async function queryTxHash(lcd, txHash) {
+    return new Promise((resolve, reject) => {
+        request(lcd + "/txs/" + txHash, (error, response, body) => {
+            if (error) reject(error);
+            if (response.statusCode !== 200) {
+                reject('Invalid status code <' + response.statusCode + '>' + " response: " + body);
+            }
+            resolve(body);
+        });
+    });
+}
+
+export async function pollTxHash(lcd, txHash) {
+    await delay(config.initialTxHashQueryDelay);
+    for (let i = 0; i < config.numberOfRetries; i++) {
+        try {
+            const result = await queryTxHash(lcd, txHash)
+            return result
+        } catch (error) {
+            console.log(error)
+            console.log("retrying in " + config.scheduledTxHashQueryDelay + ": ", i, "th time")
+            await delay(config.scheduledTxHashQueryDelay);
+        }
+    }
+    return JSON.stringify({
+        "txhash": txHash,
+        "height": 0,
+        "code": 111,
+        "raw_log": "failed all retries"
+    })
+}
+
 
