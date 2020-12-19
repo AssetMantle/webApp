@@ -682,4 +682,24 @@ html, body, #root, .app {
     background: #EFCB30;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05); }
 
+.ERC20::before {
+  content: "\A";
+  border-style: solid;
+  border-width: 20px 20px 20px 20px;
+  border-color: #dd4397 #dd4397 #00000000 #dd4397;
+  position: absolute;
+  top: 00px;
+  opacity: .2;
+  right: 0px; }
+
+.ERC721::before {
+  content: "\A";
+  border-style: solid;
+  border-width: 20px 20px 20px 20px;
+  border-color: #dd4397 #dd4397 #00000000 #00000000;
+  position: absolute;
+  top: 00px;
+  opacity: .2;
+  right: 0px; }
+
 /*# sourceMappingURL=styles.css.map */

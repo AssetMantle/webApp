@@ -107,73 +107,90 @@ export default class Helper {
         return propertiesDictionary
     }
 
-    MutablePropertyValues(mutableProperties, inputValues) {
+    MutablePropertyValues(mutableProperties, inputValues, metaCheckboxList) {
         let mutableValues = "";
         mutableProperties.map((mutableProperty, idx) => {
-            if (inputValues[`MutableDataType${idx + 1}`] === undefined) {
-                inputValues[`MutableDataType${idx + 1}`] = "S|";
-            }
-            if (inputValues[`MutableDataValue${idx + 1}`] === undefined) {
-                inputValues[`MutableDataValue${idx + 1}`] = "";
-            }
-            if (idx > 0) {
-                mutableValues = mutableValues + "," + (inputValues[`MutableDataName${idx + 1}`] + ":" + inputValues[`MutableDataType${idx + 1}`] + inputValues[`MutableDataValue${idx + 1}`]);
-            } else {
-                mutableValues = mutableValues + (inputValues[`MutableDataName${idx + 1}`] + ":" + inputValues[`MutableDataType${idx + 1}`] + inputValues[`MutableDataValue${idx + 1}`]);
+            if (mutableProperty.name !== "empty") {
+                if (metaCheckboxList.length == 0 || !metaCheckboxList.includes(`MutableDataName${idx + 1}`)) {
+                    if (inputValues[`MutableDataType${idx + 1}`] === undefined) {
+                        inputValues[`MutableDataType${idx + 1}`] = "S|";
+                    }
+                    if (inputValues[`MutableDataValue${idx + 1}`] === undefined) {
+                        inputValues[`MutableDataValue${idx + 1}`] = "";
+                    }
+                    if (mutableValues !== "") {
+                        mutableValues = mutableValues + "," + (inputValues[`MutableDataName${idx + 1}`] + ":" + inputValues[`MutableDataType${idx + 1}`] + inputValues[`MutableDataValue${idx + 1}`]);
+                    } else {
+                        mutableValues = mutableValues + (inputValues[`MutableDataName${idx + 1}`] + ":" + inputValues[`MutableDataType${idx + 1}`] + inputValues[`MutableDataValue${idx + 1}`]);
+                    }
+                }
             }
         })
         return mutableValues;
     }
 
-    MutableMetaPropertyValues(mutableMetaProperties, inputValues) {
+    MutableMetaPropertyValues(mutableMetaProperties, inputValues, metaCheckboxList) {
         let mutableMetaValues = "";
         mutableMetaProperties.map((mutableMetaProperty, idx) => {
-            if (inputValues[`MutableMetaDataType${idx + 1}`] === undefined) {
-                inputValues[`MutableMetaDataType${idx + 1}`] = "S|";
-            }
-            if (inputValues[`MutableMetaDataValue${idx + 1}`] === undefined) {
-                inputValues[`MutableMetaDataValue${idx + 1}`] = "";
-            }
-            if (idx > 0) {
-                mutableMetaValues = mutableMetaValues + "," + (inputValues[`MutableMetaDataName${idx + 1}`] + ":" + inputValues[`MutableMetaDataType${idx + 1}`] + inputValues[`MutableMetaDataValue${idx + 1}`]);
-            } else {
-                mutableMetaValues = mutableMetaValues + (inputValues[`MutableMetaDataName${idx + 1}`] + ":" + inputValues[`MutableMetaDataType${idx + 1}`] + inputValues[`MutableMetaDataValue${idx + 1}`]);
+            if (mutableMetaProperty.name !== "empty") {
+                if (metaCheckboxList.length !== 0 && metaCheckboxList.includes(`MutableDataName${idx + 1}`)) {
+                    if (inputValues[`MutableDataType${idx + 1}`] === undefined) {
+                        inputValues[`MutableDataType${idx + 1}`] = "S|";
+                    }
+                    if (inputValues[`MutableDataValue${idx + 1}`] === undefined) {
+                        inputValues[`MutableDataValue${idx + 1}`] = "";
+                    }
+
+                    if (mutableMetaValues !== "") {
+                        mutableMetaValues = mutableMetaValues + "," + (inputValues[`MutableDataName${idx + 1}`] + ":" + inputValues[`MutableDataType${idx + 1}`] + inputValues[`MutableDataValue${idx + 1}`]);
+                    } else {
+                        mutableMetaValues = mutableMetaValues + (inputValues[`MutableDataName${idx + 1}`] + ":" + inputValues[`MutableDataType${idx + 1}`] + inputValues[`MutableDataValue${idx + 1}`]);
+                    }
+                }
             }
         })
         return mutableMetaValues;
     }
 
-    ImmutablePropertyValues(immutableProperties, inputValues) {
+    ImmutablePropertyValues(immutableProperties, inputValues, ImmutableCheckboxList) {
         let immutableValues = "";
         immutableProperties.map((immutableProperty, idx) => {
-            if (inputValues[`ImmutableDataType${idx + 1}`] === undefined) {
-                inputValues[`ImmutableDataType${idx + 1}`] = "S|";
-            }
-            if (inputValues[`ImmutableDataValue${idx + 1}`] === undefined) {
-                inputValues[`ImmutableDataValue${idx + 1}`] = "";
-            }
-            if (idx > 0) {
-                immutableValues = immutableValues + "," + (inputValues[`ImmutableDataName${idx + 1}`] + ":" + inputValues[`ImmutableDataType${idx + 1}`] + inputValues[`ImmutableDataValue${idx + 1}`]);
-            } else {
-                immutableValues = immutableValues + (inputValues[`ImmutableDataName${idx + 1}`] + ":" + inputValues[`ImmutableDataType${idx + 1}`] + inputValues[`ImmutableDataValue${idx + 1}`]);
+            if (immutableProperty.name !== "empty") {
+                if (ImmutableCheckboxList.length == 0 || !ImmutableCheckboxList.includes(`MutableDataName${idx + 1}`)) {
+                    if (inputValues[`ImmutableDataType${idx + 1}`] === undefined) {
+                        inputValues[`ImmutableDataType${idx + 1}`] = "S|";
+                    }
+                    if (inputValues[`ImmutableDataValue${idx + 1}`] === undefined) {
+                        inputValues[`ImmutableDataValue${idx + 1}`] = "";
+                    }
+                    if (immutableValues !== "") {
+                        immutableValues = immutableValues + "," + (inputValues[`ImmutableDataName${idx + 1}`] + ":" + inputValues[`ImmutableDataType${idx + 1}`] + inputValues[`ImmutableDataValue${idx + 1}`]);
+                    } else {
+                        immutableValues = immutableValues + (inputValues[`ImmutableDataName${idx + 1}`] + ":" + inputValues[`ImmutableDataType${idx + 1}`] + inputValues[`ImmutableDataValue${idx + 1}`]);
+                    }
+                }
             }
         })
         return immutableValues;
     }
 
-    ImmutableMetaPropertyValues(immutableMetaProperties, inputValues) {
+    ImmutableMetaPropertyValues(immutableProperties, inputValues, ImmutableCheckboxList) {
         let immutableMetaValues = "";
-        immutableMetaProperties.map((immutableMetaProperty, idx) => {
-            if (inputValues[`ImmutableMetaDataType${idx + 1}`] === undefined) {
-                inputValues[`ImmutableMetaDataType${idx + 1}`] = "S|";
-            }
-            if (inputValues[`ImmutableMetaDataValue${idx + 1}`] === undefined) {
-                inputValues[`ImmutableMetaDataValue${idx + 1}`] = "";
-            }
-            if (idx > 0) {
-                immutableMetaValues = immutableMetaValues + "," + (inputValues[`ImmutableMetaDataName${idx + 1}`] + ":" + inputValues[`ImmutableMetaDataType${idx + 1}`] + inputValues[`ImmutableMetaDataValue${idx + 1}`]);
-            } else {
-                immutableMetaValues = immutableMetaValues + (inputValues[`ImmutableMetaDataName${idx + 1}`] + ":" + inputValues[`ImmutableMetaDataType${idx + 1}`] + inputValues[`ImmutableMetaDataValue${idx + 1}`]);
+        immutableProperties.map((immutableProperty, idx) => {
+            if (immutableProperty.name !== "empty") {
+                if (ImmutableCheckboxList.length !== 0 && ImmutableCheckboxList.includes(`MutableDataName${idx + 1}`)) {
+                    if (inputValues[`ImmutableDataValue${idx + 1}`] === undefined) {
+                        inputValues[`ImmutableDataValue${idx + 1}`] = "S|";
+                    }
+                    if (inputValues[`ImmutableDataValue${idx + 1}`] === undefined) {
+                        inputValues[`ImmutableDataValue${idx + 1}`] = "";
+                    }
+                    if (immutableMetaValues !== "") {
+                        immutableMetaValues = immutableMetaValues + "," + (inputValues[`ImmutableDataName${idx + 1}`] + ":" + inputValues[`ImmutableDataType${idx + 1}`] + inputValues[`ImmutableDataValue${idx + 1}`]);
+                    } else {
+                        immutableMetaValues = immutableMetaValues + (inputValues[`ImmutableDataName${idx + 1}`] + ":" + inputValues[`ImmutableDataType${idx + 1}`] + inputValues[`ImmutableDataValue${idx + 1}`]);
+                    }
+                }
             }
         })
         return immutableMetaValues;
@@ -206,28 +223,63 @@ export default class Helper {
         return errorData;
     }
 
-    DataTypeValidation(index, inputValues, propertyName) {
+    StringCheckingd(propertyName) {
+        let errorData = false;
+        const stringRegEx = /^[a-zA-Z]*$/;
+        if (!stringRegEx.test(propertyName)) {
+            errorData = false;
+        }else {
+            errorData = true
+        }
+        return errorData;
+    }
+
+    NumberCheckingd(propertyName) {
+        let errorData = false;
+        const numberRegEx = /^[0-9\b]+$/;
+        if (!numberRegEx.test(propertyName)) {
+            errorData = false;
+        }else {
+            errorData = true
+        }
+        return errorData;
+    }
+
+    DecimalCheckingd(propertyName) {
+        let errorData = false;
+        const DecimalRegEx = /^[-+]?[0-9]+\.[0-9]+$/;
+        if (!DecimalRegEx.test(propertyName)) {
+            errorData = false;
+        }else {
+            errorData = true
+        }
+        return errorData;
+    }
+    DataTypeValidationd(inputValue, propertyName) {
         let $this = this
         let errorData = false;
-        if (inputValues[`${propertyName}DataType${index + 1}`] === 'S|') {
-            errorData = $this.StringChecking(index, inputValues, propertyName)
-        } else if (inputValues[`${propertyName}DataType${index + 1}`] === 'I|') {
-            errorData = $this.NumberChecking(index, inputValues, propertyName)
-        } else if (inputValues[`${propertyName}DataType${index + 1}`] === 'H|') {
-            errorData = $this.NumberChecking(index, inputValues, propertyName)
-        } else if (inputValues[`${propertyName}DataType${index + 1}`] === 'D|') {
-            errorData = $this.DecimalChecking(index, inputValues, propertyName)
+        if (inputValue === 'S|') {
+            errorData = $this.StringCheckingd(propertyName)
+        } else if (inputValue === 'I|') {
+            errorData = $this.NumberCheckingd(propertyName)
+        } else if (inputValue === 'H|') {
+            errorData = $this.NumberCheckingd(propertyName)
+        } else if (inputValue === 'D|') {
+            errorData = $this.DecimalCheckingd(propertyName)
         }
         return errorData;
     }
 
     showHideDataTypeError(checkError, id) {
-        if (checkError) {
+
+        if (!checkError) {
             document.getElementById(id).classList.remove('none');
             document.getElementById(id).classList.add('show');
-        } else {
-            document.getElementById(id).classList.remove('show');
-            document.getElementById(id).classList.add('none');
+        }else {
+            if(document.getElementById(id).classList.contains('show')) {
+                document.getElementById(id).classList.add('none');
+                document.getElementById(id).classList.remove('show');
+            }
         }
     }
 
@@ -262,7 +314,6 @@ export default class Helper {
                 const immutableHash = immutable.value.fact.value.hash;
                 const immutableName = immutable.value.id.value.idString;
                 const id = `${FileName}${immutableName}|${immutableType}${index}`
-                console.log(id, "id")
                 if (immutableHash !== "" && immutableHash !== null) {
                     const metaQueryResult = metasQuery.queryMetaWithID(immutableHash);
                     metaQueryResult.then(function (item) {
@@ -289,7 +340,15 @@ export default class Helper {
                     const data = JSON.parse(item);
                     let myElement = "";
                     let metaValue = $this.FetchMetaValue(data, properties[keyName])
-                    myElement = <span>{metaValue}</span>;
+                    if(metaValue == "ERC721"){
+                        myElement = <span className="ERC721">{metaValue}</span>;
+                    }
+                   else if(metaValue == "ERC20"){
+                        myElement = <span className="ERC20">{metaValue}</span>;
+                    }
+                    else{
+                        myElement = <span>{metaValue}</span>;
+                    }
                     var element = document.getElementById(idPrefix + index + index1)
                     if (typeof (element) != 'undefined' && element != null) {
                         ReactDOM.render(myElement, document.getElementById(idPrefix + index + index1));

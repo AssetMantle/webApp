@@ -957,3 +957,27 @@ html, body, #root, .app {
     }
   }
 }
+
+.ERC20::before{
+  content: "\A";
+  border-style: solid;
+  border-width: 20px 20px 20px 20px;
+  border-color: #dd4397 #dd4397 #00000000 #dd4397;
+  position: absolute;
+  top: 00px;
+  opacity: .2;
+  right: 0px;
+}
+
+.ERC721::before{
+  content: "\A";
+  border-style: solid;
+  border-width: 20px 20px 20px 20px;
+  border-color: #dd4397 #dd4397 #00000000 #00000000;
+  position: absolute;
+  top: 00px;
+  opacity: .2;
+  right: 0px;
+}
+
+

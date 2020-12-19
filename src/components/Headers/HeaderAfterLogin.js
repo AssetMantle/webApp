@@ -7,15 +7,11 @@ import {Search} from "../../components/search";
 import {NavLink} from 'react-router-dom';
 import logo from '../../assets/images/logo.svg'
 import profileIcon from "../../assets/images/profile.svg"
-import Footer from "../Footer";
-
 const HeaderAfterLogin = () => {
     const history = useHistory();
     const {t} = useTranslation();
     const userTypeToken = localStorage.getItem('mnemonic');
     const userAddress = localStorage.getItem('address');
-    console.log(userTypeToken, "mnemonic")
-    console.log(userAddress, "userAddress")
     const handleRoute = route => () => {
         history.push(route)
     };
