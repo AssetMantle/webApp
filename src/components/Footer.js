@@ -20,7 +20,7 @@ const Footer = () => {
                     type="switch"
                     id="custom-switch"
                     checked={theme === 'light' ? true : false}
-                    label={theme === 'light' ? 'DarkMode' : 'LightMode'}
+                    label={theme === 'light' ? 'LightMode' : 'DarkMode'}
                 />
                 <p className="footer_left"> © 2020
                     <span className="link_color">{t("APP_TITLE")}</span>

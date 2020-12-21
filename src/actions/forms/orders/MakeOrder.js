@@ -212,6 +212,7 @@ const MakeOrder = (props) => {
                                 name="FromId"
                                 required={true}
                                 placeholder="FromId"
+                                value={props.assetId}
                             />
                         </Form.Group>
                         <Form.Group>

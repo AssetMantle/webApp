@@ -124,7 +124,8 @@ let en = {
         "CONNECT":"Connect",
         "CANCEL":"Cancel",
         "PROVISION_ADDRESS_LIST":"ProvisionAddress List",
-        "UN_PROVISION_ADDRESS_LIST":"UnProvisionAddress List"
+        "UN_PROVISION_ADDRESS_LIST":"UnProvisionAddress List",
+        "ORDER_ID":'Order Id'
 
 
     }

@@ -20,7 +20,8 @@ const HeaderAfterLogin = () => {
     };
 
     const logout = route => () => {
-        localStorage.clear();
+        localStorage.removeItem('mnemonic');
+        localStorage.removeItem('address');
         history.push('/');
     }
 
