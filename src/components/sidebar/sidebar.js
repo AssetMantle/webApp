@@ -37,6 +37,7 @@ const Sidebar = () => {
             .then((response) => {
                 setAccountResponse(response.data.result.value)
             }).catch((error) => {
+            console.log(error, "error section")
         });
     }, [])
     const [hideSideNav, setHideSideNav] = useState(false);
