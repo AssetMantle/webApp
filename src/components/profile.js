@@ -19,7 +19,6 @@ const Profile = () => {
             .then((response) => {
                 setAccountResponse(response.data.result.value)
             }).catch((error) => {
-            console.log(error, "error section")
         });
     }, [])
 

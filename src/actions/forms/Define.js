@@ -146,6 +146,7 @@ const Define = (props) => {
                 defineIdentityResult.then(function (item) {
                     const data = JSON.parse(JSON.stringify(item));
                     setResponse(data)
+                    setShow(false)
                     setLoader(false);
                 })
             } else {

@@ -16,7 +16,6 @@ import {SearchAsset, SearchIdentity, SearchOrder, SearchMaintainer} from "./comp
 const App = () => {
     const {t} = useTranslation();
     const userTypeToken = localStorage.getItem('mnemonic');
-    console.log(userTypeToken)
     const routes = [{
         path: '/',
         component: HomePage,
