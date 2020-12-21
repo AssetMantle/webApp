@@ -238,8 +238,8 @@ const Define = (props) => {
                             <Form.Label>Immutable type:S| </Form.Label>
                             <Form.Control as="select" name="type"
                                           required={true} onChange={handleChangeType}>
-                                <option value="asset">{t("ASSET")}</option>
                                 <option value="identitiy">{t("IDENTITY")}</option>
+                                <option value="asset">{t("ASSET")}</option>
                                 <option value="order">{t("ORDER")}</option>
                             </Form.Control>
                         </Form.Group>
