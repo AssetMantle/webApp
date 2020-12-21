@@ -156,7 +156,7 @@ export default class Helper {
         let immutableValues = "";
         immutableProperties.map((immutableProperty, idx) => {
             if (immutableProperty.name !== "empty") {
-                if (ImmutableCheckboxList.length == 0 || !ImmutableCheckboxList.includes(`MutableDataName${idx + 1}`)) {
+                if (ImmutableCheckboxList.length == 0 || !ImmutableCheckboxList.includes(`ImmutableDataName${idx + 1}`)) {
                     if (inputValues[`ImmutableDataType${idx + 1}`] === undefined) {
                         inputValues[`ImmutableDataType${idx + 1}`] = "S|";
                     }
@@ -178,12 +178,12 @@ export default class Helper {
         let immutableMetaValues = "";
         immutableProperties.map((immutableProperty, idx) => {
             if (immutableProperty.name !== "empty") {
-                if (ImmutableCheckboxList.length !== 0 && ImmutableCheckboxList.includes(`MutableDataName${idx + 1}`)) {
-                    if (inputValues[`ImmutableDataValue${idx + 1}`] === undefined) {
-                        inputValues[`ImmutableDataValue${idx + 1}`] = "S|";
+                if (ImmutableCheckboxList.length !== 0 && ImmutableCheckboxList.includes(`ImmutableDataName${idx + 1}`)) {
+                    if (inputValues[`ImmutableDataType${idx + 1}`] === undefined) {
+                        inputValues[`ImmutableDataType${idx + 1}`] = "S|";
                     }
-                    if (inputValues[`ImmutableDataValue${idx + 1}`] === undefined) {
-                        inputValues[`ImmutableDataValue${idx + 1}`] = "";
+                    if (inputValues[`ImmutableDataType${idx + 1}`] === undefined) {
+                        inputValues[`ImmutableDataType${idx + 1}`] = "";
                     }
                     if (immutableMetaValues !== "") {
                         immutableMetaValues = immutableMetaValues + "," + (inputValues[`ImmutableDataName${idx + 1}`] + ":" + inputValues[`ImmutableDataType${idx + 1}`] + inputValues[`ImmutableDataValue${idx + 1}`]);
@@ -196,34 +196,8 @@ export default class Helper {
         return immutableMetaValues;
     }
 
-    StringChecking(index, inputValues, propertyName) {
-        let errorData = false;
-        const stringRegEx = /^[a-zA-Z]*$/;
-        if (!stringRegEx.test(inputValues[`${propertyName}DataValue${index + 1}`])) {
-            errorData = true;
-        }
-        return errorData;
-    }
 
-    NumberChecking(index, inputValues, propertyName) {
-        let errorData = false;
-        const numberRegEx = /^[0-9\b]+$/;
-        if (!numberRegEx.test(inputValues[`${propertyName}DataValue${index + 1}`])) {
-            errorData = true;
-        }
-        return errorData;
-    }
-
-    DecimalChecking(index, inputValues, propertyName) {
-        let errorData = false;
-        const DecimalRegEx = /^[-+]?[0-9]+\.[0-9]+$/;
-        if (!DecimalRegEx.test(inputValues[`${propertyName}DataValue${index + 1}`])) {
-            errorData = true;
-        }
-        return errorData;
-    }
-
-    StringCheckingd(propertyName) {
+    StringChecking(propertyName) {
         let errorData = false;
         const stringRegEx = /^[a-zA-Z]*$/;
         if (!stringRegEx.test(propertyName)) {
@@ -234,7 +208,7 @@ export default class Helper {
         return errorData;
     }
 
-    NumberCheckingd(propertyName) {
+    NumberChecking(propertyName) {
         let errorData = false;
         const numberRegEx = /^[0-9\b]+$/;
         if (!numberRegEx.test(propertyName)) {
@@ -245,7 +219,7 @@ export default class Helper {
         return errorData;
     }
 
-    DecimalCheckingd(propertyName) {
+    DecimalChecking(propertyName) {
         let errorData = false;
         const DecimalRegEx = /^[-+]?[0-9]+\.[0-9]+$/;
         if (!DecimalRegEx.test(propertyName)) {
@@ -255,23 +229,22 @@ export default class Helper {
         }
         return errorData;
     }
-    DataTypeValidationd(inputValue, propertyName) {
+    DataTypeValidation(inputValue, propertyName) {
         let $this = this
         let errorData = false;
         if (inputValue === 'S|') {
-            errorData = $this.StringCheckingd(propertyName)
+            errorData = $this.StringChecking(propertyName)
         } else if (inputValue === 'I|') {
-            errorData = $this.NumberCheckingd(propertyName)
+            errorData = $this.NumberChecking(propertyName)
         } else if (inputValue === 'H|') {
-            errorData = $this.NumberCheckingd(propertyName)
+            errorData = $this.NumberChecking(propertyName)
         } else if (inputValue === 'D|') {
-            errorData = $this.DecimalCheckingd(propertyName)
+            errorData = $this.DecimalChecking(propertyName)
         }
         return errorData;
     }
 
     showHideDataTypeError(checkError, id) {
-
         if (!checkError) {
             document.getElementById(id).classList.remove('none');
             document.getElementById(id).classList.add('show');

@@ -9,20 +9,15 @@ import ModalCommon from "../../components/modal";
 import Loader from "../../components/loader";
 
 const Define = (props) => {
-    const url = process.env.REACT_APP_ASSET_MANTLE_API;
     const Helper = new Helpers();
     const [loader, setLoader] = useState(false)
     const [show, setShow] = useState(true);
-    const [dataTypeError, setDataTypeError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const [dataTypeOption, setDataTypeOption] = useState("S|");
     const [typeOption, setTypeOption] = useState("identity");
     const [mutableStyle, setMutableStyle] = useState("ERC20");
     const [response, setResponse] = useState({});
     const [mutableProperties, setMutableProperties] = useState([]);
-    const [mutableMetaProperties, setMutableMetaProperties] = useState([]);
     const [immutableProperties, setImmutableProperties] = useState([]);
-    const [immutableMetaProperties, setImmutableMetaProperties] = useState([]);
     const [inputValues, setInputValues] = useState([]);
     const [metaCheckboxList, setMetaCheckboxList] = useState([]);
     const [immutableMetaCheckboxList, setImmutableMetaCheckboxList] = useState([]);
@@ -35,7 +30,7 @@ const Define = (props) => {
     const handleChangeMutable = (evt, idx) => {
         const newValue = evt.target.value;
         const selectValue = document.getElementById("MutableDataType" + idx).value;
-        const checkError = Helper.DataTypeValidationd(selectValue, newValue);
+        const checkError = Helper.DataTypeValidation(selectValue, newValue);
         Helper.showHideDataTypeError(checkError, `Mutable${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
@@ -43,7 +38,7 @@ const Define = (props) => {
     const handleChangeImmutable = (evt, idx) => {
         const newValue = evt.target.value;
         const selectValue = document.getElementById("ImmutableDataType" + idx).value;
-        const checkError = Helper.DataTypeValidationd(selectValue, newValue);
+        const checkError = Helper.DataTypeValidation(selectValue, newValue);
         Helper.showHideDataTypeError(checkError, `Immutable${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
@@ -120,7 +115,7 @@ const Define = (props) => {
 
         immutablePropertyValue = Helper.ImmutablePropertyValues(immutableProperties, inputValues, immutableMetaCheckboxList);
 
-        immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableMetaProperties, inputValues, immutableMetaCheckboxList);
+        immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableProperties, inputValues, immutableMetaCheckboxList);
         if (typeOption === 'asset') {
             if (mutableMetaPropertyValue) {
                 mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + assetSpecificMutables;
@@ -151,7 +146,6 @@ const Define = (props) => {
                 defineIdentityResult.then(function (item) {
                     const data = JSON.parse(JSON.stringify(item));
                     setResponse(data)
-                    setShow(false)
                     setLoader(false);
                 })
             } else {
