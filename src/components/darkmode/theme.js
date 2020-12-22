@@ -68,7 +68,7 @@ export const darkTheme = {
     modalHeaderBorderColor: '#3e3e3e61',
     inputFieldBackground: '#2F2F2F',
     inputFieldBorderColor: '#2F2F2F',
-    inputFieldTextColor: '#e5ecf3',
+    inputFieldTextColor: '#e5ecf3 !important',
     modalCloseIconColor: '#e5e5e5',
     tabBackground: '#112641',
     tabNavLinkBorderColor: '#18365b #18365b #18365b',
