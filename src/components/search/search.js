@@ -51,7 +51,6 @@ const Search = () => {
         setRedirect(false);
     }
     const onSearchChange = (e) =>{
-        // console.log(window.location.pathname)
         setSearchInput(e.target.value)
     }
     return (

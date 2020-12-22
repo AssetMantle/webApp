@@ -18,7 +18,7 @@ const Copy = (props) => {
                 <img src={copy} alt="copy" className="copy-icon"/>
             </CopyToClipboard>
             <section className="copy-result">
-                {copyValue ? <span>Copied.</span> : null}
+                {copyValue ? <span>Copied</span> : null}
             </section>
         </div>
     );

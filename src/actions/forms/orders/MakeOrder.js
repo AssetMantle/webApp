@@ -121,7 +121,6 @@ const MakeOrder = (props) => {
                         if (mutableFieldValue === undefined) {
                             mutableFieldValue = "";
                         }
-                        console.log(mutableFieldValue, "mutableFieldValue", `${mutableName}|${mutableType}${index}`)
                         const inputName = `${mutableName}|${mutableType}${index}`
                         const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
                         if (mutableMetaValuesResponse[0] !== "") {
@@ -212,6 +211,7 @@ const MakeOrder = (props) => {
                                 name="FromId"
                                 required={true}
                                 placeholder="FromId"
+                                value={props.assetId}
                             />
                         </Form.Group>
                         <Form.Group>

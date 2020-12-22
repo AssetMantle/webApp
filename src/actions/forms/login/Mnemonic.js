@@ -14,13 +14,11 @@ const LoginMnemonic = React.memo((props) => {
     const handleSubmit = async event => {
         event.preventDefault();
         const error = keyUtils.createWallet(event.target.mnemonic.value)
-        console.log(error, "error")
         if (error.error != null) {
             setErrorMessage(error.error);
         }
         else {
             const wallet = keyUtils.getWallet(event.target.mnemonic.value)
-            console.log(wallet, "wallet")
             localStorage.setItem("address", wallet.address)
             localStorage.setItem("mnemonic", event.target.mnemonic.value)
             history.push('/assets');
