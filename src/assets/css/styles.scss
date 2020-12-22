@@ -750,6 +750,8 @@ html, body, #root, .app {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
   width: 100%;
   padding:0 25px 0 25px;
+  height: 71px;
+  overflow: auto;
   .dropdown{
     position: initial;
     button, .show>.btn-success.dropdown-toggle{
