@@ -26,8 +26,13 @@
     .id-string {
         width: 100px;
     }
-    .profile-section .profile-picture-section{
-        padding: 15px !important;
+    .profile-section {
+        .list-item .list-item-value{
+            word-break: initial;
+        }
+        .list-item .list-item-label{
+            width: 100px;
+        }
     }
 }
 
@@ -56,7 +61,11 @@
     .nav-items{
         display: inline-flex;
     }
-
+    .profile-section {
+        .profile-picture-section {
+            padding: 15px !important;
+        }
+    }
 }
 @media (max-width: 1400px){
     .banner-image-section imge{
