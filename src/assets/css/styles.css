@@ -597,12 +597,14 @@ html, body, #root, .app {
     width: 130px;
     text-align: left;
     margin: 0;
-    font-weight: 500; }
+    font-weight: 500;
+    line-height: 1.6; }
   .list-item .list-item-value {
     text-align: left;
     margin: 0 0 0 5px;
     word-break: break-word;
-    flex: 1; }
+    flex: 1;
+    line-height: 1.6; }
 
 .profile-section .col-md-9.card-deck .card-deck .card {
   height: 300px !important; }
