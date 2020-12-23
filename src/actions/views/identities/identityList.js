@@ -34,7 +34,6 @@ const IdentityList = React.memo((props) => {
                             filterIdentities.map((identity, index) => {
                                 let immutableProperties = "";
                                 let mutableProperties = "";
-                                const identityId = Helper.GetIdentityID(identity)
                                 if (identity.value.immutables.value.properties.value.propertyList !== null) {
                                     immutableProperties = Helper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
                                 }

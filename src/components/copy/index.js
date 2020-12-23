@@ -6,7 +6,6 @@ const Copy = (props) => {
     const [copyValue, setCopyValue] = useState(false)
     const [copied, setCopied] = useState(false)
     const onCopy = () => {
-        console.log("raj")
         setCopyValue(true)
         setCopied(true)
         setTimeout(() => {
