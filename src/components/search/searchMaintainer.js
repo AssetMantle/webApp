@@ -6,9 +6,10 @@ import {useTranslation} from "react-i18next";
 import Sidebar from "../sidebar/sidebar";
 
 import {Summary} from "../summary";
-import {Button} from "react-bootstrap";
 import Copy from "../copy";
 import maintainersQueryJS from "persistencejs/transaction/maintainers/query";
+import {useHistory} from "react-router-dom";
+import Icon from "../../icons";
 
 const maintainersQuery = new maintainersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -16,7 +17,7 @@ const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const SearchMaintainer = React.memo((props) => {
     const Helper = new Helpers();
     const {t} = useTranslation();
-    const [searchKey, setSearchKey] = useState("");
+    let history = useHistory();
     const [maintainersList, setMaintainersList] = useState([]);
     useEffect(() => {
         if (props.location.data !== undefined) {
@@ -39,6 +40,7 @@ const SearchMaintainer = React.memo((props) => {
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
                             <h4>Search Results : {props.location.data !== undefined ? props.location.data.data : ""}</h4>
+                            <p className="back-arrow" onClick={() => history.push(props.location.data.currentPath)}> <Icon viewClass="arrow-icon" icon="arrow" /> Back</p>
                         </div>
                         <div className="list-container">
                             <div className="row card-deck">

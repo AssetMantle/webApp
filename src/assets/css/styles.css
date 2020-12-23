@@ -303,9 +303,8 @@ html, body, #root, .app {
     .signup-section .private-key .key-download a {
       font-weight: 500;
       font-size: 14px; }
-    .signup-section .private-key .key-download img {
-      transform: rotate(90deg);
-      height: 5px; }
+    .signup-section .private-key .key-download .icon-arrow-icon {
+      transform: rotate(90deg); }
   .signup-section .private-key .download-note {
     font-size: 12px; }
 .signup-section .button-signup {
@@ -377,7 +376,7 @@ html, body, #root, .app {
   border: 1px solid #F5F5F5; }
   .mnemonic-login-section.login-section .button-view .icon-section .icon {
     background: #FFFFFF; }
-  .mnemonic-login-section.login-section .button-view .arrow-icon {
+  .mnemonic-login-section.login-section .button-view .icon-arrow-icon {
     transform: rotate(90deg); }
 .mnemonic-login-section.login-section form {
   display: flex;
@@ -526,6 +525,12 @@ html, body, #root, .app {
     font-size: 16px;
     padding: 26px 0;
     margin: 0; }
+  .dropdown-section .back-arrow {
+    cursor: pointer;
+    margin: 0; }
+    .dropdown-section .back-arrow .icon-arrow-icon {
+      margin-right: 5px;
+      transform: rotate(180deg); }
 
 .summary-section {
   height: calc(100vh - 60px);
@@ -682,5 +687,11 @@ html, body, #root, .app {
   top: 00px;
   opacity: .2;
   right: 0px; }
+
+.custom-icon {
+  cursor: pointer; }
+  .custom-icon .icon {
+    width: 20px;
+    height: 20px; }
 
 /*# sourceMappingURL=styles.css.map */

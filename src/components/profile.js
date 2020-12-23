@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from "react-i18next";
 import Sidebar from "./sidebar/sidebar";
-import {Button} from "react-bootstrap";
 import Copy from "./copy";
 import {Summary} from "./summary";
 import ledger from "../assets/images/ledger.svg";
-import arrowRightIcon from "../assets/images/arrowRightIcon.svg";
 import axios from "axios";
 import {getFaucet} from "../constants/url";
+import Icon from "../icons";
 
 const Profile = () => {
     const {t} = useTranslation();
@@ -75,7 +74,7 @@ const Profile = () => {
                                             <p className="heading">{t("ENABLE_LEDGER")}</p>
                                             <div className="button-view" title="To be implemented">
                                                 <p className="icon-section">{t("CONNECT")}</p>
-                                                <img className="arrow-icon" src={arrowRightIcon} alt="arrowRightIcon"/>
+                                                <Icon viewClass="arrow-icon" icon="arrow"/>
                                             </div>
                                         </div>
                                     </div>

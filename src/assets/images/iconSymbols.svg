@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <symbol id="icon-arrow" viewBox="0 0 19 8" >
+            <path d="M18.354 4.354a.5.5 0 0 0 0-.708L15.172.464a.5.5 0 1 0-.708.708L17.293 4l-2.829 2.828a.5.5 0 1 0 .708.708l3.182-3.182zM0 4.5h18v-1H0v1z"/>
+        </symbol>
+        <symbol id="icon-copy" viewBox="0 0 78 90" >
+            <path d="M17.678 80.357c-4.604 0-8.036-5.242-8.036-9.73v-57.77H7.941c-4.388 0-7.941 3.491-7.941 7.8v61.546C0 86.51 3.553 90 7.941 90h48.402c4.382 0 7.941-3.49 7.941-7.797v-1.846H17.678z" />
+            <path d="M54.371 23.417V0H20.796c-4.384 0-7.94 3.491-7.94 7.8v61.545c0 4.307 3.557 7.797 7.94 7.797H69.2c4.382 0 7.94-3.49 7.94-7.797V23.401l-22.769.016zm4.017-20.661v16.53l16.072-.013L58.389 2.756z" />
+        </symbol>
+        <symbol id="icon-private-key" viewBox="0 0 13 7">
+            <path d="M9.589.039a2.697 2.697 0 0 0-2.61 2.03H.858v1.446h.481v1.714h.775v.825h.776V4.679h.775V3.515h3.342A2.696 2.696 0 1 0 9.588.039zm0 1.496a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z" fill="#000"/>
+        </symbol>
+        <symbol id="icon-search"  viewBox="0 0 14 14">
+            <path d="M6 11A5 5 0 1 0 6 1a5 5 0 0 0 0 10zM10 10l3 3" stroke="#434849" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+    </defs>
+</svg>

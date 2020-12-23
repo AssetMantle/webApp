@@ -1,11 +1,12 @@
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import React, {useState} from 'react';
-import copy from "../../assets/images/copy.svg"
+import Icon from "../../icons";
 
 const Copy = (props) => {
     const [copyValue, setCopyValue] = useState(false)
     const [copied, setCopied] = useState(false)
     const onCopy = () => {
+        console.log("raj")
         setCopyValue(true)
         setCopied(true)
         setTimeout(() => {
@@ -15,7 +16,7 @@ const Copy = (props) => {
     return (
         <div className="copy-section">
             <CopyToClipboard onCopy={onCopy} text={props.id}>
-                <img src={copy} alt="copy" className="copy-icon"/>
+                <p><Icon viewClass="copy-icon" icon="copy" /></p>
             </CopyToClipboard>
             <section className="copy-result">
                 {copyValue ? <span>Copied</span> : null}

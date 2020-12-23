@@ -51,7 +51,8 @@ export const lightTheme = {
     profileCardsBg:'#FFFFFF',
     ledgerBoxBorder:'#F5F5F5',
     labelColor:'#363537',
-    ledgerBoxHeadingColor:'#262A2B'
+    ledgerBoxHeadingColor:'#262A2B',
+    copyIconColor:'#000'
 }
 
 export const darkTheme = {
@@ -107,5 +108,6 @@ export const darkTheme = {
     profileCardsBg:'#191c24',
     ledgerBoxBorder:'#343a40',
     labelColor:'rgba(255, 255, 255, 0.6)',
-    ledgerBoxHeadingColor:'rgba(255, 255, 255, 0.6)'
+    ledgerBoxHeadingColor:'rgba(255, 255, 255, 0.6)',
+    copyIconColor:'rgba(255, 255, 255, 0.6)'
 }

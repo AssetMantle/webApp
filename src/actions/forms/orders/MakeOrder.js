@@ -63,11 +63,21 @@ const MakeOrder = (props) => {
         }
 
     }
-    const handleChange = evt => {
+    const handleChangeMutable = (evt, idx) => {
         const newValue = evt.target.value;
+        const checkError = Helper.mutableValidation(newValue);
+        console.log(checkError, "error")
+        Helper.showHideDataTypeError(checkError, `mutableMakeOrder${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
 
+    const handleChangeImmutable = (evt, idx) => {
+        const newValue = evt.target.value;
+        const checkError = Helper.mutableValidation(newValue);
+        console.log(checkError, "error")
+        Helper.showHideDataTypeError(checkError, `ImmutableMakeOrder${idx}`);
+        setInputValues({...inputValues, [evt.target.name]: newValue});
+    }
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -261,9 +271,14 @@ const MakeOrder = (props) => {
                                                         name={`${mutableName}|${mutableType}${index}`}
                                                         required={false}
                                                         placeholder="Trait Value"
-                                                        onChange={handleChange}
+                                                        onChange={(evt) => {
+                                                            handleChangeMutable(evt, index + 1)
+                                                        }}
                                                     />
                                                 </Form.Group>
+                                                <Form.Text id={`mutableMakeOrder${index + 1}`} className="text-muted none">
+                                                    {t("MUTABLE_VALIDATION_ERROR")}
+                                                </Form.Text>
                                                 <Form.Group controlId="formBasicCheckbox">
                                                     <Form.Check custom type="checkbox" label="Meta"
                                                                 name={`${mutableName}|${mutableType}${index}`}
@@ -284,9 +299,14 @@ const MakeOrder = (props) => {
                                                         name={`${mutableName}|${mutableType}${index}`}
                                                         required={false}
                                                         placeholder="Trait Value"
-                                                        onChange={handleChange}
+                                                        onChange={(evt) => {
+                                                            handleChangeMutable(evt, index + 1)
+                                                        }}
                                                     />
                                                 </Form.Group>
+                                                <Form.Text id={`mutableMakeOrder${index + 1}`} className="text-muted none">
+                                                    {t("MUTABLE_VALIDATION_ERROR")}
+                                                </Form.Text>
                                                 <Form.Group controlId="formBasicCheckbox">
                                                     <Form.Check custom type="checkbox" label="Meta"
                                                                 name={`${mutableName}|${mutableType}${index}`}
@@ -318,10 +338,15 @@ const MakeOrder = (props) => {
                                                 id={`MakeOrder${immutableName}|${immutableType}${index}`}
                                                 required={true}
                                                 placeholder="Trait Value"
-                                                onChange={handleChange}
+                                                onChange={(evt) => {
+                                                    handleChangeImmutable(evt, index + 1)
+                                                }}
                                                 disabled={false}
                                             />
                                         </Form.Group>
+                                        <Form.Text id={`ImmutableMakeOrder${index + 1}`} className="text-muted none">
+                                            {t("MUTABLE_VALIDATION_ERROR")}
+                                        </Form.Text>
                                         <Form.Group>
                                             <Form.Check custom type="checkbox" label="Meta"
                                                         name={`${immutableName}|${immutableType}${index}`}

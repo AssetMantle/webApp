@@ -31,7 +31,7 @@ const Define = (props) => {
         const newValue = evt.target.value;
         const selectValue = document.getElementById("MutableDataType" + idx).value;
         const checkError = Helper.DataTypeValidation(selectValue, newValue);
-        Helper.showHideDataTypeError(checkError, `Mutable${idx}`);
+        Helper.showHideDataTypeError(checkError, `MutableDefine${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
 
@@ -39,7 +39,7 @@ const Define = (props) => {
         const newValue = evt.target.value;
         const selectValue = document.getElementById("ImmutableDataType" + idx).value;
         const checkError = Helper.DataTypeValidation(selectValue, newValue);
-        Helper.showHideDataTypeError(checkError, `Immutable${idx}`);
+        Helper.showHideDataTypeError(checkError, `ImmutableDefine${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
 
@@ -385,7 +385,7 @@ const Define = (props) => {
                                                 />
                                             </Form.Group>
 
-                                            <Form.Text id={`Mutable${idx + 1}`} className="text-muted none">
+                                            <Form.Text id={`MutableDefine${idx + 1}`} className="text-muted none">
                                                 {t("DATA_TYPE_ERROR")}
                                             </Form.Text>
                                             <Form.Group>
@@ -449,7 +449,7 @@ const Define = (props) => {
                                                 }}
                                             />
                                         </Form.Group>
-                                        <Form.Text id={`Immutable${idx + 1}`} className="text-muted none">
+                                        <Form.Text id={`ImmutableDefine${idx + 1}`} className="text-muted none">
                                             {t("DATA_TYPE_ERROR")}
                                         </Form.Text>
                                         <Form.Group>
