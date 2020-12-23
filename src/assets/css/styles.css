@@ -322,6 +322,9 @@ html, body, #root, .app {
 .signup-section .button-signup-mnemonic {
   margin-bottom: 15px; }
 
+.burn-confirmation-buttons button {
+  margin-left: 10px; }
+
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before, .custom-switch .custom-control-input:checked ~ .custom-control-label::before {
   background-color: #efcc30;
   border: 0px solid; }

@@ -178,7 +178,7 @@ const AssetList = React.memo((props) => {
                                                                     onClick={() => handleModalData("MutateAsset", mutableProperties, asset)}>{t("MUTATE_ASSET")}
                                                             </Button>
                                                             <Button variant="secondary"  size="sm"
-                                                                    onClick={() => handleModalData("BurnAsset", "", asset, ownerId)}>{t("BURN_ASSET")}
+                                                                    onClick={() => handleModalData("BurnAsset", "", asset, ownerId, ownableID)}>{t("BURN_ASSET")}
                                                             </Button>
 
                                                         </div>
@@ -231,7 +231,7 @@ const AssetList = React.memo((props) => {
                 }
                 {
                     externalComponent === 'BurnAsset' ?
-                        <BurnAsset setExternalComponent={setExternalComponent} asset={asset} ownerId={ownerId}/> :
+                        <BurnAsset setExternalComponent={setExternalComponent} ownerId={ownerId} ownableId={ownableId}/> :
                         null
                 }
                 {

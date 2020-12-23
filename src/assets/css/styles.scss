@@ -478,7 +478,11 @@ html, body, #root, .app {
     margin-bottom: 15px;
   }
 }
-
+.burn-confirmation-buttons{
+  button{
+    margin-left: 10px;
+  }
+}
 .custom-checkbox, .custom-switch {
   .custom-control-input:checked ~ .custom-control-label::before {
     background-color: #efcc30;
