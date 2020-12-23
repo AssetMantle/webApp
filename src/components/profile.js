@@ -54,12 +54,12 @@ const Profile = () => {
                                                 : "0"
                                             }
                                         </div>
-                                        <div className="list-item">
-                                            <p className="list-item-label">
-                                               {t("PENDING_TRANSACTIONS")}
-                                            </p>
-                                            <p className="list-item-value">0</p>
-                                        </div>
+                                        {/*<div className="list-item">*/}
+                                        {/*    <p className="list-item-label">*/}
+                                        {/*       {t("PENDING_TRANSACTIONS")}*/}
+                                        {/*    </p>*/}
+                                        {/*    <p className="list-item-value">0</p>*/}
+                                        {/*</div>*/}
                                     </div>
                                 </div>
                                 <div className="col-xl-3 col-lg-4 col-md-12 col-sm-12">
