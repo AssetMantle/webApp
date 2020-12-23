@@ -4,7 +4,7 @@ import {useHistory} from "react-router-dom";
 import keyUtils from "persistencejs/utilities/keys";
 import {useTranslation} from "react-i18next";
 import privateKeyIcon from "../../../assets/images/PrivatekeyIcon.svg";
-import arrowRightIcon from "../../../assets/images/arrowRightIcon.svg";
+import Icon from "../../../icons";
 
 const PrivateKey = (props) => {
     const {t} = useTranslation();
@@ -49,7 +49,7 @@ const PrivateKey = (props) => {
                         <div className="icon-section">
                             <div className="icon"><img src={privateKeyIcon} alt="privateKeyIcon"/> </div>
                             {t("LOGIN_PRIVATE_KEY")}</div>
-                        <img className="arrow-icon" src={arrowRightIcon} alt="arrowRightIcon"/>
+                        <Icon viewClass="arrow-icon" icon="arrow" />
                     </div>
                 </div>
                 <Form onSubmit={handleSubmit}>

@@ -14,7 +14,6 @@ export const GlobalStyles = createGlobalStyle`
   body {
     align-items: center;
     background: ${({theme}) => theme.body};
-    color: ${({theme}) => theme.text};
     font-family: ${({theme}) => theme.fontFamily}
   }
 
@@ -200,6 +199,12 @@ export const GlobalStyles = createGlobalStyle`
   }
   .profile-section .ledger-box .heading{
     color: ${({theme}) => theme.ledgerBoxHeadingColor};
+  }
+  .back-arrow{
+    color: ${({theme}) => theme.mnemonicTextColor};
+  }
+  .icon-copy-icon, .icon-arrow-icon{
+    fill: ${({theme}) => theme.copyIconColor};;
   }
 `;
 

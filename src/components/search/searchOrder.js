@@ -1,23 +1,22 @@
 import React, {useState, useEffect} from "react";
-import Loader from "../loader";
 import Helpers from "../../utilities/Helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../sidebar/sidebar";
 
 import {Summary} from "../summary";
-import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import {Button} from "react-bootstrap";
 import Copy from "../copy";
 import ordersQueryJS from "persistencejs/transaction/orders/query";
+import {useHistory} from "react-router-dom";
+import Icon from "../../icons";
 const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const SearchOrder = React.memo((props) => {
     const Helper = new Helpers();
     const {t} = useTranslation();
+    let history = useHistory();
     const [orderList, setOrderList] = useState([]);
-    const [filteredIdentitiesList, setFilteredIdentitiesList] = useState([]);
     useEffect(()=>{
      if(props.location.data !== undefined){
         const ordersData = ordersQuery.queryOrderWithID(props.location.data.data)
@@ -53,6 +52,7 @@ const SearchOrder = React.memo((props) => {
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
                             <h4>Search Results : {props.location.data !== undefined ? props.location.data.data : ""}</h4>
+                            <p className="back-arrow" onClick={() => history.push(props.location.data.currentPath)}> <Icon viewClass="arrow-icon" icon="arrow" /> Back</p>
                         </div>
                         <div className="list-container">
                             <div className="row card-deck">

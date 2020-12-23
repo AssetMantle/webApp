@@ -244,6 +244,15 @@ export default class Helper {
         return errorData;
     }
 
+    mutableValidation(inputValue){
+        let error = false;
+            var blockSpecialRegex = /[`*,|.]/;
+            if (!blockSpecialRegex.test(inputValue)){
+                error = true;
+            }
+            return error;
+    }
+
     showHideDataTypeError(checkError, id) {
         if (!checkError) {
             document.getElementById(id).classList.remove('none');

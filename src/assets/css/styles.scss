@@ -557,7 +557,7 @@ html, body, #root, .app {
       }
     }
 
-    .arrow-icon {
+    .icon-arrow-icon {
       transform: rotate(90deg);
     }
   }
@@ -769,6 +769,14 @@ html, body, #root, .app {
     padding: 26px 0;
     margin: 0;
   }
+  .back-arrow{
+    cursor: pointer;
+    margin: 0;
+    .icon-arrow-icon{
+      margin-right: 5px;
+      transform: rotate(180deg);
+    }
+  }
 }
 
 .summary-section {
@@ -959,4 +967,10 @@ html, body, #root, .app {
   right: 0px;
 }
 
-
+.custom-icon{
+  cursor: pointer;
+  .icon{
+    width: 20px;
+    height: 20px;
+  }
+}

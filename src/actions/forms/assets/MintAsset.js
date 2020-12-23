@@ -64,9 +64,18 @@ const MintAsset = (props) => {
         }
 
     }
-
-    const handleChange = evt => {
+    const handleChangeMutable = (evt, idx) => {
         const newValue = evt.target.value;
+        const checkError = Helper.mutableValidation(newValue);
+        console.log(checkError, "error")
+        Helper.showHideDataTypeError(checkError, `mutableMint${idx}`);
+        setInputValues({...inputValues, [evt.target.name]: newValue});
+    }
+    const handleChangeImmutable = (evt, idx) => {
+        const newValue = evt.target.value;
+        const checkError = Helper.mutableValidation(newValue);
+        console.log(checkError, "error")
+        Helper.showHideDataTypeError(checkError, `ImmutableMint${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
     const userTypeToken = localStorage.getItem('mnemonic');
@@ -230,9 +239,14 @@ const MintAsset = (props) => {
                                                 name={`${mutableName}|${mutableType}${index}`}
                                                 required={true}
                                                 placeholder="Trait Value"
-                                                onChange={handleChange}
+                                                onChange={(evt) => {
+                                                    handleChangeMutable(evt, index + 1)
+                                                }}
                                             />
                                         </Form.Group>
+                                        <Form.Text id={`mutableMint${index + 1}`} className="text-muted none">
+                                            {t("MUTABLE_VALIDATION_ERROR")}
+                                        </Form.Text>
                                         <Form.Group controlId="formBasicCheckbox">
                                             <Form.Check custom type="checkbox" label="Meta"
                                                         name={`${mutableName}|${mutableType}${index}`}
@@ -262,10 +276,15 @@ const MintAsset = (props) => {
                                                 id={`MintAsset${immutableName}|${immutableType}${index}`}
                                                 required={true}
                                                 placeholder="Trait Value"
-                                                onChange={handleChange}
+                                                onChange={(evt) => {
+                                                    handleChangeImmutable(evt, index + 1)
+                                                }}
                                                 disabled={false}
                                             />
                                         </Form.Group>
+                                        <Form.Text id={`ImmutableMint${index + 1}`} className="text-muted none">
+                                            {t("MUTABLE_VALIDATION_ERROR")}
+                                        </Form.Text>
                                         <Form.Group>
                                             <Form.Check custom type="checkbox" label="Meta"
                                                         name={`${immutableName}|${immutableType}${index}`}

@@ -6,7 +6,7 @@ import {useHistory} from "react-router-dom";
 import MnemonicIcon from "../assets/images/MnemonicIcon.svg"
 import PrivatekeyIcon from "../assets/images/PrivatekeyIcon.svg"
 import LedgerIcon from "../assets/images/LedgerIcon.svg"
-import arrowRightIcon from "../assets/images/arrowRightIcon.svg"
+import Icon from "../icons";
 
 const Login = () => {
     const {t} = useTranslation();
@@ -30,12 +30,12 @@ const Login = () => {
                 <Modal.Body>
                     <div className="mrt-10">
                         <div className="button-view"
-                            onClick={() => handleRoute("LoginMnemonic")}
+                             onClick={() => handleRoute("LoginMnemonic")}
                         >
                             <div className="icon-section">
-                                <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/> </div>
+                                <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/></div>
                                 {t("LOGIN_MNEMONIC")}</div>
-                            <img src={arrowRightIcon} alt="arrowRightIcon"/>
+                            <Icon viewClass="arrow-icon" icon="arrow"/>
                         </div>
                     </div>
                     <div className="mrt-10">
@@ -43,22 +43,22 @@ const Login = () => {
                              onClick={() => handleRoute("PrivateKey")}
                         >
                             <div className="icon-section">
-                                <div className="icon"><img src={PrivatekeyIcon} alt="PrivatekeyIcon"/> </div>
+                                <div className="icon"><img src={PrivatekeyIcon} alt="PrivatekeyIcon"/></div>
                                 {t("LOGIN_PRIVATE_KEY")}
                             </div>
-                            <img src={arrowRightIcon} alt="arrowRightIcon"/>
+                            <Icon viewClass="arrow-icon" icon="arrow"/>
                         </div>
                     </div>
                     <div className="mrt-10">
                         <div className="button-view disabled"
-                             // onClick={() => handleRoute("Ledger")}
-                            title="To be implemented"
+                            // onClick={() => handleRoute("Ledger")}
+                             title="To be implemented"
                         >
                             <div className="icon-section">
-                                <div className="icon"><img src={LedgerIcon} alt="LedgerIcon"/> </div>
+                                <div className="icon"><img src={LedgerIcon} alt="LedgerIcon"/></div>
                                 {t("LEDGER_LOGIN")}
                             </div>
-                            <img src={arrowRightIcon} alt="arrowRightIcon"/>
+                            <Icon viewClass="arrow-icon" icon="arrow"/>
                         </div>
                     </div>
                 </Modal.Body>
