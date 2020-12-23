@@ -46,7 +46,7 @@ const Sidebar = () => {
     }
 
     return (
-        <div className={hideSideNav ? "side-bar active" : "side-bar"}>
+        <div className={hideSideNav ? "side-bar" : "side-bar active"}>
             <div className="content">
                 {loader ?
                     <Loader/>

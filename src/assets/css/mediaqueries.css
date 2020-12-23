@@ -13,7 +13,10 @@
     margin-right: 10px; }
 
   .id-string {
-    width: 100px; } }
+    width: 100px; }
+
+  .profile-section .profile-picture-section {
+    padding: 15px !important; } }
 @media (max-width: 768px) {
   .banner-image-section {
     display: none !important; }
