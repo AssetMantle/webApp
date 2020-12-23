@@ -4,7 +4,7 @@ import keyUtils from "persistencejs/utilities/keys";
 import DownloadLink from "react-download-link";
 import {useTranslation} from "react-i18next";
 import {useHistory} from "react-router-dom";
-import rightArrow from "../../assets/images/arrowRightIcon.svg"
+import Icon from "../../icons";
 const SignUp = () => {
     const {t} = useTranslation();
     const history = useHistory();
@@ -126,7 +126,7 @@ const SignUp = () => {
                                 filename="key.json"
                                 exportFile={() => `${jsonName}`}
                             />
-                                <img src={rightArrow} alt="rightArrow" />
+                                <Icon viewClass="arrow-icon" icon="arrow"/>
                             </p>
                             <p className="download-note">({t("DOWNLOAD_KEY")})</p>
                             <Button

@@ -303,9 +303,8 @@ html, body, #root, .app {
     .signup-section .private-key .key-download a {
       font-weight: 500;
       font-size: 14px; }
-    .signup-section .private-key .key-download img {
-      transform: rotate(90deg);
-      height: 5px; }
+    .signup-section .private-key .key-download .icon-arrow-icon {
+      transform: rotate(90deg); }
   .signup-section .private-key .download-note {
     font-size: 12px; }
 .signup-section .button-signup {
