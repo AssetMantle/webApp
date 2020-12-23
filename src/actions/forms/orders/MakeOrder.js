@@ -100,7 +100,7 @@ const MakeOrder = (props) => {
     const handleFormSubmit = (event) => {
         setLoader(false)
         event.preventDefault();
-        const assetId = props.assetId;
+        const assetId = props.ownableId;
         const FromId = event.target.FromId.value;
         const TakerOwnableId = event.target.TakerOwnableId.value;
         const Makersplit = event.target.Makersplit.value;
@@ -221,7 +221,7 @@ const MakeOrder = (props) => {
                                 name="FromId"
                                 required={true}
                                 placeholder="FromId"
-                                value={props.assetId}
+                                value={props.ownerId}
                             />
                         </Form.Group>
                         <Form.Group>

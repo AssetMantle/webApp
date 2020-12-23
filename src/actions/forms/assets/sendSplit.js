@@ -22,7 +22,7 @@ const SendSplit = (props) => {
         setLoader(true)
         event.preventDefault();
         const IdentityID = event.target.IdentityID.value;
-        const fromId = props.ownerid;
+        const fromId = props.ownerId;
         const splitId = props.ownableId;
         const splitAmount = event.target.splitAmount.value;
         const userTypeToken = localStorage.getItem('mnemonic');

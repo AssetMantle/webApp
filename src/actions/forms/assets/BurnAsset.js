@@ -25,7 +25,7 @@ const BurnAsset = (props) => {
         setLoader(true)
         event.preventDefault();
         const asset = props.asset;
-        const FromId =  props.assetId;
+        const FromId =  props.ownerId;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
         const assetId = Helper.GetAssetID(asset.result.value.assets.value.list[0])

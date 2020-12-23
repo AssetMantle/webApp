@@ -21,7 +21,7 @@ const AssetList = React.memo((props) => {
     const Helper = new Helpers();
     const {t} = useTranslation();
     const [externalComponent, setExternalComponent] = useState("");
-    const [assetOwnerId, setAssetOwnerId] = useState("");
+    const [ownerId, setOwnerId] = useState("");
     const [ownableId, setOwnableId] = useState("");
     const [assetList, setAssetList] = useState([]);
     const [loader, setLoader] = useState(true)
@@ -98,7 +98,7 @@ const AssetList = React.memo((props) => {
     const handleModalData = (formName, mutableProperties1, asset1, assetOwnerId, ownableId) => {
         setMutateProperties(mutableProperties1)
         setAsset(asset1)
-        setAssetOwnerId(assetOwnerId)
+        setOwnerId(assetOwnerId)
         setExternalComponent(formName)
         setOwnableId(ownableId)
     }
@@ -153,7 +153,7 @@ const AssetList = React.memo((props) => {
 
                                     <div className="button-group">
                                         <Button variant="secondary"  size="sm"
-                                                onClick={() => handleModalData("MakeOrder", "", "", ownerId)}>{t("MAKE")}</Button>
+                                                onClick={() => handleModalData("MakeOrder", "", "", ownerId, ownableID)}>{t("MAKE")}</Button>
                                         <Button variant="secondary"  size="sm"
                                                 onClick={() => handleModalData("SendSplit", "", "", ownerId, ownableID) }>{t("SEND_SPLITS")}</Button>
                                     </div>
@@ -231,17 +231,17 @@ const AssetList = React.memo((props) => {
                 }
                 {
                     externalComponent === 'BurnAsset' ?
-                        <BurnAsset setExternalComponent={setExternalComponent} asset={asset} assetId={assetOwnerId}/> :
+                        <BurnAsset setExternalComponent={setExternalComponent} asset={asset} ownerId={ownerId}/> :
                         null
                 }
                 {
                     externalComponent === 'MakeOrder' ?
-                        <MakeOrder setExternalComponent={setExternalComponent} assetId={assetOwnerId}/> :
+                        <MakeOrder setExternalComponent={setExternalComponent} ownerId={ownerId} ownableId={ownableId}/> :
                         null
                 }
                 {
                     externalComponent === 'SendSplit' ?
-                        <SendSplit setExternalComponent={setExternalComponent} ownerid={assetOwnerId} ownableId={ownableId}/> :
+                        <SendSplit setExternalComponent={setExternalComponent} ownerId={ownerId} ownableId={ownableId}/> :
                         null
                 }
             </div>
