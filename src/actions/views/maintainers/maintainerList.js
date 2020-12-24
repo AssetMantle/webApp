@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import maintainersQueryJS from "persistencejs/transaction/maintainers/query";
 import Helpers from "../../../utilities/Helper";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import {Button, Modal} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import {Deputize} from "../../forms/maintainers";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
@@ -87,7 +87,7 @@ const MaintainerList = React.memo((props) => {
                                     {(maintainer.value.addMaintainer) ?
                                         <div>
                                             <Button size="sm" variant="secondary"
-                                                onClick={() => handleModalData('BurnAsset', maintainer)}>Deputize</Button>
+                                                onClick={() => handleModalData('DeputizeMaintainer', maintainer)}>{t("DEPUTIZE")}</Button>
                                         </div> : ""
                                     }
                                     <div className="list-item">
@@ -119,7 +119,7 @@ const MaintainerList = React.memo((props) => {
             </div>
             <div>
                 {
-                    externalComponent === 'BurnAsset' ?
+                    externalComponent === 'DeputizeMaintainer' ?
                         <Deputize setExternalComponent={setExternalComponent} maintainerData={maintainer}/> :
                         null
                 }
