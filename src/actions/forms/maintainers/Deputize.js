@@ -78,6 +78,7 @@ const Deputize = (props) => {
     };
     const handleClose = () => {
         setShow(false)
+        props.setExternalComponent("");
     };
     return (
         <div>
@@ -98,7 +99,7 @@ const Deputize = (props) => {
                             className=""
                             name="ToId"
                             required={true}
-                            placeholder="ToId"
+                            placeholder={t("TO_ID")}
                         />
                     </Form.Group>
 

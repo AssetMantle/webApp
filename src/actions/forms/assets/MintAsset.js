@@ -175,7 +175,7 @@ const MintAsset = (props) => {
                             className=""
                             name="ClassificationId"
                             required={true}
-                            placeholder="ClassificationId"
+                            placeholder={t("CLASSIFICATION_ID")}
                         />
                     </Form.Group>
 
@@ -212,7 +212,7 @@ const MintAsset = (props) => {
                                 className=""
                                 name="FromId"
                                 required={true}
-                                placeholder="FromId"
+                                placeholder={t("FROM_ID")}
                             />
                         </Form.Group>
                         <Form.Group>
@@ -222,7 +222,7 @@ const MintAsset = (props) => {
                                 className=""
                                 name="toID"
                                 required={true}
-                                placeholder="toID"
+                                placeholder={t("TO_ID")}
                             />
                         </Form.Group>
                         {mutableList !== null ?
@@ -238,7 +238,7 @@ const MintAsset = (props) => {
                                                 className=""
                                                 name={`${mutableName}|${mutableType}${index}`}
                                                 required={true}
-                                                placeholder="Trait Value"
+                                                placeholder={t("TRAIT_VALUE")}
                                                 onChange={(evt) => {
                                                     handleChangeMutable(evt, index + 1)
                                                 }}
@@ -275,7 +275,7 @@ const MintAsset = (props) => {
                                                 name={`${immutableName}|${immutableType}${index}`}
                                                 id={`MintAsset${immutableName}|${immutableType}${index}`}
                                                 required={true}
-                                                placeholder="Trait Value"
+                                                placeholder={t("TRAIT_VALUE")}
                                                 onChange={(evt) => {
                                                     handleChangeImmutable(evt, index + 1)
                                                 }}
