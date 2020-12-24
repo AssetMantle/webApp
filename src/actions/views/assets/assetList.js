@@ -21,7 +21,7 @@ const AssetList = React.memo((props) => {
     const Helper = new Helpers();
     const {t} = useTranslation();
     const [externalComponent, setExternalComponent] = useState("");
-    const [assetId, setAssetId] = useState("");
+    const [ownerId, setOwnerId] = useState("");
     const [ownableId, setOwnableId] = useState("");
     const [assetList, setAssetList] = useState([]);
     const [loader, setLoader] = useState(true)
@@ -95,10 +95,10 @@ const AssetList = React.memo((props) => {
         fetchAssets();
     }, []);
 
-    const handleModalData = (formName, mutableProperties1, asset1, assetId1, ownableId) => {
+    const handleModalData = (formName, mutableProperties1, asset1, assetOwnerId, ownableId) => {
         setMutateProperties(mutableProperties1)
         setAsset(asset1)
-        setAssetId(assetId1)
+        setOwnerId(assetOwnerId)
         setExternalComponent(formName)
         setOwnableId(ownableId)
     }
@@ -153,7 +153,7 @@ const AssetList = React.memo((props) => {
 
                                     <div className="button-group">
                                         <Button variant="secondary"  size="sm"
-                                                onClick={() => handleModalData("MakeOrder", "", "", ownableID)}>{t("MAKE")}</Button>
+                                                onClick={() => handleModalData("MakeOrder", "", "", ownerId, ownableID)}>{t("MAKE")}</Button>
                                         <Button variant="secondary"  size="sm"
                                                 onClick={() => handleModalData("SendSplit", "", "", ownerId, ownableID) }>{t("SEND_SPLITS")}</Button>
                                     </div>
@@ -178,7 +178,7 @@ const AssetList = React.memo((props) => {
                                                                     onClick={() => handleModalData("MutateAsset", mutableProperties, asset)}>{t("MUTATE_ASSET")}
                                                             </Button>
                                                             <Button variant="secondary"  size="sm"
-                                                                    onClick={() => handleModalData("BurnAsset", "", asset, ownerId)}>{t("BURN_ASSET")}
+                                                                    onClick={() => handleModalData("BurnAsset", "", asset, ownerId, ownableID)}>{t("BURN_ASSET")}
                                                             </Button>
 
                                                         </div>
@@ -231,17 +231,17 @@ const AssetList = React.memo((props) => {
                 }
                 {
                     externalComponent === 'BurnAsset' ?
-                        <BurnAsset setExternalComponent={setExternalComponent} asset={asset} assetId={assetId}/> :
+                        <BurnAsset setExternalComponent={setExternalComponent} ownerId={ownerId} ownableId={ownableId}/> :
                         null
                 }
                 {
                     externalComponent === 'MakeOrder' ?
-                        <MakeOrder setExternalComponent={setExternalComponent} assetId={assetId}/> :
+                        <MakeOrder setExternalComponent={setExternalComponent} ownerId={ownerId} ownableId={ownableId}/> :
                         null
                 }
                 {
                     externalComponent === 'SendSplit' ?
-                        <SendSplit setExternalComponent={setExternalComponent} ownerid={assetId} ownableId={ownableId}/> :
+                        <SendSplit setExternalComponent={setExternalComponent} ownerId={ownerId} ownableId={ownableId}/> :
                         null
                 }
             </div>

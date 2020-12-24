@@ -7,15 +7,11 @@ import {Search} from "../../components/search";
 import {NavLink} from 'react-router-dom';
 import logo from '../../assets/images/logo.svg'
 import profileIcon from "../../assets/images/profile.svg"
-import Footer from "../Footer";
-
 const HeaderAfterLogin = () => {
     const history = useHistory();
     const {t} = useTranslation();
     const userTypeToken = localStorage.getItem('mnemonic');
     const userAddress = localStorage.getItem('address');
-    console.log(userTypeToken, "mnemonic")
-    console.log(userAddress, "userAddress")
     const handleRoute = route => () => {
         history.push(route)
     };
@@ -24,7 +20,8 @@ const HeaderAfterLogin = () => {
     };
 
     const logout = route => () => {
-        localStorage.clear();
+        localStorage.removeItem('mnemonic');
+        localStorage.removeItem('address');
         history.push('/');
     }
 
@@ -46,7 +43,11 @@ const HeaderAfterLogin = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="search-section mr-auto">
-                        <Search/>
+                        {window.location.pathname !== "/SearchAsset" && window.location.pathname !== "/SearchIdentity" && window.location.pathname !== "/SearchOrder" & window.location.pathname !== "/SearchMaintainer" ?
+                            <Search/>
+                        :""
+                        }
+
                     </Nav>
 
                     {
@@ -63,7 +64,8 @@ const HeaderAfterLogin = () => {
                             <Nav className="nav-items">
                                 <NavLink className="nav-link" to="/assets">{t("ASSETS")}</NavLink>
                                 <NavLink className="nav-link" to="/orders">{t("ORDERS")}</NavLink>
-                                <NavLink className="nav-link" to="/identities">{t("IDENTITIES")}</NavLink>
+                                <NavLink className="nav-link" to="/marketplace">{t("MARKET_PLACE")}</NavLink>
+
                                 <NavDropdown title={
                                     <div className="profile-icon">
                                         <p className="address">{userAddress}</p>
@@ -73,11 +75,9 @@ const HeaderAfterLogin = () => {
                                         />
 
 
-                                    </div>
-                                }
-
-                                             id="basic-nav-dropdown">
-                                    <NavLink className="dropdown-item" to="/marketplace">{t("MARKET_PLACE")}</NavLink>
+                                    </div>}
+                                     id="basic-nav-dropdown">
+                                    <NavLink className="dropdown-item" to="/identities">{t("IDENTITIES")}</NavLink>
                                     <NavLink className="dropdown-item" to="/maintainers">{t("MAINTAINERS")}</NavLink>
                                     <NavLink className="dropdown-item" to="/Profile">{t("PROFILE")}</NavLink>
                                     <NavDropdown.Item onClick={logout("/")}>{t("LOGOUT")}</NavDropdown.Item>

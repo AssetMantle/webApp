@@ -62,11 +62,22 @@ const IssueIdentity = (props) => {
         }
 
     }
-
-    const handleChange = evt => {
+    const handleChangeMutable = (evt, idx) => {
         const newValue = evt.target.value;
+        const checkError = Helper.mutableValidation(newValue);
+        console.log(checkError, "error")
+        Helper.showHideDataTypeError(checkError, `mutableIssueIdentity${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
+
+    const handleChangeImmutable = (evt, idx) => {
+        const newValue = evt.target.value;
+        const checkError = Helper.mutableValidation(newValue);
+        console.log(checkError, "error")
+        Helper.showHideDataTypeError(checkError, `ImmutableIssueIdentity${idx}`);
+        setInputValues({...inputValues, [evt.target.name]: newValue});
+    }
+
     const userTypeToken = localStorage.getItem('mnemonic');
     const userAddress = localStorage.getItem('address');
     const handleSubmit = (event) => {
@@ -228,9 +239,14 @@ const IssueIdentity = (props) => {
                                                 name={`${mutableName}|${mutableType}${index}`}
                                                 required={true}
                                                 placeholder="Trait Value"
-                                                onChange={handleChange}
+                                                onChange={(evt) => {
+                                                    handleChangeMutable(evt, index + 1)
+                                                }}
                                             />
                                         </Form.Group>
+                                        <Form.Text id={`mutableIssueIdentity${index + 1}`} className="text-muted none">
+                                            {t("MUTABLE_VALIDATION_ERROR")}
+                                        </Form.Text>
                                         <Form.Group>
                                             <Form.Check custom type="checkbox" label="Meta"
                                                         name={`${mutableName}|${mutableType}${index}`}
@@ -260,10 +276,15 @@ const IssueIdentity = (props) => {
                                                 required={true}
                                                 id={`IssueIdentity${immutableName}|${immutableType}${index}`}
                                                 placeholder="Trait Value"
+                                                onChange={(evt) => {
+                                                    handleChangeImmutable(evt, index + 1)
+                                                }}
                                                 disabled={false}
-                                                onChange={handleChange}
                                             />
                                         </Form.Group>
+                                        <Form.Text id={`ImmutableIssueIdentity${index + 1}`} className="text-muted none">
+                                            {t("MUTABLE_VALIDATION_ERROR")}
+                                        </Form.Text>
                                         <Form.Group>
                                             <Form.Check custom type="checkbox" label="Meta"
                                                         name={`${immutableName}|${immutableType}${index}`}

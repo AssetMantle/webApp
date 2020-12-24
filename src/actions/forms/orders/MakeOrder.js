@@ -63,11 +63,21 @@ const MakeOrder = (props) => {
         }
 
     }
-    const handleChange = evt => {
+    const handleChangeMutable = (evt, idx) => {
         const newValue = evt.target.value;
+        const checkError = Helper.mutableValidation(newValue);
+        console.log(checkError, "error")
+        Helper.showHideDataTypeError(checkError, `mutableMakeOrder${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
 
+    const handleChangeImmutable = (evt, idx) => {
+        const newValue = evt.target.value;
+        const checkError = Helper.mutableValidation(newValue);
+        console.log(checkError, "error")
+        Helper.showHideDataTypeError(checkError, `ImmutableMakeOrder${idx}`);
+        setInputValues({...inputValues, [evt.target.name]: newValue});
+    }
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -90,7 +100,7 @@ const MakeOrder = (props) => {
     const handleFormSubmit = (event) => {
         setLoader(false)
         event.preventDefault();
-        const assetId = props.assetId;
+        const assetId = props.ownableId;
         const FromId = event.target.FromId.value;
         const TakerOwnableId = event.target.TakerOwnableId.value;
         const Makersplit = event.target.Makersplit.value;
@@ -121,7 +131,6 @@ const MakeOrder = (props) => {
                         if (mutableFieldValue === undefined) {
                             mutableFieldValue = "";
                         }
-                        console.log(mutableFieldValue, "mutableFieldValue", `${mutableName}|${mutableType}${index}`)
                         const inputName = `${mutableName}|${mutableType}${index}`
                         const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
                         if (mutableMetaValuesResponse[0] !== "") {
@@ -212,6 +221,7 @@ const MakeOrder = (props) => {
                                 name="FromId"
                                 required={true}
                                 placeholder="FromId"
+                                value={props.ownerId}
                             />
                         </Form.Group>
                         <Form.Group>
@@ -261,9 +271,14 @@ const MakeOrder = (props) => {
                                                         name={`${mutableName}|${mutableType}${index}`}
                                                         required={false}
                                                         placeholder="Trait Value"
-                                                        onChange={handleChange}
+                                                        onChange={(evt) => {
+                                                            handleChangeMutable(evt, index + 1)
+                                                        }}
                                                     />
                                                 </Form.Group>
+                                                <Form.Text id={`mutableMakeOrder${index + 1}`} className="text-muted none">
+                                                    {t("MUTABLE_VALIDATION_ERROR")}
+                                                </Form.Text>
                                                 <Form.Group controlId="formBasicCheckbox">
                                                     <Form.Check custom type="checkbox" label="Meta"
                                                                 name={`${mutableName}|${mutableType}${index}`}
@@ -284,9 +299,14 @@ const MakeOrder = (props) => {
                                                         name={`${mutableName}|${mutableType}${index}`}
                                                         required={false}
                                                         placeholder="Trait Value"
-                                                        onChange={handleChange}
+                                                        onChange={(evt) => {
+                                                            handleChangeMutable(evt, index + 1)
+                                                        }}
                                                     />
                                                 </Form.Group>
+                                                <Form.Text id={`mutableMakeOrder${index + 1}`} className="text-muted none">
+                                                    {t("MUTABLE_VALIDATION_ERROR")}
+                                                </Form.Text>
                                                 <Form.Group controlId="formBasicCheckbox">
                                                     <Form.Check custom type="checkbox" label="Meta"
                                                                 name={`${mutableName}|${mutableType}${index}`}
@@ -318,10 +338,15 @@ const MakeOrder = (props) => {
                                                 id={`MakeOrder${immutableName}|${immutableType}${index}`}
                                                 required={true}
                                                 placeholder="Trait Value"
-                                                onChange={handleChange}
+                                                onChange={(evt) => {
+                                                    handleChangeImmutable(evt, index + 1)
+                                                }}
                                                 disabled={false}
                                             />
                                         </Form.Group>
+                                        <Form.Text id={`ImmutableMakeOrder${index + 1}`} className="text-muted none">
+                                            {t("MUTABLE_VALIDATION_ERROR")}
+                                        </Form.Text>
                                         <Form.Group>
                                             <Form.Check custom type="checkbox" label="Meta"
                                                         name={`${immutableName}|${immutableType}${index}`}

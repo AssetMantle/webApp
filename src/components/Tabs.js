@@ -25,12 +25,10 @@ const ActionsSwitcher = () => {
         const userAddress = localStorage.getItem('address');
         axios.post(process.env.REACT_APP_FAUCET_SERVER + "/faucetRequest", {address: userAddress})
             .then(response => {
-                    console.log(response)
                     setLoader(false)
                 }
             )
             .catch(err => {
-                console.log(err)
                 setLoader(false)
             })
     };
@@ -41,7 +39,6 @@ const ActionsSwitcher = () => {
             .then((response) => {
                 setAccountResponse(response.data.result.value)
             }).catch((error) => {
-            console.log(error, "error section")
         });
     }, [])
 

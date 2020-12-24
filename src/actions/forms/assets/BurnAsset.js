@@ -24,11 +24,10 @@ const BurnAsset = (props) => {
     const handleSubmit = (event) => {
         setLoader(true)
         event.preventDefault();
-        const asset = props.asset;
-        const FromId =  props.assetId;
+        const FromId =  props.ownerId;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        const assetId = Helper.GetAssetID(asset.result.value.assets.value.list[0])
+        const assetId =  props.ownableId;
         const burnResponse = burnAsset.burn(userAddress, "test", userTypeToken, FromId, assetId, config.feesAmount, config.feesToken, config.gas, config.mode);
         burnResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
@@ -51,7 +50,7 @@ const BurnAsset = (props) => {
                     }
                 </div>
             <Modal.Body>
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit} className="burn-confirmation-buttons">
                     <p>{t("ARE_YOU_SURE")}</p>
                     <Button variant="primary" type="submit">
                         {t("YES")}

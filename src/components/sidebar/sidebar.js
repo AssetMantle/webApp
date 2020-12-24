@@ -21,12 +21,10 @@ const Sidebar = () => {
         const userAddress = localStorage.getItem('address');
         axios.post(process.env.REACT_APP_FAUCET_SERVER + "/faucetRequest", {address: userAddress})
             .then(response => {
-                    console.log(response)
                     setLoader(false)
                 }
             )
             .catch(err => {
-                console.log(err)
                 setLoader(false)
             })
     };
@@ -48,7 +46,7 @@ const Sidebar = () => {
     }
 
     return (
-        <div className={hideSideNav ? "side-bar active" : "side-bar"}>
+        <div className={hideSideNav ? "side-bar" : "side-bar active"}>
             <div className="content">
                 {loader ?
                     <Loader/>

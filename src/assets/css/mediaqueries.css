@@ -13,6 +13,11 @@
     margin-right: 10px; }
 
   .id-string {
+    width: 100px; }
+
+  .profile-section .list-item .list-item-value {
+    word-break: initial; }
+  .profile-section .list-item .list-item-label {
     width: 100px; } }
 @media (max-width: 768px) {
   .banner-image-section {
@@ -35,7 +40,10 @@
     width: auto; }
 
   .nav-items {
-    display: inline-flex; } }
+    display: inline-flex; }
+
+  .profile-section .profile-picture-section {
+    padding: 15px !important; } }
 @media (max-width: 1400px) {
   .banner-image-section imge {
     margin-right: auto; } }

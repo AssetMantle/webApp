@@ -105,14 +105,12 @@ html, body, #root, .app {
   margin-bottom: 5px;
   font-weight: 600;
   font-size: 14px;
-  color: #999999;
 }
 .button-double-border {
   background: #FFFFFF;
   color: #262A2B;
   border: 0px solid;
   border-radius: 15px;
-  box-shadow: 0px 0px 0 0px #ffffff, 0px 0px 0 0px #ffffff, 4px 4px 0 1px #262A2B, 4px 4px 0 2px #FFFFFF;
 
   &:hover {
     color: #262a2b;
@@ -160,6 +158,7 @@ html, body, #root, .app {
   }
   button{
     margin: 5px;
+
   }
 }
 
@@ -257,12 +256,6 @@ html, body, #root, .app {
   word-break: break-word;
 }
 
-.btn-primary:not(:disabled):not(.disabled).active,
-.btn-primary:not(:disabled):not(.disabled):active,
-.show > .btn-primary.dropdown-toggle,
-.btn-primary, .btn-primary:hover {
-  border-color: #efcc30;
-}
 
 .btn.focus, .btn:focus {
   outline: 0;
@@ -335,10 +328,6 @@ html, body, #root, .app {
   padding: 30px 0;
   font-size: 0.875rem;
   text-align: center;
-
-  label {
-    color: #FFFFFF;
-  }
 }
 
 .submitButtonSection {
@@ -400,7 +389,6 @@ html, body, #root, .app {
   }
 }
 .btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus, .btn-primary.focus, .btn-primary:focus {
-  border-color: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
 }
 
@@ -417,7 +405,6 @@ html, body, #root, .app {
 
     label {
       font-size: 12px;
-      color: #262A2B;
       margin-bottom: 15px;
     }
 
@@ -435,7 +422,6 @@ html, body, #root, .app {
       padding: 15px;
       font-weight: 600;
       font-size: 14px;
-      color: #262A2B;
     }
 
     .mnemonic-note {
@@ -451,21 +437,18 @@ html, body, #root, .app {
       box-sizing: border-box;
       border-radius: 14px;
       text-align: justify;
-      color: #262A2B;
     }
 
     .key-download {
       margin: 0;
 
       a {
-        color: #000000 !important;
         font-weight: 500;
         font-size: 14px;
       }
 
-      img {
+      .icon-arrow-icon {
         transform: rotate(90deg);
-        height: 5px;
       }
     }
 
@@ -495,7 +478,11 @@ html, body, #root, .app {
     margin-bottom: 15px;
   }
 }
-
+.burn-confirmation-buttons{
+  button{
+    margin-left: 10px;
+  }
+}
 .custom-checkbox, .custom-switch {
   .custom-control-input:checked ~ .custom-control-label::before {
     background-color: #efcc30;
@@ -536,7 +523,6 @@ html, body, #root, .app {
   justify-content: space-between;
   padding: 18px 25px 18px 15px;
   background: #FFFFFF;
-  border: 1px solid #F5F5F5;
   border-radius: 14px;
 
   .icon-section {
@@ -574,7 +560,7 @@ html, body, #root, .app {
       }
     }
 
-    .arrow-icon {
+    .icon-arrow-icon {
       transform: rotate(90deg);
     }
   }
@@ -671,22 +657,25 @@ html, body, #root, .app {
     }
 
     .col-md-9.card-deck {
-      background: #F5F5F5;
       padding: 0;
       margin: 0;
       flex: 0 0 100%;
       max-width: 100%;
       .card-deck {
+        padding: 0px 10px;
         overflow-y: auto;
         height: calc(100vh - 151px);
         scrollbar-color: #C2D2E4 transparent;
         scrollbar-width: thin;
         scrollbar-radius: 4px;
+        .col-xl-4, .col-lg-6, .col-md-6,  .col-sm-12{
+        padding: 0 10px;
+        }
         .card{
           height: 400px;
           overflow: auto;
           padding: 15px;
-          margin:10px
+          margin:10px 0;
         }
       }
     }
@@ -697,11 +686,9 @@ html, body, #root, .app {
 }
 
 .side-bar {
-
   padding: 20px 0px 20px 0px;
   min-width: 250px;
   max-width: 250px;
-  background: #2E3031;
   color: #6b6b6b;
   transition: all 0.3s;
   position: relative;
@@ -763,17 +750,17 @@ html, body, #root, .app {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
   width: 100%;
-  padding:0 75px 0 25px;
+  padding:0 25px 0 25px;
+  height: 71px;
+  overflow: auto;
   .dropdown{
+    position: initial;
     button, .show>.btn-success.dropdown-toggle{
-      background: #FFFFFF !important;
-      border: 1px solid #E3E3E3 !important;
+      border: 1px solid ;
       box-sizing: border-box;
       border-radius: 7px;
-      color: #999999 !important;
     }
     .btn-success:not(:disabled):not(.disabled):active:focus{
       box-shadow: none;
@@ -782,9 +769,16 @@ html, body, #root, .app {
   h4 {
     font-weight: bold;
     font-size: 16px;
-    color: #262A2B;
     padding: 26px 0;
     margin: 0;
+  }
+  .back-arrow{
+    cursor: pointer;
+    margin: 0;
+    .icon-arrow-icon{
+      margin-right: 5px;
+      transform: rotate(180deg);
+    }
   }
 }
 
@@ -798,7 +792,6 @@ html, body, #root, .app {
   p {
     font-weight: bold;
     font-size: 16px;
-    color: #262A2B;
   }
 }
 
@@ -820,13 +813,13 @@ html, body, #root, .app {
 
   .copy-result {
     position: absolute;
-    top     : -25px;
-    right   : -15px;
+    top: -25px;
+    right: -12px;
+    left: -8px;
 
     span {
-      color      : #000;
-      font-size  : 12px;
-      font-weight: 600;
+      font-size: 10px;
+      font-weight: 500;
     }
   }
 }
@@ -862,6 +855,7 @@ html, body, #root, .app {
     width: 130px;
     text-align: left;
     margin: 0;
+    font-weight: 500;
   }
   .list-item-value{
     text-align: left;
@@ -875,14 +869,12 @@ html, body, #root, .app {
     height: 300px !important;
   }
   .card{
-    background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
     border-radius: 7px;
     .card-heading{
       font-weight: bold;
       font-size: 14px;
       line-height: 21px;
-      color: #262A2B;
       margin-bottom: 15px;
     }
   }
@@ -908,8 +900,7 @@ html, body, #root, .app {
     }
   }
   .ledger-box {
-    background: #FFFFFF;
-    border: 1px solid #F5F5F5;
+    border: 1px solid;
     box-sizing: border-box;
     border-radius: 14px;
     padding: 20px;
@@ -944,7 +935,6 @@ html, body, #root, .app {
       font-weight: 600;
       font-size: 14px;
       text-align: center;
-      color: #262A2B;
       margin: 10px 0 15px 0;
     }
     .button-view {
@@ -955,5 +945,35 @@ html, body, #root, .app {
       background: #EFCB30;
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
     }
+  }
+}
+
+.ERC20::before{
+  content: "\A";
+  border-style: solid;
+  border-width: 20px 20px 20px 20px;
+  border-color: #dd4397 #dd4397 #00000000 #dd4397;
+  position: absolute;
+  top: 00px;
+  opacity: .2;
+  right: 0px;
+}
+
+.ERC721::before{
+  content: "\A";
+  border-style: solid;
+  border-width: 20px 20px 20px 20px;
+  border-color: #dd4397 #dd4397 #00000000 #00000000;
+  position: absolute;
+  top: 00px;
+  opacity: .2;
+  right: 0px;
+}
+
+.custom-icon{
+  cursor: pointer;
+  .icon{
+    width: 20px;
+    height: 20px;
   }
 }

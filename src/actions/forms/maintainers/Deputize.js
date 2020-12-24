@@ -52,7 +52,6 @@ const Deputize = (props) => {
         const removeMaintainer = document.getElementById("removeMaintainer").checked
         let maintainedTraits = ""
         checkboxMutableNamesList.forEach((checkboxMutableName) => {
-            console.log(checkboxMutableName, "checkboxMutableName")
             if (maintainedTraits === "") {
                 maintainedTraits = maintainedTraits + checkboxMutableName;
             }
@@ -66,7 +65,6 @@ const Deputize = (props) => {
         if (maintainedTraits !== "") {
             const DeputizeResponse = deputizeMaintainer.deputize(userAddress, "test", userTypeToken, identityId, classificationId, ToId, maintainedTraits, addMaintainer, removeMaintainer, mutateMaintainer, config.feesAmount, config.feesToken, config.gas, config.mode);
             DeputizeResponse.then(function (item) {
-                console.log(item, "Asdf")
                 const data = JSON.parse(JSON.stringify(item));
                 setResponse(data)
                 setShow(false)

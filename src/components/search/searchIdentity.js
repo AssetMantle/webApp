@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react";
-import Loader from "../loader";
 import Helpers from "../../utilities/Helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
@@ -8,15 +7,19 @@ import {Summary} from "../summary";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
 import {Button} from "react-bootstrap";
 import Copy from "../copy";
+import {useHistory} from "react-router-dom";
+import Icon from "../../icons";
+
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
+
 const SearchIdentity = React.memo((props) => {
     const Helper = new Helpers();
     const {t} = useTranslation();
-    const [assetList, setAssetList] = useState([]);
+    let history = useHistory();
     const [filteredIdentitiesList, setFilteredIdentitiesList] = useState([]);
-    useEffect(()=>{
-        if(props.location.data !== undefined) {
+    useEffect(() => {
+        if (props.location.data !== undefined) {
             const identities = identitiesQuery.queryIdentityWithID(props.location.data.data)
             if (identities) {
                 identities.then(function (item) {
@@ -42,7 +45,7 @@ const SearchIdentity = React.memo((props) => {
                 })
             }
         }
-    },[])
+    }, [])
 
     return (
         <div className="content-section">
@@ -51,7 +54,10 @@ const SearchIdentity = React.memo((props) => {
                 <div className="row">
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
-                            <h4>Search Results : {props.location.data !== undefined ? props.location.data.data : ""}</h4>
+                            <h4>Search Results
+                                : {props.location.data !== undefined ? props.location.data.data : ""}</h4>
+                            <p className="back-arrow" onClick={() => history.push(props.location.data.currentPath)}>
+                                <Icon viewClass="arrow-icon" icon="arrow"/>Back</p>
                         </div>
                         <div className="list-container">
                             <div className="row card-deck">
@@ -95,11 +101,17 @@ const SearchIdentity = React.memo((props) => {
                                                     {immutableKeys !== null ?
                                                         immutableKeys.map((keyName, index1) => {
                                                             if (immutableProperties[keyName] !== "") {
-                                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
-                                                                    id={`immutable_identityList_search` + index + index1} className="list-item-value"></p></div>)
+                                                                return (
+                                                                    <div key={index + keyName} className="list-item"><p
+                                                                        className="list-item-label">{keyName} </p>: <p
+                                                                        id={`immutable_identityList_search` + index + index1}
+                                                                        className="list-item-value"></p></div>)
                                                             } else {
                                                                 return (
-                                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{immutableProperties[keyName]}</p></div>)
+                                                                    <div key={index + keyName} className="list-item"><p
+                                                                        className="list-item-label">{keyName} </p>: <p
+                                                                        className="list-item-hash-value">{immutableProperties[keyName]}</p>
+                                                                    </div>)
                                                             }
                                                         })
                                                         : ""
@@ -108,11 +120,17 @@ const SearchIdentity = React.memo((props) => {
                                                     {mutableKeys !== null ?
                                                         mutableKeys.map((keyName, index1) => {
                                                             if (mutableProperties[keyName] !== "") {
-                                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
-                                                                    id={`mutable_identityList_search` + index + index1}  className="list-item-value"></p></div>)
+                                                                return (
+                                                                    <div key={index + keyName} className="list-item"><p
+                                                                        className="list-item-label">{keyName} </p>: <p
+                                                                        id={`mutable_identityList_search` + index + index1}
+                                                                        className="list-item-value"></p></div>)
                                                             } else {
                                                                 return (
-                                                                    <div key={index + keyName} className="list-item"><p>{keyName} </p>: <p className="list-item-hash-value">{mutableProperties[keyName]}</p></div>)
+                                                                    <div key={index + keyName} className="list-item">
+                                                                        <p>{keyName} </p>: <p
+                                                                        className="list-item-hash-value">{mutableProperties[keyName]}</p>
+                                                                    </div>)
                                                             }
                                                         })
                                                         : ""
@@ -125,9 +143,10 @@ const SearchIdentity = React.memo((props) => {
                                                         : <p>Empty</p>
                                                     }
                                                     <p className="sub-title">UnProvisionedAddressList</p>
-                                                    {unProvisionedAddressList !== null && unProvisionedAddressList !==  "" ?
+                                                    {unProvisionedAddressList !== null && unProvisionedAddressList !== "" ?
                                                         unProvisionedAddressList.map((unprovisionedAddress, unprovisionedAddressKey) => {
-                                                            return (<p key={unprovisionedAddressKey}>{unprovisionedAddress}</p>)
+                                                            return (
+                                                                <p key={unprovisionedAddressKey}>{unprovisionedAddress}</p>)
                                                         })
                                                         : <p>Empty</p>
                                                     }
@@ -141,7 +160,7 @@ const SearchIdentity = React.memo((props) => {
                         </div>
                     </div>
                     <div className="col-md-3 summary-section">
-                        <Summary />
+                        <Summary/>
                     </div>
                 </div>
             </div>

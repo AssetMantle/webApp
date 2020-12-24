@@ -4,7 +4,7 @@ import {useHistory} from "react-router-dom";
 import keyUtils from "persistencejs/utilities/keys";
 import {useTranslation} from "react-i18next";
 import MnemonicIcon from "../../../assets/images/MnemonicIcon.svg";
-import arrowRightIcon from "../../../assets/images/arrowRightIcon.svg";
+import Icon from "../../../icons";
 
 const LoginMnemonic = React.memo((props) => {
     const history = useHistory();
@@ -14,13 +14,11 @@ const LoginMnemonic = React.memo((props) => {
     const handleSubmit = async event => {
         event.preventDefault();
         const error = keyUtils.createWallet(event.target.mnemonic.value)
-        console.log(error, "error")
         if (error.error != null) {
             setErrorMessage(error.error);
         }
         else {
             const wallet = keyUtils.getWallet(event.target.mnemonic.value)
-            console.log(wallet, "wallet")
             localStorage.setItem("address", wallet.address)
             localStorage.setItem("mnemonic", event.target.mnemonic.value)
             history.push('/assets');
@@ -43,7 +41,7 @@ const LoginMnemonic = React.memo((props) => {
                         <div className="icon-section">
                             <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/> </div>
                             {t("LOGIN_MNEMONIC")}</div>
-                        <img className="arrow-icon" src={arrowRightIcon} alt="arrowRightIcon"/>
+                        <Icon viewClass="arrow-icon" icon="arrow" />
                     </div>
                 </div>
                 <Form onSubmit={handleSubmit}>
