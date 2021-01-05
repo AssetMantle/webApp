@@ -11,7 +11,7 @@ import Loader from "../../../components/loader";
 import ModalCommon from "../../../components/modal";
 import FileBase64 from 'react-file-base64';
 import sha1 from 'js-sha1';
-import {Base64} from 'js-base64';
+import base64url from "base64url";
 import IdentitiesIssueJS from "persistencejs/transaction/identity/issue";
 import {issueIdentityUrl} from '../../../constants/url'
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -180,29 +180,17 @@ const MintAsset = (props) => {
         setShowUpload(true)
     }
 
-   const getBase64 = (file) => {
-        return new Promise(resolve => {
-            let fileInfo;
-            let baseURL = "";
-            let reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => {
-                baseURL = reader.result;
-                resolve(baseURL);
-            };
-        });
-    };
     const handleFileInputChange = (e) => {
         setLoader(true)
         let file  = uploadFile;
         file = e.target.files[0];
-        getBase64(file)
+        Helper.getBase64(file)
             .then(result => {
                 file["base64"] = result;
-                const fileBase64 = result.split('base64,')[1]
-                const filesha1 = sha1(fileBase64);
-                const fileBase64Encode = Base64.encode(filesha1);
-                console.log("base64", fileBase64Encode);
+                const fileData = result.split('base64,')[1]
+                const fileSha1 = sha1(fileData);
+                const fileBase64Encode = base64url.toBase64(fileSha1);
+                console.log(fileBase64Encode);
                 setInputValues({...inputValues, [uploadId]: fileBase64Encode});
                 setLoader(false)
                 document.getElementById(uploadId).value = fileBase64Encode;

@@ -14,7 +14,7 @@ const Define = (props) => {
     const [show, setShow] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
     const [typeOption, setTypeOption] = useState("identity");
-    const [mutableStyle, setMutableStyle] = useState("ERC20");
+    const [mutableStyle, setMutableStyle] = useState("Blue");
     const [response, setResponse] = useState({});
     const [mutableProperties, setMutableProperties] = useState([]);
     const [immutableProperties, setImmutableProperties] = useState([]);
@@ -101,6 +101,7 @@ const Define = (props) => {
         const ImmutableIdentifier = evt.target.ImmutableIdentifier.value;
         const ImmutableClassifier = evt.target.ImmutableClassifier.value;
         let staticImmutables = `style:S|${mutableStyle},type:S|${typeOption}`;
+        console.log(mutableStyle, "mutableStyle")
         staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription}`
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
@@ -230,8 +231,10 @@ const Define = (props) => {
                             <Form.Label>Immutable style:S| </Form.Label>
                             <Form.Control as="select" onChange={handleChangeStyle} name="ImmutableStyle"
                                           required={true}>
-                                <option value="ERC20"> ERC20</option>
-                                <option value="ERC721">ERC721</option>
+                                <option value="Blue"> Blue</option>
+                                <option value="Red">Red</option>
+                                <option value="Green"> Green</option>
+                                <option value="Black">Black</option>
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>

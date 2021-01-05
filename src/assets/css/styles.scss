@@ -948,28 +948,29 @@ html, body, #root, .app {
   }
 }
 
-.ERC20::before{
+.Blue::before,.Red::before,.Green::before,.Black::before{
   content: "\A";
   border-style: solid;
-  border-width: 20px 20px 20px 20px;
-  border-color: #dd4397 #dd4397 #00000000 #dd4397;
+  border-width: 10px 3px 3px 3px;
   position: absolute;
-  top: 00px;
-  opacity: .2;
+  top: 0px;
+  opacity: .4;
+  width: 100%;
   right: 0px;
 }
-
-.ERC721::before{
-  content: "\A";
-  border-style: solid;
-  border-width: 20px 20px 20px 20px;
-  border-color: #dd4397 #dd4397 #00000000 #00000000;
-  position: absolute;
-  top: 00px;
-  opacity: .2;
-  right: 0px;
+.Blue::before{
+  border-color: #047495 transparent transparent transparent;
+}
+.Red::before{
+  border-color: #d58a94 transparent transparent transparent;
 }
 
+.Green::before{
+  border-color: #01a049 transparent transparent transparent;
+}
+.Black::before{
+  border-color: #536267 transparent transparent transparent;
+}
 .custom-icon{
   cursor: pointer;
   .icon{
@@ -990,6 +991,6 @@ html, body, #root, .app {
 }
 
 .upload-modal{
-  padding: 50px 25px 50px 25px;
+  padding: 50px 25px 50px 25px !important;
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
 }

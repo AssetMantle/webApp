@@ -324,10 +324,14 @@ export default class Helper {
                         const data = JSON.parse(item);
                         let myElement = "";
                         let metaValue = $this.FetchMetaValue(data, properties[keyName])
-                        if (metaValue == "ERC721") {
-                            myElement = <span className="ERC721">{metaValue}</span>;
-                        } else if (metaValue == "ERC20") {
-                            myElement = <span className="ERC20">{metaValue}</span>;
+                        if (metaValue == "Blue") {
+                            myElement = <span className="Blue">{metaValue}</span>;
+                        } else if (metaValue == "Red") {
+                            myElement = <span className="Red">{metaValue}</span>;
+                        } else if (metaValue == "Green") {
+                            myElement = <span className="Green">{metaValue}</span>;
+                        } else if (metaValue == "Black") {
+                            myElement = <span className="Black">{metaValue}</span>;
                         } else {
                             myElement = <span>{metaValue}</span>;
                         }
@@ -342,6 +346,19 @@ export default class Helper {
             }
         })
     }
+
+    getBase64(file){
+        return new Promise(resolve => {
+            let baseURL = "";
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                baseURL = reader.result;
+                resolve(baseURL);
+            };
+        });
+    };
+
 }
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -376,5 +393,3 @@ export async function pollTxHash(lcd, txHash) {
         "raw_log": "failed all retries"
     })
 }
-
-
