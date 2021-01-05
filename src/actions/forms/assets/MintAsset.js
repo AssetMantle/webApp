@@ -193,6 +193,7 @@ const MintAsset = (props) => {
         });
     };
     const handleFileInputChange = (e) => {
+        setLoader(true)
         let file  = uploadFile;
         file = e.target.files[0];
         getBase64(file)
