@@ -10,6 +10,8 @@ import config from "../../../constants/config.json"
 import Loader from "../../../components/loader";
 import ModalCommon from "../../../components/modal";
 import FileBase64 from 'react-file-base64';
+import sha1 from 'js-sha1';
+import {Base64} from 'js-base64';
 import IdentitiesIssueJS from "persistencejs/transaction/identity/issue";
 import {issueIdentityUrl} from '../../../constants/url'
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -197,36 +199,13 @@ const MintAsset = (props) => {
             .then(result => {
                 file["base64"] = result;
                 const fileBase64 = result.split('base64,')[1]
-                console.log("base64", fileBase64);
-                const mvalue = "BelongTo:S|"+fileBase64;
-                const formData = {
-                    type: "/xprt/identities/issue/request",
-                    value: {
-                        baseReq: {
-                            from: userAddress,
-                            chain_id: "test",
-                        },
-                        fromID: "",
-                        classificationID: "",
-                        to:"",
-                        immutableMetaProperties: "Organization:S|",
-                        immutableProperties: mvalue,
-                        mutableMetaProperties: "WorkingHours:S|",
-                        mutableProperties: "HolidaysTaken:S|",
-                    },
-                };
-                const url = issueIdentityUrl();
-                    axios.post(url, formData)
-                        .then((response) => {
-                            const responseHash = response.data.value.msg[0].value.immutableProperties.value.propertyList[0].value.fact.value.hash
-                            setInputValues({...inputValues, [uploadId]: responseHash});
-                            setLoader(false)
-                            document.getElementById(uploadId).value = responseHash;
-                            setShowUpload(false);
-
-                        }).catch((error) =>{
-                        console.log(error)
-                    });
+                const filesha1 = sha1(fileBase64);
+                const fileBase64Encode = Base64.encode(filesha1);
+                console.log("base64", fileBase64Encode);
+                setInputValues({...inputValues, [uploadId]: fileBase64Encode});
+                setLoader(false)
+                document.getElementById(uploadId).value = fileBase64Encode;
+                setShowUpload(false);
                 setUploadFile(file);
                 setBase64URL(result);
             })

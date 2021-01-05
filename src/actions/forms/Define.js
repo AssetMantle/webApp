@@ -232,6 +232,8 @@ const Define = (props) => {
                                           required={true}>
                                 <option value="ERC20"> ERC20</option>
                                 <option value="ERC721">ERC721</option>
+                                <option value="ERC20"> ERC20</option>
+                                <option value="ERC721">ERC721</option>
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
