@@ -4,19 +4,25 @@ import AssetMintJS from "persistencejs/transaction/assets/mint";
 import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../../utilities/Helper";
 import {useTranslation} from "react-i18next";
+import axios from "axios";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import config from "../../../constants/config.json"
 import Loader from "../../../components/loader";
 import ModalCommon from "../../../components/modal";
-
+import FileBase64 from 'react-file-base64';
+import IdentitiesIssueJS from "persistencejs/transaction/identity/issue";
+import {issueIdentityUrl} from '../../../constants/url'
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMint = new AssetMintJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const identitiesIssue = new IdentitiesIssueJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const MintAsset = (props) => {
     const Helper = new Helpers();
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
+    const [showUpload, setShowUpload] = useState(false);
+    const [uploadId, setUploadId] = useState("");
     const [loader, setLoader] = useState(false)
     const [response, setResponse] = useState({});
     const [errorMessage, setErrorMessage] = useState("");
@@ -28,6 +34,7 @@ const MintAsset = (props) => {
     const [inputValues, setInputValues] = useState([]);
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     const [checkboxImmutableNamesList, setCheckboxImmutableNamesList] = useState([]);
+
     const handleCloseNext = () => {
         setShowNext(false);
         props.setExternalComponent("");
@@ -35,6 +42,9 @@ const MintAsset = (props) => {
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
+    };
+    const handleCloseUpload = () => {
+        setShowUpload(false);
     };
     const handleCheckMutableChange = evt => {
         const checkedValue = evt.target.checked;
@@ -67,7 +77,6 @@ const MintAsset = (props) => {
     const handleChangeMutable = (evt, idx) => {
         const newValue = evt.target.value;
         const checkError = Helper.mutableValidation(newValue);
-        console.log(checkError, "error")
         Helper.showHideDataTypeError(checkError, `mutableMint${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
@@ -100,6 +109,7 @@ const MintAsset = (props) => {
         setShow(false);
     };
     const handleFormSubmit = (event) => {
+        console.log(inputValues, "ARAY")
         setLoader(true)
         event.preventDefault();
         if (checkboxMutableNamesList.length === 0) {
@@ -159,6 +169,46 @@ const MintAsset = (props) => {
                 setLoader(false)
             })
         }
+    }
+
+    const handleUpload = (id) =>{
+        setUploadId(id);
+        setShowUpload(true)
+    }
+
+    const getFiles = (files) => {
+        setLoader(true)
+        console.log(files.base64.split('base64,')[1], "bases64")
+        const fileBase64 = files.base64.split('base64,')[1]
+        const mvalue = "BelongTo:S|"+fileBase64;
+        const formData = {
+            type: "/xprt/identities/issue/request",
+            value: {
+                baseReq: {
+                    from: userAddress,
+                    chain_id: "test",
+                },
+                fromID: "",
+                classificationID: "",
+                to:"",
+                immutableMetaProperties: "Organization:S|",
+                immutableProperties: mvalue,
+                mutableMetaProperties: "WorkingHours:S|",
+                mutableProperties: "HolidaysTaken:S|",
+            },
+        };
+        const url = issueIdentityUrl();
+        axios.post(url, formData)
+            .then((response) => {
+                const responseHash = response.data.value.msg[0].value.immutableProperties.value.propertyList[0].value.fact.value.hash
+                setInputValues({...inputValues, [uploadId]: responseHash});
+                setLoader(false)
+                document.getElementById(uploadId).value = responseHash;
+                setShowUpload(false);
+
+            }).catch((error) =>{
+            console.log(error)
+        });
     }
     return (
         <div>
@@ -229,14 +279,23 @@ const MintAsset = (props) => {
                             mutableList.map((mutable, index) => {
                                 const mutableType = mutable.value.fact.value.type;
                                 const mutableName = mutable.value.id.value.idString;
+                                const id = `${mutableName}|${mutableType}${index}`;
                                 return (
                                     <div key={index}>
                                         <Form.Group>
+                                            <div className="upload-section">
                                             <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
+                                                {mutableType === 'S'
+                                                    ?
+                                                    <Button variant="secondary"  size="sm" onClick={()=>handleUpload(id)}>upload</Button>
+                                                    : ""
+                                                }
+                                            </div>
                                             <Form.Control
                                                 type="text"
                                                 className=""
                                                 name={`${mutableName}|${mutableType}${index}`}
+                                                id={`${mutableName}|${mutableType}${index}`}
                                                 required={true}
                                                 placeholder={t("TRAIT_VALUE")}
                                                 onChange={(evt) => {
@@ -265,10 +324,18 @@ const MintAsset = (props) => {
                             immutableList.map((immutable, index) => {
                                 const immutableType = immutable.value.fact.value.type;
                                 const immutableName = immutable.value.id.value.idString;
+                                const id = `MintAsset${immutableName}|${immutableType}${index}`
                                 return (
                                     <div key={index}>
                                         <Form.Group>
-                                            <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
+                                            <div className="upload-section">
+                                                <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
+                                                {immutableType === 'S'
+                                                    ?
+                                                    <Button variant="secondary"  size="sm" onClick={()=>handleUpload(id)}>upload</Button>
+                                                    : ""
+                                                }
+                                            </div>
                                             <Form.Control
                                                 type="text"
                                                 className=""
@@ -308,6 +375,13 @@ const MintAsset = (props) => {
                         </Button>
                         </div>
                     </Form>
+                </Modal.Body>
+            </Modal>
+            <Modal show={showUpload} onHide={handleCloseUpload} centered >
+                <Modal.Body className="upload-modal">
+                    <FileBase64
+                        multiple={ false }
+                        onDone={getFiles.bind(this) } />
                 </Modal.Body>
             </Modal>
             {!(Object.keys(response).length === 0) ?

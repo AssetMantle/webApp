@@ -246,7 +246,8 @@ export default class Helper {
 
     mutableValidation(inputValue){
         let error = false;
-            var blockSpecialRegex = /[`*,|.]/;
+            // var blockSpecialRegex = /[`*,|.]/;
+             var blockSpecialRegex = /[]/;
             if (!blockSpecialRegex.test(inputValue)){
                 error = true;
             }
@@ -318,26 +319,26 @@ export default class Helper {
         keys.map((keyName, index1) => {
             if (properties[keyName] !== "") {
                 const metaQueryResult = metasQuery.queryMetaWithID(properties[keyName]);
-                metaQueryResult.then(function (item) {
-                    const data = JSON.parse(item);
-                    let myElement = "";
-                    let metaValue = $this.FetchMetaValue(data, properties[keyName])
-                    if(metaValue == "ERC721"){
-                        myElement = <span className="ERC721">{metaValue}</span>;
-                    }
-                   else if(metaValue == "ERC20"){
-                        myElement = <span className="ERC20">{metaValue}</span>;
-                    }
-                    else{
-                        myElement = <span>{metaValue}</span>;
-                    }
-                    var element = document.getElementById(idPrefix + index + index1)
-                    if (typeof (element) != 'undefined' && element != null) {
-                        ReactDOM.render(myElement, document.getElementById(idPrefix + index + index1));
-                    } else {
-                        console.log('Element does not exist!', idPrefix + index + index1);
-                    }
-                });
+                if(metaQueryResult) {
+                    metaQueryResult.then(function (item) {
+                        const data = JSON.parse(item);
+                        let myElement = "";
+                        let metaValue = $this.FetchMetaValue(data, properties[keyName])
+                        if (metaValue == "ERC721") {
+                            myElement = <span className="ERC721">{metaValue}</span>;
+                        } else if (metaValue == "ERC20") {
+                            myElement = <span className="ERC20">{metaValue}</span>;
+                        } else {
+                            myElement = <span>{metaValue}</span>;
+                        }
+                        var element = document.getElementById(idPrefix + index + index1)
+                        if (typeof (element) != 'undefined' && element != null) {
+                            ReactDOM.render(myElement, document.getElementById(idPrefix + index + index1));
+                        } else {
+                            console.log('Element does not exist!', idPrefix + index + index1);
+                        }
+                    });
+                }
             }
         })
     }

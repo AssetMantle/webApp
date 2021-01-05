@@ -697,4 +697,17 @@ html, body, #root, .app {
     width: 20px;
     height: 20px; }
 
+.upload-section {
+  margin-bottom: 5px;
+  display: flex; }
+  .upload-section label {
+    margin: 0; }
+  .upload-section button {
+    margin-left: 5px;
+    padding: 0 .5rem; }
+
+.upload-modal {
+  padding: 50px 25px 50px 25px;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3); }
+
 /*# sourceMappingURL=styles.css.map */

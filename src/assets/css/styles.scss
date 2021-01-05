@@ -977,3 +977,19 @@ html, body, #root, .app {
     height: 20px;
   }
 }
+.upload-section{
+  margin-bottom: 5px;
+  display: flex;
+  label{
+    margin: 0;
+  }
+  button{
+    margin-left: 5px;
+    padding: 0 .5rem;
+  }
+}
+
+.upload-modal{
+  padding: 50px 25px 50px 25px;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+}
