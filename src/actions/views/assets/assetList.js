@@ -6,7 +6,6 @@ import {Button} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
 import {MutateAsset, BurnAsset, SendSplit} from "../../forms/assets";
-import AssetDefineJS from "persistencejs/transaction/assets/define";
 import {MakeOrder} from "../../forms/orders";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
@@ -33,7 +32,7 @@ const AssetList = React.memo((props) => {
     useEffect(() => {
         const fetchAssets = () => {
             const identities = identitiesQuery.queryIdentityWithID("all")
-            if(identities) {
+            if (identities) {
                 identities.then(function (item) {
                     const data = JSON.parse(item);
                     const dataList = data.result.value.identities.value.list;
@@ -72,7 +71,7 @@ const AssetList = React.memo((props) => {
                                                 } else {
                                                     setLoader(false)
                                                 }
-                                            }else {
+                                            } else {
                                                 setLoader(false)
                                             }
                                         })
@@ -88,7 +87,7 @@ const AssetList = React.memo((props) => {
                         setLoader(false)
                     }
                 })
-            }else {
+            } else {
                 setLoader(false)
             }
         }
@@ -152,10 +151,10 @@ const AssetList = React.memo((props) => {
                                     </div>
 
                                     <div className="button-group">
-                                        <Button variant="secondary"  size="sm"
+                                        <Button variant="secondary" size="sm"
                                                 onClick={() => handleModalData("MakeOrder", "", "", ownerId, ownableID)}>{t("MAKE")}</Button>
-                                        <Button variant="secondary"  size="sm"
-                                                onClick={() => handleModalData("SendSplit", "", "", ownerId, ownableID) }>{t("SEND_SPLITS")}</Button>
+                                        <Button variant="secondary" size="sm"
+                                                onClick={() => handleModalData("SendSplit", "", "", ownerId, ownableID)}>{t("SEND_SPLITS")}</Button>
                                     </div>
                                     {
                                         assetList.map((asset, assetIndex) => {
@@ -174,10 +173,10 @@ const AssetList = React.memo((props) => {
                                                 return (
                                                     <div key={assetIndex}>
                                                         <div>
-                                                            <Button variant="secondary"  size="sm"
+                                                            <Button variant="secondary" size="sm"
                                                                     onClick={() => handleModalData("MutateAsset", mutableProperties, asset)}>{t("MUTATE_ASSET")}
                                                             </Button>
-                                                            <Button variant="secondary"  size="sm"
+                                                            <Button variant="secondary" size="sm"
                                                                     onClick={() => handleModalData("BurnAsset", "", asset, ownerId, ownableID)}>{t("BURN_ASSET")}
                                                             </Button>
 
@@ -186,12 +185,25 @@ const AssetList = React.memo((props) => {
                                                         {immutableKeys !== null ?
                                                             immutableKeys.map((keyName, index1) => {
                                                                 if (immutableProperties[keyName] !== "") {
-                                                                    return (
-                                                                        <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
-                                                                            id={`immutable_asset` + index + `${index1}`} className="list-item-value"></p></div>)
+                                                                    if (keyName === "imgUrl") {
+                                                                        return (
+                                                                            <div key={index + keyName} id={`assetUrlId` + index + `${index1}`}
+                                                                                 className="assetImage"></div>)
+                                                                    } else {
+                                                                        return (
+                                                                            <div key={index + keyName}
+                                                                                 className="list-item"><p
+                                                                                className="list-item-label">{keyName} </p>: <p
+                                                                                id={`immutable_asset` + index + `${index1}`}
+                                                                                className="list-item-value"></p></div>)
+                                                                    }
                                                                 } else {
                                                                     return (
-                                                                        <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{immutableProperties[keyName]}</p></div>)
+                                                                        <div key={index + keyName}
+                                                                             className="list-item"><p
+                                                                            className="list-item-label">{keyName} </p>: <p
+                                                                            className="list-item-hash-value">{immutableProperties[keyName]}</p>
+                                                                        </div>)
                                                                 }
                                                             })
                                                             : ""
@@ -201,11 +213,18 @@ const AssetList = React.memo((props) => {
                                                             mutableKeys.map((keyName, index1) => {
                                                                 if (mutableProperties[keyName] !== "") {
                                                                     return (
-                                                                        <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
-                                                                            id={`mutable_asset` + index + `${index1}`} className="list-item-value"></p></div>)
+                                                                        <div key={index + keyName}
+                                                                             className="list-item"><p
+                                                                            className="list-item-label">{keyName} </p>: <p
+                                                                            id={`mutable_asset` + index + `${index1}`}
+                                                                            className="list-item-value"></p></div>)
                                                                 } else {
                                                                     return (
-                                                                        <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{mutableProperties[keyName]}</p></div>)
+                                                                        <div key={index + keyName}
+                                                                             className="list-item"><p
+                                                                            className="list-item-label">{keyName} </p>: <p
+                                                                            className="list-item-hash-value">{mutableProperties[keyName]}</p>
+                                                                        </div>)
                                                                 }
                                                             })
                                                             : ""
@@ -221,32 +240,32 @@ const AssetList = React.memo((props) => {
                         )
                     })
                     : <p className="empty-list">{t("ASSETS_NOT_FOUND")}</p>}
-            </div>
-            <div>
+                    </div>
+                    <div>
 
                 {externalComponent === 'MutateAsset' ?
                     <MutateAsset setExternalComponent={setExternalComponent} mutatePropertiesList={mutateProperties}
-                                 asset={asset}/> :
+                    asset={asset}/> :
                     null
                 }
                 {
                     externalComponent === 'BurnAsset' ?
-                        <BurnAsset setExternalComponent={setExternalComponent} ownerId={ownerId} ownableId={ownableId}/> :
-                        null
+                    <BurnAsset setExternalComponent={setExternalComponent} ownerId={ownerId} ownableId={ownableId}/> :
+                    null
                 }
                 {
                     externalComponent === 'MakeOrder' ?
-                        <MakeOrder setExternalComponent={setExternalComponent} ownerId={ownerId} ownableId={ownableId}/> :
-                        null
+                    <MakeOrder setExternalComponent={setExternalComponent} ownerId={ownerId} ownableId={ownableId}/> :
+                    null
                 }
                 {
                     externalComponent === 'SendSplit' ?
-                        <SendSplit setExternalComponent={setExternalComponent} ownerId={ownerId} ownableId={ownableId}/> :
-                        null
+                    <SendSplit setExternalComponent={setExternalComponent} ownerId={ownerId} ownableId={ownableId}/> :
+                    null
                 }
-            </div>
-        </div>
-    );
-});
+                    </div>
+                    </div>
+                    );
+                });
 
 export default AssetList;

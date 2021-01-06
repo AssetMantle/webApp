@@ -3,10 +3,10 @@ import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../utilities/Helper"
 import InputField from "../../components/inputField"
 import {useTranslation} from "react-i18next";
-import {pollTxHash} from '../../utilities/Helper'
 import config from "../../constants/config.json"
 import ModalCommon from "../../components/modal";
 import Loader from "../../components/loader";
+import base64url from "base64url";
 
 const Define = (props) => {
     const Helper = new Helpers();
@@ -42,7 +42,11 @@ const Define = (props) => {
         Helper.showHideDataTypeError(checkError, `ImmutableDefine${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
-
+    const handleChangeUrl = evt => {
+        const url = evt.target.value;
+        const fileEncode = base64url.encode(url);
+        setInputValues({...inputValues, [evt.target.name]: url});
+    }
     const handleClose = () => {
         setShow(false)
         props.setExternalComponent("");
@@ -100,8 +104,12 @@ const Define = (props) => {
         const ImmutableDescription = evt.target.ImmutableDescription.value;
         const ImmutableIdentifier = evt.target.ImmutableIdentifier.value;
         const ImmutableClassifier = evt.target.ImmutableClassifier.value;
+
+        const ImmutableUrl = evt.target.imgUrl.value;
+        const ImmutableUrlEncode = base64url.encode(ImmutableUrl);
+
         let staticImmutables = `style:S|${mutableStyle},type:S|${typeOption}`;
-        staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription}`
+        staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription},imgUrl:S|${ImmutableUrlEncode}`
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
         let mutablePropertyValue = ""
@@ -244,6 +252,17 @@ const Define = (props) => {
                                 <option value="asset">{t("ASSET")}</option>
                                 <option value="order">{t("ORDER")}</option>
                             </Form.Control>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>{t("URL")}</Form.Label>
+                            <Form.Control
+                                type="text"
+                                className=""
+                                name="imgUrl"
+                                required={true}
+                                placeholder="img url"
+
+                            />
                         </Form.Group>
                         <InputField
                             type="text"

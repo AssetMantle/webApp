@@ -4,19 +4,15 @@ import AssetMintJS from "persistencejs/transaction/assets/mint";
 import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../../utilities/Helper";
 import {useTranslation} from "react-i18next";
-import axios from "axios";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import config from "../../../constants/config.json"
 import Loader from "../../../components/loader";
 import ModalCommon from "../../../components/modal";
-import FileBase64 from 'react-file-base64';
 import sha1 from 'js-sha1';
 import base64url from "base64url";
 import IdentitiesIssueJS from "persistencejs/transaction/identity/issue";
-import {issueIdentityUrl} from '../../../constants/url'
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMint = new AssetMintJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const identitiesIssue = new IdentitiesIssueJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const MintAsset = (props) => {
@@ -25,7 +21,6 @@ const MintAsset = (props) => {
     const [show, setShow] = useState(true);
     const [showUpload, setShowUpload] = useState(false);
     const [uploadId, setUploadId] = useState("");
-    const [base64URL, setBase64URL] = useState("");
     const [uploadFile, setUploadFile] = useState(null);
     const [loader, setLoader] = useState(false)
     const [response, setResponse] = useState({});
@@ -193,7 +188,6 @@ const MintAsset = (props) => {
                 document.getElementById(uploadId).value = fileBase64Encode;
                 setShowUpload(false);
                 setUploadFile(file);
-                setBase64URL(result);
             })
             .catch(err => {
                 console.log(err);

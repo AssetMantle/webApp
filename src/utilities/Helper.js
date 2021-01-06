@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import React from "react";
-
+import base64url from "base64url";
 const request = require('request');
 import config from "../constants/config.json"
 
@@ -324,6 +324,16 @@ export default class Helper {
                         const data = JSON.parse(item);
                         let myElement = "";
                         let metaValue = $this.FetchMetaValue(data, properties[keyName])
+                        if (keyName === "imgUrl") {
+                            let img = document.createElement('img');
+                            const UrlDecode = base64url.decode(metaValue);
+                            img.src = UrlDecode;
+                            img.alt = keyName;
+                            let imageElement = document.getElementById('assetUrlId' + index + index1)
+                            if (typeof (imageElement) != 'undefined' && imageElement != null) {
+                                document.getElementById('assetUrlId' + index + index1).appendChild(img);
+                            }
+                        }
                         if (metaValue == "Blue") {
                             myElement = <span className="Blue">{metaValue}</span>;
                         } else if (metaValue == "Red") {
@@ -335,6 +345,7 @@ export default class Helper {
                         } else {
                             myElement = <span>{metaValue}</span>;
                         }
+
                         var element = document.getElementById(idPrefix + index + index1)
                         if (typeof (element) != 'undefined' && element != null) {
                             ReactDOM.render(myElement, document.getElementById(idPrefix + index + index1));
