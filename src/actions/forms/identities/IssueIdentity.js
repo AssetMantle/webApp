@@ -65,7 +65,6 @@ const IssueIdentity = (props) => {
     const handleChangeMutable = (evt, idx) => {
         const newValue = evt.target.value;
         const checkError = Helper.mutableValidation(newValue);
-        console.log(checkError, "error")
         Helper.showHideDataTypeError(checkError, `mutableIssueIdentity${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
@@ -73,7 +72,6 @@ const IssueIdentity = (props) => {
     const handleChangeImmutable = (evt, idx) => {
         const newValue = evt.target.value;
         const checkError = Helper.mutableValidation(newValue);
-        console.log(checkError, "error")
         Helper.showHideDataTypeError(checkError, `ImmutableIssueIdentity${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }

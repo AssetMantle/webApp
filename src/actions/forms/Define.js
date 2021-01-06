@@ -101,7 +101,6 @@ const Define = (props) => {
         const ImmutableIdentifier = evt.target.ImmutableIdentifier.value;
         const ImmutableClassifier = evt.target.ImmutableClassifier.value;
         let staticImmutables = `style:S|${mutableStyle},type:S|${typeOption}`;
-        console.log(mutableStyle, "mutableStyle")
         staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription}`
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');

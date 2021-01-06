@@ -87,7 +87,6 @@ const MintAsset = (props) => {
     const handleChangeImmutable = (evt, idx) => {
         const newValue = evt.target.value;
         const checkError = Helper.mutableValidation(newValue);
-        console.log(checkError, "error")
         Helper.showHideDataTypeError(checkError, `ImmutableMint${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
@@ -113,7 +112,6 @@ const MintAsset = (props) => {
         setShow(false);
     };
     const handleFormSubmit = (event) => {
-        console.log(inputValues, "ARAY")
         setLoader(true)
         event.preventDefault();
         if (checkboxMutableNamesList.length === 0) {
@@ -190,7 +188,6 @@ const MintAsset = (props) => {
                 const fileData = result.split('base64,')[1]
                 const fileSha1 = sha1(fileData);
                 const fileBase64Encode = base64url.toBase64(fileSha1);
-                console.log(fileBase64Encode);
                 setInputValues({...inputValues, [uploadId]: fileBase64Encode});
                 setLoader(false)
                 document.getElementById(uploadId).value = fileBase64Encode;
