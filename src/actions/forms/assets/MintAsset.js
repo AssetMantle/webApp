@@ -172,7 +172,6 @@ const MintAsset = (props) => {
         setUploadId(id);
         setShowUpload(true)
     }
-
     const handleFileInputChange = (e) => {
         setLoader(true)
         let file  = uploadFile;

@@ -246,8 +246,7 @@ export default class Helper {
 
     mutableValidation(inputValue){
         let error = false;
-            // var blockSpecialRegex = /[`*,|.]/;
-             var blockSpecialRegex = /[]/;
+            var blockSpecialRegex = /[`,|:]/;
             if (!blockSpecialRegex.test(inputValue)){
                 error = true;
             }
@@ -314,7 +313,7 @@ export default class Helper {
         }
     }
 
-    AssignMetaValue(keys, properties, metasQuery, idPrefix, index) {
+    AssignMetaValue(keys, properties, metasQuery, idPrefix, index, urlId) {
         let $this = this
         keys.map((keyName, index1) => {
             if (properties[keyName] !== "") {
@@ -329,9 +328,9 @@ export default class Helper {
                             const UrlDecode = base64url.decode(metaValue);
                             img.src = UrlDecode;
                             img.alt = keyName;
-                            let imageElement = document.getElementById('assetUrlId' + index + index1)
+                            let imageElement = document.getElementById(urlId + index + index1)
                             if (typeof (imageElement) != 'undefined' && imageElement != null) {
-                                document.getElementById('assetUrlId' + index + index1).appendChild(img);
+                                document.getElementById(urlId + index + index1).appendChild(img);
                             }
                         }
                         if (metaValue == "Blue") {

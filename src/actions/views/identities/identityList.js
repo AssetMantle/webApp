@@ -42,7 +42,7 @@ const IdentityList = React.memo((props) => {
                                 }
                                 let immutableKeys = Object.keys(immutableProperties);
                                 let mutableKeys = Object.keys(mutableProperties);
-                                Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList', index);
+                                Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList', index, 'identityUrlId');
                                 Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index);
                                 setLoader(false)
                             })
@@ -113,9 +113,18 @@ const IdentityList = React.memo((props) => {
                                     {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
-                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
-                                                    id={`immutable_identityList` + index + `${index1}`} className="list-item-value"></p></div>)
-                                            } else {
+                                                if (keyName === "imgUrl") {
+                                                    return (
+                                                        <div key={index + keyName}
+                                                             id={`identityUrlId` + index + `${index1}`}
+                                                             className="assetImage"></div>)
+                                                } else {
+                                                    return (<div key={index + keyName} className="list-item"><p
+                                                        className="list-item-label">{keyName} </p>: <p
+                                                        id={`immutable_identityList` + index + `${index1}`}
+                                                        className="list-item-value"></p></div>)
+                                                }
+                                            }else {
                                                 return (
                                                     <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{immutableProperties[keyName]}</p></div>)
                                             }

@@ -65,7 +65,7 @@ const AssetList = React.memo((props) => {
                                                     }
                                                     let immutableKeys = Object.keys(immutableProperties);
                                                     let mutableKeys = Object.keys(mutableProperties);
-                                                    Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset', index);
+                                                    Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset', index, 'assetUrlId');
                                                     Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset', index);
                                                     setLoader(false)
                                                 } else {
