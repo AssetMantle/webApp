@@ -280,7 +280,8 @@ const IssueIdentity = (props) => {
                                                 disabled={false}
                                             />
                                         </Form.Group>
-                                        <Form.Text id={`ImmutableIssueIdentity${index + 1}`} className="text-muted none">
+                                        <Form.Text id={`ImmutableIssueIdentity${index + 1}`}
+                                                   className="text-muted none">
                                             {t("MUTABLE_VALIDATION_ERROR")}
                                         </Form.Text>
                                         <Form.Group>

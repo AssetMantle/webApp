@@ -6,13 +6,10 @@ import { useTranslation } from "react-i18next";
 import Loader from "../../../components/loader"
 import ModalCommon from "../../../components/modal"
 const burnAsset = new burnAssetJS(process.env.REACT_APP_ASSET_MANTLE_API)
-import { pollTxHash } from '../../../utilities/Helper'
 import config from "../../../constants/config.json"
 
 const BurnAsset = (props) => {
-    const url = process.env.REACT_APP_ASSET_MANTLE_API;
     const { t } = useTranslation();
-    const Helper = new Helpers();
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false)
     const [response, setResponse] = useState({});

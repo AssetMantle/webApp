@@ -3,8 +3,14 @@ import React from "react";
 import base64url from "base64url";
 const request = require('request');
 import config from "../constants/config.json"
+import sha1 from 'crypto-js/sha1';
+import Base64 from 'crypto-js/enc-base64'
 
 export default class Helper {
+    GetClassificationID(data) {
+        console.log(data, "to get classficaitonid")
+        return data.value.id.value.classificationID.value.idString;
+    }
 
     GetIdentityID(identity) {
         return identity.value.id.value.classificationID.value.idString + "|" +
@@ -14,6 +20,22 @@ export default class Helper {
     GetAssetID(asset) {
         return asset.value.id.value.classificationID.value.idString + "|" +
             asset.value.id.value.hashID.value.idString
+    }
+
+    GetMakerOwnableID(data) {
+        return data.value.id.value.makerOwnableID.value.idString;
+    }
+
+    GetTakerOwnableID(data) {
+        return data.value.id.value.takerOwnableID.value.idString;
+    }
+
+    GetMakerID(data) {
+        return data.value.id.value.makerID.value.idString;
+    }
+
+    GetHashID(data) {
+        return data.value.id.value.hashID.value.idString;
     }
 
     GetOrderID(order) {
@@ -202,7 +224,7 @@ export default class Helper {
         const stringRegEx = /^[a-zA-Z]*$/;
         if (!stringRegEx.test(propertyName)) {
             errorData = false;
-        }else {
+        } else {
             errorData = true
         }
         return errorData;
@@ -213,7 +235,7 @@ export default class Helper {
         const numberRegEx = /^[0-9\b]+$/;
         if (!numberRegEx.test(propertyName)) {
             errorData = false;
-        }else {
+        } else {
             errorData = true
         }
         return errorData;
@@ -224,11 +246,12 @@ export default class Helper {
         const DecimalRegEx = /^[-+]?[0-9]+\.[0-9]+$/;
         if (!DecimalRegEx.test(propertyName)) {
             errorData = false;
-        }else {
+        } else {
             errorData = true
         }
         return errorData;
     }
+
     DataTypeValidation(inputValue, propertyName) {
         let $this = this
         let errorData = false;
@@ -244,21 +267,21 @@ export default class Helper {
         return errorData;
     }
 
-    mutableValidation(inputValue){
+    mutableValidation(inputValue) {
         let error = false;
-            var blockSpecialRegex = /[`,|:]/;
-            if (!blockSpecialRegex.test(inputValue)){
-                error = true;
-            }
-            return error;
+        var blockSpecialRegex = /[`,|:]/;
+        if (!blockSpecialRegex.test(inputValue)) {
+            error = true;
+        }
+        return error;
     }
 
     showHideDataTypeError(checkError, id) {
         if (!checkError) {
             document.getElementById(id).classList.remove('none');
             document.getElementById(id).classList.add('show');
-        }else {
-            if(document.getElementById(id).classList.contains('show')) {
+        } else {
+            if (document.getElementById(id).classList.contains('show')) {
                 document.getElementById(id).classList.add('none');
                 document.getElementById(id).classList.remove('show');
             }
@@ -318,12 +341,12 @@ export default class Helper {
         keys.map((keyName, index1) => {
             if (properties[keyName] !== "") {
                 const metaQueryResult = metasQuery.queryMetaWithID(properties[keyName]);
-                if(metaQueryResult) {
+                if (metaQueryResult) {
                     metaQueryResult.then(function (item) {
                         const data = JSON.parse(item);
                         let myElement = "";
                         let metaValue = $this.FetchMetaValue(data, properties[keyName])
-                        if (keyName === "imgUrl") {
+                        if (keyName === "URI") {
                             let img = document.createElement('img');
                             const UrlDecode = base64url.decode(metaValue);
                             img.src = UrlDecode;
@@ -357,7 +380,7 @@ export default class Helper {
         })
     }
 
-    getBase64(file){
+    getBase64(file) {
         return new Promise(resolve => {
             let baseURL = "";
             let reader = new FileReader();
@@ -368,6 +391,13 @@ export default class Helper {
             };
         });
     };
+
+    getBase64Hash(fileData) {
+        var pwdHash = sha1(fileData);
+        var joinedDataHashB64 = Base64.stringify(pwdHash);
+        var finalHash = base64url.fromBase64(joinedDataHashB64) + "="
+        return finalHash;
+    }
 
 }
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));

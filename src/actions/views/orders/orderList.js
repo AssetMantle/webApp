@@ -91,6 +91,11 @@ const OrderList = React.memo((props) => {
                             mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
                         }
                         let orderId = Helper.GetOrderID(order);
+                        let classificationID = Helper.GetClassificationID(order)
+                        let makerOwnableID = Helper.GetMakerOwnableID(order)
+                        let takerOwnableID = Helper.GetTakerOwnableID(order)
+                        let makerID = Helper.GetMakerID(order)
+                        let hashID = Helper.GetHashID(order)
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
                         return (
@@ -101,11 +106,36 @@ const OrderList = React.memo((props) => {
                                                 onClick={() => handleModalData("CancelOrder", order)}>{t("CANCEL")}</Button>
                                     </div>
                                     <div className="list-item">
-                                        <p className="list-item-label">{t("ORDER_ID")}</p>
+                                        <p className="list-item-label">{t("CLASSIFICATION_ID")}</p>
                                         <div className="list-item-value id-section">
-                                            <p className="id-string" title={orderId}>: {orderId}</p>
+                                            <p className="id-string" title={classificationID}>: {classificationID}</p>
                                             <Copy
-                                                id={orderId}/>
+                                                id={classificationID}/>
+                                        </div>
+                                    </div>
+                                    <div className="list-item">
+                                        <p className="list-item-label">{t("MAKER_OWNABLE_ID")}</p>
+                                        <div className="list-item-value id-section">
+                                            <p className="id-string" title={makerOwnableID}>: {makerOwnableID}</p>
+                                        </div>
+                                    </div>
+                                    <div className="list-item">
+                                        <p className="list-item-label">{t("TAKER_OWNABLE_ID")}</p>
+                                        <div className="list-item-value id-section">
+                                            <p className="id-string" title={takerOwnableID}>: {takerOwnableID}</p>
+                                        </div>
+                                    </div>
+                                    <div className="list-item">
+                                        <p className="list-item-label">{t("MAKER_ID")}</p>
+                                        <div className="list-item-value id-section">
+                                            <p className="id-string" title={makerID}>: {makerID}</p>
+
+                                        </div>
+                                    </div>
+                                    <div className="list-item">
+                                        <p className="list-item-label">{t("HASH")}</p>
+                                        <div className="list-item-value id-section">
+                                            <p className="id-string" title={hashID}>: {hashID}</p>
                                         </div>
                                     </div>
 

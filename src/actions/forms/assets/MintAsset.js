@@ -10,7 +10,6 @@ import Loader from "../../../components/loader";
 import ModalCommon from "../../../components/modal";
 import sha1 from 'js-sha1';
 import base64url from "base64url";
-import IdentitiesIssueJS from "persistencejs/transaction/identity/issue";
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMint = new AssetMintJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -180,11 +179,10 @@ const MintAsset = (props) => {
             .then(result => {
                 file["base64"] = result;
                 const fileData = result.split('base64,')[1]
-                const fileSha1 = sha1(fileData);
-                const fileBase64Encode = base64url.toBase64(fileSha1);
-                setInputValues({...inputValues, [uploadId]: fileBase64Encode});
+                const fileBase64Hash = Helper.getBase64Hash(fileData);
+                setInputValues({...inputValues, [uploadId]: fileBase64Hash});
                 setLoader(false)
-                document.getElementById(uploadId).value = fileBase64Encode;
+                document.getElementById(uploadId).value = fileBase64Hash;
                 setShowUpload(false);
                 setUploadFile(file);
             })

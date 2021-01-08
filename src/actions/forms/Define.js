@@ -42,11 +42,7 @@ const Define = (props) => {
         Helper.showHideDataTypeError(checkError, `ImmutableDefine${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
-    const handleChangeUrl = evt => {
-        const url = evt.target.value;
-        const fileEncode = base64url.encode(url);
-        setInputValues({...inputValues, [evt.target.name]: url});
-    }
+
     const handleClose = () => {
         setShow(false)
         props.setExternalComponent("");
@@ -105,11 +101,11 @@ const Define = (props) => {
         const ImmutableIdentifier = evt.target.ImmutableIdentifier.value;
         const ImmutableClassifier = evt.target.ImmutableClassifier.value;
 
-        const ImmutableUrl = evt.target.imgUrl.value;
+        const ImmutableUrl = evt.target.URI.value;
         const ImmutableUrlEncode = base64url.encode(ImmutableUrl);
 
         let staticImmutables = `style:S|${mutableStyle},type:S|${typeOption}`;
-        staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription},imgUrl:S|${ImmutableUrlEncode}`
+        staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription},URI:S|${ImmutableUrlEncode}`
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
         let mutablePropertyValue = ""
@@ -254,13 +250,13 @@ const Define = (props) => {
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>{t("URL")}</Form.Label>
+                            <Form.Label>{t("URI")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
-                                name="imgUrl"
+                                name="URI"
                                 required={true}
-                                placeholder="img url"
+                                placeholder="URI"
 
                             />
                         </Form.Group>

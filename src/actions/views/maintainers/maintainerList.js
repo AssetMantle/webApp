@@ -80,7 +80,8 @@ const MaintainerList = React.memo((props) => {
                             maintainerPropertyList = Helper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList);
                         }
                         let keys = Object.keys(maintainerPropertyList);
-                        let id = maintainer.value.id.value.classificationID.value.idString+"*"+maintainer.value.id.value.identityID.value.idString
+                        let classificationID = maintainer.value.id.value.classificationID.value.idString;
+                        let id = maintainer.value.id.value.identityID.value.idString
                         return (
                             <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card height-medium">
@@ -91,13 +92,22 @@ const MaintainerList = React.memo((props) => {
                                         </div> : ""
                                     }
                                     <div className="list-item">
-                                        <p className="list-item-label">{t("ID")}</p>
+                                        <p className="list-item-label">{t("CLASSIFICATION_ID")}</p>
+                                        <div className="list-item-value id-section">
+                                            <p className="id-string" title={classificationID}>: {classificationID}</p>
+                                            <Copy
+                                                id={classificationID}/>
+                                        </div>
+                                    </div>
+                                    <div className="list-item">
+                                        <p className="list-item-label">{t("IDENTITY_ID")}</p>
                                         <div className="list-item-value id-section">
                                             <p className="id-string" title={id}>: {id}</p>
                                             <Copy
                                                 id={id}/>
                                         </div>
                                     </div>
+
                                     {keys !== null ?
                                         keys.map((keyName, index1) => {
                                             if (maintainerPropertyList[keyName] !== "") {

@@ -103,17 +103,20 @@ const IdentityList = React.memo((props) => {
                                         <Button variant="secondary" size="sm"
                                                 onClick={() => handleModalData("UnProvision", identityId, identity)}>{t("UN_PROVISION")}</Button>
                                     </div>
-                                    <div className="id-section">
-                                        <p className="id-string" title={identityId}>{identityId}</p>
-                                        <Copy
-                                        id={identityId}/>
+                                    <div className="list-item">
+                                        <p className="list-item-label">{t("IDENTITY_ID")}</p>
+                                        <div className="list-item-value id-section">
+                                            <p className="id-string" title={identityId}>: {identityId}</p>
+                                            <Copy
+                                                id={identityId}/>
+                                        </div>
                                     </div>
 
                                     <p className="sub-title">{t("IMMUTABLES")}</p>
                                     {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
-                                                if (keyName === "imgUrl") {
+                                                if (keyName === "URI") {
                                                     return (
                                                         <div key={index + keyName}
                                                              id={`identityUrlId` + index + `${index1}`}

@@ -19,13 +19,11 @@ const MutateAsset = (props) => {
     const [loader, setLoader] = useState(false)
     const [keyList, setKeyList] = useState([]);
     const [response, setResponse] = useState({});
-    const [mutableProperties, setMutableProperties] = useState([]);
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
 
     useEffect(() => {
         const mutateProperties = props.mutatePropertiesList
         const mutableKeys = Object.keys(mutateProperties);
-        setMutableProperties(mutateProperties);
         setKeyList(mutableKeys);
         mutableKeys.map((keyName, idx) => {
             if (mutateProperties[keyName] !== "" && mutateProperties[keyName] !== null) {

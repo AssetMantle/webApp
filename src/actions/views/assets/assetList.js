@@ -113,6 +113,7 @@ const AssetList = React.memo((props) => {
                 {splitList.length ?
                     splitList.map((split, index) => {
                         const ownableID = Helper.GetIdentityOwnableId(split)
+
                         let ownableId = split.value.id.value.ownableID.value.idString;
                         let ownerId = split.value.id.value.ownerID.value.idString;
                         let stake = split.value.split;
@@ -120,6 +121,7 @@ const AssetList = React.memo((props) => {
                             <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
                                     {ownableId !== "stake" ?
+                                        <>
                                         <div className="list-item">
                                             <p className="list-item-label">{t("OWNABLE_ID")}</p>
                                             <div className="list-item-value id-section">
@@ -128,6 +130,8 @@ const AssetList = React.memo((props) => {
                                                     id={ownableId}/>
                                             </div>
                                         </div>
+
+                                        </>
                                         :
                                         <div className="list-item">
                                             <p className="list-item-label">{t("OWNABLE_ID")}</p>
@@ -181,11 +185,12 @@ const AssetList = React.memo((props) => {
                                                             </Button>
 
                                                         </div>
+
                                                         <p className="sub-title">{t("IMMUTABLES")}</p>
                                                         {immutableKeys !== null ?
                                                             immutableKeys.map((keyName, index1) => {
                                                                 if (immutableProperties[keyName] !== "") {
-                                                                    if (keyName === "imgUrl") {
+                                                                    if (keyName === "URI") {
                                                                         return (
                                                                             <div key={index + keyName} id={`assetUrlId` + index + `${index1}`}
                                                                                  className="assetImage"></div>)

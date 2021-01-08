@@ -127,7 +127,11 @@ let en = {
         "ORDER_ID": 'Order Id',
         "MUTABLE_VALIDATION_ERROR": "These *,|. excluded",
         "TRAIT_VALUE":"Trait Value",
-
+        "IDENTITY_ID":"Identity Id",
+        "MAKER_OWNABLE_ID":"Maker Ownable Id",
+        "TAKER_OWNABLE_ID":"Taker Ownable Id",
+        "MAKER_ID":"Maker Id",
+        "HASH":"Hash"
 
     }
 };
