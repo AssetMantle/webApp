@@ -8,8 +8,7 @@ import metasQueryJS from "persistencejs/transaction/meta/query";
 import config from "../../../constants/config.json"
 import Loader from "../../../components/loader";
 import ModalCommon from "../../../components/modal";
-import sha1 from 'js-sha1';
-import base64url from "base64url";
+
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMint = new AssetMintJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -306,41 +305,83 @@ const MintAsset = (props) => {
                                 const immutableType = immutable.value.fact.value.type;
                                 const immutableName = immutable.value.id.value.idString;
                                 const id = `MintAsset${immutableName}|${immutableType}${index}`
-                                return (
-                                    <div key={index}>
-                                        <Form.Group>
-                                            <div className="upload-section">
-                                                <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
-                                                {immutableType === 'S'
-                                                    ?
-                                                    <Button variant="secondary"  size="sm" onClick={()=>handleUpload(id)}>upload</Button>
-                                                    : ""
-                                                }
-                                            </div>
-                                            <Form.Control
-                                                type="text"
-                                                className=""
-                                                name={`${immutableName}|${immutableType}${index}`}
-                                                id={`MintAsset${immutableName}|${immutableType}${index}`}
-                                                required={true}
-                                                placeholder={t("TRAIT_VALUE")}
-                                                onChange={(evt) => {
-                                                    handleChangeImmutable(evt, index + 1)
-                                                }}
-                                                disabled={false}
-                                            />
-                                        </Form.Group>
-                                        <Form.Text id={`ImmutableMint${index + 1}`} className="text-muted none">
-                                            {t("MUTABLE_VALIDATION_ERROR")}
-                                        </Form.Text>
-                                        <Form.Group>
-                                            <Form.Check custom type="checkbox" label="Meta"
-                                                        name={`${immutableName}|${immutableType}${index}`}
-                                                        id={`checkbox${immutableName}|${immutableType}${index}`}
-                                                        onChange={handleCheckImmutableChange}/>
-                                        </Form.Group>
-                                    </div>
-                                )
+
+                                if (immutableName == config.URI) {
+                                    return (
+                                        <div key={index}>
+                                            <Form.Group>
+                                                <div className="upload-section">
+                                                    <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
+                                                    {immutableType === 'S'
+                                                        ?
+                                                        <Button variant="secondary"  size="sm" onClick={()=>handleUpload(id)}>upload</Button>
+                                                        : ""
+                                                    }
+                                                </div>
+                                                <Form.Control
+                                                    type="text"
+                                                    className=""
+                                                    name={`${immutableName}|${immutableType}${index}`}
+                                                    id={`MintAsset${immutableName}|${immutableType}${index}`}
+                                                    required={false}
+                                                    placeholder={t("TRAIT_VALUE")}
+                                                    onChange={(evt) => {
+                                                        handleChangeImmutable(evt, index + 1)
+                                                    }}
+                                                    disabled={false}
+                                                />
+                                            </Form.Group>
+                                            <Form.Text id={`ImmutableMint${index + 1}`} className="text-muted none">
+                                                {t("MUTABLE_VALIDATION_ERROR")}
+                                            </Form.Text>
+                                            <Form.Group>
+                                                <Form.Check custom type="checkbox" label="Meta"
+                                                            name={`${immutableName}|${immutableType}${index}`}
+                                                            id={`checkbox${immutableName}|${immutableType}${index}`}
+                                                            onChange={handleCheckImmutableChange}/>
+                                            </Form.Group>
+                                        </div>
+                                    )
+                                }
+                                else {
+                                    return (
+                                        <div key={index}>
+                                            <Form.Group>
+                                                <div className="upload-section">
+                                                    <Form.Label>Immutable
+                                                        Traits {immutableName} |{immutableType} </Form.Label>
+                                                    {immutableType === 'S'
+                                                        ?
+                                                        <Button variant="secondary" size="sm"
+                                                                onClick={() => handleUpload(id)}>upload</Button>
+                                                        : ""
+                                                    }
+                                                </div>
+                                                <Form.Control
+                                                    type="text"
+                                                    className=""
+                                                    name={`${immutableName}|${immutableType}${index}`}
+                                                    id={`MintAsset${immutableName}|${immutableType}${index}`}
+                                                    required={true}
+                                                    placeholder={t("TRAIT_VALUE")}
+                                                    onChange={(evt) => {
+                                                        handleChangeImmutable(evt, index + 1)
+                                                    }}
+                                                    disabled={false}
+                                                />
+                                            </Form.Group>
+                                            <Form.Text id={`ImmutableMint${index + 1}`} className="text-muted none">
+                                                {t("MUTABLE_VALIDATION_ERROR")}
+                                            </Form.Text>
+                                            <Form.Group>
+                                                <Form.Check custom type="checkbox" label="Meta"
+                                                            name={`${immutableName}|${immutableType}${index}`}
+                                                            id={`checkbox${immutableName}|${immutableType}${index}`}
+                                                            onChange={handleCheckImmutableChange}/>
+                                            </Form.Group>
+                                        </div>
+                                    )
+                                }
                             })
                             :
                             ""

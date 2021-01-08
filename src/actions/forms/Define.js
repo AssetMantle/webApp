@@ -255,9 +255,8 @@ const Define = (props) => {
                                 type="text"
                                 className=""
                                 name="URI"
-                                required={true}
+                                required={false}
                                 placeholder="URI"
-
                             />
                         </Form.Group>
                         <InputField

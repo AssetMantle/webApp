@@ -8,7 +8,6 @@ import Base64 from 'crypto-js/enc-base64'
 
 export default class Helper {
     GetClassificationID(data) {
-        console.log(data, "to get classficaitonid")
         return data.value.id.value.classificationID.value.idString;
     }
 
@@ -346,7 +345,7 @@ export default class Helper {
                         const data = JSON.parse(item);
                         let myElement = "";
                         let metaValue = $this.FetchMetaValue(data, properties[keyName])
-                        if (keyName === "URI") {
+                        if (keyName === config.URI) {
                             let img = document.createElement('img');
                             const UrlDecode = base64url.decode(metaValue);
                             img.src = UrlDecode;
@@ -356,23 +355,25 @@ export default class Helper {
                                 document.getElementById(urlId + index + index1).appendChild(img);
                             }
                         }
-                        if (metaValue == "Blue") {
-                            myElement = <span className="Blue">{metaValue}</span>;
-                        } else if (metaValue == "Red") {
-                            myElement = <span className="Red">{metaValue}</span>;
-                        } else if (metaValue == "Green") {
-                            myElement = <span className="Green">{metaValue}</span>;
-                        } else if (metaValue == "Black") {
-                            myElement = <span className="Black">{metaValue}</span>;
-                        } else {
-                            myElement = <span>{metaValue}</span>;
-                        }
+                    else {
+                            if (metaValue == "Blue") {
+                                myElement = <span className="Blue">{metaValue}</span>;
+                            } else if (metaValue == "Red") {
+                                myElement = <span className="Red">{metaValue}</span>;
+                            } else if (metaValue == "Green") {
+                                myElement = <span className="Green">{metaValue}</span>;
+                            } else if (metaValue == "Black") {
+                                myElement = <span className="Black">{metaValue}</span>;
+                            } else {
+                                myElement = <span>{metaValue}</span>;
+                            }
 
-                        var element = document.getElementById(idPrefix + index + index1)
-                        if (typeof (element) != 'undefined' && element != null) {
-                            ReactDOM.render(myElement, document.getElementById(idPrefix + index + index1));
-                        } else {
-                            console.log('Element does not exist!', idPrefix + index + index1);
+                            var element = document.getElementById(idPrefix + index + index1)
+                            if (typeof (element) != 'undefined' && element != null) {
+                                ReactDOM.render(myElement, document.getElementById(idPrefix + index + index1));
+                            } else {
+                               return "";
+                            }
                         }
                     });
                 }

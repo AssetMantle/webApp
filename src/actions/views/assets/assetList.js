@@ -10,6 +10,7 @@ import {MakeOrder} from "../../forms/orders";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
 import Copy from "../../../components/copy";
+import config from "../../../constants/config.json"
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -190,7 +191,7 @@ const AssetList = React.memo((props) => {
                                                         {immutableKeys !== null ?
                                                             immutableKeys.map((keyName, index1) => {
                                                                 if (immutableProperties[keyName] !== "") {
-                                                                    if (keyName === "URI") {
+                                                                    if (keyName === config.URI) {
                                                                         return (
                                                                             <div key={index + keyName} id={`assetUrlId` + index + `${index1}`}
                                                                                  className="assetImage"></div>)
