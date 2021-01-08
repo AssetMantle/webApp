@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: [ develop ]
+    branches: [develop]
 
 jobs:
   build:
@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [ 14.x ]
+        node-version: [14.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -46,4 +46,4 @@ jobs:
             build.zip ${{ secrets.DEVELOP_USERNAME }}@${{ secrets.DEVELOP_HOST }}:~/build.zip
           # then run these commands
           ssh_after: |
-            /root/update.sh
+            ${{ secrets.DEVELOP_SCRIPT }}
