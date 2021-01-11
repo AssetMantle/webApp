@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from "react";
-import Helpers from "../../utilities/Helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
+import GetProperty from "../../utilities/Helpers/getProperty";
+import GetMeta from "../../utilities/Helpers/getMeta";
+import GetID from "../../utilities/Helpers/getID";
 import Sidebar from "../sidebar/sidebar";
 
 import {Summary} from "../summary";
@@ -13,7 +15,9 @@ const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const SearchOrder = React.memo((props) => {
-    const Helper = new Helpers();
+    const PropertyHelper = new GetProperty();
+    const GetMetaHelper = new GetMeta();
+    const GetIDHelper = new GetID();
     const {t} = useTranslation();
     let history = useHistory();
     const [orderList, setOrderList] = useState([]);
@@ -29,15 +33,15 @@ const SearchOrder = React.memo((props) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
                         if (order.value.immutables.value.properties.value.propertyList !== null) {
-                            immutableProperties = Helper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
+                            immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
                         }
                         if (order.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                            mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
                         }
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
-                        Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_search', index);
-                        Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_search', index);
+                        GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_search', index);
+                        GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_search', index);
                     })
 
             }
@@ -61,12 +65,12 @@ const SearchOrder = React.memo((props) => {
                                         let immutableProperties = "";
                                         let mutableProperties = "";
                                         if (order.value.immutables.value.properties.value.propertyList !== null) {
-                                            immutableProperties = Helper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
+                                            immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
                                         }
                                         if (order.value.mutables.value.properties.value.propertyList !== null) {
-                                            mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                                            mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
                                         }
-                                        let orderId = Helper.GetOrderID(order);
+                                        let orderId = GetIDHelper.GetOrderID(order);
                                         let immutableKeys = Object.keys(immutableProperties);
                                         let mutableKeys = Object.keys(mutableProperties);
                                         return (

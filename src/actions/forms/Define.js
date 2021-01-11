@@ -1,15 +1,16 @@
 import React, {useState} from "react";
 import {Form, Button, Modal} from "react-bootstrap";
-import Helpers from "../../utilities/Helper"
 import InputField from "../../components/inputField"
 import {useTranslation} from "react-i18next";
 import config from "../../constants/config.json"
 import ModalCommon from "../../components/modal";
 import Loader from "../../components/loader";
 import base64url from "base64url";
+import GetProperty from "../../utilities/Helpers/getProperty";
+
 
 const Define = (props) => {
-    const Helper = new Helpers();
+    const PropertyHelper = new GetProperty();
     const [loader, setLoader] = useState(false)
     const [show, setShow] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
@@ -30,16 +31,16 @@ const Define = (props) => {
     const handleChangeMutable = (evt, idx) => {
         const newValue = evt.target.value;
         const selectValue = document.getElementById("MutableDataType" + idx).value;
-        const checkError = Helper.DataTypeValidation(selectValue, newValue);
-        Helper.showHideDataTypeError(checkError, `MutableDefine${idx}`);
+        const checkError = PropertyHelper.DataTypeValidation(selectValue, newValue);
+        PropertyHelper.showHideDataTypeError(checkError, `MutableDefine${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
 
     const handleChangeImmutable = (evt, idx) => {
         const newValue = evt.target.value;
         const selectValue = document.getElementById("ImmutableDataType" + idx).value;
-        const checkError = Helper.DataTypeValidation(selectValue, newValue);
-        Helper.showHideDataTypeError(checkError, `ImmutableDefine${idx}`);
+        const checkError = PropertyHelper.DataTypeValidation(selectValue, newValue);
+        PropertyHelper.showHideDataTypeError(checkError, `ImmutableDefine${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
 
@@ -113,13 +114,13 @@ const Define = (props) => {
         let immutablePropertyValue = ""
         let immutableMetaPropertyValue = ""
 
-        mutablePropertyValue = Helper.MutablePropertyValues(mutableProperties, inputValues, metaCheckboxList);
+        mutablePropertyValue = PropertyHelper.MutablePropertyValues(mutableProperties, inputValues, metaCheckboxList);
 
-        mutableMetaPropertyValue = Helper.MutableMetaPropertyValues(mutableProperties, inputValues, metaCheckboxList);
+        mutableMetaPropertyValue = PropertyHelper.MutableMetaPropertyValues(mutableProperties, inputValues, metaCheckboxList);
 
-        immutablePropertyValue = Helper.ImmutablePropertyValues(immutableProperties, inputValues, immutableMetaCheckboxList);
+        immutablePropertyValue = PropertyHelper.ImmutablePropertyValues(immutableProperties, inputValues, immutableMetaCheckboxList);
 
-        immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableProperties, inputValues, immutableMetaCheckboxList);
+        immutableMetaPropertyValue = PropertyHelper.ImmutableMetaPropertyValues(immutableProperties, inputValues, immutableMetaCheckboxList);
         if (typeOption === 'asset') {
             if (mutableMetaPropertyValue) {
                 mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + assetSpecificMutables;

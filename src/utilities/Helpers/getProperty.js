@@ -1,8 +1,5 @@
-import ReactDOM from "react-dom";
 import React from "react";
 import base64url from "base64url";
-const request = require('request');
-import config from "../../constants/config.json"
 import sha1 from 'crypto-js/sha1';
 import Base64 from 'crypto-js/enc-base64'
 
@@ -176,7 +173,7 @@ export default class GetProperty {
     }
 
     showHideDataTypeError(checkError, id) {
-
+        console.log()
         if (!checkError) {
             document.getElementById(id).classList.remove('none');
             document.getElementById(id).classList.add('show');

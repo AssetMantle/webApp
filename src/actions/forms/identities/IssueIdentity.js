@@ -2,19 +2,24 @@ import React, {useState} from "react";
 import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
 import IdentitiesIssueJS from "persistencejs/transaction/identity/issue";
 import {Form, Button, Modal} from "react-bootstrap";
-import Helpers from "../../../utilities/Helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import config from "../../../constants/config.json"
 import Loader from "../../../components/loader"
 import ModalCommon from "../../../components/modal"
+import FilterHelpers from "../../../utilities/Helpers/filter";
+import GetMeta from "../../../utilities/Helpers/getMeta";
+import GetProperty from "../../../utilities/Helpers/getProperty";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesIssue = new IdentitiesIssueJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const IssueIdentity = (props) => {
-    const Helper = new Helpers();
+    const PropertyHelper = new GetProperty();
+    const FilterHelper = new FilterHelpers();
+    const GetMetaHelper = new GetMeta();
+
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
     const [showNext, setShowNext] = useState(false);
@@ -70,15 +75,15 @@ const IssueIdentity = (props) => {
     }
     const handleChangeMutable = (evt, idx) => {
         const newValue = evt.target.value;
-        const checkError = Helper.mutableValidation(newValue);
-        Helper.showHideDataTypeError(checkError, `mutableIssueIdentity${idx}`);
+        const checkError = PropertyHelper.mutableValidation(newValue);
+        PropertyHelper.showHideDataTypeError(checkError, `mutableIssueIdentity${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
 
     const handleChangeImmutable = (evt, idx) => {
         const newValue = evt.target.value;
-        const checkError = Helper.mutableValidation(newValue);
-        Helper.showHideDataTypeError(checkError, `ImmutableIssueIdentity${idx}`);
+        const checkError = PropertyHelper.mutableValidation(newValue);
+        PropertyHelper.showHideDataTypeError(checkError, `ImmutableIssueIdentity${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
 
@@ -94,7 +99,7 @@ const IssueIdentity = (props) => {
             if (data.result.value.classifications.value.list !== null) {
                 const immutablePropertyList = data.result.value.classifications.value.list[0].value.immutableTraits.value.properties.value.propertyList;
                 const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
-                Helper.FetchInputFieldMeta(immutablePropertyList, metasQuery, "IssueIdentity");
+                GetMetaHelper.FetchInputFieldMeta(immutablePropertyList, metasQuery, "IssueIdentity");
                 setMutableList(mutablePropertyList)
                 setImmutableList(immutablePropertyList)
             }
@@ -131,7 +136,7 @@ const IssueIdentity = (props) => {
                     const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
                     const inputName = `${mutableName}|${mutableType}${index}`
 
-                    const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
+                    const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
                     if (mutableMetaValuesResponse[0] !== "") {
                         mutableValues = mutableMetaValuesResponse[0];
                     }
@@ -146,7 +151,7 @@ const IssueIdentity = (props) => {
                     const immutableName = immutable.value.id.value.idString;
                     const immutableInputName = `${immutableName}|${immutableType}${index}`
                     const immutableFieldValue = document.getElementById(`IssueIdentity${immutableName}|${immutableType}${index}`).value;
-                    const ImmutableMetaValuesResponse = Helper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
+                    const ImmutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
                     if (ImmutableMetaValuesResponse[0] !== "") {
                         immutableValues = ImmutableMetaValuesResponse[0];
                     }
@@ -173,11 +178,11 @@ const IssueIdentity = (props) => {
         setLoader(true)
         let file  = uploadFile;
         file = e.target.files[0];
-        Helper.getBase64(file)
+        PropertyHelper.getBase64(file)
             .then(result => {
                 file["base64"] = result;
                 const fileData = result.split('base64,')[1]
-                const fileBase64Hash = Helper.getBase64Hash(fileData);
+                const fileBase64Hash = PropertyHelper.getBase64Hash(fileData);
                 setInputValues({...inputValues, [uploadId]: fileBase64Hash});
                 setLoader(false)
                 document.getElementById(uploadId).value = fileBase64Hash;
@@ -307,7 +312,7 @@ const IssueIdentity = (props) => {
                                 const immutableName = immutable.value.id.value.idString;
                                 const id = `IssueIdentity${immutableName}|${immutableType}${index}`
                                 return (
-                                    <>
+                                    <div key={index}>
                                         <Form.Group>
                                             <div className="upload-section">
                                                 <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
@@ -341,7 +346,7 @@ const IssueIdentity = (props) => {
                                                         id={`checkbox${immutableName}|${immutableType}${index}`}
                                                         onChange={handleCheckImmutableChange}/>
                                         </Form.Group>
-                                    </>
+                                    </div>
                                 )
                             })
                             :

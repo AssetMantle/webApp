@@ -1,18 +1,20 @@
 import React, {useState, useEffect} from "react";
 import assetsQueryJS from "persistencejs/transaction/assets/query";
-import Helpers from "../../utilities/Helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../sidebar/sidebar";
 import {useHistory} from "react-router-dom";
 import {Summary} from "../summary";
 import Icon from "../../icons";
+import GetProperty from "../../utilities/Helpers/getProperty";
+import GetMeta from "../../utilities/Helpers/getMeta";
 
 const assetsQuery = new assetsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const SearchAsset = React.memo((props) => {
-    const Helper = new Helpers();
+    const PropertyHelper = new GetProperty();
+    const GetMetaHelper = new GetMeta();
     let history = useHistory();
     const {t} = useTranslation();
     const [assetList, setAssetList] = useState([]);
@@ -28,15 +30,15 @@ const SearchAsset = React.memo((props) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
                         if (asset.value.immutables.value.properties.value.propertyList !== null) {
-                            immutableProperties = Helper.ParseProperties(asset.value.immutables.value.properties.value.propertyList);
+                            immutableProperties = PropertyHelper.ParseProperties(asset.value.immutables.value.properties.value.propertyList);
                         }
                         if (asset.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = Helper.ParseProperties(asset.value.mutables.value.properties.value.propertyList)
+                            mutableProperties = PropertyHelper.ParseProperties(asset.value.mutables.value.properties.value.propertyList)
                         }
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
-                        Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset_search', index);
-                        Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset_search', index);
+                        GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset_search', index);
+                        GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset_search', index);
                     })
                 }
             })
@@ -66,10 +68,10 @@ const SearchAsset = React.memo((props) => {
                                         let mutableProperties = "";
 
                                         if (asset.value.immutables.value.properties.value.propertyList !== null) {
-                                            immutableProperties = Helper.ParseProperties(asset.value.immutables.value.properties.value.propertyList);
+                                            immutableProperties = PropertyHelper.ParseProperties(asset.value.immutables.value.properties.value.propertyList);
                                         }
                                         if (asset.value.mutables.value.properties.value.propertyList !== null) {
-                                            mutableProperties = Helper.ParseProperties(asset.value.mutables.value.properties.value.propertyList)
+                                            mutableProperties = PropertyHelper.ParseProperties(asset.value.mutables.value.properties.value.propertyList)
                                         }
                                         let immutableKeys = Object.keys(immutableProperties);
                                         let mutableKeys = Object.keys(mutableProperties);

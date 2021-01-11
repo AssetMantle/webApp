@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import splitsQueryJS from "persistencejs/transaction/splits/query";
 import assetsQueryJS from "persistencejs/transaction/assets/query";
-import Helpers from "../../../utilities/Helper";
 import {Button} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
@@ -11,14 +10,20 @@ import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
 import Copy from "../../../components/copy";
 import config from "../../../constants/config.json"
-
+import FilterHelpers from "../../../utilities/Helpers/filter";
+import GetMeta from "../../../utilities/Helpers/getMeta";
+import GetProperty from "../../../utilities/Helpers/getProperty";
+import GetID from "../../../utilities/Helpers/getID";
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetsQuery = new assetsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const splitsQuery = new splitsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const AssetList = React.memo((props) => {
-    const Helper = new Helpers();
+    const PropertyHelper = new GetProperty();
+    const FilterHelper = new FilterHelpers();
+    const GetMetaHelper = new GetMeta();
+    const GetIDHelper = new GetID();
     const {t} = useTranslation();
     const [externalComponent, setExternalComponent] = useState("");
     const [ownerId, setOwnerId] = useState("");
@@ -38,36 +43,36 @@ const AssetList = React.memo((props) => {
                     const data = JSON.parse(item);
                     const dataList = data.result.value.identities.value.list;
                     if (dataList) {
-                        const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
+                        const filterIdentities = FilterHelper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
                         const splits = splitsQuery.querySplitsWithID("all")
                         splits.then(function (splitsItem) {
                             const splitData = JSON.parse(splitsItem);
                             const splitList = splitData.result.value.splits.value.list;
                             if (splitList) {
-                                const filterSplitsByIdentities = Helper.FilterSplitsByIdentity(filterIdentities, splitList)
+                                const filterSplitsByIdentities = FilterHelper.FilterSplitsByIdentity(filterIdentities, splitList)
                                 if (filterSplitsByIdentities.length) {
                                     setSplitList(filterSplitsByIdentities)
                                     filterSplitsByIdentities.map((split, index) => {
-                                        const ownableID = Helper.GetIdentityOwnableId(split)
+                                        const ownableID = GetIDHelper.GetIdentityOwnableId(split)
                                         const filterAssetList = assetsQuery.queryAssetWithID(ownableID);
                                         filterAssetList.then(function (Asset) {
                                             const parsedAsset = JSON.parse(Asset);
                                             if (parsedAsset.result.value.assets.value.list !== null) {
-                                                const assetId = Helper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
+                                                const assetId = GetIDHelper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
                                                 if (ownableID === assetId) {
                                                     setAssetList(assetList => [...assetList, parsedAsset]);
                                                     let immutableProperties = "";
                                                     let mutableProperties = "";
                                                     if (parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
-                                                        immutableProperties = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
+                                                        immutableProperties = PropertyHelper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
                                                     }
                                                     if (parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
-                                                        mutableProperties = Helper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
+                                                        mutableProperties = PropertyHelper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
                                                     }
                                                     let immutableKeys = Object.keys(immutableProperties);
                                                     let mutableKeys = Object.keys(mutableProperties);
-                                                    Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset', index, 'assetUrlId');
-                                                    Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset', index);
+                                                    GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset', index, 'assetUrlId');
+                                                    GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset', index);
                                                     setLoader(false)
                                                 } else {
                                                     setLoader(false)
@@ -113,7 +118,7 @@ const AssetList = React.memo((props) => {
             <div className="row card-deck">
                 {splitList.length ?
                     splitList.map((split, index) => {
-                        const ownableID = Helper.GetIdentityOwnableId(split)
+                        const ownableID = GetIDHelper.GetIdentityOwnableId(split)
 
                         let ownableId = split.value.id.value.ownableID.value.idString;
                         let ownerId = split.value.id.value.ownerID.value.idString;
@@ -163,15 +168,15 @@ const AssetList = React.memo((props) => {
                                     </div>
                                     {
                                         assetList.map((asset, assetIndex) => {
-                                            const assetItemId = Helper.GetAssetID(asset.result.value.assets.value.list[0]);
+                                            const assetItemId = GetIDHelper.GetAssetID(asset.result.value.assets.value.list[0]);
                                             if (ownableID === assetItemId) {
                                                 let immutableProperties = "";
                                                 let mutableProperties = "";
                                                 if (asset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
-                                                    immutableProperties = Helper.ParseProperties(asset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
+                                                    immutableProperties = PropertyHelper.ParseProperties(asset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
                                                 }
                                                 if (asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
-                                                    mutableProperties = Helper.ParseProperties(asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
+                                                    mutableProperties = PropertyHelper.ParseProperties(asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
                                                 }
                                                 let immutableKeys = Object.keys(immutableProperties);
                                                 let mutableKeys = Object.keys(mutableProperties);
