@@ -26,6 +26,9 @@ const IssueIdentity = (props) => {
     const [mutableList, setMutableList] = useState([]);
     const [immutableList, setImmutableList] = useState([]);
     const [inputValues, setInputValues] = useState([]);
+    const [showUpload, setShowUpload] = useState(false);
+    const [uploadId, setUploadId] = useState("");
+    const [uploadFile, setUploadFile] = useState(null);
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     const [checkboxImmutableNamesList, setCheckboxImmutableNamesList] = useState([]);
     const handleClose = () => {
@@ -35,6 +38,9 @@ const IssueIdentity = (props) => {
     const handleCloseNext = () => {
         setShowNext(false);
         props.setExternalComponent("");
+    };
+    const handleCloseUpload = () => {
+        setShowUpload(false);
     };
     const handleCheckMutableChange = evt => {
         const checkedValue = evt.target.checked;
@@ -158,6 +164,31 @@ const IssueIdentity = (props) => {
             })
         }
     }
+    const handleUpload = (id) =>{
+        setUploadId(id);
+        setShowUpload(true)
+    }
+
+    const handleFileInputChange = (e) => {
+        setLoader(true)
+        let file  = uploadFile;
+        file = e.target.files[0];
+        Helper.getBase64(file)
+            .then(result => {
+                file["base64"] = result;
+                const fileData = result.split('base64,')[1]
+                const fileBase64Hash = Helper.getBase64Hash(fileData);
+                setInputValues({...inputValues, [uploadId]: fileBase64Hash});
+                setLoader(false)
+                document.getElementById(uploadId).value = fileBase64Hash;
+                setShowUpload(false);
+                setUploadFile(file);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        setUploadFile(e.target.files[0]);
+    };
     return (
         <div>
             <Modal show={show} onHide={handleClose} centered>
@@ -227,14 +258,24 @@ const IssueIdentity = (props) => {
                             mutableList.map((mutable, index) => {
                                 const mutableType = mutable.value.fact.value.type;
                                 const mutableName = mutable.value.id.value.idString;
+                                const mutableHash = immutable.value.fact.value.hash;
+                                const id =`${mutableName}|${mutableType}${index}`;
                                 return (
                                     <div key={index}>
                                         <Form.Group>
-                                            <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
+                                            <div className="upload-section">
+                                                <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
+                                                {mutableType === 'S' && mutableHash === ""
+                                                    ?
+                                                    <Button variant="secondary"  size="sm" onClick={()=>handleUpload(id)}>upload</Button>
+                                                    : ""
+                                                }
+                                            </div>
                                             <Form.Control
                                                 type="text"
                                                 className=""
                                                 name={`${mutableName}|${mutableType}${index}`}
+                                                id={`${mutableName}|${mutableType}${index}`}
                                                 required={true}
                                                 placeholder="Trait Value"
                                                 onChange={(evt) => {
@@ -262,11 +303,21 @@ const IssueIdentity = (props) => {
                         {immutableList !== null ?
                             immutableList.map((immutable, index) => {
                                 const immutableType = immutable.value.fact.value.type;
+                                const immutableHash = immutable.value.fact.value.hash;
                                 const immutableName = immutable.value.id.value.idString;
+                                const id = `IssueIdentity${immutableName}|${immutableType}${index}`
                                 return (
                                     <>
                                         <Form.Group>
-                                            <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
+                                            <div className="upload-section">
+                                                <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
+                                                {immutableType === 'S' && immutableHash === ""
+                                                    ?
+                                                    <Button variant="secondary"  size="sm" onClick={()=>handleUpload(id)}>upload</Button>
+                                                    : ""
+                                                }
+                                            </div>
+
                                             <Form.Control
                                                 type="text"
                                                 className=""
@@ -306,6 +357,11 @@ const IssueIdentity = (props) => {
                             </Button>
                         </div>
                     </Form>
+                </Modal.Body>
+            </Modal>
+            <Modal show={showUpload} onHide={handleCloseUpload} centered >
+                <Modal.Body className="upload-modal">
+                    <input type="file" name="file" onChange={handleFileInputChange} />
                 </Modal.Body>
             </Modal>
             {!(Object.keys(response).length === 0) ?

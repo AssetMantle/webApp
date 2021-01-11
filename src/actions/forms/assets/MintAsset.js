@@ -258,6 +258,7 @@ const MintAsset = (props) => {
                         {mutableList !== null ?
                             mutableList.map((mutable, index) => {
                                 const mutableType = mutable.value.fact.value.type;
+                                const mutableHash = mutable.value.fact.value.hash;
                                 const mutableName = mutable.value.id.value.idString;
                                 const id = `${mutableName}|${mutableType}${index}`;
                                 return (
@@ -265,7 +266,7 @@ const MintAsset = (props) => {
                                         <Form.Group>
                                             <div className="upload-section">
                                             <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
-                                                {mutableType === 'S'
+                                                {mutableType === 'S' && mutableHash === ""
                                                     ?
                                                     <Button variant="secondary"  size="sm" onClick={()=>handleUpload(id)}>upload</Button>
                                                     : ""
@@ -303,6 +304,7 @@ const MintAsset = (props) => {
                         {immutableList !== null ?
                             immutableList.map((immutable, index) => {
                                 const immutableType = immutable.value.fact.value.type;
+                                const immutableHash = immutable.value.fact.value.hash;
                                 const immutableName = immutable.value.id.value.idString;
                                 const id = `MintAsset${immutableName}|${immutableType}${index}`
 
@@ -312,7 +314,7 @@ const MintAsset = (props) => {
                                             <Form.Group>
                                                 <div className="upload-section">
                                                     <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
-                                                    {immutableType === 'S'
+                                                    {immutableType === 'S' && immutableHash == ""
                                                         ?
                                                         <Button variant="secondary"  size="sm" onClick={()=>handleUpload(id)}>upload</Button>
                                                         : ""

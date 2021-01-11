@@ -7,6 +7,7 @@ import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
 import Copy from "../../../components/copy";
+import config from "../../../constants/config.json";
 
 const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -38,7 +39,7 @@ const TotalOrders = React.memo((props) => {
                         }
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
-                        Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_market', index);
+                        Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_market', index, 'totalOrderUrlId');
                         Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_market', index);
                         setLoader(false)
                     })
@@ -95,11 +96,23 @@ const TotalOrders = React.memo((props) => {
                                     {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
-                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
-                                                    id={`immutable_order_market` + index + `${index1}`} className="list-item-value"></p></div>)
+                                                if (keyName === config.URI) {
+                                                    return (
+                                                        <div key={index + keyName}
+                                                             id={`totalOrderUrlId` + index + `${index1}`}
+                                                             className="assetImage"></div>)
+                                                } else {
+                                                    return (<div key={index + keyName} className="list-item"><p
+                                                        className="list-item-label">{keyName} </p>: <p
+                                                        id={`immutable_order_market` + index + `${index1}`}
+                                                        className="list-item-value"></p></div>)
+                                                }
                                             } else {
                                                 return (
-                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{immutableProperties[keyName]}</p></div>)
+                                                    <div key={index + keyName} className="list-item"><p
+                                                        className="list-item-label">{keyName} </p>: <p
+                                                        className="list-item-hash-value">{immutableProperties[keyName]}</p>
+                                                    </div>)
                                             }
                                         })
                                         : ""
@@ -110,11 +123,16 @@ const TotalOrders = React.memo((props) => {
                                     {mutableKeys !== null ?
                                         mutableKeys.map((keyName, index1) => {
                                             if (mutableProperties[keyName] !== "") {
-                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
-                                                    id={`mutable_order_market` + index + `${index1}`} className="list-item-value"></p></div>)
+                                                return (<div key={index + keyName} className="list-item"><p
+                                                    className="list-item-label">{keyName} </p>: <p
+                                                    id={`mutable_order_market` + index + `${index1}`}
+                                                    className="list-item-value"></p></div>)
                                             } else {
                                                 return (
-                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-ite-hash-value">{mutableProperties[keyName]}</p></div>)
+                                                    <div key={index + keyName} className="list-item"><p
+                                                        className="list-item-label">{keyName} </p>: <p
+                                                        className="list-ite-hash-value">{mutableProperties[keyName]}</p>
+                                                    </div>)
                                             }
                                         })
                                         : ""
