@@ -173,7 +173,6 @@ export default class GetProperty {
     }
 
     showHideDataTypeError(checkError, id) {
-        console.log()
         if (!checkError) {
             document.getElementById(id).classList.remove('none');
             document.getElementById(id).classList.add('show');

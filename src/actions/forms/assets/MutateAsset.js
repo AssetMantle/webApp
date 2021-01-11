@@ -8,6 +8,7 @@ import ModalCommon from "../../../components/modal"
 import config from "../../../constants/config.json"
 import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
+import GetID from "../../../utilities/Helpers/getID";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMutate = new assetMutateJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -15,7 +16,7 @@ const assetMutate = new assetMutateJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const MutateAsset = (props) => {
     const FilterHelper = new FilterHelpers();
     const GetMetaHelper = new GetMeta();
-
+    const GetIDHelper = new GetID();
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
@@ -63,7 +64,7 @@ const MutateAsset = (props) => {
         event.preventDefault();
         const asset = props.asset;
         const FromId = event.target.FromId.value;
-        const assetId = G.GetAssetID(asset.result.value.assets.value.list[0])
+        const assetId = GetIDHelper.GetAssetID(asset.result.value.assets.value.list[0])
         const assetList = asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList
         let assetDataTypeList = {};
         assetList.forEach(function (item) {
