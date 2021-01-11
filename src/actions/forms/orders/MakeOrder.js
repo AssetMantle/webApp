@@ -66,7 +66,6 @@ const MakeOrder = (props) => {
     const handleChangeMutable = (evt, idx) => {
         const newValue = evt.target.value;
         const checkError = Helper.mutableValidation(newValue);
-        console.log(checkError, "error")
         Helper.showHideDataTypeError(checkError, `mutableMakeOrder${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }

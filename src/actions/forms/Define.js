@@ -3,10 +3,10 @@ import {Form, Button, Modal} from "react-bootstrap";
 import Helpers from "../../utilities/Helper"
 import InputField from "../../components/inputField"
 import {useTranslation} from "react-i18next";
-import {pollTxHash} from '../../utilities/Helper'
 import config from "../../constants/config.json"
 import ModalCommon from "../../components/modal";
 import Loader from "../../components/loader";
+import base64url from "base64url";
 
 const Define = (props) => {
     const Helper = new Helpers();
@@ -14,7 +14,7 @@ const Define = (props) => {
     const [show, setShow] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
     const [typeOption, setTypeOption] = useState("identity");
-    const [mutableStyle, setMutableStyle] = useState("ERC20");
+    const [mutableStyle, setMutableStyle] = useState("Blue");
     const [response, setResponse] = useState({});
     const [mutableProperties, setMutableProperties] = useState([]);
     const [immutableProperties, setImmutableProperties] = useState([]);
@@ -100,8 +100,12 @@ const Define = (props) => {
         const ImmutableDescription = evt.target.ImmutableDescription.value;
         const ImmutableIdentifier = evt.target.ImmutableIdentifier.value;
         const ImmutableClassifier = evt.target.ImmutableClassifier.value;
+
+        const ImmutableUrl = evt.target.URI.value;
+        const ImmutableUrlEncode = base64url.encode(ImmutableUrl);
+
         let staticImmutables = `style:S|${mutableStyle},type:S|${typeOption}`;
-        staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription}`
+        staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription},URI:S|${ImmutableUrlEncode}`
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
         let mutablePropertyValue = ""
@@ -230,8 +234,10 @@ const Define = (props) => {
                             <Form.Label>Immutable style:S| </Form.Label>
                             <Form.Control as="select" onChange={handleChangeStyle} name="ImmutableStyle"
                                           required={true}>
-                                <option value="ERC20"> ERC20</option>
-                                <option value="ERC721">ERC721</option>
+                                <option value="Blue"> Blue</option>
+                                <option value="Red">Red</option>
+                                <option value="Green"> Green</option>
+                                <option value="Black">Black</option>
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
@@ -242,6 +248,16 @@ const Define = (props) => {
                                 <option value="asset">{t("ASSET")}</option>
                                 <option value="order">{t("ORDER")}</option>
                             </Form.Control>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>{t("URI")}</Form.Label>
+                            <Form.Control
+                                type="text"
+                                className=""
+                                name="URI"
+                                required={false}
+                                placeholder="URI"
+                            />
                         </Form.Group>
                         <InputField
                             type="text"

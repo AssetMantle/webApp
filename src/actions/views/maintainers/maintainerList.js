@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import maintainersQueryJS from "persistencejs/transaction/maintainers/query";
 import Helpers from "../../../utilities/Helper";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import {Button, Modal} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import {Deputize} from "../../forms/maintainers";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
@@ -80,24 +80,34 @@ const MaintainerList = React.memo((props) => {
                             maintainerPropertyList = Helper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList);
                         }
                         let keys = Object.keys(maintainerPropertyList);
-                        let id = maintainer.value.id.value.classificationID.value.idString+"*"+maintainer.value.id.value.identityID.value.idString
+                        let classificationID = maintainer.value.id.value.classificationID.value.idString;
+                        let id = maintainer.value.id.value.identityID.value.idString
                         return (
                             <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card height-medium">
                                     {(maintainer.value.addMaintainer) ?
                                         <div>
                                             <Button size="sm" variant="secondary"
-                                                onClick={() => handleModalData('BurnAsset', maintainer)}>Deputize</Button>
+                                                onClick={() => handleModalData('DeputizeMaintainer', maintainer)}>{t("DEPUTIZE")}</Button>
                                         </div> : ""
                                     }
                                     <div className="list-item">
-                                        <p className="list-item-label">{t("ID")}</p>
+                                        <p className="list-item-label">{t("CLASSIFICATION_ID")}</p>
+                                        <div className="list-item-value id-section">
+                                            <p className="id-string" title={classificationID}>: {classificationID}</p>
+                                            <Copy
+                                                id={classificationID}/>
+                                        </div>
+                                    </div>
+                                    <div className="list-item">
+                                        <p className="list-item-label">{t("IDENTITY_ID")}</p>
                                         <div className="list-item-value id-section">
                                             <p className="id-string" title={id}>: {id}</p>
                                             <Copy
                                                 id={id}/>
                                         </div>
                                     </div>
+
                                     {keys !== null ?
                                         keys.map((keyName, index1) => {
                                             if (maintainerPropertyList[keyName] !== "") {
@@ -119,7 +129,7 @@ const MaintainerList = React.memo((props) => {
             </div>
             <div>
                 {
-                    externalComponent === 'BurnAsset' ?
+                    externalComponent === 'DeputizeMaintainer' ?
                         <Deputize setExternalComponent={setExternalComponent} maintainerData={maintainer}/> :
                         null
                 }

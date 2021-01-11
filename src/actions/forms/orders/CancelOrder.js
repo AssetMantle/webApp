@@ -44,7 +44,7 @@ const CancelOrder = (props) => {
                 }
             </div>
             <Modal.Body>
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit} className="burn-confirmation-buttons">
                     <p>{t("ARE_YOU_SURE")}</p>
                     <Button variant="primary" type="submit">
                         {t("YES")}
