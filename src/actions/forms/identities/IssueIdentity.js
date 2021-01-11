@@ -258,7 +258,7 @@ const IssueIdentity = (props) => {
                             mutableList.map((mutable, index) => {
                                 const mutableType = mutable.value.fact.value.type;
                                 const mutableName = mutable.value.id.value.idString;
-                                const mutableHash = immutable.value.fact.value.hash;
+                                const mutableHash = mutable.value.fact.value.hash;
                                 const id =`${mutableName}|${mutableType}${index}`;
                                 return (
                                     <div key={index}>
