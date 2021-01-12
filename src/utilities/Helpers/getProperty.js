@@ -11,6 +11,7 @@ export default class GetProperty {
         })
         return propertiesDictionary
     }
+
     MutablePropertyValues(mutableProperties, inputValues, metaCheckboxList) {
         let mutableValues = "";
         mutableProperties.map((mutableProperty, idx) => {
@@ -32,6 +33,7 @@ export default class GetProperty {
         })
         return mutableValues;
     }
+
     MutableMetaPropertyValues(mutableMetaProperties, inputValues, metaCheckboxList) {
         let mutableMetaValues = "";
         mutableMetaProperties.map((mutableMetaProperty, idx) => {
@@ -54,6 +56,7 @@ export default class GetProperty {
         })
         return mutableMetaValues;
     }
+
     ImmutablePropertyValues(immutableProperties, inputValues, ImmutableCheckboxList) {
         let immutableValues = "";
         immutableProperties.map((immutableProperty, idx) => {
@@ -75,6 +78,7 @@ export default class GetProperty {
         })
         return immutableValues;
     }
+
     ImmutableMetaPropertyValues(immutableProperties, inputValues, ImmutableCheckboxList) {
         let immutableMetaValues = "";
         immutableProperties.map((immutableProperty, idx) => {
@@ -111,10 +115,9 @@ export default class GetProperty {
 
     getUrlEncode(Url) {
         let UrlEncode;
-        if(Url) {
-             UrlEncode = base64url.encode(Url) + "=";
+        if (Url) {
+            UrlEncode = base64url.encode(Url) + "=";
         }
-        console.log(UrlEncode, "UrlEncode")
         return UrlEncode;
     }
 
@@ -124,6 +127,7 @@ export default class GetProperty {
         var finalHash = base64url.fromBase64(joinedDataHashB64) + "="
         return finalHash;
     }
+
     StringChecking(propertyName) {
         let errorData = false;
         const stringRegEx = /^[a-zA-Z]*$/;

@@ -161,7 +161,7 @@ const MakeOrder = (props) => {
                     const immutableHash = immutable.value.fact.value.hash;
                     const immutableInputName = `${immutableName}|${immutableType}${index}`
                     let immutableFieldValue = document.getElementById(`MakeOrder${immutableName}|${immutableType}${index}`).value;
-                    if (immutableName === "URI" && immutableHash === "") {
+                    if (immutableName === config.URI && immutableHash === "") {
                         immutableFieldValue = PropertyHelper.getUrlEncode(immutableFieldValue);
                     }
                     const ImmutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
@@ -391,6 +391,8 @@ const MakeOrder = (props) => {
                                     return (
                                         <div key={index}>
                                             <Form.Group>
+                                                <Form.Label>Immutable
+                                                    Traits {immutableName} |{immutableType} </Form.Label>
                                                 <Form.Control
                                                     type="text"
                                                     className=""

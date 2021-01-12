@@ -28,24 +28,21 @@ export default class GetMeta {
         }
         return metaValue;
     }
+
     FetchInputFieldMeta(immutableList, metasQuery, FileName) {
         let $this = this
         if (immutableList !== null) {
 
             immutableList.map((immutable, index) => {
-
                 const immutableType = immutable.value.fact.value.type;
                 const immutableHash = immutable.value.fact.value.hash;
                 const immutableName = immutable.value.id.value.idString;
                 const id = `${FileName}${immutableName}|${immutableType}${index}`
-                console.log(immutableHash,immutableName, "immutableHash")
                 if (immutableHash !== "" && immutableHash !== null) {
                     const metaQueryResult = metasQuery.queryMetaWithID(immutableHash);
                     metaQueryResult.then(function (item) {
                         const data = JSON.parse(JSON.parse(JSON.stringify(item)));
-
                         let metaValue = $this.FetchMetaValue(data, immutableHash)
-
                         if (document.getElementById(id)) {
                             document.getElementById(id).value = metaValue;
                         }
@@ -55,6 +52,7 @@ export default class GetMeta {
             })
         }
     }
+
     AssignMetaValue(keys, properties, metasQuery, idPrefix, index, urlId) {
         let $this = this
         keys.map((keyName, index1) => {
@@ -74,8 +72,7 @@ export default class GetMeta {
                             if (typeof (imageElement) != 'undefined' && imageElement != null) {
                                 document.getElementById(urlId + index + index1).appendChild(img);
                             }
-                        }
-                        else {
+                        } else {
                             if (metaValue == "Blue") {
                                 myElement = <span className="Blue">{metaValue}</span>;
                             } else if (metaValue == "Red") {
