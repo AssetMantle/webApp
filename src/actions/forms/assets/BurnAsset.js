@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import burnAssetJS from "persistencejs/transaction/assets/burn";
 import {Form, Button, Modal} from "react-bootstrap";
-import Helpers from "../../../utilities/Helper";
 import { useTranslation } from "react-i18next";
 import Loader from "../../../components/loader"
 import ModalCommon from "../../../components/modal"

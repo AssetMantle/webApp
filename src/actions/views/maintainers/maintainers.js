@@ -3,7 +3,6 @@ import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
 import {Summary} from "../../../components/summary";
 import MaintainerList from "./maintainerList"
-import {Dropdown} from "react-bootstrap";
 
 const Maintainers = () => {
     const {t} = useTranslation();

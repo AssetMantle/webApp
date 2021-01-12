@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from "react";
-import Loader from "../loader";
-import Helpers from "../../utilities/Helper";
-import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../sidebar/sidebar";
+import GetProperty from "../../utilities/Helpers/getProperty";
 
 import {Summary} from "../summary";
 import Copy from "../copy";
@@ -12,10 +10,11 @@ import {useHistory} from "react-router-dom";
 import Icon from "../../icons";
 
 const maintainersQuery = new maintainersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const SearchMaintainer = React.memo((props) => {
-    const Helper = new Helpers();
+    const PropertyHelper = new GetProperty();
+
+
     const {t} = useTranslation();
     let history = useHistory();
     const [maintainersList, setMaintainersList] = useState([]);
@@ -45,7 +44,7 @@ const SearchMaintainer = React.memo((props) => {
                         <div className="list-container">
                             <div className="row card-deck">
                                 {maintainersList.map((maintainer, index) => {
-                                    const maintainerPropertyList = Helper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList)
+                                    const maintainerPropertyList = PropertyHelper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList)
                                     let keys = Object.keys(maintainerPropertyList);
                                     let id = maintainer.value.id.value.classificationID.value.idString+"*"+maintainer.value.id.value.identityID.value.idString
                                     return (

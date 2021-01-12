@@ -2,19 +2,23 @@ import React, {useState, useEffect} from "react";
 import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
 import AssetMintJS from "persistencejs/transaction/assets/mint";
 import {Form, Button, Modal} from "react-bootstrap";
-import Helpers from "../../../utilities/Helper";
 import {useTranslation} from "react-i18next";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import config from "../../../constants/config.json"
 import Loader from "../../../components/loader";
 import ModalCommon from "../../../components/modal";
+import FilterHelpers from "../../../utilities/Helpers/filter";
+import GetMeta from "../../../utilities/Helpers/getMeta";
+import GetProperty from "../../../utilities/Helpers/getProperty";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMint = new AssetMintJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const MintAsset = (props) => {
-    const Helper = new Helpers();
+    const PropertyHelper = new GetProperty();
+    const FilterHelper = new FilterHelpers();
+    const GetMetaHelper = new GetMeta();
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
     const [showUpload, setShowUpload] = useState(false);
@@ -73,14 +77,14 @@ const MintAsset = (props) => {
     }
     const handleChangeMutable = (evt, idx) => {
         const newValue = evt.target.value;
-        const checkError = Helper.mutableValidation(newValue);
-        Helper.showHideDataTypeError(checkError, `mutableMint${idx}`);
+        const checkError = PropertyHelper.mutableValidation(newValue);
+        PropertyHelper.showHideDataTypeError(checkError, `mutableMint${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
     const handleChangeImmutable = (evt, idx) => {
         const newValue = evt.target.value;
-        const checkError = Helper.mutableValidation(newValue);
-        Helper.showHideDataTypeError(checkError, `ImmutableMint${idx}`);
+        const checkError = PropertyHelper.mutableValidation(newValue);
+        PropertyHelper.showHideDataTypeError(checkError, `ImmutableMint${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
     const userTypeToken = localStorage.getItem('mnemonic');
@@ -95,7 +99,7 @@ const MintAsset = (props) => {
             if (data.result.value.classifications.value.list !== null) {
                 const immutablePropertyList = data.result.value.classifications.value.list[0].value.immutableTraits.value.properties.value.propertyList;
                 const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
-                Helper.FetchInputFieldMeta(immutablePropertyList, metasQuery, "MintAsset");
+                GetMetaHelper.FetchInputFieldMeta(immutablePropertyList, metasQuery, "MintAsset");
                 setMutableList(mutablePropertyList)
                 setImmutableList(immutablePropertyList)
             }
@@ -132,7 +136,7 @@ const MintAsset = (props) => {
                     const mutableName = mutable.value.id.value.idString;
                     const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
                     const inputName = `${mutableName}|${mutableType}${index}`
-                    const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
+                    const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
                     if (mutableMetaValuesResponse[0] !== "") {
                         mutableValues = mutableMetaValuesResponse[0];
                     }
@@ -147,7 +151,7 @@ const MintAsset = (props) => {
                     const immutableName = immutable.value.id.value.idString;
                     const immutableInputName = `${immutableName}|${immutableType}${index}`
                     const immutableFieldValue = document.getElementById(`MintAsset${immutableName}|${immutableType}${index}`).value;
-                    const ImmutableMetaValuesResponse = Helper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
+                    const ImmutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
                     if (ImmutableMetaValuesResponse[0] !== "") {
                         immutableValues = ImmutableMetaValuesResponse[0];
                     }
@@ -174,11 +178,11 @@ const MintAsset = (props) => {
         setLoader(true)
         let file  = uploadFile;
         file = e.target.files[0];
-        Helper.getBase64(file)
+        PropertyHelper.getBase64(file)
             .then(result => {
                 file["base64"] = result;
                 const fileData = result.split('base64,')[1]
-                const fileBase64Hash = Helper.getBase64Hash(fileData);
+                const fileBase64Hash = PropertyHelper.getBase64Hash(fileData);
                 setInputValues({...inputValues, [uploadId]: fileBase64Hash});
                 setLoader(false)
                 document.getElementById(uploadId).value = fileBase64Hash;
@@ -258,6 +262,7 @@ const MintAsset = (props) => {
                         {mutableList !== null ?
                             mutableList.map((mutable, index) => {
                                 const mutableType = mutable.value.fact.value.type;
+                                const mutableHash = mutable.value.fact.value.hash;
                                 const mutableName = mutable.value.id.value.idString;
                                 const id = `${mutableName}|${mutableType}${index}`;
                                 return (
@@ -265,7 +270,7 @@ const MintAsset = (props) => {
                                         <Form.Group>
                                             <div className="upload-section">
                                             <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
-                                                {mutableType === 'S'
+                                                {mutableType === 'S' && mutableHash === ""
                                                     ?
                                                     <Button variant="secondary"  size="sm" onClick={()=>handleUpload(id)}>upload</Button>
                                                     : ""
@@ -303,6 +308,7 @@ const MintAsset = (props) => {
                         {immutableList !== null ?
                             immutableList.map((immutable, index) => {
                                 const immutableType = immutable.value.fact.value.type;
+                                const immutableHash = immutable.value.fact.value.hash;
                                 const immutableName = immutable.value.id.value.idString;
                                 const id = `MintAsset${immutableName}|${immutableType}${index}`
 
@@ -312,7 +318,7 @@ const MintAsset = (props) => {
                                             <Form.Group>
                                                 <div className="upload-section">
                                                     <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
-                                                    {immutableType === 'S'
+                                                    {immutableType === 'S' && immutableHash == ""
                                                         ?
                                                         <Button variant="secondary"  size="sm" onClick={()=>handleUpload(id)}>upload</Button>
                                                         : ""

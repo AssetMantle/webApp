@@ -1,18 +1,22 @@
 import React, {useState, useEffect} from "react";
 import {Form, Button, Modal} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
-import Helpers from "../../../utilities/Helper";
 import assetMutateJS from "persistencejs/transaction/assets/mutate";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
 import ModalCommon from "../../../components/modal"
 import config from "../../../constants/config.json"
+import FilterHelpers from "../../../utilities/Helpers/filter";
+import GetMeta from "../../../utilities/Helpers/getMeta";
+import GetID from "../../../utilities/Helpers/getID";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMutate = new assetMutateJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const MutateAsset = (props) => {
-    const Helper = new Helpers();
+    const FilterHelper = new FilterHelpers();
+    const GetMetaHelper = new GetMeta();
+    const GetIDHelper = new GetID();
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
@@ -30,7 +34,7 @@ const MutateAsset = (props) => {
                 const metaQueryResult = metasQuery.queryMetaWithID(mutateProperties[keyName]);
                 metaQueryResult.then(function (item) {
                     const data = JSON.parse(item);
-                    let metaValue = Helper.FetchMetaValue(data, mutateProperties[keyName]);
+                    let metaValue = GetMetaHelper.FetchMetaValue(data, mutateProperties[keyName]);
                     if (document.getElementById(keyName + idx)) {
                         document.getElementById(keyName + idx).value = metaValue;
                     }
@@ -60,7 +64,7 @@ const MutateAsset = (props) => {
         event.preventDefault();
         const asset = props.asset;
         const FromId = event.target.FromId.value;
-        const assetId = Helper.GetAssetID(asset.result.value.assets.value.list[0])
+        const assetId = GetIDHelper.GetAssetID(asset.result.value.assets.value.list[0])
         const assetList = asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList
         let assetDataTypeList = {};
         assetList.forEach(function (item) {
@@ -81,7 +85,7 @@ const MutateAsset = (props) => {
                         const mutableType = assetDataTypeList[key];
                         const inputName = (key + index);
 
-                        const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, key, mutableType, mutableFieldValue)
+                        const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, key, mutableType, mutableFieldValue)
                         if (mutableMetaValuesResponse[0] !== "") {
                             mutableValues = mutableMetaValuesResponse[0];
                         }

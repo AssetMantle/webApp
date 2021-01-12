@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import Helpers from "../../../utilities/Helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {Button} from "react-bootstrap";
 import {Provision, UnProvision} from "../../forms/identities";
@@ -8,12 +7,19 @@ import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
 import Copy from "../../../components/copy"
 import config from "../../../constants/config.json"
+import GetProperty from "../../../utilities/Helpers/getProperty";
+import FilterHelpers from "../../../utilities/Helpers/filter";
+import GetMeta from "../../../utilities/Helpers/getMeta";
+import GetID from "../../../utilities/Helpers/getID";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const IdentityList = React.memo((props) => {
-    const Helper = new Helpers();
+    const PropertyHelper = new GetProperty();
+    const FilterHelper = new FilterHelpers();
+    const GetMetaHelper = new GetMeta();
+    const GetIDHelper = new GetID();
     const {t} = useTranslation();
     const [loader, setLoader] = useState(true)
     const [externalComponent, setExternalComponent] = useState("");
@@ -29,22 +35,22 @@ const IdentityList = React.memo((props) => {
                     const data = JSON.parse(item);
                     const dataList = data.result.value.identities.value.list;
                     if (dataList) {
-                        const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress);
+                        const filterIdentities = FilterHelper.FilterIdentitiesByProvisionedAddress(dataList, userAddress);
                         if (filterIdentities.length) {
                             setFilteredIdentitiesList(filterIdentities);
                             filterIdentities.map((identity, index) => {
                                 let immutableProperties = "";
                                 let mutableProperties = "";
                                 if (identity.value.immutables.value.properties.value.propertyList !== null) {
-                                    immutableProperties = Helper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
+                                    immutableProperties = PropertyHelper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
                                 }
                                 if (identity.value.mutables.value.properties.value.propertyList !== null) {
-                                    mutableProperties = Helper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
+                                    mutableProperties = PropertyHelper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
                                 }
                                 let immutableKeys = Object.keys(immutableProperties);
                                 let mutableKeys = Object.keys(mutableProperties);
-                                Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList', index, 'identityUrlId');
-                                Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index);
+                                GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList', index, 'identityUrlId');
+                                GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index);
                                 setLoader(false)
                             })
                         } else {
@@ -80,12 +86,12 @@ const IdentityList = React.memo((props) => {
                         let mutableProperties = "";
                         let provisionedAddressList = "";
                         let unProvisionedAddressList = "";
-                        const identityId = Helper.GetIdentityID(identity)
+                        const identityId = GetIDHelper.GetIdentityID(identity)
                         if (identity.value.immutables.value.properties.value.propertyList !== null) {
-                            immutableProperties = Helper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
+                            immutableProperties = PropertyHelper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
                         }
                         if (identity.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = Helper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
+                            mutableProperties = PropertyHelper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
                         }
                         if (identity.value.provisionedAddressList !== null) {
                             provisionedAddressList = identity.value.provisionedAddressList;

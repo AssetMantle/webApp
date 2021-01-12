@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import ordersQueryJS from "persistencejs/transaction/orders/query";
-import Helpers from "../../../utilities/Helper";
 import {Button} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
@@ -8,6 +7,11 @@ import {CancelOrder} from "../../forms/orders";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
 import Copy from "../../../components/copy"
+import config from "../../../constants/config.json";
+import GetProperty from "../../../utilities/Helpers/getProperty";
+import FilterHelpers from "../../../utilities/Helpers/filter";
+import GetMeta from "../../../utilities/Helpers/getMeta";
+import GetID from "../../../utilities/Helpers/getID";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -15,7 +19,10 @@ const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 
 const OrderList = React.memo((props) => {
-    const Helper = new Helpers();
+    const PropertyHelper = new GetProperty();
+    const FilterHelper = new FilterHelpers();
+    const GetMetaHelper = new GetMeta();
+    const GetIDHelper = new GetID();
     const {t} = useTranslation();
     const [loader, setLoader] = useState(true)
     const [orderList, setOrderList] = useState([]);
@@ -31,28 +38,28 @@ const OrderList = React.memo((props) => {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
                 if (dataList) {
-                    const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
+                    const filterIdentities = FilterHelper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
                     const ordersData = ordersQuery.queryOrderWithID("all")
                     ordersData.then(function (item) {
                         const ordersData = JSON.parse(item);
                         const ordersDataList = ordersData.result.value.orders.value.list;
                         if (ordersDataList) {
-                            const filterOrdersByIdentities = Helper.FilterOrdersByIdentity(filterIdentities, ordersDataList)
+                            const filterOrdersByIdentities = FilterHelper.FilterOrdersByIdentity(filterIdentities, ordersDataList)
                             if (filterOrdersByIdentities.length) {
                                 setOrderList(filterOrdersByIdentities);
                                 filterOrdersByIdentities.map((order, index) => {
                                     let immutableProperties = "";
                                     let mutableProperties = "";
                                     if (order.value.immutables.value.properties.value.propertyList !== null) {
-                                        immutableProperties = Helper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
+                                        immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
                                     }
                                     if (order.value.mutables.value.properties.value.propertyList !== null) {
-                                        mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                                        mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
                                     }
                                     let immutableKeys = Object.keys(immutableProperties);
                                     let mutableKeys = Object.keys(mutableProperties);
-                                    Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order', index);
-                                    Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order', index);
+                                    GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order', index, 'orderUrlId');
+                                    GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order', index);
                                     setLoader(false)
                                 })
                             } else {
@@ -85,17 +92,16 @@ const OrderList = React.memo((props) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
                         if (order.value.immutables.value.properties.value.propertyList !== null) {
-                            immutableProperties = Helper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
+                            immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
                         }
                         if (order.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                            mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
                         }
-                        let orderId = Helper.GetOrderID(order);
-                        let classificationID = Helper.GetClassificationID(order)
-                        let makerOwnableID = Helper.GetMakerOwnableID(order)
-                        let takerOwnableID = Helper.GetTakerOwnableID(order)
-                        let makerID = Helper.GetMakerID(order)
-                        let hashID = Helper.GetHashID(order)
+                        let classificationID = GetIDHelper.GetClassificationID(order)
+                        let makerOwnableID = GetIDHelper.GetMakerOwnableID(order)
+                        let takerOwnableID = GetIDHelper.GetTakerOwnableID(order)
+                        let makerID = GetIDHelper.GetMakerID(order)
+                        let hashID = GetIDHelper.GetHashID(order)
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
                         return (
@@ -143,11 +149,23 @@ const OrderList = React.memo((props) => {
                                     {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
-                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
-                                                    id={`immutable_order` + index + `${index1}`} className="list-item-value"></p></div>)
+                                                if (keyName === config.URI) {
+                                                    return (
+                                                        <div key={index + keyName}
+                                                             id={`orderUrlId` + index + `${index1}`}
+                                                             className="assetImage"></div>)
+                                                } else {
+                                                    return (<div key={index + keyName} className="list-item"><p
+                                                        className="list-item-label">{keyName} </p>: <p
+                                                        id={`immutable_order` + index + `${index1}`}
+                                                        className="list-item-value"></p></div>)
+                                                }
                                             } else {
                                                 return (
-                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{immutableProperties[keyName]}</p></div>)
+                                                    <div key={index + keyName} className="list-item"><p
+                                                        className="list-item-label">{keyName} </p>: <p
+                                                        className="list-item-hash-value">{immutableProperties[keyName]}</p>
+                                                    </div>)
                                             }
                                         })
                                         : ""
@@ -158,11 +176,16 @@ const OrderList = React.memo((props) => {
                                     {mutableKeys !== null ?
                                         mutableKeys.map((keyName, index1) => {
                                             if (mutableProperties[keyName] !== "") {
-                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-value"
+                                                return (<div key={index + keyName} className="list-item"><p
+                                                    className="list-item-label">{keyName} </p>: <p
+                                                    className="list-item-value"
                                                     id={`mutable_order` + index + `${index1}`}></p></div>)
                                             } else {
                                                 return (
-                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{mutableProperties[keyName]}</p></div>)
+                                                    <div key={index + keyName} className="list-item"><p
+                                                        className="list-item-label">{keyName} </p>: <p
+                                                        className="list-item-hash-value">{mutableProperties[keyName]}</p>
+                                                    </div>)
                                             }
                                         })
                                         : ""

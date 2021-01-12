@@ -2,19 +2,24 @@ import React, {useState} from "react";
 import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
 import IdentitiesIssueJS from "persistencejs/transaction/identity/issue";
 import {Form, Button, Modal} from "react-bootstrap";
-import Helpers from "../../../utilities/Helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import config from "../../../constants/config.json"
 import Loader from "../../../components/loader"
 import ModalCommon from "../../../components/modal"
+import FilterHelpers from "../../../utilities/Helpers/filter";
+import GetMeta from "../../../utilities/Helpers/getMeta";
+import GetProperty from "../../../utilities/Helpers/getProperty";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesIssue = new IdentitiesIssueJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const IssueIdentity = (props) => {
-    const Helper = new Helpers();
+    const PropertyHelper = new GetProperty();
+    const FilterHelper = new FilterHelpers();
+    const GetMetaHelper = new GetMeta();
+
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
     const [showNext, setShowNext] = useState(false);
@@ -26,6 +31,9 @@ const IssueIdentity = (props) => {
     const [mutableList, setMutableList] = useState([]);
     const [immutableList, setImmutableList] = useState([]);
     const [inputValues, setInputValues] = useState([]);
+    const [showUpload, setShowUpload] = useState(false);
+    const [uploadId, setUploadId] = useState("");
+    const [uploadFile, setUploadFile] = useState(null);
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     const [checkboxImmutableNamesList, setCheckboxImmutableNamesList] = useState([]);
     const handleClose = () => {
@@ -35,6 +43,9 @@ const IssueIdentity = (props) => {
     const handleCloseNext = () => {
         setShowNext(false);
         props.setExternalComponent("");
+    };
+    const handleCloseUpload = () => {
+        setShowUpload(false);
     };
     const handleCheckMutableChange = evt => {
         const checkedValue = evt.target.checked;
@@ -64,15 +75,15 @@ const IssueIdentity = (props) => {
     }
     const handleChangeMutable = (evt, idx) => {
         const newValue = evt.target.value;
-        const checkError = Helper.mutableValidation(newValue);
-        Helper.showHideDataTypeError(checkError, `mutableIssueIdentity${idx}`);
+        const checkError = PropertyHelper.mutableValidation(newValue);
+        PropertyHelper.showHideDataTypeError(checkError, `mutableIssueIdentity${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
 
     const handleChangeImmutable = (evt, idx) => {
         const newValue = evt.target.value;
-        const checkError = Helper.mutableValidation(newValue);
-        Helper.showHideDataTypeError(checkError, `ImmutableIssueIdentity${idx}`);
+        const checkError = PropertyHelper.mutableValidation(newValue);
+        PropertyHelper.showHideDataTypeError(checkError, `ImmutableIssueIdentity${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
 
@@ -88,7 +99,7 @@ const IssueIdentity = (props) => {
             if (data.result.value.classifications.value.list !== null) {
                 const immutablePropertyList = data.result.value.classifications.value.list[0].value.immutableTraits.value.properties.value.propertyList;
                 const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
-                Helper.FetchInputFieldMeta(immutablePropertyList, metasQuery, "IssueIdentity");
+                GetMetaHelper.FetchInputFieldMeta(immutablePropertyList, metasQuery, "IssueIdentity");
                 setMutableList(mutablePropertyList)
                 setImmutableList(immutablePropertyList)
             }
@@ -125,7 +136,7 @@ const IssueIdentity = (props) => {
                     const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
                     const inputName = `${mutableName}|${mutableType}${index}`
 
-                    const mutableMetaValuesResponse = Helper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
+                    const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
                     if (mutableMetaValuesResponse[0] !== "") {
                         mutableValues = mutableMetaValuesResponse[0];
                     }
@@ -140,7 +151,7 @@ const IssueIdentity = (props) => {
                     const immutableName = immutable.value.id.value.idString;
                     const immutableInputName = `${immutableName}|${immutableType}${index}`
                     const immutableFieldValue = document.getElementById(`IssueIdentity${immutableName}|${immutableType}${index}`).value;
-                    const ImmutableMetaValuesResponse = Helper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
+                    const ImmutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
                     if (ImmutableMetaValuesResponse[0] !== "") {
                         immutableValues = ImmutableMetaValuesResponse[0];
                     }
@@ -158,6 +169,31 @@ const IssueIdentity = (props) => {
             })
         }
     }
+    const handleUpload = (id) =>{
+        setUploadId(id);
+        setShowUpload(true)
+    }
+
+    const handleFileInputChange = (e) => {
+        setLoader(true)
+        let file  = uploadFile;
+        file = e.target.files[0];
+        PropertyHelper.getBase64(file)
+            .then(result => {
+                file["base64"] = result;
+                const fileData = result.split('base64,')[1]
+                const fileBase64Hash = PropertyHelper.getBase64Hash(fileData);
+                setInputValues({...inputValues, [uploadId]: fileBase64Hash});
+                setLoader(false)
+                document.getElementById(uploadId).value = fileBase64Hash;
+                setShowUpload(false);
+                setUploadFile(file);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        setUploadFile(e.target.files[0]);
+    };
     return (
         <div>
             <Modal show={show} onHide={handleClose} centered>
@@ -227,14 +263,24 @@ const IssueIdentity = (props) => {
                             mutableList.map((mutable, index) => {
                                 const mutableType = mutable.value.fact.value.type;
                                 const mutableName = mutable.value.id.value.idString;
+                                const mutableHash = mutable.value.fact.value.hash;
+                                const id =`${mutableName}|${mutableType}${index}`;
                                 return (
                                     <div key={index}>
                                         <Form.Group>
-                                            <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
+                                            <div className="upload-section">
+                                                <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
+                                                {mutableType === 'S' && mutableHash === ""
+                                                    ?
+                                                    <Button variant="secondary"  size="sm" onClick={()=>handleUpload(id)}>upload</Button>
+                                                    : ""
+                                                }
+                                            </div>
                                             <Form.Control
                                                 type="text"
                                                 className=""
                                                 name={`${mutableName}|${mutableType}${index}`}
+                                                id={`${mutableName}|${mutableType}${index}`}
                                                 required={true}
                                                 placeholder="Trait Value"
                                                 onChange={(evt) => {
@@ -262,11 +308,21 @@ const IssueIdentity = (props) => {
                         {immutableList !== null ?
                             immutableList.map((immutable, index) => {
                                 const immutableType = immutable.value.fact.value.type;
+                                const immutableHash = immutable.value.fact.value.hash;
                                 const immutableName = immutable.value.id.value.idString;
+                                const id = `IssueIdentity${immutableName}|${immutableType}${index}`
                                 return (
-                                    <>
+                                    <div key={index}>
                                         <Form.Group>
-                                            <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
+                                            <div className="upload-section">
+                                                <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
+                                                {immutableType === 'S' && immutableHash === ""
+                                                    ?
+                                                    <Button variant="secondary"  size="sm" onClick={()=>handleUpload(id)}>upload</Button>
+                                                    : ""
+                                                }
+                                            </div>
+
                                             <Form.Control
                                                 type="text"
                                                 className=""
@@ -290,7 +346,7 @@ const IssueIdentity = (props) => {
                                                         id={`checkbox${immutableName}|${immutableType}${index}`}
                                                         onChange={handleCheckImmutableChange}/>
                                         </Form.Group>
-                                    </>
+                                    </div>
                                 )
                             })
                             :
@@ -306,6 +362,11 @@ const IssueIdentity = (props) => {
                             </Button>
                         </div>
                     </Form>
+                </Modal.Body>
+            </Modal>
+            <Modal show={showUpload} onHide={handleCloseUpload} centered >
+                <Modal.Body className="upload-modal">
+                    <input type="file" name="file" onChange={handleFileInputChange} />
                 </Modal.Body>
             </Modal>
             {!(Object.keys(response).length === 0) ?

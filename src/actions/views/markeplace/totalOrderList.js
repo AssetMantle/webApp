@@ -1,18 +1,22 @@
 import React, {useState, useEffect} from "react";
 import ordersQueryJS from "persistencejs/transaction/orders/query";
-import Helpers from "../../../utilities/Helper";
 import {Button} from "react-bootstrap";
 import {TakeOrder} from "../../forms/orders";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
 import Copy from "../../../components/copy";
-
+import config from "../../../constants/config.json";
+import GetProperty from "../../../utilities/Helpers/getProperty";
+import GetMeta from "../../../utilities/Helpers/getMeta";
+import GetID from "../../../utilities/Helpers/getID";
 const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const TotalOrders = React.memo((props) => {
-    const Helper = new Helpers();
+    const PropertyHelper = new GetProperty();
+    const GetMetaHelper = new GetMeta();
+    const GetIDHelper = new GetID();
     const {t} = useTranslation();
     const [loader, setLoader] = useState(true)
     const [externalComponent, setExternalComponent] = useState("");
@@ -31,15 +35,15 @@ const TotalOrders = React.memo((props) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
                         if (order.value.immutables.value.properties.value.propertyList !== null) {
-                            immutableProperties = Helper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
+                            immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
                         }
                         if (order.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                            mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
                         }
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
-                        Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_market', index);
-                        Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_market', index);
+                        GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_market', index, 'totalOrderUrlId');
+                        GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_market', index);
                         setLoader(false)
                     })
                 } else {
@@ -67,15 +71,15 @@ const TotalOrders = React.memo((props) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
                         if (order.value.immutables.value.properties.value.propertyList !== null) {
-                            immutableProperties = Helper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
+                            immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
                         }
                         if (order.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                            mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
                         }
 
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
-                        let orderIdData = Helper.GetOrderID(order);
+                        let orderIdData = GetIDHelper.GetOrderID(order);
                         return (
                             <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
@@ -95,11 +99,23 @@ const TotalOrders = React.memo((props) => {
                                     {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
-                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
-                                                    id={`immutable_order_market` + index + `${index1}`} className="list-item-value"></p></div>)
+                                                if (keyName === config.URI) {
+                                                    return (
+                                                        <div key={index + keyName}
+                                                             id={`totalOrderUrlId` + index + `${index1}`}
+                                                             className="assetImage"></div>)
+                                                } else {
+                                                    return (<div key={index + keyName} className="list-item"><p
+                                                        className="list-item-label">{keyName} </p>: <p
+                                                        id={`immutable_order_market` + index + `${index1}`}
+                                                        className="list-item-value"></p></div>)
+                                                }
                                             } else {
                                                 return (
-                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{immutableProperties[keyName]}</p></div>)
+                                                    <div key={index + keyName} className="list-item"><p
+                                                        className="list-item-label">{keyName} </p>: <p
+                                                        className="list-item-hash-value">{immutableProperties[keyName]}</p>
+                                                    </div>)
                                             }
                                         })
                                         : ""
@@ -110,11 +126,16 @@ const TotalOrders = React.memo((props) => {
                                     {mutableKeys !== null ?
                                         mutableKeys.map((keyName, index1) => {
                                             if (mutableProperties[keyName] !== "") {
-                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
-                                                    id={`mutable_order_market` + index + `${index1}`} className="list-item-value"></p></div>)
+                                                return (<div key={index + keyName} className="list-item"><p
+                                                    className="list-item-label">{keyName} </p>: <p
+                                                    id={`mutable_order_market` + index + `${index1}`}
+                                                    className="list-item-value"></p></div>)
                                             } else {
                                                 return (
-                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-ite-hash-value">{mutableProperties[keyName]}</p></div>)
+                                                    <div key={index + keyName} className="list-item"><p
+                                                        className="list-item-label">{keyName} </p>: <p
+                                                        className="list-ite-hash-value">{mutableProperties[keyName]}</p>
+                                                    </div>)
                                             }
                                         })
                                         : ""
