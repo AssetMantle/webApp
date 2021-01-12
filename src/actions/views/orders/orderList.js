@@ -107,11 +107,6 @@ const OrderList = React.memo((props) => {
                         return (
                             <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
-                                    <div id={"orderImagUri" + makerID+index}>
-                                        <div id={"orderImage" + makerID+index} className="dummy-image">
-
-                                        </div>
-                                    </div>
                                     <div>
                                         <Button variant="secondary" size="sm"
                                                 onClick={() => handleModalData("CancelOrder", order)}>{t("CANCEL")}</Button>
@@ -155,13 +150,10 @@ const OrderList = React.memo((props) => {
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
                                                 if (keyName === config.URI) {
-                                                    let imageElement = document.getElementById("orderImage" + makerID+index)
-                                                    if (typeof (imageElement) != 'undefined' && imageElement != null) {
-                                                        let divd = document.createElement('div');
-                                                        divd.id = `orderUrlId` + index + `${index1}`
-                                                        divd.className = "assetImage"
-                                                        document.getElementById("orderImagUri" + makerID+index).replaceChild(divd, imageElement);
-                                                    }
+                                                    return (
+                                                        <div key={index + keyName}
+                                                             id={`orderUrlId` + index + `${index1}`}
+                                                             className="assetImage"></div>)
                                                 } else {
                                                     return (<div key={index + keyName} className="list-item"><p
                                                         className="list-item-label">{keyName} </p>: <p
