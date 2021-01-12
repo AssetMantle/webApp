@@ -10,6 +10,7 @@ import ModalCommon from "../../../components/modal";
 import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetProperty from "../../../utilities/Helpers/getProperty";
+import base64url from "base64url";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMint = new AssetMintJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -149,17 +150,22 @@ const MintAsset = (props) => {
                 immutableList.map((immutable, index) => {
                     const immutableType = immutable.value.fact.value.type;
                     const immutableName = immutable.value.id.value.idString;
-                    const immutableInputName = `${immutableName}|${immutableType}${index}`
-                    const immutableFieldValue = document.getElementById(`MintAsset${immutableName}|${immutableType}${index}`).value;
-                    const ImmutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
-                    if (ImmutableMetaValuesResponse[0] !== "") {
-                        immutableValues = ImmutableMetaValuesResponse[0];
-                    }
-                    if (ImmutableMetaValuesResponse[1] !== "") {
-                        immutableMetaValues = ImmutableMetaValuesResponse[1];
-                    }
+                    const immutableHash = immutable.value.fact.value.hash;
+                        const immutableInputName = `${immutableName}|${immutableType}${index}`
+                        let immutableFieldValue = document.getElementById(`MintAsset${immutableName}|${immutableType}${index}`).value;
+                        if (immutableName === "URI" && immutableHash === "") {
+                           immutableFieldValue = PropertyHelper.getUrlEncode(immutableFieldValue);
+                        }
+                        const ImmutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
+                        if (ImmutableMetaValuesResponse[0] !== "") {
+                            immutableValues = ImmutableMetaValuesResponse[0];
+                        }
+                        if (ImmutableMetaValuesResponse[1] !== "") {
+                            immutableMetaValues = ImmutableMetaValuesResponse[1];
+                        }
                 })
             }
+
             const assetMintResult = assetMint.mint(userAddress, "test", userTypeToken, toID, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode)
             assetMintResult.then(function (item) {
                 const data = JSON.parse(JSON.stringify(item));
@@ -259,6 +265,7 @@ const MintAsset = (props) => {
                                 placeholder={t("TO_ID")}
                             />
                         </Form.Group>
+
                         {mutableList !== null ?
                             mutableList.map((mutable, index) => {
                                 const mutableType = mutable.value.fact.value.type;
@@ -270,7 +277,7 @@ const MintAsset = (props) => {
                                         <Form.Group>
                                             <div className="upload-section">
                                             <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
-                                                {mutableType === 'S' && mutableHash === ""
+                                                {mutableType === 'S'
                                                     ?
                                                     <Button variant="secondary"  size="sm" onClick={()=>handleUpload(id)}>upload</Button>
                                                     : ""
@@ -312,33 +319,24 @@ const MintAsset = (props) => {
                                 const immutableName = immutable.value.id.value.idString;
                                 const id = `MintAsset${immutableName}|${immutableType}${index}`
 
-                                if (immutableName == config.URI) {
+                                if (immutableName === config.URI) {
                                     return (
                                         <div key={index}>
                                             <Form.Group>
-                                                <div className="upload-section">
-                                                    <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
-                                                    {immutableType === 'S' && immutableHash == ""
-                                                        ?
-                                                        <Button variant="secondary"  size="sm" onClick={()=>handleUpload(id)}>upload</Button>
-                                                        : ""
-                                                    }
-                                                </div>
                                                 <Form.Control
                                                     type="text"
                                                     className=""
                                                     name={`${immutableName}|${immutableType}${index}`}
                                                     id={`MintAsset${immutableName}|${immutableType}${index}`}
-                                                    required={false}
+                                                    required={true}
                                                     placeholder={t("TRAIT_VALUE")}
                                                     onChange={(evt) => {
                                                         handleChangeImmutable(evt, index + 1)
                                                     }}
-                                                    disabled={false}
                                                 />
                                             </Form.Group>
                                             <Form.Text id={`ImmutableMint${index + 1}`} className="text-muted none">
-                                                {t("MUTABLE_VALIDATION_ERROR")}
+
                                             </Form.Text>
                                             <Form.Group>
                                                 <Form.Check custom type="checkbox" label="Meta"
@@ -349,14 +347,14 @@ const MintAsset = (props) => {
                                         </div>
                                     )
                                 }
-                                else {
+                                else{
                                     return (
                                         <div key={index}>
                                             <Form.Group>
                                                 <div className="upload-section">
                                                     <Form.Label>Immutable
                                                         Traits {immutableName} |{immutableType} </Form.Label>
-                                                    {immutableType === 'S'
+                                                    {immutableType === 'S' && immutableHash == ""
                                                         ?
                                                         <Button variant="secondary" size="sm"
                                                                 onClick={() => handleUpload(id)}>upload</Button>
@@ -387,6 +385,7 @@ const MintAsset = (props) => {
                                             </Form.Group>
                                         </div>
                                     )
+
                                 }
                             })
                             :

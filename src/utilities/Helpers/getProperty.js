@@ -109,6 +109,15 @@ export default class GetProperty {
         });
     };
 
+    getUrlEncode(Url) {
+        let UrlEncode;
+        if(Url) {
+             UrlEncode = base64url.encode(Url) + "=";
+        }
+        console.log(UrlEncode, "UrlEncode")
+        return UrlEncode;
+    }
+
     getBase64Hash(fileData) {
         var pwdHash = sha1(fileData);
         var joinedDataHashB64 = Base64.stringify(pwdHash);

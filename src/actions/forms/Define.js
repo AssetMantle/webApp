@@ -103,8 +103,11 @@ const Define = (props) => {
         const ImmutableClassifier = evt.target.ImmutableClassifier.value;
 
         const ImmutableUrl = evt.target.URI.value;
-        const ImmutableUrlEncode = base64url.encode(ImmutableUrl);
-
+        let ImmutableUrlEncode = "";
+        if(ImmutableUrl !== "") {
+             ImmutableUrlEncode = PropertyHelper.getUrlEncode(ImmutableUrl);
+        }
+        console.log(ImmutableUrlEncode, "ImmutableUrlEncode")
         let staticImmutables = `style:S|${mutableStyle},type:S|${typeOption}`;
         staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription},URI:S|${ImmutableUrlEncode}`
         const userTypeToken = localStorage.getItem('mnemonic');
