@@ -244,13 +244,13 @@ const IssueIdentity = (props) => {
                 <Modal.Body>
                     <Form onSubmit={handleFormSubmit}>
                         <Form.Group>
-                            <Form.Label>{("FROM_ID")}</Form.Label>
+                            <Form.Label>{t("FROM_ID")}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
                                 name="FromId"
                                 required={true}
-                                placeholder="FromId"
+                                placeholder={t("FROM_ID")}
                             />
                         </Form.Group>
                         <Form.Group>
@@ -260,7 +260,7 @@ const IssueIdentity = (props) => {
                                 className=""
                                 name="toAddress"
                                 required={true}
-                                placeholder="toAddress"
+                                placeholder={t("TO_ADDRESS")}
                             />
                         </Form.Group>
                         {mutableList !== null ?

@@ -129,7 +129,7 @@ const AssetList = React.memo((props) => {
                                     {ownableId !== "stake" ?
                                         <>
                                         <div className="list-item">
-                                            <p className="list-item-label">{t("OWNABLE_ID")}</p>
+                                            <p className="list-item-label">{t("ASSET_ID")}</p>
                                             <div className="list-item-value id-section">
                                                 <p className="id-string" title={ownableId}>: {ownableId}</p>
                                                 <Copy
