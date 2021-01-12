@@ -56,7 +56,7 @@ const TakeOrder = (props) => {
                                 className=""
                                 name="FromId"
                                 required={true}
-                                placeholder="FromId"
+                                placeholder={t("FROM_ID")}
                             />
                         </Form.Group>
                         <Form.Group>
@@ -66,7 +66,7 @@ const TakeOrder = (props) => {
                                 className=""
                                 name="ownableAmount"
                                 required={true}
-                                placeholder="Taker Ownable Amount"
+                                placeholder={t("TAKER_OWNABLE_AMOUNT")}
                             />
                         </Form.Group>
                         <div className="submitButtonSection">

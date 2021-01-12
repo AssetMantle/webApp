@@ -805,6 +805,10 @@ html, body, #root, .app {
   display        : flex;
   justify-content: center;
 
+  p{
+    margin: 0;
+  }
+
   .copy-icon {
     width      : 20px;
     height     : 20px;
@@ -999,4 +1003,6 @@ html, body, #root, .app {
 .assetImage img{
   width: 200px;
   height: 200px;
+  margin-bottom: 10px;
 }
+

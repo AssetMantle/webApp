@@ -230,7 +230,7 @@ const Define = (props) => {
                                 className=""
                                 name="FromId"
                                 required={true}
-                                placeholder="FromId"
+                                placeholder={t("FROM_ID")}
                             />
                         </Form.Group>
                         <Form.Group>
@@ -259,7 +259,7 @@ const Define = (props) => {
                                 className=""
                                 name="URI"
                                 required={false}
-                                placeholder="URI"
+                                placeholder={t("URI")}
                             />
                         </Form.Group>
                         <InputField

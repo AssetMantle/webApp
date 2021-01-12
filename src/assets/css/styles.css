@@ -553,6 +553,8 @@ html, body, #root, .app {
   position: relative;
   display: flex;
   justify-content: center; }
+  .copy-section p {
+    margin: 0; }
   .copy-section .copy-icon {
     width: 20px;
     height: 20px;
@@ -714,6 +716,7 @@ html, body, #root, .app {
 
 .assetImage img {
   width: 200px;
-  height: 200px; }
+  height: 200px;
+  margin-bottom: 10px; }
 
 /*# sourceMappingURL=styles.css.map */

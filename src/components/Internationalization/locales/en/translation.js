@@ -131,7 +131,8 @@ let en = {
         "MAKER_OWNABLE_ID":"Maker Ownable Id",
         "TAKER_OWNABLE_ID":"Taker Ownable Id",
         "MAKER_ID":"Maker Id",
-        "HASH":"Hash"
+        "HASH":"Hash",
+        "ASSET_ID":"Asset Id"
 
     }
 };

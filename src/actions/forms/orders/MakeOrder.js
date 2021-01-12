@@ -223,7 +223,7 @@ const MakeOrder = (props) => {
                                 className=""
                                 name="ClassificationId"
                                 required={true}
-                                placeholder="ClassificationId"
+                                placeholder={t("CLASSIFICATION_ID")}
                             />
                         </Form.Group>
 
@@ -260,7 +260,7 @@ const MakeOrder = (props) => {
                                 className=""
                                 name="FromId"
                                 required={true}
-                                placeholder="FromId"
+                                placeholder={t("FROM_ID")}
                                 value={props.ownerId}
                                 readOnly
                             />
@@ -272,7 +272,7 @@ const MakeOrder = (props) => {
                                 className=""
                                 name="TakerOwnableId"
                                 required={true}
-                                placeholder="TakerOwnableId"
+                                placeholder={t("TAKER_OWNABLE_SPLIT")}
                             />
                         </Form.Group>
                         <Form.Group>
@@ -282,7 +282,7 @@ const MakeOrder = (props) => {
                                 className=""
                                 name="Makersplit"
                                 required={true}
-                                placeholder="split"
+                                placeholder={t("MAKER_SPLIT")}
                             />
                         </Form.Group>
                         <Form.Group>
@@ -292,7 +292,7 @@ const MakeOrder = (props) => {
                                 className=""
                                 name="expiresInD"
                                 required={true}
-                                placeholder="expiresIn"
+                                placeholder={t("EXPIRES_IN")}
                             />
                         </Form.Group>
                         {mutableList !== null ?
