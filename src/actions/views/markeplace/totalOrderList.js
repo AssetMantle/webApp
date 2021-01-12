@@ -81,7 +81,7 @@ const TotalOrders = React.memo((props) => {
                         let mutableKeys = Object.keys(mutableProperties);
                         let orderIdData = GetIDHelper.GetOrderID(order);
                         return (
-                            <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
+                            <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
                                     <div id={"totalOrderImagUri" + orderIdData}>
                                         <div id={"totalOrderImage" + orderIdData} className="dummy-image">

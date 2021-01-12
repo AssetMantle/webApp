@@ -102,7 +102,7 @@ const IdentityList = React.memo((props) => {
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
                         return (
-                            <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
+                            <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
                                     <div id={"imagUri" + identityId}>
                                         <div id={"image" + identityId} className="dummy-image">

@@ -124,7 +124,7 @@ const AssetList = React.memo((props) => {
                         let ownerId = split.value.id.value.ownerID.value.idString;
                         let stake = split.value.split;
                         return (
-                            <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
+                            <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
                                     <div id={"assetImagUri" + ownerId}>
                                         <div id={"assetImage" + ownerId} className="dummy-image">
