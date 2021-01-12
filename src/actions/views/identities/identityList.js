@@ -102,8 +102,13 @@ const IdentityList = React.memo((props) => {
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
                         return (
-                            <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
+                            <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
+                                    <div id={"imagUri" + identityId}>
+                                        <div id={"image" + identityId} className="dummy-image">
+
+                                        </div>
+                                    </div>
                                     <div>
                                         <Button variant="secondary" size="sm"
                                                 onClick={() => handleModalData("Provision", identityId)}>{t("PROVISION")}</Button>
@@ -124,11 +129,14 @@ const IdentityList = React.memo((props) => {
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
                                                 if (keyName === config.URI) {
-                                                    return (
-                                                        <div key={index + keyName}
-                                                             id={`identityUrlId` + index + `${index1}`}
-                                                             className="assetImage"></div>)
-                                                } else {
+                                                    let imageElement = document.getElementById("image" + identityId)
+                                                    if (typeof (imageElement) != 'undefined' && imageElement != null) {
+                                                        let divd = document.createElement('div');
+                                                        divd.id = `identityUrlId` + index + `${index1}`
+                                                        divd.className = "assetImage"
+                                                        document.getElementById("imagUri" + identityId).replaceChild(divd, imageElement);
+                                                    }
+                                                }  else {
                                                     return (<div key={index + keyName} className="list-item"><p
                                                         className="list-item-label">{keyName} </p>: <p
                                                         id={`immutable_identityList` + index + `${index1}`}
