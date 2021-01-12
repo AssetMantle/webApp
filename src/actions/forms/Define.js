@@ -103,7 +103,7 @@ const Define = (props) => {
         const ImmutableClassifier = evt.target.ImmutableClassifier.value;
 
         const ImmutableUrl = evt.target.URI.value;
-        const ImmutableUrlEncode = base64url.encode(ImmutableUrl);
+        const ImmutableUrlEncode = base64url.encode(ImmutableUrl)+ "=";
 
         let staticImmutables = `style:S|${mutableStyle},type:S|${typeOption}`;
         staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription},URI:S|${ImmutableUrlEncode}`

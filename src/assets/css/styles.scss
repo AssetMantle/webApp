@@ -805,6 +805,10 @@ html, body, #root, .app {
   display        : flex;
   justify-content: center;
 
+  p{
+    margin: 0;
+  }
+
   .copy-icon {
     width      : 20px;
     height     : 20px;
@@ -831,7 +835,7 @@ html, body, #root, .app {
   height: 300px !important;
 }
 .id-string{
-  width: 200px;
+  width: 130px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -954,7 +958,7 @@ html, body, #root, .app {
   border-style: solid;
   border-width: 10px 3px 3px 3px;
   position: absolute;
-  top: 0px;
+  top: 220px;
   opacity: .4;
   width: 100%;
   right: 0px;
@@ -997,6 +1001,14 @@ html, body, #root, .app {
 }
 
 .assetImage img{
-  width: 200px;
+  width: 100%;
   height: 200px;
+  margin-bottom: 25px;
+}
+
+.dummy-image img{
+  width: 100%;
+  height: 200px;
+  background: grey;
+  margin-bottom: 25px;
 }
