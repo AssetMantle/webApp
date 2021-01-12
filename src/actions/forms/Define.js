@@ -104,10 +104,9 @@ const Define = (props) => {
 
         const ImmutableUrl = evt.target.URI.value;
         let ImmutableUrlEncode = "";
-        if(ImmutableUrl !== "") {
-             ImmutableUrlEncode = PropertyHelper.getUrlEncode(ImmutableUrl);
+        if (ImmutableUrl !== "") {
+            ImmutableUrlEncode = PropertyHelper.getUrlEncode(ImmutableUrl);
         }
-        console.log(ImmutableUrlEncode, "ImmutableUrlEncode")
         let staticImmutables = `style:S|${mutableStyle},type:S|${typeOption}`;
         staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription},URI:S|${ImmutableUrlEncode}`
         const userTypeToken = localStorage.getItem('mnemonic');
