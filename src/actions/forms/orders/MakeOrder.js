@@ -158,8 +158,12 @@ const MakeOrder = (props) => {
                 immutableList.map((immutable, index) => {
                     const immutableType = immutable.value.fact.value.type;
                     const immutableName = immutable.value.id.value.idString;
+                    const immutableHash = immutable.value.fact.value.hash;
                     const immutableInputName = `${immutableName}|${immutableType}${index}`
-                    const immutableFieldValue = document.getElementById(`MakeOrder${immutableName}|${immutableType}${index}`).value;
+                    let immutableFieldValue = document.getElementById(`MakeOrder${immutableName}|${immutableType}${index}`).value;
+                    if (immutableName === config.URI && immutableHash === "") {
+                        immutableFieldValue = PropertyHelper.getUrlEncode(immutableFieldValue);
+                    }
                     const ImmutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
                     if (ImmutableMetaValuesResponse[0] !== "") {
                         immutableValues = ImmutableMetaValuesResponse[0];
@@ -383,43 +387,78 @@ const MakeOrder = (props) => {
                                 const immutableHash = immutable.value.fact.value.hash;
                                 const immutableName = immutable.value.id.value.idString;
                                 const id = `MakeOrder${immutableName}|${immutableType}${index}`
+                                if (immutableName === config.URI) {
+                                    return (
+                                        <div key={index}>
+                                            <Form.Group>
+                                                <Form.Label>Immutable
+                                                    Traits {immutableName} |{immutableType} </Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    className=""
+                                                    name={`${immutableName}|${immutableType}${index}`}
+                                                    id={`MakeOrder${immutableName}|${immutableType}${index}`}
+                                                    required={true}
+                                                    placeholder="Trait Value"
+                                                    onChange={(evt) => {
+                                                        handleChangeImmutable(evt, index + 1)
+                                                    }}
+                                                    disabled={false}
+                                                />
+                                            </Form.Group>
+                                            <Form.Text id={`ImmutableMakeOrder${index + 1}`}
+                                                       className="text-muted none">
 
-                                return (
-                                    <div key={index}>
-                                        <Form.Group>
-                                            <div className="upload-section">
-                                                <Form.Label>Immutable Traits {immutableName} |{immutableType} </Form.Label>
-                                                {immutableType === 'S' && immutableHash === ""
-                                                    ?
-                                                    <Button variant="secondary"  size="sm" onClick={()=>handleUpload(id)}>upload</Button>
-                                                    : ""
-                                                }
-                                            </div>
+                                            </Form.Text>
+                                            <Form.Group>
+                                                <Form.Check custom type="checkbox" label="Meta"
+                                                            name={`${immutableName}|${immutableType}${index}`}
+                                                            id={`checkbox${immutableName}|${immutableType}${index}`}
+                                                            onChange={handleCheckImmutableChange}/>
+                                            </Form.Group>
+                                        </div>
+                                    )
+                                }else {
+                                    return (
+                                        <div key={index}>
+                                            <Form.Group>
+                                                <div className="upload-section">
+                                                    <Form.Label>Immutable
+                                                        Traits {immutableName} |{immutableType} </Form.Label>
+                                                    {immutableType === 'S' && immutableHash === ""
+                                                        ?
+                                                        <Button variant="secondary" size="sm"
+                                                                onClick={() => handleUpload(id)}>upload</Button>
+                                                        : ""
+                                                    }
+                                                </div>
 
-                                            <Form.Control
-                                                type="text"
-                                                className=""
-                                                name={`${immutableName}|${immutableType}${index}`}
-                                                id={`MakeOrder${immutableName}|${immutableType}${index}`}
-                                                required={true}
-                                                placeholder="Trait Value"
-                                                onChange={(evt) => {
-                                                    handleChangeImmutable(evt, index + 1)
-                                                }}
-                                                disabled={false}
-                                            />
-                                        </Form.Group>
-                                        <Form.Text id={`ImmutableMakeOrder${index + 1}`} className="text-muted none">
-                                            {t("MUTABLE_VALIDATION_ERROR")}
-                                        </Form.Text>
-                                        <Form.Group>
-                                            <Form.Check custom type="checkbox" label="Meta"
-                                                        name={`${immutableName}|${immutableType}${index}`}
-                                                        id={`checkbox${immutableName}|${immutableType}${index}`}
-                                                        onChange={handleCheckImmutableChange}/>
-                                        </Form.Group>
-                                    </div>
-                                )
+                                                <Form.Control
+                                                    type="text"
+                                                    className=""
+                                                    name={`${immutableName}|${immutableType}${index}`}
+                                                    id={`MakeOrder${immutableName}|${immutableType}${index}`}
+                                                    required={true}
+                                                    placeholder="Trait Value"
+                                                    onChange={(evt) => {
+                                                        handleChangeImmutable(evt, index + 1)
+                                                    }}
+                                                    disabled={false}
+                                                />
+                                            </Form.Group>
+                                            <Form.Text id={`ImmutableMakeOrder${index + 1}`}
+                                                       className="text-muted none">
+                                                {t("MUTABLE_VALIDATION_ERROR")}
+                                            </Form.Text>
+                                            <Form.Group>
+                                                <Form.Check custom type="checkbox" label="Meta"
+                                                            name={`${immutableName}|${immutableType}${index}`}
+                                                            id={`checkbox${immutableName}|${immutableType}${index}`}
+                                                            onChange={handleCheckImmutableChange}/>
+                                            </Form.Group>
+                                        </div>
+                                    )
+                                }
                             })
                             :
                             ""
