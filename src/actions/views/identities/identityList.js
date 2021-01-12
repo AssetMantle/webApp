@@ -106,7 +106,7 @@ const IdentityList = React.memo((props) => {
                                 <div className="card">
                                     <div id={"imagUri" + identityId}>
                                         <div id={"image" + identityId} className="dummy-image">
-                                            <img src={dummyImage} alt="dummyImage" />
+
                                         </div>
                                     </div>
                                     <div className="list-item">
