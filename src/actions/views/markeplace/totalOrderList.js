@@ -83,6 +83,11 @@ const TotalOrders = React.memo((props) => {
                         return (
                             <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
+                                    <div id={"totalOrderImagUri" + orderIdData+index}>
+                                        <div id={"totalOrderImage" + orderIdData+index} className="dummy-image">
+
+                                        </div>
+                                    </div>
                                     <div>
                                         <Button variant="secondary" size="sm"
                                                 onClick={() => handleModalData("TakeOrder", orderIdData)}>{t("TAKE")}</Button>
@@ -100,10 +105,13 @@ const TotalOrders = React.memo((props) => {
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
                                                 if (keyName === config.URI) {
-                                                    return (
-                                                        <div key={index + keyName}
-                                                             id={`totalOrderUrlId` + index + `${index1}`}
-                                                             className="assetImage"></div>)
+                                                    let imageElement = document.getElementById("totalOrderImage" + orderIdData+index)
+                                                    if (typeof (imageElement) != 'undefined' && imageElement != null) {
+                                                        let divd = document.createElement('div');
+                                                        divd.id = `totalOrderUrlId` + index + `${index1}`
+                                                        divd.className = "assetImage"
+                                                        document.getElementById("totalOrderImagUri" + orderIdData+index).replaceChild(divd, imageElement);
+                                                    }
                                                 } else {
                                                     return (<div key={index + keyName} className="list-item"><p
                                                         className="list-item-label">{keyName} </p>: <p

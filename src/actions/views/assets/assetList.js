@@ -126,6 +126,11 @@ const AssetList = React.memo((props) => {
                         return (
                             <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
+                                    <div id={"assetImagUri" + ownerId+index}>
+                                        <div id={"assetImage" + ownerId+index} className="dummy-image">
+
+                                        </div>
+                                    </div>
                                     {ownableId !== "stake" ?
                                         <>
                                         <div className="list-item">
@@ -140,7 +145,7 @@ const AssetList = React.memo((props) => {
                                         </>
                                         :
                                         <div className="list-item">
-                                            <p className="list-item-label">{t("OWNABLE_ID")}</p>
+                                            <p className="list-item-label">{t("ASSET_ID")}</p>
                                             <p className="list-item-value" title={ownableId}>{ownableId}</p>
                                         </div>
 
@@ -197,10 +202,15 @@ const AssetList = React.memo((props) => {
                                                             immutableKeys.map((keyName, index1) => {
                                                                 if (immutableProperties[keyName] !== "") {
                                                                     if (keyName === config.URI) {
-                                                                        return (
-                                                                            <div key={index + keyName} id={`assetUrlId` + index + `${index1}`}
-                                                                                 className="assetImage"></div>)
-                                                                    } else {
+                                                                        let imageElement = document.getElementById("assetImage" + ownerId+index)
+                                                                        if (typeof (imageElement) != 'undefined' && imageElement != null) {
+                                                                            let divd = document.createElement('div');
+                                                                            divd.id = `assetUrlId` + index + `${index1}`
+                                                                            divd.className = "assetImage"
+                                                                            document.getElementById("assetImagUri" + ownerId+index).replaceChild(divd, imageElement);
+                                                                        }
+                                                                    }
+                                                                   else {
                                                                         return (
                                                                             <div key={index + keyName}
                                                                                  className="list-item"><p
