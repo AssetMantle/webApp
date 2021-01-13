@@ -1001,14 +1001,8 @@ html, body, #root, .app {
 }
 
 .assetImage img{
-  width: 100%;
+  width: 200px;
   height: 200px;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
 }
 
-.dummy-image img{
-  width: 100%;
-  height: 200px;
-  background: grey;
-  margin-bottom: 25px;
-}

@@ -47,6 +47,7 @@ export default class GetID {
         })
         return idList;
     }
+
     GetIdentityOwnableId(identity) {
         return identity.value.id.value.ownableID.value.idString;
     }

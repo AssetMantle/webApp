@@ -125,13 +125,14 @@ let en = {
         "PROVISION_ADDRESS_LIST": "ProvisionAddress List",
         "UN_PROVISION_ADDRESS_LIST": "UnProvisionAddress List",
         "ORDER_ID": 'Order Id',
-        "MUTABLE_VALIDATION_ERROR": "These *,| excluded",
+        "MUTABLE_VALIDATION_ERROR": "These ,|: excluded",
         "TRAIT_VALUE":"Trait Value",
         "IDENTITY_ID":"Identity Id",
         "MAKER_OWNABLE_ID":"Maker Ownable Id",
         "TAKER_OWNABLE_ID":"Taker Ownable Id",
         "MAKER_ID":"Maker Id",
-        "HASH":"Hash"
+        "HASH":"Hash",
+        "ASSET_ID":"Asset Id"
 
     }
 };
