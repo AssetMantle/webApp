@@ -1,15 +1,13 @@
 import React, {useState, useEffect} from "react";
 import ordersQueryJS from "persistencejs/transaction/orders/query";
-import {Button} from "react-bootstrap";
-import {TakeOrder} from "../../forms/orders";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
-import Copy from "../../../components/copy";
 import config from "../../../constants/config.json";
 import GetProperty from "../../../utilities/Helpers/getProperty";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetID from "../../../utilities/Helpers/getID";
+import {useHistory} from "react-router-dom";
 const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
@@ -18,9 +16,8 @@ const TotalOrders = React.memo((props) => {
     const GetMetaHelper = new GetMeta();
     const GetIDHelper = new GetID();
     const {t} = useTranslation();
+    let history = useHistory();
     const [loader, setLoader] = useState(true)
-    const [externalComponent, setExternalComponent] = useState("");
-    const [orderId, setOrderId] = useState("");
     const [orderList, setOrderList] = useState([]);
 
     useEffect(() => {
@@ -55,10 +52,17 @@ const TotalOrders = React.memo((props) => {
         fetchOrder();
     }, []);
 
-    const handleModalData = (formName, orderId) => {
-        setOrderId(orderId)
-        setExternalComponent(formName)
+    const handleAsset = (id) => {
+            history.push({
+                    pathname : '/OrderView',
+                    state :{
+                        orderID : id,
+                        currentPath : window.location.pathname,
+                    }
+                }
+            );
     }
+
     return (
         <div className="list-container">
             {loader ?
@@ -73,73 +77,53 @@ const TotalOrders = React.memo((props) => {
                         if (order.value.immutables.value.properties.value.propertyList !== null) {
                             immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
                         }
-                        if (order.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
-                        }
 
                         let immutableKeys = Object.keys(immutableProperties);
-                        let mutableKeys = Object.keys(mutableProperties);
                         let orderIdData = GetIDHelper.GetOrderID(order);
                         return (
-                            <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
-                                <div className="card">
-                                    <div>
-                                        <Button variant="secondary" size="sm"
-                                                onClick={() => handleModalData("TakeOrder", orderIdData)}>{t("TAKE")}</Button>
-                                    </div>
-                                    <div className="list-item">
-                                        <p className="list-item-label">{t("ORDER_ID")}</p>
-                                        <div className="list-item-value id-section">
-                                            <p className="id-string" title={orderIdData}>: {orderIdData}</p>
-                                            <Copy
-                                                id={orderIdData}/>
+                            <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
+                                <div className="card" onClick={() => handleAsset(orderIdData)}>
+                                    <div id={"totalOrderImagUri" + orderIdData+index}>
+                                        <div id={"totalOrderImage" + orderIdData+index} className="dummy-image">
+
                                         </div>
                                     </div>
-                                    <p>{t("IMMUTABLES")}</p>
+                                 <div className="info-section">
+                                    <div className="list-item">
+                                        <p className="list-item-label">{t("ORDER_ID")}:</p>
+                                        <div className="list-item-value id-section">
+                                            <p className="id-string" title={orderIdData}> {orderIdData}</p>
+                                        </div>
+                                    </div>
                                     {immutableKeys !== null ?
                                         immutableKeys.map((keyName, index1) => {
                                             if (immutableProperties[keyName] !== "") {
                                                 if (keyName === config.URI) {
-                                                    return (
-                                                        <div key={index + keyName}
-                                                             id={`totalOrderUrlId` + index + `${index1}`}
-                                                             className="assetImage"></div>)
-                                                } else {
+                                                    let imageElement = document.getElementById("totalOrderImage" + orderIdData+index)
+                                                    if (typeof (imageElement) != 'undefined' && imageElement != null) {
+                                                        let divd = document.createElement('div');
+                                                        divd.id = `totalOrderUrlId` + index + `${index1}`
+                                                        divd.className = "assetImage"
+                                                        document.getElementById("totalOrderImagUri" + orderIdData+index).replaceChild(divd, imageElement);
+                                                    }
+                                                } else if(keyName === "type" || keyName === "style" || keyName === "description"){
                                                     return (<div key={index + keyName} className="list-item"><p
-                                                        className="list-item-label">{keyName} </p>: <p
+                                                        className="list-item-label">{keyName}: </p><p
                                                         id={`immutable_order_market` + index + `${index1}`}
                                                         className="list-item-value"></p></div>)
                                                 }
                                             } else {
                                                 return (
                                                     <div key={index + keyName} className="list-item"><p
-                                                        className="list-item-label">{keyName} </p>: <p
+                                                        className="list-item-label">{keyName}: </p> <p
                                                         className="list-item-hash-value">{immutableProperties[keyName]}</p>
                                                     </div>)
                                             }
                                         })
                                         : ""
                                     }
+                                 </div>
 
-                                    <p>{t("MUTABLES")}</p>
-
-                                    {mutableKeys !== null ?
-                                        mutableKeys.map((keyName, index1) => {
-                                            if (mutableProperties[keyName] !== "") {
-                                                return (<div key={index + keyName} className="list-item"><p
-                                                    className="list-item-label">{keyName} </p>: <p
-                                                    id={`mutable_order_market` + index + `${index1}`}
-                                                    className="list-item-value"></p></div>)
-                                            } else {
-                                                return (
-                                                    <div key={index + keyName} className="list-item"><p
-                                                        className="list-item-label">{keyName} </p>: <p
-                                                        className="list-ite-hash-value">{mutableProperties[keyName]}</p>
-                                                    </div>)
-                                            }
-                                        })
-                                        : ""
-                                    }
                                 </div>
                             </div>
                         )
@@ -148,12 +132,7 @@ const TotalOrders = React.memo((props) => {
                     : <p className="empty-list">{t("ORDERS_NOT_FOUND")}</p>
                 }
             </div>
-            <div>
-                {externalComponent === 'TakeOrder' ?
-                    <TakeOrder setExternalComponent={setExternalComponent} id={orderId} FormName={'Take Order'}/> :
-                    null
-                }
-            </div>
+
         </div>
     );
 });

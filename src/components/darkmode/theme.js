@@ -29,7 +29,7 @@ export const lightTheme = {
     dropDownSectionBgColor:'#FFFFFF',
     cardSectionBg:'#F5F5F5',
     CardBgColor:'#F5F5F5',
-    listItemColor: '#363537',
+    listItemColor: '#666666',
     navDropdownMenuBg:'#fff',
     navDropdownColor:'#212529',
     subTitleColor:'#999999',

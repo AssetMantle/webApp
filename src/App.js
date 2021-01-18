@@ -6,7 +6,7 @@ import {HomePage, RouteNotFound,  Profile} from "./components";
 import HeaderAfterLogin from "./components/Headers/HeaderAfterLogin";
 import HeaderBeforeLogin from "./components/Headers/HeaderBeforeLogin";
 import offline from "./assets/images/offline.svg";
-import {Maintainers, Identities, Assets, Orders, MarketPlace} from "./actions/views"
+import {Maintainers, Identities, Assets, Orders, MarketPlace, AssetView, IdentityView, OrderView} from "./actions/views"
 import Footer from "./components/Footer"
 import {useTranslation} from "react-i18next";
 import './assets/css/styles.css'
@@ -55,7 +55,16 @@ const App = () => {
     }, {
         path: '/SearchMaintainer',
         component: SearchMaintainer,
-    }];
+    }, {
+        path: '/AssetView',
+        component: AssetView,
+    }, {
+        path: '/IdentityView',
+        component: IdentityView,
+    }, {
+        path: '/OrderView',
+        component: OrderView,
+    } ];
 
     const [isOnline, setNetwork] = useState(window.navigator.onLine);
     const updateNetwork = () => {

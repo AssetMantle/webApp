@@ -90,6 +90,7 @@ const MaintainerList = React.memo((props) => {
                         return (
                             <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card height-medium">
+                                    <div className="info-section">
                                     {(maintainer.value.addMaintainer) ?
                                         <div>
                                             <Button size="sm" variant="secondary"
@@ -97,34 +98,36 @@ const MaintainerList = React.memo((props) => {
                                         </div> : ""
                                     }
                                     <div className="list-item">
-                                        <p className="list-item-label">{t("CLASSIFICATION_ID")}</p>
+                                        <p className="list-item-label">{t("CLASSIFICATION_ID")}:</p>
                                         <div className="list-item-value id-section">
-                                            <p className="id-string" title={classificationID}>: {classificationID}</p>
-                                            <Copy
-                                                id={classificationID}/>
+                                            <p className="id-string" title={classificationID}> {classificationID}</p>
                                         </div>
+                                        <Copy
+                                            id={classificationID}/>
                                     </div>
                                     <div className="list-item">
-                                        <p className="list-item-label">{t("IDENTITY_ID")}</p>
+                                        <p className="list-item-label">{t("IDENTITY_ID")}:</p>
                                         <div className="list-item-value id-section">
-                                            <p className="id-string" title={id}>: {id}</p>
-                                            <Copy
-                                                id={id}/>
+                                            <p className="id-string" title={id}> {id}</p>
+
                                         </div>
+                                        <Copy
+                                            id={id}/>
                                     </div>
 
                                     {keys !== null ?
                                         keys.map((keyName, index1) => {
                                             if (maintainerPropertyList[keyName] !== "") {
-                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
+                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName}:</p> <p
                                                     id={`maintainedTraits` + index + `${index1}`} className="list-item-value"></p></div>)
                                             } else {
                                                 return (
-                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{maintainerPropertyList[keyName]}</p></div>)
+                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName}: </p> <p className="list-item-hash-value">{maintainerPropertyList[keyName]}</p></div>)
                                             }
                                         })
                                         : ""
                                     }
+                                </div>
                                 </div>
                             </div>
                         )

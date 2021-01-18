@@ -16,12 +16,14 @@ const UnProvision = (props) => {
     const {t} = useTranslation();
     useEffect(() => {
         const provisionedAddressList = props.identityIdList.value.provisionedAddressList;
-        provisionedAddressList.map((address) => {
-            setProvisionAddressList((provisionAddressList) => [
-                ...provisionAddressList,
-                address,
-            ]);
-        })
+        if(provisionedAddressList !== null) {
+            provisionedAddressList.map((address) => {
+                setProvisionAddressList((provisionAddressList) => [
+                    ...provisionAddressList,
+                    address,
+                ]);
+            })
+        }
     }, []);
     const handleClose = () => {
         setShow(false);

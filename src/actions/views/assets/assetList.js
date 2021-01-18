@@ -1,14 +1,11 @@
 import React, {useState, useEffect} from "react";
+import {useHistory} from "react-router-dom";
 import splitsQueryJS from "persistencejs/transaction/splits/query";
 import assetsQueryJS from "persistencejs/transaction/assets/query";
-import {Button} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import {MutateAsset, BurnAsset, SendSplit} from "../../forms/assets";
-import {MakeOrder} from "../../forms/orders";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
-import Copy from "../../../components/copy";
 import config from "../../../constants/config.json"
 import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
@@ -25,16 +22,11 @@ const AssetList = React.memo((props) => {
     const GetMetaHelper = new GetMeta();
     const GetIDHelper = new GetID();
     const {t} = useTranslation();
-    const [externalComponent, setExternalComponent] = useState("");
-    const [ownerId, setOwnerId] = useState("");
-    const [ownableId, setOwnableId] = useState("");
+    let history = useHistory();
     const [assetList, setAssetList] = useState([]);
     const [loader, setLoader] = useState(true)
     const [splitList, setSplitList] = useState([]);
-    const [mutateProperties, setMutateProperties] = useState({});
-    const [asset, setAsset] = useState({});
     const userAddress = localStorage.getItem('address');
-
     useEffect(() => {
         const fetchAssets = () => {
             const identities = identitiesQuery.queryIdentityWithID("all")
@@ -100,14 +92,19 @@ const AssetList = React.memo((props) => {
         fetchAssets();
     }, []);
 
-    const handleModalData = (formName, mutableProperties1, asset1, assetOwnerId, ownableId) => {
-        setMutateProperties(mutableProperties1)
-        setAsset(asset1)
-        setOwnerId(assetOwnerId)
-        setExternalComponent(formName)
-        setOwnableId(ownableId)
+    const handleAsset = (assetid) => {
+        if(assetid !== "stake") {
+            history.push({
+                    pathname : '/AssetView',
+                    state :{
+                        assetID : assetid,
+                        currentPath : window.location.pathname,
+                        splitList:splitList
+                    }
+                }
+            );
+        }
     }
-
     return (
         <div className="list-container">
             {loader ?
@@ -124,48 +121,44 @@ const AssetList = React.memo((props) => {
                         let ownerId = split.value.id.value.ownerID.value.idString;
                         let stake = split.value.split;
                         return (
-                            <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
-                                <div className="card">
+                            <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
+                                <div className="card" onClick={() => handleAsset(ownableId)}>
+                                    <div id={"assetImagUri" + ownerId+index}>
+                                        <div id={"assetImage" + ownerId+index} className="dummy-image">
+                                        </div>
+                                    </div>
+                                    <div className="info-section">
                                     {ownableId !== "stake" ?
                                         <>
                                         <div className="list-item">
-                                            <p className="list-item-label">{t("ASSET_ID")}</p>
+                                            <p className="list-item-label">{t("ASSET_ID")} :</p>
                                             <div className="list-item-value id-section">
-                                                <p className="id-string" title={ownableId}>: {ownableId}</p>
-                                                <Copy
-                                                    id={ownableId}/>
+                                                <p className="id-string" title={ownableId}> {ownableId}</p>
                                             </div>
                                         </div>
 
                                         </>
                                         :
                                         <div className="list-item">
-                                            <p className="list-item-label">{t("OWNABLE_ID")}</p>
+                                            <p className="list-item-label">{t("ASSET_ID")} :</p>
                                             <p className="list-item-value" title={ownableId}>{ownableId}</p>
                                         </div>
 
                                     }
 
                                     <div className="list-item">
-                                        <p className="list-item-label">{t("OWNER_ID")}</p>
+                                        <p className="list-item-label">{t("OWNER_ID")} :</p>
                                         <div className="list-item-value id-section">
-                                            <p className="id-string" title={ownerId}>: {ownerId}</p>
-                                            <Copy
-                                                id={ownerId}/>
+                                            <p className="id-string" title={ownerId}> {ownerId}</p>
                                         </div>
                                     </div>
 
                                     <div className="list-item">
-                                        <p className="list-item-label">{t("STAKE")}</p>
+                                        <p className="list-item-label">{t("STAKE")} :</p>
                                         <p className="list-item-value id-string" title={stake}>{stake}</p>
                                     </div>
 
-                                    <div className="button-group">
-                                        <Button variant="secondary" size="sm"
-                                                onClick={() => handleModalData("MakeOrder", "", "", ownerId, ownableID)}>{t("MAKE")}</Button>
-                                        <Button variant="secondary" size="sm"
-                                                onClick={() => handleModalData("SendSplit", "", "", ownerId, ownableID)}>{t("SEND_SPLITS")}</Button>
-                                    </div>
+
                                     {
                                         assetList.map((asset, assetIndex) => {
                                             const assetItemId = GetIDHelper.GetAssetID(asset.result.value.assets.value.list[0]);
@@ -182,29 +175,23 @@ const AssetList = React.memo((props) => {
                                                 let mutableKeys = Object.keys(mutableProperties);
                                                 return (
                                                     <div key={assetIndex}>
-                                                        <div>
-                                                            <Button variant="secondary" size="sm"
-                                                                    onClick={() => handleModalData("MutateAsset", mutableProperties, asset)}>{t("MUTATE_ASSET")}
-                                                            </Button>
-                                                            <Button variant="secondary" size="sm"
-                                                                    onClick={() => handleModalData("BurnAsset", "", asset, ownerId, ownableID)}>{t("BURN_ASSET")}
-                                                            </Button>
-
-                                                        </div>
-
-                                                        <p className="sub-title">{t("IMMUTABLES")}</p>
                                                         {immutableKeys !== null ?
                                                             immutableKeys.map((keyName, index1) => {
                                                                 if (immutableProperties[keyName] !== "") {
                                                                     if (keyName === config.URI) {
-                                                                        return (
-                                                                            <div key={index + keyName} id={`assetUrlId` + index + `${index1}`}
-                                                                                 className="assetImage"></div>)
-                                                                    } else {
+                                                                        let imageElement = document.getElementById("assetImage" + ownerId+index)
+                                                                        if (typeof (imageElement) != 'undefined' && imageElement != null) {
+                                                                            let divd = document.createElement('div');
+                                                                            divd.id = `assetUrlId` + index + `${index1}`
+                                                                            divd.className = "assetImage"
+                                                                            document.getElementById("assetImagUri" + ownerId+index).replaceChild(divd, imageElement);
+                                                                        }
+                                                                    }
+                                                                   else if(keyName === "type" || keyName === "style" || keyName === "description"){
                                                                         return (
                                                                             <div key={index + keyName}
                                                                                  className="list-item"><p
-                                                                                className="list-item-label">{keyName} </p>: <p
+                                                                                className="list-item-label">{keyName} : </p> <p
                                                                                 id={`immutable_asset` + index + `${index1}`}
                                                                                 className="list-item-value"></p></div>)
                                                                     }
@@ -212,68 +199,25 @@ const AssetList = React.memo((props) => {
                                                                     return (
                                                                         <div key={index + keyName}
                                                                              className="list-item"><p
-                                                                            className="list-item-label">{keyName} </p>: <p
+                                                                            className="list-item-label">{keyName} : </p> <p
                                                                             className="list-item-hash-value">{immutableProperties[keyName]}</p>
                                                                         </div>)
                                                                 }
                                                             })
                                                             : ""
                                                         }
-                                                        <p className="sub-title">{t("MUTABLES")}</p>
-                                                        {mutableKeys !== null ?
-                                                            mutableKeys.map((keyName, index1) => {
-                                                                if (mutableProperties[keyName] !== "") {
-                                                                    return (
-                                                                        <div key={index + keyName}
-                                                                             className="list-item"><p
-                                                                            className="list-item-label">{keyName} </p>: <p
-                                                                            id={`mutable_asset` + index + `${index1}`}
-                                                                            className="list-item-value"></p></div>)
-                                                                } else {
-                                                                    return (
-                                                                        <div key={index + keyName}
-                                                                             className="list-item"><p
-                                                                            className="list-item-label">{keyName} </p>: <p
-                                                                            className="list-item-hash-value">{mutableProperties[keyName]}</p>
-                                                                        </div>)
-                                                                }
-                                                            })
-                                                            : ""
-                                                        }
+
                                                     </div>
                                                 )
                                             }
                                         })
                                     }
-
+                                    </div>
                                 </div>
                             </div>
                         )
                     })
                     : <p className="empty-list">{t("ASSETS_NOT_FOUND")}</p>}
-                    </div>
-                    <div>
-
-                {externalComponent === 'MutateAsset' ?
-                    <MutateAsset setExternalComponent={setExternalComponent} mutatePropertiesList={mutateProperties}
-                    asset={asset}/> :
-                    null
-                }
-                {
-                    externalComponent === 'BurnAsset' ?
-                    <BurnAsset setExternalComponent={setExternalComponent} ownerId={ownerId} ownableId={ownableId}/> :
-                    null
-                }
-                {
-                    externalComponent === 'MakeOrder' ?
-                    <MakeOrder setExternalComponent={setExternalComponent} ownerId={ownerId} ownableId={ownableId}/> :
-                    null
-                }
-                {
-                    externalComponent === 'SendSplit' ?
-                    <SendSplit setExternalComponent={setExternalComponent} ownerId={ownerId} ownableId={ownableId}/> :
-                    null
-                }
                     </div>
                     </div>
                     );

@@ -76,21 +76,22 @@ const SearchAsset = React.memo((props) => {
                                         let immutableKeys = Object.keys(immutableProperties);
                                         let mutableKeys = Object.keys(mutableProperties);
                                         return (
-                                            <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
+                                            <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
                                                 <div className="card">
+                                                    <div className="info-section">
                                                     <p className="sub-title">{t("IMMUTABLES")}</p>
                                                     {immutableKeys !== null ?
                                                         immutableKeys.map((keyName, index1) => {
                                                             if (immutableProperties[keyName] !== "") {
                                                                 return (
                                                                     <div key={index + keyName} className="list-item"><p
-                                                                        className="list-item-label">{keyName} </p>: <p
+                                                                        className="list-item-label">{keyName}: </p> <p
                                                                         id={`immutable_asset_search` + index + index1}
                                                                         className="list-item-value"></p></div>)
                                                             } else {
                                                                 return (
                                                                     <div key={index + keyName} className="list-item"><p
-                                                                        className="list-item-label">{keyName} </p>: <p
+                                                                        className="list-item-label">{keyName}: </p> <p
                                                                         className="list-item-hash-value">{immutableProperties[keyName]}</p>
                                                                     </div>)
                                                             }
@@ -103,13 +104,13 @@ const SearchAsset = React.memo((props) => {
                                                             if (mutableProperties[keyName] !== "") {
                                                                 return (
                                                                     <div key={index + keyName} className="list-item"><p
-                                                                        className="list-item-label">{keyName} </p>: <p
+                                                                        className="list-item-label">{keyName}: </p> <p
                                                                         id={`mutable_asset_search` + index + index1}
                                                                         className="list-item-value"></p></div>)
                                                             } else {
                                                                 return (
                                                                     <div key={index + keyName} className="list-item"><p
-                                                                        className="list-item-label">{keyName} </p>: <p
+                                                                        className="list-item-label">{keyName}: </p> <p
                                                                         className="list-item-hash-value">{mutableProperties[keyName]}</p>
                                                                     </div>)
                                                             }
@@ -117,6 +118,7 @@ const SearchAsset = React.memo((props) => {
                                                         : ""
                                                     }
                                                 </div>
+                                            </div>
                                             </div>
                                         )
                                     })

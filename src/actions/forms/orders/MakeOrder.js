@@ -86,7 +86,6 @@ const MakeOrder = (props) => {
     const handleChangeImmutable = (evt, idx) => {
         const newValue = evt.target.value;
         const checkError = PropertyHelper.mutableValidation(newValue);
-        console.log(checkError, "error")
         PropertyHelper.showHideDataTypeError(checkError, `ImmutableMakeOrder${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }

@@ -48,23 +48,27 @@ const SearchMaintainer = React.memo((props) => {
                                     let keys = Object.keys(maintainerPropertyList);
                                     let id = maintainer.value.id.value.classificationID.value.idString+"*"+maintainer.value.id.value.identityID.value.idString
                                     return (
-                                        <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
+                                        <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
                                             <div className="card height-medium">
+                                                <div className="info-section">
                                                 <div className="list-item">
-                                                    <p className="list-item-label">{t("ID")}</p>
+                                                    <p className="list-item-label">{t("ID")} :</p>
                                                     <div className="list-item-value id-section">
-                                                        <p className="id-string" title={id}>: {id}</p>
-                                                        <Copy
-                                                            id={id}/>
+                                                        <div className="flex">
+                                                        <p className="id-string" title={id}> {id}</p>
+                                                        </div>
                                                     </div>
+                                                    <Copy
+                                                        id={id}/>
                                                 </div>
                                                 {
                                                     keys.map((keyName) => {
                                                         return (
-                                                            <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value id-string" title={maintainerPropertyList[keyName]}>{maintainerPropertyList[keyName]}</p></div>
+                                                            <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName}: </p> <div className="list-item-value id-section"><p className="id-string"  title={maintainerPropertyList[keyName]}>{maintainerPropertyList[keyName]}</p></div></div>
                                                         )
                                                     })
                                                 }
+                                                </div>
                                             </div>
                                         </div>
                                     )

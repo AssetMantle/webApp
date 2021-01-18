@@ -170,12 +170,6 @@ export const GlobalStyles = createGlobalStyle`
   .signup-section .private-key .key-download a{
     color: ${({theme}) => theme.downloadKeyColor};
   }
-  .list-contianer .btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show>.btn-secondary.dropdown-toggle,
-  .list-container button, .list-container button:hover{
-    background: ${({theme}) => theme.listContainerButtonbg};
-    color: ${({theme}) => theme.listContainerButtonColor};
-    border: 1px solid ${({theme}) => theme.listContainerButtonbg};
-  }
   .mnemonic-text{
     color: ${({theme}) => theme.mnemonicTextColor};
   }
