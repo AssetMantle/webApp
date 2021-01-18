@@ -9,6 +9,14 @@
     .provision-address.address{
         max-width: initial;
     }
+    .side-bar.active {
+        margin-left: -200px;
+
+        img {
+            transform: rotate(180deg);
+        }
+    }
+
 }
 @media (max-width: 420px){
     .footer{
@@ -64,6 +72,17 @@
     .profile-section {
         .profile-picture-section {
             padding: 15px !important;
+        }
+    }
+    .side-bar{
+        margin-left: -200px;
+    }
+    .side-bar.active {
+        min-width: 250px;
+        max-width: 250px;
+        margin-left: 0px;
+        img {
+            transform: rotate(180deg);
         }
     }
 }
@@ -143,7 +162,6 @@
         padding-top: 60px;
         height: 100%;
         .accountInfo .row{
-            height: calc(100vh - 60px);
             overflow-y: auto;
             .col-md-9, .col-md-3{
                 flex: initial;

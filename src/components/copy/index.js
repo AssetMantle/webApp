@@ -15,7 +15,7 @@ const Copy = (props) => {
     return (
         <div className="copy-section">
             <CopyToClipboard onCopy={onCopy} text={props.id}>
-                <p><Icon viewClass="copy-icon" icon="copy" /></p>
+                <p>copy</p>
             </CopyToClipboard>
             <section className="copy-result">
                 {copyValue ? <span>Copied</span> : null}

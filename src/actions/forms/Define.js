@@ -21,6 +21,8 @@ const Define = (props) => {
     const [immutableProperties, setImmutableProperties] = useState([]);
     const [inputValues, setInputValues] = useState([]);
     const [metaCheckboxList, setMetaCheckboxList] = useState([]);
+    const [uriField, setUriField] = useState(false);
+    const [selectedOption, setSelectedOption] = useState("Mutable");
     const [immutableMetaCheckboxList, setImmutableMetaCheckboxList] = useState([]);
     const {t} = useTranslation();
 
@@ -98,17 +100,24 @@ const Define = (props) => {
         }
         const FromId = evt.target.FromId.value;
         let staticImmutableMeta = "";
+        let uriMutable = "";
         const ImmutableDescription = evt.target.ImmutableDescription.value;
         const ImmutableIdentifier = evt.target.ImmutableIdentifier.value;
         const ImmutableClassifier = evt.target.ImmutableClassifier.value;
-
-        const ImmutableUrl = evt.target.URI.value;
-        let ImmutableUrlEncode = "";
-        if (ImmutableUrl !== "") {
-            ImmutableUrlEncode = PropertyHelper.getUrlEncode(ImmutableUrl);
-        }
         let staticImmutables = `style:S|${mutableStyle},type:S|${typeOption}`;
-        staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription},URI:S|${ImmutableUrlEncode}`
+        staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription}`
+        if(uriField){
+            const ImmutableUrl = evt.target.URI.value;
+            let ImmutableUrlEncode = "";
+            if (ImmutableUrl !== "") {
+                ImmutableUrlEncode = PropertyHelper.getUrlEncode(ImmutableUrl);
+            }
+            if(selectedOption == "Immutable") {
+                staticImmutableMeta = staticImmutableMeta + `,URI:S|${ImmutableUrlEncode}`
+            }else {
+                uriMutable = `URI:S|${ImmutableUrlEncode}`
+            }
+        }
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
         let mutablePropertyValue = ""
@@ -132,9 +141,16 @@ const Define = (props) => {
         }
         if (typeOption === 'order') {
             if (mutableMetaPropertyValue) {
-                mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + orderSpecificMutables;
+                    mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + orderSpecificMutables;
             } else {
                 mutableMetaPropertyValue = orderSpecificMutables;
+            }
+        }
+        if(uriMutable){
+            if (mutableMetaPropertyValue) {
+                mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + uriMutable;
+            } else {
+                mutableMetaPropertyValue = uriMutable;
             }
         }
         if (immutablePropertyValue) {
@@ -147,6 +163,7 @@ const Define = (props) => {
         } else {
             immutableMetaPropertyValue = staticImmutableMeta;
         }
+
         if (mutablePropertyValue !== "") {
             if (mutableMetaPropertyValue !== "") {
                 const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, config.feesAmount, config.feesToken, config.gas, config.mode)
@@ -193,6 +210,10 @@ const Define = (props) => {
         }
     }
 
+    const handleURI = () =>{
+        setUriField(!uriField)
+    }
+
     const handleRemoveImmutableProperties = (i) => {
         if (immutableProperties[i].name == "") {
             let items = [...immutableProperties];
@@ -210,7 +231,9 @@ const Define = (props) => {
             delete inputValues[dataType];
         }
     }
-
+    const onValueChange = (event) => {
+            setSelectedOption(event.target.value);
+    }
     return (
         <div>
             <Modal show={show} onHide={handleClose} centered>
@@ -252,14 +275,49 @@ const Define = (props) => {
                                 <option value="order">{t("ORDER")}</option>
                             </Form.Control>
                         </Form.Group>
+                        { uriField
+                            ?
+                            <>
+                            <Form.Group>
+                                <Form.Label>{t("URI")}</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    className=""
+                                    name="URI"
+                                    required={false}
+                                    placeholder={t("URI")}
+                                />
+                            </Form.Group>
+                            <Form.Group>
+
+                                <Form.Check
+                                    type="radio"
+                                    label="Mutable"
+                                    name="formHorizontalRadios"
+                                    id="formHorizontalRadios1"
+                                    value="Mutable"
+                                    onChange={onValueChange}
+                                    checked
+                                />
+                                <Form.Check
+                                    type="radio"
+                                    label="Immutalbe"
+                                    name="formHorizontalRadios"
+                                    id="formHorizontalRadios2"
+                                    value={"Immutalbe"}
+                                    onChange={onValueChange}
+                                />
+
+                            </Form.Group>
+                            </>
+                            : ""
+                        }
+
                         <Form.Group>
-                            <Form.Label>{t("URI")}</Form.Label>
-                            <Form.Control
-                                type="text"
-                                className=""
-                                name="URI"
-                                required={false}
-                                placeholder={t("URI")}
+                            <Form.Check custom type="checkbox" label="URI"
+                                        name="checkboxURI"
+                                        id="checkboxURI"
+                                        onChange={handleURI}
                             />
                         </Form.Group>
                         <InputField

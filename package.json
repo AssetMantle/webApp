@@ -25,6 +25,7 @@
     "react-dom": "^16.8.6",
     "react-download-link": "^2.3.0",
     "react-i18next": "^11.7.3",
+    "react-image-lightbox": "^5.1.1",
     "react-router-dom": "5.2.0",
     "react-scripts": "^4.0.0",
     "request": "^2.88.2",
