@@ -11,7 +11,6 @@ import config from "../../../constants/config.json";
 import GetID from "../../../utilities/Helpers/getID";
 import Copy from "../../../components/copy";
 import {Button, Dropdown} from "react-bootstrap";
-import LightboxEx from "../../../components/lightBox";
 import Icon from "../../../icons";
 import {BurnAsset, MintAsset, MutateAsset, SendSplit, UnWrap, Wrap} from "../../forms/assets";
 import {MakeOrder} from "../../forms/orders";
@@ -29,15 +28,13 @@ const AssetView = React.memo((props) => {
     let history = useHistory();
     const {t} = useTranslation();
     const [assetList, setAssetList] = useState([]);
-
     const [externalComponent, setExternalComponent] = useState("");
     const [ownerId, setOwnerId] = useState("");
     const [ownableId, setOwnableId] = useState("");
     const [loader, setLoader] = useState(true)
     const [mutateProperties, setMutateProperties] = useState({});
     const [asset, setAsset] = useState({});
-    const userAddress = localStorage.getItem('address');
-    const [isOpen, setIsOpen] = useState(false)
+
     useEffect(() => {
         if (props.location.state !== undefined) {
             const filterAssetList = assetsQuery.queryAssetWithID(props.location.state.assetID);
@@ -275,9 +272,6 @@ const AssetView = React.memo((props) => {
                 </div>
             </div>
             <div>
-                {isOpen ?
-                    <LightboxEx/>
-                    : ""}
                 {externalComponent === 'MutateAsset' ?
                     <MutateAsset setExternalComponent={setExternalComponent} mutatePropertiesList={mutateProperties}
                                  asset={asset}/> :

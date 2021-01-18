@@ -1,12 +1,9 @@
 import React, {useState, useEffect} from "react";
 import ordersQueryJS from "persistencejs/transaction/orders/query";
-import {Button} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import {CancelOrder} from "../../forms/orders";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
-import Copy from "../../../components/copy"
 import config from "../../../constants/config.json";
 import GetProperty from "../../../utilities/Helpers/getProperty";
 import FilterHelpers from "../../../utilities/Helpers/filter";
@@ -28,8 +25,6 @@ const OrderList = React.memo((props) => {
     const [loader, setLoader] = useState(true)
     const [orderList, setOrderList] = useState([]);
     const userAddress = localStorage.getItem('address');
-    const [externalComponent, setExternalComponent] = useState("");
-    const [order, setOrder] = useState([]);
     let history = useHistory();
 
     useEffect(() => {
@@ -88,10 +83,6 @@ const OrderList = React.memo((props) => {
         );
     }
 
-    const handleModalData = (formName, order) => {
-        setOrder(order);
-        setExternalComponent(formName)
-    }
 
     return (
         <div className="list-container">
@@ -103,16 +94,12 @@ const OrderList = React.memo((props) => {
                 {orderList.length ?
                     orderList.map((order, index) => {
                         let immutableProperties = "";
-                        let mutableProperties = "";
                         if (order.value.immutables.value.properties.value.propertyList !== null) {
                             immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
                         }
-                        if (order.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
-                        }
+
                         let makerID = GetIDHelper.GetMakerID(order)
                         let immutableKeys = Object.keys(immutableProperties);
-                        let mutableKeys = Object.keys(mutableProperties);
                         let orderIdData = GetIDHelper.GetOrderID(order);
                         return (
                             <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>

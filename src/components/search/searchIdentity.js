@@ -87,19 +87,20 @@ const SearchIdentity = React.memo((props) => {
                                         let immutableKeys = Object.keys(immutableProperties);
                                         let mutableKeys = Object.keys(mutableProperties);
                                         return (
-                                            <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
+                                            <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
                                                 <div className="card">
-                                                    <div>
-                                                        <Button variant="secondary"
-                                                                onClick={() => handleModalData("Provision", identityId)}>{t("PROVISION")}</Button>
-                                                        <Button variant="secondary"
-                                                                onClick={() => handleModalData("UnProvision", identityId, identity)}>{t("UN_PROVISION")}</Button>
-                                                    </div>
-                                                    <div className="id-section">
-                                                        <p className="id-string" title={identityId}>{identityId}</p>
-                                                        <Copy
-                                                            id={identityId}/>
-                                                    </div>
+                                                    <div className="info-section">
+                                                        <div className="list-item">
+                                                            <p className="list-item-label">{t("IDENTITY_ID")}:</p>
+                                                            <div className="list-item-value id-section">
+                                                                <div className="flex">
+                                                                <p className="id-string" title={identityId}> {identityId}</p>
+                                                                </div>
+                                                            </div>
+                                                            <Copy
+                                                                id={identityId}/>
+                                                        </div>
+
 
                                                     <p className="sub-title">{t("IMMUTABLES")}</p>
                                                     {immutableKeys !== null ?
@@ -155,6 +156,7 @@ const SearchIdentity = React.memo((props) => {
                                                         : <p>Empty</p>
                                                     }
                                                 </div>
+                                            </div>
                                             </div>
                                         )
                                     })

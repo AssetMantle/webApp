@@ -1,11 +1,8 @@
 import React, {useState, useEffect} from "react";
 import ordersQueryJS from "persistencejs/transaction/orders/query";
-import {Button} from "react-bootstrap";
-import {TakeOrder} from "../../forms/orders";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
-import Copy from "../../../components/copy";
 import config from "../../../constants/config.json";
 import GetProperty from "../../../utilities/Helpers/getProperty";
 import GetMeta from "../../../utilities/Helpers/getMeta";
@@ -21,8 +18,6 @@ const TotalOrders = React.memo((props) => {
     const {t} = useTranslation();
     let history = useHistory();
     const [loader, setLoader] = useState(true)
-    const [externalComponent, setExternalComponent] = useState("");
-    const [orderId, setOrderId] = useState("");
     const [orderList, setOrderList] = useState([]);
 
     useEffect(() => {
@@ -82,12 +77,8 @@ const TotalOrders = React.memo((props) => {
                         if (order.value.immutables.value.properties.value.propertyList !== null) {
                             immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
                         }
-                        if (order.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
-                        }
 
                         let immutableKeys = Object.keys(immutableProperties);
-                        let mutableKeys = Object.keys(mutableProperties);
                         let orderIdData = GetIDHelper.GetOrderID(order);
                         return (
                             <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>

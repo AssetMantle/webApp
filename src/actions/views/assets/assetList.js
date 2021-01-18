@@ -4,23 +4,18 @@ import splitsQueryJS from "persistencejs/transaction/splits/query";
 import assetsQueryJS from "persistencejs/transaction/assets/query";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import {MutateAsset, BurnAsset, SendSplit} from "../../forms/assets";
-import {MakeOrder} from "../../forms/orders";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
-import Copy from "../../../components/copy";
 import config from "../../../constants/config.json"
 import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetProperty from "../../../utilities/Helpers/getProperty";
 import GetID from "../../../utilities/Helpers/getID";
-import logo from "../../../assets/images/logo.svg"
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetsQuery = new assetsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const splitsQuery = new splitsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
-import LightboxEx from "../../../components/lightBox"
-import {Redirect} from "react-router-dom";
+
 const AssetList = React.memo((props) => {
     const PropertyHelper = new GetProperty();
     const FilterHelper = new FilterHelpers();
@@ -28,16 +23,10 @@ const AssetList = React.memo((props) => {
     const GetIDHelper = new GetID();
     const {t} = useTranslation();
     let history = useHistory();
-    const [externalComponent, setExternalComponent] = useState("");
-    const [ownerId, setOwnerId] = useState("");
-    const [ownableId, setOwnableId] = useState("");
     const [assetList, setAssetList] = useState([]);
     const [loader, setLoader] = useState(true)
     const [splitList, setSplitList] = useState([]);
-    const [mutateProperties, setMutateProperties] = useState({});
-    const [asset, setAsset] = useState({});
     const userAddress = localStorage.getItem('address');
-    const [isOpen, setIsOpen] = useState(false)
     useEffect(() => {
         const fetchAssets = () => {
             const identities = identitiesQuery.queryIdentityWithID("all")
@@ -103,18 +92,6 @@ const AssetList = React.memo((props) => {
         fetchAssets();
     }, []);
 
-    const handleLightBox = (lt) => {
-        let red = document.getElementById(lt);
-        setIsOpen(true)
-    }
-
-    const handleModalData = (formName, mutableProperties1, asset1, assetOwnerId, ownableId) => {
-        setMutateProperties(mutableProperties1)
-        setAsset(asset1)
-        setOwnerId(assetOwnerId)
-        setExternalComponent(formName)
-        setOwnableId(ownableId)
-    }
     const handleAsset = (assetid) => {
         if(assetid !== "stake") {
             history.push({
@@ -126,7 +103,6 @@ const AssetList = React.memo((props) => {
                     }
                 }
             );
-            // return <Redirect to={{pathname: '/AssetView', data: {assetid, currentPath: window.location.pathname}}}/>
         }
     }
     return (
@@ -242,31 +218,6 @@ const AssetList = React.memo((props) => {
                         )
                     })
                     : <p className="empty-list">{t("ASSETS_NOT_FOUND")}</p>}
-                    </div>
-                    <div>
-                        {isOpen ?
-                        <LightboxEx />
-                        :"" }
-                {externalComponent === 'MutateAsset' ?
-                    <MutateAsset setExternalComponent={setExternalComponent} mutatePropertiesList={mutateProperties}
-                    asset={asset}/> :
-                    null
-                }
-                {
-                    externalComponent === 'BurnAsset' ?
-                    <BurnAsset setExternalComponent={setExternalComponent} ownerId={ownerId} ownableId={ownableId}/> :
-                    null
-                }
-                {
-                    externalComponent === 'MakeOrder' ?
-                    <MakeOrder setExternalComponent={setExternalComponent} ownerId={ownerId} ownableId={ownableId}/> :
-                    null
-                }
-                {
-                    externalComponent === 'SendSplit' ?
-                    <SendSplit setExternalComponent={setExternalComponent} ownerId={ownerId} ownableId={ownableId}/> :
-                    null
-                }
                     </div>
                     </div>
                     );

@@ -1,13 +1,10 @@
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import React, {useState} from 'react';
-import Icon from "../../icons";
 
 const Copy = (props) => {
     const [copyValue, setCopyValue] = useState(false)
-    const [copied, setCopied] = useState(false)
     const onCopy = () => {
         setCopyValue(true)
-        setCopied(true)
         setTimeout(() => {
             setCopyValue(false)
         }, 1000);

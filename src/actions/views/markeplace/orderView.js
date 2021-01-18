@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react";
-import assetsQueryJS from "persistencejs/transaction/assets/query";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
@@ -102,7 +101,6 @@ const OrderView = React.memo((props) => {
                                     let makerOwnableID = GetIDHelper.GetMakerOwnableID(order)
                                     let takerOwnableID = GetIDHelper.GetTakerOwnableID(order)
                                     let makerID = GetIDHelper.GetMakerID(order)
-                                    let hashID = GetIDHelper.GetHashID(order)
                                     let immutableKeys = Object.keys(immutableProperties);
                                     let mutableKeys = Object.keys(mutableProperties);
                                     return (
