@@ -14,7 +14,6 @@ const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMutate = new assetMutateJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const MutateAsset = (props) => {
-    console.log(props.asset, "asset list")
     const FilterHelper = new FilterHelpers();
     const GetMetaHelper = new GetMeta();
     const GetIDHelper = new GetID();

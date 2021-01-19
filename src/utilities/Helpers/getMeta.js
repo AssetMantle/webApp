@@ -67,7 +67,6 @@ export default class GetMeta {
                 const immutableHash = immutable.value.fact.value.hash;
                 const immutableName = immutable.value.id.value.idString;
                 const id = `${FileName}${immutableName}|${immutableType}${index}`
-                console.log(immutableName,immutableHash , "ddd")
                 if (immutableHash !== "" && immutableHash !== null) {
                     const metaQueryResult = metasQuery.queryMetaWithID(immutableHash);
                     metaQueryResult.then(function (item) {
