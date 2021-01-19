@@ -14,6 +14,7 @@ const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMutate = new assetMutateJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const MutateAsset = (props) => {
+    console.log(props.asset, "asset list")
     const FilterHelper = new FilterHelpers();
     const GetMetaHelper = new GetMeta();
     const GetIDHelper = new GetID();
@@ -64,8 +65,8 @@ const MutateAsset = (props) => {
         event.preventDefault();
         const asset = props.asset;
         const FromId = event.target.FromId.value;
-        const assetId = GetIDHelper.GetAssetID(asset.result.value.assets.value.list[0])
-        const assetList = asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList
+        const assetId = GetIDHelper.GetAssetID(asset)
+        const assetList = asset.value.mutables.value.properties.value.propertyList
         let assetDataTypeList = {};
         assetList.forEach(function (item) {
             assetDataTypeList[item.value.id.value.idString] = item.value.fact.value.type;

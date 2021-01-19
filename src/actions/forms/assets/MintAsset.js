@@ -101,6 +101,7 @@ const MintAsset = (props) => {
                 const immutablePropertyList = data.result.value.classifications.value.list[0].value.immutableTraits.value.properties.value.propertyList;
                 const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
                 GetMetaHelper.FetchInputFieldMeta(immutablePropertyList, metasQuery, "MintAsset");
+                GetMetaHelper.FetchMutableInputFieldMeta(mutablePropertyList, metasQuery, "MintAsset");
                 setMutableList(mutablePropertyList)
                 setImmutableList(immutablePropertyList)
             }
@@ -135,14 +136,35 @@ const MintAsset = (props) => {
                 mutableList.map((mutable, index) => {
                     const mutableType = mutable.value.fact.value.type;
                     const mutableName = mutable.value.id.value.idString;
-                    const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
+                    const mutableHash = mutable.value.fact.value.hash;
+                    let mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
                     const inputName = `${mutableName}|${mutableType}${index}`
-                    const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
-                    if (mutableMetaValuesResponse[0] !== "") {
-                        mutableValues = mutableMetaValuesResponse[0];
+                    if (mutableName !== config.URI) {
+                        const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
+                        if (mutableMetaValuesResponse[0] !== "") {
+                            mutableValues = mutableMetaValuesResponse[0];
+                        }
+                        if (mutableMetaValuesResponse[1] !== "") {
+                            mutableMetaValues = mutableMetaValuesResponse[1];
+                        }
                     }
-                    if (mutableMetaValuesResponse[1] !== "") {
-                        mutableMetaValues = mutableMetaValuesResponse[1];
+                    let uriFieldValue;
+                    let uriMutable;
+                    if (mutableName === config.URI) {
+                        let urimutableFieldValue = document.getElementById(`MintAssetMutable${mutableName}|${mutableType}${index}`).value;
+                        if (mutableHash === "") {
+                            uriFieldValue = PropertyHelper.getUrlEncode(urimutableFieldValue);
+                            uriMutable = `URI:S|${uriFieldValue}`
+                        } else {
+                            uriMutable = `URI:S|${urimutableFieldValue}`
+                        }
+                    }
+                    if (uriMutable) {
+                        if (mutableMetaValues) {
+                            mutableMetaValues = mutableMetaValues + ',' + uriMutable;
+                        } else {
+                            mutableMetaValues = uriMutable;
+                        }
                     }
                 })
             }
@@ -151,11 +173,9 @@ const MintAsset = (props) => {
                     const immutableType = immutable.value.fact.value.type;
                     const immutableName = immutable.value.id.value.idString;
                     const immutableHash = immutable.value.fact.value.hash;
-                        const immutableInputName = `${immutableName}|${immutableType}${index}`
-                        let immutableFieldValue = document.getElementById(`MintAsset${immutableName}|${immutableType}${index}`).value;
-                        if (immutableName === config.URI && immutableHash === "") {
-                           immutableFieldValue = PropertyHelper.getUrlEncode(immutableFieldValue);
-                        }
+                    const immutableInputName = `${immutableName}|${immutableType}${index}`
+                    let immutableFieldValue = document.getElementById(`MintAsset${immutableName}|${immutableType}${index}`).value;
+                    if (immutableName !== config.URI) {
                         const ImmutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
                         if (ImmutableMetaValuesResponse[0] !== "") {
                             immutableValues = ImmutableMetaValuesResponse[0];
@@ -163,6 +183,24 @@ const MintAsset = (props) => {
                         if (ImmutableMetaValuesResponse[1] !== "") {
                             immutableMetaValues = ImmutableMetaValuesResponse[1];
                         }
+                    }
+                    let uriImmutableFieldValue;
+                    let uriImmutable;
+                    if (immutableName === config.URI) {
+                        if (immutableHash === "") {
+                            uriImmutableFieldValue = PropertyHelper.getUrlEncode(immutableFieldValue);
+                            uriImmutable = `URI:S|${uriImmutableFieldValue}`
+                        } else {
+                            uriImmutable = `URI:S|${immutableFieldValue}`
+                        }
+                    }
+                    if (uriImmutable) {
+                        if (immutableMetaValues) {
+                            immutableMetaValues = immutableMetaValues + ',' + uriImmutable;
+                        } else {
+                            immutableMetaValues = uriImmutable;
+                        }
+                    }
                 })
             }
 
@@ -176,13 +214,13 @@ const MintAsset = (props) => {
         }
     }
 
-    const handleUpload = (id) =>{
+    const handleUpload = (id) => {
         setUploadId(id);
         setShowUpload(true)
     }
     const handleFileInputChange = (e) => {
         setLoader(true)
-        let file  = uploadFile;
+        let file = uploadFile;
         file = e.target.files[0];
         PropertyHelper.getBase64(file)
             .then(result => {
@@ -203,29 +241,29 @@ const MintAsset = (props) => {
     return (
         <div>
             <Modal show={show} onHide={handleClose} centered>
-            <Modal.Header closeButton>
-                {t("MINT_ASSET")}
-            </Modal.Header>
-            <Modal.Body>
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group>
-                        <Form.Label>{t("CLASSIFICATION_ID")} </Form.Label>
-                        <Form.Control
-                            type="text"
-                            className=""
-                            name="ClassificationId"
-                            required={true}
-                            placeholder={t("CLASSIFICATION_ID")}
-                        />
-                    </Form.Group>
+                <Modal.Header closeButton>
+                    {t("MINT_ASSET")}
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group>
+                            <Form.Label>{t("CLASSIFICATION_ID")} </Form.Label>
+                            <Form.Control
+                                type="text"
+                                className=""
+                                name="ClassificationId"
+                                required={true}
+                                placeholder={t("CLASSIFICATION_ID")}
+                            />
+                        </Form.Group>
 
-                    <div className="submitButtonSection">
-                        <Button variant="primary" type="submit">
-                            {t("NEXT")}
-                        </Button>
-                    </div>
-                </Form>
-            </Modal.Body>
+                        <div className="submitButtonSection">
+                            <Button variant="primary" type="submit">
+                                {t("NEXT")}
+                            </Button>
+                        </div>
+                    </Form>
+                </Modal.Body>
             </Modal>
             <Modal
                 show={showNext}
@@ -236,7 +274,7 @@ const MintAsset = (props) => {
             >
                 <div>
                     {loader ?
-                        <Loader />
+                        <Loader/>
                         : ""
                     }
                 </div>
@@ -272,41 +310,70 @@ const MintAsset = (props) => {
                                 const mutableHash = mutable.value.fact.value.hash;
                                 const mutableName = mutable.value.id.value.idString;
                                 const id = `${mutableName}|${mutableType}${index}`;
-                                return (
-                                    <div key={index}>
-                                        <Form.Group>
-                                            <div className="upload-section">
-                                            <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
-                                                {mutableType === 'S'
-                                                    ?
-                                                    <Button variant="secondary"  size="sm" onClick={()=>handleUpload(id)}>upload</Button>
-                                                    : ""
-                                                }
-                                            </div>
-                                            <Form.Control
-                                                type="text"
-                                                className=""
-                                                name={`${mutableName}|${mutableType}${index}`}
-                                                id={`${mutableName}|${mutableType}${index}`}
-                                                required={true}
-                                                placeholder={t("TRAIT_VALUE")}
-                                                onChange={(evt) => {
-                                                    handleChangeMutable(evt, index + 1)
-                                                }}
-                                            />
-                                        </Form.Group>
-                                        <Form.Text id={`mutableMint${index + 1}`} className="text-muted none">
-                                            {t("MUTABLE_VALIDATION_ERROR")}
-                                        </Form.Text>
-                                        <Form.Group controlId="formBasicCheckbox">
-                                            <Form.Check custom type="checkbox" label="Meta"
-                                                        name={`${mutableName}|${mutableType}${index}`}
-                                                        id={`checkbox${mutableName}|${mutableType}${index}`}
-                                                        onClick={handleCheckMutableChange}
-                                            />
-                                        </Form.Group>
-                                    </div>
-                                )
+                                if (mutableName === config.URI) {
+                                    return (
+                                        <div key={index}>
+                                            <Form.Group>
+                                                <Form.Label>Mutable
+                                                    Traits {mutableName} |{mutableType} </Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    className=""
+                                                    name={`${mutableName}|${mutableType}${index}`}
+                                                    required={true}
+                                                    id={`MintAssetMutable${mutableName}|${mutableType}${index}`}
+                                                    placeholder="Trait Value"
+                                                    onChange={(evt) => {
+                                                        handleChangeMutable(evt, index + 1, mutableName)
+                                                    }}
+                                                    disabled={false}
+                                                />
+                                            </Form.Group>
+                                            <Form.Text id={`mutableMint${index + 1}`}
+                                                       className="text-muted none">
+
+                                            </Form.Text>
+
+                                        </div>
+                                    )
+                                } else {
+                                    return (
+                                        <div key={index}>
+                                            <Form.Group>
+                                                <div className="upload-section">
+                                                    <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
+                                                    {mutableType === 'S' && mutableName !== config.URI
+                                                        ?
+                                                        <Button variant="secondary" size="sm"
+                                                                onClick={() => handleUpload(id)}>upload</Button>
+                                                        : ""
+                                                    }
+                                                </div>
+                                                <Form.Control
+                                                    type="text"
+                                                    className=""
+                                                    name={`${mutableName}|${mutableType}${index}`}
+                                                    id={`${mutableName}|${mutableType}${index}`}
+                                                    required={true}
+                                                    placeholder={t("TRAIT_VALUE")}
+                                                    onChange={(evt) => {
+                                                        handleChangeMutable(evt, index + 1)
+                                                    }}
+                                                />
+                                            </Form.Group>
+                                            <Form.Text id={`mutableMint${index + 1}`} className="text-muted none">
+                                                {t("MUTABLE_VALIDATION_ERROR")}
+                                            </Form.Text>
+                                            <Form.Group controlId="formBasicCheckbox">
+                                                <Form.Check custom type="checkbox" label="Meta"
+                                                            name={`${mutableName}|${mutableType}${index}`}
+                                                            id={`checkbox${mutableName}|${mutableType}${index}`}
+                                                            onClick={handleCheckMutableChange}
+                                                />
+                                            </Form.Group>
+                                        </div>
+                                    )
+                                }
                             })
                             :
                             ""
@@ -340,16 +407,9 @@ const MintAsset = (props) => {
                                             <Form.Text id={`ImmutableMint${index + 1}`} className="text-muted none">
 
                                             </Form.Text>
-                                            <Form.Group>
-                                                <Form.Check custom type="checkbox" label="Meta"
-                                                            name={`${immutableName}|${immutableType}${index}`}
-                                                            id={`checkbox${immutableName}|${immutableType}${index}`}
-                                                            onChange={handleCheckImmutableChange}/>
-                                            </Form.Group>
                                         </div>
                                     )
-                                }
-                                else{
+                                } else {
                                     return (
                                         <div key={index}>
                                             <Form.Group>
@@ -395,20 +455,20 @@ const MintAsset = (props) => {
                         }
                         {errorMessage !== "" ?
                             <span className="error-response">{errorMessage}</span>
-                            :""
+                            : ""
 
                         }
                         <div className="submitButtonSection">
-                        <Button variant="primary" type="submit">
-                            {t("SUBMIT")}
-                        </Button>
+                            <Button variant="primary" type="submit">
+                                {t("SUBMIT")}
+                            </Button>
                         </div>
                     </Form>
                 </Modal.Body>
             </Modal>
-            <Modal show={showUpload} onHide={handleCloseUpload} centered >
+            <Modal show={showUpload} onHide={handleCloseUpload} centered>
                 <Modal.Body className="upload-modal">
-                    <input type="file" name="file" onChange={handleFileInputChange} />
+                    <input type="file" name="file" onChange={handleFileInputChange}/>
                 </Modal.Body>
             </Modal>
             {!(Object.keys(response).length === 0) ?

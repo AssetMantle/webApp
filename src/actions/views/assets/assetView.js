@@ -55,7 +55,7 @@ const AssetView = React.memo((props) => {
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
                         GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset_view', index, "assetViewUrlId");
-                        GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset_view', index);
+                        GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset_view', index, 'assetViewMutableViewUrlId');
                     })
                 }
             })
@@ -131,6 +131,25 @@ const AssetView = React.memo((props) => {
                                                                                                 key={index1}>
                                                                                                 <div
                                                                                                     id={`assetViewUrlId` + index + `${index1}`}>
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        )
+
+                                                                                    }
+                                                                                }
+                                                                            })
+                                                                            : ""
+                                                                        }
+                                                                        {mutableKeys !== null ?
+                                                                            mutableKeys.map((keyName, index1) => {
+                                                                                if (mutableProperties[keyName] !== "") {
+                                                                                    if (keyName === config.URI) {
+                                                                                        return (
+                                                                                            <div className="dummy-image image-sectiont"
+                                                                                                 key={index1}>
+                                                                                                <div
+                                                                                                    id={`assetViewMutableViewUrlId` + index + `${index1}`}>
 
                                                                                                 </div>
                                                                                             </div>

@@ -101,6 +101,7 @@ const Define = (props) => {
         const FromId = evt.target.FromId.value;
         let staticImmutableMeta = "";
         let uriMutable = "";
+        let uriImmutable = "";
         const ImmutableDescription = evt.target.ImmutableDescription.value;
         const ImmutableIdentifier = evt.target.ImmutableIdentifier.value;
         const ImmutableClassifier = evt.target.ImmutableClassifier.value;
@@ -112,8 +113,8 @@ const Define = (props) => {
             if (ImmutableUrl !== "") {
                 ImmutableUrlEncode = PropertyHelper.getUrlEncode(ImmutableUrl);
             }
-            if(selectedOption == "Immutable") {
-                staticImmutableMeta = staticImmutableMeta + `,URI:S|${ImmutableUrlEncode}`
+            if(selectedOption === "Immutable") {
+                uriImmutable = `URI:S|${ImmutableUrlEncode}`
             }else {
                 uriMutable = `URI:S|${ImmutableUrlEncode}`
             }
@@ -146,6 +147,7 @@ const Define = (props) => {
                 mutableMetaPropertyValue = orderSpecificMutables;
             }
         }
+
         if(uriMutable){
             if (mutableMetaPropertyValue) {
                 mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + uriMutable;
@@ -153,6 +155,15 @@ const Define = (props) => {
                 mutableMetaPropertyValue = uriMutable;
             }
         }
+
+        if(uriImmutable){
+            if (immutableMetaPropertyValue) {
+                immutableMetaPropertyValue = immutableMetaPropertyValue + ',' + uriImmutable;
+            } else {
+                immutableMetaPropertyValue = uriImmutable;
+            }
+        }
+
         if (immutablePropertyValue) {
             immutablePropertyValue = immutablePropertyValue + ',' + staticImmutables;
         } else {
@@ -297,15 +308,16 @@ const Define = (props) => {
                                     id="formHorizontalRadios1"
                                     value="Mutable"
                                     onChange={onValueChange}
-                                    checked
-                                />
+                                    defaultChecked={true}
+                                    />
                                 <Form.Check
                                     type="radio"
-                                    label="Immutalbe"
+                                    label="Immutable"
                                     name="formHorizontalRadios"
                                     id="formHorizontalRadios2"
-                                    value={"Immutalbe"}
+                                    value="Immutable"
                                     onChange={onValueChange}
+                                    defaultChecked={false}
                                 />
 
                             </Form.Group>

@@ -53,7 +53,7 @@ const IdentityView = React.memo((props) => {
                             let immutableKeys = Object.keys(immutableProperties);
                             let mutableKeys = Object.keys(mutableProperties);
                             GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList_search', index, "identityViewUrlId");
-                            GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList_search', index);
+                            GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList_search', index, "identityMutableViewUrlId");
                             setLoader(false)
                         })
                     }
@@ -133,6 +133,25 @@ const IdentityView = React.memo((props) => {
                                                                              key={index1}>
                                                                             <div
                                                                                 id={`identityViewUrlId` + index + `${index1}`}>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    )
+
+                                                                }
+                                                            }
+                                                        })
+                                                        : ""
+                                                    }
+                                                    {mutableKeys !== null ?
+                                                        mutableKeys.map((keyName, index1) => {
+                                                            if (mutableProperties[keyName] !== "") {
+                                                                if (keyName === config.URI) {
+                                                                    return (
+                                                                        <div className="dummy-image image-sectiont"
+                                                                             key={index1}>
+                                                                            <div
+                                                                                id={`identityMutableViewUrlId` + index + `${index1}`}>
 
                                                                             </div>
                                                                         </div>

@@ -29,6 +29,35 @@ export default class GetMeta {
         return metaValue;
     }
 
+    FetchMutableInputFieldMeta(immutableList, metasQuery, FileName) {
+
+        let $this = this
+        if (immutableList !== null) {
+            immutableList.map((immutable, index) => {
+
+                const immutableType = immutable.value.fact.value.type;
+                const immutableHash = immutable.value.fact.value.hash;
+                const immutableName = immutable.value.id.value.idString;
+
+               if(immutableName === config.URI){
+
+                   const id = `${FileName}${immutableName}|${immutableType}${index}`
+
+                   if (immutableHash !== "" && immutableHash !== null) {
+                       const metaQueryResult = metasQuery.queryMetaWithID(immutableHash);
+                       metaQueryResult.then(function (item) {
+                           const data = JSON.parse(JSON.parse(JSON.stringify(item)));
+                           let metaValue = $this.FetchMetaValue(data, immutableHash)
+                           if (document.getElementById(id)) {
+                               document.getElementById(id).value = metaValue;
+                           }
+                       })
+                   }
+               }
+            })
+        }
+    }
+
     FetchInputFieldMeta(immutableList, metasQuery, FileName) {
         let $this = this
         if (immutableList !== null) {
@@ -38,6 +67,7 @@ export default class GetMeta {
                 const immutableHash = immutable.value.fact.value.hash;
                 const immutableName = immutable.value.id.value.idString;
                 const id = `${FileName}${immutableName}|${immutableType}${index}`
+                console.log(immutableName,immutableHash , "ddd")
                 if (immutableHash !== "" && immutableHash !== null) {
                     const metaQueryResult = metasQuery.queryMetaWithID(immutableHash);
                     metaQueryResult.then(function (item) {
