@@ -123,7 +123,7 @@ const IdentityView = React.memo((props) => {
                                     <div className="list-container view-container" key={index}>
                                         <div className="row card-deck">
                                             <div className="row">
-                                                <div className="col-xl-4 col-lg-4 col-md-4  col-sm-12">
+                                                <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                                                     {immutableKeys !== null ?
                                                         immutableKeys.map((keyName, index1) => {
                                                             if (immutableProperties[keyName] !== "") {
@@ -170,10 +170,10 @@ const IdentityView = React.memo((props) => {
                                                     </div>
 
                                                 </div>
-                                                <div className="col-xl-8 col-lg-8 col-md-8 col-sm-12 asset-data">
+                                                <div className="col-xl-8 col-lg-8 col-md-12 col-sm-12 asset-data">
                                                     <div className="row">
                                                         <div
-                                                            className="col-xl-6 col-lg-6 col-md-6">
+                                                            className="col-xl-6 col-lg-6 col-md-12">
                                                             <div className="list-item">
                                                                 <p className="list-item-label">{t("IDENTITY_ID")}</p>
                                                                 <div className="list-item-value id-section">
@@ -189,7 +189,7 @@ const IdentityView = React.memo((props) => {
                                                     </div>
 
                                                     <div className="row property-section">
-                                                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                                        <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                                             <p className="sub-title">{t("IMMUTABLES")}</p>
                                                             {immutableKeys !== null ?
                                                                 immutableKeys.map((keyName, index1) => {
@@ -215,7 +215,7 @@ const IdentityView = React.memo((props) => {
                                                                 : ""
                                                             }
                                                         </div>
-                                                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                                        <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                                             <p className="sub-title">{t("MUTABLES")}</p>
                                                             {mutableKeys !== null ?
                                                                 mutableKeys.map((keyName, index1) => {
