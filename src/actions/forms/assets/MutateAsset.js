@@ -9,6 +9,7 @@ import config from "../../../constants/config.json"
 import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetID from "../../../utilities/Helpers/getID";
+import GetProperty from "../../../utilities/Helpers/getProperty";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMutate = new assetMutateJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -16,6 +17,7 @@ const assetMutate = new assetMutateJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const MutateAsset = (props) => {
     const FilterHelper = new FilterHelpers();
     const GetMetaHelper = new GetMeta();
+    const PropertyHelper = new GetProperty();
     const GetIDHelper = new GetID();
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
@@ -81,16 +83,30 @@ const MutateAsset = (props) => {
             let mutableMetaValues = "";
             if (keyList !== null) {
                 keyList.map((key, index) => {
-                        const mutableFieldValue = document.getElementById(key + index).value
+                        let mutableFieldValue = document.getElementById(key + index).value
                         const mutableType = assetDataTypeList[key];
                         const inputName = (key + index);
-
-                        const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, key, mutableType, mutableFieldValue)
-                        if (mutableMetaValuesResponse[0] !== "") {
-                            mutableValues = mutableMetaValuesResponse[0];
+                        if (key !== config.URI) {
+                            const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, key, mutableType, mutableFieldValue)
+                            if (mutableMetaValuesResponse[0] !== "") {
+                                mutableValues = mutableMetaValuesResponse[0];
+                            }
+                            if (mutableMetaValuesResponse[1] !== "") {
+                                mutableMetaValues = mutableMetaValuesResponse[1];
+                            }
                         }
-                        if (mutableMetaValuesResponse[1] !== "") {
-                            mutableMetaValues = mutableMetaValuesResponse[1];
+                        let uriFieldValue;
+                        let uriMutable;
+                        if (key === config.URI) {
+                            uriFieldValue = PropertyHelper.getUrlEncode(mutableFieldValue);
+                            uriMutable = `URI:S|${uriFieldValue}`
+                        }
+                        if (uriMutable) {
+                            if (mutableMetaValues) {
+                                mutableMetaValues = mutableMetaValues + ',' + uriMutable;
+                            } else {
+                                mutableMetaValues = uriMutable;
+                            }
                         }
                     }
                 )
@@ -133,6 +149,22 @@ const MutateAsset = (props) => {
                             />
                         </Form.Group>
                         {keyList.map((keyName, idx) => {
+                            if (keyName === config.URI) {
+                                return (
+                                    <div key={idx}>
+                                        <Form.Group>
+                                            <Form.Label>{keyName}</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                className=""
+                                                required={true}
+                                                id={keyName + idx}
+                                                name={keyName + idx}
+                                            />
+                                        </Form.Group>
+                                    </div>
+                                )
+                            }
                             return (
                                 <div key={idx}>
                                     <Form.Group>
