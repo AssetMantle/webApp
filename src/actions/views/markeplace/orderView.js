@@ -50,7 +50,7 @@ const OrderView = React.memo((props) => {
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
                         GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_view', index, "orderViewUrlId");
-                        GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_view', index);
+                        GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_view', index, 'orderViewMutableViewUrlId');
                     })
 
                 }
@@ -118,6 +118,25 @@ const OrderView = React.memo((props) => {
                                                                                 key={index1}>
                                                                                 <div
                                                                                     id={`orderViewUrlId` + index + `${index1}`}>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        )
+
+                                                                    }
+                                                                }
+                                                            })
+                                                            : ""
+                                                        }
+                                                        {mutableKeys !== null ?
+                                                            mutableKeys.map((keyName, index1) => {
+                                                                if (mutableProperties[keyName] !== "") {
+                                                                    if (keyName === config.URI) {
+                                                                        return (
+                                                                            <div className="dummy-image image-sectiont"
+                                                                                 key={index1}>
+                                                                                <div
+                                                                                    id={`orderViewMutableViewUrlId` + index + `${index1}`}>
 
                                                                                 </div>
                                                                             </div>

@@ -56,7 +56,7 @@ const OrderList = React.memo((props) => {
                                     let immutableKeys = Object.keys(immutableProperties);
                                     let mutableKeys = Object.keys(mutableProperties);
                                     GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order', index, 'orderUrlId');
-                                    GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order', index);
+                                    GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order', index, 'orderMutableUrlId');
                                     setLoader(false)
                                 })
                             } else {
@@ -94,13 +94,17 @@ const OrderList = React.memo((props) => {
                 {orderList.length ?
                     orderList.map((order, index) => {
                         let immutableProperties = "";
+                        let mutableProperties = "";
                         if (order.value.immutables.value.properties.value.propertyList !== null) {
                             immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
                         }
-
+                        if (order.value.mutables.value.properties.value.propertyList !== null) {
+                            mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                        }
                         let makerID = GetIDHelper.GetMakerID(order)
                         let immutableKeys = Object.keys(immutableProperties);
                         let orderIdData = GetIDHelper.GetOrderID(order);
+                        let mutableKeys = Object.keys(mutableProperties);
                         return (
                             <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
                                 <div className="card" onClick={() => handleAsset(orderIdData)}>
@@ -121,7 +125,7 @@ const OrderList = React.memo((props) => {
                                                             divd.className = "assetImage"
                                                             document.getElementById("orderImagUri" + makerID + index).replaceChild(divd, imageElement);
                                                         }
-                                                    }  else if(keyName === "type" || keyName === "style" || keyName === "description"){
+                                                    }  else if(keyName === "identifier" || keyName === "style" || keyName === "description"){
                                                         return (<div key={index + keyName} className="list-item"><p
                                                             className="list-item-label">{keyName}: </p> <p
                                                             id={`immutable_order` + index + `${index1}`}
@@ -133,6 +137,22 @@ const OrderList = React.memo((props) => {
                                                             className="list-item-label">{keyName}: </p> <p
                                                             className="list-item-hash-value">{immutableProperties[keyName]}</p>
                                                         </div>)
+                                                }
+                                            })
+                                            : ""
+                                        }
+                                        {mutableKeys !== null ?
+                                            mutableKeys.map((keyName, index1) => {
+                                                if (mutableProperties[keyName] !== "") {
+                                                    if (keyName === config.URI) {
+                                                        let imageElement = document.getElementById("totalOrderImage" + orderIdData+index)
+                                                        if (typeof (imageElement) != 'undefined' && imageElement != null) {
+                                                            let divd = document.createElement('div');
+                                                            divd.id = `orderMutableUrlId` + index + `${index1}`
+                                                            divd.className = "assetImage"
+                                                            document.getElementById("totalOrderImagUri" + orderIdData+index).replaceChild(divd, imageElement);
+                                                        }
+                                                    }
                                                 }
                                             })
                                             : ""

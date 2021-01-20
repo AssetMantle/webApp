@@ -46,7 +46,7 @@ const IdentityList = React.memo((props) => {
                                 let immutableKeys = Object.keys(immutableProperties);
                                 let mutableKeys = Object.keys(mutableProperties);
                                 GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList', index, 'identityUrlId');
-                                GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index);
+                                GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index, "identityMutableUrlId");
                                 setLoader(false)
                             })
                         } else {
@@ -86,11 +86,16 @@ const IdentityList = React.memo((props) => {
                 {filteredIdentitiesList.length ?
                     filteredIdentitiesList.map((identity, index) => {
                         let immutableProperties = "";
+                        let mutableProperties = "";
                         const identityId = GetIDHelper.GetIdentityID(identity)
                         if (identity.value.immutables.value.properties.value.propertyList !== null) {
                             immutableProperties = PropertyHelper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
                         }
+                        if (identity.value.mutables.value.properties.value.propertyList !== null) {
+                            mutableProperties = PropertyHelper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
+                        }
                         let immutableKeys = Object.keys(immutableProperties);
+                        let mutableKeys = Object.keys(mutableProperties);
                         return (
                             <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
                                 <div className="card" onClick={() => handleAsset(identityId)}>
@@ -130,6 +135,22 @@ const IdentityList = React.memo((props) => {
                                                             className="list-item-label">{keyName}: </p> <p
                                                             className="list-item-hash-value">{immutableProperties[keyName]}</p>
                                                         </div>)
+                                                }
+                                            })
+                                            : ""
+                                        }
+                                        {mutableKeys !== null ?
+                                            mutableKeys.map((keyName, index1) => {
+                                                if (mutableProperties[keyName] !== "") {
+                                                    if (keyName === config.URI) {
+                                                        let imageElement = document.getElementById("identityImage" + identityId + index)
+                                                        if (typeof (imageElement) != 'undefined' && imageElement != null) {
+                                                            let divd = document.createElement('div');
+                                                            divd.id = `identityMutableUrlId` + index + `${index1}`
+                                                            divd.className = "assetImage"
+                                                            document.getElementById("identityImagUri" + identityId + index).replaceChild(divd, imageElement);
+                                                        }
+                                                    }
                                                 }
                                             })
                                             : ""

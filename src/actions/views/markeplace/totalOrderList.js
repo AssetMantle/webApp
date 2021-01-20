@@ -40,7 +40,7 @@ const TotalOrders = React.memo((props) => {
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
                         GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_market', index, 'totalOrderUrlId');
-                        GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_market', index);
+                        GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_market', index,'totalOrderMutableUrlId');
                         setLoader(false)
                     })
                 } else {
@@ -77,9 +77,12 @@ const TotalOrders = React.memo((props) => {
                         if (order.value.immutables.value.properties.value.propertyList !== null) {
                             immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
                         }
-
+                        if (order.value.mutables.value.properties.value.propertyList !== null) {
+                            mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                        }
                         let immutableKeys = Object.keys(immutableProperties);
                         let orderIdData = GetIDHelper.GetOrderID(order);
+                        let mutableKeys = Object.keys(mutableProperties);
                         return (
                             <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
                                 <div className="card" onClick={() => handleAsset(orderIdData)}>
@@ -122,6 +125,23 @@ const TotalOrders = React.memo((props) => {
                                         })
                                         : ""
                                     }
+                                     {mutableKeys !== null ?
+                                         mutableKeys.map((keyName, index1) => {
+                                             if (mutableProperties[keyName] !== "") {
+                                                 if (keyName === config.URI) {
+                                                     let imageElement = document.getElementById("totalOrderImage" + orderIdData+index)
+                                                     if (typeof (imageElement) != 'undefined' && imageElement != null) {
+                                                         let divd = document.createElement('div');
+                                                         divd.id = `totalOrderMutableUrlId` + index + `${index1}`
+                                                         divd.className = "assetImage"
+                                                         document.getElementById("totalOrderImagUri" + orderIdData+index).replaceChild(divd, imageElement);
+                                                     }
+                                                 }
+                                             }
+                                         })
+                                         : ""
+                                     }
+
                                  </div>
 
                                 </div>

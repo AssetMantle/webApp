@@ -73,10 +73,12 @@ const IssueIdentity = (props) => {
         }
 
     }
-    const handleChangeMutable = (evt, idx) => {
+    const handleChangeMutable = (evt, idx, mutableName) => {
         const newValue = evt.target.value;
-        const checkError = PropertyHelper.mutableValidation(newValue);
-        PropertyHelper.showHideDataTypeError(checkError, `mutableIssueIdentity${idx}`);
+        if(mutableName !== config.URI) {
+            const checkError = PropertyHelper.mutableValidation(newValue);
+            PropertyHelper.showHideDataTypeError(checkError, `mutableIssueIdentity${idx}`);
+        }
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
 
@@ -100,6 +102,7 @@ const IssueIdentity = (props) => {
                 const immutablePropertyList = data.result.value.classifications.value.list[0].value.immutableTraits.value.properties.value.propertyList;
                 const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
                 GetMetaHelper.FetchInputFieldMeta(immutablePropertyList, metasQuery, "IssueIdentity");
+                GetMetaHelper.FetchMutableInputFieldMeta(mutablePropertyList, metasQuery, "IssueIdentity");
                 setMutableList(mutablePropertyList)
                 setImmutableList(immutablePropertyList)
             }
@@ -133,15 +136,35 @@ const IssueIdentity = (props) => {
                 mutableList.map((mutable, index) => {
                     const mutableType = mutable.value.fact.value.type;
                     const mutableName = mutable.value.id.value.idString;
-                    const mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
+                    const mutableHash = mutable.value.fact.value.hash;
+                    let mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
+                    if (mutableName !== config.URI) {
                     const inputName = `${mutableName}|${mutableType}${index}`
-
-                    const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
-                    if (mutableMetaValuesResponse[0] !== "") {
-                        mutableValues = mutableMetaValuesResponse[0];
+                        const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
+                        if (mutableMetaValuesResponse[0] !== "") {
+                            mutableValues = mutableMetaValuesResponse[0];
+                        }
+                        if (mutableMetaValuesResponse[1] !== "") {
+                            mutableMetaValues = mutableMetaValuesResponse[1];
+                        }
                     }
-                    if (mutableMetaValuesResponse[1] !== "") {
-                        mutableMetaValues = mutableMetaValuesResponse[1];
+                    let uriFieldValue;
+                    let uriMutable;
+                    if (mutableName === config.URI) {
+                        let urimutableFieldValue = document.getElementById(`IssueIdentity${mutableName}|${mutableType}${index}`).value;
+                        if (mutableHash === "") {
+                            uriFieldValue = PropertyHelper.getUrlEncode(urimutableFieldValue);
+                            uriMutable = `URI:S|${uriFieldValue}`
+                        }else {
+                            uriMutable = `URI:S|${urimutableFieldValue}`
+                        }
+                    }
+                    if(uriMutable){
+                        if (mutableMetaValues) {
+                            mutableMetaValues = mutableMetaValues + ',' + uriMutable;
+                        } else {
+                            mutableMetaValues = uriMutable;
+                        }
                     }
                 })
             }
@@ -152,16 +175,34 @@ const IssueIdentity = (props) => {
                     const immutableHash = immutable.value.fact.value.hash;
                     const immutableInputName = `${immutableName}|${immutableType}${index}`
                     let immutableFieldValue = document.getElementById(`IssueIdentity${immutableName}|${immutableType}${index}`).value;
-                    if (immutableName === config.URI && immutableHash === "") {
-                        immutableFieldValue = PropertyHelper.getUrlEncode(immutableFieldValue);
+                    if (immutableName !== config.URI) {
+                        const ImmutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
+                        if (ImmutableMetaValuesResponse[0] !== "") {
+                            immutableValues = ImmutableMetaValuesResponse[0];
+                        }
+                        if (ImmutableMetaValuesResponse[1] !== "") {
+                            immutableMetaValues = ImmutableMetaValuesResponse[1];
+                        }
                     }
-                    const ImmutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
-                    if (ImmutableMetaValuesResponse[0] !== "") {
-                        immutableValues = ImmutableMetaValuesResponse[0];
+                    let uriImmutableFieldValue;
+                    let uriImmutable;
+                    if (immutableName === config.URI) {
+                        if (immutableHash === "") {
+                            uriImmutableFieldValue = PropertyHelper.getUrlEncode(immutableFieldValue);
+                            uriImmutable = `URI:S|${uriImmutableFieldValue}`
+                        }
+                        else {
+                            uriImmutable = `URI:S|${immutableFieldValue}`
+                        }
                     }
-                    if (ImmutableMetaValuesResponse[1] !== "") {
-                        immutableMetaValues = ImmutableMetaValuesResponse[1];
+                    if(uriImmutable){
+                        if (immutableMetaValues) {
+                            immutableMetaValues = immutableMetaValues + ',' + uriImmutable;
+                        } else {
+                            immutableMetaValues = uriImmutable;
+                        }
                     }
+
                 })
             }
             const issueIdentityResult = identitiesIssue.issue(userAddress, "test", userTypeToken, toAddress, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode)
@@ -269,41 +310,72 @@ const IssueIdentity = (props) => {
                                 const mutableName = mutable.value.id.value.idString;
                                 const mutableHash = mutable.value.fact.value.hash;
                                 const id =`${mutableName}|${mutableType}${index}`;
-                                return (
-                                    <div key={index}>
-                                        <Form.Group>
-                                            <div className="upload-section">
-                                                <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
-                                                {mutableType === 'S' && mutableHash === ""
-                                                    ?
-                                                    <Button variant="secondary"  size="sm" onClick={()=>handleUpload(id)}>upload</Button>
-                                                    : ""
-                                                }
-                                            </div>
-                                            <Form.Control
-                                                type="text"
-                                                className=""
-                                                name={`${mutableName}|${mutableType}${index}`}
-                                                id={`${mutableName}|${mutableType}${index}`}
-                                                required={true}
-                                                placeholder="Trait Value"
-                                                onChange={(evt) => {
-                                                    handleChangeMutable(evt, index + 1)
-                                                }}
-                                            />
-                                        </Form.Group>
-                                        <Form.Text id={`mutableIssueIdentity${index + 1}`} className="text-muted none">
-                                            {t("MUTABLE_VALIDATION_ERROR")}
-                                        </Form.Text>
-                                        <Form.Group>
-                                            <Form.Check custom type="checkbox" label="Meta"
-                                                        name={`${mutableName}|${mutableType}${index}`}
-                                                        id={`checkbox${mutableName}|${mutableType}${index}`}
-                                                        onClick={handleCheckMutableChange}
-                                            />
-                                        </Form.Group>
-                                    </div>
-                                )
+                                if (mutableName === config.URI) {
+                                    return (
+                                        <div key={index}>
+                                            <Form.Group>
+                                                <Form.Label>Mutable
+                                                    Traits {mutableName} |{mutableType} </Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    className=""
+                                                    name={`${mutableName}|${mutableType}${index}`}
+                                                    required={true}
+                                                    id={`IssueIdentity${mutableName}|${mutableType}${index}`}
+                                                    placeholder="Trait Value"
+                                                    onChange={(evt) => {
+                                                        handleChangeMutable(evt, index + 1, mutableName)
+                                                    }}
+                                                    disabled={false}
+                                                />
+                                            </Form.Group>
+                                            <Form.Text id={`ImmutableIssueIdentity${index + 1}`}
+                                                       className="text-muted none">
+
+                                            </Form.Text>
+
+                                        </div>
+                                    )
+                                }
+                                else {
+                                    return (
+                                        <div key={index}>
+                                            <Form.Group>
+                                                <div className="upload-section">
+                                                    <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
+                                                    {mutableType === 'S' && mutableName !== config.URI
+                                                        ?
+                                                        <Button variant="secondary" size="sm"
+                                                                onClick={() => handleUpload(id)}>upload</Button>
+                                                        : ""
+                                                    }
+                                                </div>
+                                                <Form.Control
+                                                    type="text"
+                                                    className=""
+                                                    name={`${mutableName}|${mutableType}${index}`}
+                                                    id={`${mutableName}|${mutableType}${index}`}
+                                                    required={true}
+                                                    placeholder="Trait Value"
+                                                    onChange={(evt) => {
+                                                        handleChangeMutable(evt, index + 1, mutableName)
+                                                    }}
+                                                />
+                                            </Form.Group>
+                                                <Form.Text id={`mutableIssueIdentity${index + 1}`}
+                                                           className="text-muted none">
+                                                    {t("MUTABLE_VALIDATION_ERROR")}
+                                                </Form.Text>
+                                            <Form.Group>
+                                                <Form.Check custom type="checkbox" label="Meta"
+                                                            name={`${mutableName}|${mutableType}${index}`}
+                                                            id={`checkbox${mutableName}|${mutableType}${index}`}
+                                                            onClick={handleCheckMutableChange}
+                                                />
+                                            </Form.Group>
+                                        </div>
+                                    )
+                                }
                             })
                             :
                             ""
@@ -316,6 +388,7 @@ const IssueIdentity = (props) => {
                                 const immutableName = immutable.value.id.value.idString;
                                 const id = `IssueIdentity${immutableName}|${immutableType}${index}`
                                 if (immutableName === config.URI) {
+
                                     return (
                                         <div key={index}>
                                             <Form.Group>
@@ -338,12 +411,7 @@ const IssueIdentity = (props) => {
                                                        className="text-muted none">
 
                                             </Form.Text>
-                                            <Form.Group>
-                                                <Form.Check custom type="checkbox" label="Meta"
-                                                            name={`${immutableName}|${immutableType}${index}`}
-                                                            id={`checkbox${immutableName}|${immutableType}${index}`}
-                                                            onChange={handleCheckImmutableChange}/>
-                                            </Form.Group>
+
                                         </div>
                                     )
                                 }else {
