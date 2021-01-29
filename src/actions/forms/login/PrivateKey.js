@@ -28,7 +28,7 @@ const PrivateKey = (props) => {
                 const wallet = keyUtils.getWallet(error.mnemonic)
                 localStorage.setItem("address", wallet.address)
                 localStorage.setItem("mnemonic", error.mnemonic)
-                history.push('/assets');
+                history.push('/identities');
             }
         };
     }

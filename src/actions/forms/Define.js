@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Form, Button, Modal} from "react-bootstrap";
 import InputField from "../../components/inputField"
 import {useTranslation} from "react-i18next";
@@ -25,6 +25,12 @@ const Define = (props) => {
     const [selectedOption, setSelectedOption] = useState("Mutable");
     const [immutableMetaCheckboxList, setImmutableMetaCheckboxList] = useState([]);
     const {t} = useTranslation();
+    const [fromID, setFromID] = useState("");
+
+    useEffect(()=>{
+        let fromIDValue = localStorage.getItem('fromID');
+        setFromID(fromIDValue);
+    },[])
 
     const handleChange = evt => {
         const newValue = evt.target.value;
@@ -245,6 +251,7 @@ const Define = (props) => {
     const onValueChange = (event) => {
             setSelectedOption(event.target.value);
     }
+
     return (
         <div>
             <Modal show={show} onHide={handleClose} centered>
@@ -264,6 +271,7 @@ const Define = (props) => {
                                 className=""
                                 name="FromId"
                                 required={true}
+                                defaultValue={fromID !== null ? fromID : ""}
                                 placeholder={t("FROM_ID")}
                             />
                         </Form.Group>

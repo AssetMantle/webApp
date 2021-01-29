@@ -9,6 +9,7 @@ import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetID from "../../../utilities/Helpers/getID";
 import {useHistory} from "react-router-dom";
+import {Button, Form} from "react-bootstrap";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -23,6 +24,11 @@ const IdentityList = React.memo((props) => {
     const [loader, setLoader] = useState(true)
     const [filteredIdentitiesList, setFilteredIdentitiesList] = useState([]);
     const userAddress = localStorage.getItem('address');
+    const [lastFromID, setLastFromID] = useState("");
+    let lastFromIDValue = localStorage.getItem('lastFromID')
+    if (lastFromIDValue !== null && document.getElementById(lastFromIDValue) !== null) {
+        document.getElementById(lastFromIDValue).checked = true
+    }
     useEffect(() => {
         const fetchToIdentities = () => {
             const identities = identitiesQuery.queryIdentityWithID("all")
@@ -65,6 +71,7 @@ const IdentityList = React.memo((props) => {
 
 
     const handleAsset = (id) => {
+
         if (id !== "stake") {
             history.push({
                     pathname: '/IdentityView',
@@ -76,6 +83,20 @@ const IdentityList = React.memo((props) => {
             );
         }
     }
+
+    const handleFromID = (evt, id, elementID) => {
+        let fromIDValue = localStorage.getItem('fromID');
+        let lastFromIDValue = localStorage.getItem('lastFromID')
+        if (lastFromIDValue !== null) {
+            if (document.getElementById(lastFromIDValue).checked === true) {
+                document.getElementById(lastFromIDValue).checked = false
+                document.getElementById(elementID).checked = true
+            }
+        }
+        localStorage.setItem("fromID", id)
+        localStorage.setItem("lastFromID", elementID)
+    }
+
     return (
         <div className="list-container">
             {loader ?
@@ -98,7 +119,7 @@ const IdentityList = React.memo((props) => {
                         let mutableKeys = Object.keys(mutableProperties);
                         return (
                             <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
-                                <div className="card" onClick={() => handleAsset(identityId)}>
+                                <div className="card identity-card">
                                     <div id={"identityImagUri" + identityId + index}>
                                         <div id={"identityImage" + identityId + index} className="dummy-image">
 
@@ -123,7 +144,7 @@ const IdentityList = React.memo((props) => {
                                                             divd.className = "assetImage"
                                                             document.getElementById("identityImagUri" + identityId + index).replaceChild(divd, imageElement);
                                                         }
-                                                    } else {
+                                                    } else if (keyName === "identifier" || keyName === "style" || keyName === "description") {
                                                         return (<div key={index + keyName} className="list-item"><p
                                                             className="list-item-label">{keyName}: </p> <p
                                                             id={`immutable_identityList` + index + `${index1}`}
@@ -155,7 +176,18 @@ const IdentityList = React.memo((props) => {
                                             })
                                             : ""
                                         }
+                                        <Form.Group>
+                                            <Form.Check custom type="checkbox" label="Use FromID"
+                                                        name="checkboxURIee"
+                                                        id={"checkboxFromID" + index}
+                                                        onChange={(evt) => {
+                                                            handleFromID(evt, identityId, "checkboxFromID" + index)
+                                                        }}
+                                            />
+                                        </Form.Group>
 
+                                        <Button variant="primary" className="viewButton" size="sm"
+                                                onClick={() => handleAsset(identityId)}>View</Button>
                                     </div>
                                 </div>
                             </div>

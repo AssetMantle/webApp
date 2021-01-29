@@ -241,7 +241,7 @@ const IdentityView = React.memo((props) => {
                                                             }
                                                         </div>
                                                     </div>
-                                                    <p className="sub-title">provisioasfasnedAddressList</p>
+                                                    <p className="sub-title">provisionedAddressList</p>
                                                     {provisionedAddressList !== null && provisionedAddressList !== "" ?
                                                         provisionedAddressList.map((provisionedAddress, addressKey) => {
                                                             return (<p key={addressKey}>{provisionedAddress}</p>)

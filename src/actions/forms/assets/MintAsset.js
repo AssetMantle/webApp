@@ -36,6 +36,12 @@ const MintAsset = (props) => {
     const [inputValues, setInputValues] = useState([]);
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     const [checkboxImmutableNamesList, setCheckboxImmutableNamesList] = useState([]);
+    const [fromID, setFromID] = useState("");
+
+    useEffect(()=>{
+        let fromIDValue = localStorage.getItem('fromID');
+        setFromID(fromIDValue);
+    },[])
 
     const handleCloseNext = () => {
         setShowNext(false);
@@ -290,6 +296,7 @@ const MintAsset = (props) => {
                                 className=""
                                 name="FromId"
                                 required={true}
+                                defaultValue={fromID !== null ? fromID : ""}
                                 placeholder={t("FROM_ID")}
                             />
                         </Form.Group>

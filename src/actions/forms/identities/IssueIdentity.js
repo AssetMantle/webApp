@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
 import IdentitiesIssueJS from "persistencejs/transaction/identity/issue";
 import {Form, Button, Modal} from "react-bootstrap";
@@ -36,6 +36,13 @@ const IssueIdentity = (props) => {
     const [uploadFile, setUploadFile] = useState(null);
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     const [checkboxImmutableNamesList, setCheckboxImmutableNamesList] = useState([]);
+    const [fromID, setFromID] = useState("");
+
+    useEffect(()=>{
+        let fromIDValue = localStorage.getItem('fromID');
+        setFromID(fromIDValue);
+    },[])
+
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
@@ -290,6 +297,7 @@ const IssueIdentity = (props) => {
                                 type="text"
                                 className=""
                                 name="FromId"
+                                defaultValue={fromID !== null ? fromID : ""}
                                 required={true}
                                 placeholder={t("FROM_ID")}
                             />
