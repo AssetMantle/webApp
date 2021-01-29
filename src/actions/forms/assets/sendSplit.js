@@ -12,12 +12,6 @@ const SendSplit = (props) => {
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false)
     const [response, setResponse] = useState({});
-    const [fromID, setFromID] = useState("");
-
-    useEffect(()=>{
-        let fromIDValue = localStorage.getItem('fromID');
-        setFromID(fromIDValue);
-    },[])
 
     const handleClose = () => {
         setShow(false);
@@ -29,6 +23,7 @@ const SendSplit = (props) => {
         event.preventDefault();
         const IdentityID = event.target.IdentityID.value;
         const splitId = props.ownableId;
+        const fromId = props.ownerId;
         const splitAmount = event.target.splitAmount.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
