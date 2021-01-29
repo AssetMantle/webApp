@@ -28,14 +28,6 @@ const PrivateKey = (props) => {
                 const wallet = keyUtils.getWallet(error.mnemonic)
                 localStorage.setItem("address", wallet.address)
                 localStorage.setItem("mnemonic", error.mnemonic)
-                let fromIDValue = localStorage.getItem('fromID');
-                let lastFromIDValue = localStorage.getItem('lastFromID')
-                if (fromIDValue !== null) {
-                    localStorage.removeItem('fromID');
-                }
-                if (lastFromIDValue !== null) {
-                    localStorage.removeItem('lastFromID');
-                }
                 history.push('/identities');
             }
         };
