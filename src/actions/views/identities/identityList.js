@@ -87,7 +87,6 @@ const IdentityList = React.memo((props) => {
     const handleFromID = (evt, id, elementID) => {
         let fromIDValue = localStorage.getItem('fromID');
         let lastFromIDValue = localStorage.getItem('lastFromID')
-        console.log(id)
         if (lastFromIDValue !== null) {
             if (document.getElementById(lastFromIDValue).checked === true) {
                 document.getElementById(lastFromIDValue).checked = false

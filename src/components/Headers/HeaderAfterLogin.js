@@ -23,6 +23,7 @@ const HeaderAfterLogin = () => {
         localStorage.removeItem('mnemonic');
         localStorage.removeItem('address');
         localStorage.removeItem('fromID');
+        localStorage.removeItem('lastFromID');
         history.push('/');
     }
 
