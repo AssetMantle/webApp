@@ -8,6 +8,7 @@ import GetProperty from "../../../utilities/Helpers/getProperty";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetID from "../../../utilities/Helpers/getID";
 import {useHistory} from "react-router-dom";
+import {Button} from "react-bootstrap";
 const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
@@ -85,7 +86,7 @@ const TotalOrders = React.memo((props) => {
                         let mutableKeys = Object.keys(mutableProperties);
                         return (
                             <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
-                                <div className="card" onClick={() => handleAsset(orderIdData)}>
+                                <div className="card">
                                     <div id={"totalOrderImagUri" + orderIdData+index}>
                                         <div id={"totalOrderImage" + orderIdData+index} className="dummy-image">
 
@@ -141,7 +142,8 @@ const TotalOrders = React.memo((props) => {
                                          })
                                          : ""
                                      }
-
+                                     <Button variant="primary" className="viewButton" size="sm"
+                                             onClick={() => handleAsset(orderIdData)}>View</Button>
                                  </div>
 
                                 </div>

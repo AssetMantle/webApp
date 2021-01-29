@@ -22,13 +22,14 @@ const HeaderAfterLogin = () => {
     const logout = route => () => {
         localStorage.removeItem('mnemonic');
         localStorage.removeItem('address');
+        localStorage.removeItem('fromID');
         history.push('/');
     }
 
     useEffect(() => {
         const userAddress = localStorage.getItem('address');
         if(userTypeToken !== null  && window.location.pathname === "/"){
-            history.push('/assets');
+            history.push('/identities');
         }
         if (userAddress === null) {
             history.push('/Login');
@@ -37,7 +38,7 @@ const HeaderAfterLogin = () => {
     return (
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="login-after">
-                <Navbar.Brand><Nav.Link onClick={handleRoute("/assets")}>
+                <Navbar.Brand><Nav.Link onClick={handleRoute("/identities")}>
                     <img src={logo} alt="logo"/>
                 </Nav.Link></Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>

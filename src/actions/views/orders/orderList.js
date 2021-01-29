@@ -10,6 +10,7 @@ import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetID from "../../../utilities/Helpers/getID";
 import {useHistory} from "react-router-dom";
+import {Button} from "react-bootstrap";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -107,7 +108,7 @@ const OrderList = React.memo((props) => {
                         let mutableKeys = Object.keys(mutableProperties);
                         return (
                             <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
-                                <div className="card" onClick={() => handleAsset(orderIdData)}>
+                                <div className="card">
                                     <div id={"orderImagUri" + makerID + index}>
                                         <div id={"orderImage" + makerID + index} className="dummy-image">
 
@@ -157,6 +158,8 @@ const OrderList = React.memo((props) => {
                                             })
                                             : ""
                                         }
+                                        <Button variant="primary" className="viewButton" size="sm"
+                                                onClick={() => handleAsset(orderIdData)}>View</Button>
                                     </div>
                                 </div>
                             </div>

@@ -14,7 +14,12 @@ const TakeOrder = (props) => {
     const [response, setResponse] = useState({});
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false)
+    const [fromID, setFromID] = useState("");
 
+    useEffect(()=>{
+        let fromIDValue = localStorage.getItem('fromID');
+        setFromID(fromIDValue);
+    },[])
     const handleSubmit = (event) => {
         setLoader(true)
         event.preventDefault();
@@ -56,6 +61,7 @@ const TakeOrder = (props) => {
                                 className=""
                                 name="FromId"
                                 required={true}
+                                defaultValue={fromID !== null ? fromID : ""}
                                 placeholder={t("FROM_ID")}
                             />
                         </Form.Group>

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Form, Button, Modal} from "react-bootstrap";
 import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
 import ordersMakeJS from "persistencejs/transaction/orders/make";
@@ -35,7 +35,6 @@ const MakeOrder = (props) => {
     const PropertyHelper = new GetProperty();
     const FilterHelper = new FilterHelpers();
     const GetMetaHelper = new GetMeta();
-
 
     const handleCloseNext = () => {
         setShowNext(false);

@@ -136,7 +136,7 @@ const AssetList = React.memo((props) => {
                         let stake = split.value.split;
                         return (
                             <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
-                                <div className="card" onClick={() => handleAsset(ownableId)}>
+                                <div className="card" >
                                     <div id={"assetImagUri" + ownerId + index}>
                                         <div id={"assetImage" + ownerId + index} className="dummy-image">
                                         </div>
@@ -173,9 +173,9 @@ const AssetList = React.memo((props) => {
                                         </div>
                                         {ownableId === "stake" ?
                                             <div className="button-group">
-                                                <Button variant="secondary" size="sm"
+                                                <Button variant="primary" size="sm"
                                                         onClick={() => handleModalData("MakeOrder",  ownerId, ownableID)}>{t("MAKE")}</Button>
-                                                <Button variant="secondary" size="sm"
+                                                <Button variant="primary" size="sm"
                                                         onClick={() => handleModalData("SendSplit",  ownerId, ownableID)}>{t("SEND_SPLITS")}</Button>
                                             </div>
                                             : ""
@@ -251,6 +251,11 @@ const AssetList = React.memo((props) => {
                                                     )
                                                 }
                                             })
+                                        }
+                                        {ownableId !== "stake" ?
+                                            <Button variant="primary" className="viewButton" size="sm"
+                                                    onClick={() => handleAsset(ownableId)}>View</Button>
+                                        :""
                                         }
                                     </div>
                                 </div>

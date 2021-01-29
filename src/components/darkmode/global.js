@@ -200,5 +200,12 @@ export const GlobalStyles = createGlobalStyle`
   .icon-copy-icon, .icon-arrow-icon{
     fill: ${({theme}) => theme.copyIconColor};;
   }
+  .sub-title {
+    border-color: ${({theme}) => theme.subTitleBorderColor} !important;
+    color: ${({theme}) => theme.subTitleColor};
+  }
+  .copy-section p{
+    background: ${({theme}) => theme.copyBackground};
+  }
 `;
 
