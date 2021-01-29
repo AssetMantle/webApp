@@ -1,18 +1,14 @@
 import React, {useState} from "react";
 import burnAssetJS from "persistencejs/transaction/assets/burn";
 import {Form, Button, Modal} from "react-bootstrap";
-import Helpers from "../../../utilities/Helper";
 import { useTranslation } from "react-i18next";
 import Loader from "../../../components/loader"
 import ModalCommon from "../../../components/modal"
 const burnAsset = new burnAssetJS(process.env.REACT_APP_ASSET_MANTLE_API)
-import { pollTxHash } from '../../../utilities/Helper'
 import config from "../../../constants/config.json"
 
 const BurnAsset = (props) => {
-    const url = process.env.REACT_APP_ASSET_MANTLE_API;
     const { t } = useTranslation();
-    const Helper = new Helpers();
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false)
     const [response, setResponse] = useState({});

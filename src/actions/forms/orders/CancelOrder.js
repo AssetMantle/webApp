@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import ordersCancelJS from "persistencejs/transaction/orders/cancel";
 import {Form, Button, Modal} from "react-bootstrap";
-import Helpers from "../../../utilities/Helper";
+import GetID from "../../../utilities/Helpers/getID";
 import {useTranslation} from "react-i18next";
 import config from "../../../constants/config.json"
 import Loader from "../../../components/loader"
@@ -9,7 +9,7 @@ import ModalCommon from "../../../components/modal"
 const ordersCancel = new ordersCancelJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const CancelOrder = (props) => {
-    const Helper = new Helpers();
+    const GetIDHelper = new GetID();
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false)
@@ -19,7 +19,7 @@ const CancelOrder = (props) => {
         event.preventDefault();
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        const cancelOrderResponse = ordersCancel.cancel(userAddress, "test", userTypeToken, props.order.value.id.value.makerID.value.idString, Helper.GetOrderID(props.order), config.feesAmount, config.feesToken, config.gas, config.mode);
+        const cancelOrderResponse = ordersCancel.cancel(userAddress, "test", userTypeToken, props.order.value.id.value.makerID.value.idString, GetIDHelper.GetOrderID(props.order), config.feesAmount, config.feesToken, config.gas, config.mode);
         cancelOrderResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             setResponse(data)
@@ -44,7 +44,7 @@ const CancelOrder = (props) => {
                 }
             </div>
             <Modal.Body>
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit} className="burn-confirmation-buttons">
                     <p>{t("ARE_YOU_SURE")}</p>
                     <Button variant="primary" type="submit">
                         {t("YES")}

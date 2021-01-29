@@ -9,14 +9,16 @@ import AssetList from "./assetList";
 import {Summary} from "../../../components/summary"
 
 const assetDefine = new AssetDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const Assets = () => {
+const Assets = (props) => {
     const {t} = useTranslation();
     const [externalComponent, setExternalComponent] = useState("");
 
     const handleModalData = (formName) => {
         setExternalComponent(formName)
     }
+    const hanldeRoute= () =>{
 
+    }
     return (
         <div className="content-section">
             <Sidebar/>
@@ -42,8 +44,7 @@ const Assets = () => {
                             </Dropdown>
                         </div>
 
-
-                        <AssetList/>
+                        <AssetList hanldeRoute={()=>hanldeRoute()}/>
                     </div>
                     <div className="col-md-3 summary-section">
                         <Summary />

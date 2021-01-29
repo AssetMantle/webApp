@@ -1,13 +1,16 @@
 import React, {useState, useEffect} from "react";
 import ordersQueryJS from "persistencejs/transaction/orders/query";
-import Helpers from "../../../utilities/Helper";
-import {Button} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import {CancelOrder} from "../../forms/orders";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
-import Copy from "../../../components/copy"
+import config from "../../../constants/config.json";
+import GetProperty from "../../../utilities/Helpers/getProperty";
+import FilterHelpers from "../../../utilities/Helpers/filter";
+import GetMeta from "../../../utilities/Helpers/getMeta";
+import GetID from "../../../utilities/Helpers/getID";
+import {useHistory} from "react-router-dom";
+import {Button} from "react-bootstrap";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -15,13 +18,15 @@ const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 
 const OrderList = React.memo((props) => {
-    const Helper = new Helpers();
+    const PropertyHelper = new GetProperty();
+    const FilterHelper = new FilterHelpers();
+    const GetMetaHelper = new GetMeta();
+    const GetIDHelper = new GetID();
     const {t} = useTranslation();
     const [loader, setLoader] = useState(true)
     const [orderList, setOrderList] = useState([]);
     const userAddress = localStorage.getItem('address');
-    const [externalComponent, setExternalComponent] = useState("");
-    const [order, setOrder] = useState([]);
+    let history = useHistory();
 
     useEffect(() => {
         const fetchOrder = () => {
@@ -31,28 +36,28 @@ const OrderList = React.memo((props) => {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
                 if (dataList) {
-                    const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
+                    const filterIdentities = FilterHelper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
                     const ordersData = ordersQuery.queryOrderWithID("all")
                     ordersData.then(function (item) {
                         const ordersData = JSON.parse(item);
                         const ordersDataList = ordersData.result.value.orders.value.list;
                         if (ordersDataList) {
-                            const filterOrdersByIdentities = Helper.FilterOrdersByIdentity(filterIdentities, ordersDataList)
+                            const filterOrdersByIdentities = FilterHelper.FilterOrdersByIdentity(filterIdentities, ordersDataList)
                             if (filterOrdersByIdentities.length) {
                                 setOrderList(filterOrdersByIdentities);
                                 filterOrdersByIdentities.map((order, index) => {
                                     let immutableProperties = "";
                                     let mutableProperties = "";
                                     if (order.value.immutables.value.properties.value.propertyList !== null) {
-                                        immutableProperties = Helper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
+                                        immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
                                     }
                                     if (order.value.mutables.value.properties.value.propertyList !== null) {
-                                        mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                                        mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
                                     }
                                     let immutableKeys = Object.keys(immutableProperties);
                                     let mutableKeys = Object.keys(mutableProperties);
-                                    Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order', index);
-                                    Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order', index);
+                                    GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order', index, 'orderUrlId');
+                                    GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order', index, 'orderMutableUrlId');
                                     setLoader(false)
                                 })
                             } else {
@@ -68,10 +73,17 @@ const OrderList = React.memo((props) => {
         fetchOrder();
     }, []);
 
-    const handleModalData = (formName, order) => {
-        setOrder(order);
-        setExternalComponent(formName)
+    const handleAsset = (id) => {
+        history.push({
+                pathname : '/OrderView',
+                state :{
+                    orderID : id,
+                    currentPath : window.location.pathname,
+                }
+            }
+        );
     }
+
 
     return (
         <div className="list-container">
@@ -85,58 +97,70 @@ const OrderList = React.memo((props) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
                         if (order.value.immutables.value.properties.value.propertyList !== null) {
-                            immutableProperties = Helper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
+                            immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
                         }
                         if (order.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = Helper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                            mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
                         }
-                        let orderId = Helper.GetOrderID(order);
+                        let makerID = GetIDHelper.GetMakerID(order)
                         let immutableKeys = Object.keys(immutableProperties);
+                        let orderIdData = GetIDHelper.GetOrderID(order);
                         let mutableKeys = Object.keys(mutableProperties);
                         return (
-                            <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
+                            <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
                                 <div className="card">
-                                    <div>
-                                        <Button variant="secondary" size="sm"
-                                                onClick={() => handleModalData("CancelOrder", order)}>{t("CANCEL")}</Button>
-                                    </div>
-                                    <div className="list-item">
-                                        <p className="list-item-label">{t("ORDER_ID")}</p>
-                                        <div className="list-item-value id-section">
-                                            <p className="id-string" title={orderId}>: {orderId}</p>
-                                            <Copy
-                                                id={orderId}/>
+                                    <div id={"orderImagUri" + makerID + index}>
+                                        <div id={"orderImage" + makerID + index} className="dummy-image">
+
                                         </div>
                                     </div>
-
-                                    <p className="sub-title">{t("IMMUTABLES")}</p>
-                                    {immutableKeys !== null ?
-                                        immutableKeys.map((keyName, index1) => {
-                                            if (immutableProperties[keyName] !== "") {
-                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
-                                                    id={`immutable_order` + index + `${index1}`} className="list-item-value"></p></div>)
-                                            } else {
-                                                return (
-                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{immutableProperties[keyName]}</p></div>)
-                                            }
-                                        })
-                                        : ""
-                                    }
-
-                                    <p className="sub-title">{t("MUTABLES")}</p>
-
-                                    {mutableKeys !== null ?
-                                        mutableKeys.map((keyName, index1) => {
-                                            if (mutableProperties[keyName] !== "") {
-                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-value"
-                                                    id={`mutable_order` + index + `${index1}`}></p></div>)
-                                            } else {
-                                                return (
-                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{mutableProperties[keyName]}</p></div>)
-                                            }
-                                        })
-                                        : ""
-                                    }
+                                    <div className="info-section">
+                                        {immutableKeys !== null ?
+                                            immutableKeys.map((keyName, index1) => {
+                                                if (immutableProperties[keyName] !== "") {
+                                                    if (keyName === config.URI) {
+                                                        let imageElement = document.getElementById("orderImage" + makerID + index)
+                                                        if (typeof (imageElement) != 'undefined' && imageElement != null) {
+                                                            let divd = document.createElement('div');
+                                                            divd.id = `orderUrlId` + index + `${index1}`
+                                                            divd.className = "assetImage"
+                                                            document.getElementById("orderImagUri" + makerID + index).replaceChild(divd, imageElement);
+                                                        }
+                                                    }  else if(keyName === "identifier" || keyName === "style" || keyName === "description"){
+                                                        return (<div key={index + keyName} className="list-item"><p
+                                                            className="list-item-label">{keyName}: </p> <p
+                                                            id={`immutable_order` + index + `${index1}`}
+                                                            className="list-item-value"></p></div>)
+                                                    }
+                                                } else {
+                                                    return (
+                                                        <div key={index + keyName} className="list-item"><p
+                                                            className="list-item-label">{keyName}: </p> <p
+                                                            className="list-item-hash-value">{immutableProperties[keyName]}</p>
+                                                        </div>)
+                                                }
+                                            })
+                                            : ""
+                                        }
+                                        {mutableKeys !== null ?
+                                            mutableKeys.map((keyName, index1) => {
+                                                if (mutableProperties[keyName] !== "") {
+                                                    if (keyName === config.URI) {
+                                                        let imageElement = document.getElementById("orderImage" + makerID + index)
+                                                        if (typeof (imageElement) != 'undefined' && imageElement != null) {
+                                                            let divd = document.createElement('div');
+                                                            divd.id = `orderMutableUrlId` + index + `${index1}`
+                                                            divd.className = "assetImage"
+                                                            document.getElementById("orderImagUri" + makerID + index).replaceChild(divd, imageElement);
+                                                        }
+                                                    }
+                                                }
+                                            })
+                                            : ""
+                                        }
+                                        <Button variant="primary" className="viewButton" size="sm"
+                                                onClick={() => handleAsset(orderIdData)}>View</Button>
+                                    </div>
                                 </div>
                             </div>
                         )
@@ -145,12 +169,7 @@ const OrderList = React.memo((props) => {
                     : <p className="empty-list">{t("ORDERS_NOT_FOUND")}</p>
                 }
             </div>
-            <div>
-                {externalComponent === 'CancelOrder' ?
-                    <CancelOrder setExternalComponent={setExternalComponent} order={order}/> :
-                    null
-                }
-            </div>
+
         </div>
     );
 })

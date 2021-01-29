@@ -1,25 +1,34 @@
 import React, {useState, useEffect} from "react";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import Helpers from "../../../utilities/Helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
-import {Button} from "react-bootstrap";
-import {Provision, UnProvision} from "../../forms/identities";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
-import Copy from "../../../components/copy"
+import config from "../../../constants/config.json"
+import GetProperty from "../../../utilities/Helpers/getProperty";
+import FilterHelpers from "../../../utilities/Helpers/filter";
+import GetMeta from "../../../utilities/Helpers/getMeta";
+import GetID from "../../../utilities/Helpers/getID";
+import {useHistory} from "react-router-dom";
+import {Button, Form} from "react-bootstrap";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const IdentityList = React.memo((props) => {
-    const Helper = new Helpers();
+    const PropertyHelper = new GetProperty();
+    const FilterHelper = new FilterHelpers();
+    const GetMetaHelper = new GetMeta();
+    const GetIDHelper = new GetID();
     const {t} = useTranslation();
+    let history = useHistory();
     const [loader, setLoader] = useState(true)
-    const [externalComponent, setExternalComponent] = useState("");
-    const [identityId, setIdentityId] = useState("");
-    const [identity, setIdentity] = useState([]);
     const [filteredIdentitiesList, setFilteredIdentitiesList] = useState([]);
     const userAddress = localStorage.getItem('address');
+    const [lastFromID, setLastFromID] = useState("");
+    let lastFromIDValue = localStorage.getItem('lastFromID')
+    if (lastFromIDValue !== null && document.getElementById(lastFromIDValue) !== null) {
+        document.getElementById(lastFromIDValue).checked = true
+    }
     useEffect(() => {
         const fetchToIdentities = () => {
             const identities = identitiesQuery.queryIdentityWithID("all")
@@ -28,22 +37,22 @@ const IdentityList = React.memo((props) => {
                     const data = JSON.parse(item);
                     const dataList = data.result.value.identities.value.list;
                     if (dataList) {
-                        const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress);
+                        const filterIdentities = FilterHelper.FilterIdentitiesByProvisionedAddress(dataList, userAddress);
                         if (filterIdentities.length) {
                             setFilteredIdentitiesList(filterIdentities);
                             filterIdentities.map((identity, index) => {
                                 let immutableProperties = "";
                                 let mutableProperties = "";
                                 if (identity.value.immutables.value.properties.value.propertyList !== null) {
-                                    immutableProperties = Helper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
+                                    immutableProperties = PropertyHelper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
                                 }
                                 if (identity.value.mutables.value.properties.value.propertyList !== null) {
-                                    mutableProperties = Helper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
+                                    mutableProperties = PropertyHelper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
                                 }
                                 let immutableKeys = Object.keys(immutableProperties);
                                 let mutableKeys = Object.keys(mutableProperties);
-                                Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList', index);
-                                Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index);
+                                GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList', index, 'identityUrlId');
+                                GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index, "identityMutableUrlId");
                                 setLoader(false)
                             })
                         } else {
@@ -60,10 +69,32 @@ const IdentityList = React.memo((props) => {
         fetchToIdentities();
     }, []);
 
-    const handleModalData = (formName, identityId, identity) => {
-        setExternalComponent(formName)
-        setIdentity(identity);
-        setIdentityId(identityId)
+
+    const handleAsset = (id) => {
+
+        if (id !== "stake") {
+            history.push({
+                    pathname: '/IdentityView',
+                    state: {
+                        identityID: id,
+                        currentPath: window.location.pathname,
+                    }
+                }
+            );
+        }
+    }
+
+    const handleFromID = (evt, id, elementID) => {
+        let fromIDValue = localStorage.getItem('fromID');
+        let lastFromIDValue = localStorage.getItem('lastFromID')
+        if (lastFromIDValue !== 'null' && lastFromIDValue !== null) {
+            if (document.getElementById(lastFromIDValue).checked === true) {
+                document.getElementById(lastFromIDValue).checked = false
+                document.getElementById(elementID).checked = true
+            }
+        }
+        localStorage.setItem("fromID", id)
+        localStorage.setItem("lastFromID", elementID)
     }
 
     return (
@@ -77,95 +108,94 @@ const IdentityList = React.memo((props) => {
                     filteredIdentitiesList.map((identity, index) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
-                        let provisionedAddressList = "";
-                        let unProvisionedAddressList = "";
-                        const identityId = Helper.GetIdentityID(identity)
+                        const identityId = GetIDHelper.GetIdentityID(identity)
                         if (identity.value.immutables.value.properties.value.propertyList !== null) {
-                            immutableProperties = Helper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
+                            immutableProperties = PropertyHelper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
                         }
                         if (identity.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = Helper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
-                        }
-                        if (identity.value.provisionedAddressList !== null) {
-                            provisionedAddressList = identity.value.provisionedAddressList;
-                        }
-                        if (identity.value.provisionedAddressList !== null) {
-                            unProvisionedAddressList = identity.value.unprovisionedAddressList;
+                            mutableProperties = PropertyHelper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
                         }
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
                         return (
-                            <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
-                                <div className="card">
-                                    <div>
-                                        <Button variant="secondary" size="sm"
-                                                onClick={() => handleModalData("Provision", identityId)}>{t("PROVISION")}</Button>
-                                        <Button variant="secondary" size="sm"
-                                                onClick={() => handleModalData("UnProvision", identityId, identity)}>{t("UN_PROVISION")}</Button>
-                                    </div>
-                                    <div className="id-section">
-                                        <p className="id-string" title={identityId}>{identityId}</p>
-                                        <Copy
-                                        id={identityId}/>
-                                    </div>
+                            <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
+                                <div className="card identity-card">
+                                    <div id={"identityImagUri" + identityId + index}>
+                                        <div id={"identityImage" + identityId + index} className="dummy-image">
 
-                                    <p className="sub-title">{t("IMMUTABLES")}</p>
-                                    {immutableKeys !== null ?
-                                        immutableKeys.map((keyName, index1) => {
-                                            if (immutableProperties[keyName] !== "") {
-                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
-                                                    id={`immutable_identityList` + index + `${index1}`} className="list-item-value"></p></div>)
-                                            } else {
-                                                return (
-                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{immutableProperties[keyName]}</p></div>)
-                                            }
-                                        })
-                                        : ""
-                                    }
-                                    <p className="sub-title">{t("MUTABLES")}</p>
-                                    {mutableKeys !== null ?
-                                        mutableKeys.map((keyName, index1) => {
-                                            if (mutableProperties[keyName] !== "") {
-                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
-                                                    id={`mutable_identityList` + index + `${index1}`}  className="list-item-value"></p></div>)
-                                            } else {
-                                                return (
-                                                    <div key={index + keyName} className="list-item"><p>{keyName} </p>: <p className="list-item-hash-value">{mutableProperties[keyName]}</p></div>)
-                                            }
-                                        })
-                                        : ""
-                                    }
-                                    <p className="sub-title">{t("PROVISION_ADDRESS_LIST")}</p>
-                                    {provisionedAddressList !== null && provisionedAddressList !== "" ?
-                                        provisionedAddressList.map((provisionedAddress, provisionedAddressKey) => {
-                                            return (<p key={provisionedAddressKey} className="provision-address" title={provisionedAddress}>{provisionedAddress}</p>)
-                                        })
-                                        : <p>--</p>
-                                    }
-                                    <p className="sub-title">{t("UN_PROVISION_ADDRESS_LIST")}</p>
-                                    {unProvisionedAddressList !== null && unProvisionedAddressList !==  "" ?
-                                        unProvisionedAddressList.map((unprovisionedAddress, unprovisionedAddressKey) => {
-                                            return (<p key={unprovisionedAddressKey}  className="provision-address" title={unprovisionedAddress}>{unprovisionedAddress}</p>)
-                                        })
-                                        : <p>--</p>
-                                    }
+                                        </div>
+                                    </div>
+                                    <div className="info-section">
+                                        <div className="list-item">
+                                            <p className="list-item-label">{t("IDENTITY_ID")}:</p>
+                                            <div className="list-item-value id-section">
+                                                <p className="id-string" title={identityId}> {identityId}</p>
+                                            </div>
+                                        </div>
+
+                                        {immutableKeys !== null ?
+                                            immutableKeys.map((keyName, index1) => {
+                                                if (immutableProperties[keyName] !== "") {
+                                                    if (keyName === config.URI) {
+                                                        let imageElement = document.getElementById("identityImage" + identityId + index)
+                                                        if (typeof (imageElement) != 'undefined' && imageElement != null) {
+                                                            let divd = document.createElement('div');
+                                                            divd.id = `identityUrlId` + index + `${index1}`
+                                                            divd.className = "assetImage"
+                                                            document.getElementById("identityImagUri" + identityId + index).replaceChild(divd, imageElement);
+                                                        }
+                                                    } else if (keyName === "identifier" || keyName === "style" || keyName === "description") {
+                                                        return (<div key={index + keyName} className="list-item"><p
+                                                            className="list-item-label">{keyName}: </p> <p
+                                                            id={`immutable_identityList` + index + `${index1}`}
+                                                            className="list-item-value"></p></div>)
+                                                    }
+                                                } else {
+                                                    return (
+                                                        <div key={index + keyName} className="list-item"><p
+                                                            className="list-item-label">{keyName}: </p> <p
+                                                            className="list-item-hash-value">{immutableProperties[keyName]}</p>
+                                                        </div>)
+                                                }
+                                            })
+                                            : ""
+                                        }
+                                        {mutableKeys !== null ?
+                                            mutableKeys.map((keyName, index1) => {
+                                                if (mutableProperties[keyName] !== "") {
+                                                    if (keyName === config.URI) {
+                                                        let imageElement = document.getElementById("identityImage" + identityId + index)
+                                                        if (typeof (imageElement) != 'undefined' && imageElement != null) {
+                                                            let divd = document.createElement('div');
+                                                            divd.id = `identityMutableUrlId` + index + `${index1}`
+                                                            divd.className = "assetImage"
+                                                            document.getElementById("identityImagUri" + identityId + index).replaceChild(divd, imageElement);
+                                                        }
+                                                    }
+                                                }
+                                            })
+                                            : ""
+                                        }
+                                        <Form.Group>
+                                            <Form.Check custom type="checkbox" label="Use FromID"
+                                                        name="checkboxURIee"
+                                                        id={"checkboxFromID" + index}
+                                                        onChange={(evt) => {
+                                                            handleFromID(evt, identityId, "checkboxFromID" + index)
+                                                        }}
+                                            />
+                                        </Form.Group>
+
+                                        <Button variant="primary" className="viewButton" size="sm"
+                                                onClick={() => handleAsset(identityId)}>View</Button>
+                                    </div>
                                 </div>
                             </div>
                         )
                     })
                     : <p className="empty-list">{t("IDENTITIES_NOT_FOUND")}</p>}
             </div>
-            <div>
-                {externalComponent === 'Provision' ?
-                    <Provision setExternalComponent={setExternalComponent} identityId={identityId}/> :
-                    null
-                }
-                {externalComponent === 'UnProvision' ?
-                    <UnProvision setExternalComponent={setExternalComponent} identityId={identityId}
-                                 identityIdList={identity}/> :
-                    null
-                }
-            </div>
+
         </div>
     );
 })

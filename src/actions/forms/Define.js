@@ -1,27 +1,36 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Form, Button, Modal} from "react-bootstrap";
-import Helpers from "../../utilities/Helper"
 import InputField from "../../components/inputField"
 import {useTranslation} from "react-i18next";
-import {pollTxHash} from '../../utilities/Helper'
 import config from "../../constants/config.json"
 import ModalCommon from "../../components/modal";
 import Loader from "../../components/loader";
+import base64url from "base64url";
+import GetProperty from "../../utilities/Helpers/getProperty";
+
 
 const Define = (props) => {
-    const Helper = new Helpers();
+    const PropertyHelper = new GetProperty();
     const [loader, setLoader] = useState(false)
     const [show, setShow] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
     const [typeOption, setTypeOption] = useState("identity");
-    const [mutableStyle, setMutableStyle] = useState("ERC20");
+    const [mutableStyle, setMutableStyle] = useState("Blue");
     const [response, setResponse] = useState({});
     const [mutableProperties, setMutableProperties] = useState([]);
     const [immutableProperties, setImmutableProperties] = useState([]);
     const [inputValues, setInputValues] = useState([]);
     const [metaCheckboxList, setMetaCheckboxList] = useState([]);
+    const [uriField, setUriField] = useState(false);
+    const [selectedOption, setSelectedOption] = useState("Mutable");
     const [immutableMetaCheckboxList, setImmutableMetaCheckboxList] = useState([]);
     const {t} = useTranslation();
+    const [fromID, setFromID] = useState("");
+
+    useEffect(()=>{
+        let fromIDValue = localStorage.getItem('fromID');
+        setFromID(fromIDValue);
+    },[])
 
     const handleChange = evt => {
         const newValue = evt.target.value;
@@ -30,16 +39,16 @@ const Define = (props) => {
     const handleChangeMutable = (evt, idx) => {
         const newValue = evt.target.value;
         const selectValue = document.getElementById("MutableDataType" + idx).value;
-        const checkError = Helper.DataTypeValidation(selectValue, newValue);
-        Helper.showHideDataTypeError(checkError, `MutableDefine${idx}`);
+        const checkError = PropertyHelper.DataTypeValidation(selectValue, newValue);
+        PropertyHelper.showHideDataTypeError(checkError, `MutableDefine${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
 
     const handleChangeImmutable = (evt, idx) => {
         const newValue = evt.target.value;
         const selectValue = document.getElementById("ImmutableDataType" + idx).value;
-        const checkError = Helper.DataTypeValidation(selectValue, newValue);
-        Helper.showHideDataTypeError(checkError, `ImmutableDefine${idx}`);
+        const checkError = PropertyHelper.DataTypeValidation(selectValue, newValue);
+        PropertyHelper.showHideDataTypeError(checkError, `ImmutableDefine${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
     }
 
@@ -97,11 +106,25 @@ const Define = (props) => {
         }
         const FromId = evt.target.FromId.value;
         let staticImmutableMeta = "";
+        let uriMutable = "";
+        let uriImmutable = "";
         const ImmutableDescription = evt.target.ImmutableDescription.value;
         const ImmutableIdentifier = evt.target.ImmutableIdentifier.value;
         const ImmutableClassifier = evt.target.ImmutableClassifier.value;
         let staticImmutables = `style:S|${mutableStyle},type:S|${typeOption}`;
         staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription}`
+        if(uriField){
+            const ImmutableUrl = evt.target.URI.value;
+            let ImmutableUrlEncode = "";
+            if (ImmutableUrl !== "") {
+                ImmutableUrlEncode = PropertyHelper.getUrlEncode(ImmutableUrl);
+            }
+            if(selectedOption === "Immutable") {
+                uriImmutable = `URI:S|${ImmutableUrlEncode}`
+            }else {
+                uriMutable = `URI:S|${ImmutableUrlEncode}`
+            }
+        }
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
         let mutablePropertyValue = ""
@@ -109,13 +132,13 @@ const Define = (props) => {
         let immutablePropertyValue = ""
         let immutableMetaPropertyValue = ""
 
-        mutablePropertyValue = Helper.MutablePropertyValues(mutableProperties, inputValues, metaCheckboxList);
+        mutablePropertyValue = PropertyHelper.MutablePropertyValues(mutableProperties, inputValues, metaCheckboxList);
 
-        mutableMetaPropertyValue = Helper.MutableMetaPropertyValues(mutableProperties, inputValues, metaCheckboxList);
+        mutableMetaPropertyValue = PropertyHelper.MutableMetaPropertyValues(mutableProperties, inputValues, metaCheckboxList);
 
-        immutablePropertyValue = Helper.ImmutablePropertyValues(immutableProperties, inputValues, immutableMetaCheckboxList);
+        immutablePropertyValue = PropertyHelper.ImmutablePropertyValues(immutableProperties, inputValues, immutableMetaCheckboxList);
 
-        immutableMetaPropertyValue = Helper.ImmutableMetaPropertyValues(immutableProperties, inputValues, immutableMetaCheckboxList);
+        immutableMetaPropertyValue = PropertyHelper.ImmutableMetaPropertyValues(immutableProperties, inputValues, immutableMetaCheckboxList);
         if (typeOption === 'asset') {
             if (mutableMetaPropertyValue) {
                 mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + assetSpecificMutables;
@@ -125,11 +148,28 @@ const Define = (props) => {
         }
         if (typeOption === 'order') {
             if (mutableMetaPropertyValue) {
-                mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + orderSpecificMutables;
+                    mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + orderSpecificMutables;
             } else {
                 mutableMetaPropertyValue = orderSpecificMutables;
             }
         }
+
+        if(uriMutable){
+            if (mutableMetaPropertyValue) {
+                mutableMetaPropertyValue = mutableMetaPropertyValue + ',' + uriMutable;
+            } else {
+                mutableMetaPropertyValue = uriMutable;
+            }
+        }
+
+        if(uriImmutable){
+            if (immutableMetaPropertyValue) {
+                immutableMetaPropertyValue = immutableMetaPropertyValue + ',' + uriImmutable;
+            } else {
+                immutableMetaPropertyValue = uriImmutable;
+            }
+        }
+
         if (immutablePropertyValue) {
             immutablePropertyValue = immutablePropertyValue + ',' + staticImmutables;
         } else {
@@ -140,6 +180,7 @@ const Define = (props) => {
         } else {
             immutableMetaPropertyValue = staticImmutableMeta;
         }
+
         if (mutablePropertyValue !== "") {
             if (mutableMetaPropertyValue !== "") {
                 const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, config.feesAmount, config.feesToken, config.gas, config.mode)
@@ -186,6 +227,10 @@ const Define = (props) => {
         }
     }
 
+    const handleURI = () =>{
+        setUriField(!uriField)
+    }
+
     const handleRemoveImmutableProperties = (i) => {
         if (immutableProperties[i].name == "") {
             let items = [...immutableProperties];
@@ -202,6 +247,9 @@ const Define = (props) => {
         if (inputValues[dataType] !== undefined) {
             delete inputValues[dataType];
         }
+    }
+    const onValueChange = (event) => {
+            setSelectedOption(event.target.value);
     }
 
     return (
@@ -223,15 +271,18 @@ const Define = (props) => {
                                 className=""
                                 name="FromId"
                                 required={true}
-                                placeholder="FromId"
+                                defaultValue={fromID !== null ? fromID : ""}
+                                placeholder={t("FROM_ID")}
                             />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Immutable style:S| </Form.Label>
                             <Form.Control as="select" onChange={handleChangeStyle} name="ImmutableStyle"
                                           required={true}>
-                                <option value="ERC20"> ERC20</option>
-                                <option value="ERC721">ERC721</option>
+                                <option value="Blue"> Blue</option>
+                                <option value="Red">Red</option>
+                                <option value="Green"> Green</option>
+                                <option value="Black">Black</option>
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
@@ -242,6 +293,52 @@ const Define = (props) => {
                                 <option value="asset">{t("ASSET")}</option>
                                 <option value="order">{t("ORDER")}</option>
                             </Form.Control>
+                        </Form.Group>
+                        { uriField
+                            ?
+                            <>
+                            <Form.Group>
+                                <Form.Label>{t("URI")}</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    className=""
+                                    name="URI"
+                                    required={false}
+                                    placeholder={t("URI")}
+                                />
+                            </Form.Group>
+                            <Form.Group>
+
+                                <Form.Check
+                                    type="radio"
+                                    label="Mutable"
+                                    name="formHorizontalRadios"
+                                    id="formHorizontalRadios1"
+                                    value="Mutable"
+                                    onChange={onValueChange}
+                                    defaultChecked={true}
+                                    />
+                                <Form.Check
+                                    type="radio"
+                                    label="Immutable"
+                                    name="formHorizontalRadios"
+                                    id="formHorizontalRadios2"
+                                    value="Immutable"
+                                    onChange={onValueChange}
+                                    defaultChecked={false}
+                                />
+
+                            </Form.Group>
+                            </>
+                            : ""
+                        }
+
+                        <Form.Group>
+                            <Form.Check custom type="checkbox" label="URI"
+                                        name="checkboxURI"
+                                        id="checkboxURI"
+                                        onChange={handleURI}
+                            />
                         </Form.Group>
                         <InputField
                             type="text"

@@ -28,11 +28,11 @@ export const lightTheme = {
     sideBarHeaderColor:'#E3E3E3',
     dropDownSectionBgColor:'#FFFFFF',
     cardSectionBg:'#F5F5F5',
-    CardBgColor:'#F5F5F5',
-    listItemColor: '#363537',
+    CardBgColor:'#FFFFFF',
+    listItemColor: '#666666',
     navDropdownMenuBg:'#fff',
     navDropdownColor:'#212529',
-    subTitleColor:'#999999',
+    subTitleColor:'#1A1A1A',
     provisionAddressColor:'#363537',
     buttonSecondaryBg:'#6c757d',
     buttonSecondaryColor:'#fff',
@@ -52,7 +52,10 @@ export const lightTheme = {
     ledgerBoxBorder:'#F5F5F5',
     labelColor:'#363537',
     ledgerBoxHeadingColor:'#262A2B',
-    copyIconColor:'#000'
+    copyIconColor:'#000',
+    subTitleBorderColor:'#E3E3E3',
+    copyBackground:'#E6E6E6'
+
 }
 
 export const darkTheme = {
@@ -109,5 +112,7 @@ export const darkTheme = {
     ledgerBoxBorder:'#343a40',
     labelColor:'rgba(255, 255, 255, 0.6)',
     ledgerBoxHeadingColor:'rgba(255, 255, 255, 0.6)',
-    copyIconColor:'rgba(255, 255, 255, 0.6)'
+    copyIconColor:'rgba(255, 255, 255, 0.6)',
+    subTitleBorderColor:'#3e3e3e61',
+    copyBackground:'#999999'
 }

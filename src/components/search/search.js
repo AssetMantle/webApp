@@ -15,13 +15,13 @@ const Search = () => {
         setRedirect(true);
     }
     if (redirect) {
-        if (window.location.pathname === "/assets" || window.location.pathname === "/Profile") {
+        if (window.location.pathname === "/assets" || window.location.pathname === "/Profile" || window.location.pathname === "/AssetView") {
             return <Redirect to={{pathname: '/SearchAsset', data: {data, currentPath: window.location.pathname}}}/>
-        } else if (window.location.pathname === "/identities") {
+        } else if (window.location.pathname === "/identities" || window.location.pathname === "/IdentityView") {
             return <Redirect to={{pathname: '/SearchIdentity', data: {data, currentPath: window.location.pathname}}}/>
-        } else if (window.location.pathname === "/orders" || window.location.pathname === "/marketplace") {
+        } else if (window.location.pathname === "/orders" || window.location.pathname === "/marketplace" || window.location.pathname === "/OrderView") {
             return <Redirect to={{pathname: '/SearchOrder', data: {data, currentPath: window.location.pathname}}}/>
-        } else if (window.location.pathname === "/maintainers") {
+        } else if (window.location.pathname === "/maintainers" ) {
             return <Redirect to={{pathname: '/SearchMaintainer', data: {data, currentPath: window.location.pathname}}}/>
         }
         setRedirect(false);

@@ -14,14 +14,17 @@ const UnProvision = (props) => {
     const [selectedAddress, setSelectedAddress] = useState("");
     const [provisionAddressList, setProvisionAddressList] = useState([]);
     const {t} = useTranslation();
+    const fromID = localStorage.getItem('fromID');
     useEffect(() => {
         const provisionedAddressList = props.identityIdList.value.provisionedAddressList;
-        provisionedAddressList.map((address) => {
-            setProvisionAddressList((provisionAddressList) => [
-                ...provisionAddressList,
-                address,
-            ]);
-        })
+        if(provisionedAddressList !== null) {
+            provisionedAddressList.map((address) => {
+                setProvisionAddressList((provisionAddressList) => [
+                    ...provisionAddressList,
+                    address,
+                ]);
+            })
+        }
     }, []);
     const handleClose = () => {
         setShow(false);
@@ -33,7 +36,7 @@ const UnProvision = (props) => {
         const selectValue = event.target.selectAddress.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        const UnProvisionResponse = identitiesUnprovision.unprovision(userAddress, "test", userTypeToken, props.identityId, selectValue, config.feesAmount, config.feesToken, config.gas, config.mode);
+        const UnProvisionResponse = identitiesUnprovision.unprovision(userAddress, "test", userTypeToken, fromID, selectValue, config.feesAmount, config.feesToken, config.gas, config.mode);
         UnProvisionResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             setResponse(data)

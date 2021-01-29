@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react";
-import Helpers from "../../utilities/Helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../sidebar/sidebar";
@@ -9,12 +8,17 @@ import {Button} from "react-bootstrap";
 import Copy from "../copy";
 import {useHistory} from "react-router-dom";
 import Icon from "../../icons";
+import GetProperty from "../../utilities/Helpers/getProperty";
+import GetMeta from "../../utilities/Helpers/getMeta";
+import GetID from "../../utilities/Helpers/getID";
 
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const SearchIdentity = React.memo((props) => {
-    const Helper = new Helpers();
+    const PropertyHelper = new GetProperty();
+    const GetMetaHelper = new GetMeta();
+    const GetIDHelper = new GetID();
     const {t} = useTranslation();
     let history = useHistory();
     const [filteredIdentitiesList, setFilteredIdentitiesList] = useState([]);
@@ -31,15 +35,15 @@ const SearchIdentity = React.memo((props) => {
                             let immutableProperties = "";
                             let mutableProperties = "";
                             if (identity.value.immutables.value.properties.value.propertyList !== null) {
-                                immutableProperties = Helper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
+                                immutableProperties = PropertyHelper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
                             }
                             if (identity.value.mutables.value.properties.value.propertyList !== null) {
-                                mutableProperties = Helper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
+                                mutableProperties = PropertyHelper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
                             }
                             let immutableKeys = Object.keys(immutableProperties);
                             let mutableKeys = Object.keys(mutableProperties);
-                            Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList_search', index);
-                            Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList_search', index);
+                            GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList_search', index);
+                            GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList_search', index);
                         })
                     }
                 })
@@ -67,12 +71,12 @@ const SearchIdentity = React.memo((props) => {
                                         let mutableProperties = "";
                                         let provisionedAddressList = "";
                                         let unProvisionedAddressList = "";
-                                        const identityId = Helper.GetIdentityID(identity)
+                                        const identityId = GetIDHelper.GetIdentityID(identity)
                                         if (identity.value.immutables.value.properties.value.propertyList !== null) {
-                                            immutableProperties = Helper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
+                                            immutableProperties = PropertyHelper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
                                         }
                                         if (identity.value.mutables.value.properties.value.propertyList !== null) {
-                                            mutableProperties = Helper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
+                                            mutableProperties = PropertyHelper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
                                         }
                                         if (identity.value.provisionedAddressList !== null) {
                                             provisionedAddressList = identity.value.provisionedAddressList;
@@ -83,19 +87,20 @@ const SearchIdentity = React.memo((props) => {
                                         let immutableKeys = Object.keys(immutableProperties);
                                         let mutableKeys = Object.keys(mutableProperties);
                                         return (
-                                            <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
+                                            <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
                                                 <div className="card">
-                                                    <div>
-                                                        <Button variant="secondary"
-                                                                onClick={() => handleModalData("Provision", identityId)}>{t("PROVISION")}</Button>
-                                                        <Button variant="secondary"
-                                                                onClick={() => handleModalData("UnProvision", identityId, identity)}>{t("UN_PROVISION")}</Button>
-                                                    </div>
-                                                    <div className="id-section">
-                                                        <p className="id-string" title={identityId}>{identityId}</p>
-                                                        <Copy
-                                                            id={identityId}/>
-                                                    </div>
+                                                    <div className="info-section">
+                                                        <div className="list-item">
+                                                            <p className="list-item-label">{t("IDENTITY_ID")}:</p>
+                                                            <div className="list-item-value id-section">
+                                                                <div className="flex">
+                                                                <p className="id-string" title={identityId}> {identityId}</p>
+                                                                </div>
+                                                            </div>
+                                                            <Copy
+                                                                id={identityId}/>
+                                                        </div>
+
 
                                                     <p className="sub-title">{t("IMMUTABLES")}</p>
                                                     {immutableKeys !== null ?
@@ -135,7 +140,7 @@ const SearchIdentity = React.memo((props) => {
                                                         })
                                                         : ""
                                                     }
-                                                    <p className="sub-title">provisioasfasnedAddressList</p>
+                                                    <p className="sub-title">provisionedAddressList</p>
                                                     {provisionedAddressList !== null && provisionedAddressList !== "" ?
                                                         provisionedAddressList.map((provisionedAddress, addressKey) => {
                                                             return (<p key={addressKey}>{provisionedAddress}</p>)
@@ -151,6 +156,7 @@ const SearchIdentity = React.memo((props) => {
                                                         : <p>Empty</p>
                                                     }
                                                 </div>
+                                            </div>
                                             </div>
                                         )
                                     })

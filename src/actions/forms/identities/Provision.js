@@ -15,13 +15,14 @@ const Provision = (props) => {
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false)
+    const fromID = localStorage.getItem('fromID');
     const handleSubmit = (event) => {
         setLoader(true)
         event.preventDefault();
         const toAddress = event.target.toAddress.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        const provisionResponse = identitiesProvision.provision(userAddress, "test", userTypeToken, props.identityId, toAddress, config.feesAmount, config.feesToken, config.gas, config.mode);
+        const provisionResponse = identitiesProvision.provision(userAddress, "test", userTypeToken, fromID, toAddress, config.feesAmount, config.feesToken, config.gas, config.mode);
         provisionResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
             setResponse(data)

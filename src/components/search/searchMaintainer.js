@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from "react";
-import Loader from "../loader";
-import Helpers from "../../utilities/Helper";
-import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../sidebar/sidebar";
+import GetProperty from "../../utilities/Helpers/getProperty";
 
 import {Summary} from "../summary";
 import Copy from "../copy";
@@ -12,10 +10,11 @@ import {useHistory} from "react-router-dom";
 import Icon from "../../icons";
 
 const maintainersQuery = new maintainersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const SearchMaintainer = React.memo((props) => {
-    const Helper = new Helpers();
+    const PropertyHelper = new GetProperty();
+
+
     const {t} = useTranslation();
     let history = useHistory();
     const [maintainersList, setMaintainersList] = useState([]);
@@ -45,27 +44,31 @@ const SearchMaintainer = React.memo((props) => {
                         <div className="list-container">
                             <div className="row card-deck">
                                 {maintainersList.map((maintainer, index) => {
-                                    const maintainerPropertyList = Helper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList)
+                                    const maintainerPropertyList = PropertyHelper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList)
                                     let keys = Object.keys(maintainerPropertyList);
                                     let id = maintainer.value.id.value.classificationID.value.idString+"*"+maintainer.value.id.value.identityID.value.idString
                                     return (
-                                        <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
+                                        <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
                                             <div className="card height-medium">
+                                                <div className="info-section">
                                                 <div className="list-item">
-                                                    <p className="list-item-label">{t("ID")}</p>
+                                                    <p className="list-item-label">{t("ID")} :</p>
                                                     <div className="list-item-value id-section">
-                                                        <p className="id-string" title={id}>: {id}</p>
-                                                        <Copy
-                                                            id={id}/>
+                                                        <div className="flex">
+                                                        <p className="id-string" title={id}> {id}</p>
+                                                        </div>
                                                     </div>
+                                                    <Copy
+                                                        id={id}/>
                                                 </div>
                                                 {
                                                     keys.map((keyName) => {
                                                         return (
-                                                            <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value id-string" title={maintainerPropertyList[keyName]}>{maintainerPropertyList[keyName]}</p></div>
+                                                            <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName}: </p> <div className="list-item-value id-section"><p className="id-string"  title={maintainerPropertyList[keyName]}>{maintainerPropertyList[keyName]}</p></div></div>
                                                         )
                                                     })
                                                 }
+                                                </div>
                                             </div>
                                         </div>
                                     )

@@ -1,18 +1,20 @@
 import React, {useState, useEffect} from "react";
 import assetsQueryJS from "persistencejs/transaction/assets/query";
-import Helpers from "../../utilities/Helper";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../sidebar/sidebar";
 import {useHistory} from "react-router-dom";
 import {Summary} from "../summary";
 import Icon from "../../icons";
+import GetProperty from "../../utilities/Helpers/getProperty";
+import GetMeta from "../../utilities/Helpers/getMeta";
 
 const assetsQuery = new assetsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const SearchAsset = React.memo((props) => {
-    const Helper = new Helpers();
+    const PropertyHelper = new GetProperty();
+    const GetMetaHelper = new GetMeta();
     let history = useHistory();
     const {t} = useTranslation();
     const [assetList, setAssetList] = useState([]);
@@ -28,15 +30,15 @@ const SearchAsset = React.memo((props) => {
                         let immutableProperties = "";
                         let mutableProperties = "";
                         if (asset.value.immutables.value.properties.value.propertyList !== null) {
-                            immutableProperties = Helper.ParseProperties(asset.value.immutables.value.properties.value.propertyList);
+                            immutableProperties = PropertyHelper.ParseProperties(asset.value.immutables.value.properties.value.propertyList);
                         }
                         if (asset.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = Helper.ParseProperties(asset.value.mutables.value.properties.value.propertyList)
+                            mutableProperties = PropertyHelper.ParseProperties(asset.value.mutables.value.properties.value.propertyList)
                         }
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
-                        Helper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset_search', index);
-                        Helper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset_search', index);
+                        GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset_search', index);
+                        GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset_search', index);
                     })
                 }
             })
@@ -66,29 +68,30 @@ const SearchAsset = React.memo((props) => {
                                         let mutableProperties = "";
 
                                         if (asset.value.immutables.value.properties.value.propertyList !== null) {
-                                            immutableProperties = Helper.ParseProperties(asset.value.immutables.value.properties.value.propertyList);
+                                            immutableProperties = PropertyHelper.ParseProperties(asset.value.immutables.value.properties.value.propertyList);
                                         }
                                         if (asset.value.mutables.value.properties.value.propertyList !== null) {
-                                            mutableProperties = Helper.ParseProperties(asset.value.mutables.value.properties.value.propertyList)
+                                            mutableProperties = PropertyHelper.ParseProperties(asset.value.mutables.value.properties.value.propertyList)
                                         }
                                         let immutableKeys = Object.keys(immutableProperties);
                                         let mutableKeys = Object.keys(mutableProperties);
                                         return (
-                                            <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
+                                            <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
                                                 <div className="card">
+                                                    <div className="info-section">
                                                     <p className="sub-title">{t("IMMUTABLES")}</p>
                                                     {immutableKeys !== null ?
                                                         immutableKeys.map((keyName, index1) => {
                                                             if (immutableProperties[keyName] !== "") {
                                                                 return (
                                                                     <div key={index + keyName} className="list-item"><p
-                                                                        className="list-item-label">{keyName} </p>: <p
+                                                                        className="list-item-label">{keyName}: </p> <p
                                                                         id={`immutable_asset_search` + index + index1}
                                                                         className="list-item-value"></p></div>)
                                                             } else {
                                                                 return (
                                                                     <div key={index + keyName} className="list-item"><p
-                                                                        className="list-item-label">{keyName} </p>: <p
+                                                                        className="list-item-label">{keyName}: </p> <p
                                                                         className="list-item-hash-value">{immutableProperties[keyName]}</p>
                                                                     </div>)
                                                             }
@@ -101,13 +104,13 @@ const SearchAsset = React.memo((props) => {
                                                             if (mutableProperties[keyName] !== "") {
                                                                 return (
                                                                     <div key={index + keyName} className="list-item"><p
-                                                                        className="list-item-label">{keyName} </p>: <p
+                                                                        className="list-item-label">{keyName}: </p> <p
                                                                         id={`mutable_asset_search` + index + index1}
                                                                         className="list-item-value"></p></div>)
                                                             } else {
                                                                 return (
                                                                     <div key={index + keyName} className="list-item"><p
-                                                                        className="list-item-label">{keyName} </p>: <p
+                                                                        className="list-item-label">{keyName}: </p> <p
                                                                         className="list-item-hash-value">{mutableProperties[keyName]}</p>
                                                                     </div>)
                                                             }
@@ -115,6 +118,7 @@ const SearchAsset = React.memo((props) => {
                                                         : ""
                                                     }
                                                 </div>
+                                            </div>
                                             </div>
                                         )
                                     })

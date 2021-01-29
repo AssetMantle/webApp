@@ -52,6 +52,10 @@ html, body, #root, .app {
 
 }
 
+.flex{
+  display: flex;
+}
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 12px;
@@ -145,9 +149,9 @@ html, body, #root, .app {
   max-width: 150px;
 }
 
+
 .list-container {
   width: 100%;
-  padding: 20px 0 0 0;
   .empty-list {
     color: #999999;
     text-align: center;
@@ -229,6 +233,10 @@ html, body, #root, .app {
 
 }
 
+.accountInfo > .row{
+  height: 100%;
+}
+
 .accountInfo {
   flex: 1;
 
@@ -238,6 +246,7 @@ html, body, #root, .app {
     form input {
       width: 300px;
     }
+
   }
 
   .button {
@@ -662,7 +671,7 @@ html, body, #root, .app {
       flex: 0 0 100%;
       max-width: 100%;
       .card-deck {
-        padding: 0px 10px;
+        padding: 20px 10px 0 10px;
         overflow-y: auto;
         height: calc(100vh - 151px);
         scrollbar-color: #C2D2E4 transparent;
@@ -674,8 +683,12 @@ html, body, #root, .app {
         .card{
           height: 400px;
           overflow: auto;
-          padding: 15px;
           margin:10px 0;
+          box-shadow: 0px 5.27536px 5.27536px rgba(0, 0, 0, 0.05);
+          border-radius: 9.23188px;
+          .info-section{
+            padding: 15px;
+          }
         }
       }
     }
@@ -738,13 +751,6 @@ html, body, #root, .app {
   }
 }
 
-.side-bar.active {
-  margin-left: -200px;
-
-  img {
-    transform: rotate(180deg);
-  }
-}
 
 .dropdown-section {
   display: flex;
@@ -771,6 +777,7 @@ html, body, #root, .app {
     font-size: 16px;
     padding: 26px 0;
     margin: 0;
+    word-break: break-all;
   }
   .back-arrow{
     cursor: pointer;
@@ -803,6 +810,14 @@ html, body, #root, .app {
   position       : relative;
   display        : flex;
   justify-content: center;
+  cursor: pointer;
+  p{
+    margin: 0;
+    font-size: 10px;
+    padding: 5px 10px;
+    border-radius: 30px;
+    word-break: initial;
+  }
 
   .copy-icon {
     width      : 20px;
@@ -813,12 +828,12 @@ html, body, #root, .app {
 
   .copy-result {
     position: absolute;
-    top: -25px;
-    right: -12px;
-    left: -8px;
+    top: -20px;
+    right: 0px;
+    left: 8px;
 
     span {
-      font-size: 10px;
+      font-size: 8px;
       font-weight: 500;
     }
   }
@@ -830,7 +845,7 @@ html, body, #root, .app {
   height: 300px !important;
 }
 .id-string{
-  width: 200px;
+  width: 130px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -852,21 +867,33 @@ html, body, #root, .app {
   flex-wrap: wrap;
   margin-bottom: 5px;
   .list-item-label{
-    width: 130px;
+    width: 150px;
     text-align: left;
     margin: 0;
     font-weight: 500;
+    font-size: 14px;
   }
   .list-item-value{
-    text-align: left;
+    text-align: right;
     margin:0 0 0 5px;
     word-break: break-word;
     flex: 1;
+    font-size: 14px;
+    font-weight: 300
   }
+}
+.list-item-value.id-section{
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .profile-section {
   .col-md-9.card-deck .card-deck .card{
     height: 300px !important;
+    padding: 20px;
   }
   .card{
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
@@ -882,6 +909,9 @@ html, body, #root, .app {
     padding-bottom: 15px;
     .list-item-label{
       width: 200px;
+    }
+    .list-item-value{
+      text-align: left;
     }
   }
   .profile-picture-section{
@@ -948,28 +978,34 @@ html, body, #root, .app {
   }
 }
 
-.ERC20::before{
+.Blue::before,.Red::before,.Green::before,.Black::before{
   content: "\A";
   border-style: solid;
-  border-width: 20px 20px 20px 20px;
-  border-color: #dd4397 #dd4397 #00000000 #dd4397;
+  border-width: 10px 0px 0px 0px;
   position: absolute;
-  top: 00px;
-  opacity: .2;
+  top: 0px;
+  opacity: .4;
+  width: 100%;
   right: 0px;
 }
-
-.ERC721::before{
-  content: "\A";
-  border-style: solid;
-  border-width: 20px 20px 20px 20px;
-  border-color: #dd4397 #dd4397 #00000000 #00000000;
-  position: absolute;
-  top: 00px;
-  opacity: .2;
-  right: 0px;
+.view-container {
+  .Blue::before, .Red::before, .Green::before, .Black::before {
+    border-width: 0;
+  }
+}
+.Blue::before{
+  border-color: #047495 transparent transparent transparent;
+}
+.Red::before{
+  border-color: #d58a94 transparent transparent transparent;
 }
 
+.Green::before{
+  border-color: #01a049 transparent transparent transparent;
+}
+.Black::before{
+  border-color: #536267 transparent transparent transparent;
+}
 .custom-icon{
   cursor: pointer;
   .icon{
@@ -977,3 +1013,95 @@ html, body, #root, .app {
     height: 20px;
   }
 }
+.upload-section{
+  margin-bottom: 5px;
+  display: flex;
+  label{
+    margin: 0;
+  }
+  button{
+    margin-left: 5px;
+    padding: 0 .5rem;
+  }
+}
+
+.upload-modal{
+  padding: 50px 25px 50px 25px !important;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+}
+
+.assetImage{
+  margin-top: 10px;
+   img{
+    width: 100%;
+    height: 250px;
+  }
+}
+.dummy-image {
+  //background: radial-gradient(50% 69.16% at 50% 50%, #1A4162 0%, #000000 100%);
+  padding: 0 30px;
+  margin-top: 10px;
+  img {
+    width: 100%;
+    height: 300px;
+  }
+}
+.asset-data {
+  .property-section {
+    .sub-title {
+      border-bottom: 1px solid;
+      line-height: 3;
+      text-transform: uppercase;
+    }
+  }
+  .list-item {
+    .list-item-label {
+      font-weight: 300;
+      font-size: 14px;
+      color: #666666;
+    }
+
+    .list-item-value {
+      text-align: right;
+      color: #666666;
+      font-weight: 500;
+    }
+  }
+}
+.view-container{
+  .card-deck .row{
+    width: 100%;
+  }
+}
+
+.property-actions{
+  padding: 0 30px;
+  text-align: center;
+}
+
+//.overlay {
+//  position: absolute;
+//  top: 0;
+//  left: 0;
+//  width: 100%;
+//  height: 80px;
+//  background: rgba(0, 0, 0, 0);
+//  transition: background 0.5s ease;
+//}
+//
+//.identity-card:hover .overlay {
+//  display: block;
+//  background: rgba(0, 0, 0, .3);
+//}
+//.viewButton{
+//  position: absolute;
+//  width: 100px;
+//  left:80px;
+//  top: 20px;
+//  text-align: center;
+//  opacity: 0;
+//  transition: opacity .35s ease;
+//}
+//.identity-card:hover .viewButton {
+//  opacity: 1;
+//}

@@ -1,20 +1,25 @@
 import React, {useState, useEffect} from "react";
 import maintainersQueryJS from "persistencejs/transaction/maintainers/query";
-import Helpers from "../../../utilities/Helper";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import {Button, Modal} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import {Deputize} from "../../forms/maintainers";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader"
 import Copy from "../../../components/copy";
 import metasQueryJS from "persistencejs/transaction/meta/query";
+import GetProperty from "../../../utilities/Helpers/getProperty";
+import FilterHelpers from "../../../utilities/Helpers/filter";
+import GetMeta from "../../../utilities/Helpers/getMeta";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const maintainersQuery = new maintainersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const MaintainerList = React.memo((props) => {
-    const Helper = new Helpers();
+    const PropertyHelper = new GetProperty();
+    const FilterHelper = new FilterHelpers();
+    const GetMetaHelper = new GetMeta();
+
     const {t} = useTranslation();
     const [loader, setLoader] = useState(true)
     const [maintainersList, setMaintainersList] = useState([]);
@@ -29,22 +34,22 @@ const MaintainerList = React.memo((props) => {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
                 if (dataList) {
-                    const filterIdentities = Helper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
+                    const filterIdentities = FilterHelper.FilterIdentitiesByProvisionedAddress(dataList, userAddress)
                     const maintainersData = maintainersQuery.queryMaintainerWithID("all")
                     maintainersData.then(function (item) {
                         const parsedMaintainersData = JSON.parse(item);
                         const maintainersDataList = parsedMaintainersData.result.value.maintainers.value.list;
                         if (maintainersDataList) {
-                            const filterMaintainersByIdentity = Helper.FilterMaintainersByIdentity(filterIdentities, maintainersDataList)
+                            const filterMaintainersByIdentity = FilterHelper.FilterMaintainersByIdentity(filterIdentities, maintainersDataList)
                             if (filterMaintainersByIdentity.length) {
                                 setMaintainersList(filterMaintainersByIdentity);
                                 filterMaintainersByIdentity.map((identity, index) => {
                                     let maintainedTraits = "";
                                     if (identity.value.maintainedTraits.value.properties.value.propertyList !== null) {
-                                        maintainedTraits = Helper.ParseProperties(identity.value.maintainedTraits.value.properties.value.propertyList);
+                                        maintainedTraits = PropertyHelper.ParseProperties(identity.value.maintainedTraits.value.properties.value.propertyList);
                                     }
                                     let maintainedTraitsKeys = Object.keys(maintainedTraits);
-                                    Helper.AssignMetaValue(maintainedTraitsKeys, maintainedTraits, metasQuery, 'maintainedTraits', index);
+                                    GetMetaHelper.AssignMetaValue(maintainedTraitsKeys, maintainedTraits, metasQuery, 'maintainedTraits', index);
                                     setLoader(false)
                                 })
                             } else {
@@ -77,39 +82,52 @@ const MaintainerList = React.memo((props) => {
                     maintainersList.map((maintainer, index) => {
                         let maintainerPropertyList = "";
                         if (maintainer.value.maintainedTraits.value.properties.value.propertyList !== null) {
-                            maintainerPropertyList = Helper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList);
+                            maintainerPropertyList = PropertyHelper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList);
                         }
                         let keys = Object.keys(maintainerPropertyList);
-                        let id = maintainer.value.id.value.classificationID.value.idString+"*"+maintainer.value.id.value.identityID.value.idString
+                        let classificationID = maintainer.value.id.value.classificationID.value.idString;
+                        let id = maintainer.value.id.value.identityID.value.idString
                         return (
                             <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
                                 <div className="card height-medium">
+                                    <div className="info-section">
                                     {(maintainer.value.addMaintainer) ?
                                         <div>
                                             <Button size="sm" variant="secondary"
-                                                onClick={() => handleModalData('BurnAsset', maintainer)}>Deputize</Button>
+                                                onClick={() => handleModalData('DeputizeMaintainer', maintainer)}>{t("DEPUTIZE")}</Button>
                                         </div> : ""
                                     }
                                     <div className="list-item">
-                                        <p className="list-item-label">{t("ID")}</p>
+                                        <p className="list-item-label">{t("CLASSIFICATION_ID")}:</p>
                                         <div className="list-item-value id-section">
-                                            <p className="id-string" title={id}>: {id}</p>
-                                            <Copy
-                                                id={id}/>
+                                            <p className="id-string" title={classificationID}> {classificationID}</p>
                                         </div>
+                                        <Copy
+                                            id={classificationID}/>
                                     </div>
+                                    <div className="list-item">
+                                        <p className="list-item-label">{t("IDENTITY_ID")}:</p>
+                                        <div className="list-item-value id-section">
+                                            <p className="id-string" title={id}> {id}</p>
+
+                                        </div>
+                                        <Copy
+                                            id={id}/>
+                                    </div>
+
                                     {keys !== null ?
                                         keys.map((keyName, index1) => {
                                             if (maintainerPropertyList[keyName] !== "") {
-                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p
+                                                return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName}:</p> <p
                                                     id={`maintainedTraits` + index + `${index1}`} className="list-item-value"></p></div>)
                                             } else {
                                                 return (
-                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName} </p>: <p className="list-item-hash-value">{maintainerPropertyList[keyName]}</p></div>)
+                                                    <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName}: </p> <p className="list-item-hash-value">{maintainerPropertyList[keyName]}</p></div>)
                                             }
                                         })
                                         : ""
                                     }
+                                </div>
                                 </div>
                             </div>
                         )
@@ -119,7 +137,7 @@ const MaintainerList = React.memo((props) => {
             </div>
             <div>
                 {
-                    externalComponent === 'BurnAsset' ?
+                    externalComponent === 'DeputizeMaintainer' ?
                         <Deputize setExternalComponent={setExternalComponent} maintainerData={maintainer}/> :
                         null
                 }

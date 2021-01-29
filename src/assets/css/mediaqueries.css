@@ -1,6 +1,11 @@
 @media (min-width: 769px) {
   .provision-address.address {
-    max-width: initial; } }
+    max-width: initial; }
+
+  .side-bar.active {
+    margin-left: -200px; }
+    .side-bar.active img {
+      transform: rotate(180deg); } }
 @media (max-width: 420px) {
   .footer {
     bottom: initial; }
@@ -43,7 +48,17 @@
     display: inline-flex; }
 
   .profile-section .profile-picture-section {
-    padding: 15px !important; } }
+    padding: 15px !important; }
+
+  .side-bar {
+    margin-left: -200px; }
+
+  .side-bar.active {
+    min-width: 250px;
+    max-width: 250px;
+    margin-left: 0px; }
+    .side-bar.active img {
+      transform: rotate(180deg); } }
 @media (max-width: 1400px) {
   .banner-image-section imge {
     margin-right: auto; } }
@@ -109,7 +124,6 @@
     padding-top: 60px;
     height: 100%; }
     .content-section .accountInfo .row {
-      height: calc(100vh - 60px);
       overflow-y: auto; }
       .content-section .accountInfo .row .col-md-9, .content-section .accountInfo .row .col-md-3 {
         flex: initial;

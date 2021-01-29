@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {Dropdown} from "react-bootstrap";
 import {Define} from "../../forms";
-import {CancelOrder} from "../../forms/orders";
 import ordersDefineJS from "persistencejs/transaction/orders/define";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
@@ -52,10 +51,6 @@ const Orders = () => {
                 null
             }
 
-            {externalComponent === 'CancelOrder' ?
-                <CancelOrder setExternalComponent={setExternalComponent} order={order}/> :
-                null
-            }
         </div>
     );
 };
