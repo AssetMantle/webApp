@@ -19,6 +19,14 @@ const LoginMnemonic = React.memo((props) => {
         }
         else {
             const wallet = keyUtils.getWallet(event.target.mnemonic.value)
+            let fromIDValue = localStorage.getItem('fromID');
+            let lastFromIDValue = localStorage.getItem('lastFromID')
+            if (fromIDValue !== null) {
+                localStorage.removeItem('fromID');
+            }
+            if (lastFromIDValue !== null) {
+                localStorage.removeItem('lastFromID');
+            }
             localStorage.setItem("address", wallet.address)
             localStorage.setItem("mnemonic", event.target.mnemonic.value)
             history.push('/identities');
