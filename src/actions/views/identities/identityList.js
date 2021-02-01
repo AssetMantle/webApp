@@ -125,6 +125,7 @@ const IdentityList = React.memo((props) => {
 
                                         </div>
                                     </div>
+
                                     <div className="info-section">
                                         <div className="list-item">
                                             <p className="list-item-label">{t("IDENTITY_ID")}:</p>
@@ -144,7 +145,13 @@ const IdentityList = React.memo((props) => {
                                                             divd.className = "assetImage"
                                                             document.getElementById("identityImagUri" + identityId + index).replaceChild(divd, imageElement);
                                                         }
-                                                    } else if (keyName === "identifier" || keyName === "style" || keyName === "description") {
+                                                    } else if (keyName === "style") {
+                                                        return (<div key={index + keyName} className="list-item"><p
+                                                            className="list-item-label"></p> <p
+                                                            id={`immutable_identityList` + index + `${index1}`}
+                                                            className="list-item-value"></p></div>)
+                                                    }
+                                                    else if (keyName === "identifier") {
                                                         return (<div key={index + keyName} className="list-item"><p
                                                             className="list-item-label">{keyName}: </p> <p
                                                             id={`immutable_identityList` + index + `${index1}`}
@@ -176,7 +183,7 @@ const IdentityList = React.memo((props) => {
                                             })
                                             : ""
                                         }
-                                        <Form.Group>
+                                        <Form.Group className="checkbox-fromid">
                                             <Form.Check custom type="checkbox" label="Use FromID"
                                                         name="checkboxURIee"
                                                         id={"checkboxFromID" + index}
@@ -185,9 +192,9 @@ const IdentityList = React.memo((props) => {
                                                         }}
                                             />
                                         </Form.Group>
-
                                         <Button variant="primary" className="viewButton" size="sm"
                                                 onClick={() => handleAsset(identityId)}>View</Button>
+
                                     </div>
                                 </div>
                             </div>

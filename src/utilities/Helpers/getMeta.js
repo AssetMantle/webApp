@@ -103,13 +103,13 @@ export default class GetMeta {
                             }
                         } else {
                             if (metaValue == "Blue") {
-                                myElement = <span className="Blue">{metaValue}</span>;
+                                myElement = <span className="Blue"></span>;
                             } else if (metaValue == "Red") {
-                                myElement = <span className="Red">{metaValue}</span>;
+                                myElement = <span className="Red"></span>;
                             } else if (metaValue == "Green") {
-                                myElement = <span className="Green">{metaValue}</span>;
+                                myElement = <span className="Green"></span>;
                             } else if (metaValue == "Black") {
-                                myElement = <span className="Black">{metaValue}</span>;
+                                myElement = <span className="Black"></span>;
                             } else {
                                 myElement = <span>{metaValue}</span>;
                             }

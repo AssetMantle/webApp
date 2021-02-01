@@ -110,7 +110,13 @@ const TotalOrders = React.memo((props) => {
                                                         divd.className = "assetImage"
                                                         document.getElementById("totalOrderImagUri" + orderIdData+index).replaceChild(divd, imageElement);
                                                     }
-                                                } else if(keyName === "type" || keyName === "style" || keyName === "description"){
+                                                } else if(keyName === "style"){
+                                                    return (<div key={index + keyName} className="list-item"><p
+                                                        className="list-item-label"></p><p
+                                                        id={`immutable_order_market` + index + `${index1}`}
+                                                        className="list-item-value"></p></div>)
+                                                }
+                                                else if(keyName === "identifier" || keyName === "type"){
                                                     return (<div key={index + keyName} className="list-item"><p
                                                         className="list-item-label">{keyName}: </p><p
                                                         id={`immutable_order_market` + index + `${index1}`}

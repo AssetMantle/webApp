@@ -126,7 +126,13 @@ const OrderList = React.memo((props) => {
                                                             divd.className = "assetImage"
                                                             document.getElementById("orderImagUri" + makerID + index).replaceChild(divd, imageElement);
                                                         }
-                                                    }  else if(keyName === "identifier" || keyName === "style" || keyName === "description"){
+                                                    }  else if(keyName === "style"){
+                                                        return (<div key={index + keyName} className="list-item"><p
+                                                            className="list-item-label"></p> <p
+                                                            id={`immutable_order` + index + `${index1}`}
+                                                            className="list-item-value"></p></div>)
+                                                    }
+                                                    else if(keyName === "identifier" || keyName === "description"){
                                                         return (<div key={index + keyName} className="list-item"><p
                                                             className="list-item-label">{keyName}: </p> <p
                                                             id={`immutable_order` + index + `${index1}`}

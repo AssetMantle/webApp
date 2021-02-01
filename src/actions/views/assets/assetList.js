@@ -167,10 +167,6 @@ const AssetList = React.memo((props) => {
                                             </div>
                                         </div>
 
-                                        <div className="list-item">
-                                            <p className="list-item-label">{t("STAKE")} :</p>
-                                            <p className="list-item-value id-string" title={stake}>{stake}</p>
-                                        </div>
                                         {ownableId === "stake" ?
                                             <div className="button-group">
                                                 <Button variant="primary" size="sm"
@@ -208,7 +204,17 @@ const AssetList = React.memo((props) => {
                                                                                 divd.className = "assetImage"
                                                                                 document.getElementById("assetImagUri" + ownerId + index).replaceChild(divd, imageElement);
                                                                             }
-                                                                        } else if (keyName === "identifier" || keyName === "style" || keyName === "description") {
+                                                                        } else if (keyName === "style") {
+                                                                            return (
+                                                                                <div key={index + keyName}
+                                                                                     className="list-item"><p
+                                                                                    className="list-item-label"></p>
+                                                                                    <p
+                                                                                        id={`immutable_asset` + index + `${index1}`}
+                                                                                        className="list-item-value"></p>
+                                                                                </div>)
+                                                                        }
+                                                                        else if (keyName === "identifier") {
                                                                             return (
                                                                                 <div key={index + keyName}
                                                                                      className="list-item"><p
