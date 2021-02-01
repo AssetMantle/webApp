@@ -87,8 +87,10 @@ export default class GetMeta {
         keys.map((keyName, index1) => {
             if (properties[keyName] !== "") {
                 const metaQueryResult = metasQuery.queryMetaWithID(properties[keyName]);
+
                 if (metaQueryResult) {
                     metaQueryResult.then(function (item) {
+                        console.log(item, "meta")
                         const data = JSON.parse(item);
                         let myElement = "";
                         let metaValue = $this.FetchMetaValue(data, properties[keyName])
