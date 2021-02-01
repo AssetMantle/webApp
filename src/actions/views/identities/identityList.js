@@ -147,6 +147,12 @@ const IdentityList = React.memo((props) => {
                                                         }
                                                     } else if (keyName === "style") {
                                                         return (<div key={index + keyName} className="list-item"><p
+                                                            className="list-item-label"></p> <p
+                                                            id={`immutable_identityList` + index + `${index1}`}
+                                                            className="list-item-value"></p></div>)
+                                                    }
+                                                    else if (keyName === "identifier") {
+                                                        return (<div key={index + keyName} className="list-item"><p
                                                             className="list-item-label">{keyName}: </p> <p
                                                             id={`immutable_identityList` + index + `${index1}`}
                                                             className="list-item-value"></p></div>)
