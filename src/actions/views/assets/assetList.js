@@ -208,6 +208,16 @@ const AssetList = React.memo((props) => {
                                                                             return (
                                                                                 <div key={index + keyName}
                                                                                      className="list-item"><p
+                                                                                    className="list-item-label"></p>
+                                                                                    <p
+                                                                                        id={`immutable_asset` + index + `${index1}`}
+                                                                                        className="list-item-value"></p>
+                                                                                </div>)
+                                                                        }
+                                                                        else if (keyName === "identifier") {
+                                                                            return (
+                                                                                <div key={index + keyName}
+                                                                                     className="list-item"><p
                                                                                     className="list-item-label">{keyName} : </p>
                                                                                     <p
                                                                                         id={`immutable_asset` + index + `${index1}`}
