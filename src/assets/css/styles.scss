@@ -1079,29 +1079,15 @@ html, body, #root, .app {
   text-align: center;
 }
 
-//.overlay {
-//  position: absolute;
-//  top: 0;
-//  left: 0;
-//  width: 100%;
-//  height: 80px;
-//  background: rgba(0, 0, 0, 0);
-//  transition: background 0.5s ease;
-//}
-//
-//.identity-card:hover .overlay {
-//  display: block;
-//  background: rgba(0, 0, 0, .3);
-//}
-//.viewButton{
-//  position: absolute;
-//  width: 100px;
-//  left:80px;
-//  top: 20px;
-//  text-align: center;
-//  opacity: 0;
-//  transition: opacity .35s ease;
-//}
-//.identity-card:hover .viewButton {
-//  opacity: 1;
-//}
+.viewButton{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  margin: 0 !important;
+}
+.checkbox-fromid label{
+  color: #666666;
+  font-weight: 500;
+}
