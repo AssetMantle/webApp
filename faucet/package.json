@@ -5,11 +5,11 @@
   "keywords": [],
   "main": "server.js",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "cors": "^2.8.5",
-    "history": "^4.10.1",
     "express": "^4.17.1",
-    "persistencejs": "https://github.com/persistenceOne/persistenceJS.git#SDKv0.1.0",
+    "history": "^4.10.1",
+    "persistencejs": "https://github.com/persistenceOne/persistenceJS.git#v0.1.0",
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
