@@ -132,7 +132,12 @@ let en = {
         "TAKER_OWNABLE_ID":"Taker Ownable Id",
         "MAKER_ID":"Maker Id",
         "HASH":"Hash",
-        "ASSET_ID":"Asset Id"
+        "ASSET_ID":"Asset Id",
+        "ADVANCE":"Advance",
+        "GENERATE_RANDOM_WALLET": "Generate random wallet",
+        "SIGNUP_WITH_MNEMONIC":"Sign up with mnemonic",
+        "ACCOUNT":"Account",
+        "ADDRESS_INDEX":"Address Index"
 
     }
 };

@@ -53,37 +53,37 @@ const SignUp = () => {
     return (
         <div>
             <Modal show={show} onHide={handleClose} className="signup-section" centered>
-            <Modal.Header closeButton>
-                {t("SIGNING_UP")}
-            </Modal.Header>
-            <Modal.Body>
-                <Form>
-                    <p>({t("SIGNUP_NOTE")})</p>
-                    <div>
-                        <Button
-                            variant="primary"
-                            className="button-signup-mnemonic button-signup"
-                            onClick={() => handleEncrypt("SignUp with PrivateKey")}
-                        >
-                            {t("MNEMONIC")}/{t("PRIVATE_KEY")}
-                        </Button>
+                <Modal.Header closeButton>
+                    {t("SIGNING_UP")}
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <p>({t("SIGNUP_NOTE")})</p>
                         <div>
+                            <Button
+                                variant="primary"
+                                className="button-signup-mnemonic button-signup"
+                                onClick={() => handleEncrypt("SignUp with PrivateKey")}
+                            >
+                                {t("MNEMONIC")}/{t("PRIVATE_KEY")}
+                            </Button>
+                            <div>
+                            </div>
+                            <Button
+                                variant="primary"
+                                className="button-signup button-signup-ledger disabled"
+                            >
+                                {t("LEDGER_STORE")}
+                            </Button>
                         </div>
-                        <Button
-                            variant="primary"
-                            className="button-signup button-signup-ledger disabled"
-                        >
-                            {t("LEDGER_STORE")}
-                        </Button>
-                    </div>
-                </Form>
-            </Modal.Body>
-            <Modal.Footer>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
                     <Form.Check custom type="checkbox" label="Accept Terms&Conditions"
                                 name="removeMaintainer"
                                 id="removeMaintainer"
                     />
-            </Modal.Footer>
+                </Modal.Footer>
             </Modal>
             <Modal
                 show={showEncrypt}
@@ -106,12 +106,12 @@ const SignUp = () => {
                                 required={true}
                             />
                             <div className="submitButtonSection">
-                            <Button
-                                variant="primary"
-                                type="submit"
-                            >
-                                {t("NEXT")}
-                            </Button>
+                                <Button
+                                    variant="primary"
+                                    type="submit"
+                                >
+                                    {t("NEXT")}
+                                </Button>
                             </div>
                         </Form>
                         : ""
@@ -122,10 +122,10 @@ const SignUp = () => {
                             <p className="mnemonic-text">{mnemonic}</p>
                             <p className="key-download">
                                 <DownloadLink
-                                label="Download Key File for future use"
-                                filename="key.json"
-                                exportFile={() => `${jsonName}`}
-                            />
+                                    label="Download Key File for future use"
+                                    filename="key.json"
+                                    exportFile={() => `${jsonName}`}
+                                />
                                 <Icon viewClass="arrow-icon" icon="arrow"/>
                             </p>
                             <p className="download-note">({t("DOWNLOAD_KEY")})</p>

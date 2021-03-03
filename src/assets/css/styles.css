@@ -394,8 +394,6 @@ html, body, #root, .app {
   .mnemonic-login-section.login-section form textarea {
     min-width: 200px;
     max-width: 400px;
-    background: rgba(239, 203, 48, 0.04);
-    border: 0.2px solid #262A2B;
     box-sizing: border-box;
     border-radius: 14px; }
     .mnemonic-login-section.login-section form textarea::placeholder {
