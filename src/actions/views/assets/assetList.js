@@ -136,8 +136,8 @@ const AssetList = React.memo((props) => {
                         let stake = split.value.split;
                         return (
                             <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
-                                <div className="card" >
-                                    <div id={"assetImagUri" + ownerId + index}>
+                                <div className="card asset-card">
+                                    <div id={"assetImagUri" + ownerId + index} className="image-container">
                                         <div id={"assetImage" + ownerId + index} className="dummy-image">
                                         </div>
                                     </div>
@@ -145,7 +145,7 @@ const AssetList = React.memo((props) => {
                                         {ownableId !== "stake" ?
                                             <>
                                                 <div className="list-item">
-                                                    <p className="list-item-label">{t("ASSET_ID")} :</p>
+                                                    <p className="list-item-label">{t("ASSET_ID")}:</p>
                                                     <div className="list-item-value id-section">
                                                         <p className="id-string" title={ownableId}> {ownableId}</p>
                                                     </div>
@@ -154,14 +154,14 @@ const AssetList = React.memo((props) => {
                                             </>
                                             :
                                             <div className="list-item">
-                                                <p className="list-item-label">{t("ASSET_ID")} :</p>
+                                                <p className="list-item-label">{t("ASSET_ID")}:</p>
                                                 <p className="list-item-value" title={ownableId}>{ownableId}</p>
                                             </div>
 
                                         }
 
                                         <div className="list-item">
-                                            <p className="list-item-label">{t("OWNER_ID")} :</p>
+                                            <p className="list-item-label">{t("OWNER_ID")}:</p>
                                             <div className="list-item-value id-section">
                                                 <p className="id-string" title={ownerId}> {ownerId}</p>
                                             </div>

@@ -17,9 +17,25 @@ html, body, #root, .app {
     align-items: center;
     font-weight: 500;
     font-size: 14px;
-    border-bottom: 3px solid transparent; }
-  .navbar-dark .nav-link.active {
-    border-bottom: 3px solid #EFCB30; }
+    position: relative; }
+    .navbar-dark .navbar-nav .nav-link:hover::after {
+      background-color: #EFCB30;
+      bottom: 0%;
+      content: "";
+      display: block;
+      height: 3px;
+      left: 0px;
+      position: absolute;
+      width: 100%; }
+  .navbar-dark .nav-link.active::after {
+    background-color: #EFCB30;
+    bottom: 0%;
+    content: "";
+    display: block;
+    height: 3px;
+    left: 0px;
+    position: absolute;
+    width: 100%; }
   .navbar-dark .navbar-brand {
     padding: 0 0 10px 0; }
     .navbar-dark .navbar-brand a {
@@ -60,7 +76,7 @@ html, body, #root, .app {
   .navbar-dark .navbar-nav .dropdown-toggle .profile-icon p {
     margin: 0; }
 .navbar-dark .navbar-nav .dropdown-toggle::after {
-  display: none; }
+  display: none !important; }
 
 .provision-address {
   word-break: break-word; }
@@ -187,6 +203,9 @@ html, body, #root, .app {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 99999; }
+
+.dropdown-item {
+  padding: 8px 20px !important; }
 
 .dropdown-item.active, .dropdown-item:active {
   background-color: #EFCB30 !important;
@@ -467,6 +486,10 @@ html, body, #root, .app {
         border-radius: 9.23188px; }
         .content-section .accountInfo .col-md-9.card-deck .card-deck .card .info-section {
           padding: 15px; }
+        .content-section .accountInfo .col-md-9.card-deck .card-deck .card:hover {
+          transform: translateY(-2px);
+          box-shadow: rgba(47, 63, 78, 0.25) 0px 0px 8px 0px;
+          transition: all 0.1s ease 0s; }
   .content-section .accountInfo .summary-section {
     display: none; }
 
@@ -744,7 +767,7 @@ html, body, #root, .app {
   margin-top: 10px; }
   .assetImage img {
     width: 100%;
-    height: 250px; }
+    height: 220px; }
 
 .dummy-image {
   padding: 0 30px;
@@ -784,5 +807,19 @@ html, body, #root, .app {
 .checkbox-fromid label {
   color: #666666;
   font-weight: 500; }
+
+.identity-card .list-item .list-item-label, .maintainer-card .list-item .list-item-label, .order-card .list-item .list-item-label, .asset-card .list-item .list-item-label {
+  width: 120px; }
+.identity-card .list-item .list-item-value, .maintainer-card .list-item .list-item-value, .order-card .list-item .list-item-value, .asset-card .list-item .list-item-value {
+  word-break: keep-all; }
+
+.image-container {
+  padding: 0 10px 10px 10px; }
+
+.dropdown.profile:hover .profile-menu {
+  display: block; }
+
+.dropdown.profile .dropdown-menu {
+  top: 95% !important; }
 
 /*# sourceMappingURL=styles.css.map */

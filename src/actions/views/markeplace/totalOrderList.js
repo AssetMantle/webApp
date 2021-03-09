@@ -86,8 +86,8 @@ const TotalOrders = React.memo((props) => {
                         let mutableKeys = Object.keys(mutableProperties);
                         return (
                             <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
-                                <div className="card">
-                                    <div id={"totalOrderImagUri" + orderIdData+index}>
+                                <div className="card order-card">
+                                    <div id={"totalOrderImagUri" + orderIdData+index} className="image-container">
                                         <div id={"totalOrderImage" + orderIdData+index} className="dummy-image">
 
                                         </div>

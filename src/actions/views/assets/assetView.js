@@ -215,7 +215,7 @@ const AssetView = React.memo((props) => {
                                                                                 <p className="sub-title">{t("IMMUTABLES")}</p>
                                                                                 {immutableKeys !== null ?
                                                                                     immutableKeys.map((keyName, index1) => {
-                                                                                        if (immutableProperties[keyName] !== "") {
+                                                                                        if (immutableProperties[keyName] !== "" && keyName !== 'style' && keyName !== config.URI) {
                                                                                             return (
                                                                                                 <div key={index + keyName}
                                                                                                      className="list-item">
@@ -225,7 +225,7 @@ const AssetView = React.memo((props) => {
                                                                                                         id={`immutable_asset_view` + index + index1}
                                                                                                         className="list-item-value"></p>
                                                                                                 </div>)
-                                                                                        } else {
+                                                                                        } else if(keyName !== 'style' && keyName !== config.URI){
                                                                                             return (
                                                                                                 <div key={index + keyName}
                                                                                                      className="list-item">
@@ -244,7 +244,7 @@ const AssetView = React.memo((props) => {
                                                                                 <p className="sub-title">{t("MUTABLES")}</p>
                                                                                 {mutableKeys !== null ?
                                                                                     mutableKeys.map((keyName, index1) => {
-                                                                                        if (mutableProperties[keyName] !== "") {
+                                                                                        if (mutableProperties[keyName] !== ""  && keyName !== config.URI) {
                                                                                             return (
                                                                                                 <div key={index + keyName}
                                                                                                      className="list-item">
@@ -254,7 +254,7 @@ const AssetView = React.memo((props) => {
                                                                                                         id={`mutable_asset_view` + index + index1}
                                                                                                         className="list-item-value"></p>
                                                                                                 </div>)
-                                                                                        } else {
+                                                                                        } else if(keyName !== config.URI){
                                                                                             return (
                                                                                                 <div key={index + keyName}
                                                                                                      className="list-item">

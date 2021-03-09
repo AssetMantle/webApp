@@ -120,8 +120,8 @@ const IdentityList = React.memo((props) => {
                         return (
                             <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
                                 <div className="card identity-card">
-                                    <div id={"identityImagUri" + identityId + index}>
-                                        <div id={"identityImage" + identityId + index} className="dummy-image">
+                                    <div id={"identityImagUri" + identityId + index} className="image-container">
+                                        <div id={"identityImage" + identityId + index} className="dummy-image image-box">
 
                                         </div>
                                     </div>
@@ -138,11 +138,11 @@ const IdentityList = React.memo((props) => {
                                             immutableKeys.map((keyName, index1) => {
                                                 if (immutableProperties[keyName] !== "") {
                                                     if (keyName === config.URI) {
-                                                        let imageElement = document.getElementById("identityImage" + identityId + index)
+                                                        let imageElement = document.getElementById("identityImage" + identityId + index);
                                                         if (typeof (imageElement) != 'undefined' && imageElement != null) {
                                                             let divd = document.createElement('div');
-                                                            divd.id = `identityUrlId` + index + `${index1}`
-                                                            divd.className = "assetImage"
+                                                            divd.id = `identityUrlId` + index + `${index1}`;
+                                                            divd.className = "assetImage";
                                                             document.getElementById("identityImagUri" + identityId + index).replaceChild(divd, imageElement);
                                                         }
                                                     } else if (keyName === "style") {
