@@ -255,7 +255,7 @@ const IssueIdentity = (props) => {
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("CLASSIFICATION_ID")}</Form.Label>
+                            <Form.Label>{t("CLASSIFICATION_ID")}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -292,7 +292,7 @@ const IssueIdentity = (props) => {
                 <Modal.Body>
                     <Form onSubmit={handleFormSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("FROM_ID")}</Form.Label>
+                            <Form.Label>{t("FROM_ID")}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -303,7 +303,7 @@ const IssueIdentity = (props) => {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>{t("TO_ADDRESS")}</Form.Label>
+                            <Form.Label>{t("TO_ADDRESS")}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -323,7 +323,7 @@ const IssueIdentity = (props) => {
                                         <div key={index}>
                                             <Form.Group>
                                                 <Form.Label>Mutable
-                                                    Traits {mutableName} |{mutableType} </Form.Label>
+                                                    Traits {mutableName} |{mutableType}* </Form.Label>
                                                 <Form.Control
                                                     type="text"
                                                     className=""
@@ -350,7 +350,7 @@ const IssueIdentity = (props) => {
                                         <div key={index}>
                                             <Form.Group>
                                                 <div className="upload-section">
-                                                    <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
+                                                    <Form.Label>Mutable Traits {mutableName}|{mutableType}* </Form.Label>
                                                     {mutableType === 'S' && mutableName !== config.URI
                                                         ?
                                                         <Button variant="secondary" size="sm"
@@ -401,7 +401,7 @@ const IssueIdentity = (props) => {
                                         <div key={index}>
                                             <Form.Group>
                                                 <Form.Label>Immutable
-                                                    Traits {immutableName} |{immutableType} </Form.Label>
+                                                    Traits {immutableName} |{immutableType}* </Form.Label>
                                                 <Form.Control
                                                     type="text"
                                                     className=""
@@ -428,7 +428,7 @@ const IssueIdentity = (props) => {
                                             <Form.Group>
                                                 <div className="upload-section">
                                                     <Form.Label>Immutable
-                                                        Traits {immutableName} |{immutableType} </Form.Label>
+                                                        Traits {immutableName} |{immutableType}* </Form.Label>
                                                     {immutableType === 'S' && immutableHash === ""
                                                         ?
                                                         <Button variant="secondary" size="sm"

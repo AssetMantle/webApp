@@ -38,10 +38,10 @@ const MintAsset = (props) => {
     const [checkboxImmutableNamesList, setCheckboxImmutableNamesList] = useState([]);
     const [fromID, setFromID] = useState("");
 
-    useEffect(()=>{
+    useEffect(() => {
         let fromIDValue = localStorage.getItem('fromID');
         setFromID(fromIDValue);
-    },[])
+    }, [])
 
     const handleCloseNext = () => {
         setShowNext(false);
@@ -253,7 +253,7 @@ const MintAsset = (props) => {
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("CLASSIFICATION_ID")} </Form.Label>
+                            <Form.Label>{t("CLASSIFICATION_ID")}* </Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -290,7 +290,7 @@ const MintAsset = (props) => {
                 <Modal.Body>
                     <Form onSubmit={handleFormSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("FROM_ID")}</Form.Label>
+                            <Form.Label>{t("FROM_ID")}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -301,7 +301,7 @@ const MintAsset = (props) => {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>{t("TO_ID")}</Form.Label>
+                            <Form.Label>{t("TO_ID")}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -322,7 +322,7 @@ const MintAsset = (props) => {
                                         <div key={index}>
                                             <Form.Group>
                                                 <Form.Label>Mutable
-                                                    Traits {mutableName} |{mutableType} </Form.Label>
+                                                    Traits {mutableName} |{mutableType}* </Form.Label>
                                                 <Form.Control
                                                     type="text"
                                                     className=""
@@ -348,7 +348,8 @@ const MintAsset = (props) => {
                                         <div key={index}>
                                             <Form.Group>
                                                 <div className="upload-section">
-                                                    <Form.Label>Mutable Traits {mutableName}|{mutableType} </Form.Label>
+                                                    <Form.Label>Mutable
+                                                        Traits {mutableName}|{mutableType}* </Form.Label>
                                                     {mutableType === 'S' && mutableName !== config.URI
                                                         ?
                                                         <Button variant="secondary" size="sm"
@@ -398,7 +399,7 @@ const MintAsset = (props) => {
                                         <div key={index}>
                                             <Form.Group>
                                                 <Form.Label>Immutable
-                                                    Traits {immutableName} |{immutableType} </Form.Label>
+                                                    Traits {immutableName} |{immutableType}* </Form.Label>
                                                 <Form.Control
                                                     type="text"
                                                     className=""
@@ -422,7 +423,7 @@ const MintAsset = (props) => {
                                             <Form.Group>
                                                 <div className="upload-section">
                                                     <Form.Label>Immutable
-                                                        Traits {immutableName} |{immutableType} </Form.Label>
+                                                        Traits {immutableName} |{immutableType}* </Form.Label>
                                                     {immutableType === 'S' && immutableHash == ""
                                                         ?
                                                         <Button variant="secondary" size="sm"
@@ -463,7 +464,6 @@ const MintAsset = (props) => {
                         {errorMessage !== "" ?
                             <span className="error-response">{errorMessage}</span>
                             : ""
-
                         }
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">

@@ -27,7 +27,7 @@ let en = {
         "TO_ID": "Acquirer Identity ID",
         "FROM_ID": "Issuer Identity ID",
         "CLASSIFICATION_ID": "Classification ID",
-        "OWNABLE_ID": "Ownable Id",
+        "OWNABLE_ID": "Ownable ID",
         "SPLIT": "Split",
         "COIN_DENOM": "Coin Denomination",
         "COIN_AMOUNT": "Coin Amount",
@@ -109,7 +109,7 @@ let en = {
         "MAINTAINERS": "Maintainers",
         "MARKET_PLACE": "Marketplace",
         "SELECT_ANY_MUTABLE_TRAITS": "Select any mutable trait",
-        "SEND_TO_ID": "Send To Id",
+        "SEND_TO_ID": "Send To ID",
         "SPLIT_AMOUNT": "Split Amount",
         "SEND": "Send",
         "SEND_SPLITS": "Send",
@@ -124,15 +124,15 @@ let en = {
         "CANCEL": "Cancel Order",
         "PROVISION_ADDRESS_LIST": "ProvisionAddress List",
         "UN_PROVISION_ADDRESS_LIST": "UnProvisionAddress List",
-        "ORDER_ID": 'Order Id',
+        "ORDER_ID": 'Order ID',
         "MUTABLE_VALIDATION_ERROR": "These ,|: excluded",
         "TRAIT_VALUE":"Trait Value",
-        "IDENTITY_ID":"Identity Id",
-        "MAKER_OWNABLE_ID":"Maker Ownable Id",
-        "TAKER_OWNABLE_ID":"Taker Ownable Id",
-        "MAKER_ID":"Maker Id",
+        "IDENTITY_ID":"Identity ID",
+        "MAKER_OWNABLE_ID":"Maker Ownable ID",
+        "TAKER_OWNABLE_ID":"Taker Ownable ID",
+        "MAKER_ID":"Maker ID",
         "HASH":"Hash",
-        "ASSET_ID":"Asset Id"
+        "ASSET_ID":"Asset ID"
 
     }
 };

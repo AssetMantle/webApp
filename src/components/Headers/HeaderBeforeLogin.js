@@ -30,11 +30,11 @@ const HeaderBeforeLogin = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto ml-auto">
-                        <Nav.Link>{t("MAIN_SITE")}</Nav.Link>
-                        <Nav.Link>{t("EXPLORER")}</Nav.Link>
-                        <Nav.Link>{t("DOCS")}</Nav.Link>
-                        <Nav.Link>{t("DASHBOARD")}</Nav.Link>
-                        <Nav.Link>{t("CONTACT_US")}</Nav.Link>
+                        {/*<Nav.Link>{t("MAIN_SITE")}</Nav.Link>*/}
+                        {/*<Nav.Link>{t("EXPLORER")}</Nav.Link>*/}
+                        {/*<Nav.Link>{t("DOCS")}</Nav.Link>*/}
+                        {/*<Nav.Link>{t("DASHBOARD")}</Nav.Link>*/}
+                        {/*<Nav.Link>{t("CONTACT_US")}</Nav.Link>*/}
                     </Nav>
 
                     <Nav>

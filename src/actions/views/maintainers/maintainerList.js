@@ -10,6 +10,7 @@ import metasQueryJS from "persistencejs/transaction/meta/query";
 import GetProperty from "../../../utilities/Helpers/getProperty";
 import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
+import config from "../../../constants/config";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -89,7 +90,7 @@ const MaintainerList = React.memo((props) => {
                         let id = maintainer.value.id.value.identityID.value.idString
                         return (
                             <div className="col-xl-4 col-lg-6 col-md-6  col-sm-12" key={index}>
-                                <div className="card height-medium">
+                                <div className="card height-medium maintainer-card">
                                     <div className="info-section">
                                     {(maintainer.value.addMaintainer) ?
                                         <div>
@@ -117,10 +118,10 @@ const MaintainerList = React.memo((props) => {
 
                                     {keys !== null ?
                                         keys.map((keyName, index1) => {
-                                            if (maintainerPropertyList[keyName] !== "") {
+                                            if (maintainerPropertyList[keyName] !== "" && keyName !== 'style' && keyName !== config.URI) {
                                                 return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName}:</p> <p
                                                     id={`maintainedTraits` + index + `${index1}`} className="list-item-value"></p></div>)
-                                            } else {
+                                            } else if(keyName !== 'style' && keyName !== config.URI){
                                                 return (
                                                     <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName}: </p> <p className="list-item-hash-value">{maintainerPropertyList[keyName]}</p></div>)
                                             }
