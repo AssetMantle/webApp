@@ -51,7 +51,7 @@ const SendSplit = (props) => {
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("SEND_TO_ID")} </Form.Label>
+                            <Form.Label>{t("SEND_TO_ID")}* </Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -61,7 +61,7 @@ const SendSplit = (props) => {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>{t("SPLIT_AMOUNT")} </Form.Label>
+                            <Form.Label>{t("SPLIT_AMOUNT")}* </Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""

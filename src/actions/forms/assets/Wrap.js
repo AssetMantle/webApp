@@ -55,7 +55,7 @@ const Wrap = (props) => {
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("FROM_ID")} </Form.Label>
+                            <Form.Label>{t("FROM_ID")}* </Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -67,7 +67,7 @@ const Wrap = (props) => {
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Label>{t("COIN_DENOM")} </Form.Label>
+                            <Form.Label>{t("COIN_DENOM")}* </Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -77,7 +77,7 @@ const Wrap = (props) => {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>{t("COIN_AMOUNT")}</Form.Label>
+                            <Form.Label>{t("COIN_AMOUNT")}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""

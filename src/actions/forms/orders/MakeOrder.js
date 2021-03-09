@@ -255,7 +255,7 @@ const MakeOrder = (props) => {
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("CLASSIFICATION_ID")}</Form.Label>
+                            <Form.Label>{t("CLASSIFICATION_ID")}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -292,7 +292,7 @@ const MakeOrder = (props) => {
                 <Modal.Body>
                     <Form onSubmit={handleFormSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("FROM_ID")}</Form.Label>
+                            <Form.Label>{t("FROM_ID")}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -304,7 +304,7 @@ const MakeOrder = (props) => {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>{t("TAKER_OWNABLE_SPLIT")}</Form.Label>
+                            <Form.Label>{t("TAKER_OWNABLE_SPLIT")}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -314,7 +314,7 @@ const MakeOrder = (props) => {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>{t("MAKER_SPLIT")}</Form.Label>
+                            <Form.Label>{t("MAKER_SPLIT")}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -324,7 +324,7 @@ const MakeOrder = (props) => {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>{t("EXPIRES_IN")}</Form.Label>
+                            <Form.Label>{t("EXPIRES_IN")}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -385,7 +385,7 @@ const MakeOrder = (props) => {
                                             <div key={index}>
                                                 <Form.Group>
                                                     <Form.Label>Mutable
-                                                        Traits {mutableName} |{mutableType} </Form.Label>
+                                                        Traits {mutableName} |{mutableType}* </Form.Label>
                                                     <Form.Control
                                                         type="text"
                                                         className=""
@@ -462,7 +462,7 @@ const MakeOrder = (props) => {
                                         <div key={index}>
                                             <Form.Group>
                                                 <Form.Label>Immutable
-                                                    Traits {immutableName} |{immutableType} </Form.Label>
+                                                    Traits {immutableName} |{immutableType}* </Form.Label>
                                                 <Form.Control
                                                     type="text"
                                                     className=""
@@ -488,7 +488,7 @@ const MakeOrder = (props) => {
                                             <Form.Group>
                                                 <div className="upload-section">
                                                     <Form.Label>Immutable
-                                                        Traits {immutableName} |{immutableType} </Form.Label>
+                                                        Traits {immutableName} |{immutableType}* </Form.Label>
                                                     {immutableType === 'S' && immutableHash === ""
                                                         ?
                                                         <Button variant="secondary" size="sm"

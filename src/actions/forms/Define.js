@@ -30,19 +30,19 @@ const Define = (props) => {
     useEffect(()=>{
         let fromIDValue = localStorage.getItem('fromID');
         setFromID(fromIDValue);
-    },[])
+    },[]);
 
     const handleChange = evt => {
         const newValue = evt.target.value;
         setInputValues({...inputValues, [evt.target.name]: newValue});
-    }
+    };
     const handleChangeMutable = (evt, idx) => {
         const newValue = evt.target.value;
         const selectValue = document.getElementById("MutableDataType" + idx).value;
         const checkError = PropertyHelper.DataTypeValidation(selectValue, newValue);
         PropertyHelper.showHideDataTypeError(checkError, `MutableDefine${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
-    }
+    };
 
     const handleChangeImmutable = (evt, idx) => {
         const newValue = evt.target.value;
@@ -50,7 +50,7 @@ const Define = (props) => {
         const checkError = PropertyHelper.DataTypeValidation(selectValue, newValue);
         PropertyHelper.showHideDataTypeError(checkError, `ImmutableDefine${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
-    }
+    };
 
     const handleClose = () => {
         setShow(false)
@@ -58,16 +58,16 @@ const Define = (props) => {
     };
     const handleChangeType = evt => {
         setTypeOption(evt.target.value);
-    }
+    };
     const handleChangeStyle = evt => {
         setMutableStyle(evt.target.value);
-    }
+    };
 
     const handleSelectChange = evt => {
         const newValue = evt.target.value;
         setInputValues({...inputValues, [evt.target.name]: newValue});
 
-    }
+    };
 
     const addMutableMeta = (evt, val) => {
         const checkedValue = evt.target.checked;
@@ -265,7 +265,7 @@ const Define = (props) => {
                 <Modal.Body>
                     <form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("FROM_ID")}</Form.Label>
+                            <Form.Label>{t("FROM_ID")}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -276,7 +276,7 @@ const Define = (props) => {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Immutable style:S| </Form.Label>
+                            <Form.Label>Immutable style:S|*</Form.Label>
                             <Form.Control as="select" onChange={handleChangeStyle} name="ImmutableStyle"
                                           required={true}>
                                 <option value="Blue"> Blue</option>
@@ -286,7 +286,7 @@ const Define = (props) => {
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Immutable type:S| </Form.Label>
+                            <Form.Label>Immutable type:S|* </Form.Label>
                             <Form.Control as="select" name="type"
                                           required={true} onChange={handleChangeType}>
                                 <option value="identitiy">{t("IDENTITY")}</option>
@@ -445,7 +445,7 @@ const Define = (props) => {
                                     return (
                                         <div key={idx}>
                                             <Form.Group>
-                                                <Form.Label>{t("DATA_TYPE")}</Form.Label>
+                                                <Form.Label>{t("DATA_TYPE")}*</Form.Label>
                                                 <Form.Control as="select" name={`MutableDataType${idx + 1}`}
                                                               id={`MutableDataType${idx + 1}`}
                                                               onChange={handleSelectChange}
@@ -457,7 +457,7 @@ const Define = (props) => {
                                                 </Form.Control>
                                             </Form.Group>
                                             <Form.Group>
-                                                <Form.Label>{t("DATA_NAME")}</Form.Label>
+                                                <Form.Label>{t("DATA_NAME")}*</Form.Label>
                                                 <Form.Control
                                                     type="text"
                                                     className=""
@@ -512,7 +512,7 @@ const Define = (props) => {
                                 return (
                                     <div key={idx}>
                                         <Form.Group>
-                                            <Form.Label>{t("DATA_TYPE")}</Form.Label>
+                                            <Form.Label>{t("DATA_TYPE")}*</Form.Label>
                                             <Form.Control as="select" name={`ImmutableDataType${idx + 1}`}
                                                           id={`ImmutableDataType${idx + 1}`}
                                                           onChange={handleChange}>
@@ -523,7 +523,7 @@ const Define = (props) => {
                                             </Form.Control>
                                         </Form.Group>
                                         <Form.Group>
-                                            <Form.Label>{t("DATA_NAME")}</Form.Label>
+                                            <Form.Label>{t("DATA_NAME")}*</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 className=""

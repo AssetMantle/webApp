@@ -71,7 +71,7 @@ const Deputize = (props) => {
                 setLoader(false);
             })
         } else {
-        setErrorMessage(t("SELECT_ANY_MUTABLE_TRAITS"))
+        setErrorMessage(t("SELECT_ANY_MUTABLE_TRAITS"));
         setLoader(false);
     }
 
@@ -93,7 +93,7 @@ const Deputize = (props) => {
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group>
-                        <Form.Label> {t("TO_ID")}</Form.Label>
+                        <Form.Label> {t("TO_ID")}*</Form.Label>
                         <Form.Control
                             type="text"
                             className=""

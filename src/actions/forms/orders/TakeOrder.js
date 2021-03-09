@@ -55,7 +55,7 @@ const TakeOrder = (props) => {
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("FROM_ID")}</Form.Label>
+                            <Form.Label>{t("FROM_ID")}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -66,7 +66,7 @@ const TakeOrder = (props) => {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>{t("TAKER_OWNABLE_AMOUNT")}</Form.Label>
+                            <Form.Label>{t("TAKER_OWNABLE_AMOUNT")}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""

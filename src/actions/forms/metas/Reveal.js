@@ -54,7 +54,7 @@ const Reveal = (props) => {
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="exampleForm.ControlSelect1">
-                        <Form.Label>{t("DATA_TYPE")}</Form.Label>
+                        <Form.Label>{t("DATA_TYPE")}*</Form.Label>
                         <Form.Control as="select" value={dataTypeOption} name="MutableDataType"
                                       onChange={handleSelectChange}
                                       required={true}>

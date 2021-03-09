@@ -47,7 +47,7 @@ const SendCoin = (props) => {
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group>
-                        <Form.Label>{t("TO_ADDRESS")}</Form.Label>
+                        <Form.Label>{t("TO_ADDRESS")}*</Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -57,7 +57,7 @@ const SendCoin = (props) => {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>{t("DENOM")} </Form.Label>
+                        <Form.Label>{t("DENOM")}* </Form.Label>
                         <Form.Control
                             type="text"
                             className=""
@@ -67,7 +67,7 @@ const SendCoin = (props) => {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>{t("AMOUNT")}</Form.Label>
+                        <Form.Label>{t("AMOUNT")}*</Form.Label>
                         <Form.Control
                             type="text"
                             name="amount"

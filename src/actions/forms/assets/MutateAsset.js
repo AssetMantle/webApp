@@ -142,7 +142,7 @@ const MutateAsset = (props) => {
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("FROM_ID")}</Form.Label>
+                            <Form.Label>{t("FROM_ID")}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -157,7 +157,7 @@ const MutateAsset = (props) => {
                                 return (
                                     <div key={idx}>
                                         <Form.Group>
-                                            <Form.Label>{keyName}</Form.Label>
+                                            <Form.Label>{keyName}*</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 className=""
@@ -172,7 +172,7 @@ const MutateAsset = (props) => {
                             return (
                                 <div key={idx}>
                                     <Form.Group>
-                                        <Form.Label>{keyName}</Form.Label>
+                                        <Form.Label>{keyName}*</Form.Label>
                                         <Form.Control
                                             type="text"
                                             className=""
