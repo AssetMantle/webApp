@@ -18,7 +18,7 @@ html, body, #root, .app {
   padding: 0;
 
   .navbar-nav .nav-link {
-    letter-spacing: .2rem;
+    letter-spacing: .15rem;
     padding: 0 1.3rem !important;
     height: 64px;
     display: flex;
@@ -1258,6 +1258,9 @@ html, body, #root, .app {
   padding: 0 10px 10px 10px;
 }
 
+.button-deputize{
+  margin: 0 0 10px 0 !important;
+}
 .dropdown.profile:hover .profile-menu {
   display: block;
 }

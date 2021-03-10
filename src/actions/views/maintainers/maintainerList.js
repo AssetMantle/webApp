@@ -94,7 +94,7 @@ const MaintainerList = React.memo((props) => {
                                     <div className="info-section">
                                     {(maintainer.value.addMaintainer) ?
                                         <div>
-                                            <Button size="sm" variant="secondary"
+                                            <Button size="sm" variant="primary" className="button-deputize"
                                                 onClick={() => handleModalData('DeputizeMaintainer', maintainer)}>{t("DEPUTIZE")}</Button>
                                         </div> : ""
                                     }
