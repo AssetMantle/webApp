@@ -1,9 +1,8 @@
 import React from "react";
-
-const request = require('request');
 import config from "../../constants/config.json"
 import GetID from "./getID";
 
+const request = require('request');
 const GetIDHelper = new GetID();
 
 export default class Filter {

@@ -27,7 +27,7 @@ const SendSplit = (props) => {
         const splitAmount = event.target.splitAmount.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        const sendSplitResponse = sendSplitQuery.send(userAddress, "test", userTypeToken, fromID, IdentityID, splitId, splitAmount, config.feesAmount, config.feesToken, config.gas, config.mode);
+        const sendSplitResponse = sendSplitQuery.send(userAddress, "test", userTypeToken, fromId, IdentityID, splitId, splitAmount, config.feesAmount, config.feesToken, config.gas, config.mode);
         sendSplitResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
                     setResponse(data)
