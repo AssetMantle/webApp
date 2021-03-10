@@ -107,7 +107,7 @@ const OrderView = React.memo((props) => {
                                         <div className="list-container view-container" key={index}>
                                             <div className="row card-deck">
                                                 <div className="row">
-                                                    <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 asset-image">
                                                         {immutableKeys !== null ?
                                                             immutableKeys.map((keyName, index1) => {
                                                                 if (immutableProperties[keyName] !== "") {
@@ -117,7 +117,7 @@ const OrderView = React.memo((props) => {
                                                                                 className="dummy-image image-sectiont"
                                                                                 key={index1}>
                                                                                 <div
-                                                                                    id={`orderViewUrlId` + index + `${index1}`}>
+                                                                                    id={`orderViewUrlId` + index + `${index1}`} className="inner-image-box">
 
                                                                                 </div>
                                                                             </div>
@@ -136,7 +136,7 @@ const OrderView = React.memo((props) => {
                                                                             <div className="dummy-image image-sectiont"
                                                                                  key={index1}>
                                                                                 <div
-                                                                                    id={`orderViewMutableViewUrlId` + index + `${index1}`}>
+                                                                                    id={`orderViewMutableViewUrlId` + index + `${index1}`} className="inner-image-box">
 
                                                                                 </div>
                                                                             </div>
@@ -149,7 +149,7 @@ const OrderView = React.memo((props) => {
                                                         }
                                                         <div className="property-actions">
                                                             {props.location.state.currentPath === "/marketplace" ?
-                                                                <Button variant="primary" size="sm"
+                                                                <Button variant="primary" size="sm" className="button-large"
                                                                         onClick={() => handleModalData("TakeOrder", orderId)}>{t("TAKE")}</Button>
                                                                 : <Button variant="primary" size="sm"
                                                                           onClick={() => handleModalData("CancelOrder", "" , order)}>{t("CANCEL")}</Button>
@@ -157,9 +157,9 @@ const OrderView = React.memo((props) => {
                                                         </div>
                                                     </div>
                                                     <div
-                                                        className="col-xl-8 col-lg-8 col-md-12 col-sm-12 asset-data">
+                                                        className="col-xl-6 col-lg-6 col-md-6 col-sm-12 asset-data">
                                                         <div className="row">
-                                                            <div className="col-xl-6 col-lg-6 col-md-12">
+                                                            <div className="col-xl-8 col-lg-8 col-md-8 p-0">
                                                                 <div className="list-item">
                                                                     <p className="list-item-label">{t("ORDER_ID")}:</p>
                                                                     <div className="list-item-value id-section">
@@ -174,7 +174,7 @@ const OrderView = React.memo((props) => {
                                                             </div>
                                                         </div>
                                                         <div className="row">
-                                                            <div className="col-xl-6 col-lg-6 col-md-12">
+                                                            <div className="col-xl-8 col-lg-8 col-md-8 p-0">
                                                                 <div className="list-item">
                                                                     <p className="list-item-label">{t("CLASSIFICATION_ID")} :</p>
                                                                     <div className="list-item-value id-section">
@@ -190,7 +190,7 @@ const OrderView = React.memo((props) => {
                                                         </div>
 
                                                         <div className="row">
-                                                            <div className="col-xl-6 col-lg-6 col-md-12">
+                                                            <div className="col-xl-8 col-lg-8 col-md-8 p-0">
                                                                 <div className="list-item">
                                                                     <p className="list-item-label">{t("MAKER_OWNABLE_ID")} :</p>
                                                                     <div className="list-item-value id-section">
@@ -206,7 +206,7 @@ const OrderView = React.memo((props) => {
                                                         </div>
 
                                                         <div className="row">
-                                                            <div className="col-xl-6 col-lg-6 col-md-12">
+                                                            <div className="col-xl-8 col-lg-8 col-md-8 p-0">
                                                                 <div className="list-item">
                                                                     <p className="list-item-label">{t("TAKER_OWNABLE_ID")} :</p>
                                                                     <div className="list-item-value id-section">
@@ -222,7 +222,7 @@ const OrderView = React.memo((props) => {
                                                         </div>
 
                                                         <div className="row">
-                                                            <div className="col-xl-6 col-lg-6 col-md-12">
+                                                            <div className="col-xl-8 col-lg-8 col-md-8 p-0">
                                                                 <div className="list-item">
                                                                     <p className="list-item-label">{t("MAKER_ID")} :</p>
                                                                     <div className="list-item-value id-section">
@@ -238,9 +238,9 @@ const OrderView = React.memo((props) => {
                                                         </div>
 
 
-                                                        <div className="row property-section">
+                                                        <div className="property-section">
                                                             <div
-                                                                className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                                className="">
                                                                 <p className="sub-title">{t("IMMUTABLES")}</p>
                                                                 {immutableKeys !== null ?
                                                                     immutableKeys.map((keyName, index1) => {
@@ -265,7 +265,7 @@ const OrderView = React.memo((props) => {
                                                                 }
                                                             </div>
                                                             <div
-                                                                className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                                className="">
                                                                 <p className="sub-title">{t("MUTABLES")}</p>
                                                                 {mutableKeys !== null ?
                                                                     mutableKeys.map((keyName, index1) => {

@@ -14,14 +14,14 @@ const Footer = () => {
         <ThemeProvider theme={themeMode}>
             <GlobalStyles/>
             <div className="footer">
-                <Form.Check
-                    custom
-                    onChange={toggleTheme}
-                    type="switch"
-                    id="custom-switch"
-                    checked={theme === 'light' ? true : false}
-                    label={theme === 'light' ? 'LightMode' : 'DarkMode'}
-                />
+                {/*<Form.Check*/}
+                {/*    custom*/}
+                {/*    onChange={toggleTheme}*/}
+                {/*    type="switch"*/}
+                {/*    id="custom-switch"*/}
+                {/*    checked={theme === 'light' ? true : false}*/}
+                {/*    label={theme === 'light' ? 'LightMode' : 'DarkMode'}*/}
+                {/*/>*/}
                 <p className="footer_left"> © {new Date().getFullYear()}
                     <span className="link_color"> {t("APP_TITLE")}</span>
                 </p>

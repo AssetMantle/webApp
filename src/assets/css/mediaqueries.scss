@@ -84,6 +84,12 @@
         margin-right: auto;
     }
 }
+@media (min-width: 1400px){
+    .search-section .input-group input{
+        width: 320px;
+    }
+}
+
 @media (max-width: 576px)
 {
     .row{
@@ -192,5 +198,15 @@
 @media (min-width: 1200px) {
     .search-section{
         margin-left:180px;
+    }
+    .asset-data .list-item
+    {
+        .list-item-label{
+            flex: 1;
+        }
+        .list-item-value{
+            text-align: left;
+            flex: 1;
+        }
     }
 }

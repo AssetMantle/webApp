@@ -1,0 +1,43 @@
+/*@font-face {*/
+/*    font-family: 'lovelyFont';*/
+/*    src: url(../font/CooperHewitt-Book.otf) format('opentype');*/
+/*    font-weight: 350;*/
+/*    font-style: normal;*/
+/*}*/
+
+@font-face {
+    font-family: 'CooperHewitt';
+    src: url(../font/CooperHewitt-Bold.otf) format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'CooperHewitt';
+    src: url(../font/CooperHewitt-Heavy.otf) format('opentype');
+    font-weight: 900;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'CooperHewitt';
+    src: url(../font/CooperHewitt-Light.otf) format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'CooperHewitt';
+    src: url(../font/CooperHewitt-Medium.otf) format('opentype');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'CooperHewitt';
+    src: url(../font/CooperHewitt-Semibold.otf) format('opentype');
+    font-weight: 600;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'CooperHewitt';
+    src: url(../font/CooperHewitt-Thin.otf) format('opentype');
+    font-weight: 100;
+    font-style: normal;
+}

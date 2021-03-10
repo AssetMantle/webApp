@@ -120,7 +120,7 @@ const AssetView = React.memo((props) => {
                                                             let mutableKeys = Object.keys(mutableProperties);
                                                             return (
                                                                 <div className="row" key={index}>
-                                                                    <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 asset-image">
                                                                         {immutableKeys !== null ?
                                                                             immutableKeys.map((keyName, index1) => {
                                                                                 if (immutableProperties[keyName] !== "") {
@@ -130,7 +130,7 @@ const AssetView = React.memo((props) => {
                                                                                                 className="dummy-image image-sectiont"
                                                                                                 key={index1}>
                                                                                                 <div
-                                                                                                    id={`assetViewUrlId` + index + `${index1}`}>
+                                                                                                    id={`assetViewUrlId` + index + `${index1}`} className="inner-image-box">
 
                                                                                                 </div>
                                                                                             </div>
@@ -149,7 +149,7 @@ const AssetView = React.memo((props) => {
                                                                                             <div className="dummy-image image-sectiont"
                                                                                                  key={index1}>
                                                                                                 <div
-                                                                                                    id={`assetViewMutableViewUrlId` + index + `${index1}`}>
+                                                                                                    id={`assetViewMutableViewUrlId` + index + `${index1}`} className="inner-image-box">
 
                                                                                                 </div>
                                                                                             </div>
@@ -174,10 +174,10 @@ const AssetView = React.memo((props) => {
                                                                         </div>
                                                                     </div>
                                                                     <div
-                                                                        className="col-xl-8 col-lg-8 col-md-12 col-sm-12 asset-data">
+                                                                        className="col-xl-6 col-lg-6 col-md-6 col-sm-12 asset-data">
                                                                         <div className="row">
                                                                             <div
-                                                                                className="col-xl-6 col-lg-6 col-md-12">
+                                                                                className="col-xl-8 col-lg-8 col-md-8 p-0">
                                                                                 <div className="list-item">
                                                                                 <p className="list-item-label">{t("ASSET_ID")}</p>
                                                                                 <div className="list-item-value id-section">
@@ -194,7 +194,7 @@ const AssetView = React.memo((props) => {
                                                                         </div>
                                                                         <div className="row">
                                                                             <div
-                                                                                className="col-xl-6 col-lg-6 col-md-12">
+                                                                                className="col-xl-8 col-lg-8 col-md-8 p-0">
                                                                                 <div className="list-item">
                                                                                 <p className="list-item-label">{t("OWNER_ID")}</p>
                                                                                 <div className="list-item-value id-section">
@@ -209,9 +209,8 @@ const AssetView = React.memo((props) => {
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div className="row property-section">
-                                                                            <div
-                                                                                className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                                        <div className="property-section">
+                                                                            <div>
                                                                                 <p className="sub-title">{t("IMMUTABLES")}</p>
                                                                                 {immutableKeys !== null ?
                                                                                     immutableKeys.map((keyName, index1) => {
@@ -239,8 +238,7 @@ const AssetView = React.memo((props) => {
                                                                                     : ""
                                                                                 }
                                                                             </div>
-                                                                            <div
-                                                                                className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                                            <div>
                                                                                 <p className="sub-title">{t("MUTABLES")}</p>
                                                                                 {mutableKeys !== null ?
                                                                                     mutableKeys.map((keyName, index1) => {

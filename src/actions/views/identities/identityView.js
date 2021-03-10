@@ -123,7 +123,7 @@ const IdentityView = React.memo((props) => {
                                     <div className="list-container view-container" key={index}>
                                         <div className="row card-deck">
                                             <div className="row">
-                                                <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                                <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 asset-image">
                                                     {immutableKeys !== null ?
                                                         immutableKeys.map((keyName, index1) => {
                                                             if (immutableProperties[keyName] !== "") {
@@ -132,7 +132,7 @@ const IdentityView = React.memo((props) => {
                                                                         <div className="dummy-image image-sectiont"
                                                                              key={index1}>
                                                                             <div
-                                                                                id={`identityViewUrlId` + index + `${index1}`}>
+                                                                                id={`identityViewUrlId` + index + `${index1}`} className="inner-image-box">
 
                                                                             </div>
                                                                         </div>
@@ -151,7 +151,7 @@ const IdentityView = React.memo((props) => {
                                                                         <div className="dummy-image image-sectiont"
                                                                              key={index1}>
                                                                             <div
-                                                                                id={`identityMutableViewUrlId` + index + `${index1}`}>
+                                                                                id={`identityMutableViewUrlId` + index + `${index1}`}  className="inner-image-box">
 
                                                                             </div>
                                                                         </div>
@@ -170,10 +170,10 @@ const IdentityView = React.memo((props) => {
                                                     </div>
 
                                                 </div>
-                                                <div className="col-xl-8 col-lg-8 col-md-12 col-sm-12 asset-data">
+                                                <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 asset-data">
                                                     <div className="row">
                                                         <div
-                                                            className="col-xl-6 col-lg-6 col-md-12">
+                                                            className="col-xl-8 col-lg-8 col-md-8 p-0">
                                                             <div className="list-item">
                                                                 <p className="list-item-label">{t("IDENTITY_ID")}</p>
                                                                 <div className="list-item-value id-section">
@@ -188,8 +188,8 @@ const IdentityView = React.memo((props) => {
                                                         </div>
                                                     </div>
 
-                                                    <div className="row property-section">
-                                                        <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                    <div className="property-section">
+                                                        <div className="">
                                                             <p className="sub-title">{t("IMMUTABLES")}</p>
                                                             {immutableKeys !== null ?
                                                                 immutableKeys.map((keyName, index1) => {
@@ -215,7 +215,7 @@ const IdentityView = React.memo((props) => {
                                                                 : ""
                                                             }
                                                         </div>
-                                                        <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                        <div className="">
                                                             <p className="sub-title">{t("MUTABLES")}</p>
                                                             {mutableKeys !== null ?
                                                                 mutableKeys.map((keyName, index1) => {
@@ -244,17 +244,17 @@ const IdentityView = React.memo((props) => {
                                                     <p className="sub-title">provisionedAddressList</p>
                                                     {provisionedAddressList !== null && provisionedAddressList !== "" ?
                                                         provisionedAddressList.map((provisionedAddress, addressKey) => {
-                                                            return (<p key={addressKey}>{provisionedAddress}</p>)
+                                                            return (<p key={addressKey} className="sub-title-value">{provisionedAddress}</p>)
                                                         })
-                                                        : <p>Empty</p>
+                                                        : <p className="sub-title-value">Empty</p>
                                                     }
                                                     <p className="sub-title">UnProvisionedAddressList</p>
                                                     {unProvisionedAddressList !== null && unProvisionedAddressList !== "" ?
                                                         unProvisionedAddressList.map((unprovisionedAddress, unprovisionedAddressKey) => {
                                                             return (
-                                                                <p key={unprovisionedAddressKey}>{unprovisionedAddress}</p>)
+                                                                <p key={unprovisionedAddressKey} className="sub-title-value">{unprovisionedAddress}</p>)
                                                         })
-                                                        : <p>Empty</p>
+                                                        : <p className="sub-title-value">Empty</p>
                                                     }
                                                 </div>
                                             </div>

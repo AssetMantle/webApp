@@ -30,15 +30,16 @@ const Search = () => {
     return (
         <form onSubmit={submitHandler}>
             <InputGroup>
-                <InputGroup.Prepend>
-                    <InputGroup.Text id="basic-addon1"><img src={searchIcon} alt="searchIcon"/> </InputGroup.Text>
-                </InputGroup.Prepend>
+
                 <FormControl
                     placeholder="Search Assets, Orders"
                     aria-label="Username"
                     type="text"
                     name="search"
                 />
+                <InputGroup.Append>
+                    <InputGroup.Text id="basic-addon1"><img src={searchIcon} alt="searchIcon"/> </InputGroup.Text>
+                </InputGroup.Append>a
             </InputGroup>
         </form>
     );

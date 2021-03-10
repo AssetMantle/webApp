@@ -9,12 +9,13 @@ export const GlobalStyles = createGlobalStyle`
 
   html {
     height: 100%;
+    font-family: ${({theme}) => theme.fontFamily} !important;
   }
 
   body {
     align-items: center;
     background: ${({theme}) => theme.body};
-    font-family: ${({theme}) => theme.fontFamily}
+    font-family: ${({theme}) => theme.fontFamily} !important;
   }
 
   .bg-dark, .app-nav {
@@ -122,7 +123,7 @@ export const GlobalStyles = createGlobalStyle`
     background-color: ${({theme}) => theme.dropDownSectionBgColor};
   }
   .dropdown-section h4{
-    color: ${({theme}) => theme.modalHeaderColor};
+    color: ${({theme}) => theme.dropDownSectionColor};
   }
   .side-bar{
     background-color: ${({theme}) => theme.sideBarBackgroundColor};
@@ -153,10 +154,6 @@ export const GlobalStyles = createGlobalStyle`
     background: ${({theme}) => theme.buttonViewBg};
     border: 1px solid ${({theme}) => theme.buttonViewBorder};
   }
-  .mnemonic-login-section.login-section .button-view{
-    background: ${({theme}) => theme.buttonViewSecondBg};
-    border: 1px solid ${({theme}) => theme.buttonViewSecondBorder};
-  }
   .btn-primary:not(:disabled):not(.disabled).active,
   .btn-primary:not(:disabled):not(.disabled):active,
   .show > .btn-primary.dropdown-toggle,
@@ -175,7 +172,7 @@ export const GlobalStyles = createGlobalStyle`
   }
   .dropdown-section .dropdown button, .dropdown-section .dropdown .show > .btn-success.dropdown-toggle{
     background: ${({theme}) => theme.dropDownButtonbg};
-    color: ${({theme}) => theme.mnemonicTextColor};
+    color: ${({theme}) => theme.dropDownButtonColor};
     border-color: ${({theme}) => theme.dropDownButtonColor};
   }
   .copy-section .copy-result span{

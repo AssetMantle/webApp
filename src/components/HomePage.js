@@ -8,7 +8,7 @@ const HomePage = () => {
             <div className="container homeSection">
                     <div className="row row-cols-1 row-cols-md-2 card-deck infoRow">
                         <div className="col-md-7 appInfoBox">
-                            <h3 className="banner-heading">Secure NFT wallet</h3>
+                            <h3 className="banner-heading">Art for Sale Online</h3>
                             <p className="banner-content">{t("BANNER_CONTENT")}</p>
                             <Button variant="primary" className="button-double-border">{t("KNOW_MORE")}</Button>
                         </div>
