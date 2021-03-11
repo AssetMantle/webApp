@@ -39,21 +39,21 @@ export default class GetMeta {
                 const immutableHash = immutable.value.fact.value.hash;
                 const immutableName = immutable.value.id.value.idString;
 
-               if(immutableName === config.URI){
+                if (immutableName === config.URI) {
 
-                   const id = `${FileName}${immutableName}|${immutableType}${index}`
+                    const id = `${FileName}${immutableName}|${immutableType}${index}`
 
-                   if (immutableHash !== "" && immutableHash !== null) {
-                       const metaQueryResult = metasQuery.queryMetaWithID(immutableHash);
-                       metaQueryResult.then(function (item) {
-                           const data = JSON.parse(JSON.parse(JSON.stringify(item)));
-                           let metaValue = $this.FetchMetaValue(data, immutableHash)
-                           if (document.getElementById(id)) {
-                               document.getElementById(id).value = metaValue;
-                           }
-                       })
-                   }
-               }
+                    if (immutableHash !== "" && immutableHash !== null) {
+                        const metaQueryResult = metasQuery.queryMetaWithID(immutableHash);
+                        metaQueryResult.then(function (item) {
+                            const data = JSON.parse(JSON.parse(JSON.stringify(item)));
+                            let metaValue = $this.FetchMetaValue(data, immutableHash)
+                            if (document.getElementById(id)) {
+                                document.getElementById(id).value = metaValue;
+                            }
+                        })
+                    }
+                }
             })
         }
     }
@@ -101,6 +101,14 @@ export default class GetMeta {
                             if (typeof (imageElement) != 'undefined' && imageElement != null) {
                                 document.getElementById(urlId + index + index1).appendChild(img);
                             }
+                        } else if (keyName === "exchangeRate") {
+                            myElement = <span title={metaValue}>{metaValue}</span>;
+                            let element = document.getElementById(idPrefix + index + index1)
+                            if (typeof (element) != 'undefined' && element != null) {
+                                ReactDOM.render(myElement, document.getElementById(idPrefix + index + index1));
+                            } else {
+                                return "";
+                            }
                         } else {
                             if (metaValue == "Blue") {
                                 myElement = <span className="Blue"></span>;
@@ -114,7 +122,7 @@ export default class GetMeta {
                                 myElement = <span>{metaValue}</span>;
                             }
 
-                            var element = document.getElementById(idPrefix + index + index1)
+                            let element = document.getElementById(idPrefix + index + index1)
                             if (typeof (element) != 'undefined' && element != null) {
                                 ReactDOM.render(myElement, document.getElementById(idPrefix + index + index1));
                             } else {
