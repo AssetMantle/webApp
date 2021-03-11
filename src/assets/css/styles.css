@@ -8,6 +8,9 @@ html, body, #root, .app {
 .navbar-dark.login-after {
   padding: 0 35px; }
 
+.close {
+  outline: none !important; }
+
 .navbar-dark {
   padding: 0; }
   .navbar-dark .navbar-nav .nav-link {

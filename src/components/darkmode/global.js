@@ -71,7 +71,7 @@ export const GlobalStyles = createGlobalStyle`
   .form-control:focus {
     background-color: ${({theme}) => theme.inputFieldBackground};
     border: 1px solid ${({theme}) => theme.inputFieldBorderColor};
-    box-shadow: 0 0 0 0.2rem #efcb3057
+    box-shadow:0 0 0 0.2rem #25b0e93d;
   }
 
   .close {

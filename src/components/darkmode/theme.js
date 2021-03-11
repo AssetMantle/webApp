@@ -24,7 +24,7 @@ export const lightTheme = {
     primaryButtonBackground: '#25b0e9',
     primaryButtonColor: '#fff',
     primaryButtonBorderColor:'#25b0e9',
-    sideBarBackgroundColor:'#2E3031',
+    sideBarBackgroundColor:'#171717',
     sideBarFontColor:'#6b6b6b',
     sideBarHeaderColor:'#E3E3E3',
     dropDownSectionBgColor:'#2e2e2e',
