@@ -14,13 +14,13 @@ const HeaderBeforeLogin = () => {
     const handleModelRoute = (route) => {
         history.push(`/${route}`);
     };
-
-    useEffect(() => {
-        const userAddress = localStorage.getItem('address');
-        if (userAddress === null) {
-            history.push('/Login');
-        }
-    }, [])
+    //
+    // useEffect(() => {
+    //     const userAddress = localStorage.getItem('address');
+    //     if (userAddress === null) {
+    //         history.push('/Login');
+    //     }
+    // }, [])
     return (
         <div className="container login-before">
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">

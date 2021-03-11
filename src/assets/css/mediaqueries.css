@@ -7,9 +7,6 @@
     .side-bar.active img {
       transform: rotate(180deg); } }
 @media (max-width: 420px) {
-  .footer {
-    bottom: initial; }
-
   .homeSection .appInfoBox .banner-heading {
     font-size: 30px; }
 
@@ -88,7 +85,8 @@
     -moz-transition: all 0.3s ease-out;
     -ms-transition: all 0.3s ease-out;
     -o-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out; }
+    transition: all 0.3s ease-out;
+    padding-bottom: 20px; }
 
   .navbar-dark .navbar-brand a img {
     width: 130px; }
