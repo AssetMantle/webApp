@@ -39,7 +39,7 @@ const Search = () => {
                 />
                 <InputGroup.Append>
                     <InputGroup.Text id="basic-addon1"><img src={searchIcon} alt="searchIcon"/> </InputGroup.Text>
-                </InputGroup.Append>a
+                </InputGroup.Append>
             </InputGroup>
         </form>
     );
