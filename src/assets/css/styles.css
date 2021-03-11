@@ -646,7 +646,6 @@ html, body, #root, .app {
   display: flex;
   margin: 15px 0; }
   .id-section .id-string {
-    color: #fff;
     margin: 0;
     font-weight: 400; }
 
@@ -709,6 +708,8 @@ html, body, #root, .app {
     height: 50px;
     border-radius: 50%;
     background: #FBF1C5; }
+  .profile-section .profile-picture .id-string {
+    color: #fff; }
 .profile-section .ledger-box {
   border: 1px solid;
   box-sizing: border-box;

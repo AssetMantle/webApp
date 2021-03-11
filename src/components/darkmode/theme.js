@@ -45,7 +45,7 @@ export const lightTheme = {
     downloadKeyColor:'000000 !important',
     listContainerButtonbg:'#5a6268',
     listContainerButtonColor: '#fff',
-    mnemonicTextColor:'rgba(255, 255, 255, 0.8)',
+    mnemonicTextColor:'#999999',
     dropDownButtonbg:'transparent !important',
     dropDownButtonColor:'#999999',
     copyResult : '#000',
