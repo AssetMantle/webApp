@@ -2,7 +2,7 @@ name: Deploy Lumas
 
 on:
   push:
-    branches: [main]
+    branches: [lumas_ui]
 
 jobs:
   build:
