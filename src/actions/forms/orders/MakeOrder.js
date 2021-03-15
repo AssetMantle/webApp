@@ -443,7 +443,7 @@ const MakeOrder = (props) => {
                                                         name={`${mutableName}|${mutableType}${index}`}
                                                         id={`MakeOrderMutable${mutableName}|${mutableType}${index}`}
                                                         required={true}
-                                                        placeholder="Trait Value"
+                                                        placeholder="exchangeRate"
                                                         onChange={(evt) => {
                                                             handleChangeExchangeRate(evt, index + 1)
                                                         }}
@@ -461,7 +461,7 @@ const MakeOrder = (props) => {
                                             <div key={index} >
                                                 <Form.Group>
                                                     <div className="upload-section">
-                                                        <Form.Label>{mutableName}</Form.Label>
+                                                        <Form.Label>Seller Name</Form.Label>
                                                     </div>
                                                     <Form.Control
                                                         type="text"

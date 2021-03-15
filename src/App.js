@@ -18,7 +18,7 @@ const App = () => {
     const userTypeToken = localStorage.getItem('mnemonic');
     const routes = [{
         path: '/',
-        component: HomePage,
+        component: MarketPlace,
     }, {
         path: '/Login',
         component: Login,

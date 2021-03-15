@@ -174,7 +174,7 @@ const OrderList = React.memo((props) => {
                                                                                 className="list-item-label"></p> <p
                                                                                 id={`immutable_order` + index + `${index1}`}
                                                                                 className="list-item-value"></p></div>)
-                                                                        } else if (keyName === "description") {
+                                                                        } else if (keyName === "identifier") {
                                                                             return (<div key={index + keyName}
                                                                                          className="card-item"><p
                                                                                 id={`immutable_order` + index + `${index1}`}

@@ -177,7 +177,7 @@ const TotalOrders = React.memo((props) => {
                                                                                     className="list-item-value"></p>
                                                                             </div>)
                                                                     }
-                                                                    else if(keyName === "description"){
+                                                                    else if(keyName === "identifier"){
                                                                         return (<div key={index + keyName} className="card-item"><p
                                                                             id={`immutable_order_market` + index + `${index1}`}
                                                                             className="description"></p></div>)

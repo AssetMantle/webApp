@@ -401,13 +401,6 @@ const MintAsset = (props) => {
                                             <Form.Text id={`mutableMint${index + 1}`} className="text-muted none">
                                                 {t("MUTABLE_VALIDATION_ERROR")}
                                             </Form.Text>
-                                            {/*<Form.Group controlId="formBasicCheckbox">*/}
-                                            {/*    <Form.Check custom type="checkbox" label="Meta"*/}
-                                            {/*                name={`${mutableName}|${mutableType}${index}`}*/}
-                                            {/*                id={`checkbox${mutableName}|${mutableType}${index}`}*/}
-                                            {/*                onClick={handleCheckMutableChange}*/}
-                                            {/*    />*/}
-                                            {/*</Form.Group>*/}
                                         </div>
                                     )
                                 }
@@ -441,13 +434,31 @@ const MintAsset = (props) => {
                                             <Form.Text id={`mutableMint${index + 1}`} className="text-muted none">
                                                 {t("MUTABLE_VALIDATION_ERROR")}
                                             </Form.Text>
-                                            {/*<Form.Group controlId="formBasicCheckbox">*/}
-                                            {/*    <Form.Check custom type="checkbox" label="Meta"*/}
-                                            {/*                name={`${mutableName}|${mutableType}${index}`}*/}
-                                            {/*                id={`checkbox${mutableName}|${mutableType}${index}`}*/}
-                                            {/*                onClick={handleCheckMutableChange}*/}
-                                            {/*    />*/}
-                                            {/*</Form.Group>*/}
+                                        </div>
+                                    )
+                                }
+                                else if(mutableName === 'ArtistName'){
+                                    return (
+                                        <div key={index}>
+                                            <Form.Group>
+                                                <div className="upload-section">
+                                                    <Form.Label>Artist Name</Form.Label>
+                                                </div>
+                                                <Form.Control
+                                                    type="text"
+                                                    className=""
+                                                    name={`${mutableName}|${mutableType}${index}`}
+                                                    id={`MintAssetMutable${mutableName}|${mutableType}${index}`}
+                                                    required={true}
+                                                    placeholder="Artist Name"
+                                                    onChange={(evt) => {
+                                                        handleChangeMutable(evt, index + 1)
+                                                    }}
+                                                />
+                                            </Form.Group>
+                                            <Form.Text id={`mutableMint${index + 1}`} className="text-muted none">
+                                                {t("MUTABLE_VALIDATION_ERROR")}
+                                            </Form.Text>
                                         </div>
                                     )
                                 }

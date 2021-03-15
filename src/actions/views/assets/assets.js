@@ -27,7 +27,6 @@ const Assets = (props) => {
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
                             <div className="container">
-                            <h4>Assets</h4>
                                 {
                                     localStorage.getItem("userType") === 'admin' ?
                                         <Button className="dropdown-button" onClick={() => handleModalData("MintAsset")}>{t("MINT_ASSET")}</Button>
