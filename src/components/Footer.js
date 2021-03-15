@@ -16,6 +16,7 @@ const Footer = () => {
             <div className="footer">
                 <Form.Check
                     custom
+                    className="hidden"
                     onChange={toggleTheme}
                     type="switch"
                     id="custom-switch"

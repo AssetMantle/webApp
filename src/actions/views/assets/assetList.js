@@ -54,26 +54,31 @@ const AssetList = React.memo((props) => {
                                     setSplitList(filterSplitsByIdentities)
                                     filterSplitsByIdentities.map((split, index) => {
                                         const ownableID = GetIDHelper.GetIdentityOwnableId(split)
+                                        const classificationID = ownableID.substr(0,ownableID.indexOf('|'));
                                         const filterAssetList = assetsQuery.queryAssetWithID(ownableID);
                                         filterAssetList.then(function (Asset) {
                                             const parsedAsset = JSON.parse(Asset);
                                             if (parsedAsset.result.value.assets.value.list !== null) {
                                                 const assetId = GetIDHelper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
                                                 if (ownableID === assetId) {
-                                                    setAssetList(assetList => [...assetList, parsedAsset]);
-                                                    let immutableProperties = "";
-                                                    let mutableProperties = "";
-                                                    if (parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
-                                                        immutableProperties = PropertyHelper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
+                                                    if (classificationID === config.AssetClassificationID) {
+                                                        setAssetList(assetList => [...assetList, parsedAsset]);
+                                                        let immutableProperties = "";
+                                                        let mutableProperties = "";
+                                                        if (parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
+                                                            immutableProperties = PropertyHelper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
+                                                        }
+                                                        if (parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
+                                                            mutableProperties = PropertyHelper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
+                                                        }
+                                                        let immutableKeys = Object.keys(immutableProperties);
+                                                        let mutableKeys = Object.keys(mutableProperties);
+                                                        GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset', index, 'assetUrlId');
+                                                        GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset', index, 'assetMutableUrlId');
+                                                        setLoader(false)
+                                                    } else {
+                                                        setLoader(false)
                                                     }
-                                                    if (parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
-                                                        mutableProperties = PropertyHelper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
-                                                    }
-                                                    let immutableKeys = Object.keys(immutableProperties);
-                                                    let mutableKeys = Object.keys(mutableProperties);
-                                                    GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset', index, 'assetUrlId');
-                                                    GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset', index, 'assetMutableUrlId');
-                                                    setLoader(false)
                                                 } else {
                                                     setLoader(false)
                                                 }
@@ -120,7 +125,7 @@ const AssetList = React.memo((props) => {
         }
     }
     return (
-        <div className="list-container">
+        <div className="list-container container">
             {loader ?
                 <Loader/>
                 : ""
@@ -134,139 +139,114 @@ const AssetList = React.memo((props) => {
                         let ownableId = split.value.id.value.ownableID.value.idString;
                         let ownerId = split.value.id.value.ownerID.value.idString;
                         let stake = split.value.split;
-                        return (
-                            <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
-                                <div className="card asset-card">
-                                    <div id={"assetImagUri" + ownerId + index} className="image-container">
-                                        <div id={"assetImage" + ownerId + index} className="dummy-image">
-                                        </div>
-                                    </div>
-                                    <div className="info-section">
-                                        {ownableId !== "stake" ?
-                                            <>
-                                                <div className="list-item">
-                                                    <p className="list-item-label">{t("ASSET_ID")}:</p>
-                                                    <div className="list-item-value id-section">
-                                                        <p className="id-string" title={ownableId}> {ownableId}</p>
-                                                    </div>
+                        if(ownableId !== "stake") {
+                            const classificationID = ownableID.substr(0,ownableID.indexOf('|'));
+                            if (classificationID === config.AssetClassificationID) {
+                                return (
+                                    <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
+                                        <div className="card asset-card" onClick={() => handleAsset(ownableId)}>
+                                            <div id={"assetImagUri" + ownerId + index} className="image-container">
+                                                <div id={"assetImage" + ownerId + index} className="dummy-image">
                                                 </div>
-
-                                            </>
-                                            :
-                                            <div className="list-item">
-                                                <p className="list-item-label">{t("ASSET_ID")}:</p>
-                                                <p className="list-item-value" title={ownableId}>{ownableId}</p>
                                             </div>
+                                            <div className="info-section">
+                                                {
+                                                    assetList.map((asset, assetIndex) => {
+                                                        const assetItemId = GetIDHelper.GetAssetID(asset.result.value.assets.value.list[0]);
+                                                        if (ownableID === assetItemId) {
+                                                            let immutableProperties = "";
+                                                            let mutableProperties = "";
+                                                            if (asset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
+                                                                immutableProperties = PropertyHelper.ParseProperties(asset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
+                                                            }
+                                                            if (asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
+                                                                mutableProperties = PropertyHelper.ParseProperties(asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
+                                                            }
+                                                            let immutableKeys = Object.keys(immutableProperties);
+                                                            let mutableKeys = Object.keys(mutableProperties);
+                                                            return (
+                                                                <div key={assetIndex}>
+                                                                    {immutableKeys !== null ?
+                                                                        immutableKeys.map((keyName, index1) => {
+                                                                            if (immutableProperties[keyName] !== "") {
+                                                                                if (keyName === config.URI) {
+                                                                                    let imageElement = document.getElementById("assetImage" + ownerId + index)
+                                                                                    if (typeof (imageElement) != 'undefined' && imageElement != null) {
+                                                                                        let divd = document.createElement('div');
+                                                                                        divd.id = `assetUrlId` + index + `${index1}`
+                                                                                        divd.className = "assetImage"
+                                                                                        document.getElementById("assetImagUri" + ownerId + index).replaceChild(divd, imageElement);
+                                                                                    }
+                                                                                } else if (keyName === "style") {
+                                                                                    return (
+                                                                                        <div key={index + keyName}
+                                                                                             className="list-item"><p
+                                                                                            className="list-item-label"></p>
+                                                                                            <p
+                                                                                                id={`immutable_asset` + index + `${index1}`}
+                                                                                                className="list-item-value"></p>
+                                                                                        </div>)
+                                                                                } else if (keyName === "description") {
+                                                                                    return (
+                                                                                        <div key={index + keyName}
+                                                                                             className="card-item">
+                                                                                            <p
+                                                                                                id={`immutable_asset` + index + `${index1}`}
+                                                                                                className="description"></p>
+                                                                                        </div>)
+                                                                                } else if (keyName === "ArtistName") {
+                                                                                    return (<div key={index + keyName}
+                                                                                                 className="card-view-list">
+                                                                                        <p className="card-view-value author"
+                                                                                           id={`immutable_asset` + index + index1}></p>
+                                                                                    </div>)
+                                                                                }
+                                                                            } else {
+                                                                                return (
+                                                                                    <div key={index + keyName}
+                                                                                         className="list-item"><p
+                                                                                        className="list-item-label">{keyName} : </p>
+                                                                                        <p
+                                                                                            className="list-item-hash-value">{immutableProperties[keyName]}</p>
+                                                                                    </div>)
+                                                                            }
+                                                                        })
+                                                                        : ""
+                                                                    }
+                                                                    {mutableKeys !== null ?
+                                                                        mutableKeys.map((keyName, index1) => {
+                                                                            if (mutableProperties[keyName] !== "") {
+                                                                                if (keyName === config.URI) {
+                                                                                    let imageElement = document.getElementById("assetImage" + ownerId + index)
+                                                                                    if (typeof (imageElement) != 'undefined' && imageElement != null) {
+                                                                                        let divd = document.createElement('div');
+                                                                                        divd.id = `assetMutableUrlId` + index + `${index1}`
+                                                                                        divd.className = "assetImage"
+                                                                                        document.getElementById("assetImagUri" + ownerId + index).replaceChild(divd, imageElement);
+                                                                                    }
+                                                                                } else if (keyName === "ArtistName") {
+                                                                                    return (<div key={index + keyName}
+                                                                                                 className="card-view-list">
+                                                                                        <p className="card-view-value author"
+                                                                                           id={`mutable_asset` + index + index1}></p>
+                                                                                    </div>)
+                                                                                }
+                                                                            }
+                                                                        })
+                                                                        : ""
+                                                                    }
 
-                                        }
-
-                                        <div className="list-item">
-                                            <p className="list-item-label">{t("OWNER_ID")}:</p>
-                                            <div className="list-item-value id-section">
-                                                <p className="id-string" title={ownerId}> {ownerId}</p>
+                                                                </div>
+                                                            )
+                                                        }
+                                                    })
+                                                }
                                             </div>
                                         </div>
-
-                                        {ownableId === "stake" ?
-                                            <div className="button-group">
-                                                <Button variant="primary" size="sm"
-                                                        onClick={() => handleModalData("MakeOrder",  ownerId, ownableID)}>{t("MAKE")}</Button>
-                                                <Button variant="primary" size="sm"
-                                                        onClick={() => handleModalData("SendSplit",  ownerId, ownableID)}>{t("SEND_SPLITS")}</Button>
-                                            </div>
-                                            : ""
-                                        }
-
-                                        {
-                                            assetList.map((asset, assetIndex) => {
-                                                const assetItemId = GetIDHelper.GetAssetID(asset.result.value.assets.value.list[0]);
-                                                if (ownableID === assetItemId) {
-                                                    let immutableProperties = "";
-                                                    let mutableProperties = "";
-                                                    if (asset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
-                                                        immutableProperties = PropertyHelper.ParseProperties(asset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
-                                                    }
-                                                    if (asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
-                                                        mutableProperties = PropertyHelper.ParseProperties(asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
-                                                    }
-                                                    let immutableKeys = Object.keys(immutableProperties);
-                                                    let mutableKeys = Object.keys(mutableProperties);
-                                                    return (
-                                                        <div key={assetIndex}>
-                                                            {immutableKeys !== null ?
-                                                                immutableKeys.map((keyName, index1) => {
-                                                                    if (immutableProperties[keyName] !== "") {
-                                                                        if (keyName === config.URI) {
-                                                                            let imageElement = document.getElementById("assetImage" + ownerId + index)
-                                                                            if (typeof (imageElement) != 'undefined' && imageElement != null) {
-                                                                                let divd = document.createElement('div');
-                                                                                divd.id = `assetUrlId` + index + `${index1}`
-                                                                                divd.className = "assetImage"
-                                                                                document.getElementById("assetImagUri" + ownerId + index).replaceChild(divd, imageElement);
-                                                                            }
-                                                                        } else if (keyName === "style") {
-                                                                            return (
-                                                                                <div key={index + keyName}
-                                                                                     className="list-item"><p
-                                                                                    className="list-item-label"></p>
-                                                                                    <p
-                                                                                        id={`immutable_asset` + index + `${index1}`}
-                                                                                        className="list-item-value"></p>
-                                                                                </div>)
-                                                                        }
-                                                                        else if (keyName === "identifier") {
-                                                                            return (
-                                                                                <div key={index + keyName}
-                                                                                     className="list-item"><p
-                                                                                    className="list-item-label">{keyName} : </p>
-                                                                                    <p
-                                                                                        id={`immutable_asset` + index + `${index1}`}
-                                                                                        className="list-item-value"></p>
-                                                                                </div>)
-                                                                        }
-                                                                    } else {
-                                                                        return (
-                                                                            <div key={index + keyName}
-                                                                                 className="list-item"><p
-                                                                                className="list-item-label">{keyName} : </p>
-                                                                                <p
-                                                                                    className="list-item-hash-value">{immutableProperties[keyName]}</p>
-                                                                            </div>)
-                                                                    }
-                                                                })
-                                                                : ""
-                                                            }
-                                                            {mutableKeys !== null ?
-                                                                mutableKeys.map((keyName, index1) => {
-                                                                    if (mutableProperties[keyName] !== "") {
-                                                                        if (keyName === config.URI) {
-                                                                            let imageElement = document.getElementById("assetImage" + ownerId + index)
-                                                                            if (typeof (imageElement) != 'undefined' && imageElement != null) {
-                                                                                let divd = document.createElement('div');
-                                                                                divd.id = `assetMutableUrlId` + index + `${index1}`
-                                                                                divd.className = "assetImage"
-                                                                                document.getElementById("assetImagUri" + ownerId + index).replaceChild(divd, imageElement);
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                })
-                                                                : ""
-                                                            }
-
-                                                        </div>
-                                                    )
-                                                }
-                                            })
-                                        }
-                                        {ownableId !== "stake" ?
-                                            <Button variant="primary" className="viewButton" size="sm"
-                                                    onClick={() => handleAsset(ownableId)}>View</Button>
-                                        :""
-                                        }
                                     </div>
-                                </div>
-                            </div>
-                        )
+                                )
+                            }
+                        }
                     })
                     : <p className="empty-list">{t("ASSETS_NOT_FOUND")}</p>}
             </div><div>

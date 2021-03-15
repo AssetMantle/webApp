@@ -178,7 +178,7 @@ export default class GetProperty {
 
     mutableValidation(inputValue) {
         let error = false;
-        var blockSpecialRegex = /[`,|:]/;
+        var blockSpecialRegex = /[`|:]/;
         if (!blockSpecialRegex.test(inputValue)) {
             error = true;
         }

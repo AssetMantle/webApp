@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {withRouter} from "react-router-dom";
 import {useHistory} from "react-router-dom";
 import {Navbar, Nav, NavDropdown, Button} from "react-bootstrap";
@@ -7,11 +7,14 @@ import {Search} from "../../components/search";
 import {NavLink} from 'react-router-dom';
 import logo from '../../assets/images/logo.svg'
 import profileIcon from "../../assets/images/profile.svg"
+import Icon from "../../icons";
 const HeaderAfterLogin = () => {
     const history = useHistory();
     const {t} = useTranslation();
+    const [userName, setuserName] = useState(false);
     const userTypeToken = localStorage.getItem('mnemonic');
     const userAddress = localStorage.getItem('address');
+
     const handleRoute = route => () => {
         history.push(route)
     };
@@ -24,13 +27,15 @@ const HeaderAfterLogin = () => {
         localStorage.removeItem('address');
         localStorage.removeItem('fromID');
         localStorage.removeItem('lastFromID');
-        history.push('/');
+        history.push('/marketplace');
     }
 
     useEffect(() => {
+        const name = localStorage.getItem('name');
+        setuserName(name);
         const userAddress = localStorage.getItem('address');
         if(userTypeToken !== null  && window.location.pathname === "/"){
-            history.push('/identities');
+            history.push('/marketplace');
         }
         if (userAddress === null) {
             history.push('/Login');
@@ -38,19 +43,19 @@ const HeaderAfterLogin = () => {
     }, [])
     return (
         <>
-            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="login-after">
-                <Navbar.Brand><Nav.Link onClick={handleRoute("/identities")}>
+            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="login-after container">
+                <Navbar.Brand><Nav.Link onClick={handleRoute("/marketplace")}>
                     <img src={logo} alt="logo"/>
                 </Nav.Link></Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                 <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="search-section mr-auto">
-                        {window.location.pathname !== "/SearchAsset" && window.location.pathname !== "/SearchIdentity" && window.location.pathname !== "/SearchOrder" & window.location.pathname !== "/SearchMaintainer" ?
-                            <Search/>
-                        :""
-                        }
+                    {/*<Nav className="search-section mr-auto">*/}
+                    {/*    {window.location.pathname !== "/SearchAsset" && window.location.pathname !== "/SearchIdentity" && window.location.pathname !== "/SearchOrder" & window.location.pathname !== "/SearchMaintainer" ?*/}
+                    {/*        <Search/>*/}
+                    {/*    :""*/}
+                    {/*    }*/}
 
-                    </Nav>
+                    {/*</Nav>*/}
 
                     {
                         userTypeToken == null ?
@@ -63,41 +68,44 @@ const HeaderAfterLogin = () => {
 
                             </Nav>
                             :
-                            <Nav className="nav-items">
+                            <>
+                            <Nav className="nav-items mr-auto">
                                 <li className="nav-item">
-                                    <NavLink className="nav-link" to="/assets">{t("ASSETS")}</NavLink>
+                                    <NavLink className="nav-link" to="/marketplace">{t("MARKET_PLACE")}</NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink className="nav-link" to="/assets">Collections</NavLink>
                                 </li>
                                 <li className="nav-item">
                                     <NavLink className="nav-link" to="/orders">{t("ORDERS")}</NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink className="nav-link" to="/marketplace">{t("MARKET_PLACE")}</NavLink>
+                                    <NavLink className="nav-link" to="/faq">{t("FAQ")}</NavLink>
                                 </li>
+
+                            </Nav>
+                            <Nav className="nav-items ml-auto">
                                 <li className="nav-item dropdown profile">
                                     <div className="nav-link dropdown-toggle"
-                                             id="profile-nav-dropdown"
-                                             role="button" data-toggle="dropdown" aria-haspopup="true"
-                                             aria-expanded="false">
-                                        <div className="profile-icon">
-                                            <p className="address">{userAddress}</p>
-                                            <img className="thumbnail-image"
-                                                 src={profileIcon}
-                                                 alt="user pic"
-                                            />
-
+                                         id="profile-nav-dropdown"
+                                         role="button" data-toggle="dropdown" aria-haspopup="true"
+                                         aria-expanded="false">
+                                        <div className="profile-icon profile-navlink">
+                                            <Icon viewClass="arrow-icon" icon="profile"/>
                                         </div>
                                     </div>
                                     <div className="dropdown-menu profile-menu"
                                          aria-labelledby="profile-nav-dropdown">
-                                        <NavLink className="dropdown-item" to="/identities">{t("IDENTITIES")}</NavLink>
-                                        <NavLink className="dropdown-item" to="/maintainers">{t("MAINTAINERS")}</NavLink>
-                                        <NavLink className="dropdown-item" to="/Profile">{t("PROFILE")}</NavLink>
+                                        {/*<NavLink className="dropdown-item" to="/identities">{t("IDENTITIES")}</NavLink>*/}
+                                        {/*<NavLink className="dropdown-item" to="/maintainers">{t("MAINTAINERS")}</NavLink>*/}
+                                        <li className="dropdown-item" >{userName}</li>
                                         <NavDropdown.Item onClick={logout("/")}>{t("LOGOUT")}</NavDropdown.Item>
                                     </div>
 
                                 </li>
 
                             </Nav>
+                            </>
                     }
                 </Navbar.Collapse>
             </Navbar>

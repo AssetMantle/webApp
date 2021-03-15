@@ -18,6 +18,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   .bg-dark, .app-nav {
+      border-bottom: 1px solid ${({theme}) => theme.navigationBorderColor};
     background-color: ${({theme}) => theme.navigationBackground} !important;
   }
 
@@ -68,6 +69,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   .form-control:focus {
+   color: ${({theme}) => theme.inputFieldTextColor};
     background-color: ${({theme}) => theme.inputFieldBackground};
     border: 1px solid ${({theme}) => theme.inputFieldBorderColor};
     box-shadow: 0 0 0 0.2rem #efcb3057
@@ -117,12 +119,14 @@ export const GlobalStyles = createGlobalStyle`
   .signup-section .button-signup:hover {
     background-color: ${({theme}) => theme.primaryButtonBackground};
     color: ${({theme}) => theme.primaryButtonColor};
+    border-radius:0px;
+    font-weight:bold;
   }
   .dropdown-section{
     background-color: ${({theme}) => theme.dropDownSectionBgColor};
   }
   .dropdown-section h4{
-    color: ${({theme}) => theme.modalHeaderColor};
+    color: #ffffff
   }
   .side-bar{
     background-color: ${({theme}) => theme.sideBarBackgroundColor};
@@ -146,8 +150,9 @@ export const GlobalStyles = createGlobalStyle`
     color: ${({theme}) => theme.provisionAddressColor};
   }
   .btn-secondary{
-    background: ${({theme}) => theme.buttonSecondaryBg};
-    color: ${({theme}) => theme.buttonSecondaryColor};
+    background: ${({theme}) => theme.buttonSecondaryBg} !important;
+    color: ${({theme}) => theme.buttonSecondaryColor} !important;
+    border: 1px solid #444444 !important;
   }
   .button-view{
     background: ${({theme}) => theme.buttonViewBg};
@@ -173,10 +178,10 @@ export const GlobalStyles = createGlobalStyle`
   .mnemonic-text{
     color: ${({theme}) => theme.mnemonicTextColor};
   }
-  .dropdown-section .dropdown button, .dropdown-section .dropdown .show > .btn-success.dropdown-toggle{
-    background: ${({theme}) => theme.dropDownButtonbg};
-    color: ${({theme}) => theme.mnemonicTextColor};
-    border-color: ${({theme}) => theme.dropDownButtonColor};
+  .dropdown-section .dropdown-button{
+    background: #353535;
+    border: 1px solid #FFFFFF;
+    border-radius:0px;
   }
   .copy-section .copy-result span{
     color: ${({theme}) => theme.copyResult};
@@ -195,7 +200,7 @@ export const GlobalStyles = createGlobalStyle`
     color: ${({theme}) => theme.ledgerBoxHeadingColor};
   }
   .back-arrow{
-    color: ${({theme}) => theme.mnemonicTextColor};
+    color: #ffffff;
   }
   .icon-copy-icon, .icon-arrow-icon{
     fill: ${({theme}) => theme.copyIconColor};;

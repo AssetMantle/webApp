@@ -15,12 +15,14 @@ import GetProperty from "../../../utilities/Helpers/getProperty";
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const ordersMake = new ordersMakeJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
+var bigdecimal = require("bigdecimal");
+var bigDecimal = require('js-big-decimal');
 const MakeOrder = (props) => {
     const {t} = useTranslation();
-    const [show, setShow] = useState(true);
+    const [show, setShow] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [loader, setLoader] = useState(false)
-    const [showNext, setShowNext] = useState(false);
+    const [showNext, setShowNext] = useState(true);
     const [classificationId, setClassificationId] = useState("");
     const [response, setResponse] = useState({});
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
@@ -40,58 +42,9 @@ const MakeOrder = (props) => {
         setShowNext(false);
         props.setExternalComponent("");
     };
-    const handleClose = () => {
-        setShow(false);
-        props.setExternalComponent("");
-    };
-    const handleCloseUpload = () => {
-        setShowUpload(false);
-    };
-    const handleCheckMutableChange = evt => {
-        const checkedValue = evt.target.checked;
-        const name = evt.target.getAttribute("name")
-        if (checkedValue) {
-            const checkboxNames = evt.target.name;
-            setCheckboxMutableNamesList((checkboxMutableNamesList) => [...checkboxMutableNamesList, checkboxNames]);
-        } else {
-            if (checkboxMutableNamesList.includes(name)) {
-                setCheckboxMutableNamesList(checkboxMutableNamesList.filter(item => item !== name));
-            }
-        }
-    }
-
-    const handleCheckImmutableChange = evt => {
-        const checkedValue = evt.target.checked;
-        setCheckedD({...checkedD, [evt.target.name]: evt.target.checked});
-
-        const name = evt.target.getAttribute("name")
-        if (checkedValue) {
-            const checkboxNames = evt.target.name;
-            setCheckboxImmutableNamesList((checkboxImmutableNamesList) => [...checkboxImmutableNamesList, checkboxNames]);
-        } else {
-            if (checkboxImmutableNamesList.includes(name)) {
-                setCheckboxImmutableNamesList(checkboxImmutableNamesList.filter(item => item !== name));
-            }
-        }
-
-    }
-    const handleChangeMutable = (evt, idx) => {
-        const newValue = evt.target.value;
-        const checkError = PropertyHelper.mutableValidation(newValue);
-        PropertyHelper.showHideDataTypeError(checkError, `mutableMakeOrder${idx}`);
-        setInputValues({...inputValues, [evt.target.name]: newValue});
-    }
-
-    const handleChangeImmutable = (evt, idx) => {
-        const newValue = evt.target.value;
-        const checkError = PropertyHelper.mutableValidation(newValue);
-        PropertyHelper.showHideDataTypeError(checkError, `ImmutableMakeOrder${idx}`);
-        setInputValues({...inputValues, [evt.target.name]: newValue});
-    }
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
-        const ClassificationId = event.target.ClassificationId.value;
+    useEffect(() => {
+        let orderClassificationID = localStorage.getItem('orderClassificationID');
+        const ClassificationId = orderClassificationID;
         setClassificationId(ClassificationId)
         const classificationResponse = classificationsQuery.queryClassificationWithID(ClassificationId)
         classificationResponse.then(function (item) {
@@ -101,10 +54,72 @@ const MakeOrder = (props) => {
                 const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
                 GetMetaHelper.FetchInputFieldMeta(immutablePropertyList, metasQuery, "MakeOrder");
                 GetMetaHelper.FetchMutableInputFieldMeta(mutablePropertyList, metasQuery, "MakeOrderMutable");
-                setMutableList(mutablePropertyList)
+                setMutableList(mutablePropertyList);
                 setImmutableList(immutablePropertyList)
             }
         })
+    }, []);
+    const handleClose = () => {
+        setShow(false);
+        props.setExternalComponent("");
+    };
+    const handleCloseUpload = () => {
+        setShowUpload(false);
+    };
+    // const handleCheckMutableChange = evt => {
+    //     const checkedValue = evt.target.checked;
+    //     const name = evt.target.getAttribute("name")
+    //     if (checkedValue) {
+    //         const checkboxNames = evt.target.name;
+    //         setCheckboxMutableNamesList((checkboxMutableNamesList) => [...checkboxMutableNamesList, checkboxNames]);
+    //     } else {
+    //         if (checkboxMutableNamesList.includes(name)) {
+    //             setCheckboxMutableNamesList(checkboxMutableNamesList.filter(item => item !== name));
+    //         }
+    //     }
+    // }
+    //
+    // const handleCheckImmutableChange = evt => {
+    //     const checkedValue = evt.target.checked;
+    //     setCheckedD({...checkedD, [evt.target.name]: evt.target.checked});
+    //
+    //     const name = evt.target.getAttribute("name")
+    //     if (checkedValue) {
+    //         const checkboxNames = evt.target.name;
+    //         setCheckboxImmutableNamesList((checkboxImmutableNamesList) => [...checkboxImmutableNamesList, checkboxNames]);
+    //     } else {
+    //         if (checkboxImmutableNamesList.includes(name)) {
+    //             setCheckboxImmutableNamesList(checkboxImmutableNamesList.filter(item => item !== name));
+    //         }
+    //     }
+    //
+    // }
+    const handleChangeExchangeRate = (evt, idx) => {
+        // let inputValue = new bigDecimal(evt.target.value);
+        let inputValue = new bigdecimal.BigDecimal(evt.target.value);
+        let smallestNumber = new bigdecimal.BigDecimal(0.000000000000000001);
+        console.log("d * x = " + inputValue.multiply(smallestNumber));
+        let newValue = inputValue.multiply(smallestNumber);
+        var value = bigDecimal.round(newValue, 18);
+        console.log("d * inewValue = " , value);
+        document.getElementById("exchangeRateSplit").value = evt.target.value;
+        document.getElementById("exchangeRateSplit").innerHTML=value;
+    };
+    const handleChangeMutable = (evt, idx) => {
+        const newValue = evt.target.value;
+        // const checkError = PropertyHelper.mutableValidation(newValue);
+        // PropertyHelper.showHideDataTypeError(checkError, `mutableMakeOrder${idx}`);
+        setInputValues({...inputValues, [evt.target.name]: newValue});
+    }
+
+    const handleChangeImmutable = (evt, idx) => {
+        const newValue = evt.target.value;
+        // const checkError = PropertyHelper.mutableValidation(newValue);
+        // PropertyHelper.showHideDataTypeError(checkError, `ImmutableMakeOrder${idx}`);
+        setInputValues({...inputValues, [evt.target.name]: newValue});
+    }
+    const handleSubmit = (event) => {
+
         setShowNext(true)
         setShow(false);
     };
@@ -116,19 +131,19 @@ const MakeOrder = (props) => {
         const TakerOwnableId = event.target.TakerOwnableId.value;
         const Makersplit = event.target.Makersplit.value;
         const ExpiresIn = event.target.expiresInD.value;
-        if (checkboxMutableNamesList.length === 0) {
-            setErrorMessage(t("SELECT_MUTABLE_META"))
-            setLoader(false)
-        } else if (mutableList.length !== 0 && checkboxMutableNamesList.length !== 0 && mutableList.length === checkboxMutableNamesList.length) {
-            setErrorMessage(t("SELECT_ALL_MUTABLE_ERROR"))
-            setLoader(false)
-        } else if (immutableList.length !== 0 && checkboxImmutableNamesList.length !== 0 && immutableList.length === checkboxImmutableNamesList.length) {
-            setErrorMessage(t("SELECT_ALL_IMMUTABLE_ERROR"))
-            setLoader(false)
-        } else if (checkboxImmutableNamesList.length === 0) {
-            setErrorMessage("SELECT_IMMUTABLE_META")
-            setLoader(false)
-        } else {
+        // if (checkboxMutableNamesList.length === 0) {
+        //     setErrorMessage(t("SELECT_MUTABLE_META"))
+        //     setLoader(false)
+        // } else if (mutableList.length !== 0 && checkboxMutableNamesList.length !== 0 && mutableList.length === checkboxMutableNamesList.length) {
+        //     setErrorMessage(t("SELECT_ALL_MUTABLE_ERROR"))
+        //     setLoader(false)
+        // } else if (immutableList.length !== 0 && checkboxImmutableNamesList.length !== 0 && immutableList.length === checkboxImmutableNamesList.length) {
+        //     setErrorMessage(t("SELECT_ALL_IMMUTABLE_ERROR"))
+        //     setLoader(false)
+        // } else if (checkboxImmutableNamesList.length === 0) {
+        //     setErrorMessage("SELECT_IMMUTABLE_META")
+        //     setLoader(false)
+        // } else {
             let mutableValues = "";
             let immutableValues = "";
             let mutableMetaValues = "";
@@ -138,22 +153,37 @@ const MakeOrder = (props) => {
                     let mutableType = mutable.value.fact.value.type;
                     let mutableName = mutable.value.id.value.idString;
                     let mutableHash = mutable.value.fact.value.hash;
+                    // id={`MakeOrderMutable${mutableName}|${mutableType}${index}`}
                     if ((mutableName !== 'expiry') && (mutableName !== "makerOwnableSplit")) {
-                        let mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
+                        let mutableFieldValue ='';
+                        if(mutableName === 'exchangeRate'){
+                             mutableFieldValue = document.getElementById('exchangeRateSplit').value;
+                        }
+                        else {
+                             mutableFieldValue = document.getElementById(`MakeOrderMutable${mutableName}|${mutableType}${index}`).value;
+                        }
+                        // let mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
                         if (mutableFieldValue === undefined) {
                             mutableFieldValue = "";
                         }
+                        // if (mutableName !== config.URI) {
+                        //     const inputName = `${mutableName}|${mutableType}${index}`
+                        //     const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
+                        //     if (mutableMetaValuesResponse[0] !== "") {
+                        //         mutableValues = mutableMetaValuesResponse[0];
+                        //     }
+                        //     if (mutableMetaValuesResponse[1] !== "") {
+                        //         mutableMetaValues = mutableMetaValuesResponse[1];
+                        //     }
+                        // }
                         if (mutableName !== config.URI) {
-                            const inputName = `${mutableName}|${mutableType}${index}`
-                            const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
-                            if (mutableMetaValuesResponse[0] !== "") {
-                                mutableValues = mutableMetaValuesResponse[0];
+                            if(mutableName === 'takerID'){
+                                mutableValues = FilterHelper.setTraitValuesWithoutCheckbox(mutableValues, mutableName, mutableType, mutableFieldValue)
                             }
-                            if (mutableMetaValuesResponse[1] !== "") {
-                                mutableMetaValues = mutableMetaValuesResponse[1];
+                            else{
+                                mutableMetaValues = FilterHelper.setTraitValuesWithoutCheckbox(mutableMetaValues, mutableName, mutableType, mutableFieldValue)
                             }
                         }
-
                         let uriFieldValue;
                         let uriMutable;
                         if (mutableName === config.URI) {
@@ -183,15 +213,13 @@ const MakeOrder = (props) => {
                     const immutableInputName = `${immutableName}|${immutableType}${index}`
                     let immutableFieldValue = document.getElementById(`MakeOrder${immutableName}|${immutableType}${index}`).value;
                     if (immutableName !== config.URI) {
-                        const ImmutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
-                        if (ImmutableMetaValuesResponse[0] !== "") {
-                            immutableValues = ImmutableMetaValuesResponse[0];
+                        if (immutableName === "style" || immutableName === "type"){
+                            immutableValues = FilterHelper.setTraitValuesWithoutCheckbox(immutableValues, immutableName, immutableType, immutableFieldValue)
                         }
-                        if (ImmutableMetaValuesResponse[1] !== "") {
-                            immutableMetaValues = ImmutableMetaValuesResponse[1];
+                        else{
+                            immutableMetaValues = FilterHelper.setTraitValuesWithoutCheckbox(immutableMetaValues, immutableName, immutableType, immutableFieldValue)
                         }
                     }
-
                     let uriImmutableFieldValue;
                     let uriImmutable;
                     if (immutableName === config.URI) {
@@ -220,7 +248,7 @@ const MakeOrder = (props) => {
                 setShowNext(false);
                 setLoader(false)
             })
-        }
+        // }
     }
     const handleUpload = (id) => {
         setUploadId(id);
@@ -291,7 +319,7 @@ const MakeOrder = (props) => {
                 </div>
                 <Modal.Body>
                     <Form onSubmit={handleFormSubmit}>
-                        <Form.Group>
+                        <Form.Group className="hidden">
                             <Form.Label>{t("FROM_ID")}*</Form.Label>
                             <Form.Control
                                 type="text"
@@ -299,35 +327,38 @@ const MakeOrder = (props) => {
                                 name="FromId"
                                 required={true}
                                 placeholder={t("FROM_ID")}
-                                value={props.ownerId}
+                                value={localStorage.getItem('identityID')}
                                 readOnly
                             />
                         </Form.Group>
-                        <Form.Group>
+                        <Form.Group className="hidden">
                             <Form.Label>{t("TAKER_OWNABLE_SPLIT")}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
                                 name="TakerOwnableId"
+                                value="stake"
                                 required={true}
                                 placeholder={t("TAKER_OWNABLE_SPLIT")}
                             />
                         </Form.Group>
-                        <Form.Group>
+                        <Form.Group className="hidden">
                             <Form.Label>{t("MAKER_SPLIT")}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
+                                value="0.000000000000000001"
                                 name="Makersplit"
                                 required={true}
                                 placeholder={t("MAKER_SPLIT")}
                             />
                         </Form.Group>
-                        <Form.Group>
+                        <Form.Group className="hidden">
                             <Form.Label>{t("EXPIRES_IN")}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
+                                value="9999999999"
                                 name="expiresInD"
                                 required={true}
                                 placeholder={t("EXPIRES_IN")}
@@ -359,7 +390,7 @@ const MakeOrder = (props) => {
                                                         type="text"
                                                         className=""
                                                         name={`${mutableName}|${mutableType}${index}`}
-                                                        id={`${mutableName}|${mutableType}${index}`}
+                                                        id={`MakeOrderMutable${mutableName}|${mutableType}${index}`}
                                                         required={false}
                                                         placeholder="Trait Value"
                                                         onChange={(evt) => {
@@ -371,13 +402,6 @@ const MakeOrder = (props) => {
                                                            className="text-muted none">
                                                     {t("MUTABLE_VALIDATION_ERROR")}
                                                 </Form.Text>
-                                                <Form.Group controlId="formBasicCheckbox">
-                                                    <Form.Check custom type="checkbox" label="Meta"
-                                                                name={`${mutableName}|${mutableType}${index}`}
-                                                                id={`checkbox${mutableName}|${mutableType}${index}`}
-                                                                onClick={handleCheckMutableChange}
-                                                    />
-                                                </Form.Group>
                                             </div>
                                         )
                                     } else if (mutableName === config.URI) {
@@ -406,24 +430,71 @@ const MakeOrder = (props) => {
 
                                             </div>
                                         )
-                                    } else {
+                                    } else if (mutableName === 'exchangeRate') {
                                         return (
                                             <div key={index}>
                                                 <Form.Group>
                                                     <div className="upload-section">
-                                                        <Form.Label>Mutable
-                                                            Traits {mutableName}|{mutableType} </Form.Label>
-                                                        {mutableType === 'S' && mutableHash === ""
-                                                            ?
-                                                            <Button variant="secondary" size="sm"
-                                                                    onClick={() => handleUpload(id)}>upload</Button>
-                                                            : ""
-                                                        }
+                                                        <Form.Label>{mutableName}</Form.Label>
+                                                    </div>
+                                                    <Form.Control
+                                                        type="number"
+                                                        className=""
+                                                        name={`${mutableName}|${mutableType}${index}`}
+                                                        id={`MakeOrderMutable${mutableName}|${mutableType}${index}`}
+                                                        required={true}
+                                                        placeholder="Trait Value"
+                                                        onChange={(evt) => {
+                                                            handleChangeExchangeRate(evt, index + 1)
+                                                        }}
+                                                    />
+                                                </Form.Group>
+                                                <Form.Text id="exchangeRateSplit"
+                                                           className="text-muted">
+
+                                                </Form.Text>
+                                            </div>
+                                        )
+                                    }
+                                    else if (mutableName === 'SellerName') {
+                                        return (
+                                            <div key={index} >
+                                                <Form.Group>
+                                                    <div className="upload-section">
+                                                        <Form.Label>{mutableName}</Form.Label>
                                                     </div>
                                                     <Form.Control
                                                         type="text"
                                                         className=""
                                                         name={`${mutableName}|${mutableType}${index}`}
+                                                        id={`MakeOrderMutable${mutableName}|${mutableType}${index}`}
+                                                        required={true}
+                                                        value={localStorage.getItem('ArtistName')}
+                                                        placeholder="Trait Value"
+                                                        onChange={(evt) => {
+                                                            handleChangeMutable(evt, index + 1)
+                                                        }}
+                                                    />
+                                                </Form.Group>
+                                                <Form.Text id={`mutableMakeOrder${index + 1}`}
+                                                           className="text-muted none">
+                                                    {t("MUTABLE_VALIDATION_ERROR")}
+                                                </Form.Text>
+                                            </div>
+                                        )
+                                    }
+                                    else {
+                                        return (
+                                            <div key={index}>
+                                                <Form.Group>
+                                                    <div className="upload-section">
+                                                        <Form.Label>{mutableName} </Form.Label>
+                                                    </div>
+                                                    <Form.Control
+                                                        type="text"
+                                                        className=""
+                                                        name={`${mutableName}|${mutableType}${index}`}
+                                                        id={`MakeOrderMutable${mutableName}|${mutableType}${index}`}
                                                         required={false}
                                                         placeholder="Trait Value"
                                                         onChange={(evt) => {
@@ -435,13 +506,6 @@ const MakeOrder = (props) => {
                                                            className="text-muted none">
                                                     {t("MUTABLE_VALIDATION_ERROR")}
                                                 </Form.Text>
-                                                <Form.Group controlId="formBasicCheckbox">
-                                                    <Form.Check custom type="checkbox" label="Meta"
-                                                                name={`${mutableName}|${mutableType}${index}`}
-                                                                id={`checkbox${mutableName}|${mutableType}${index}`}
-                                                                onClick={handleCheckMutableChange}
-                                                    />
-                                                </Form.Group>
                                             </div>
                                         )
                                     }
@@ -456,7 +520,8 @@ const MakeOrder = (props) => {
                                 const immutableType = immutable.value.fact.value.type;
                                 const immutableHash = immutable.value.fact.value.hash;
                                 const immutableName = immutable.value.id.value.idString;
-                                const id = `MakeOrder${immutableName}|${immutableType}${index}`
+                                const id = `MakeOrder${immutableName}|${immutableType}${index}`;
+                                console.log(immutableName, localStorage.getItem('identifierName'),"localStorage.getItem('ArtistName')")
                                 if (immutableName === config.URI) {
                                     return (
                                         <div key={index}>
@@ -482,10 +547,11 @@ const MakeOrder = (props) => {
                                             </Form.Text>
                                         </div>
                                     )
-                                } else {
+                                }
+                                else if (immutableName === "style" || immutableName === "type") {
                                     return (
-                                        <div key={index}>
-                                            <Form.Group>
+                                        <div key={index} className="hidden">
+                                            <Form.Group >
                                                 <div className="upload-section">
                                                     <Form.Label>Immutable
                                                         Traits {immutableName} |{immutableType}* </Form.Label>
@@ -514,12 +580,121 @@ const MakeOrder = (props) => {
                                                        className="text-muted none">
                                                 {t("MUTABLE_VALIDATION_ERROR")}
                                             </Form.Text>
-                                            <Form.Group>
-                                                <Form.Check custom type="checkbox" label="Meta"
-                                                            name={`${immutableName}|${immutableType}${index}`}
-                                                            id={`checkbox${immutableName}|${immutableType}${index}`}
-                                                            onChange={handleCheckImmutableChange}/>
+                                        </div>
+                                    )
+                                }
+                                else if (immutableName === "identifier") {
+                                    return (
+                                        <div key={index}>
+                                            <Form.Group >
+                                                <div className="upload-section">
+                                                    <Form.Label>Title</Form.Label>
+                                                </div>
+
+                                                <Form.Control
+                                                    type="text"
+                                                    className=""
+                                                    name={`${immutableName}|${immutableType}${index}`}
+                                                    id={`MakeOrder${immutableName}|${immutableType}${index}`}
+                                                    required={true}
+                                                    value={localStorage.getItem('identifierName')}
+                                                    placeholder="Title"
+                                                    onChange={(evt) => {
+                                                        handleChangeImmutable(evt, index + 1)
+                                                    }}
+                                                    disabled={false}
+                                                />
                                             </Form.Group>
+                                            <Form.Text id={`ImmutableMakeOrder${index + 1}`}
+                                                       className="text-muted none">
+                                                {t("MUTABLE_VALIDATION_ERROR")}
+                                            </Form.Text>
+                                        </div>
+                                    )
+                                }
+                                else if (immutableName === "classifier") {
+                                    return (
+                                        <div key={index} className="hidden">
+                                            <Form.Group >
+                                                <div className="upload-section">
+                                                    <Form.Label>Classifier</Form.Label>
+                                                </div>
+
+                                                <Form.Control
+                                                    type="text"
+                                                    className=""
+                                                    name={`${immutableName}|${immutableType}${index}`}
+                                                    id={`MakeOrder${immutableName}|${immutableType}${index}`}
+                                                    required={true}
+                                                    value={localStorage.getItem('descriptionName')}
+                                                    placeholder="Classifier"
+                                                    onChange={(evt) => {
+                                                        handleChangeImmutable(evt, index + 1)
+                                                    }}
+                                                    disabled={false}
+                                                />
+                                            </Form.Group>
+                                            <Form.Text id={`ImmutableMakeOrder${index + 1}`}
+                                                       className="text-muted none">
+                                                {t("MUTABLE_VALIDATION_ERROR")}
+                                            </Form.Text>
+                                        </div>
+                                    )
+                                }
+                                else if (immutableName === "description") {
+                                    return (
+                                        <div key={index}>
+                                            <Form.Group >
+                                                <div className="upload-section">
+                                                    <Form.Label>Description</Form.Label>
+                                                </div>
+
+                                                <Form.Control
+                                                    type="text"
+                                                    className=""
+                                                    name={`${immutableName}|${immutableType}${index}`}
+                                                    id={`MakeOrder${immutableName}|${immutableType}${index}`}
+                                                    required={true}
+                                                    value={localStorage.getItem('descriptionName')}
+                                                    placeholder="Description"
+                                                    onChange={(evt) => {
+                                                        handleChangeImmutable(evt, index + 1)
+                                                    }}
+                                                    disabled={false}
+                                                />
+                                            </Form.Group>
+                                            <Form.Text id={`ImmutableMakeOrder${index + 1}`}
+                                                       className="text-muted none">
+                                                {t("MUTABLE_VALIDATION_ERROR")}
+                                            </Form.Text>
+                                        </div>
+                                    )
+                                }
+                                else {
+                                    return (
+                                        <div key={index}>
+                                            <Form.Group >
+                                                <div className="upload-section">
+                                                    <Form.Label>{immutableName}</Form.Label>
+                                                </div>
+
+                                                <Form.Control
+                                                    type="text"
+                                                    className=""
+                                                    name={`${immutableName}|${immutableType}${index}`}
+                                                    id={`MakeOrder${immutableName}|${immutableType}${index}`}
+                                                    required={true}
+                                                    placeholder="Trait Value"
+                                                    onChange={(evt) => {
+                                                        handleChangeImmutable(evt, index + 1)
+                                                    }}
+                                                    disabled={false}
+                                                />
+                                            </Form.Group>
+                                            <Form.Text id={`ImmutableMakeOrder${index + 1}`}
+                                                       className="text-muted none">
+                                                {t("MUTABLE_VALIDATION_ERROR")}
+                                            </Form.Text>
                                         </div>
                                     )
                                 }

@@ -9,8 +9,11 @@ import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetID from "../../../utilities/Helpers/getID";
 import {useHistory} from "react-router-dom";
 import {Button} from "react-bootstrap";
+import assetsQueryJS from "persistencejs/transaction/assets/query";
+
 const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const assetsQuery = new assetsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const TotalOrders = React.memo((props) => {
     const PropertyHelper = new GetProperty();
@@ -20,52 +23,99 @@ const TotalOrders = React.memo((props) => {
     let history = useHistory();
     const [loader, setLoader] = useState(true)
     const [orderList, setOrderList] = useState([]);
-
+    const [assetList, setAssetList] = useState([]);
     useEffect(() => {
-        const fetchOrder = () => {
-            const ordersData = ordersQuery.queryOrderWithID("all")
+            const ordersData = ordersQuery.queryOrderWithID("all");
             ordersData.then(function (item) {
                 const ordersData = JSON.parse(item);
                 const ordersDataList = ordersData.result.value.orders.value.list;
                 if (ordersDataList) {
                     setOrderList(ordersDataList);
+                    let assetListData = [];
                     ordersDataList.map((order, index) => {
-                        let immutableProperties = "";
-                        let mutableProperties = "";
-                        if (order.value.immutables.value.properties.value.propertyList !== null) {
-                            immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
-                        }
+                        let mutableOrderProperties = "";
                         if (order.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                            mutableOrderProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
                         }
-                        let immutableKeys = Object.keys(immutableProperties);
-                        let mutableKeys = Object.keys(mutableProperties);
-                        GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_market', index, 'totalOrderUrlId');
-                        GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_market', index,'totalOrderMutableUrlId');
-                        setLoader(false)
-                    })
+                        let mutableOrderKeys = Object.keys(mutableOrderProperties);
+                        console.log(mutableOrderKeys, " immutableOrderKeys")
+                        GetMetaHelper.AssignMetaValue(mutableOrderKeys, mutableOrderProperties, metasQuery, 'mutable_total_orderPrice_view', index );
+                        let classificationID = GetIDHelper.GetClassificationID(order);
+                        if(classificationID === config.OrderClassificationID) {
+                            let makerID = GetIDHelper.GetMakerOwnableID(order);
+                            const filterAssetList = assetsQuery.queryAssetWithID(makerID);
+                            filterAssetList.then(function (Asset) {
+                                const parsedAsset = JSON.parse(Asset);
+                                if (parsedAsset.result.value.assets.value.list !== null) {
+                                    const assetId = GetIDHelper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
+                                    // assetListData.push(parsedAsset);
+                                    let immutableProperties = "";
+                                    let mutableProperties = "";
+                                    if (parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
+                                        immutableProperties = PropertyHelper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
+                                    }
+                                    if (parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
+                                        mutableProperties = PropertyHelper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
+                                    }
+
+                                    let immutableKeys = Object.keys(immutableProperties);
+                                    let mutableKeys = Object.keys(mutableProperties);
+
+                                    GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_market', index, 'totalOrderUrlId');
+                                    GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_market', index, 'totalOrderMutableUrlId');
+                                    setLoader(false)
+                                    setAssetList(assetList => [...assetList, parsedAsset]);
+                                } else {
+                                    setLoader(false)
+                                }
+                                // console.log(index,assetListData.length,parsedAsset, "s");
+                                // if(index === assetListData.length){
+                                //     setAssetList(assetListData)
+                                // }
+                            });
+                        }
+                        else {
+                            setLoader(false)
+                        }
+
+
+                    });
+
+                    //     console.log(assetListData, "assetListData")
+                    // ordersDataList.map((order, index) => {
+                    //     let immutableProperties = "";
+                    //     let mutableProperties = "";
+                    //     if (order.value.immutables.value.properties.value.propertyList !== null) {
+                    //         immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
+                    //     }
+                    //     if (order.value.mutables.value.properties.value.propertyList !== null) {
+                    //         mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                    //     }
+                    //     let immutableKeys = Object.keys(immutableProperties);
+                    //     let mutableKeys = Object.keys(mutableProperties);
+                    //     GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_market', index, 'totalOrderUrlId');
+                    //     GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_market', index,'totalOrderMutableUrlId');
+                    //     setLoader(false)
+                    // })
                 } else {
                     setLoader(false)
                 }
             })
-
-        }
-        fetchOrder();
     }, []);
 
     const handleAsset = (id) => {
-            history.push({
-                    pathname : '/OrderView',
-                    state :{
-                        orderID : id,
-                        currentPath : window.location.pathname,
-                    }
+        history.push({
+                pathname: '/OrderView',
+                state: {
+                    orderID: id,
+                    currentPath: window.location.pathname,
                 }
-            );
-    }
+            }
+        );
+    };
 
     return (
-        <div className="list-container">
+        <div className="list-container container">
             {loader ?
                 <Loader/>
                 : ""
@@ -73,92 +123,162 @@ const TotalOrders = React.memo((props) => {
             <div className="row card-deck">
                 {orderList.length ?
                     orderList.map((order, index) => {
-                        let immutableProperties = "";
-                        let mutableProperties = "";
-                        if (order.value.immutables.value.properties.value.propertyList !== null) {
-                            immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
-                        }
-                        if (order.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
-                        }
-                        let immutableKeys = Object.keys(immutableProperties);
+                        let makerID = GetIDHelper.GetMakerID(order)
                         let orderIdData = GetIDHelper.GetOrderID(order);
-                        let mutableKeys = Object.keys(mutableProperties);
+                        let classificationID = GetIDHelper.GetClassificationID(order);
+                        let mutableOrderProperties = "";
+                        if (order.value.mutables.value.properties.value.propertyList !== null) {
+                            mutableOrderProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                        }
+                        let mutableOrderKeys = Object.keys(mutableOrderProperties);
+                        if(classificationID === config.OrderClassificationID) {
                         return (
                             <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
-                                <div className="card order-card">
-                                    <div id={"totalOrderImagUri" + orderIdData+index} className="image-container">
-                                        <div id={"totalOrderImage" + orderIdData+index} className="dummy-image">
+                                <div className="card order-card" onClick={() => handleAsset(orderIdData)}>
+                                    <div id={"totalOrderImagUri" + makerID + index} className="image-container">
+                                        <div id={"totalOrderImage" + makerID + index} className="dummy-image">
 
                                         </div>
                                     </div>
-                                 <div className="info-section">
-                                    <div className="list-item">
-                                        <p className="list-item-label">{t("ORDER_ID")}:</p>
-                                        <div className="list-item-value id-section">
-                                            <p className="id-string" title={orderIdData}> {orderIdData}</p>
-                                        </div>
-                                    </div>
-                                    {immutableKeys !== null ?
-                                        immutableKeys.map((keyName, index1) => {
-                                            if (immutableProperties[keyName] !== "") {
-                                                if (keyName === config.URI) {
-                                                    let imageElement = document.getElementById("totalOrderImage" + orderIdData+index)
-                                                    if (typeof (imageElement) != 'undefined' && imageElement != null) {
-                                                        let divd = document.createElement('div');
-                                                        divd.id = `totalOrderUrlId` + index + `${index1}`
-                                                        divd.className = "assetImage"
-                                                        document.getElementById("totalOrderImagUri" + orderIdData+index).replaceChild(divd, imageElement);
-                                                    }
-                                                } else if(keyName === "style"){
-                                                    return (<div key={index + keyName} className="list-item"><p
-                                                        className="list-item-label"></p><p
-                                                        id={`immutable_order_market` + index + `${index1}`}
-                                                        className="list-item-value"></p></div>)
+                                    <div className="info-section">
+                                        {
+                                            assetList.map((asset, assetIndex) => {
+                                                const assetId = GetIDHelper.GetAssetID(asset.result.value.assets.value.list[0]);
+                                                let immutableProperties = "";
+                                                let mutableProperties = "";
+                                                if (asset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
+                                                    immutableProperties = PropertyHelper.ParseProperties(asset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
                                                 }
-                                                else if(keyName === "identifier" || keyName === "type"){
-                                                    return (<div key={index + keyName} className="list-item"><p
-                                                        className="list-item-label">{keyName}: </p><p
-                                                        id={`immutable_order_market` + index + `${index1}`}
-                                                        className="list-item-value"></p></div>)
+                                                if (asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
+                                                    mutableProperties = PropertyHelper.ParseProperties(asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
                                                 }
-                                            } else {
+                                                let immutableKeys = Object.keys(immutableProperties);
+                                                let mutableKeys = Object.keys(mutableProperties);
                                                 return (
-                                                    <div key={index + keyName} className="list-item"><p
-                                                        className="list-item-label">{keyName}: </p> <p
-                                                        className="list-item-hash-value">{immutableProperties[keyName]}</p>
-                                                    </div>)
-                                            }
-                                        })
-                                        : ""
-                                    }
-                                     {mutableKeys !== null ?
-                                         mutableKeys.map((keyName, index1) => {
-                                             if (mutableProperties[keyName] !== "") {
-                                                 if (keyName === config.URI) {
-                                                     let imageElement = document.getElementById("totalOrderImage" + orderIdData+index)
-                                                     if (typeof (imageElement) != 'undefined' && imageElement != null) {
-                                                         let divd = document.createElement('div');
-                                                         divd.id = `totalOrderMutableUrlId` + index + `${index1}`
-                                                         divd.className = "assetImage"
-                                                         document.getElementById("totalOrderImagUri" + orderIdData+index).replaceChild(divd, imageElement);
-                                                     }
-                                                 }
-                                             }
-                                         })
-                                         : ""
-                                     }
-                                     <Button variant="primary" className="viewButton" size="sm"
-                                             onClick={() => handleAsset(orderIdData)}>View</Button>
-                                 </div>
+                                                    <div key={assetIndex}>
+                                                        {immutableKeys !== null ?
+                                                            immutableKeys.map((keyName, index1) => {
+                                                                if (immutableProperties[keyName] !== "") {
+                                                                    if (keyName === config.URI) {
+                                                                        let imageElement = document.getElementById("totalOrderImage" + makerID + index);
+                                                                        if (typeof (imageElement) != 'undefined' && imageElement != null) {
+                                                                            let divd = document.createElement('div');
+                                                                            divd.id = `totalOrderUrlId` + index + `${index1}`;
+                                                                            divd.className = "assetImage";
+                                                                            document.getElementById("totalOrderImagUri" + makerID + index).replaceChild(divd, imageElement);
+                                                                        }
+                                                                    }
+                                                                    else if (keyName === "style") {
+                                                                        return (
+                                                                            <div key={index + keyName}
+                                                                                 className="list-item">
+                                                                                <p
+                                                                                    id={`immutable_order_market` + index + `${index1}`}
+                                                                                    className="list-item-value"></p>
+                                                                            </div>)
+                                                                    }
+                                                                    else if(keyName === "description"){
+                                                                        return (<div key={index + keyName} className="card-item"><p
+                                                                            id={`immutable_order_market` + index + `${index1}`}
+                                                                            className="description"></p></div>)
+                                                                    }
+                                                                    else if (keyName === "SellerName") {
+                                                                        return (
+                                                                            <div key={index + keyName}
+                                                                                 className="card-view-list">
+                                                                                <p className="card-view-value price"
+                                                                                   id={`immutable_order_market` + index + index1}></p>
+                                                                            </div>)
+                                                                    }
+                                                                    else if (keyName === "ArtistName") {
+                                                                        return (<div key={index + keyName}
+                                                                                     className="card-item-list2">
+                                                                            <p className="card-item-key"
+                                                                               id={`mutable_order_market` + index + index1}></p>
+                                                                        </div>)
+                                                                    }
+                                                                    else if(keyName === "exchangeRate") {
+                                                                        return (<div key={index + keyName}
+                                                                                     className="card-view-list">
+                                                                            <p className="card-view-value price"
+                                                                               id={`immutable_order_market` + index + index1}></p>
+                                                                        </div>)
+                                                                    }
+                                                                    else{
+                                                                        return  null;
+                                                                    }
 
+                                                                }
+                                                            })
+                                                            : ""
+                                                        }
+                                                        {mutableOrderKeys !== null ?
+                                                            mutableOrderKeys.map((keyName, index1) => {
+                                                                if (keyName === "exchangeRate") {
+                                                                    return (
+                                                                        <div key={index + keyName}
+                                                                             className="card-item">
+                                                                            <p className="price"
+                                                                               id={`mutable_total_orderPrice_view` + index + index1}></p>
+                                                                        </div>)
+                                                                }
+                                                            })
+                                                            :""
+                                                        }
+                                                        {mutableKeys !== null ?
+                                                            mutableKeys.map((keyName, index1) => {
+                                                                if (mutableProperties[keyName] !== "") {
+                                                                    if (keyName === config.URI) {
+                                                                        let imageElement = document.getElementById("totalOrderImage" + makerID + index);
+                                                                        if (typeof (imageElement) != 'undefined' && imageElement != null) {
+                                                                            let divd = document.createElement('div');
+                                                                            divd.id = `totalOrderMutableUrlId` + index + `${index1}`;
+                                                                            divd.className = "assetImage";
+                                                                            document.getElementById("totalOrderImagUri" + makerID + index).replaceChild(divd, imageElement);
+                                                                        }
+                                                                    }
+                                                                    else if (keyName === "ArtistName") {
+                                                                        return (<div key={index + keyName}
+                                                                                     className="card-item-list2">
+                                                                            <p className="card-item-key"
+                                                                               id={`mutable_order_market` + index + index1}></p>
+                                                                        </div>)
+                                                                    }
+                                                                    else if(keyName === "exchangeRate") {
+                                                                        return (<div key={index + keyName}
+                                                                                     className="card-view-list">
+                                                                            <p className="card-view-value price"
+                                                                               id={`immutable_order_market` + index + index1}></p>
+                                                                        </div>)
+                                                                    }
+                                                                    else if (keyName === "SellerName") {
+                                                                        return (<div key={index + keyName}
+                                                                                     className="card-item-list2">
+                                                                            <p className="card-item-key"
+                                                                               id={`mutable_order_market` + index + index1}></p>
+                                                                        </div>)
+                                                                    }else{
+                                                                       return  null;
+                                                                    }
+                                                                }
+                                                            })
+                                                            : ""
+                                                        }
+
+                                                    </div>
+
+                                                )
+                                            })
+                                        }
+                                    </div>
                                 </div>
                             </div>
-                        )
-
+                        )}
                     })
                     : <p className="empty-list">{t("ORDERS_NOT_FOUND")}</p>
                 }
+
+
             </div>
 
         </div>

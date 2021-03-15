@@ -125,7 +125,7 @@ let en = {
         "PROVISION_ADDRESS_LIST": "ProvisionAddress List",
         "UN_PROVISION_ADDRESS_LIST": "UnProvisionAddress List",
         "ORDER_ID": 'Order ID',
-        "MUTABLE_VALIDATION_ERROR": "These ,|: excluded",
+        "MUTABLE_VALIDATION_ERROR": "These |: excluded",
         "TRAIT_VALUE":"Trait Value",
         "IDENTITY_ID":"Identity ID",
         "MAKER_OWNABLE_ID":"Maker Ownable ID",

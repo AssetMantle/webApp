@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Dropdown} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import {MintAsset, Wrap, UnWrap} from "../../forms/assets";
 import AssetDefineJS from "persistencejs/transaction/assets/define";
 import {Define} from "../../forms";
@@ -21,27 +21,20 @@ const Assets = (props) => {
     }
     return (
         <div className="content-section">
-            <Sidebar/>
+            {/*<Sidebar/>*/}
             <div className="accountInfo">
                 <div className="row">
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
+                            <div className="container">
                             <h4>Assets</h4>
-                            <Dropdown>
-                                <Dropdown.Toggle  id="dropdown-basic">
-                                    {t("ACTIONS")}
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    <Dropdown.Item onClick={() => handleModalData("DefineAsset")}>{t("DEFINE_ASSET")}
-                                    </Dropdown.Item>
-                                    <Dropdown.Item onClick={() => handleModalData("MintAsset")}>{t("MINT_ASSET")}
-                                    </Dropdown.Item>
-                                    <Dropdown.Item onClick={() => handleModalData("Wrap")}>{t("WRAP")}
-                                    </Dropdown.Item>
-                                    <Dropdown.Item onClick={() => handleModalData("UnWrap")}>{t("UN_WRAP")}
-                                    </Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
+                                {
+                                    localStorage.getItem("userType") === 'admin' ?
+                                        <Button className="dropdown-button" onClick={() => handleModalData("MintAsset")}>{t("MINT_ASSET")}</Button>
+                                        : null
+                                }
+
+                            </div>
                         </div>
 
                         <AssetList hanldeRoute={()=>hanldeRoute()}/>

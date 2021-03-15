@@ -42,9 +42,9 @@ const TakeOrder = (props) => {
     };
     return (
         <div>
-            <Modal show={show} onHide={handleClose} centered>
+            <Modal show={show} onHide={handleClose} centered className="take-order-modal">
                 <Modal.Header closeButton>
-                    {props.FormName}
+                    HYPEBEAST
                 </Modal.Header>
                 <div>
                     {loader ?
@@ -52,35 +52,41 @@ const TakeOrder = (props) => {
                         : ""
                     }
                 </div>
-                <Modal.Body>
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group>
-                            <Form.Label>{t("FROM_ID")}*</Form.Label>
-                            <Form.Control
-                                type="text"
-                                className=""
-                                name="FromId"
-                                required={true}
-                                defaultValue={fromID !== null ? fromID : ""}
-                                placeholder={t("FROM_ID")}
-                            />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>{t("TAKER_OWNABLE_AMOUNT")}*</Form.Label>
-                            <Form.Control
-                                type="text"
-                                className=""
-                                name="ownableAmount"
-                                required={true}
-                                placeholder={t("TAKER_OWNABLE_AMOUNT")}
-                            />
-                        </Form.Group>
-                        <div className="submitButtonSection">
-                            <Button variant="primary" type="submit">
-                                {t("SUBMIT")}
-                            </Button>
-                        </div>
-                    </Form>
+                <Modal.Body >
+                    {/*<Form onSubmit={handleSubmit}>*/}
+                    {/*    <Form.Group>*/}
+                    {/*        <Form.Label>{t("FROM_ID")}*</Form.Label>*/}
+                    {/*        <Form.Control*/}
+                    {/*            type="text"*/}
+                    {/*            className=""*/}
+                    {/*            value={localStorage.getItem('identityID')}*/}
+                    {/*            name="FromId"*/}
+                    {/*            required={true}*/}
+                    {/*            defaultValue={fromID !== null ? fromID : ""}*/}
+                    {/*            placeholder={t("FROM_ID")}*/}
+                    {/*        />*/}
+                    {/*    </Form.Group>*/}
+                    {/*    <Form.Group>*/}
+                    {/*        <Form.Label>{t("TAKER_OWNABLE_AMOUNT")}*</Form.Label>*/}
+                    {/*        <Form.Control*/}
+                    {/*            type="text"*/}
+                    {/*            className=""*/}
+                    {/*            name="ownableAmount"*/}
+                    {/*            required={true}*/}
+                    {/*            placeholder={t("TAKER_OWNABLE_AMOUNT")}*/}
+                    {/*        />*/}
+                    {/*    </Form.Group>*/}
+                    {/*    <div className="submitButtonSection">*/}
+                    {/*        <Button variant="primary" type="submit">*/}
+                    {/*            {t("SUBMIT")}*/}
+                    {/*        </Button>*/}
+                    {/*    </div>*/}
+                    {/*</Form>*/}
+                    <h3>Select Payment Method</h3>
+                    <div className="buttons-group take-order">
+                        <Button>DEBIT / CREDIT</Button>
+                        <Button>CRYPTO</Button>
+                    </div>
                 </Modal.Body>
             </Modal>
             {!(Object.keys(response).length === 0) ?

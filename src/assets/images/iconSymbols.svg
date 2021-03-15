@@ -13,5 +13,14 @@
         <symbol id="icon-search"  viewBox="0 0 14 14">
             <path d="M6 11A5 5 0 1 0 6 1a5 5 0 0 0 0 10zM10 10l3 3" stroke="#434849" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </symbol>
+        <symbol id="icon-profile" viewBox="0 0 92 92">
+            <path d="M46 0C20.6 0 0 20.6 0 46c0 11.3 4.1 21.6 10.8 29.6.9 1 1.8 2 2.8 3C21.9 86.9 33.4 92 46 92c12.6 0 24.1-5.1 32.4-13.4 1-1 1.9-2 2.8-3C87.9 67.6 92 57.3 92 46 92 20.6 71.4 0 46 0zm0 25c9.9 0 18 8.1 18 18s-8.1 18-18 18-18-8.1-18-18 8.1-18 18-18zm0 63c-11.6 0-22.2-4.8-29.8-12.4 5.2-5.3 12.4-8.6 20.4-8.6h18.8c8 0 15.2 3.3 20.4 8.6C68.2 83.2 57.6 88 46 88z"/>
+        </symbol>
+        <symbol id="icon-down-arrow" fill="none" viewBox="0 0 11 7">
+            <path d="M.924 6.008l4.273-4.21 4.26 4.195.9-.898L5.182.047.009 5.125l.915.883z" fill="#D2D2D2"/>
+        </symbol>
+        <symbol id="icon-up-arrow" fill="none" viewBox="0 0 11 6" >
+            <path d="M10.077 0L5.842 4.25 1.544.094.653 1l5.221 5L11 .875 10.077 0z" fill="#D2D2D2"/>
+        </symbol>
     </defs>
 </svg>

@@ -100,10 +100,6 @@
         bottom: 0;
         z-index: 1;
     }
-    .accountInfo{
-        margin-left: 50px;
-    }
-
 }
 @media (max-width: 991px){
     .navbar-collapse{
@@ -171,7 +167,9 @@
             }
         }
     }
-
+    .nav-items{
+        display: block !important;
+    }
 }
 //@media (min-width: 991px){
 //    .navbar-dark .navbar-brand a img {

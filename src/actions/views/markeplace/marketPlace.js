@@ -8,12 +8,14 @@ const MarketPlace = () => {
     const {t} = useTranslation();
     return (
         <div className="content-section">
-            <Sidebar/>
+            {/*<Sidebar/>*/}
             <div className="accountInfo">
                 <div className="row">
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
-                            <h4>{t("MARKET_PLACE")}</h4>
+                            <div className="container">
+                                <h4>{t("MARKET_PLACE")}</h4>
+                            </div>
                         </div>
                         <TotalOrders/>
                     </div>

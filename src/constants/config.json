@@ -6,5 +6,43 @@
   "feesToken": "stake",
   "mode": "sync",
   "gas": 200000,
-  "URI": "URI"
+  "URI": "URI",
+  "AssetClassificationID" : "test.94h1acXs8ECMJmAq9wHC3I7ivJc=",
+  "OrderClassificationID" : "test.j5cCPlT2Th7FPnNz-a3dM_0PK-o=",
+  "users": [
+    {
+      "accountInfo": {
+        "userType": "admin",
+        "name": "test",
+        "email": "admin1@gmail.com",
+        "password": "admin1",
+        "mnemonic": "roof ride pulse broccoli seven monster today canoe inch spread pilot hunt garment crouch spring west use agent pink pepper exit accident purpose weapon",
+        "address": "cosmos1jd4h8dq7gzvdk0nravntd8ah2mxjzfm6ftjy78"
+      },
+      "identityID": "test.cGn3HMW8M3t5gMDv-wXa9sseHnA=|InAMfTNIaKkm8dzhdq_-0Hhe9ug="
+    },
+    {
+      "accountInfo": {
+        "userType": "admin",
+        "name": "test",
+        "email": "admin2@gmail.com",
+        "password": "admin2",
+        "mnemonic": "focus modify symptom soft cancel fury deputy inquiry sibling ensure universe giraffe camp rotate fetch thought scissors woman hint split history model breeze pipe",
+        "address": "cosmos1wv3mcm3yfcx2y0464pyuhayhea6zfhcqtakzqv"
+      },
+      "identityID": "test.cGn3HMW8M3t5gMDv-wXa9sseHnA=|UdHS8bfRgLCgSpHJz9si7rgGaXs="
+    },
+
+    {
+      "accountInfo": {
+        "userType": "user",
+        "name": "test1",
+        "email": "test@gmail.com",
+        "password": "test123",
+        "mnemonic": "earth shield syrup cement action cereal write shed draft awesome order social weasel vital inject practice under cheese rent act carry control parent buddy",
+        "address": "cosmos17ukw6627s06u5lla5kvy87sedppczp2vu97jpq"
+      },
+      "identityID": "test.cGn3HMW8M3t5gMDv-wXa9sseHnA=|d619Yu9IYUL9zV9270XeCewqlrI="
+    }
+  ]
 }

@@ -14,12 +14,15 @@ import ordersQueryJS from "persistencejs/transaction/orders/query";
 import {Button, Dropdown} from "react-bootstrap";
 import {CancelOrder, TakeOrder} from "../../forms/orders";
 import {Define} from "../../forms";
+import ChainInfo from "../../../components/ChainInfo";
 import ordersDefineJS from "persistencejs/transaction/orders/define";
+import assetsQueryJS from "persistencejs/transaction/assets/query";
+import Loader from "../../../components/loader";
 
 const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const ordersDefine = new ordersDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
-
+const assetsQuery = new assetsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const OrderView = React.memo((props) => {
     const PropertyHelper = new GetProperty();
     const GetMetaHelper = new GetMeta();
@@ -27,6 +30,9 @@ const OrderView = React.memo((props) => {
     const {t} = useTranslation();
     let history = useHistory();
     const [order, setOrder] = useState([]);
+    const [loader, setLoader] = useState(true)
+    const [exchangeRate, setExchangeRate] = useState('');
+    const [assetList, setAssetList] = useState([]);
     const [orderList, setOrderList] = useState([]);
     const [externalComponent, setExternalComponent] = useState("");
     const [orderId, setOrderId] = useState("");
@@ -39,22 +45,72 @@ const OrderView = React.memo((props) => {
                 if (ordersDataList !== null) {
                     setOrderList(ordersDataList);
                     ordersDataList.map((order, index) => {
-                        let immutableProperties = "";
-                        let mutableProperties = "";
-                        if (order.value.immutables.value.properties.value.propertyList !== null) {
-                            immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
+
+                        let classificationID = GetIDHelper.GetClassificationID(order);
+                        if (classificationID === config.OrderClassificationID) {
+                            let mutableOrderProperties = "";
+                            if (order.value.mutables.value.properties.value.propertyList !== null) {
+                                mutableOrderProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                            }
+                            let mutableOrderKeys = Object.keys(mutableOrderProperties);
+                            GetMetaHelper.AssignMetaValue(mutableOrderKeys, mutableOrderProperties, metasQuery, 'mutable_orderPrice_view', index, "");
+                            let makerID = GetIDHelper.GetMakerOwnableID(order);
+                            const filterAssetList = assetsQuery.queryAssetWithID(makerID);
+                            filterAssetList.then(function (Asset) {
+                                const parsedAsset = JSON.parse(Asset);
+
+                                if (parsedAsset.result.value.assets.value.list !== null) {
+                                    const assetId = GetIDHelper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
+
+                                    setAssetList(assetList => [...assetList, parsedAsset]);
+                                    let immutableProperties = "";
+                                    let mutableProperties = "";
+                                    if (parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
+                                        immutableProperties = PropertyHelper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
+                                    }
+                                    if (parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
+                                        mutableProperties = PropertyHelper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
+                                    }
+
+                                    let immutableKeys = Object.keys(immutableProperties);
+                                    let mutableKeys = Object.keys(mutableProperties);
+                                    GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_view', index, "orderViewUrlId");
+                                    GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_view', index, 'orderViewMutableViewUrlId');
+                                    setLoader(false)
+                                }else {
+                                    setLoader(false)
+                                }
+                            })
                         }
-                        if (order.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                        else {
+                            setLoader(false)
                         }
-                        let immutableKeys = Object.keys(immutableProperties);
-                        let mutableKeys = Object.keys(mutableProperties);
-                        GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_view', index, "orderViewUrlId");
-                        GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_view', index, 'orderViewMutableViewUrlId');
-                    })
+                    });
+
+                    //
+                    // ordersDataList.map((order, index) => {
+                    //     let immutableProperties = "";
+                    //     let mutableProperties = "";
+                    //     if (order.value.immutables.value.properties.value.propertyList !== null) {
+                    //         immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
+                    //     }
+                    //     if (order.value.mutables.value.properties.value.propertyList !== null) {
+                    //         mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                    //     }
+                    //     let immutableKeys = Object.keys(immutableProperties);
+                    //     let mutableKeys = Object.keys(mutableProperties);
+                    //     GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_view', index, "orderViewUrlId");
+                    //     GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_view', index, 'orderViewMutableViewUrlId');
+                    // })
 
                 }
+                else {
+                    setLoader(false)
+                }
             })
+        }
+        else {
+            setLoader(false)
         }
     }, [])
     const handleModalData = (formName, orderId, order) => {
@@ -64,243 +120,468 @@ const OrderView = React.memo((props) => {
     }
     return (
         <div className="content-section">
-            <Sidebar/>
+            {loader ?
+                <Loader/>
+                : ""
+            }
             <div className="accountInfo">
                 <div className="row">
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
-
-                            <p className="back-arrow" onClick={() => history.push(props.location.state.currentPath)}>
-                                <Icon viewClass="arrow-icon" icon="arrow"/> Back</p>
-                            {props.location.state.currentPath !== "/marketplace" ?
-                                <Dropdown>
-                                    <Dropdown.Toggle id="dropdown-basic">
-                                        {t("ACTIONS")}
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item
-                                            onClick={() => handleModalData("DefineOrder")}>{t("DEFINE_ORDER")}</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                            : ""
-                            }
-
+                            <div className="container">
+                                <p className="back-arrow"
+                                   onClick={() => history.push(props.location.state.currentPath)}>
+                                    <Icon viewClass="arrow-icon" icon="arrow"/> Back</p>
+                                {/*{props.location.state.currentPath !== "/marketplace" ?*/}
+                                {/*    <Dropdown>*/}
+                                {/*        <Dropdown.Toggle id="dropdown-basic">*/}
+                                {/*            {t("ACTIONS")}*/}
+                                {/*        </Dropdown.Toggle>*/}
+                                {/*        <Dropdown.Menu>*/}
+                                {/*            <Dropdown.Item*/}
+                                {/*                onClick={() => handleModalData("DefineOrder")}>{t("DEFINE_ORDER")}</Dropdown.Item>*/}
+                                {/*        </Dropdown.Menu>*/}
+                                {/*    </Dropdown>*/}
+                                {/*: ""*/}
+                                {/*}*/}
+                            </div>
                         </div>
                         {orderList !== null ?
                             orderList.map((order, index) => {
-                                    let immutableProperties = "";
-                                    let mutableProperties = "";
-                                    if (order.value.immutables.value.properties.value.propertyList !== null) {
-                                        immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
-                                    }
+                                let makerID = GetIDHelper.GetMakerID(order)
+                                let orderIdData = GetIDHelper.GetOrderID(order);
+                                let classificationID = GetIDHelper.GetClassificationID(order);
+                                if (classificationID === config.OrderClassificationID) {
+                                    let mutableOrderProperties = "";
                                     if (order.value.mutables.value.properties.value.propertyList !== null) {
-                                        mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
+                                        mutableOrderProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
                                     }
-                                    let orderId = GetIDHelper.GetOrderID(order);
-                                    let classificationID = GetIDHelper.GetClassificationID(order)
-                                    let makerOwnableID = GetIDHelper.GetMakerOwnableID(order)
-                                    let takerOwnableID = GetIDHelper.GetTakerOwnableID(order)
-                                    let makerID = GetIDHelper.GetMakerID(order)
-                                    let immutableKeys = Object.keys(immutableProperties);
-                                    let mutableKeys = Object.keys(mutableProperties);
+                                    let mutableOrderKeys = Object.keys(mutableOrderProperties);
                                     return (
-                                        <div className="list-container view-container" key={index}>
+                                        <div className="list-container view-container container" key={index}>
                                             <div className="row card-deck">
-                                                <div className="row">
-                                                    <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                                                        {immutableKeys !== null ?
-                                                            immutableKeys.map((keyName, index1) => {
-                                                                if (immutableProperties[keyName] !== "") {
-                                                                    if (keyName === config.URI) {
-                                                                        return (
-                                                                            <div
-                                                                                className="dummy-image image-sectiont"
-                                                                                key={index1}>
-                                                                                <div
-                                                                                    id={`orderViewUrlId` + index + `${index1}`}>
-
-                                                                                </div>
-                                                                            </div>
-                                                                        )
-
-                                                                    }
-                                                                }
-                                                            })
-                                                            : ""
+                                                {
+                                                    assetList.map((asset, assetIndex) => {
+                                                        const assetId = GetIDHelper.GetAssetID(asset.result.value.assets.value.list[0]);
+                                                        let immutableProperties = "";
+                                                        let mutableProperties = "";
+                                                        if (asset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
+                                                            immutableProperties = PropertyHelper.ParseProperties(asset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
                                                         }
-                                                        {mutableKeys !== null ?
-                                                            mutableKeys.map((keyName, index1) => {
-                                                                if (mutableProperties[keyName] !== "") {
-                                                                    if (keyName === config.URI) {
-                                                                        return (
-                                                                            <div className="dummy-image image-sectiont"
-                                                                                 key={index1}>
-                                                                                <div
-                                                                                    id={`orderViewMutableViewUrlId` + index + `${index1}`}>
-
-                                                                                </div>
-                                                                            </div>
-                                                                        )
-
-                                                                    }
-                                                                }
-                                                            })
-                                                            : ""
+                                                        if (asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
+                                                            mutableProperties = PropertyHelper.ParseProperties(asset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList)
                                                         }
-                                                        <div className="property-actions">
-                                                            {props.location.state.currentPath === "/marketplace" ?
-                                                                <Button variant="primary" size="sm"
-                                                                        onClick={() => handleModalData("TakeOrder", orderId)}>{t("TAKE")}</Button>
-                                                                : <Button variant="primary" size="sm"
-                                                                          onClick={() => handleModalData("CancelOrder", "" , order)}>{t("CANCEL")}</Button>
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="col-xl-8 col-lg-8 col-md-12 col-sm-12 asset-data">
-                                                        <div className="row">
-                                                            <div className="col-xl-6 col-lg-6 col-md-12">
-                                                                <div className="list-item">
-                                                                    <p className="list-item-label">{t("ORDER_ID")}:</p>
-                                                                    <div className="list-item-value id-section">
-                                                                        <div className="flex">
-                                                                            <p className="id-string"
-                                                                               title={orderId}> {orderId}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <Copy
-                                                                        id={orderId}/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="row">
-                                                            <div className="col-xl-6 col-lg-6 col-md-12">
-                                                                <div className="list-item">
-                                                                    <p className="list-item-label">{t("CLASSIFICATION_ID")} :</p>
-                                                                    <div className="list-item-value id-section">
-                                                                        <div className="flex">
-                                                                            <p className="id-string"
-                                                                               title={classificationID}> {classificationID}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <Copy
-                                                                        id={classificationID}/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        let immutableKeys = Object.keys(immutableProperties);
+                                                        let mutableKeys = Object.keys(mutableProperties);
+                                                        return (
+                                                            <div className="row flex-start">
+                                                                <div
+                                                                    className="col-xl-5 col-lg-5 col-md-6 col-sm-12 asset-image">
+                                                                    {immutableKeys !== null ?
+                                                                        immutableKeys.map((keyName, index1) => {
+                                                                            if (immutableProperties[keyName] !== "") {
+                                                                                if (keyName === config.URI) {
+                                                                                    return (
+                                                                                        <div
+                                                                                            className="dummy-image image-sectiont"
+                                                                                            key={index1}>
+                                                                                            <div
+                                                                                                id={`orderViewUrlId` + index + `${index1}`}
+                                                                                                className="inner-image-box">
 
-                                                        <div className="row">
-                                                            <div className="col-xl-6 col-lg-6 col-md-12">
-                                                                <div className="list-item">
-                                                                    <p className="list-item-label">{t("MAKER_OWNABLE_ID")} :</p>
-                                                                    <div className="list-item-value id-section">
-                                                                        <div className="flex">
-                                                                            <p className="id-string"
-                                                                               title={makerOwnableID}> {makerOwnableID}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <Copy
-                                                                        id={makerOwnableID}/>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    )
+
+                                                                                }
+                                                                            }
+                                                                        })
+                                                                        : ""
+                                                                    }
+                                                                    {mutableKeys !== null ?
+                                                                        mutableKeys.map((keyName, index1) => {
+                                                                            if (mutableProperties[keyName] !== "") {
+                                                                                if (keyName === config.URI) {
+                                                                                    return (
+                                                                                        <div
+                                                                                            className="dummy-image image-sectiont"
+                                                                                            key={index1}>
+                                                                                            <div
+                                                                                                id={`orderViewMutableViewUrlId` + index + `${index1}`}>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    )
+
+                                                                                }
+                                                                            }
+                                                                        })
+                                                                        : ""
+                                                                    }
                                                                 </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div className="row">
-                                                            <div className="col-xl-6 col-lg-6 col-md-12">
-                                                                <div className="list-item">
-                                                                    <p className="list-item-label">{t("TAKER_OWNABLE_ID")} :</p>
-                                                                    <div className="list-item-value id-section">
-                                                                        <div className="flex">
-                                                                            <p className="id-string"
-                                                                               title={takerOwnableID}> {takerOwnableID}</p>
+                                                                <div
+                                                                    className="col-xl-7 col-lg-7 col-md-6 col-sm-12 asset-data">
+                                                                    <div className="property-section">
+                                                                        <div>
+                                                                            {immutableKeys !== null ?
+                                                                                immutableKeys.map((keyName, index1) => {
+                                                                                    if (immutableProperties[keyName] !== "") {
+                                                                                        if (keyName === "identifier") {
+                                                                                            return (
+                                                                                                <div
+                                                                                                    key={index + keyName}
+                                                                                                    className="card-view-list">
+                                                                                                    <p
+                                                                                                        id={`immutable_order_view` + index + index1}
+                                                                                                        className="card-view-value title"></p>
+                                                                                                </div>)
+                                                                                        } else if (keyName === "style") {
+                                                                                            return (
+                                                                                                <div
+                                                                                                    key={index + keyName}
+                                                                                                    className="list-item">
+                                                                                                    <p
+                                                                                                        className="list-item-label"></p>
+                                                                                                    <p
+                                                                                                        id={`immutable_order_view` + index + `${index1}`}
+                                                                                                        className="list-item-value"></p>
+                                                                                                </div>)
+                                                                                        } else if (keyName === config.URI) {
+                                                                                            return (
+                                                                                                <div
+                                                                                                    key={index + keyName}
+                                                                                                    className="list-item">
+                                                                                                    <p
+                                                                                                        className="list-item-label"></p>
+                                                                                                    <p
+                                                                                                        id={`immutable_order_view` + index + `${index1}`}
+                                                                                                        className="list-item-value"></p>
+                                                                                                </div>)
+                                                                                        } else if (keyName === "description") {
+                                                                                            return (
+                                                                                                <div
+                                                                                                    key={index + keyName}
+                                                                                                    className="card-view-list">
+                                                                                                    <p
+                                                                                                        id={`immutable_order_view` + index + index1}
+                                                                                                        className="card-view-value description"></p>
+                                                                                                </div>)
+                                                                                        } else if (keyName === "Seller Name") {
+                                                                                            return (
+                                                                                                <div
+                                                                                                    key={index + keyName}
+                                                                                                    className="card-view-list">
+                                                                                                    <p className="card-view-value price"
+                                                                                                       id={`mutable_order_view` + index + index1}></p>
+                                                                                                </div>)
+                                                                                        } else if (keyName === "exchangeRate") {
+                                                                                            return (
+                                                                                                <div
+                                                                                                    key={index + keyName}
+                                                                                                    className="card-view-list">
+                                                                                                    <p className="card-view-value price"
+                                                                                                       id={`immutable_order_view` + index + index1}></p>
+                                                                                                </div>)
+                                                                                        }
+                                                                                    } else {
+                                                                                        return (
+                                                                                            <div key={index + keyName}
+                                                                                                 className="list-item">
+                                                                                                <p
+                                                                                                    className="list-item-label">{keyName} </p>
+                                                                                                <p
+                                                                                                    className="list-item-hash-value">{immutableProperties[keyName]}</p>
+                                                                                            </div>)
+                                                                                    }
+                                                                                })
+                                                                                : ""
+                                                                            }
                                                                         </div>
-                                                                    </div>
-                                                                    <Copy
-                                                                        id={takerOwnableID}/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div className="row">
-                                                            <div className="col-xl-6 col-lg-6 col-md-12">
-                                                                <div className="list-item">
-                                                                    <p className="list-item-label">{t("MAKER_ID")} :</p>
-                                                                    <div className="list-item-value id-section">
-                                                                        <div className="flex">
-                                                                            <p className="id-string"
-                                                                               title={makerID}> {makerID}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <Copy
-                                                                        id={makerID}/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-
-                                                        <div className="row property-section">
-                                                            <div
-                                                                className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                                                <p className="sub-title">{t("IMMUTABLES")}</p>
-                                                                {immutableKeys !== null ?
-                                                                    immutableKeys.map((keyName, index1) => {
-                                                                        if (immutableProperties[keyName] !== "" && keyName !== 'style' && keyName !== config.URI) {
-                                                                            return (<div key={index + keyName}
-                                                                                         className="list-item"><p
-                                                                                className="list-item-label">{keyName} </p>
-                                                                                <p
-                                                                                    id={`immutable_order_view` + index + index1}
-                                                                                    className="list-item-value"></p></div>)
-                                                                        } else if(keyName !== 'style' && keyName !== config.URI){
-                                                                            return (
-                                                                                <div key={index + keyName}
-                                                                                     className="list-item"><p
-                                                                                    className="list-item-label">{keyName} </p>
-                                                                                    <p
-                                                                                        className="list-item-hash-value">{immutableProperties[keyName]}</p>
-                                                                                </div>)
+                                                                        {mutableOrderKeys !== null ?
+                                                                            mutableOrderKeys.map((keyName, index1) => {
+                                                                                if (keyName === "exchangeRate") {
+                                                                                    return (
+                                                                                        <div key={index + keyName}
+                                                                                             className="card-view-list">
+                                                                                            <p className="card-view-value price"
+                                                                                               id={`mutable_orderPrice_view` + index + index1}></p>
+                                                                                        </div>)
+                                                                                }
+                                                                            })
+                                                                            : ""
                                                                         }
-                                                                    })
-                                                                    : ""
-                                                                }
-                                                            </div>
-                                                            <div
-                                                                className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                                                <p className="sub-title">{t("MUTABLES")}</p>
-                                                                {mutableKeys !== null ?
-                                                                    mutableKeys.map((keyName, index1) => {
-                                                                        if (mutableProperties[keyName] !== "" && keyName !== config.URI) {
-                                                                            return (<div key={index + keyName}
-                                                                                         className="list-item"><p
-                                                                                className="list-item-label">{keyName} </p>
-                                                                                <p className="list-item-value"
-                                                                                   id={`mutable_order_view` + index + index1}></p>
-                                                                            </div>)
-                                                                        } else if(keyName !== config.URI){
-                                                                            return (
-                                                                                <div key={index + keyName}
-                                                                                     className="list-item"><p
-                                                                                    className="list-item-label">{keyName} </p>
-                                                                                    <p
-                                                                                        className="list-item-hash-value">{mutableProperties[keyName]}</p>
-                                                                                </div>)
-                                                                        }
-                                                                    })
-                                                                    : ""
-                                                                }
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                                        <div>
+                                                                            {mutableKeys !== null ?
+                                                                                mutableKeys.map((keyName, index1) => {
+                                                                                    if (mutableProperties[keyName] !== "") {
+                                                                                        if (keyName === "exchangeRate") {
+                                                                                            return (
+                                                                                                <div
+                                                                                                    key={index + keyName}
+                                                                                                    className="card-view-list">
+                                                                                                    <p className="card-view-value price"
+                                                                                                       id={`mutable_order_view` + index + index1}></p>
+                                                                                                </div>)
+                                                                                        } else if (keyName === "style") {
+                                                                                            return (
+                                                                                                <div
+                                                                                                    key={index + keyName}
+                                                                                                    className="list-item">
+                                                                                                    <p
+                                                                                                        className="list-item-label"></p>
+                                                                                                    <p
+                                                                                                        id={`mutable_order_view` + index + `${index1}`}
+                                                                                                        className="list-item-value"></p>
+                                                                                                </div>)
+                                                                                        } else if (keyName === config.URI) {
+                                                                                            return (
+                                                                                                <div
+                                                                                                    key={index + keyName}
+                                                                                                    className="list-item">
+                                                                                                    <p
+                                                                                                        className="list-item-label"></p>
+                                                                                                    <p
+                                                                                                        id={`mutable_order_view` + index + `${index1}`}
+                                                                                                        className="list-item-value"></p>
+                                                                                                </div>)
+                                                                                        } else if (keyName === "SellerName") {
+                                                                                            return (
+                                                                                                <div
+                                                                                                    key={index + keyName}
+                                                                                                    className="card-view-list">
+                                                                                                    <p className="card-view-value author"
+                                                                                                       id={`mutable_order_view` + index + index1}></p>
+                                                                                                </div>)
+                                                                                        } else if (keyName === "ArtistName") {
+                                                                                            return (
+                                                                                                <div
+                                                                                                    key={index + keyName}
+                                                                                                    className="card-view-list">
+                                                                                                    <p className="card-view-value author"
+                                                                                                       id={`mutable_order_view` + index + index1}></p>
+                                                                                                </div>)
+                                                                                        }
+                                                                                    } else if (keyName === "exchangeRate") {
+                                                                                        return (
+                                                                                            <div key={index + keyName}
+                                                                                                 className="list-item">
+                                                                                                <p className="list-item-hash-value">{mutableProperties[keyName]}</p>
+                                                                                            </div>)
+                                                                                    }
+                                                                                })
+                                                                                : ""
+                                                                            }
 
+
+                                                                        </div>
+                                                                        <div className="property-actions">
+                                                                            {props.location.state.currentPath === "/marketplace" ?
+                                                                                <Button variant="primary" size="sm"
+                                                                                        className="button-large"
+                                                                                        onClick={() => handleModalData("TakeOrder", orderId)}>{t("TAKE")}</Button>
+                                                                                : <Button variant="primary" size="sm"
+                                                                                          className="button-large"
+                                                                                          onClick={() => handleModalData("CancelOrder", "", order)}>{t("CANCEL")}</Button>
+                                                                            }
+                                                                        </div>
+                                                                        <ChainInfo/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        )
+                                                    })
+
+                                                }
 
                                             </div>
                                         </div>
                                     )
                                 }
-                            )
-                            : ""
+
+                            })
+                            : <p className="empty-list">{t("ORDERS_NOT_FOUND")}</p>
                         }
+
+
+                        {/*{orderList !== null ?*/}
+                        {/*    orderList.map((order, index) => {*/}
+                        {/*            let immutableProperties = "";*/}
+                        {/*            let mutableProperties = "";*/}
+                        {/*            if (order.value.immutables.value.properties.value.propertyList !== null) {*/}
+                        {/*                immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)*/}
+                        {/*            }*/}
+                        {/*            if (order.value.mutables.value.properties.value.propertyList !== null) {*/}
+                        {/*                mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)*/}
+                        {/*            }*/}
+                        {/*            let orderId = GetIDHelper.GetOrderID(order);*/}
+                        {/*            let classificationID = GetIDHelper.GetClassificationID(order)*/}
+                        {/*            let makerOwnableID = GetIDHelper.GetMakerOwnableID(order)*/}
+                        {/*            let takerOwnableID = GetIDHelper.GetTakerOwnableID(order)*/}
+                        {/*            let makerID = GetIDHelper.GetMakerID(order)*/}
+                        {/*            let immutableKeys = Object.keys(immutableProperties);*/}
+                        {/*            let mutableKeys = Object.keys(mutableProperties);*/}
+                        {/*            return (*/}
+                        {/*                <div className="list-container view-container container" key={index}>*/}
+                        {/*                    <div className="row card-deck">*/}
+                        {/*                        <div className="row">*/}
+                        {/*                            <div className="col-xl-5 col-lg-5 col-md-6 col-sm-12 asset-image">*/}
+                        {/*                                {immutableKeys !== null ?*/}
+                        {/*                                    immutableKeys.map((keyName, index1) => {*/}
+                        {/*                                        if (immutableProperties[keyName] !== "") {*/}
+                        {/*                                            if (keyName === config.URI) {*/}
+                        {/*                                                return (*/}
+                        {/*                                                    <div*/}
+                        {/*                                                        className="dummy-image image-sectiont"*/}
+                        {/*                                                        key={index1}>*/}
+                        {/*                                                        <div*/}
+                        {/*                                                            id={`orderViewUrlId` + index + `${index1}`}*/}
+                        {/*                                                            className="inner-image-box">*/}
+
+                        {/*                                                        </div>*/}
+                        {/*                                                    </div>*/}
+                        {/*                                                )*/}
+
+                        {/*                                            }*/}
+                        {/*                                        }*/}
+                        {/*                                    })*/}
+                        {/*                                    : ""*/}
+                        {/*                                }*/}
+                        {/*                                {mutableKeys !== null ?*/}
+                        {/*                                    mutableKeys.map((keyName, index1) => {*/}
+                        {/*                                        if (mutableProperties[keyName] !== "") {*/}
+                        {/*                                            if (keyName === config.URI) {*/}
+                        {/*                                                return (*/}
+                        {/*                                                    <div className="dummy-image image-sectiont"*/}
+                        {/*                                                         key={index1}>*/}
+                        {/*                                                        <div*/}
+                        {/*                                                            id={`orderViewMutableViewUrlId` + index + `${index1}`}>*/}
+
+                        {/*                                                        </div>*/}
+                        {/*                                                    </div>*/}
+                        {/*                                                )*/}
+
+                        {/*                                            }*/}
+                        {/*                                        }*/}
+                        {/*                                    })*/}
+                        {/*                                    : ""*/}
+                        {/*                                }*/}
+                        {/*                            </div>*/}
+                        {/*                            <div*/}
+                        {/*                                className="col-xl-7 col-lg-7 col-md-6 col-sm-12 asset-data">*/}
+                        {/*                                <div className="property-section">*/}
+                        {/*                                    <div>*/}
+                        {/*                                        {immutableKeys !== null ?*/}
+                        {/*                                            immutableKeys.map((keyName, index1) => {*/}
+                        {/*                                                if (immutableProperties[keyName] !== "") {*/}
+                        {/*                                                    if (keyName === "identifier") {*/}
+                        {/*                                                        return (<div key={index + keyName}*/}
+                        {/*                                                                     className="card-view-list">*/}
+                        {/*                                                            <p*/}
+                        {/*                                                                id={`immutable_order_view` + index + index1}*/}
+                        {/*                                                                className="card-view-value title"></p>*/}
+                        {/*                                                        </div>)*/}
+                        {/*                                                    } else if (keyName === "style") {*/}
+                        {/*                                                        return (<div key={index + keyName}*/}
+                        {/*                                                                     className="list-item"><p*/}
+                        {/*                                                            className="list-item-label"></p> <p*/}
+                        {/*                                                            id={`immutable_order_view` + index + `${index1}`}*/}
+                        {/*                                                            className="list-item-value"></p></div>)*/}
+                        {/*                                                    } else if (keyName === config.URI) {*/}
+                        {/*                                                        return (<div key={index + keyName}*/}
+                        {/*                                                                     className="list-item"><p*/}
+                        {/*                                                            className="list-item-label"></p> <p*/}
+                        {/*                                                            id={`immutable_order_view` + index + `${index1}`}*/}
+                        {/*                                                            className="list-item-value"></p></div>)*/}
+                        {/*                                                    } else if (keyName === "description") {*/}
+                        {/*                                                        return (<div key={index + keyName}*/}
+                        {/*                                                                     className="card-view-list">*/}
+                        {/*                                                            <p*/}
+                        {/*                                                                id={`immutable_order_view` + index + index1}*/}
+                        {/*                                                                className="card-view-value description"></p>*/}
+                        {/*                                                        </div>)*/}
+                        {/*                                                    } else if (keyName === "exchangeRate") {*/}
+                        {/*                                                        return (<div key={index + keyName}*/}
+                        {/*                                                                     className="card-view-list">*/}
+                        {/*                                                            <p className="card-view-value price"*/}
+                        {/*                                                               id={`immutable_order_view` + index + index1}></p>*/}
+                        {/*                                                        </div>)*/}
+                        {/*                                                    }*/}
+                        {/*                                                } else {*/}
+                        {/*                                                    return (*/}
+                        {/*                                                        <div key={index + keyName}*/}
+                        {/*                                                             className="list-item"><p*/}
+                        {/*                                                            className="list-item-label">{keyName} </p>*/}
+                        {/*                                                            <p*/}
+                        {/*                                                                className="list-item-hash-value">{immutableProperties[keyName]}</p>*/}
+                        {/*                                                        </div>)*/}
+                        {/*                                                }*/}
+                        {/*                                            })*/}
+                        {/*                                            : ""*/}
+                        {/*                                        }*/}
+                        {/*                                    </div>*/}
+                        {/*                                    <div>*/}
+                        {/*                                        {mutableKeys !== null ?*/}
+                        {/*                                            mutableKeys.map((keyName, index1) => {*/}
+                        {/*                                                if (mutableProperties[keyName] !== "") {*/}
+                        {/*                                                    if (keyName === "exchangeRate") {*/}
+                        {/*                                                        return (<div key={index + keyName}*/}
+                        {/*                                                                     className="card-view-list">*/}
+                        {/*                                                            <p className="card-view-value price"*/}
+                        {/*                                                               id={`mutable_order_view` + index + index1}></p>*/}
+                        {/*                                                        </div>)*/}
+                        {/*                                                    } else if (keyName === "style") {*/}
+                        {/*                                                        return (<div key={index + keyName}*/}
+                        {/*                                                                     className="list-item"><p*/}
+                        {/*                                                            className="list-item-label"></p> <p*/}
+                        {/*                                                            id={`mutable_order_view` + index + `${index1}`}*/}
+                        {/*                                                            className="list-item-value"></p></div>)*/}
+                        {/*                                                    } else if (keyName === config.URI) {*/}
+                        {/*                                                        return (<div key={index + keyName}*/}
+                        {/*                                                                     className="list-item"><p*/}
+                        {/*                                                            className="list-item-label"></p> <p*/}
+                        {/*                                                            id={`mutable_order_view` + index + `${index1}`}*/}
+                        {/*                                                            className="list-item-value"></p></div>)*/}
+                        {/*                                                    } else if (keyName === "Seller Name") {*/}
+                        {/*                                                        return (<div key={index + keyName}*/}
+                        {/*                                                                     className="card-view-list">*/}
+                        {/*                                                            <p className="card-view-value price"*/}
+                        {/*                                                               id={`mutable_order_view` + index + index1}></p>*/}
+                        {/*                                                        </div>)*/}
+                        {/*                                                    }*/}
+                        {/*                                                } else if (keyName === "exchangeRate") {*/}
+                        {/*                                                    return (*/}
+                        {/*                                                        <div key={index + keyName}*/}
+                        {/*                                                             className="list-item">*/}
+                        {/*                                                            <p className="list-item-hash-value">{mutableProperties[keyName]}</p>*/}
+                        {/*                                                        </div>)*/}
+                        {/*                                                }*/}
+                        {/*                                            })*/}
+                        {/*                                            : ""*/}
+                        {/*                                        }*/}
+                        {/*                                    </div>*/}
+                        {/*                                    <div className="property-actions">*/}
+                        {/*                                        {props.location.state.currentPath === "/marketplace" ?*/}
+                        {/*                                            <Button variant="primary" size="sm"*/}
+                        {/*                                                    className="button-large"*/}
+                        {/*                                                    onClick={() => handleModalData("TakeOrder", orderId)}>{t("TAKE")}</Button>*/}
+                        {/*                                            : <Button variant="primary" size="sm"*/}
+                        {/*                                                      className="button-large"*/}
+                        {/*                                                      onClick={() => handleModalData("CancelOrder", "", order)}>{t("CANCEL")}</Button>*/}
+                        {/*                                        }*/}
+                        {/*                                    </div>*/}
+                        {/*                                </div>*/}
+                        {/*                            </div>*/}
+                        {/*                        </div>*/}
+
+
+                        {/*                    </div>*/}
+                        {/*                </div>*/}
+                        {/*            )*/}
+                        {/*        }*/}
+                        {/*    )*/}
+                        {/*    : ""*/}
+                        {/*}*/}
                     </div>
                     <div className="col-md-3 summary-section">
                         <Summary/>

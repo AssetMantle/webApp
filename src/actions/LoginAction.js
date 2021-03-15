@@ -1,88 +1,86 @@
 import React, {useState} from "react";
-import {Modal, Button} from "react-bootstrap";
+import {Modal, Button, Form} from "react-bootstrap";
 import {LoginMnemonic, PrivateKey, Ledger} from "./forms/login";
 import {useTranslation} from "react-i18next";
 import {useHistory} from "react-router-dom";
-import MnemonicIcon from "../assets/images/MnemonicIcon.svg"
-import PrivatekeyIcon from "../assets/images/PrivatekeyIcon.svg"
-import LedgerIcon from "../assets/images/LedgerIcon.svg"
-import Icon from "../icons";
+import config from "../constants/config";
+import keyUtils from "persistencejs/utilities/keys";
 
 const Login = () => {
     const {t} = useTranslation();
-    const history = useHistory();
-    const [show, setShow] = useState(true);
-    const [externalComponent, setExternalComponent] = useState("");
-    const handleClose = () => {
-        setShow(false)
-        history.push('/');
-    };
+    const history = useHistory()
+    const [errorMessage, setErrorMessage] = useState(false);
     const handleRoute = (route) => {
-        setShow(false);
-        setExternalComponent(route)
+        history.push(route);
+    };
+    const handleChange = () => {
+        setErrorMessage(false)
+    };
+
+
+    const handleSubmit = async event => {
+        event.preventDefault();
+        const userEmail = event.target.email.value;
+        const userPassword = document.getElementById("password").value;
+        localStorage.setItem("assetClassificationID",  config.AssetClassificationID);
+        localStorage.setItem("orderClassificationID",  config.OrderClassificationID);
+        config.users.forEach((user) => {
+            const email = user.accountInfo.email;
+            const password = user.accountInfo.password;
+            if (userEmail === email && userPassword === password) {
+                localStorage.setItem("name", user.accountInfo.name);
+                localStorage.setItem("address", user.accountInfo.address);
+                localStorage.setItem("mnemonic", user.accountInfo.mnemonic);
+                localStorage.setItem("userType", user.accountInfo.userType);
+                localStorage.setItem("identityID", user.identityID);
+                history.push('/marketplace');
+            } else {
+                setErrorMessage(true)
+            }
+        });
     };
     return (
         <div className="accountInfo">
-            <Modal show={show} onHide={handleClose} className="signup-section login-section" centered>
-                <Modal.Header closeButton>
-                    {t("LOGIN_FORM")}
-                </Modal.Header>
-                <Modal.Body>
-                    <div className="mrt-10">
-                        <div className="button-view"
-                             onClick={() => handleRoute("LoginMnemonic")}
-                        >
-                            <div className="icon-section">
-                                <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/></div>
-                                {t("LOGIN_MNEMONIC")}</div>
-                            <Icon viewClass="arrow-icon" icon="arrow"/>
-                        </div>
+            <div className="form-section">
+                <p className="form-title">Login</p>
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group>
+                        <Form.Label>Email Address</Form.Label>
+                        <Form.Control
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder="Email Address"
+                            onChange={handleChange}
+                            required={true}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            name="password"
+                            id="password"
+                            onChange={handleChange}
+                            placeholder="password"
+                            required={true}
+                        />
+                    </Form.Group>
+                    {errorMessage ?
+                        <div className="login-error"><p className="error-response">Account not exists</p></div>
+                        : ""
+                    }
+                    <div className="buttons-group">
+                        <Button type="submit">Login</Button>
+                        <p className="note1">Not a member ?</p>
+                        <Button variant="secondary" onClick={() => handleRoute("/signup")}>SignUp</Button>
                     </div>
-                    <div className="mrt-10">
-                        <div className="button-view"
-                             onClick={() => handleRoute("PrivateKey")}
-                        >
-                            <div className="icon-section">
-                                <div className="icon"><img src={PrivatekeyIcon} alt="PrivatekeyIcon"/></div>
-                                {t("LOGIN_PRIVATE_KEY")}
-                            </div>
-                            <Icon viewClass="arrow-icon" icon="arrow"/>
-                        </div>
-                    </div>
-                    <div className="mrt-10">
-                        <div className="button-view disabled"
-                            // onClick={() => handleRoute("Ledger")}
-                             title="To be implemented"
-                        >
-                            <div className="icon-section">
-                                <div className="icon"><img src={LedgerIcon} alt="LedgerIcon"/></div>
-                                {t("LEDGER_LOGIN")}
-                            </div>
-                            <Icon viewClass="arrow-icon" icon="arrow"/>
-                        </div>
-                    </div>
-                </Modal.Body>
-            </Modal>
 
-            <div>
-                {
-                    externalComponent === 'LoginMnemonic' ?
-                        <LoginMnemonic setExternalComponent={setExternalComponent}/> :
-                        null
-                }
-                {
-                    externalComponent === 'PrivateKey' ?
-                        <PrivateKey setExternalComponent={setExternalComponent}/> :
-                        null
-                }
-                {
-                    externalComponent === 'Ledger' ?
-                        <Ledger setExternalComponent={setExternalComponent}/> :
-                        null
-                }
+                </Form>
 
             </div>
         </div>
+
     );
 }
 export default Login

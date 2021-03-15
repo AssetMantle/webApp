@@ -21,21 +21,23 @@ const Orders = () => {
 
     return (
         <div className="content-section">
-            <Sidebar/>
+            {/*<Sidebar/>*/}
             <div className="accountInfo">
                 <div className="row">
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
+                            <div className="container">
                             <h4>Orders</h4>
-                            <Dropdown>
-                                <Dropdown.Toggle  id="dropdown-basic">
-                                    {t("ACTIONS")}
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    <Dropdown.Item
-                                        onClick={() => handleModalData("DefineOrder")}>{t("DEFINE_ORDER")}</Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
+                            {/*<Dropdown>*/}
+                            {/*    <Dropdown.Toggle  id="dropdown-basic">*/}
+                            {/*        {t("ACTIONS")}*/}
+                            {/*    </Dropdown.Toggle>*/}
+                            {/*    <Dropdown.Menu>*/}
+                            {/*        <Dropdown.Item*/}
+                            {/*            onClick={() => handleModalData("DefineOrder")}>{t("DEFINE_ORDER")}</Dropdown.Item>*/}
+                            {/*    </Dropdown.Menu>*/}
+                            {/*</Dropdown>*/}
+                            </div>
                         </div>
                         <OrderList/>
                     </div>

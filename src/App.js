@@ -6,7 +6,7 @@ import {HomePage, RouteNotFound,  Profile} from "./components";
 import HeaderAfterLogin from "./components/Headers/HeaderAfterLogin";
 import HeaderBeforeLogin from "./components/Headers/HeaderBeforeLogin";
 import offline from "./assets/images/offline.svg";
-import {Maintainers, Identities, Assets, Orders, MarketPlace, AssetView, IdentityView, OrderView} from "./actions/views"
+import {Maintainers, Identities, Assets, Orders, MarketPlace, AssetView, IdentityView, OrderView, Faq} from "./actions/views"
 import Footer from "./components/Footer"
 import {useTranslation} from "react-i18next";
 import './assets/css/styles.css'
@@ -50,8 +50,8 @@ const App = () => {
         path: '/Profile',
         component: Profile,
     }, {
-        path: '/SearchOrder',
-        component: SearchOrder,
+        path: '/faq',
+        component: Faq,
     }, {
         path: '/SearchMaintainer',
         component: SearchMaintainer,
@@ -112,12 +112,12 @@ const App = () => {
 
                 <Route component={RouteNotFound}/>
             </Switch>
-            {
-                userTypeToken === null || window.location.pathname === "/" ?
+            {/*{*/}
+            {/*    userTypeToken === null || window.location.pathname === "/" ?*/}
                     <Footer/>
-                    :
-                    ""
-            }
+            {/*        :*/}
+            {/*        ""*/}
+            {/*}*/}
         </div>
     );
 }

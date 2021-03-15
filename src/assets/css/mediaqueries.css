@@ -75,10 +75,7 @@
     top: 60px;
     left: 0;
     bottom: 0;
-    z-index: 1; }
-
-  .accountInfo {
-    margin-left: 50px; } }
+    z-index: 1; } }
 @media (max-width: 991px) {
   .navbar-collapse {
     -webkit-transition: all 0.3s ease-out;
@@ -133,7 +130,10 @@
         .content-section .accountInfo .row .col-md-9 .card-deck {
           height: auto; }
       .content-section .accountInfo .row .summary-section {
-        height: auto; } }
+        height: auto; }
+
+  .nav-items {
+    display: block !important; } }
 @media (min-width: 992px) and (max-width: 1080px) {
   .navbar-dark .navbar-nav .nav-link {
     padding: 0 0.75rem !important;

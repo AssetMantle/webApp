@@ -5,5 +5,6 @@ import Maintainers from "./maintainers/maintainers"
 import MarketPlace from "./markeplace/marketPlace.js"
 import AssetView from "./assets/assetView"
 import IdentityView from "./identities/identityView"
-import OrderView from "./markeplace/orderView"
-export {Maintainers, Identities, Assets, Orders, MarketPlace,AssetView, IdentityView, OrderView};
+import OrderView from "./markeplace/orderView";
+import Faq from "./Faq";
+export {Maintainers, Identities, Assets,Faq, Orders, MarketPlace,AssetView, IdentityView, OrderView};

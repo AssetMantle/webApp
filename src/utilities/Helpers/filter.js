@@ -54,6 +54,15 @@ export default class Filter {
         let result = [mutable, meta]
         return result;
     }
+    setTraitValuesWithoutCheckbox(mutableValues, mutableName, mutableType, mutableFieldValue) {
+        let mutable = ""
+            if (mutableValues !== "") {
+                mutable = mutableValues + "," + mutableName + ":" + mutableType + "|" + mutableFieldValue
+            } else {
+                mutable = mutableValues + mutableName + ":" + mutableType + "|" + mutableFieldValue
+            }
+        return mutable;
+    }
 }
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
