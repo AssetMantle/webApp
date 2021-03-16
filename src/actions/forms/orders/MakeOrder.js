@@ -95,14 +95,14 @@ const MakeOrder = (props) => {
     //
     // }
     const handleChangeExchangeRate = (evt, idx) => {
-        // let inputValue = new bigDecimal(evt.target.value);
         let inputValue = new bigdecimal.BigDecimal(evt.target.value);
-        let smallestNumber = new bigdecimal.BigDecimal(0.000000000000000001);
-        console.log("d * x = " + inputValue.multiply(smallestNumber));
-        let newValue = inputValue.multiply(smallestNumber);
+        // let smallestNumber = new bigdecimal.BigDecimal(0.000000000000000001);
+        let biggestNumber = new bigdecimal.BigDecimal(1000000000000000000);
+        // console.log("d * x = " + inputValue.divide(smallestNumber));
+        let newValue = inputValue.multiply(biggestNumber);
         var value = bigDecimal.round(newValue, 18);
         console.log("d * inewValue = " , value);
-        document.getElementById("exchangeRateSplit").value = evt.target.value;
+        document.getElementById("exchangeRateSplit").value = value;
         document.getElementById("exchangeRateSplit").innerHTML=value;
     };
     const handleChangeMutable = (evt, idx) => {
@@ -435,7 +435,7 @@ const MakeOrder = (props) => {
                                             <div key={index}>
                                                 <Form.Group>
                                                     <div className="upload-section">
-                                                        <Form.Label>{mutableName}</Form.Label>
+                                                        <Form.Label>Amount</Form.Label>
                                                     </div>
                                                     <Form.Control
                                                         type="number"
@@ -443,7 +443,7 @@ const MakeOrder = (props) => {
                                                         name={`${mutableName}|${mutableType}${index}`}
                                                         id={`MakeOrderMutable${mutableName}|${mutableType}${index}`}
                                                         required={true}
-                                                        placeholder="Trait Value"
+                                                        placeholder="Amount"
                                                         onChange={(evt) => {
                                                             handleChangeExchangeRate(evt, index + 1)
                                                         }}
@@ -461,7 +461,7 @@ const MakeOrder = (props) => {
                                             <div key={index} >
                                                 <Form.Group>
                                                     <div className="upload-section">
-                                                        <Form.Label>{mutableName}</Form.Label>
+                                                        <Form.Label>Seller Name</Form.Label>
                                                     </div>
                                                     <Form.Control
                                                         type="text"

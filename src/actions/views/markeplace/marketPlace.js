@@ -14,7 +14,6 @@ const MarketPlace = () => {
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
                             <div className="container">
-                                <h4>{t("MARKET_PLACE")}</h4>
                             </div>
                         </div>
                         <TotalOrders/>

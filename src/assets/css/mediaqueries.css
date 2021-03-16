@@ -120,17 +120,15 @@
   .content-section {
     padding-top: 60px;
     height: 100%; }
-    .content-section .accountInfo .row {
-      overflow-y: auto; }
-      .content-section .accountInfo .row .col-md-9, .content-section .accountInfo .row .col-md-3 {
-        flex: initial;
-        max-width: initial; }
-      .content-section .accountInfo .row .col-md-9 {
-        flex-direction: column; }
-        .content-section .accountInfo .row .col-md-9 .card-deck {
-          height: auto; }
-      .content-section .accountInfo .row .summary-section {
+    .content-section .accountInfo .row .col-md-9, .content-section .accountInfo .row .col-md-3 {
+      flex: initial;
+      max-width: initial; }
+    .content-section .accountInfo .row .col-md-9 {
+      flex-direction: column; }
+      .content-section .accountInfo .row .col-md-9 .card-deck {
         height: auto; }
+    .content-section .accountInfo .row .summary-section {
+      height: auto; }
 
   .nav-items {
     display: block !important; } }

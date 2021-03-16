@@ -98,7 +98,7 @@ const HeaderAfterLogin = () => {
                                          aria-labelledby="profile-nav-dropdown">
                                         {/*<NavLink className="dropdown-item" to="/identities">{t("IDENTITIES")}</NavLink>*/}
                                         {/*<NavLink className="dropdown-item" to="/maintainers">{t("MAINTAINERS")}</NavLink>*/}
-                                        <li className="dropdown-item" >{userName}</li>
+                                        <li className="dropdown-item" >@{userName}</li>
                                         <NavDropdown.Item onClick={logout("/")}>{t("LOGOUT")}</NavDropdown.Item>
                                     </div>
 

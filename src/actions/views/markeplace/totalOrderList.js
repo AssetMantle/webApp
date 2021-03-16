@@ -81,33 +81,18 @@ const TotalOrders = React.memo((props) => {
 
                     });
 
-                    //     console.log(assetListData, "assetListData")
-                    // ordersDataList.map((order, index) => {
-                    //     let immutableProperties = "";
-                    //     let mutableProperties = "";
-                    //     if (order.value.immutables.value.properties.value.propertyList !== null) {
-                    //         immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
-                    //     }
-                    //     if (order.value.mutables.value.properties.value.propertyList !== null) {
-                    //         mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
-                    //     }
-                    //     let immutableKeys = Object.keys(immutableProperties);
-                    //     let mutableKeys = Object.keys(mutableProperties);
-                    //     GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_market', index, 'totalOrderUrlId');
-                    //     GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_market', index,'totalOrderMutableUrlId');
-                    //     setLoader(false)
-                    // })
                 } else {
                     setLoader(false)
                 }
             })
     }, []);
 
-    const handleAsset = (id) => {
+    const handleAsset = (id,makerOwnableID) => {
         history.push({
                 pathname: '/OrderView',
                 state: {
                     orderID: id,
+                    makerOwnableID: makerOwnableID.substr(makerOwnableID.indexOf('|')+ 1),
                     currentPath: window.location.pathname,
                 }
             }
@@ -124,6 +109,7 @@ const TotalOrders = React.memo((props) => {
                 {orderList.length ?
                     orderList.map((order, index) => {
                         let makerID = GetIDHelper.GetMakerID(order)
+                        let makerOwnableID = GetIDHelper.GetMakerOwnableID(order);
                         let orderIdData = GetIDHelper.GetOrderID(order);
                         let classificationID = GetIDHelper.GetClassificationID(order);
                         let mutableOrderProperties = "";
@@ -134,7 +120,7 @@ const TotalOrders = React.memo((props) => {
                         if(classificationID === config.OrderClassificationID) {
                         return (
                             <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
-                                <div className="card order-card" onClick={() => handleAsset(orderIdData)}>
+                                <div className="card order-card" onClick={() => handleAsset(orderIdData, makerOwnableID)}>
                                     <div id={"totalOrderImagUri" + makerID + index} className="image-container">
                                         <div id={"totalOrderImage" + makerID + index} className="dummy-image">
 
@@ -177,7 +163,7 @@ const TotalOrders = React.memo((props) => {
                                                                                     className="list-item-value"></p>
                                                                             </div>)
                                                                     }
-                                                                    else if(keyName === "description"){
+                                                                    else if(keyName === "identifier"){
                                                                         return (<div key={index + keyName} className="card-item"><p
                                                                             id={`immutable_order_market` + index + `${index1}`}
                                                                             className="description"></p></div>)

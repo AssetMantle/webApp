@@ -39,7 +39,7 @@ const Login = () => {
 
                 <p className="note">By signing up, you confirm to have read and agree to our Terms of Use and Privacy Policy.
                 </p>
-                <Button>SignUp</Button>
+                <Button>Sign Up</Button>
                 <p className="note1">Already a member ?</p>
                 <Button onClick={()=>handleRoute("/login")}>Login</Button>
             </div>

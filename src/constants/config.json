@@ -13,7 +13,7 @@
     {
       "accountInfo": {
         "userType": "admin",
-        "name": "test",
+        "name": "admin1",
         "email": "admin1@gmail.com",
         "password": "admin1",
         "mnemonic": "roof ride pulse broccoli seven monster today canoe inch spread pilot hunt garment crouch spring west use agent pink pepper exit accident purpose weapon",
@@ -24,7 +24,7 @@
     {
       "accountInfo": {
         "userType": "admin",
-        "name": "test",
+        "name": "admin2",
         "email": "admin2@gmail.com",
         "password": "admin2",
         "mnemonic": "focus modify symptom soft cancel fury deputy inquiry sibling ensure universe giraffe camp rotate fetch thought scissors woman hint split history model breeze pipe",
@@ -36,7 +36,7 @@
     {
       "accountInfo": {
         "userType": "user",
-        "name": "test1",
+        "name": "user1",
         "email": "test@gmail.com",
         "password": "test123",
         "mnemonic": "earth shield syrup cement action cereal write shed draft awesome order social weasel vital inject practice under cheese rent act carry control parent buddy",

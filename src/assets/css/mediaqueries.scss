@@ -151,7 +151,6 @@
         padding-top: 60px;
         height: 100%;
         .accountInfo .row{
-            overflow-y: auto;
             .col-md-9, .col-md-3{
                 flex: initial;
                 max-width: initial;
@@ -171,11 +170,7 @@
         display: block !important;
     }
 }
-//@media (min-width: 991px){
-//    .navbar-dark .navbar-brand a img {
-//        width: 130px;
-//    }
-//}
+
 @media (min-width: 992px) and (max-width: 1080px){
     .navbar-dark .navbar-nav .nav-link{
         padding: 0 0.75rem !important;

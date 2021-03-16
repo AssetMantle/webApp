@@ -117,6 +117,7 @@ const AssetList = React.memo((props) => {
                     pathname: '/AssetView',
                     state: {
                         assetID: assetid,
+                        makerOwnableID: assetid.substr(assetid.indexOf('|')+ 1),
                         currentPath: window.location.pathname,
                         splitList: splitList
                     }
@@ -192,7 +193,7 @@ const AssetList = React.memo((props) => {
                                                                                              className="card-item">
                                                                                             <p
                                                                                                 id={`immutable_asset` + index + `${index1}`}
-                                                                                                className="description"></p>
+                                                                                                className="description asset"></p>
                                                                                         </div>)
                                                                                 } else if (keyName === "ArtistName") {
                                                                                     return (<div key={index + keyName}

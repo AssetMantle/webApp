@@ -73,7 +73,7 @@ const Login = () => {
                     <div className="buttons-group">
                         <Button type="submit">Login</Button>
                         <p className="note1">Not a member ?</p>
-                        <Button variant="secondary" onClick={() => handleRoute("/signup")}>SignUp</Button>
+                        <Button variant="secondary" onClick={() => handleRoute("/signup")}>Sign Up</Button>
                     </div>
 
                 </Form>
