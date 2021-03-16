@@ -123,9 +123,9 @@ export default class GetMeta {
                                 let inputValue = new bigdecimal.BigDecimal(metaValue);
                                 // exchangeRate=inputValue*makersplit;
                                 let newValue = inputValue.multiply(makersplit).toPlainString();
-                                // newValue = bigDecimal.round(newValue, 18);
+                                newValue = bigDecimal.round(newValue, 2);
                                 console.log(newValue,keyName, idPrefix + index + index1 ,"metaValueexchangeRate");
-                                myElement = <span>$STAKE{newValue}</span>;
+                                myElement = <span>$STAKE {newValue}</span>;
                                 let element = document.getElementById(idPrefix + index + index1)
                                 if (typeof (element) != 'undefined' && element != null) {
                                     ReactDOM.render(myElement, document.getElementById(idPrefix + index + index1));
@@ -142,9 +142,9 @@ export default class GetMeta {
                                 let inputValue = new bigdecimal.BigDecimal(metaValue);
                                 // makersplit=inputValue*exchangeRate;
                                 let newValue = exchangeRate.multiply(inputValue).toPlainString();
-                                // newValue = bigDecimal.round(newValue, 18);
+                                newValue = bigDecimal.round(newValue, 2);
                                 console.log(metaValue,keyName, idPrefix + index + index1 ,"metaValueexchangeRate");
-                                myElement = <span>$STAKE{newValue}</span>;
+                                myElement = <span>$STAKE {newValue}</span>;
                                 var element = document.getElementById(previousID)
                                 if (typeof (element) != 'undefined' && element != null) {
                                     ReactDOM.render(myElement, document.getElementById(previousID));

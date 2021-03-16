@@ -15,9 +15,14 @@ html, body, #root, .app {
   padding-bottom: 0;
 }
 
+.flex-space {
+  justify-content: space-between !important;
+}
+
 .navbar-dark {
   padding-top: 0;
   padding-bottom: 0;
+
   .navbar-nav .nav-link {
     padding: 0 1.3rem !important;
     height: 60px;
@@ -38,9 +43,11 @@ html, body, #root, .app {
     //  width: 100%;
     //}
   }
-  .nav-link.active{
+
+  .nav-link.active {
     font-weight: bold;
   }
+
   .nav-link.active::after {
     //border-bottom: 3px solid #EFCB30;
     background-color: #FFFFFF;
@@ -174,9 +181,11 @@ html, body, #root, .app {
     border: 1px solid #fff;
   }
 }
-.flex-start{
+
+.flex-start {
   align-items: flex-start;
 }
+
 .errorText {
   color: #ff0033;
   font-size: 0.785rem;
@@ -327,6 +336,14 @@ html, body, #root, .app {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 99999;
+
+  .modal-content {
+    align-items: center;
+
+    img {
+      max-width: 60px;
+    }
+  }
 }
 
 .dropdown-item {
@@ -420,12 +437,14 @@ html, body, #root, .app {
 .minting-modal .modal-dialog {
   max-width: 700px !important;
 }
+
 .modal-content {
   border-radius: 0px;
   background: #222222;
   border: 1px solid #383838;
   box-sizing: border-box;
   box-shadow: 0px 4px 14px 10px rgba(0, 0, 0, 0.1);
+
   .mrt-10 {
     margin-top: 10px;
   }
@@ -436,7 +455,8 @@ html, body, #root, .app {
     font-weight: 500;
     font-size: 18px;
     text-align: center;
-    .close{
+
+    .close {
       outline: none;
       font-weight: normal;
       color: #646464;
@@ -745,7 +765,6 @@ html, body, #root, .app {
 
       .card-deck {
         padding: 20px 0px 0 0px;
-        overflow-y: auto;
         //height: calc(100vh - 151px);
         scrollbar-color: #FFFFFF transparent;
         scrollbar-width: thin;
@@ -765,14 +784,8 @@ html, body, #root, .app {
           border: 1px solid #333333;
 
           .info-section {
-            padding: 15px;
+            padding: 15px 15px 0 15px;
           }
-
-          //&:hover{
-          //  transform: translateY(-2px);
-          //  box-shadow: rgba(47, 63, 78, 0.25) 0px 0px 8px 0px;
-          //  transition: all 0.1s ease 0s;
-          //}
         }
 
         .asset-image {
@@ -856,7 +869,7 @@ html, body, #root, .app {
 
   .container {
     display: flex;
-    justify-content:flex-end;
+    justify-content: flex-end;
     align-items: center;
   }
 
@@ -978,7 +991,7 @@ html, body, #root, .app {
 .list-item {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: 5px;
+
 
   .list-item-label {
     width: 150px;
@@ -994,7 +1007,11 @@ html, body, #root, .app {
     word-break: break-word;
     flex: 1;
     font-size: 14px;
-    font-weight: 300
+    font-weight: 300;
+
+    span {
+      margin-bottom: 5px;
+    }
   }
 }
 
@@ -1180,16 +1197,19 @@ html, body, #root, .app {
 .dummy-image {
   //background: radial-gradient(50% 69.16% at 50% 50%, #1A4162 0%, #000000 100%);
   padding: 0 30px;
-  margin-top: 10px;
+
+  .inner-image-box {
+    height: 300px;
+  }
 
   img {
     width: 100%;
-    height: 300px;
+    height: 100%;
   }
 }
 
 .asset-data {
-  padding: 20px !important;
+  padding: 0px 20px 0px 20px !important;
 
   .property-section {
     .sub-title {
@@ -1228,6 +1248,7 @@ html, body, #root, .app {
 }
 
 .property-actions {
+  padding: 10px 0;
 }
 
 .button-large {
@@ -1272,6 +1293,9 @@ html, body, #root, .app {
 
 .dropdown.profile .dropdown-menu {
   top: 95% !important;
+  right: 0 !important;
+  border-radius: 0 !important;
+  left: auto;
 }
 
 @media (min-width: 1400px) {
@@ -1351,6 +1375,7 @@ html, body, #root, .app {
 
 .faq-section {
   padding-top: 80px;
+
   .section-title {
     font-weight: bold;
     font-size: 24px;
@@ -1369,6 +1394,7 @@ html, body, #root, .app {
       border: 1px solid #333333;
       background: #292929;
       margin-bottom: 20px;
+
       .card-header {
         p {
           margin: 0;
@@ -1385,7 +1411,8 @@ html, body, #root, .app {
           background: transparent;
           border: 0;
           outline: none;
-          .icon{
+
+          .icon {
             width: 16px;
             height: 16px;
           }
@@ -1397,7 +1424,7 @@ html, body, #root, .app {
           font-weight: normal;
           font-size: 14px;
           line-height: 150%;
-          color: #666666;
+          color: #F5F5F5;
           margin: 0;
         }
       }
@@ -1405,48 +1432,69 @@ html, body, #root, .app {
   }
 
 }
-.card-item{
-  .description{
+
+.price-view {
+  padding: 0px 10px;
+}
+
+.card-item {
+  .description.asset span {
+    -webkit-line-clamp: 2;
+  }
+
+  .description span {
     font-size: 16px;
     line-height: 150%;
     color: #FFFFFF;
     width: 100%;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    padding: 2px 0;
   }
-  .price{
+
+  .price {
     font-weight: bold;
-    font-size: 16px;
-    line-height: 150%;
+    font-size: 14px;
+    line-height: 1.4;
     color: #FFFFFF;
 
+    span {
+      display: block;
+      padding: 5px 0;
+    }
   }
-  .author{
+
+  .author {
     font-size: 14px;
     line-height: 150%;
     margin: 0;
     color: #D3D3D3;
 
   }
-  p{
+
+  p {
     margin: 0;
   }
 }
-.card-item-list{
+
+.card-item-list {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  p{
+
+  p {
     margin: 0;
   }
-  .card-item-key{
+
+  .card-item-key {
     font-size: 16px;
     line-height: 150%;
     color: #666666;
   }
-  .card-item-value{
+
+  .card-item-value {
     font-weight: bold;
     font-size: 16px;
     line-height: 150%;
@@ -1455,19 +1503,22 @@ html, body, #root, .app {
   }
 }
 
-.card-item-list2{
+.card-item-list2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  p{
+
+  p {
     margin: 0;
   }
-  .card-item-key{
+
+  .card-item-key {
     font-size: 14px;
     line-height: 150%;
     color: #D3D3D3;
   }
-  .card-item-value{
+
+  .card-item-value {
     font-style: italic;
     font-weight: 300;
     font-size: 14px;
@@ -1476,54 +1527,67 @@ html, body, #root, .app {
     color: #D3D3D3;
   }
 }
-.card-view-list{
-  .title{
+
+.card-view-list {
+  padding: 10px 0;
+
+  .title {
     font-weight: bold;
     font-size: 24px;
     line-height: 150%;
     margin: 0;
     color: #FFFFFF;
   }
-  .description{
+
+  .description {
     font-size: 16px;
     line-height: 150%;
     margin: 0;
     color: #FFFFFF;
   }
-  .price{
+
+  .price {
     font-weight: bold;
     font-size: 24px;
     line-height: 150%;
     color: #FFFFFF;
+    word-break: break-word;
   }
-  .price-out{
+
+  .price-out {
     font-weight: bold;
     font-size: 16px;
     line-height: 150%;
     color: #FFFFFF;
 
   }
-  .author{
+
+  .author {
     font-weight: normal;
+    margin: 0;
     font-size: 14px;
     line-height: 150%;
     text-decoration-line: underline;
     color: #D3D3D3;
   }
 }
-.result-image{
+
+.result-image {
   width: 200px;
   height: 200px;
   padding-bottom: 20px;
-  img{
+
+  img {
     max-width: 100%;
     height: 100%;
   }
 }
-.result-item{
+
+.result-item {
   display: flex;
   padding: 20px 0;
-  .title{
+
+  .title {
     width: 150px;
     font-size: 16.679px;
     line-height: 150%;
@@ -1532,23 +1596,27 @@ html, body, #root, .app {
     margin: 0;
     padding-right: 20px;
   }
-  .result{
+
+  .result {
     flex: 1;
     font-size: 18px;
     line-height: 150%;
     color: #FFFFFF;
     margin: 0;
   }
-  .result.description{
+
+  .result.description {
     font-size: 16px;
     line-height: 150%;
     color: #666666;
   }
 }
-.tx-result{
-  .modal-header{
+
+.tx-result {
+  .modal-header {
     border: 0px solid;
-    .success-title{
+
+    .success-title {
       font-weight: bold;
       font-size: 24px;
       line-height: 150%;
@@ -1556,20 +1624,24 @@ html, body, #root, .app {
 
     }
   }
-  hr{
+
+  hr {
     margin: 0;
     border-top: 1px solid #333333;
   }
 }
-.chain-section{
+
+.chain-section {
   .accordion {
     max-width: 500px;
+
     .card {
       border: 1px solid #333333;
       background: #292929;
       height: auto !important;
       overflow: hidden !important;
       margin-bottom: 20px;
+
       .card-header {
         p {
           margin: 0;
@@ -1587,7 +1659,8 @@ html, body, #root, .app {
           border: 0;
           outline: none;
           margin: 0;
-          .icon{
+
+          .icon {
             width: 16px;
             height: 16px;
           }
@@ -1602,12 +1675,14 @@ html, body, #root, .app {
           color: #D3D3D3;
           margin: 0;
         }
-        .chain-info-item{
+
+        .chain-info-item {
           display: flex;
           justify-content: space-between;
           align-items: center;
           flex-wrap: wrap;
-          p{
+
+          p {
             word-break: break-word;
           }
         }
@@ -1615,12 +1690,14 @@ html, body, #root, .app {
     }
   }
 }
+
 .take-order-modal {
-  .modal-header{
+  .modal-header {
     color: #424242;
     font-weight: 700;
   }
-  h3{
+
+  h3 {
     font-weight: bold;
     font-size: 18px;
     line-height: 150%;
@@ -1628,6 +1705,7 @@ html, body, #root, .app {
     text-align: center;
     color: #E3E3E3;
   }
+
   .take-order.buttons-group {
     display: flex;
     flex-direction: column;

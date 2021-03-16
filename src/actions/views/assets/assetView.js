@@ -84,7 +84,7 @@ const AssetView = React.memo((props) => {
                 <div className="row">
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
-                            <div className="container">
+                            <div className="container flex-space">
                             <p className="back-arrow" onClick={() => history.push(props.location.state.currentPath)}>
                                 <Icon viewClass="arrow-icon" icon="arrow"/> Back</p>
                                 <Button className="dropdown-button" onClick={() => handleModalData("MintAsset")}>{t("MINT_ASSET")}</Button>
@@ -242,7 +242,7 @@ const AssetView = React.memo((props) => {
                                                                                 {/*<Button variant="primary" size="sm"*/}
                                                                                 {/*        onClick={() => handleModalData("SendSplit", "", "", ownerId, ownableID)}>{t("SEND_SPLITS")}</Button>*/}
                                                                             </div>
-                                                                            <ChainInfo/>
+                                                                            <ChainInfo makerOwanbleid={props.location.state.makerOwnableID}/>
                                                                         </div>
                                                                     </div>
                                                                 </div>

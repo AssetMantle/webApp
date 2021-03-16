@@ -30,7 +30,7 @@ function ContextAwareToggle({children, eventKey, callback}) {
     );
 }
 
-const ChainInfo = () => {
+const ChainInfo = (props) => {
     const {t} = useTranslation();
     return (
         <section className="chain-section">
@@ -44,6 +44,13 @@ const ChainInfo = () => {
                                     <p>ClassificationID</p>
                                     <p>{config.AssetClassificationID}</p>
                                 </div>
+                                {props.makerOwanbleid ?
+                                    <div className="chain-info-item">
+                                        <p>AssetID</p>
+                                        <p>{props.makerOwanbleid}</p>
+                                    </div>
+                                    :""
+                                }
                                 <div className="chain-info-item">
                                     <p>BlockChain</p>
                                     <p>Asset Mantle</p>

@@ -86,23 +86,6 @@ const OrderView = React.memo((props) => {
                             setLoader(false)
                         }
                     });
-
-                    //
-                    // ordersDataList.map((order, index) => {
-                    //     let immutableProperties = "";
-                    //     let mutableProperties = "";
-                    //     if (order.value.immutables.value.properties.value.propertyList !== null) {
-                    //         immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList)
-                    //     }
-                    //     if (order.value.mutables.value.properties.value.propertyList !== null) {
-                    //         mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList)
-                    //     }
-                    //     let immutableKeys = Object.keys(immutableProperties);
-                    //     let mutableKeys = Object.keys(mutableProperties);
-                    //     GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order_view', index, "orderViewUrlId");
-                    //     GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order_view', index, 'orderViewMutableViewUrlId');
-                    // })
-
                 }
                 else {
                     setLoader(false)
@@ -128,22 +111,10 @@ const OrderView = React.memo((props) => {
                 <div className="row">
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
-                            <div className="container">
+                            <div className="container flex-space">
                                 <p className="back-arrow"
                                    onClick={() => history.push(props.location.state.currentPath)}>
                                     <Icon viewClass="arrow-icon" icon="arrow"/> Back</p>
-                                {/*{props.location.state.currentPath !== "/marketplace" ?*/}
-                                {/*    <Dropdown>*/}
-                                {/*        <Dropdown.Toggle id="dropdown-basic">*/}
-                                {/*            {t("ACTIONS")}*/}
-                                {/*        </Dropdown.Toggle>*/}
-                                {/*        <Dropdown.Menu>*/}
-                                {/*            <Dropdown.Item*/}
-                                {/*                onClick={() => handleModalData("DefineOrder")}>{t("DEFINE_ORDER")}</Dropdown.Item>*/}
-                                {/*        </Dropdown.Menu>*/}
-                                {/*    </Dropdown>*/}
-                                {/*: ""*/}
-                                {/*}*/}
                             </div>
                         </div>
                         {orderList !== null ?
@@ -266,13 +237,13 @@ const OrderView = React.memo((props) => {
                                                                                                         id={`immutable_order_view` + index + index1}
                                                                                                         className="card-view-value description"></p>
                                                                                                 </div>)
-                                                                                        } else if (keyName === "Seller Name") {
+                                                                                        } else if (keyName === "SellerName") {
                                                                                             return (
                                                                                                 <div
                                                                                                     key={index + keyName}
                                                                                                     className="card-view-list">
                                                                                                     <p className="card-view-value price"
-                                                                                                       id={`mutable_order_view` + index + index1}></p>
+                                                                                                       id={`immutable_order_view` + index + index1}></p>
                                                                                                 </div>)
                                                                                         } else if (keyName === "exchangeRate") {
                                                                                             return (
@@ -297,19 +268,7 @@ const OrderView = React.memo((props) => {
                                                                                 : ""
                                                                             }
                                                                         </div>
-                                                                        {mutableOrderKeys !== null ?
-                                                                            mutableOrderKeys.map((keyName, index1) => {
-                                                                                if (keyName === "exchangeRate") {
-                                                                                    return (
-                                                                                        <div key={index + keyName}
-                                                                                             className="card-view-list">
-                                                                                            <p className="card-view-value price"
-                                                                                               id={`mutable_orderPrice_view` + index + index1}></p>
-                                                                                        </div>)
-                                                                                }
-                                                                            })
-                                                                            : ""
-                                                                        }
+
                                                                         <div>
                                                                             {mutableKeys !== null ?
                                                                                 mutableKeys.map((keyName, index1) => {
@@ -384,7 +343,7 @@ const OrderView = React.memo((props) => {
                                                                                           onClick={() => handleModalData("CancelOrder", "", order)}>{t("CANCEL")}</Button>
                                                                             }
                                                                         </div>
-                                                                        <ChainInfo/>
+                                                                        <ChainInfo makerOwanbleid={props.location.state.makerOwnableID}/>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -393,6 +352,27 @@ const OrderView = React.memo((props) => {
                                                     })
 
                                                 }
+                                                <div className="row">
+                                                    <div
+                                                        className="col-xl-5 col-lg-5 col-md-6 col-sm-12">
+                                                    </div>
+                                                    <div
+                                                        className="col-xl-7 col-lg-7 col-md-6 col-sm-12">
+                                                        {mutableOrderKeys !== null ?
+                                                            mutableOrderKeys.map((keyName, index1) => {
+                                                                if (keyName === "exchangeRate") {
+                                                                    return (
+                                                                        <div key={index + keyName}
+                                                                             className="card-view-list price-view">
+                                                                            <p className="card-view-value price"
+                                                                               id={`mutable_orderPrice_view` + index + index1}></p>
+                                                                        </div>)
+                                                                }
+                                                            })
+                                                            : ""
+                                                        }
+                                                    </div>
+                                                </div>
 
                                             </div>
                                         </div>

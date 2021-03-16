@@ -102,11 +102,12 @@ const OrderList = React.memo((props) => {
         fetchOrder();
     }, []);
 
-    const handleAsset = (id) => {
+    const handleAsset = (id, makerOwnableID) => {
         history.push({
                 pathname: '/OrderView',
                 state: {
                     orderID: id,
+                    makerOwnableID: makerOwnableID.substr(makerOwnableID.indexOf('|')+ 1),
                     currentPath: window.location.pathname,
                 }
             }
@@ -125,6 +126,7 @@ const OrderList = React.memo((props) => {
                     orderList.map((order, index) => {
 
                         let makerID = GetIDHelper.GetMakerID(order)
+                        let makerOwnableID = GetIDHelper.GetMakerOwnableID(order);
                         let orderIdData = GetIDHelper.GetOrderID(order);
                         let classificationID = GetIDHelper.GetClassificationID(order);
                         let mutableOrderProperties = "";
@@ -135,7 +137,7 @@ const OrderList = React.memo((props) => {
                         if (classificationID === config.OrderClassificationID) {
                             return (
                                 <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
-                                    <div className="card order-card" onClick={() => handleAsset(orderIdData)}>
+                                    <div className="card order-card" onClick={() => handleAsset(orderIdData, makerOwnableID)}>
                                         <div id={"orderImagUri" + makerID + index} className="image-container">
                                             <div id={"orderImage" + makerID + index} className="dummy-image">
 

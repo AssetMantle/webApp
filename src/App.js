@@ -32,35 +32,14 @@ const App = () => {
         path: '/orders',
         component: Orders,
     }, {
-        path: '/identities',
-        component: Identities,
-    }, {
-        path: '/maintainers',
-        component: Maintainers,
-    }, {
         path: '/marketplace',
         component: MarketPlace,
-    }, {
-        path: '/SearchAsset',
-        component: SearchAsset,
-    }, {
-        path: '/SearchIdentity',
-        component: SearchIdentity,
-    }, {
-        path: '/Profile',
-        component: Profile,
-    }, {
+    },  {
         path: '/faq',
         component: Faq,
-    }, {
-        path: '/SearchMaintainer',
-        component: SearchMaintainer,
-    }, {
+    },  {
         path: '/AssetView',
         component: AssetView,
-    }, {
-        path: '/IdentityView',
-        component: IdentityView,
     }, {
         path: '/OrderView',
         component: OrderView,
