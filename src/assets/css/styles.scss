@@ -22,11 +22,29 @@ html, body, #root, .app {
     align-items: center;
     font-weight: 500;
     font-size: 14px;
-    border-bottom: 3px solid transparent;
+    position: relative;
+    &:hover::after{
+      background-color: #EFCB30;
+      bottom: 0%;
+      content: "";
+      display: block;
+      height: 3px;
+      left: 0px;
+      position: absolute;
+      width: 100%;
+    }
   }
 
-  .nav-link.active {
-    border-bottom: 3px solid #EFCB30;
+  .nav-link.active::after {
+    //border-bottom: 3px solid #EFCB30;
+    background-color: #EFCB30;
+    bottom: 0%;
+    content: "";
+    display: block;
+    height: 3px;
+    left: 0px;
+    position: absolute;
+    width: 100%;
   }
 
   .navbar-brand {
@@ -96,7 +114,7 @@ html, body, #root, .app {
       }
 
       &::after {
-        display: none;
+        display: none !important;
       }
     }
   }
@@ -285,7 +303,9 @@ html, body, #root, .app {
   transform: translate(-50%, -50%);
   z-index: 99999;
 }
-
+.dropdown-item{
+  padding: 8px 20px !important;
+}
 .dropdown-item.active, .dropdown-item:active {
   background-color: #EFCB30 !important;
   color: #262a2b;
@@ -583,6 +603,8 @@ html, body, #root, .app {
     textarea {
       min-width: 200px;
       max-width: 400px;
+      background: rgba(239, 203, 48, 0.04);
+      border: 0.2px solid #262A2B;
       box-sizing: border-box;
       border-radius: 14px;
 
@@ -686,6 +708,11 @@ html, body, #root, .app {
           border-radius: 9.23188px;
           .info-section{
             padding: 15px;
+          }
+          &:hover{
+            transform: translateY(-2px);
+            box-shadow: rgba(47, 63, 78, 0.25) 0px 0px 8px 0px;
+            transition: all 0.1s ease 0s;
           }
         }
       }
@@ -1032,7 +1059,7 @@ html, body, #root, .app {
   margin-top: 10px;
    img{
     width: 100%;
-    height: 235px;
+    height: 220px;
   }
 }
 .dummy-image {
@@ -1088,4 +1115,24 @@ html, body, #root, .app {
 .checkbox-fromid label{
   color: #666666;
   font-weight: 500;
+}
+.identity-card, .maintainer-card, .order-card, .asset-card {
+  .list-item {
+    .list-item-label{
+      width: 120px;
+    }
+    .list-item-value{
+      word-break: keep-all;
+    }
+  }
+}
+.image-container{
+  padding: 0 10px 10px 10px;
+}
+
+.dropdown.profile:hover .profile-menu {
+  display: block;
+}
+.dropdown.profile .dropdown-menu{
+  top: 95% !important;
 }

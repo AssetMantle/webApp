@@ -64,26 +64,38 @@ const HeaderAfterLogin = () => {
                             </Nav>
                             :
                             <Nav className="nav-items">
-                                <NavLink className="nav-link" to="/assets">{t("ASSETS")}</NavLink>
-                                <NavLink className="nav-link" to="/orders">{t("ORDERS")}</NavLink>
-                                <NavLink className="nav-link" to="/marketplace">{t("MARKET_PLACE")}</NavLink>
+                                <li className="nav-item">
+                                    <NavLink className="nav-link" to="/assets">{t("ASSETS")}</NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink className="nav-link" to="/orders">{t("ORDERS")}</NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink className="nav-link" to="/marketplace">{t("MARKET_PLACE")}</NavLink>
+                                </li>
+                                <li className="nav-item dropdown profile">
+                                    <div className="nav-link dropdown-toggle"
+                                             id="profile-nav-dropdown"
+                                             role="button" data-toggle="dropdown" aria-haspopup="true"
+                                             aria-expanded="false">
+                                        <div className="profile-icon">
+                                            <p className="address">{userAddress}</p>
+                                            <img className="thumbnail-image"
+                                                 src={profileIcon}
+                                                 alt="user pic"
+                                            />
 
-                                <NavDropdown title={
-                                    <div className="profile-icon">
-                                        <p className="address">{userAddress}</p>
-                                        <img className="thumbnail-image"
-                                             src={profileIcon}
-                                             alt="user pic"
-                                        />
+                                        </div>
+                                    </div>
+                                    <div className="dropdown-menu profile-menu"
+                                         aria-labelledby="profile-nav-dropdown">
+                                        <NavLink className="dropdown-item" to="/identities">{t("IDENTITIES")}</NavLink>
+                                        <NavLink className="dropdown-item" to="/maintainers">{t("MAINTAINERS")}</NavLink>
+                                        <NavLink className="dropdown-item" to="/Profile">{t("PROFILE")}</NavLink>
+                                        <NavDropdown.Item onClick={logout("/")}>{t("LOGOUT")}</NavDropdown.Item>
+                                    </div>
 
-
-                                    </div>}
-                                     id="basic-nav-dropdown">
-                                    <NavLink className="dropdown-item" to="/identities">{t("IDENTITIES")}</NavLink>
-                                    <NavLink className="dropdown-item" to="/maintainers">{t("MAINTAINERS")}</NavLink>
-                                    <NavLink className="dropdown-item" to="/Profile">{t("PROFILE")}</NavLink>
-                                    <NavDropdown.Item onClick={logout("/")}>{t("LOGOUT")}</NavDropdown.Item>
-                                </NavDropdown>
+                                </li>
 
                             </Nav>
                     }

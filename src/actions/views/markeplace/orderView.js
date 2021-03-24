@@ -244,14 +244,14 @@ const OrderView = React.memo((props) => {
                                                                 <p className="sub-title">{t("IMMUTABLES")}</p>
                                                                 {immutableKeys !== null ?
                                                                     immutableKeys.map((keyName, index1) => {
-                                                                        if (immutableProperties[keyName] !== "") {
+                                                                        if (immutableProperties[keyName] !== "" && keyName !== 'style' && keyName !== config.URI) {
                                                                             return (<div key={index + keyName}
                                                                                          className="list-item"><p
                                                                                 className="list-item-label">{keyName} </p>
                                                                                 <p
                                                                                     id={`immutable_order_view` + index + index1}
                                                                                     className="list-item-value"></p></div>)
-                                                                        } else {
+                                                                        } else if(keyName !== 'style' && keyName !== config.URI){
                                                                             return (
                                                                                 <div key={index + keyName}
                                                                                      className="list-item"><p
@@ -269,14 +269,14 @@ const OrderView = React.memo((props) => {
                                                                 <p className="sub-title">{t("MUTABLES")}</p>
                                                                 {mutableKeys !== null ?
                                                                     mutableKeys.map((keyName, index1) => {
-                                                                        if (mutableProperties[keyName] !== "") {
+                                                                        if (mutableProperties[keyName] !== "" && keyName !== config.URI) {
                                                                             return (<div key={index + keyName}
                                                                                          className="list-item"><p
                                                                                 className="list-item-label">{keyName} </p>
                                                                                 <p className="list-item-value"
                                                                                    id={`mutable_order_view` + index + index1}></p>
                                                                             </div>)
-                                                                        } else {
+                                                                        } else if(keyName !== config.URI){
                                                                             return (
                                                                                 <div key={index + keyName}
                                                                                      className="list-item"><p

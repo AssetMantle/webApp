@@ -62,7 +62,7 @@ const UnProvision = (props) => {
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group>
-                        <Form.Label>{t("ADDRESS_TO_PROVISION")}</Form.Label>
+                        <Form.Label>{t("ADDRESS_TO_PROVISION")}*</Form.Label>
                         <Form.Control
                             as="select"
                             name="selectAddress"
