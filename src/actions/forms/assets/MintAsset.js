@@ -132,7 +132,6 @@ const MintAsset = (props) => {
                     const mutableHash = mutable.value.fact.value.hash;
                     let mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`];
                     const inputName = `${mutableName}|${mutableType}${index}`;
-                    console.log(mutableType, mutableName, mutableHash);
                     if (mutableName !== config.URI) {
                         const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
                         if (mutableMetaValuesResponse[0] !== "") {

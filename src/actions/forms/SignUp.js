@@ -67,8 +67,6 @@ const SignUp = () => {
                             >
                                 {t("MNEMONIC")}/{t("PRIVATE_KEY")}
                             </Button>
-                            <div>
-                            </div>
                             <Button
                                 variant="primary"
                                 className="button-signup button-signup-ledger disabled"
