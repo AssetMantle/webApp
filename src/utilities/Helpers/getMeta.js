@@ -29,25 +29,23 @@ export default class GetMeta {
         return metaValue;
     }
 
-    FetchMutableInputFieldMeta(immutableList, metasQuery, FileName) {
+    FetchMutableInputFieldMeta(mutableList, metasQuery, FileName) {
 
-        let $this = this
-        if (immutableList !== null) {
-            immutableList.map((immutable, index) => {
+        let $this = this;
+        if (mutableList !== null) {
+            mutableList.map((mutable, index) => {
 
-                const immutableType = immutable.value.fact.value.type;
-                const immutableHash = immutable.value.fact.value.hash;
-                const immutableName = immutable.value.id.value.idString;
+                const mutableType = mutable.value.fact.value.type;
+                const mutableHash = mutable.value.fact.value.hash;
+                const mutableName = mutable.value.id.value.idString;
 
-               if(immutableName === config.URI){
-
-                   const id = `${FileName}${immutableName}|${immutableType}${index}`
-
-                   if (immutableHash !== "" && immutableHash !== null) {
-                       const metaQueryResult = metasQuery.queryMetaWithID(immutableHash);
+               if(mutableName === config.URI){
+                   const id = `${FileName}${mutableName}|${mutableType}${index}`;
+                   if (mutableHash !== "" && mutableHash !== null) {
+                       const metaQueryResult = metasQuery.queryMetaWithID(mutableHash);
                        metaQueryResult.then(function (item) {
                            const data = JSON.parse(JSON.parse(JSON.stringify(item)));
-                           let metaValue = $this.FetchMetaValue(data, immutableHash)
+                           let metaValue = $this.FetchMetaValue(data, mutableHash);
                            if (document.getElementById(id)) {
                                document.getElementById(id).value = metaValue;
                            }
@@ -59,19 +57,19 @@ export default class GetMeta {
     }
 
     FetchInputFieldMeta(immutableList, metasQuery, FileName) {
-        let $this = this
+        let $this = this;
         if (immutableList !== null) {
 
             immutableList.map((immutable, index) => {
                 const immutableType = immutable.value.fact.value.type;
                 const immutableHash = immutable.value.fact.value.hash;
                 const immutableName = immutable.value.id.value.idString;
-                const id = `${FileName}${immutableName}|${immutableType}${index}`
+                const id = `${FileName}${immutableName}|${immutableType}${index}`;
                 if (immutableHash !== "" && immutableHash !== null) {
                     const metaQueryResult = metasQuery.queryMetaWithID(immutableHash);
                     metaQueryResult.then(function (item) {
                         const data = JSON.parse(JSON.parse(JSON.stringify(item)));
-                        let metaValue = $this.FetchMetaValue(data, immutableHash)
+                        let metaValue = $this.FetchMetaValue(data, immutableHash);
                         if (document.getElementById(id)) {
                             document.getElementById(id).value = metaValue;
                         }
@@ -83,7 +81,7 @@ export default class GetMeta {
     }
 
     AssignMetaValue(keys, properties, metasQuery, idPrefix, index, urlId) {
-        let $this = this
+        let $this = this;
         keys.map((keyName, index1) => {
             if (properties[keyName] !== "") {
                 const metaQueryResult = metasQuery.queryMetaWithID(properties[keyName]);

@@ -108,7 +108,7 @@ const MintAsset = (props) => {
                 const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
                 GetMetaHelper.FetchInputFieldMeta(immutablePropertyList, metasQuery, "MintAsset");
                 GetMetaHelper.FetchMutableInputFieldMeta(mutablePropertyList, metasQuery, "MintAsset");
-                setMutableList(mutablePropertyList)
+                setMutableList(mutablePropertyList);
                 setImmutableList(immutablePropertyList)
             }
         })
@@ -119,19 +119,6 @@ const MintAsset = (props) => {
     const handleFormSubmit = (event) => {
         setLoader(true)
         event.preventDefault();
-        if (checkboxMutableNamesList.length === 0) {
-            setErrorMessage(t("SELECT_MUTABLE_META"))
-            setLoader(false)
-        } else if (mutableList.length !== 0 && checkboxMutableNamesList.length !== 0 && mutableList.length === checkboxMutableNamesList.length) {
-            setErrorMessage(t("SELECT_ALL_MUTABLE_ERROR"))
-            setLoader(false)
-        } else if (immutableList.length !== 0 && checkboxImmutableNamesList.length !== 0 && immutableList.length === checkboxImmutableNamesList.length) {
-            setErrorMessage(t("SELECT_ALL_IMMUTABLE_ERROR"))
-            setLoader(false)
-        } else if (checkboxImmutableNamesList.length === 0) {
-            setErrorMessage(t("SELECT_IMMUTABLE_META"))
-            setLoader(false)
-        } else {
             const FromId = event.target.FromId.value;
             const toID = event.target.toID.value;
             let mutableValues = "";
@@ -143,8 +130,9 @@ const MintAsset = (props) => {
                     const mutableType = mutable.value.fact.value.type;
                     const mutableName = mutable.value.id.value.idString;
                     const mutableHash = mutable.value.fact.value.hash;
-                    let mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`]
-                    const inputName = `${mutableName}|${mutableType}${index}`
+                    let mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`];
+                    const inputName = `${mutableName}|${mutableType}${index}`;
+                    console.log(mutableType, mutableName, mutableHash);
                     if (mutableName !== config.URI) {
                         const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
                         if (mutableMetaValuesResponse[0] !== "") {
@@ -158,12 +146,8 @@ const MintAsset = (props) => {
                     let uriMutable;
                     if (mutableName === config.URI) {
                         let urimutableFieldValue = document.getElementById(`MintAssetMutable${mutableName}|${mutableType}${index}`).value;
-                        if (mutableHash === "") {
                             uriFieldValue = PropertyHelper.getUrlEncode(urimutableFieldValue);
                             uriMutable = `URI:S|${uriFieldValue}`
-                        } else {
-                            uriMutable = `URI:S|${urimutableFieldValue}`
-                        }
                     }
                     if (uriMutable) {
                         if (mutableMetaValues) {
@@ -209,32 +193,47 @@ const MintAsset = (props) => {
                     }
                 })
             }
-
+        if (mutableValues === "") {
+            setErrorMessage(t("SELECT_MUTABLE"));
+            setLoader(false)
+        }else if (mutableMetaValues === "") {
+            setErrorMessage(t("SELECT_MUTABLE_META"));
+            setLoader(false)
+        } else if (mutableList.length !== 0 && checkboxMutableNamesList.length !== 0 && mutableList.length === checkboxMutableNamesList.length) {
+            setErrorMessage(t("SELECT_ALL_MUTABLE_ERROR"))
+            setLoader(false)
+        } else if (immutableList.length !== 0 && checkboxImmutableNamesList.length !== 0 && immutableList.length === checkboxImmutableNamesList.length) {
+            setErrorMessage(t("SELECT_ALL_IMMUTABLE_ERROR"))
+            setLoader(false)
+        } else if (checkboxImmutableNamesList.length === 0) {
+            setErrorMessage(t("SELECT_IMMUTABLE_META"))
+            setLoader(false)
+        } else {
             const assetMintResult = assetMint.mint(userAddress, "test", userTypeToken, toID, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode)
             assetMintResult.then(function (item) {
                 const data = JSON.parse(JSON.stringify(item));
-                setResponse(data)
-                setShowNext(false)
+                setResponse(data);
+                setShowNext(false);
                 setLoader(false)
             })
         }
-    }
+    };
 
     const handleUpload = (id) => {
         setUploadId(id);
         setShowUpload(true)
-    }
+    };
     const handleFileInputChange = (e) => {
-        setLoader(true)
+        setLoader(true);
         let file = uploadFile;
         file = e.target.files[0];
         PropertyHelper.getBase64(file)
             .then(result => {
                 file["base64"] = result;
-                const fileData = result.split('base64,')[1]
+                const fileData = result.split('base64,')[1];
                 const fileBase64Hash = PropertyHelper.getBase64Hash(fileData);
                 setInputValues({...inputValues, [uploadId]: fileBase64Hash});
-                setLoader(false)
+                setLoader(false);
                 document.getElementById(uploadId).value = fileBase64Hash;
                 setShowUpload(false);
                 setUploadFile(file);
