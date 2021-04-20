@@ -9,6 +9,7 @@ const Copy = (props) => {
             setCopyValue(false)
         }, 1000);
     };
+
     return (
         <div className="copy-section">
             <CopyToClipboard onCopy={onCopy} text={props.id}>

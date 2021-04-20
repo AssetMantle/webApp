@@ -98,9 +98,11 @@ let en = {
         "ASSETS_NOT_FOUND": "No assets found",
         "DONE": "Done!",
         "SELECT_MUTABLE_META": "at least one mutable field is required as meta",
+        "SELECT_MUTABLE": "at least one mutable field is required",
         "SELECT_ALL_MUTABLE_ERROR": "you can't select all as mutable meta",
         "SELECT_ALL_IMMUTABLE_ERROR": "you can't select all as Immutable meta",
         "SELECT_IMMUTABLE_META": "at least one immutable field is required as meta",
+        "SELECT_IMMUTABLE": "at least one immutable field is required",
         "ADD_MUTABLE_PROPERTY": "add Mutable property",
         "ADD_MUTABLE_META_PROPERTY": "add Mutable Meta property",
         "ASSETS": "Assets",
@@ -132,8 +134,12 @@ let en = {
         "TAKER_OWNABLE_ID":"Taker Ownable ID",
         "MAKER_ID":"Maker ID",
         "HASH":"Hash",
-        "ASSET_ID":"Asset ID"
-
+        "ASSET_ID":"Asset ID",
+        "ADVANCE":"Advance",
+        "GENERATE_RANDOM_WALLET": "Generate random wallet",
+        "SIGNUP_WITH_MNEMONIC":"Sign up with mnemonic",
+        "ACCOUNT":"Account",
+        "ADDRESS_INDEX":"Address Index",
     }
 };
 
