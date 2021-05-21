@@ -2,7 +2,7 @@ import ReactDOM from "react-dom";
 import React from "react";
 import base64url from "base64url";
 import config from "../../constants/config.json"
-
+const sha1 = require("js-sha1");
 export default class GetMeta {
 
     FetchMetaValue(data, hash) {
@@ -23,7 +23,7 @@ export default class GetMeta {
                 case "xprt/decData":
                     metaValue = data.result.value.metas.value.list[0].value.data.value.value;
                     break;
-                default :
+                default:
             }
         }
         return metaValue;
@@ -39,19 +39,19 @@ export default class GetMeta {
                 const mutableHash = mutable.value.fact.value.hash;
                 const mutableName = mutable.value.id.value.idString;
 
-               if(mutableName === config.URI){
-                   const id = `${FileName}${mutableName}|${mutableType}${index}`;
-                   if (mutableHash !== "" && mutableHash !== null) {
-                       const metaQueryResult = metasQuery.queryMetaWithID(mutableHash);
-                       metaQueryResult.then(function (item) {
-                           const data = JSON.parse(JSON.parse(JSON.stringify(item)));
-                           let metaValue = $this.FetchMetaValue(data, mutableHash);
-                           if (document.getElementById(id)) {
-                               document.getElementById(id).value = metaValue;
-                           }
-                       })
-                   }
-               }
+                if (mutableName === config.URI) {
+                    const id = `${FileName}${mutableName}|${mutableType}${index}`;
+                    if (mutableHash !== "" && mutableHash !== null) {
+                        const metaQueryResult = metasQuery.queryMetaWithID(mutableHash);
+                        metaQueryResult.then(function (item) {
+                            const data = JSON.parse(JSON.parse(JSON.stringify(item)));
+                            let metaValue = $this.FetchMetaValue(data, mutableHash);
+                            if (document.getElementById(id)) {
+                                document.getElementById(id).value = metaValue;
+                            }
+                        })
+                    }
+                }
             })
         }
     }
@@ -123,5 +123,11 @@ export default class GetMeta {
                 }
             }
         })
+    }
+
+
+    Hash(meta) {
+        let hash = sha1.array(meta);
+        return base64url.encode(hash) + "="
     }
 }

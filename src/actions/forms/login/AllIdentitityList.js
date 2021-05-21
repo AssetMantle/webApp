@@ -14,7 +14,7 @@ import {Button, Form} from "react-bootstrap";
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
-const IdentityList = React.memo((props) => {
+const AllIdentityList = React.memo((props) => {
     const PropertyHelper = new GetProperty();
     const FilterHelper = new FilterHelpers();
     const GetMetaHelper = new GetMeta();
@@ -32,15 +32,18 @@ const IdentityList = React.memo((props) => {
     }
     useEffect(() => {
         const fetchToIdentities = () => {
-            const identities = identitiesQuery.queryIdentityWithID(identityId)
+            const identities = identitiesQuery.queryIdentityWithID("all")
             
             if (identities) {
                 identities.then(function (item) {
                     const data = JSON.parse(item);
                     const dataList = data.result.value.identities.value.list;
                     if (dataList) {
-                            setFilteredIdentitiesList(dataList);
-                            dataList.map((identity, index) => {
+                        const filterIdentities = FilterHelper.FilterIdentitiesByProvisionedAddress(dataList, userAddress);
+                      
+                        if (filterIdentities.length) {
+                            setFilteredIdentitiesList(filterIdentities);
+                            filterIdentities.map((identity, index) => {
                                 let immutableProperties = "";
                                 let mutableProperties = "";
                                 if (identity.value.immutables.value.properties.value.propertyList !== null) {
@@ -55,7 +58,9 @@ const IdentityList = React.memo((props) => {
                                 GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index, "identityMutableUrlId");
                                 setLoader(false)
                             })
-                        
+                        } else {
+                            setLoader(false)
+                        }
                     } else {
                         setLoader(false)
                     }
@@ -205,4 +210,4 @@ const IdentityList = React.memo((props) => {
     );
 })
 
-export default IdentityList
+export default AllIdentityList
