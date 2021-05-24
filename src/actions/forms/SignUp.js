@@ -34,6 +34,7 @@ const SignUp = () => {
     const [formName, setFormName] = useState("");
     const [hashID, setHashId] = useState('');
     const [testID, settestID] = useState('');
+    const [address, setAddress] = useState('');
     const [showDownload, setShowDownload] = useState(false);
     const [showFaucet, setShowFaucet] = useState(false);
     const [showDownloadModal, setshowDownloadModal] = useState(true);
@@ -138,6 +139,7 @@ const SignUp = () => {
         localStorage.setItem("address", error.address)
         localStorage.setItem("mnemonic", error.mnemonic)
         setJsonName(jsonContent)
+        setAddress(error.address)
         setMnemonic(error.mnemonic)
         setShowEncrypt(true)
         setshowDownloadModal(false)
@@ -217,8 +219,10 @@ const SignUp = () => {
                     }
                     {showDownload ?
                         <div>
+
                             <p className="mnemonic-note">({t("SAVE_MNEMONIC")}) </p>
                             <p className="mnemonic-text">{mnemonic}</p>
+                            <p>{address}</p>
                             <p className="key-download">
                                 <DownloadLink
                                     label="Download Key File for future use"

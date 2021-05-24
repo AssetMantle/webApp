@@ -15,6 +15,7 @@ const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const AllIdentityList = React.memo((props) => {
+    
     const PropertyHelper = new GetProperty();
     const FilterHelper = new FilterHelpers();
     const GetMetaHelper = new GetMeta();
@@ -23,17 +24,15 @@ const AllIdentityList = React.memo((props) => {
     let history = useHistory();
     const [loader, setLoader] = useState(true)
     const [filteredIdentitiesList, setFilteredIdentitiesList] = useState([]);
-    const userAddress = localStorage.getItem('address');
-    const identityId = localStorage.getItem('identityId');
-    const [lastFromID, setLastFromID] = useState("");
+    const userAddress = props.location.address;
     let lastFromIDValue = localStorage.getItem('lastFromID')
+    console.log(userAddress,'userAddress')
     if (lastFromIDValue !== null && document.getElementById(lastFromIDValue) !== null) {
         document.getElementById(lastFromIDValue).checked = true
     }
     useEffect(() => {
         const fetchToIdentities = () => {
             const identities = identitiesQuery.queryIdentityWithID("all")
-            
             if (identities) {
                 identities.then(function (item) {
                     const data = JSON.parse(item);
