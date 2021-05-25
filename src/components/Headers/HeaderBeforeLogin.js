@@ -45,7 +45,7 @@ const HeaderBeforeLogin = () => {
                         </div>
                         <div className="button-login-section">
                             <Button variant="primary" className="button-double-border"
-                                    onClick={handleRoute("/addressLogin")}>{t("LOGIN_ADDRESS")}</Button>
+                                    onClick={handleRoute("/addressLogin")}>{t("ALL_IDENTITIES")}</Button>
                         </div>
 
                     </Nav>

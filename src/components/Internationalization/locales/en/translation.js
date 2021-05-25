@@ -21,7 +21,7 @@ let en = {
         "NO": "No",
         "SUBMIT": "Submit",
         "UTILITIES": "Utilities",
-        "LOGIN_ADDRESS":"Address",
+        "ALL_IDENTITIES":"All Identities",
         "ENTER_ADDRESS":"Enter Address",
         "NUB": "Nub",
         "MINT_ASSET": "Mint Asset",
