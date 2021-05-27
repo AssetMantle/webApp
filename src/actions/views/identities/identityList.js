@@ -24,6 +24,7 @@ const IdentityList = React.memo((props) => {
     const [loader, setLoader] = useState(true)
     const [filteredIdentitiesList, setFilteredIdentitiesList] = useState([]);
     const userAddress = localStorage.getItem('address');
+    const identityId = localStorage.getItem('identityId');
     const [lastFromID, setLastFromID] = useState("");
     let lastFromIDValue = localStorage.getItem('lastFromID')
     if (lastFromIDValue !== null && document.getElementById(lastFromIDValue) !== null) {
@@ -31,16 +32,15 @@ const IdentityList = React.memo((props) => {
     }
     useEffect(() => {
         const fetchToIdentities = () => {
-            const identities = identitiesQuery.queryIdentityWithID("all")
+            const identities = identitiesQuery.queryIdentityWithID(identityId)
+            
             if (identities) {
                 identities.then(function (item) {
                     const data = JSON.parse(item);
                     const dataList = data.result.value.identities.value.list;
                     if (dataList) {
-                        const filterIdentities = FilterHelper.FilterIdentitiesByProvisionedAddress(dataList, userAddress);
-                        if (filterIdentities.length) {
-                            setFilteredIdentitiesList(filterIdentities);
-                            filterIdentities.map((identity, index) => {
+                            setFilteredIdentitiesList(dataList);
+                            dataList.map((identity, index) => {
                                 let immutableProperties = "";
                                 let mutableProperties = "";
                                 if (identity.value.immutables.value.properties.value.propertyList !== null) {
@@ -55,9 +55,7 @@ const IdentityList = React.memo((props) => {
                                 GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index, "identityMutableUrlId");
                                 setLoader(false)
                             })
-                        } else {
-                            setLoader(false)
-                        }
+                        
                     } else {
                         setLoader(false)
                     }

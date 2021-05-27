@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from "react";
 import {Route, Switch, withRouter} from "react-router-dom";
 import {Login} from "./actions";
+import AddressLogin from "./actions/AddressLogin";
 import {SignUp} from "./actions/forms";
 import {HomePage, RouteNotFound,  Profile} from "./components";
 import HeaderAfterLogin from "./components/Headers/HeaderAfterLogin";
 import HeaderBeforeLogin from "./components/Headers/HeaderBeforeLogin";
 import offline from "./assets/images/offline.svg";
-import {Maintainers, Identities, Assets, Orders, MarketPlace, AssetView, IdentityView, OrderView} from "./actions/views"
+import {Maintainers, Identities, Assets, Orders, MarketPlace, AssetView, IdentityView, OrderView, AllIdentityList} from "./actions/views"
 import Footer from "./components/Footer"
 import {useTranslation} from "react-i18next";
 import './assets/css/styles.css'
@@ -15,7 +16,7 @@ import {SearchAsset, SearchIdentity, SearchOrder, SearchMaintainer} from "./comp
 
 const App = () => {
     const {t} = useTranslation();
-    const userTypeToken = localStorage.getItem('mnemonic');
+    const userTypeToken = localStorage.getItem('identityId');
     const routes = [{
         path: '/',
         component: HomePage,
@@ -23,6 +24,9 @@ const App = () => {
         path: '/Login',
         component: Login,
     }, {
+        path: '/addressLogin',
+        component: AddressLogin,
+    },{
         path: '/SignUp',
         component: SignUp,
     },  {
@@ -35,6 +39,9 @@ const App = () => {
         path: '/identities',
         component: Identities,
     }, {
+        path: '/allidentities',
+        component: AllIdentityList,
+    },{
         path: '/maintainers',
         component: Maintainers,
     }, {

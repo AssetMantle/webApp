@@ -10,7 +10,7 @@ import profileIcon from "../../assets/images/profile.svg"
 const HeaderAfterLogin = () => {
     const history = useHistory();
     const {t} = useTranslation();
-    const userTypeToken = localStorage.getItem('mnemonic');
+    const userTypeToken = localStorage.getItem('identityId');
     const userAddress = localStorage.getItem('address');
     const handleRoute = route => () => {
         history.push(route)
@@ -24,6 +24,7 @@ const HeaderAfterLogin = () => {
         localStorage.removeItem('address');
         localStorage.removeItem('fromID');
         localStorage.removeItem('lastFromID');
+        localStorage.removeItem('identityId');
         history.push('/');
     }
 

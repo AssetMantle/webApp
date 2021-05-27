@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {Modal, Button} from "react-bootstrap";
 import {LoginMnemonic, PrivateKey, Ledger} from "./forms/login";
+import IdentityLogin from './forms/login/IdentityLogin';
 import {useTranslation} from "react-i18next";
 import {useHistory} from "react-router-dom";
 import MnemonicIcon from "../assets/images/MnemonicIcon.svg"
@@ -28,6 +29,16 @@ const Login = () => {
                     {t("LOGIN_FORM")}
                 </Modal.Header>
                 <Modal.Body>
+                <div className="mrt-10">
+                        <div className="button-view"
+                             onClick={() => handleRoute("IdentityLogin")}
+                        >
+                            <div className="icon-section">
+                                <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/></div>
+                                Login with Identity</div>
+                            <Icon viewClass="arrow-icon" icon="arrow"/>
+                        </div>
+                    </div>
                     <div className="mrt-10">
                         <div className="button-view"
                              onClick={() => handleRoute("LoginMnemonic")}
@@ -65,6 +76,11 @@ const Login = () => {
             </Modal>
 
             <div>
+                {
+                    externalComponent === 'IdentityLogin' ?
+                        <IdentityLogin setExternalComponent={setExternalComponent}/> :
+                        null
+                }
                 {
                     externalComponent === 'LoginMnemonic' ?
                         <LoginMnemonic setExternalComponent={setExternalComponent}/> :
