@@ -9,6 +9,7 @@ import Loader from "../../../components/loader"
 import ModalCommon from "../../../components/modal"
 import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
+import CommonKeystore from '../../../actions/forms/login/CommonKeystore';
 import GetProperty from "../../../utilities/Helpers/getProperty";
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -36,10 +37,16 @@ const IssueIdentity = (props) => {
     const [uploadFile, setUploadFile] = useState(null);
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     const [checkboxImmutableNamesList, setCheckboxImmutableNamesList] = useState([]);
+    const [totalDefineObject, setTotalDefineObject] = useState({});
+    const [externalComponent, setExternalComponent] = useState("");
+    const [testIdentityId, settestIdentityId] = useState("");
+    const [showIdentity, setShowIdentity] = useState(true);
     const [fromID, setFromID] = useState("");
 
     useEffect(()=>{
         let fromIDValue = localStorage.getItem('fromID');
+        let testIdentityId = localStorage.getItem("identityId")
+        settestIdentityId(testIdentityId);
         setFromID(fromIDValue);
     },[])
 
@@ -212,13 +219,27 @@ const IssueIdentity = (props) => {
 
                 })
             }
-            const issueIdentityResult = identitiesIssue.issue(userAddress, "test", userTypeToken, toAddress, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode)
-            issueIdentityResult.then(function (item) {
-                const data = JSON.parse(JSON.stringify(item));
-                setResponse(data);
-                setShowNext(false);
-                setLoader(false);
-            })
+            let totalData = {
+                FromId:FromId,
+                classificationId:classificationId,
+                mutableValues:mutableValues,
+                toAddress:toAddress,
+                immutableValues:immutableValues,
+                mutableMetaValues:mutableMetaValues,
+                immutableMetaValues:immutableMetaValues
+            }
+            setTotalDefineObject(totalData);
+            setExternalComponent('Keystore')
+            setShow(false);
+            setShowNext(false);
+            setLoader(false);
+            // const issueIdentityResult = identitiesIssue.issue(userAddress, "test", userTypeToken, toAddress, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode)
+            // issueIdentityResult.then(function (item) {
+            //     const data = JSON.parse(JSON.stringify(item));
+            //     setResponse(data);
+            //     setShowNext(false);
+            //     setLoader(false);
+            // })
         }
     }
     const handleUpload = (id) =>{
@@ -297,7 +318,7 @@ const IssueIdentity = (props) => {
                                 type="text"
                                 className=""
                                 name="FromId"
-                                defaultValue={fromID !== null ? fromID : ""}
+                                defaultValue={fromID !== null ? fromID : testIdentityId}
                                 required={true}
                                 placeholder={t("FROM_ID")}
                             />
@@ -488,6 +509,13 @@ const IssueIdentity = (props) => {
                 <ModalCommon data={response} setExternal={handleClose}/>
                 : ""
             }
+             <div>
+                {
+                    externalComponent === 'Keystore' ?
+                        <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'issueidentity'}/> :
+                        null
+                }
+            </div>
         </div>
     );
 };

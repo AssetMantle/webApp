@@ -22,6 +22,7 @@ const Login = () => {
         setShow(false);
         setExternalComponent(route)
     };
+    
     return (
         <div className="accountInfo">
             <Modal show={show} onHide={handleClose} className="signup-section login-section" centered>

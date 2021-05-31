@@ -58,7 +58,8 @@ const Assets = (props) => {
                     }
                     {
                         externalComponent === 'MintAsset' ?
-                            <MintAsset setExternalComponent={setExternalComponent}/> :
+                            <MintAsset setExternalComponent={setExternalComponent} ActionName={assetDefine}
+                            FormName={'Mint Asset'} type={'asset'}/> :
                             null
                     }
                     {

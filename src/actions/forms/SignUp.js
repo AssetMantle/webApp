@@ -87,15 +87,13 @@ const SignUp = () => {
         }
     }
     const handleSubmitIdentity = e => {
-        console.log('repeating')
+       
         setLoader(true)
         e.preventDefault()
         const userid = document.getElementById("userName").value
         const hashGenerate = GetMetaHelper.Hash(userid)
-        console.log(hashGenerate, 'hashGenerate')
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        console.log(userAddress, userTypeToken, userid, config.feesAmount, config.feesToken, config.gas, config.mode)
         const nubResponse = identitiesNub.nub(userAddress, "test", userTypeToken, userid, config.feesAmount, config.feesToken, config.gas, config.mode);
         nubResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
@@ -103,7 +101,7 @@ const SignUp = () => {
             pollResponse.then(function (pollData) {
                 const pollObject = JSON.parse(pollData);
                 if (pollObject.code) {
-                    console.log('code is there');
+                   
                     setLoader(false)
                     setuserExist(true)
                 } else {
@@ -112,10 +110,10 @@ const SignUp = () => {
                     setShowFaucet(false)
                     setshowtxnHash(true)
                 }
-                console.log(pollObject, "pollObject")
+               
             })
             setResponse(data)
-            console.log(userid, data)
+
             setshowDownloadModal(false)
             setShowDownload(false)
 
@@ -180,7 +178,7 @@ const SignUp = () => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Form.Check custom type="checkbox" label="Accept Terms&Conditions"
+                    <Form.Check custom type="checkbox" label="Accept Terms & Conditions"
                         name="removeMaintainer"
                         id="removeMaintainer"
                     />

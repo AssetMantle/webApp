@@ -5,6 +5,7 @@ import {useTranslation} from "react-i18next";
 import config from "../../../constants/config.json"
 import Loader from "../../../components/loader"
 import ModalCommon from "../../../components/modal"
+import CommonKeystore from '../../../actions/forms/login/CommonKeystore';
 
 const UnWrapQuery = new UnWrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
@@ -14,9 +15,14 @@ const UnWrap = (props) => {
     const [loader, setLoader] = useState(false)
     const {t} = useTranslation();
     const [fromID, setFromID] = useState("");
+    const [testIdentityId, settestIdentityId] = useState("");
+    const [totalDefineObject, setTotalDefineObject] = useState({});
+    const [externalComponent, setExternalComponent] = useState("");
 
     useEffect(()=>{
         let fromIDValue = localStorage.getItem('fromID');
+        let testIdentityId = localStorage.getItem("identityId")
+        settestIdentityId(testIdentityId);
         setFromID(fromIDValue);
     },[])
 
@@ -27,14 +33,23 @@ const UnWrap = (props) => {
         const OwnableId = event.target.OwnableId.value;
         const Split = event.target.Split.value;
         const userTypeToken = localStorage.getItem('mnemonic');
-        const userAddress = localStorage.getItem('address');
-        const UnWrapResponse = UnWrapQuery.unwrap(userAddress, "test", userTypeToken, FromId, OwnableId, Split, config.feesAmount, config.feesToken, config.gas, config.mode);
-        UnWrapResponse.then(function (item) {
-            const data = JSON.parse(JSON.stringify(item));
-            setResponse(data)
-            setShow(false);
-            setLoader(false)
-        })
+        const userAddress = localStorage.getItem('address');let totalData = {
+            fromID:FromId,
+            Split:Split,
+            OwnableId:OwnableId
+        }
+        setTotalDefineObject(totalData);
+        setExternalComponent('Keystore')
+        setShow(false);
+        setLoader(false);
+
+        // const UnWrapResponse = UnWrapQuery.unwrap(userAddress, "test", userTypeToken, FromId, OwnableId, Split, config.feesAmount, config.feesToken, config.gas, config.mode);
+        // UnWrapResponse.then(function (item) {
+        //     const data = JSON.parse(JSON.stringify(item));
+        //     setResponse(data)
+        //     setShow(false);
+        //     setLoader(false)
+        // })
     };
     const handleClose = () => {
         setShow(false);
@@ -60,7 +75,7 @@ const UnWrap = (props) => {
                                 type="text"
                                 className=""
                                 name="FromId"
-                                defaultValue={fromID !== null ? fromID : ""}
+                                defaultValue={fromID !== null ? fromID : testIdentityId}
                                 required={true}
                                 placeholder="FromId"
                             />
@@ -99,6 +114,13 @@ const UnWrap = (props) => {
                 <ModalCommon data={response} setExternal={handleClose}/>
                 : ""
             }
+            <div>
+                {
+                    externalComponent === 'Keystore' ?
+                        <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'unwrap'}/> :
+                        null
+                }
+            </div>
         </div>
     );
 };

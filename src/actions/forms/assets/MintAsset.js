@@ -3,6 +3,7 @@ import ClassificationsQueryJS from "persistencejs/transaction/classification/que
 import AssetMintJS from "persistencejs/transaction/assets/mint";
 import {Form, Button, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
+import CommonKeystore from '../../../actions/forms/login/CommonKeystore';
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import config from "../../../constants/config.json"
 import Loader from "../../../components/loader";
@@ -23,8 +24,10 @@ const MintAsset = (props) => {
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
     const [showUpload, setShowUpload] = useState(false);
+    const [totalDefineObject, setTotalDefineObject] = useState({});
     const [uploadId, setUploadId] = useState("");
     const [uploadFile, setUploadFile] = useState(null);
+    const [externalComponent, setExternalComponent] = useState("");
     const [loader, setLoader] = useState(false)
     const [response, setResponse] = useState({});
     const [errorMessage, setErrorMessage] = useState("");
@@ -37,10 +40,12 @@ const MintAsset = (props) => {
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     const [checkboxImmutableNamesList, setCheckboxImmutableNamesList] = useState([]);
     const [fromID, setFromID] = useState("");
-
+    const [testIdentityId, settestIdentityId] = useState("");
     useEffect(() => {
         let fromIDValue = localStorage.getItem('fromID');
+        let testIdentityId = localStorage.getItem("identityId")
         setFromID(fromIDValue);
+        settestIdentityId(testIdentityId);
     }, [])
 
     const handleCloseNext = () => {
@@ -117,6 +122,7 @@ const MintAsset = (props) => {
         setShow(false);
     };
     const handleFormSubmit = (event) => {
+        setShowNext(false);
         setLoader(true)
         event.preventDefault();
             const FromId = event.target.FromId.value;
@@ -208,13 +214,26 @@ const MintAsset = (props) => {
             setErrorMessage(t("SELECT_IMMUTABLE_META"))
             setLoader(false)
         } else {
-            const assetMintResult = assetMint.mint(userAddress, "test", userTypeToken, toID, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode)
-            assetMintResult.then(function (item) {
-                const data = JSON.parse(JSON.stringify(item));
-                setResponse(data);
-                setShowNext(false);
-                setLoader(false)
-            })
+            let totalData = {
+                fromID:FromId,
+                toID:toID,
+                classificationId:classificationId,
+                mutableValues:mutableValues,
+                immutableValues:immutableValues,
+                immutableMetaValues:immutableMetaValues
+            }
+            setTotalDefineObject(totalData);
+            setExternalComponent('Keystore')
+            setShow(false);
+          
+            setLoader(false);
+            // const assetMintResult = assetMint.mint(userAddress, "test", userTypeToken, toID, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode)
+            // assetMintResult.then(function (item) {
+            //     const data = JSON.parse(JSON.stringify(item));
+            //     setResponse(data);
+            //     setShowNext(false);
+            //     setLoader(false)
+            // })
         }
     };
 
@@ -223,6 +242,7 @@ const MintAsset = (props) => {
         setShowUpload(true)
     };
     const handleFileInputChange = (e) => {
+        
         setLoader(true);
         let file = uploadFile;
         file = e.target.files[0];
@@ -294,7 +314,7 @@ const MintAsset = (props) => {
                                 className=""
                                 name="FromId"
                                 required={true}
-                                defaultValue={fromID !== null ? fromID : ""}
+                                defaultValue={fromID !== null ? fromID : testIdentityId}
                                 placeholder={t("FROM_ID")}
                             />
                         </Form.Group>
@@ -480,6 +500,13 @@ const MintAsset = (props) => {
                 <ModalCommon data={response} setExternal={handleClose}/>
                 : ""
             }
+             <div>
+                {
+                    externalComponent === 'Keystore' ?
+                        <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'assetMint'}/> :
+                        null
+                }
+            </div>
         </div>
     );
 };

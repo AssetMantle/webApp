@@ -5,6 +5,7 @@ import {useTranslation} from "react-i18next";
 import config from "../../../constants/config.json"
 import Loader from "../../../components/loader"
 import ModalCommon from "../../../components/modal"
+import CommonKeystore from '../../../actions/forms/login/CommonKeystore';
 
 const WrapQuery = new WrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
@@ -13,10 +14,14 @@ const Wrap = (props) => {
     const [response, setResponse] = useState({});
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false)
+    const [externalComponent, setExternalComponent] = useState("");
+    const [totalDefineObject, setTotalDefineObject] = useState({});
     const [fromID, setFromID] = useState("");
-
+    const [testIdentityId, settestIdentityId] = useState("");
     useEffect(()=>{
         let fromIDValue = localStorage.getItem('fromID');
+        let testIdentityId = localStorage.getItem("identityId")
+        settestIdentityId(testIdentityId);
         setFromID(fromIDValue);
     },[])
     const handleSubmit = (event) => {
@@ -24,16 +29,27 @@ const Wrap = (props) => {
         event.preventDefault();
         const FromId = event.target.FromId.value;
         const CoinDenom = event.target.CoinDenom.value;
+        
         const CoinAmount = event.target.CoinAmount.value;
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
-        const WrapResponse = WrapQuery.wrap(userAddress, "test", userTypeToken, FromId, CoinAmount + CoinDenom, config.feesAmount, config.feesToken, config.gas, config.mode);
-        WrapResponse.then(function (item) {
-            const data = JSON.parse(JSON.stringify(item));
-            setResponse(data)
-            setShow(false);
-            setLoader(false)
-        })
+        let totalData = {
+            fromID:FromId,
+            CoinAmountDenom:CoinAmount + CoinDenom,
+
+        }
+        setTotalDefineObject(totalData);
+        setExternalComponent('Keystore')
+        setShow(false);
+      
+        setLoader(false);
+        // const WrapResponse = WrapQuery.wrap(userAddress, "test", userTypeToken, FromId, CoinAmount + CoinDenom, config.feesAmount, config.feesToken, config.gas, config.mode);
+        // WrapResponse.then(function (item) {
+        //     const data = JSON.parse(JSON.stringify(item));
+        //     setResponse(data)
+        //     setShow(false);
+        //     setLoader(false)
+        // })
     };
     const handleClose = () => {
         setShow(false);
@@ -59,7 +75,7 @@ const Wrap = (props) => {
                             <Form.Control
                                 type="text"
                                 className=""
-                                defaultValue={fromID !== null ? fromID : ""}
+                                defaultValue={fromID !== null ? fromID : testIdentityId}
                                 name="FromId"
                                 required={true}
                                 placeholder="FromId"
@@ -99,6 +115,13 @@ const Wrap = (props) => {
                 <ModalCommon data={response} setExternal={handleClose}/>
                 : ""
             }
+            <div>
+                {
+                    externalComponent === 'Keystore' ?
+                        <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'wrap'}/> :
+                        null
+                }
+            </div>
         </div>
     );
 };

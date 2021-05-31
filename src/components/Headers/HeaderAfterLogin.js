@@ -22,6 +22,7 @@ const HeaderAfterLogin = () => {
     const logout = route => () => {
         localStorage.removeItem('mnemonic');
         localStorage.removeItem('address');
+        localStorage.removeItem('encryptedMnemonic');
         localStorage.removeItem('fromID');
         localStorage.removeItem('lastFromID');
         localStorage.removeItem('identityId');
