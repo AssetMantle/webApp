@@ -7,8 +7,8 @@ const ModalCommon = (props) => {
     const [showIdentity, setShowIdentity] = useState(true);
     const handleClose = () => {
         setShowIdentity(false);
-        props.setExternal();
-        window.location.reload();
+        // props.setExternal();
+        // window.location.reload();
     };
     return (
         <Modal
@@ -25,7 +25,7 @@ const ModalCommon = (props) => {
                 {props.data.code ?
                     <p>Error: {props.data.raw_log}</p>
                     :
-                    <p className="tx-hash">TxHash: {props.data.txhash}</p>
+                    <p className="tx-hash">TxHash: <a href={process.env.REACT_APP_ASSET_MANTLE_API + '/txs/' + props.data.txhash} target="_blank">{props.data.txhash}</a></p>
 
                 }
             </Modal.Body>

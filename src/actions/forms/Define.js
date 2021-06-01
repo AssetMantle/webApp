@@ -612,7 +612,7 @@ const Define = (props) => {
             <div>
                 {
                     externalComponent === 'Keystore' ?
-                        <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} ActionName={props.ActionName}/> :
+                        <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'defineIdentity'} ActionName={props.ActionName}/> :
                         null
                 }
                  {

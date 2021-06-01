@@ -122,7 +122,7 @@ const MintAsset = (props) => {
         setShow(false);
     };
     const handleFormSubmit = (event) => {
-        setShowNext(false);
+       
         setLoader(true)
         event.preventDefault();
             const FromId = event.target.FromId.value;
@@ -220,11 +220,12 @@ const MintAsset = (props) => {
                 classificationId:classificationId,
                 mutableValues:mutableValues,
                 immutableValues:immutableValues,
-                immutableMetaValues:immutableMetaValues
+                immutableMetaValues:immutableMetaValues,
+                mutableMetaValues:mutableMetaValues
             }
             setTotalDefineObject(totalData);
             setExternalComponent('Keystore')
-            setShow(false);
+            setShowNext(false);
           
             setLoader(false);
             // const assetMintResult = assetMint.mint(userAddress, "test", userTypeToken, toID, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode)

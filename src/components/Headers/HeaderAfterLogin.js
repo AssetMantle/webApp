@@ -34,7 +34,7 @@ const HeaderAfterLogin = () => {
         if(userTypeToken !== null  && window.location.pathname === "/"){
             history.push('/identities');
         }
-        if (userAddress === null) {
+        if (userTypeToken === null) {
             history.push('/Login');
         }
     }, [])

@@ -16,8 +16,8 @@ const HeaderBeforeLogin = () => {
     };
 
     useEffect(() => {
-        const userAddress = localStorage.getItem('address');
-        if (userAddress === null) {
+        const identityId = localStorage.getItem('identityId');
+        if (identityId === null) {
             history.push('/Login');
         }
     }, [])

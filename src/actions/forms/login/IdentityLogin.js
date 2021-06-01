@@ -67,7 +67,7 @@ const IdentityLogin = React.memo((props) => {
                     <div className="button-view">
                         <div className="icon-section">
                             <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/> </div>
-                            {t("LOGIN_MNEMONIC")}</div>
+                            {t("LOGIN_IDENTITY")}</div>
                         <Icon viewClass="arrow-icon" icon="arrow" />
                     </div>
                 </div>

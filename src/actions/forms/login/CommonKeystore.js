@@ -5,6 +5,7 @@ import config from "../../../constants/config.json";
 import AssetMintJS from "persistencejs/transaction/assets/mint";
 import keyUtils from "persistencejs/utilities/keys";
 import { useTranslation } from "react-i18next";
+import { pollTxHash } from "../../../utilities/Helpers/filter";
 import queries from '../../../utilities/Helpers/query';
 import Loader from "../../../components/loader";
 import ModalCommon from "../../../components/modal";
@@ -14,6 +15,9 @@ import IdentitiesIssueJS from "persistencejs/transaction/identity/issue";
 import identitiesNubJS from "persistencejs/transaction/identity/nub";
 import privateKeyIcon from "../../../assets/images/PrivatekeyIcon.svg";
 import Icon from "../../../icons";
+import identitiesDefineJS from "persistencejs/transaction/identity/define";
+
+const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMint = new AssetMintJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const WrapQuery = new WrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesIssue = new IdentitiesIssueJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -73,59 +77,28 @@ const CommonKeystore = (props) => {
             if (props.TransactionName === 'assetMint') {
                 console.log('mintasset')
                 queryResponse = queries.mintAssetQuery(wallet.address, userMnemonic, props.totalDefineObject, assetMint)
-                queryResponse.then(function (item) {
-                    const data = JSON.parse(JSON.stringify(item));
-                    console.log(data, 'data')
-                    setResponse(data)
-                    setShow(false)
-                    setLoader(false);
-                })
-            } if(props.TransactionName === 'wrap') { 
+            }  else if (props.TransactionName === 'wrap') {
                 queryResponse = queries.wrapQuery(wallet.address, userMnemonic, props.totalDefineObject, WrapQuery)
-                queryResponse.then(function (item) {
-                    const data = JSON.parse(JSON.stringify(item));
-                    console.log(data, 'data')
-                    setResponse(data)
-                    setShow(false)
-                    setLoader(false);
-                })
-            } if(props.TransactionName === 'unwrap') { 
+            }  else if (props.TransactionName === 'unwrap') {
                 queryResponse = queries.unWrapQuery(wallet.address, userMnemonic, props.totalDefineObject, UnWrapQuery)
-                queryResponse.then(function (item) {
-                    const data = JSON.parse(JSON.stringify(item));
-                    console.log(data, 'data')
-                    setResponse(data)
-                    setShow(false)
-                    setLoader(false);
-                })
-            }  if(props.TransactionName === 'nubid') {
+            }  else if (props.TransactionName === 'nubid') {
                 queryResponse = queries.nubIdQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesNub)
-                queryResponse.then(function (item) {
-                    const data = JSON.parse(JSON.stringify(item));
-                    console.log(data, 'data')
-                    setResponse(data)
-                    setShow(false)
-                    setLoader(false);
-                })
-            } if(props.TransactionName === 'issueidentity') {
-                queryResponse = queries.issue(wallet.address, userMnemonic, props.totalDefineObject, identitiesIssue)
-                queryResponse.then(function (item) {
-                    const data = JSON.parse(JSON.stringify(item));
-                    console.log(data, 'data')
-                    setResponse(data)
-                    setShow(false)
-                    setLoader(false);
-                })
-            } else {
-                queryResponse = queries.defineQuery(wallet.address, userMnemonic, props.totalDefineObject, props.ActionName)
-                queryResponse.then(function (item) {
-                    const data = JSON.parse(JSON.stringify(item));
-                    console.log(data, 'data')
-                    setResponse(data)
-                    setShow(false)
-                    setLoader(false);
-                })
+            }  else if (props.TransactionName === 'issueidentity') {
+                queryResponse = queries.issueIdentityQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesIssue)
+            } else if (props.TransactionName === 'defineIdentity') {
+                queryResponse = queries.defineQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesDefine)
             }
+            queryResponse.then(function (item) {
+                const data = JSON.parse(JSON.stringify(item));
+                const pollResponse = pollTxHash(process.env.REACT_APP_ASSET_MANTLE_API, data.txhash);
+                pollResponse.then(function (pollData) {
+                    const pollObject = JSON.parse(pollData);
+                    console.log(pollObject,'pollObject')
+                    setShow(false)
+                    setLoader(false);
+                    setResponse(data)
+                })
+            })
         } else {
             setLoader(false);
         }
