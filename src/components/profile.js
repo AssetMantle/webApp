@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from "react-i18next";
-import Sidebar from "./sidebar/sidebar";
+
 import Copy from "./copy";
 import {Summary} from "./summary";
 import ledger from "../assets/images/ledger.svg";
@@ -24,10 +24,10 @@ const Profile = () => {
 
     return (
         <div className="content-section">
-            <Sidebar/>
+         
             <div className="accountInfo profile-section">
                 <div className="row">
-                    <div className="col-md-9 card-deck">
+                    <div className="col-md-9 card-deck p-0">
                         <div className="dropdown-section">
                             <h4>{t("PROFILE")}</h4>
                         </div>

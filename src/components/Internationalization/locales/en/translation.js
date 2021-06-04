@@ -50,6 +50,7 @@ let en = {
         "LOGIN_WITH_PWD": "Login With password",
         "UPLOAD_KEY": "upload private key file",
         "DECRYPT_KEY_STORE": "Enter password to decrypt keystore file",
+        "SIGN_IN_KEPLER": "Signin with Keplr",
         "INCORRECT_PASSWORD": "Incorrect Password",
         "ORDER_CANCEL": "Cancel Order",
         "MAKE_ORDER": "Make Order",

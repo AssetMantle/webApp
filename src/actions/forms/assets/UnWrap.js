@@ -33,7 +33,8 @@ const UnWrap = (props) => {
         const OwnableId = event.target.OwnableId.value;
         const Split = event.target.Split.value;
         const userTypeToken = localStorage.getItem('mnemonic');
-        const userAddress = localStorage.getItem('address');let totalData = {
+        const userAddress = localStorage.getItem('address');
+        let totalData = {
             fromID:FromId,
             Split:Split,
             OwnableId:OwnableId

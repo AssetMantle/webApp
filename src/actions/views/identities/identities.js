@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import identitiesDefineJS from "persistencejs/transaction/identity/define";
 import {Dropdown} from "react-bootstrap";
+import Profile from '../../../components/profile';
 import {Define} from "../../forms";
 import {Nub, IssueIdentity} from "../../forms/identities";
 import {useTranslation} from "react-i18next";
@@ -27,6 +28,9 @@ const Identities = () => {
             <Sidebar/>
             <div className="accountInfo">
                 <div className="row">
+                <div className="col-md-9 card-deck">
+                        <Profile />
+                        </div>
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
                             <h4>Identities</h4>

@@ -77,6 +77,7 @@ const IdentityView = React.memo((props) => {
             <Sidebar/>
             <div className="accountInfo">
                 <div className="row">
+                   
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
 
@@ -121,7 +122,7 @@ const IdentityView = React.memo((props) => {
                                 return (
 
                                     <div className="list-container view-container" key={index}>
-                                        <div className="row card-deck">
+                                        <div className="row card-deck card-height">
                                             <div className="row">
                                                 <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                                                     {immutableKeys !== null ?

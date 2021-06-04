@@ -36,7 +36,7 @@ const App = () => {
         path: '/orders',
         component: Orders,
     }, {
-        path: '/identities',
+        path: '/profile',
         component: Identities,
     }, {
         path: '/allidentities',
@@ -53,9 +53,6 @@ const App = () => {
     }, {
         path: '/SearchIdentity',
         component: SearchIdentity,
-    }, {
-        path: '/Profile',
-        component: Profile,
     }, {
         path: '/SearchOrder',
         component: SearchOrder,

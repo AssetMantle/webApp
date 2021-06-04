@@ -33,7 +33,7 @@ const IdentityLogin = React.memo((props) => {
                 });
                 if(userIdentity.length){
                     localStorage.setItem("identityId", IdentityName)
-                    history.push('/identities');
+                    history.push('/profile');
                 } else {
                     setErrorMessage(true)
                 }

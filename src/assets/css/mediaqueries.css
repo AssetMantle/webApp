@@ -1,149 +1,189 @@
 @media (min-width: 769px) {
   .provision-address.address {
-    max-width: initial; }
-
+    max-width: initial;
+  }
   .side-bar.active {
-    margin-left: -200px; }
-    .side-bar.active img {
-      transform: rotate(180deg); } }
+    margin-left: -200px;
+  }
+  .side-bar.active img {
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+  }
+}
+
 @media (max-width: 420px) {
   .footer {
-    bottom: initial; }
-
+    bottom: initial;
+  }
   .homeSection .appInfoBox .banner-heading {
-    font-size: 30px; }
-
+    font-size: 30px;
+  }
   .list-item .list-item-label {
     width: 80px;
-    margin-right: 10px; }
-
+    margin-right: 10px;
+  }
   .id-string {
-    width: 100px; }
-
+    width: 100px;
+  }
   .profile-section .list-item .list-item-value {
-    word-break: initial; }
+    word-break: initial;
+  }
   .profile-section .list-item .list-item-label {
-    width: 100px; } }
+    width: 100px;
+  }
+}
+
 @media (max-width: 768px) {
   .banner-image-section {
-    display: none !important; }
-
+    display: none !important;
+  }
   .content-section .accountInfo .col-md-9 .card-deck {
-    height: auto; }
-
+    height: auto;
+  }
   .summary-section {
-    height: auto; }
-
+    height: auto;
+  }
   .navbar-dark .navbar-toggler {
-    padding: 0 15px; }
-
+    padding: 0 15px;
+  }
   .navbar-toggler-icon {
-    width: 1rem; }
-
+    width: 1rem;
+  }
   .search-section .input-group {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
     display: inline-flex;
-    width: auto; }
-
+    width: auto;
+  }
   .nav-items {
-    display: inline-flex; }
-
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+  }
   .profile-section .profile-picture-section {
-    padding: 15px !important; }
-
+    padding: 15px !important;
+  }
   .side-bar {
-    margin-left: -200px; }
-
+    margin-left: -200px;
+  }
   .side-bar.active {
     min-width: 250px;
     max-width: 250px;
-    margin-left: 0px; }
-    .side-bar.active img {
-      transform: rotate(180deg); } }
+    margin-left: 0px;
+  }
+  .side-bar.active img {
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+  }
+}
+
 @media (max-width: 1400px) {
   .banner-image-section imge {
-    margin-right: auto; } }
+    margin-right: auto;
+  }
+}
+
 @media (max-width: 576px) {
   .row {
-    margin: auto; }
-
+    margin: auto;
+  }
   .homeSection .appInfoBox {
-    padding: 50px 0; }
-
+    padding: 50px 0;
+  }
   .side-bar {
     position: fixed;
     overflow-y: auto;
     top: 60px;
     left: 0;
     bottom: 0;
-    z-index: 1; }
-
+    z-index: 1;
+  }
   .accountInfo {
-    margin-left: 50px; } }
+    margin-left: 50px;
+  }
+}
+
 @media (max-width: 991px) {
   .navbar-collapse {
     -webkit-transition: all 0.3s ease-out;
-    -moz-transition: all 0.3s ease-out;
-    -ms-transition: all 0.3s ease-out;
-    -o-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out; }
-
+    transition: all 0.3s ease-out;
+  }
   .navbar-dark .navbar-brand a img {
-    width: 130px; }
-
+    width: 130px;
+  }
   .nav-items {
-    display: inline-flex; }
-
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+  }
   .navbar-dark .navbar-toggler {
     padding: 5px 10px;
-    margin: 14px 0; }
-
+    margin: 14px 0;
+  }
   .navbar-toggler-icon {
     width: 1rem;
-    height: 1rem; }
-
+    height: 1rem;
+  }
   .banner-image-section img {
     margin-right: -30px;
-    width: 300px; }
-
+    width: 300px;
+  }
   .navbar {
     position: fixed;
     top: 0;
     left: 0;
     z-index: 2;
     right: 0;
-    width: 100%; }
-
+    width: 100%;
+  }
   .login-before .navbar {
     padding-right: 15px;
     padding-left: 15px;
     margin-right: auto;
     margin-left: auto;
-    max-width: 720px; }
-
+    max-width: 720px;
+  }
   .content-section {
     padding-top: 60px;
-    height: 100%; }
-    .content-section .accountInfo .row {
-      overflow-y: auto; }
-      .content-section .accountInfo .row .col-md-9, .content-section .accountInfo .row .col-md-3 {
-        flex: initial;
-        max-width: initial; }
-      .content-section .accountInfo .row .col-md-9 {
-        flex-direction: column; }
-        .content-section .accountInfo .row .col-md-9 .card-deck {
-          height: auto; }
-      .content-section .accountInfo .row .summary-section {
-        height: auto; } }
+    height: 100%;
+  }
+  .content-section .accountInfo .row {
+    overflow-y: auto;
+  }
+  .content-section .accountInfo .row .col-md-9, .content-section .accountInfo .row .col-md-3 {
+    -webkit-box-flex: initial;
+        -ms-flex: initial;
+            flex: initial;
+    max-width: initial;
+  }
+  .content-section .accountInfo .row .col-md-9 {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .content-section .accountInfo .row .col-md-9 .card-deck {
+    height: auto;
+  }
+  .content-section .accountInfo .row .summary-section {
+    height: auto;
+  }
+}
+
 @media (min-width: 992px) and (max-width: 1080px) {
   .navbar-dark .navbar-nav .nav-link {
     padding: 0 0.75rem !important;
-    font-size: 12px; }
-
+    font-size: 12px;
+  }
   .banner-image-section img {
     margin-right: -30px;
-    width: 350px; } }
+    width: 350px;
+  }
+}
+
 @media (min-width: 1200px) {
   .search-section {
-    margin-left: 180px; } }
-
+    margin-left: 180px;
+  }
+}
 /*# sourceMappingURL=mediaqueries.css.map */

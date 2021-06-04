@@ -12,6 +12,7 @@ const HeaderAfterLogin = () => {
     const {t} = useTranslation();
     const userTypeToken = localStorage.getItem('identityId');
     const userAddress = localStorage.getItem('address');
+    console.log(userAddress,'userAddress')
     const handleRoute = route => () => {
         history.push(route)
     };
@@ -32,7 +33,7 @@ const HeaderAfterLogin = () => {
     useEffect(() => {
         const userAddress = localStorage.getItem('address');
         if(userTypeToken !== null  && window.location.pathname === "/"){
-            history.push('/identities');
+            history.push('/profile');
         }
         if (userTypeToken === null) {
             history.push('/Login');
@@ -81,7 +82,7 @@ const HeaderAfterLogin = () => {
                                              role="button" data-toggle="dropdown" aria-haspopup="true"
                                              aria-expanded="false">
                                         <div className="profile-icon">
-                                            <p className="address">{userAddress}</p>
+                                            <p className="address">{userTypeToken}</p>
                                             <img className="thumbnail-image"
                                                  src={profileIcon}
                                                  alt="user pic"
@@ -91,9 +92,9 @@ const HeaderAfterLogin = () => {
                                     </div>
                                     <div className="dropdown-menu profile-menu"
                                          aria-labelledby="profile-nav-dropdown">
-                                        <NavLink className="dropdown-item" to="/identities">{t("IDENTITIES")}</NavLink>
+                                        {/* <NavLink className="dropdown-item" to="/identities">{t("IDENTITIES")}</NavLink> */}
                                         <NavLink className="dropdown-item" to="/maintainers">{t("MAINTAINERS")}</NavLink>
-                                        <NavLink className="dropdown-item" to="/Profile">{t("PROFILE")}</NavLink>
+                                        <NavLink className="dropdown-item" to="/profile">{t("PROFILE")}</NavLink>
                                         <NavDropdown.Item onClick={logout("/")}>{t("LOGOUT")}</NavDropdown.Item>
                                     </div>
 
