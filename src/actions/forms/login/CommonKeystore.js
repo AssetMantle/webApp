@@ -14,10 +14,9 @@ import WrapJS from "persistencejs/transaction/splits/wrap";
 import UnWrapJS from "persistencejs/transaction/splits/unwrap";
 import IdentitiesIssueJS from "persistencejs/transaction/identity/issue";
 import identitiesNubJS from "persistencejs/transaction/identity/nub";
-import privateKeyIcon from "../../../assets/images/PrivatekeyIcon.svg";
-import Icon from "../../../icons";
-// import {cosmosSignTxAndBroadcast} from '../../../utilities/Helpers/kelplr';
+import Msgs from "../../../utilities/Helpers/Msgs";
 import identitiesDefineJS from "persistencejs/transaction/identity/define";
+const { SigningCosmosClient } = require("@cosmjs/launchpad");
 const restAPI = process.env.REACT_APP_API;
 const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMint = new AssetMintJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -25,9 +24,9 @@ const WrapQuery = new WrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesIssue = new IdentitiesIssueJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesNub = new identitiesNubJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const UnWrapQuery = new UnWrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const CommonKeystore = (props) => {
-    console.log(props, 'props')
 
+
+const CommonKeystore = (props) => {
     const { t } = useTranslation();
     const history = useHistory();
     const [show, setShow] = useState(true);
@@ -56,52 +55,45 @@ const CommonKeystore = (props) => {
             setImportMnemonic(true);
         }
     }, []);
-    const cosmosSignTxAndBroadcast = async (tx, address, cb) => {
-    
-       
-            await window.keplr && window.keplr.enable(process.env.REACT_APP_CHAIN_ID);
-            const offlineSigner = window.getOfflineSigner && window.getOfflineSigner(process.env.REACT_APP_CHAIN_ID);
-            const cosmJS = new SigningCosmosClient(restAPI, address, offlineSigner );
-            console.log(offlineSigner,'offlineSigner');
-            console.log(cosmJS,'cosmJS');
-    
-            cosmJS.signAndBroadcast(tx.msg, tx.fee, tx.memo).then((result) => {
-                console.log(result,'result')
-                if (result && result.code !== undefined && result.code !== 0) {
-                    // console.log(result,'result')
-                    cb(result.log || result.rawLog);
-                } else {
-                    cb(null, result);
-                }
-            }).catch((error) => {
-                console.log(error,'error')
-                cb(error && error.message);
-            });
-      
+
+    const TransactionWithKeplr = async (msgs, fee, memo, chainID) => {
+            await window.keplr.enable(chainID);
+            const offlineSigner = window.getOfflineSigner(chainID);
+            const accounts = await offlineSigner.getAccounts();
+            const cosmJS = new SigningCosmosClient(restAPI, accounts[0].address, offlineSigner );
+            return await cosmJS.signAndBroadcast(msgs, fee, memo);
     };
-    const handleKepler = () => { 
+
+    const handleKepler = () => {
               const tx = {
                 msg: [{
                     type: "cosmos-sdk/MsgSend",
                     value: {
-                        from_address: address,
-                        to_address: address,
+                        from_address: 'cosmos1aepmuldh8j05y57zh5tje3fuzk63mc2m49uzzg',
+                        to_address: 'cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c',
                         amount: [{ amount: String(5000), denom: 'stake' }],
                     },
                 }],
                 fee: { amount: [{ amount: String(5000), denom: 'stake' }], gas: String(200000) },
                 memo: '',
             };
-    
-            cosmosSignTxAndBroadcast(tx, address, (error, result) => {
-                if (error) {
-                   console.log(error,'error')
-                    return;
-                }
-    
-              
-                console.log(result && result.transactionHash, 'success')
-            });
+
+        const response = TransactionWithKeplr([Msgs.SendMsg('cosmos1aepmuldh8j05y57zh5tje3fuzk63mc2m49uzzg','cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c', 5000)],Msgs.Fee(5000, 200000), "", process.env.REACT_APP_CHAIN_ID);
+        response.then((result) => {
+            console.log("response finale", result);
+        }).catch((error) => {
+            console.log(error,'error');
+        });
+
+        // cosmosSignTxAndBroadcast(tx, address, (error, result) => {
+        //         if (error) {
+        //            console.log(error,'error')
+        //             return;
+        //         }
+        //
+        //
+        //         console.log(result && result.transactionHash, 'success')
+        //     });
           
     }
     const handleSubmit = async e => {
@@ -227,7 +219,7 @@ const CommonKeystore = (props) => {
                             </Button>
                         </div>
                         <div className="submitButtonSection">
-                            <button  variant="primary" className="button-double-border" onClick={() => handleKepler("kepler")}>{t("SIGN_IN_KEPLER")}
+                            <button type={"button"} variant="primary" className="button-double-border" onClick={() => handleKepler("kepler")}>{t("SIGN_IN_KEPLER")}
                             </button>
                         </div>
                     </Form>
