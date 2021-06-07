@@ -3,29 +3,29 @@ import ordersCancelJS from "persistencejs/transaction/orders/cancel";
 import {Form, Button, Modal} from "react-bootstrap";
 import GetID from "../../../utilities/Helpers/getID";
 import {useTranslation} from "react-i18next";
-import config from "../../../constants/config.json"
-import Loader from "../../../components/loader"
-import ModalCommon from "../../../components/modal"
-const ordersCancel = new ordersCancelJS(process.env.REACT_APP_ASSET_MANTLE_API)
+import config from "../../../constants/config.json";
+import Loader from "../../../components/loader";
+import ModalCommon from "../../../components/modal";
+const ordersCancel = new ordersCancelJS(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const CancelOrder = (props) => {
     const GetIDHelper = new GetID();
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
-    const [loader, setLoader] = useState(false)
+    const [loader, setLoader] = useState(false);
     const [response, setResponse] = useState({});
     const handleSubmit = (event) => {
-        setLoader(true)
+        setLoader(true);
         event.preventDefault();
         const userTypeToken = localStorage.getItem('mnemonic');
         const userAddress = localStorage.getItem('address');
         const cancelOrderResponse = ordersCancel.cancel(userAddress, "test", userTypeToken, props.order.value.id.value.makerID.value.idString, GetIDHelper.GetOrderID(props.order), config.feesAmount, config.feesToken, config.gas, config.mode);
         cancelOrderResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
-            setResponse(data)
+            setResponse(data);
             setShow(false);
-            setLoader(false)
-        })
+            setLoader(false);
+        });
     };
     const handleClose = () => {
         setShow(false);
@@ -34,26 +34,26 @@ const CancelOrder = (props) => {
     return (
         <div>
             <Modal show={show} onHide={handleClose}  centered>
-            <Modal.Header closeButton>
-                {t("ORDER_CANCEL")}
-            </Modal.Header>
-            <div>
-                {loader ?
-                    <Loader/>
-                    : ""
-                }
-            </div>
-            <Modal.Body>
-                <Form onSubmit={handleSubmit} className="burn-confirmation-buttons">
-                    <p>{t("ARE_YOU_SURE")}</p>
-                    <Button variant="primary" type="submit">
-                        {t("YES")}
-                    </Button>
-                    <Button variant="secondary" onClick={handleClose}>
-                        {t("NO")}
-                    </Button>
-                </Form>
-            </Modal.Body>
+                <Modal.Header closeButton>
+                    {t("ORDER_CANCEL")}
+                </Modal.Header>
+                <div>
+                    {loader ?
+                        <Loader/>
+                        : ""
+                    }
+                </div>
+                <Modal.Body>
+                    <Form onSubmit={handleSubmit} className="burn-confirmation-buttons">
+                        <p>{t("ARE_YOU_SURE")}</p>
+                        <Button variant="primary" type="submit">
+                            {t("YES")}
+                        </Button>
+                        <Button variant="secondary" onClick={handleClose}>
+                            {t("NO")}
+                        </Button>
+                    </Form>
+                </Modal.Body>
             </Modal>
             {!(Object.keys(response).length === 0) ?
                 <ModalCommon data={response} setExternal={handleClose}/>

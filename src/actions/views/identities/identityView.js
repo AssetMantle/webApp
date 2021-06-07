@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react";
-import assetsQueryJS from "persistencejs/transaction/assets/query";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
@@ -18,23 +17,23 @@ import Loader from "../../../components/loader";
 import {Define} from "../../forms";
 import identitiesDefineJS from "persistencejs/transaction/identity/define";
 
-const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
 const IdentityView = React.memo((props) => {
     const PropertyHelper = new GetProperty();
     const GetMetaHelper = new GetMeta();
     const GetIDHelper = new GetID();
     const {t} = useTranslation();
     let history = useHistory();
-    const [loader, setLoader] = useState(true)
+    const [loader, setLoader] = useState(true);
     const [externalComponent, setExternalComponent] = useState("");
     const [identityId, setIdentityId] = useState("");
     const [identity, setIdentity] = useState([]);
     const [filteredIdentitiesList, setFilteredIdentitiesList] = useState([]);
     useEffect(() => {
         if (props.location.state !== undefined) {
-            const identities = identitiesQuery.queryIdentityWithID(props.location.state.identityID)
+            const identities = identitiesQuery.queryIdentityWithID(props.location.state.identityID);
             if (identities) {
                 identities.then(function (item) {
                     const data = JSON.parse(item);
@@ -54,19 +53,19 @@ const IdentityView = React.memo((props) => {
                             let mutableKeys = Object.keys(mutableProperties);
                             GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList_search', index, "identityViewUrlId");
                             GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList_search', index, "identityMutableViewUrlId");
-                            setLoader(false)
-                        })
+                            setLoader(false);
+                        });
                     }
-                })
+                });
             }
         }
-    }, [])
+    }, []);
 
     const handleModalData = (formName, identityId, identity) => {
-        setExternalComponent(formName)
+        setExternalComponent(formName);
         setIdentity(identity);
-        setIdentityId(identityId)
-    }
+        setIdentityId(identityId);
+    };
 
     return (
         <div className="content-section">
@@ -77,7 +76,7 @@ const IdentityView = React.memo((props) => {
             <Sidebar/>
             <div className="accountInfo">
                 <div className="row">
-                   
+
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
 
@@ -104,7 +103,7 @@ const IdentityView = React.memo((props) => {
                                 let mutableProperties = "";
                                 let provisionedAddressList = "";
                                 let unProvisionedAddressList = "";
-                                const identityId = GetIDHelper.GetIdentityID(identity)
+                                const identityId = GetIDHelper.GetIdentityID(identity);
                                 if (identity.value.immutables.value.properties.value.propertyList !== null) {
                                     immutableProperties = PropertyHelper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
                                 }
@@ -131,13 +130,13 @@ const IdentityView = React.memo((props) => {
                                                                 if (keyName === config.URI) {
                                                                     return (
                                                                         <div className="dummy-image image-sectiont"
-                                                                             key={index1}>
+                                                                            key={index1}>
                                                                             <div
                                                                                 id={`identityViewUrlId` + index + `${index1}`}>
 
                                                                             </div>
                                                                         </div>
-                                                                    )
+                                                                    );
 
                                                                 }
                                                             }
@@ -150,13 +149,13 @@ const IdentityView = React.memo((props) => {
                                                                 if (keyName === config.URI) {
                                                                     return (
                                                                         <div className="dummy-image image-sectiont"
-                                                                             key={index1}>
+                                                                            key={index1}>
                                                                             <div
                                                                                 id={`identityMutableViewUrlId` + index + `${index1}`}>
 
                                                                             </div>
                                                                         </div>
-                                                                    )
+                                                                    );
 
                                                                 }
                                                             }
@@ -165,9 +164,9 @@ const IdentityView = React.memo((props) => {
                                                     }
                                                     <div className="property-actions">
                                                         <Button variant="primary" size="sm"
-                                                                onClick={() => handleModalData("Provision", identityId)}>{t("PROVISION")}</Button>
+                                                            onClick={() => handleModalData("Provision", identityId)}>{t("PROVISION")}</Button>
                                                         <Button variant="primary" size="sm"
-                                                                onClick={() => handleModalData("UnProvision", identityId, identity)}>{t("UN_PROVISION")}</Button>
+                                                            onClick={() => handleModalData("UnProvision", identityId, identity)}>{t("UN_PROVISION")}</Button>
                                                     </div>
 
                                                 </div>
@@ -180,7 +179,7 @@ const IdentityView = React.memo((props) => {
                                                                 <div className="list-item-value id-section">
                                                                     <div className="flex">
                                                                         <p className="id-string"
-                                                                           title={identityId}> {identityId}</p>
+                                                                            title={identityId}> {identityId}</p>
                                                                     </div>
                                                                 </div>
                                                                 <Copy
@@ -197,20 +196,20 @@ const IdentityView = React.memo((props) => {
                                                                     if (immutableProperties[keyName] !== "" && keyName !== 'style' && keyName !== config.URI) {
                                                                         return (
                                                                             <div key={index + keyName}
-                                                                                 className="list-item"><p
-                                                                                className="list-item-label">{keyName} </p>
+                                                                                className="list-item"><p
+                                                                                    className="list-item-label">{keyName} </p>
                                                                                 <p
                                                                                     id={`immutable_identityList_search` + index + index1}
                                                                                     className="list-item-value"></p>
-                                                                            </div>)
+                                                                            </div>);
                                                                     } else if(keyName !== 'style' && keyName !== config.URI){
                                                                         return (
                                                                             <div key={index + keyName}
-                                                                                 className="list-item"><p
-                                                                                className="list-item-label">{keyName} </p>
+                                                                                className="list-item"><p
+                                                                                    className="list-item-label">{keyName} </p>
                                                                                 <p
                                                                                     className="list-item-hash-value">{immutableProperties[keyName]}</p>
-                                                                            </div>)
+                                                                            </div>);
                                                                     }
                                                                 })
                                                                 : ""
@@ -223,19 +222,19 @@ const IdentityView = React.memo((props) => {
                                                                     if (mutableProperties[keyName] !== "" && keyName !== config.URI) {
                                                                         return (
                                                                             <div key={index + keyName}
-                                                                                 className="list-item"><p
-                                                                                className="list-item-label">{keyName} </p>
+                                                                                className="list-item"><p
+                                                                                    className="list-item-label">{keyName} </p>
                                                                                 <p
                                                                                     id={`mutable_identityList_search` + index + index1}
                                                                                     className="list-item-value"></p>
-                                                                            </div>)
+                                                                            </div>);
                                                                     } else if(keyName !== config.URI){
                                                                         return (
                                                                             <div key={index + keyName}
-                                                                                 className="list-item">
+                                                                                className="list-item">
                                                                                 <p>{keyName} </p> <p
-                                                                                className="list-item-hash-value">{mutableProperties[keyName]}</p>
-                                                                            </div>)
+                                                                                    className="list-item-hash-value">{mutableProperties[keyName]}</p>
+                                                                            </div>);
                                                                     }
                                                                 })
                                                                 : ""
@@ -245,7 +244,7 @@ const IdentityView = React.memo((props) => {
                                                     <p className="sub-title">provisionedAddressList</p>
                                                     {provisionedAddressList !== null && provisionedAddressList !== "" ?
                                                         provisionedAddressList.map((provisionedAddress, addressKey) => {
-                                                            return (<p key={addressKey}>{provisionedAddress}</p>)
+                                                            return (<p key={addressKey}>{provisionedAddress}</p>);
                                                         })
                                                         : <p>Empty</p>
                                                     }
@@ -253,7 +252,7 @@ const IdentityView = React.memo((props) => {
                                                     {unProvisionedAddressList !== null && unProvisionedAddressList !== "" ?
                                                         unProvisionedAddressList.map((unprovisionedAddress, unprovisionedAddressKey) => {
                                                             return (
-                                                                <p key={unprovisionedAddressKey}>{unprovisionedAddress}</p>)
+                                                                <p key={unprovisionedAddressKey}>{unprovisionedAddress}</p>);
                                                         })
                                                         : <p>Empty</p>
                                                     }
@@ -264,7 +263,7 @@ const IdentityView = React.memo((props) => {
                                         </div>
                                     </div>
 
-                                )
+                                );
 
                             })
                             : ""
@@ -282,7 +281,7 @@ const IdentityView = React.memo((props) => {
                     }
                     {externalComponent === 'UnProvision' ?
                         <UnProvision setExternalComponent={setExternalComponent} identityId={identityId}
-                                     identityIdList={identity}/> :
+                            identityIdList={identity}/> :
                         null
                     }
                     {externalComponent === 'Nub' ?
@@ -291,7 +290,7 @@ const IdentityView = React.memo((props) => {
                     }
                     {externalComponent === 'DefineIdentity' ?
                         <Define setExternalComponent={setExternalComponent} ActionName={identitiesDefine}
-                                FormName={'Define Identity'}/> :
+                            FormName={'Define Identity'}/> :
                         null
                     }
                     {externalComponent === 'IssueIdentity' ?
@@ -304,6 +303,6 @@ const IdentityView = React.memo((props) => {
         </div>
 
     );
-})
-
+});
+IdentityView.displayName = 'IdentityView';
 export default IdentityView;

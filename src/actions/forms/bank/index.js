@@ -1,4 +1,4 @@
-import SendCoin from "./SendCoin"
+import SendCoin from "./SendCoin";
 
 export {SendCoin};
 

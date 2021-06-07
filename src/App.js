@@ -1,105 +1,104 @@
-import React, {useState, useEffect} from "react";
-import {Route, Switch, withRouter} from "react-router-dom";
-import {Login} from "./actions";
-import AddressLogin from "./actions/AddressLogin";
-import {SignUp} from "./actions/forms";
-import {HomePage, RouteNotFound,  Profile} from "./components";
-import HeaderAfterLogin from "./components/Headers/HeaderAfterLogin";
-import HeaderBeforeLogin from "./components/Headers/HeaderBeforeLogin";
-import offline from "./assets/images/offline.svg";
-import {Maintainers, Identities, Assets, Orders, MarketPlace, AssetView, IdentityView, OrderView, AllIdentityList} from "./actions/views"
-import Footer from "./components/Footer"
-import {useTranslation} from "react-i18next";
-import './assets/css/styles.css'
-import './assets/css/mediaqueries.css'
-import {SearchAsset, SearchIdentity, SearchOrder, SearchMaintainer} from "./components/search";
+import React, { useState, useEffect } from 'react';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import { Login } from './actions';
+import AddressLogin from './actions/AddressLogin';
+import { SignUp } from './actions/forms';
+import { HomePage, RouteNotFound } from './components';
+import HeaderAfterLogin from './components/Headers/HeaderAfterLogin';
+import HeaderBeforeLogin from './components/Headers/HeaderBeforeLogin';
+import offline from './assets/images/offline.svg';
+import { Maintainers, Identities, Assets, Orders, MarketPlace, AssetView, IdentityView, OrderView, AllIdentityList } from './actions/views';
+import Footer from './components/Footer';
+import { useTranslation } from 'react-i18next';
+import './assets/css/styles.css';
+import './assets/css/mediaqueries.css';
+import { SearchAsset, SearchIdentity, SearchOrder, SearchMaintainer } from './components/search';
 
 const App = () => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const userTypeToken = localStorage.getItem('identityId');
     const routes = [{
         path: '/',
-        component: HomePage,
+        component: HomePage
     }, {
         path: '/Login',
-        component: Login,
+        component: Login
     }, {
         path: '/addressLogin',
-        component: AddressLogin,
-    },{
+        component: AddressLogin
+    }, {
         path: '/SignUp',
-        component: SignUp,
-    },  {
+        component: SignUp
+    }, {
         path: '/assets',
-        component: Assets,
+        component: Assets
     }, {
         path: '/orders',
-        component: Orders,
+        component: Orders
     }, {
-        path: '/profile',
-        component: Identities,
+        path: '/identities',
+        component: Identities
     }, {
         path: '/allidentities',
-        component: AllIdentityList,
-    },{
+        component: AllIdentityList
+    }, {
         path: '/maintainers',
-        component: Maintainers,
+        component: Maintainers
     }, {
         path: '/marketplace',
-        component: MarketPlace,
+        component: MarketPlace
     }, {
         path: '/SearchAsset',
-        component: SearchAsset,
+        component: SearchAsset
     }, {
         path: '/SearchIdentity',
-        component: SearchIdentity,
+        component: SearchIdentity
     }, {
         path: '/SearchOrder',
-        component: SearchOrder,
+        component: SearchOrder
     }, {
         path: '/SearchMaintainer',
-        component: SearchMaintainer,
+        component: SearchMaintainer
     }, {
         path: '/AssetView',
-        component: AssetView,
+        component: AssetView
     }, {
         path: '/IdentityView',
-        component: IdentityView,
+        component: IdentityView
     }, {
         path: '/OrderView',
-        component: OrderView,
-    } ];
+        component: OrderView
+    }];
 
     const [isOnline, setNetwork] = useState(window.navigator.onLine);
     const updateNetwork = () => {
         setNetwork(window.navigator.onLine);
     };
     useEffect(() => {
-        window.addEventListener("offline", updateNetwork);
-        window.addEventListener("online", updateNetwork);
+        window.addEventListener('offline', updateNetwork);
+        window.addEventListener('online', updateNetwork);
         return () => {
-            window.removeEventListener("offline", updateNetwork);
-            window.removeEventListener("online", updateNetwork);
+            window.removeEventListener('offline', updateNetwork);
+            window.removeEventListener('online', updateNetwork);
         };
     });
     return (
         <div className="app">
             {
-                !isOnline ?
-                    <div className="network-check">
+                !isOnline
+                    ? <div className="network-check">
                         <div className="center">
                             <img src={offline} alt="offline"/>
-                            <p>{t("NETWORK_ERROR")}</p>
+                            <p>{t('NETWORK_ERROR')}</p>
                         </div>
                     </div>
-                    : ""
+                    : ''
             }
             <div className="app-nav">
                 {
-                    userTypeToken == null ?
-                        <HeaderBeforeLogin/>
-                        :
-                        <HeaderAfterLogin/>
+                    userTypeToken == null
+                        ? <HeaderBeforeLogin/>
+                        : <HeaderAfterLogin/>
                 }
             </div>
 
@@ -110,20 +109,19 @@ const App = () => {
                             key={route.path}
                             exact
                             component={route.component}
-                            path={route.path}/>,
+                            path={route.path}/>
                     )
                 }
 
                 <Route component={RouteNotFound}/>
             </Switch>
             {
-                userTypeToken === null || window.location.pathname === "/" ?
-                    <Footer/>
-                    :
-                    ""
+                userTypeToken === null || window.location.pathname === '/'
+                    ? <Footer/>
+                    : ''
             }
         </div>
     );
-}
+};
 
 export default withRouter(App);

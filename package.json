@@ -34,8 +34,11 @@
     "request": "^2.88.2",
     "styled-components": "^5.2.1"
   },
-  "devDependencies": {
-    "typescript": "3.3.3"
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "scripts": {
     "start": "react-scripts start",
@@ -48,5 +51,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "eslint": "^7.28.0",
+    "eslint-plugin-react": "^7.24.0"
+  }
 }

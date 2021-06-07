@@ -2,21 +2,18 @@ import React, { useState, useEffect } from "react";
 import identitiesQueryJS from "persistencejs/transaction/identity/query";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import { useTranslation } from "react-i18next";
-import Loader from "../../../components/loader"
-import config from "../../../constants/config.json"
+import Loader from "../../../components/loader";
+import config from "../../../constants/config.json";
 import GetProperty from "../../../utilities/Helpers/getProperty";
 import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetID from "../../../utilities/Helpers/getID";
 import { useHistory } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
-import { Dropdown } from "react-bootstrap";
-import Sidebar from "../../../components/sidebar/sidebar";
-import IdentityList from "./identityList"
 import { Summary } from "../../../components/summary";
 
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const AllIdentityList = React.memo((props) => {
 
@@ -26,17 +23,17 @@ const AllIdentityList = React.memo((props) => {
     const GetIDHelper = new GetID();
     const { t } = useTranslation();
     let history = useHistory();
-    const [loader, setLoader] = useState(true)
+    const [loader, setLoader] = useState(true);
     const [filteredIdentitiesList, setFilteredIdentitiesList] = useState([]);
     const userAddress = props.location.address;
-    let lastFromIDValue = localStorage.getItem('lastFromID')
-    console.log(userAddress, 'userAddress')
+    let lastFromIDValue = localStorage.getItem('lastFromID');
+    console.log(userAddress, 'userAddress');
     if (lastFromIDValue !== null && document.getElementById(lastFromIDValue) !== null) {
-        document.getElementById(lastFromIDValue).checked = true
+        document.getElementById(lastFromIDValue).checked = true;
     }
     useEffect(() => {
         const fetchToIdentities = () => {
-            const identities = identitiesQuery.queryIdentityWithID("all")
+            const identities = identitiesQuery.queryIdentityWithID("all");
             if (identities) {
                 identities.then(function (item) {
                     const data = JSON.parse(item);
@@ -59,19 +56,19 @@ const AllIdentityList = React.memo((props) => {
                                 let mutableKeys = Object.keys(mutableProperties);
                                 GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList', index, 'identityUrlId');
                                 GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index, "identityMutableUrlId");
-                                setLoader(false)
-                            })
+                                setLoader(false);
+                            });
                         } else {
-                            setLoader(false)
+                            setLoader(false);
                         }
                     } else {
-                        setLoader(false)
+                        setLoader(false);
                     }
-                })
+                });
             } else {
-                setLoader(false)
+                setLoader(false);
             }
-        }
+        };
         fetchToIdentities();
     }, []);
 
@@ -87,27 +84,26 @@ const AllIdentityList = React.memo((props) => {
             }
             );
         }
-    }
+    };
 
     const handleFromID = (evt, id, elementID) => {
-        let fromIDValue = localStorage.getItem('fromID');
-        let lastFromIDValue = localStorage.getItem('lastFromID')
+        let lastFromIDValue = localStorage.getItem('lastFromID');
         if (lastFromIDValue !== 'null' && lastFromIDValue !== null) {
             if (document.getElementById(lastFromIDValue).checked === true) {
-                document.getElementById(lastFromIDValue).checked = false
-                document.getElementById(elementID).checked = true
+                document.getElementById(lastFromIDValue).checked = false;
+                document.getElementById(elementID).checked = true;
             }
         }
-        localStorage.setItem("fromID", id)
-        localStorage.setItem("lastFromID", elementID)
-    }
+        localStorage.setItem("fromID", id);
+        localStorage.setItem("lastFromID", elementID);
+    };
 
     return (
         <div className="content-section">
             <div className="accountInfo">
                 <div className="row">
                     <div className="col-md-9 card-deck">
-                        
+
                         <div className="list-container">
                             {loader ?
                                 <Loader />
@@ -118,7 +114,7 @@ const AllIdentityList = React.memo((props) => {
                                     filteredIdentitiesList.map((identity, index) => {
                                         let immutableProperties = "";
                                         let mutableProperties = "";
-                                        const identityId = GetIDHelper.GetIdentityID(identity)
+                                        const identityId = GetIDHelper.GetIdentityID(identity);
                                         if (identity.value.immutables.value.properties.value.propertyList !== null) {
                                             immutableProperties = PropertyHelper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
                                         }
@@ -158,21 +154,21 @@ const AllIdentityList = React.memo((props) => {
                                                                     } else if (keyName === "style") {
                                                                         return (<div key={index + keyName} className="list-item"><p
                                                                             className="list-item-label"></p> <p
-                                                                                id={`immutable_identityList` + index + `${index1}`}
-                                                                                className="list-item-value"></p></div>)
+                                                                            id={`immutable_identityList` + index + `${index1}`}
+                                                                            className="list-item-value"></p></div>);
                                                                     }
                                                                     else if (keyName === "identifier") {
                                                                         return (<div key={index + keyName} className="list-item"><p
                                                                             className="list-item-label">{keyName}: </p> <p
-                                                                                id={`immutable_identityList` + index + `${index1}`}
-                                                                                className="list-item-value"></p></div>)
+                                                                            id={`immutable_identityList` + index + `${index1}`}
+                                                                            className="list-item-value"></p></div>);
                                                                     }
                                                                 } else {
                                                                     return (
                                                                         <div key={index + keyName} className="list-item"><p
                                                                             className="list-item-label">{keyName}: </p> <p
-                                                                                className="list-item-hash-value">{immutableProperties[keyName]}</p>
-                                                                        </div>)
+                                                                            className="list-item-hash-value">{immutableProperties[keyName]}</p>
+                                                                        </div>);
                                                                 }
                                                             })
                                                             : ""
@@ -181,11 +177,11 @@ const AllIdentityList = React.memo((props) => {
                                                             mutableKeys.map((keyName, index1) => {
                                                                 if (mutableProperties[keyName] !== "") {
                                                                     if (keyName === config.URI) {
-                                                                        let imageElement = document.getElementById("identityImage" + identityId + index)
+                                                                        let imageElement = document.getElementById("identityImage" + identityId + index);
                                                                         if (typeof (imageElement) != 'undefined' && imageElement != null) {
                                                                             let divd = document.createElement('div');
-                                                                            divd.id = `identityMutableUrlId` + index + `${index1}`
-                                                                            divd.className = "assetImage"
+                                                                            divd.id = `identityMutableUrlId` + index + `${index1}`;
+                                                                            divd.className = "assetImage";
                                                                             document.getElementById("identityImagUri" + identityId + index).replaceChild(divd, imageElement);
                                                                         }
                                                                     }
@@ -198,7 +194,7 @@ const AllIdentityList = React.memo((props) => {
                                                                 name="checkboxURIee"
                                                                 id={"checkboxFromID" + index}
                                                                 onChange={(evt) => {
-                                                                    handleFromID(evt, identityId, "checkboxFromID" + index)
+                                                                    handleFromID(evt, identityId, "checkboxFromID" + index);
                                                                 }}
                                                             />
                                                         </Form.Group>
@@ -208,7 +204,7 @@ const AllIdentityList = React.memo((props) => {
                                                     </div>
                                                 </div>
                                             </div>
-                                        )
+                                        );
                                     })
                                     : <p className="empty-list">{t("IDENTITIES_NOT_FOUND")}</p>}
                             </div>
@@ -223,6 +219,6 @@ const AllIdentityList = React.memo((props) => {
 
         </div>
     );
-})
-
-export default AllIdentityList
+});
+AllIdentityList.displayName = 'AllIdentityList';
+export default AllIdentityList;

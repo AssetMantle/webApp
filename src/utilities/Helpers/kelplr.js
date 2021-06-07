@@ -1,5 +1,4 @@
 import config from "../../config.json";
-import {SigningCosmosClient} from '@cosmjs/launchpad';
 const restAPI = process.env.REACT_APP_API;
 const tendermintRPC = process.env.REACT_APP_TENDERMINT_RPC_ENDPOINT;
 const chainID = process.env.REACT_APP_CHAIN_ID;

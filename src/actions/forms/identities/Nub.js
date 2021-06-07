@@ -1,39 +1,32 @@
 import React, {useState, useEffect} from "react";
-import identitiesNubJS from "persistencejs/transaction/identity/nub";
 import {Form, Button, Modal} from "react-bootstrap";
-import InputField from "../../../components/inputField"
+import InputField from "../../../components/inputField";
 import {useTranslation} from "react-i18next";
-import config from "../../../constants/config.json"
-import Loader from "../../../components/loader"
-import ModalCommon from "../../../components/modal"
+import Loader from "../../../components/loader";
 import CommonKeystore from '../../../actions/forms/login/CommonKeystore';
-const identitiesNub = new identitiesNubJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Nub = (props) => {
-    const [response, setResponse] = useState({});
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const [externalComponent, setExternalComponent] = useState("");
     const [testIdentityId, settestIdentityId] = useState("");
-    const [loader, setLoader] = useState(false)
+    const [loader, setLoader] = useState(false);
     const [showIdentity, setShowIdentity] = useState(true);
     const {t} = useTranslation();
     useEffect(()=>{
-        let testIdentityId = localStorage.getItem("identityId")
+        let testIdentityId = localStorage.getItem("identityId");
         settestIdentityId(testIdentityId);
-       
-    },[])
+
+    },[]);
     const handleSubmit = (event) => {
         event.preventDefault();
-        setLoader(true)
+        setLoader(true);
         const nubId = event.target.nubID.value;
-        const userTypeToken = localStorage.getItem('mnemonic');
-        const userAddress = localStorage.getItem('address');
         let totalData = {
             nubId:nubId,
-           
-        }
+
+        };
         setTotalDefineObject(totalData);
-        setExternalComponent('Keystore')
+        setExternalComponent('Keystore');
         setShowIdentity(false);
         setLoader(false);
         // const nubResponse = identitiesNub.nub(userAddress, "test", userTypeToken, nubId, config.feesAmount, config.feesToken, config.gas, config.mode);
@@ -89,11 +82,7 @@ const Nub = (props) => {
                     </Form>
                 </Modal.Body>
             </Modal>
-            {!(Object.keys(response).length === 0) ?
-                <ModalCommon data={response} setExternal={handleClose}/>
-                : ""
-            }
-             <div>
+            <div>
                 {
                     externalComponent === 'Keystore' ?
                         <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'nubid'}/> :

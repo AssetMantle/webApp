@@ -1,4 +1,3 @@
-import React from "react";
 
 export default class GetID {
     GetClassificationID(data) {
@@ -7,12 +6,12 @@ export default class GetID {
 
     GetIdentityID(identity) {
         return identity.value.id.value.classificationID.value.idString + "|" +
-            identity.value.id.value.hashID.value.idString
+            identity.value.id.value.hashID.value.idString;
     }
 
     GetAssetID(asset) {
         return asset.value.id.value.classificationID.value.idString + "|" +
-            asset.value.id.value.hashID.value.idString
+            asset.value.id.value.hashID.value.idString;
     }
 
     GetMakerOwnableID(data) {
@@ -36,15 +35,15 @@ export default class GetID {
             order.value.id.value.makerOwnableID.value.idString + "*" +
             order.value.id.value.takerOwnableID.value.idString + "*" +
             order.value.id.value.makerID.value.idString + "*" +
-            order.value.id.value.hashID.value.idString
+            order.value.id.value.hashID.value.idString;
     }
 
     GetIdentityIDs(identities) {
         let idList = [];
-        let $this = this
+        let $this = this;
         identities.forEach(function (identity) {
             idList.push($this.GetIdentityID(identity));
-        })
+        });
         return idList;
     }
 
@@ -54,10 +53,10 @@ export default class GetID {
 
     GetIdentityOwnableIds(identities) {
         let ownableIdList = [];
-        let $this = this
+        let $this = this;
         identities.forEach(function (identity) {
             ownableIdList.push($this.GetIdentityOwnableId(identity));
-        })
+        });
         return ownableIdList;
     }
 }

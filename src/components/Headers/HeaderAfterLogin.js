@@ -5,22 +5,22 @@ import {Navbar, Nav, NavDropdown, Button} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import {Search} from "../../components/search";
 import {NavLink} from 'react-router-dom';
-import logo from '../../assets/images/logo.svg'
-import profileIcon from "../../assets/images/profile.svg"
+import logo from '../../assets/images/logo.svg';
+import profileIcon from "../../assets/images/profile.svg";
 const HeaderAfterLogin = () => {
     const history = useHistory();
     const {t} = useTranslation();
     const userTypeToken = localStorage.getItem('identityId');
     const userAddress = localStorage.getItem('address');
-    console.log(userAddress,'userAddress')
+    console.log(userAddress,'userAddress', userTypeToken);
     const handleRoute = route => () => {
-        history.push(route)
+        history.push(route);
     };
     const handleModelRoute = (route) => {
         history.push(`/${route}`);
     };
 
-    const logout = route => () => {
+    const logout  = () => {
         localStorage.removeItem('mnemonic');
         localStorage.removeItem('address');
         localStorage.removeItem('encryptedMnemonic');
@@ -28,17 +28,16 @@ const HeaderAfterLogin = () => {
         localStorage.removeItem('lastFromID');
         localStorage.removeItem('identityId');
         history.push('/');
-    }
+    };
 
     useEffect(() => {
-        const userAddress = localStorage.getItem('address');
         if(userTypeToken !== null  && window.location.pathname === "/"){
-            history.push('/profile');
+            history.push('/identities');
         }
         if (userTypeToken === null) {
             history.push('/Login');
         }
-    }, [])
+    }, []);
     return (
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="login-after">
@@ -50,7 +49,7 @@ const HeaderAfterLogin = () => {
                     <Nav className="search-section mr-auto">
                         {window.location.pathname !== "/SearchAsset" && window.location.pathname !== "/SearchIdentity" && window.location.pathname !== "/SearchOrder" & window.location.pathname !== "/SearchMaintainer" ?
                             <Search/>
-                        :""
+                            :""
                         }
 
                     </Nav>
@@ -61,7 +60,7 @@ const HeaderAfterLogin = () => {
                                 <Nav.Link onClick={() => handleModelRoute("SignUp")}>{t("SIGNUP")}</Nav.Link>
                                 <div className="button-login-section">
                                     <Button variant="primary" className="button-double-border"
-                                            onClick={handleRoute("/Login")}>{t("LOGIN")}</Button>
+                                        onClick={handleRoute("/Login")}>{t("LOGIN")}</Button>
                                 </div>
 
                             </Nav>
@@ -78,20 +77,20 @@ const HeaderAfterLogin = () => {
                                 </li>
                                 <li className="nav-item dropdown profile">
                                     <div className="nav-link dropdown-toggle"
-                                             id="profile-nav-dropdown"
-                                             role="button" data-toggle="dropdown" aria-haspopup="true"
-                                             aria-expanded="false">
+                                        id="profile-nav-dropdown"
+                                        role="button" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
                                         <div className="profile-icon">
                                             <p className="address">{userTypeToken}</p>
                                             <img className="thumbnail-image"
-                                                 src={profileIcon}
-                                                 alt="user pic"
+                                                src={profileIcon}
+                                                alt="user pic"
                                             />
 
                                         </div>
                                     </div>
                                     <div className="dropdown-menu profile-menu"
-                                         aria-labelledby="profile-nav-dropdown">
+                                        aria-labelledby="profile-nav-dropdown">
                                         {/* <NavLink className="dropdown-item" to="/identities">{t("IDENTITIES")}</NavLink> */}
                                         <NavLink className="dropdown-item" to="/maintainers">{t("MAINTAINERS")}</NavLink>
                                         <NavLink className="dropdown-item" to="/profile">{t("PROFILE")}</NavLink>
@@ -105,8 +104,8 @@ const HeaderAfterLogin = () => {
                 </Navbar.Collapse>
             </Navbar>
         </>
-    )
-}
+    );
+};
 
 
 export default withRouter(HeaderAfterLogin);

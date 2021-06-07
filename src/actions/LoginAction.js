@@ -1,12 +1,10 @@
 import React, {useState} from "react";
-import {Modal, Button} from "react-bootstrap";
+import {Modal} from "react-bootstrap";
 import {LoginMnemonic, PrivateKey, Ledger} from "./forms/login";
 import IdentityLogin from './forms/login/IdentityLogin';
 import {useTranslation} from "react-i18next";
 import {useHistory} from "react-router-dom";
-import MnemonicIcon from "../assets/images/MnemonicIcon.svg"
-import PrivatekeyIcon from "../assets/images/PrivatekeyIcon.svg"
-import LedgerIcon from "../assets/images/LedgerIcon.svg"
+import MnemonicIcon from "../assets/images/MnemonicIcon.svg";
 import Icon from "../icons";
 
 const Login = () => {
@@ -15,14 +13,14 @@ const Login = () => {
     const [show, setShow] = useState(true);
     const [externalComponent, setExternalComponent] = useState("");
     const handleClose = () => {
-        setShow(false)
+        setShow(false);
         history.push('/');
     };
     const handleRoute = (route) => {
         setShow(false);
-        setExternalComponent(route)
+        setExternalComponent(route);
     };
-    
+
     return (
         <div className="accountInfo">
             <Modal show={show} onHide={handleClose} className="signup-section login-section" centered>
@@ -30,9 +28,9 @@ const Login = () => {
                     {t("LOGIN_FORM")}
                 </Modal.Header>
                 <Modal.Body>
-                <div className="mrt-10">
+                    <div className="mrt-10">
                         <div className="button-view"
-                             onClick={() => handleRoute("IdentityLogin")}
+                            onClick={() => handleRoute("IdentityLogin")}
                         >
                             <div className="icon-section">
                                 <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/></div>
@@ -42,7 +40,7 @@ const Login = () => {
                     </div>
                     <div className="mrt-10">
                         <div className="button-view"
-                             onClick={() => handleRoute("LoginMnemonic")}
+                            onClick={() => handleRoute("LoginMnemonic")}
                         >
                             <div className="icon-section">
                                 <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/></div>
@@ -50,29 +48,29 @@ const Login = () => {
                             <Icon viewClass="arrow-icon" icon="arrow"/>
                         </div>
                     </div>
-                    <div className="mrt-10">
-                        <div className="button-view"
-                             onClick={() => handleRoute("PrivateKey")}
-                        >
-                            <div className="icon-section">
-                                <div className="icon"><img src={PrivatekeyIcon} alt="PrivatekeyIcon"/></div>
-                                {t("LOGIN_PRIVATE_KEY")}
-                            </div>
-                            <Icon viewClass="arrow-icon" icon="arrow"/>
-                        </div>
-                    </div>
-                    <div className="mrt-10">
-                        <div className="button-view disabled"
-                            // onClick={() => handleRoute("Ledger")}
-                             title="To be implemented"
-                        >
-                            <div className="icon-section">
-                                <div className="icon"><img src={LedgerIcon} alt="LedgerIcon"/></div>
-                                {t("LEDGER_LOGIN")}
-                            </div>
-                            <Icon viewClass="arrow-icon" icon="arrow"/>
-                        </div>
-                    </div>
+                    {/*<div className="mrt-10">*/}
+                    {/*    <div className="button-view"*/}
+                    {/*        onClick={() => handleRoute("PrivateKey")}*/}
+                    {/*    >*/}
+                    {/*        <div className="icon-section">*/}
+                    {/*            <div className="icon"><img src={PrivatekeyIcon} alt="PrivatekeyIcon"/></div>*/}
+                    {/*            {t("LOGIN_PRIVATE_KEY")}*/}
+                    {/*        </div>*/}
+                    {/*        <Icon viewClass="arrow-icon" icon="arrow"/>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
+                    {/*<div className="mrt-10">*/}
+                    {/*    <div className="button-view disabled"*/}
+                    {/*        // onClick={() => handleRoute("Ledger")}*/}
+                    {/*        title="To be implemented"*/}
+                    {/*    >*/}
+                    {/*        <div className="icon-section">*/}
+                    {/*            <div className="icon"><img src={LedgerIcon} alt="LedgerIcon"/></div>*/}
+                    {/*            {t("LEDGER_LOGIN")}*/}
+                    {/*        </div>*/}
+                    {/*        <Icon viewClass="arrow-icon" icon="arrow"/>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                 </Modal.Body>
             </Modal>
 
@@ -101,5 +99,5 @@ const Login = () => {
             </div>
         </div>
     );
-}
-export default Login
+};
+export default Login;

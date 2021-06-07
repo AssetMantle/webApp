@@ -56,7 +56,7 @@ export const lightTheme = {
     subTitleBorderColor:'#E3E3E3',
     copyBackground:'#E6E6E6'
 
-}
+};
 
 export const darkTheme = {
     body: '#121212',
@@ -115,4 +115,4 @@ export const darkTheme = {
     copyIconColor:'rgba(255, 255, 255, 0.6)',
     subTitleBorderColor:'#3e3e3e61',
     copyBackground:'#999999'
-}
+};

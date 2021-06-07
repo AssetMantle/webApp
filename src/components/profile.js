@@ -16,15 +16,14 @@ const Profile = () => {
     useEffect(() => {
         axios.get(url)
             .then((response) => {
-                setAccountResponse(response.data.result.value)
+                setAccountResponse(response.data.result.value);
             }).catch((error) => {
-            console.log(error, "error section")
-        });
-    }, [])
+                console.log(error, "error section");
+            });
+    }, []);
 
     return (
         <div className="content-section">
-         
             <div className="accountInfo profile-section">
                 <div className="row">
                     <div className="col-md-9 card-deck p-0">

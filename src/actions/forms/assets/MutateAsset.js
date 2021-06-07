@@ -3,16 +3,16 @@ import {Form, Button, Modal} from "react-bootstrap";
 import metasQueryJS from "persistencejs/transaction/meta/query";
 import assetMutateJS from "persistencejs/transaction/assets/mutate";
 import {useTranslation} from "react-i18next";
-import Loader from "../../../components/loader"
-import ModalCommon from "../../../components/modal"
-import config from "../../../constants/config.json"
+import Loader from "../../../components/loader";
+import ModalCommon from "../../../components/modal";
+import config from "../../../constants/config.json";
 import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetID from "../../../utilities/Helpers/getID";
 import GetProperty from "../../../utilities/Helpers/getProperty";
 
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const assetMutate = new assetMutateJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const assetMutate = new assetMutateJS(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const MutateAsset = (props) => {
     const FilterHelper = new FilterHelpers();
@@ -22,7 +22,7 @@ const MutateAsset = (props) => {
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
-    const [loader, setLoader] = useState(false)
+    const [loader, setLoader] = useState(false);
     const [keyList, setKeyList] = useState([]);
     const [response, setResponse] = useState({});
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
@@ -31,7 +31,7 @@ const MutateAsset = (props) => {
     useEffect(() => {
         let fromIDValue = localStorage.getItem('fromID');
         setFromID(fromIDValue);
-        const mutateProperties = props.mutatePropertiesList
+        const mutateProperties = props.mutatePropertiesList;
         const mutableKeys = Object.keys(mutateProperties);
         setKeyList(mutableKeys);
         mutableKeys.map((keyName, idx) => {
@@ -45,8 +45,8 @@ const MutateAsset = (props) => {
                     }
                 });
             }
-        })
-    }, [])
+        });
+    }, []);
 
     const handleClose = () => {
         setShow(false);
@@ -54,7 +54,7 @@ const MutateAsset = (props) => {
     };
     const handleCheckMutableChange = evt => {
         const checkedValue = evt.target.checked;
-        const name = evt.target.getAttribute("name")
+        const name = evt.target.getAttribute("name");
         if (checkedValue) {
             const checkboxNames = evt.target.name;
             setCheckboxMutableNamesList((checkboxMutableNamesList) => [...checkboxMutableNamesList, checkboxNames]);
@@ -63,66 +63,66 @@ const MutateAsset = (props) => {
                 setCheckboxMutableNamesList(checkboxMutableNamesList.filter(item => item !== name));
             }
         }
-    }
+    };
     const handleSubmit = (event) => {
-        setLoader(true)
+        setLoader(true);
         event.preventDefault();
         const asset = props.asset;
         const FromId = event.target.FromId.value;
-        const assetId = GetIDHelper.GetAssetID(asset)
-        const assetList = asset.value.mutables.value.properties.value.propertyList
+        const assetId = GetIDHelper.GetAssetID(asset);
+        const assetList = asset.value.mutables.value.properties.value.propertyList;
         let assetDataTypeList = {};
         assetList.forEach(function (item) {
             assetDataTypeList[item.value.id.value.idString] = item.value.fact.value.type;
-        })
+        });
         if (checkboxMutableNamesList.length === 0) {
-            setErrorMessage(t("SELECT_MUTABLE_META"))
-            setLoader(false)
+            setErrorMessage(t("SELECT_MUTABLE_META"));
+            setLoader(false);
         } else if (keyList.length !== 0 && checkboxMutableNamesList.length !== 0 && keyList.length === checkboxMutableNamesList.length) {
-            setErrorMessage(t("SELECT_ALL_MUTABLE_ERROR"))
-            setLoader(false)
+            setErrorMessage(t("SELECT_ALL_MUTABLE_ERROR"));
+            setLoader(false);
         } else {
             let mutableValues = "";
             let mutableMetaValues = "";
             if (keyList !== null) {
                 keyList.map((key, index) => {
-                        let mutableFieldValue = document.getElementById(key + index).value
-                        const mutableType = assetDataTypeList[key];
-                        const inputName = (key + index);
-                        if (key !== config.URI) {
-                            const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, key, mutableType, mutableFieldValue)
-                            if (mutableMetaValuesResponse[0] !== "") {
-                                mutableValues = mutableMetaValuesResponse[0];
-                            }
-                            if (mutableMetaValuesResponse[1] !== "") {
-                                mutableMetaValues = mutableMetaValuesResponse[1];
-                            }
+                    let mutableFieldValue = document.getElementById(key + index).value;
+                    const mutableType = assetDataTypeList[key];
+                    const inputName = (key + index);
+                    if (key !== config.URI) {
+                        const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, key, mutableType, mutableFieldValue);
+                        if (mutableMetaValuesResponse[0] !== "") {
+                            mutableValues = mutableMetaValuesResponse[0];
                         }
-                        let uriFieldValue;
-                        let uriMutable;
-                        if (key === config.URI) {
-                            uriFieldValue = PropertyHelper.getUrlEncode(mutableFieldValue);
-                            uriMutable = `URI:S|${uriFieldValue}`
-                        }
-                        if (uriMutable) {
-                            if (mutableMetaValues) {
-                                mutableMetaValues = mutableMetaValues + ',' + uriMutable;
-                            } else {
-                                mutableMetaValues = uriMutable;
-                            }
+                        if (mutableMetaValuesResponse[1] !== "") {
+                            mutableMetaValues = mutableMetaValuesResponse[1];
                         }
                     }
-                )
+                    let uriFieldValue;
+                    let uriMutable;
+                    if (key === config.URI) {
+                        uriFieldValue = PropertyHelper.getUrlEncode(mutableFieldValue);
+                        uriMutable = `URI:S|${uriFieldValue}`;
+                    }
+                    if (uriMutable) {
+                        if (mutableMetaValues) {
+                            mutableMetaValues = mutableMetaValues + ',' + uriMutable;
+                        } else {
+                            mutableMetaValues = uriMutable;
+                        }
+                    }
+                }
+                );
             }
             const userTypeToken = localStorage.getItem('mnemonic');
             const userAddress = localStorage.getItem('address');
             const mutateResponse = assetMutate.mutate(userAddress, "test", userTypeToken, FromId, assetId, mutableValues, mutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode);
             mutateResponse.then(function (item) {
                 const data = JSON.parse(JSON.stringify(item));
-                setResponse(data)
+                setResponse(data);
                 setShow(false);
-                setLoader(false)
-            })
+                setLoader(false);
+            });
         }
     };
 
@@ -167,7 +167,7 @@ const MutateAsset = (props) => {
                                             />
                                         </Form.Group>
                                     </div>
-                                )
+                                );
                             }
                             return (
                                 <div key={idx}>
@@ -183,13 +183,13 @@ const MutateAsset = (props) => {
                                     </Form.Group>
                                     <Form.Group>
                                         <Form.Check custom type="checkbox" label="Meta"
-                                                    name={keyName + idx}
-                                                    id={`checkbox${keyName + idx}`}
-                                                    onClick={handleCheckMutableChange}
+                                            name={keyName + idx}
+                                            id={`checkbox${keyName + idx}`}
+                                            onClick={handleCheckMutableChange}
                                         />
                                     </Form.Group>
                                 </div>
-                            )
+                            );
                         })
                         }
                         {errorMessage !== "" ?

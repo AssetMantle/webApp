@@ -1,5 +1,3 @@
-import React from "react";
-
 let en = {
     translations: {
         "WelcomeTitle": "Welcome En",
@@ -124,7 +122,6 @@ let en = {
         "SPLIT_AMOUNT": "Split Amount",
         "SEND": "Send",
         "SEND_SPLITS": "Send",
-        "FAUCET": "Faucet",
         "MY_ACCOUNT": "My Account",
         "PROFILE": "Profile",
         "TOTAL_BALANCE": "Total Balance",

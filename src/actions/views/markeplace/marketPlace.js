@@ -2,7 +2,7 @@ import React from "react";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
 import {Summary} from "../../../components/summary";
-import TotalOrders from "./totalOrderList"
+import TotalOrders from "./totalOrderList";
 
 const MarketPlace = () => {
     const {t} = useTranslation();

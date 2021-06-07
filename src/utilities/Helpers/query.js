@@ -1,32 +1,31 @@
 import config from "../../constants/config.json";
-import keyUtils from "persistencejs/utilities/keys";
 const crypto = require("crypto");
 const passwordHashAlgorithm = "sha512";
 async function defineQuery(address, mnemonic, data, actionName) {
-    return await actionName.define(address, "test", mnemonic, data.fromID, data.mutablePropertyValue, data.immutablePropertyValue, data.mutableMetaPropertyValue, data.immutableMetaPropertyValue, config.feesAmount, config.feesToken, config.gas, config.mode)
-   
+    return await actionName.define(address, "test", mnemonic, data.fromID, data.mutablePropertyValue, data.immutablePropertyValue, data.mutableMetaPropertyValue, data.immutableMetaPropertyValue, config.feesAmount, config.feesToken, config.gas, config.mode);
+
 }
 async function mintAssetQuery(address, mnemonic, data, actionName) {
-    return await actionName.mint(address, "test", mnemonic, data.toID, data.FromId, data.classificationId, data.mutableValues, data.immutableValues, data.mutableMetaValues, data.immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode)
-   
+    return await actionName.mint(address, "test", mnemonic, data.toID, data.FromId, data.classificationId, data.mutableValues, data.immutableValues, data.mutableMetaValues, data.immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode);
+
 }
 async function wrapQuery(address, mnemonic, data, actionName) {
-    return await actionName.wrap(address, "test", mnemonic, data.FromId, data.CoinAmountDenom, config.feesAmount, config.feesToken, config.gas, config.mode)
-   
+    return await actionName.wrap(address, "test", mnemonic, data.FromId, data.CoinAmountDenom, config.feesAmount, config.feesToken, config.gas, config.mode);
+
 }
 async function unWrapQuery(address, mnemonic, data, actionName) {
-    return await actionName.unwrap(address, "test", mnemonic, data.FromId, data.OwnableId, data.Split, config.feesAmount, config.feesToken, config.gas, config.mode)
-   
+    return await actionName.unwrap(address, "test", mnemonic, data.FromId, data.OwnableId, data.Split, config.feesAmount, config.feesToken, config.gas, config.mode);
+
 }
 async function nubIdQuery(address, mnemonic, data, actionName) {
-    return await actionName.nub(address, "test", mnemonic, data.nubId, config.feesAmount, config.feesToken, config.gas, config.mode)
-   
+    return await actionName.nub(address, "test", mnemonic, data.nubId, config.feesAmount, config.feesToken, config.gas, config.mode);
+
 }
 async function issueIdentityQuery(address, mnemonic, data, actionName) {
-    return await actionName.issue(address, "test", mnemonic, data.toAddress, data.FromId, data.classificationId, data.mutableValues, data.immutableValues, data.mutableMetaValues, data.immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode)
-   
+    return await actionName.issue(address, "test", mnemonic, data.toAddress, data.FromId, data.classificationId, data.mutableValues, data.immutableValues, data.mutableMetaValues, data.immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode);
+
 }
- function PrivateKeyReader(file, password, loginAddress) {
+function PrivateKeyReader(file, password) {
     return new Promise(function (resolve, reject) {
         const fileReader = new FileReader();
         fileReader.readAsText(file, "UTF-8");
@@ -96,7 +95,7 @@ function decryptStore(fileData, password) {
     }
 }
 export default {
-    defineQuery, 
+    defineQuery,
     wrapQuery,
     unWrapQuery,
     nubIdQuery,
@@ -106,4 +105,4 @@ export default {
     createStore,
     decryptStore
 
-}
+};

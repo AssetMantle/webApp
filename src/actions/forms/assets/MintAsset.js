@@ -1,21 +1,17 @@
 import React, {useState, useEffect} from "react";
 import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
-import AssetMintJS from "persistencejs/transaction/assets/mint";
 import {Form, Button, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import CommonKeystore from '../../../actions/forms/login/CommonKeystore';
 import metasQueryJS from "persistencejs/transaction/meta/query";
-import config from "../../../constants/config.json"
+import config from "../../../constants/config.json";
 import Loader from "../../../components/loader";
-import ModalCommon from "../../../components/modal";
 import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetProperty from "../../../utilities/Helpers/getProperty";
-import base64url from "base64url";
 
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const assetMint = new AssetMintJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const MintAsset = (props) => {
     const PropertyHelper = new GetProperty();
@@ -28,8 +24,7 @@ const MintAsset = (props) => {
     const [uploadId, setUploadId] = useState("");
     const [uploadFile, setUploadFile] = useState(null);
     const [externalComponent, setExternalComponent] = useState("");
-    const [loader, setLoader] = useState(false)
-    const [response, setResponse] = useState({});
+    const [loader, setLoader] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [showNext, setShowNext] = useState(false);
     const [checkedD, setCheckedD] = useState({});
@@ -43,10 +38,10 @@ const MintAsset = (props) => {
     const [testIdentityId, settestIdentityId] = useState("");
     useEffect(() => {
         let fromIDValue = localStorage.getItem('fromID');
-        let testIdentityId = localStorage.getItem("identityId")
+        let testIdentityId = localStorage.getItem("identityId");
         setFromID(fromIDValue);
         settestIdentityId(testIdentityId);
-    }, [])
+    }, []);
 
     const handleCloseNext = () => {
         setShowNext(false);
@@ -61,7 +56,7 @@ const MintAsset = (props) => {
     };
     const handleCheckMutableChange = evt => {
         const checkedValue = evt.target.checked;
-        const name = evt.target.getAttribute("name")
+        const name = evt.target.getAttribute("name");
         if (checkedValue) {
             const checkboxNames = evt.target.name;
             setCheckboxMutableNamesList((checkboxMutableNamesList) => [...checkboxMutableNamesList, checkboxNames]);
@@ -70,13 +65,13 @@ const MintAsset = (props) => {
                 setCheckboxMutableNamesList(checkboxMutableNamesList.filter(item => item !== name));
             }
         }
-    }
+    };
 
     const handleCheckImmutableChange = evt => {
         const checkedValue = evt.target.checked;
         setCheckedD({...checkedD, [evt.target.name]: evt.target.checked});
 
-        const name = evt.target.getAttribute("name")
+        const name = evt.target.getAttribute("name");
         if (checkedValue) {
             const checkboxNames = evt.target.name;
             setCheckboxImmutableNamesList((checkboxImmutableNamesList) => [...checkboxImmutableNamesList, checkboxNames]);
@@ -86,26 +81,24 @@ const MintAsset = (props) => {
             }
         }
 
-    }
+    };
     const handleChangeMutable = (evt, idx) => {
         const newValue = evt.target.value;
         const checkError = PropertyHelper.mutableValidation(newValue);
         PropertyHelper.showHideDataTypeError(checkError, `mutableMint${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
-    }
+    };
     const handleChangeImmutable = (evt, idx) => {
         const newValue = evt.target.value;
         const checkError = PropertyHelper.mutableValidation(newValue);
         PropertyHelper.showHideDataTypeError(checkError, `ImmutableMint${idx}`);
         setInputValues({...inputValues, [evt.target.name]: newValue});
-    }
-    const userTypeToken = localStorage.getItem('mnemonic');
-    const userAddress = localStorage.getItem('address');
+    };
     const handleSubmit = (event) => {
         event.preventDefault();
         const ClassificationId = event.target.ClassificationId.value;
-        setClassificationId(ClassificationId)
-        const classificationResponse = classificationsQuery.queryClassificationWithID(ClassificationId)
+        setClassificationId(ClassificationId);
+        const classificationResponse = classificationsQuery.queryClassificationWithID(ClassificationId);
         classificationResponse.then(function (item) {
             const data = JSON.parse(JSON.parse(JSON.stringify(item)));
             if (data.result.value.classifications.value.list !== null) {
@@ -114,105 +107,104 @@ const MintAsset = (props) => {
                 GetMetaHelper.FetchInputFieldMeta(immutablePropertyList, metasQuery, "MintAsset");
                 GetMetaHelper.FetchMutableInputFieldMeta(mutablePropertyList, metasQuery, "MintAsset");
                 setMutableList(mutablePropertyList);
-                setImmutableList(immutablePropertyList)
+                setImmutableList(immutablePropertyList);
             }
-        })
+        });
 
-        setShowNext(true)
+        setShowNext(true);
         setShow(false);
     };
     const handleFormSubmit = (event) => {
-       
-        setLoader(true)
+
+        setLoader(true);
         event.preventDefault();
-            const FromId = event.target.FromId.value;
-            const toID = event.target.toID.value;
-            let mutableValues = "";
-            let immutableValues = "";
-            let mutableMetaValues = "";
-            let immutableMetaValues = "";
-            if (mutableList !== null) {
-                mutableList.map((mutable, index) => {
-                    const mutableType = mutable.value.fact.value.type;
-                    const mutableName = mutable.value.id.value.idString;
-                    const mutableHash = mutable.value.fact.value.hash;
-                    let mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`];
-                    const inputName = `${mutableName}|${mutableType}${index}`;
-                    if (mutableName !== config.URI) {
-                        const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue)
-                        if (mutableMetaValuesResponse[0] !== "") {
-                            mutableValues = mutableMetaValuesResponse[0];
-                        }
-                        if (mutableMetaValuesResponse[1] !== "") {
-                            mutableMetaValues = mutableMetaValuesResponse[1];
-                        }
+        const FromId = event.target.FromId.value;
+        const toID = event.target.toID.value;
+        let mutableValues = "";
+        let immutableValues = "";
+        let mutableMetaValues = "";
+        let immutableMetaValues = "";
+        if (mutableList !== null) {
+            mutableList.map((mutable, index) => {
+                const mutableType = mutable.value.fact.value.type;
+                const mutableName = mutable.value.id.value.idString;
+                let mutableFieldValue = inputValues[`${mutableName}|${mutableType}${index}`];
+                const inputName = `${mutableName}|${mutableType}${index}`;
+                if (mutableName !== config.URI) {
+                    const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue);
+                    if (mutableMetaValuesResponse[0] !== "") {
+                        mutableValues = mutableMetaValuesResponse[0];
                     }
-                    let uriFieldValue;
-                    let uriMutable;
-                    if (mutableName === config.URI) {
-                        let urimutableFieldValue = document.getElementById(`MintAssetMutable${mutableName}|${mutableType}${index}`).value;
-                            uriFieldValue = PropertyHelper.getUrlEncode(urimutableFieldValue);
-                            uriMutable = `URI:S|${uriFieldValue}`
+                    if (mutableMetaValuesResponse[1] !== "") {
+                        mutableMetaValues = mutableMetaValuesResponse[1];
                     }
-                    if (uriMutable) {
-                        if (mutableMetaValues) {
-                            mutableMetaValues = mutableMetaValues + ',' + uriMutable;
-                        } else {
-                            mutableMetaValues = uriMutable;
-                        }
+                }
+                let uriFieldValue;
+                let uriMutable;
+                if (mutableName === config.URI) {
+                    let urimutableFieldValue = document.getElementById(`MintAssetMutable${mutableName}|${mutableType}${index}`).value;
+                    uriFieldValue = PropertyHelper.getUrlEncode(urimutableFieldValue);
+                    uriMutable = `URI:S|${uriFieldValue}`;
+                }
+                if (uriMutable) {
+                    if (mutableMetaValues) {
+                        mutableMetaValues = mutableMetaValues + ',' + uriMutable;
+                    } else {
+                        mutableMetaValues = uriMutable;
                     }
-                })
-            }
-            if (immutableList !== null) {
-                immutableList.map((immutable, index) => {
-                    const immutableType = immutable.value.fact.value.type;
-                    const immutableName = immutable.value.id.value.idString;
-                    const immutableHash = immutable.value.fact.value.hash;
-                    const immutableInputName = `${immutableName}|${immutableType}${index}`
-                    let immutableFieldValue = document.getElementById(`MintAsset${immutableName}|${immutableType}${index}`).value;
-                    if (immutableName !== config.URI) {
-                        const ImmutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue)
-                        if (ImmutableMetaValuesResponse[0] !== "") {
-                            immutableValues = ImmutableMetaValuesResponse[0];
-                        }
-                        if (ImmutableMetaValuesResponse[1] !== "") {
-                            immutableMetaValues = ImmutableMetaValuesResponse[1];
-                        }
+                }
+            });
+        }
+        if (immutableList !== null) {
+            immutableList.map((immutable, index) => {
+                const immutableType = immutable.value.fact.value.type;
+                const immutableName = immutable.value.id.value.idString;
+                const immutableHash = immutable.value.fact.value.hash;
+                const immutableInputName = `${immutableName}|${immutableType}${index}`;
+                let immutableFieldValue = document.getElementById(`MintAsset${immutableName}|${immutableType}${index}`).value;
+                if (immutableName !== config.URI) {
+                    const ImmutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue);
+                    if (ImmutableMetaValuesResponse[0] !== "") {
+                        immutableValues = ImmutableMetaValuesResponse[0];
                     }
-                    let uriImmutableFieldValue;
-                    let uriImmutable;
-                    if (immutableName === config.URI) {
-                        if (immutableHash === "") {
-                            uriImmutableFieldValue = PropertyHelper.getUrlEncode(immutableFieldValue);
-                            uriImmutable = `URI:S|${uriImmutableFieldValue}`
-                        } else {
-                            uriImmutable = `URI:S|${immutableFieldValue}`
-                        }
+                    if (ImmutableMetaValuesResponse[1] !== "") {
+                        immutableMetaValues = ImmutableMetaValuesResponse[1];
                     }
-                    if (uriImmutable) {
-                        if (immutableMetaValues) {
-                            immutableMetaValues = immutableMetaValues + ',' + uriImmutable;
-                        } else {
-                            immutableMetaValues = uriImmutable;
-                        }
+                }
+                let uriImmutableFieldValue;
+                let uriImmutable;
+                if (immutableName === config.URI) {
+                    if (immutableHash === "") {
+                        uriImmutableFieldValue = PropertyHelper.getUrlEncode(immutableFieldValue);
+                        uriImmutable = `URI:S|${uriImmutableFieldValue}`;
+                    } else {
+                        uriImmutable = `URI:S|${immutableFieldValue}`;
                     }
-                })
-            }
+                }
+                if (uriImmutable) {
+                    if (immutableMetaValues) {
+                        immutableMetaValues = immutableMetaValues + ',' + uriImmutable;
+                    } else {
+                        immutableMetaValues = uriImmutable;
+                    }
+                }
+            });
+        }
         if (mutableValues === "") {
             setErrorMessage(t("SELECT_MUTABLE"));
-            setLoader(false)
+            setLoader(false);
         }else if (mutableMetaValues === "") {
             setErrorMessage(t("SELECT_MUTABLE_META"));
-            setLoader(false)
+            setLoader(false);
         } else if (mutableList.length !== 0 && checkboxMutableNamesList.length !== 0 && mutableList.length === checkboxMutableNamesList.length) {
-            setErrorMessage(t("SELECT_ALL_MUTABLE_ERROR"))
-            setLoader(false)
+            setErrorMessage(t("SELECT_ALL_MUTABLE_ERROR"));
+            setLoader(false);
         } else if (immutableList.length !== 0 && checkboxImmutableNamesList.length !== 0 && immutableList.length === checkboxImmutableNamesList.length) {
-            setErrorMessage(t("SELECT_ALL_IMMUTABLE_ERROR"))
-            setLoader(false)
+            setErrorMessage(t("SELECT_ALL_IMMUTABLE_ERROR"));
+            setLoader(false);
         } else if (checkboxImmutableNamesList.length === 0) {
-            setErrorMessage(t("SELECT_IMMUTABLE_META"))
-            setLoader(false)
+            setErrorMessage(t("SELECT_IMMUTABLE_META"));
+            setLoader(false);
         } else {
             let totalData = {
                 fromID:FromId,
@@ -222,11 +214,11 @@ const MintAsset = (props) => {
                 immutableValues:immutableValues,
                 immutableMetaValues:immutableMetaValues,
                 mutableMetaValues:mutableMetaValues
-            }
+            };
             setTotalDefineObject(totalData);
-            setExternalComponent('Keystore')
+            setExternalComponent('Keystore');
             setShowNext(false);
-          
+
             setLoader(false);
             // const assetMintResult = assetMint.mint(userAddress, "test", userTypeToken, toID, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode)
             // assetMintResult.then(function (item) {
@@ -240,10 +232,10 @@ const MintAsset = (props) => {
 
     const handleUpload = (id) => {
         setUploadId(id);
-        setShowUpload(true)
+        setShowUpload(true);
     };
     const handleFileInputChange = (e) => {
-        
+
         setLoader(true);
         let file = uploadFile;
         file = e.target.files[0];
@@ -333,7 +325,6 @@ const MintAsset = (props) => {
                         {mutableList !== null ?
                             mutableList.map((mutable, index) => {
                                 const mutableType = mutable.value.fact.value.type;
-                                const mutableHash = mutable.value.fact.value.hash;
                                 const mutableName = mutable.value.id.value.idString;
                                 const id = `${mutableName}|${mutableType}${index}`;
                                 if (mutableName === config.URI) {
@@ -350,18 +341,18 @@ const MintAsset = (props) => {
                                                     id={`MintAssetMutable${mutableName}|${mutableType}${index}`}
                                                     placeholder="Trait Value"
                                                     onChange={(evt) => {
-                                                        handleChangeMutable(evt, index + 1, mutableName)
+                                                        handleChangeMutable(evt, index + 1, mutableName);
                                                     }}
                                                     disabled={false}
                                                 />
                                             </Form.Group>
                                             <Form.Text id={`mutableMint${index + 1}`}
-                                                       className="text-muted none">
+                                                className="text-muted none">
 
                                             </Form.Text>
 
                                         </div>
-                                    )
+                                    );
                                 } else {
                                     return (
                                         <div key={index}>
@@ -372,7 +363,7 @@ const MintAsset = (props) => {
                                                     {mutableType === 'S' && mutableName !== config.URI
                                                         ?
                                                         <Button variant="secondary" size="sm"
-                                                                onClick={() => handleUpload(id)}>upload</Button>
+                                                            onClick={() => handleUpload(id)}>upload</Button>
                                                         : ""
                                                     }
                                                 </div>
@@ -384,7 +375,7 @@ const MintAsset = (props) => {
                                                     required={true}
                                                     placeholder={t("TRAIT_VALUE")}
                                                     onChange={(evt) => {
-                                                        handleChangeMutable(evt, index + 1)
+                                                        handleChangeMutable(evt, index + 1);
                                                     }}
                                                 />
                                             </Form.Group>
@@ -393,13 +384,13 @@ const MintAsset = (props) => {
                                             </Form.Text>
                                             <Form.Group controlId="formBasicCheckbox">
                                                 <Form.Check custom type="checkbox" label="Meta"
-                                                            name={`${mutableName}|${mutableType}${index}`}
-                                                            id={`checkbox${mutableName}|${mutableType}${index}`}
-                                                            onClick={handleCheckMutableChange}
+                                                    name={`${mutableName}|${mutableType}${index}`}
+                                                    id={`checkbox${mutableName}|${mutableType}${index}`}
+                                                    onClick={handleCheckMutableChange}
                                                 />
                                             </Form.Group>
                                         </div>
-                                    )
+                                    );
                                 }
                             })
                             :
@@ -411,7 +402,7 @@ const MintAsset = (props) => {
                                 const immutableType = immutable.value.fact.value.type;
                                 const immutableHash = immutable.value.fact.value.hash;
                                 const immutableName = immutable.value.id.value.idString;
-                                const id = `MintAsset${immutableName}|${immutableType}${index}`
+                                const id = `MintAsset${immutableName}|${immutableType}${index}`;
 
                                 if (immutableName === config.URI) {
                                     return (
@@ -427,7 +418,7 @@ const MintAsset = (props) => {
                                                     required={true}
                                                     placeholder={t("TRAIT_VALUE")}
                                                     onChange={(evt) => {
-                                                        handleChangeImmutable(evt, index + 1)
+                                                        handleChangeImmutable(evt, index + 1);
                                                     }}
                                                 />
                                             </Form.Group>
@@ -435,7 +426,7 @@ const MintAsset = (props) => {
 
                                             </Form.Text>
                                         </div>
-                                    )
+                                    );
                                 } else {
                                     return (
                                         <div key={index}>
@@ -446,7 +437,7 @@ const MintAsset = (props) => {
                                                     {immutableType === 'S' && immutableHash == ""
                                                         ?
                                                         <Button variant="secondary" size="sm"
-                                                                onClick={() => handleUpload(id)}>upload</Button>
+                                                            onClick={() => handleUpload(id)}>upload</Button>
                                                         : ""
                                                     }
                                                 </div>
@@ -458,7 +449,7 @@ const MintAsset = (props) => {
                                                     required={true}
                                                     placeholder={t("TRAIT_VALUE")}
                                                     onChange={(evt) => {
-                                                        handleChangeImmutable(evt, index + 1)
+                                                        handleChangeImmutable(evt, index + 1);
                                                     }}
                                                     disabled={false}
                                                 />
@@ -468,12 +459,12 @@ const MintAsset = (props) => {
                                             </Form.Text>
                                             <Form.Group>
                                                 <Form.Check custom type="checkbox" label="Meta"
-                                                            name={`${immutableName}|${immutableType}${index}`}
-                                                            id={`checkbox${immutableName}|${immutableType}${index}`}
-                                                            onChange={handleCheckImmutableChange}/>
+                                                    name={`${immutableName}|${immutableType}${index}`}
+                                                    id={`checkbox${immutableName}|${immutableType}${index}`}
+                                                    onChange={handleCheckImmutableChange}/>
                                             </Form.Group>
                                         </div>
-                                    )
+                                    );
 
                                 }
                             })
@@ -497,11 +488,7 @@ const MintAsset = (props) => {
                     <input type="file" name="file" onChange={handleFileInputChange}/>
                 </Modal.Body>
             </Modal>
-            {!(Object.keys(response).length === 0) ?
-                <ModalCommon data={response} setExternal={handleClose}/>
-                : ""
-            }
-             <div>
+            <div>
                 {
                     externalComponent === 'Keystore' ?
                         <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'assetMint'}/> :

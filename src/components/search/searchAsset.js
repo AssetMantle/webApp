@@ -9,8 +9,8 @@ import Icon from "../../icons";
 import GetProperty from "../../utilities/Helpers/getProperty";
 import GetMeta from "../../utilities/Helpers/getMeta";
 
-const assetsQuery = new assetsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const assetsQuery = new assetsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const SearchAsset = React.memo((props) => {
     const PropertyHelper = new GetProperty();
@@ -24,7 +24,7 @@ const SearchAsset = React.memo((props) => {
             filterAssetList.then(function (Asset) {
                 const parsedAsset = JSON.parse(Asset);
                 if (parsedAsset.result.value.assets.value.list !== null) {
-                    const assetItems = parsedAsset.result.value.assets.value.list
+                    const assetItems = parsedAsset.result.value.assets.value.list;
                     setAssetList(assetItems);
                     assetItems.map((asset, index) => {
                         let immutableProperties = "";
@@ -33,17 +33,17 @@ const SearchAsset = React.memo((props) => {
                             immutableProperties = PropertyHelper.ParseProperties(asset.value.immutables.value.properties.value.propertyList);
                         }
                         if (asset.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = PropertyHelper.ParseProperties(asset.value.mutables.value.properties.value.propertyList)
+                            mutableProperties = PropertyHelper.ParseProperties(asset.value.mutables.value.properties.value.propertyList);
                         }
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
                         GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset_search', index);
                         GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset_search', index);
-                    })
+                    });
                 }
-            })
+            });
         }
-    }, [])
+    }, []);
 
     return (
         <div className="content-section">
@@ -71,7 +71,7 @@ const SearchAsset = React.memo((props) => {
                                             immutableProperties = PropertyHelper.ParseProperties(asset.value.immutables.value.properties.value.propertyList);
                                         }
                                         if (asset.value.mutables.value.properties.value.propertyList !== null) {
-                                            mutableProperties = PropertyHelper.ParseProperties(asset.value.mutables.value.properties.value.propertyList)
+                                            mutableProperties = PropertyHelper.ParseProperties(asset.value.mutables.value.properties.value.propertyList);
                                         }
                                         let immutableKeys = Object.keys(immutableProperties);
                                         let mutableKeys = Object.keys(mutableProperties);
@@ -79,48 +79,48 @@ const SearchAsset = React.memo((props) => {
                                             <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
                                                 <div className="card">
                                                     <div className="info-section">
-                                                    <p className="sub-title">{t("IMMUTABLES")}</p>
-                                                    {immutableKeys !== null ?
-                                                        immutableKeys.map((keyName, index1) => {
-                                                            if (immutableProperties[keyName] !== "") {
-                                                                return (
-                                                                    <div key={index + keyName} className="list-item"><p
-                                                                        className="list-item-label">{keyName}: </p> <p
-                                                                        id={`immutable_asset_search` + index + index1}
-                                                                        className="list-item-value"></p></div>)
-                                                            } else {
-                                                                return (
-                                                                    <div key={index + keyName} className="list-item"><p
-                                                                        className="list-item-label">{keyName}: </p> <p
-                                                                        className="list-item-hash-value">{immutableProperties[keyName]}</p>
-                                                                    </div>)
-                                                            }
-                                                        })
-                                                        : ""
-                                                    }
-                                                    <p className="sub-title">{t("MUTABLES")}</p>
-                                                    {mutableKeys !== null ?
-                                                        mutableKeys.map((keyName, index1) => {
-                                                            if (mutableProperties[keyName] !== "") {
-                                                                return (
-                                                                    <div key={index + keyName} className="list-item"><p
-                                                                        className="list-item-label">{keyName}: </p> <p
-                                                                        id={`mutable_asset_search` + index + index1}
-                                                                        className="list-item-value"></p></div>)
-                                                            } else {
-                                                                return (
-                                                                    <div key={index + keyName} className="list-item"><p
-                                                                        className="list-item-label">{keyName}: </p> <p
-                                                                        className="list-item-hash-value">{mutableProperties[keyName]}</p>
-                                                                    </div>)
-                                                            }
-                                                        })
-                                                        : ""
-                                                    }
+                                                        <p className="sub-title">{t("IMMUTABLES")}</p>
+                                                        {immutableKeys !== null ?
+                                                            immutableKeys.map((keyName, index1) => {
+                                                                if (immutableProperties[keyName] !== "") {
+                                                                    return (
+                                                                        <div key={index + keyName} className="list-item"><p
+                                                                            className="list-item-label">{keyName}: </p> <p
+                                                                            id={`immutable_asset_search` + index + index1}
+                                                                            className="list-item-value"></p></div>);
+                                                                } else {
+                                                                    return (
+                                                                        <div key={index + keyName} className="list-item"><p
+                                                                            className="list-item-label">{keyName}: </p> <p
+                                                                            className="list-item-hash-value">{immutableProperties[keyName]}</p>
+                                                                        </div>);
+                                                                }
+                                                            })
+                                                            : ""
+                                                        }
+                                                        <p className="sub-title">{t("MUTABLES")}</p>
+                                                        {mutableKeys !== null ?
+                                                            mutableKeys.map((keyName, index1) => {
+                                                                if (mutableProperties[keyName] !== "") {
+                                                                    return (
+                                                                        <div key={index + keyName} className="list-item"><p
+                                                                            className="list-item-label">{keyName}: </p> <p
+                                                                            id={`mutable_asset_search` + index + index1}
+                                                                            className="list-item-value"></p></div>);
+                                                                } else {
+                                                                    return (
+                                                                        <div key={index + keyName} className="list-item"><p
+                                                                            className="list-item-label">{keyName}: </p> <p
+                                                                            className="list-item-hash-value">{mutableProperties[keyName]}</p>
+                                                                        </div>);
+                                                                }
+                                                            })
+                                                            : ""
+                                                        }
+                                                    </div>
                                                 </div>
                                             </div>
-                                            </div>
-                                        )
+                                        );
                                     })
                                 }
 
@@ -136,6 +136,6 @@ const SearchAsset = React.memo((props) => {
         </div>
 
     );
-})
-
+});
+SearchAsset.displayName = 'SearchAsset';
 export default SearchAsset;

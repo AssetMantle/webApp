@@ -2,11 +2,11 @@ import {CopyToClipboard} from 'react-copy-to-clipboard';
 import React, {useState} from 'react';
 
 const Copy = (props) => {
-    const [copyValue, setCopyValue] = useState(false)
+    const [copyValue, setCopyValue] = useState(false);
     const onCopy = () => {
-        setCopyValue(true)
+        setCopyValue(true);
         setTimeout(() => {
-            setCopyValue(false)
+            setCopyValue(false);
         }, 1000);
     };
 

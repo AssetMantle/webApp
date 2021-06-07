@@ -1,15 +1,14 @@
 import React, {useState} from "react";
 import identitiesDefineJS from "persistencejs/transaction/identity/define";
 import {Dropdown} from "react-bootstrap";
-import Profile from '../../../components/profile';
 import {Define} from "../../forms";
 import {Nub, IssueIdentity} from "../../forms/identities";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
-import IdentityList from "./identityList"
+import IdentityList from "./identityList";
 import {Summary} from "../../../components/summary";
 
-const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const Identities = () => {
     const {t} = useTranslation();
@@ -18,19 +17,16 @@ const Identities = () => {
     const [identity, setIdentity] = useState([]);
 
     const handleModalData = (formName) => {
-        setExternalComponent(formName)
+        setExternalComponent(formName);
         setIdentity(identity);
-        setIdentityId(identityId)
-    }
+        setIdentityId(identityId);
+    };
 
     return (
         <div className="content-section">
             <Sidebar/>
             <div className="accountInfo">
                 <div className="row">
-                <div className="col-md-9 card-deck">
-                        <Profile />
-                        </div>
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
                             <h4>Identities</h4>
@@ -64,7 +60,7 @@ const Identities = () => {
                 }
                 {externalComponent === 'DefineIdentity' ?
                     <Define setExternalComponent={setExternalComponent} ActionName={identitiesDefine}
-                            FormName={'Define Identity'}/> :
+                        FormName={'Define Identity'}/> :
                     null
                 }
                 {externalComponent === 'IssueIdentity' ?
@@ -75,5 +71,5 @@ const Identities = () => {
             </div>
         </div>
     );
-}
-export default Identities
+};
+export default Identities;

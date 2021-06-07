@@ -6,19 +6,19 @@ import {Define} from "../../forms";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
 import AssetList from "./assetList";
-import {Summary} from "../../../components/summary"
+import {Summary} from "../../../components/summary";
 
-const assetDefine = new AssetDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const Assets = (props) => {
+const assetDefine = new AssetDefineJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const Assets = () => {
     const {t} = useTranslation();
     const [externalComponent, setExternalComponent] = useState("");
 
     const handleModalData = (formName) => {
-        setExternalComponent(formName)
-    }
+        setExternalComponent(formName);
+    };
     const hanldeRoute= () =>{
 
-    }
+    };
     return (
         <div className="content-section">
             <Sidebar/>
@@ -53,13 +53,13 @@ const Assets = (props) => {
                 <div>
                     {externalComponent === 'DefineAsset' ?
                         <Define setExternalComponent={setExternalComponent} ActionName={assetDefine}
-                                FormName={'Define Asset'} type={'asset'}/> :
+                            FormName={'Define Asset'} type={'asset'}/> :
                         null
                     }
                     {
                         externalComponent === 'MintAsset' ?
                             <MintAsset setExternalComponent={setExternalComponent} ActionName={assetDefine}
-                            FormName={'Mint Asset'} type={'asset'}/> :
+                                FormName={'Mint Asset'} type={'asset'}/> :
                             null
                     }
                     {

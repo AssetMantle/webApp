@@ -2,26 +2,26 @@ import React, {useState, useEffect} from "react";
 import TakeOrderJS from "persistencejs/transaction/orders/take";
 import {Form, Button, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
-import Loader from "../../../components/loader"
-import ModalCommon from "../../../components/modal"
+import Loader from "../../../components/loader";
+import ModalCommon from "../../../components/modal";
 
-import config from "../../../constants/config.json"
+import config from "../../../constants/config.json";
 
-const takeOrder = new TakeOrderJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const takeOrder = new TakeOrderJS(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const TakeOrder = (props) => {
     const {t} = useTranslation();
     const [response, setResponse] = useState({});
     const [show, setShow] = useState(true);
-    const [loader, setLoader] = useState(false)
+    const [loader, setLoader] = useState(false);
     const [fromID, setFromID] = useState("");
 
     useEffect(()=>{
         let fromIDValue = localStorage.getItem('fromID');
         setFromID(fromIDValue);
-    },[])
+    },[]);
     const handleSubmit = (event) => {
-        setLoader(true)
+        setLoader(true);
         event.preventDefault();
         const orderId = props.id;
         const FromId = event.target.FromId.value;
@@ -31,10 +31,10 @@ const TakeOrder = (props) => {
         const takeOrderResponse = takeOrder.take(userAddress, "test", userTypeToken, FromId, ownableAmount, orderId, config.feesAmount, config.feesToken, config.gas, config.mode);
         takeOrderResponse.then(function (item) {
             const data = JSON.parse(JSON.stringify(item));
-            setResponse(data)
+            setResponse(data);
             setShow(false);
-            setLoader(false)
-        })
+            setLoader(false);
+        });
     };
     const handleClose = () => {
         setShow(false);

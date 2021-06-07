@@ -1,47 +1,40 @@
 import React, {useState, useEffect} from "react";
-import WrapJS from "persistencejs/transaction/splits/wrap";
 import {Form, Button, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
-import config from "../../../constants/config.json"
-import Loader from "../../../components/loader"
-import ModalCommon from "../../../components/modal"
+import Loader from "../../../components/loader";
 import CommonKeystore from '../../../actions/forms/login/CommonKeystore';
 
-const WrapQuery = new WrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Wrap = (props) => {
     const {t} = useTranslation();
-    const [response, setResponse] = useState({});
     const [show, setShow] = useState(true);
-    const [loader, setLoader] = useState(false)
+    const [loader, setLoader] = useState(false);
     const [externalComponent, setExternalComponent] = useState("");
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const [fromID, setFromID] = useState("");
     const [testIdentityId, settestIdentityId] = useState("");
     useEffect(()=>{
         let fromIDValue = localStorage.getItem('fromID');
-        let testIdentityId = localStorage.getItem("identityId")
+        let testIdentityId = localStorage.getItem("identityId");
         settestIdentityId(testIdentityId);
         setFromID(fromIDValue);
-    },[])
+    },[]);
     const handleSubmit = (event) => {
-        setLoader(true)
+        setLoader(true);
         event.preventDefault();
         const FromId = event.target.FromId.value;
         const CoinDenom = event.target.CoinDenom.value;
-        
+
         const CoinAmount = event.target.CoinAmount.value;
-        const userTypeToken = localStorage.getItem('mnemonic');
-        const userAddress = localStorage.getItem('address');
         let totalData = {
             fromID:FromId,
             CoinAmountDenom:CoinAmount + CoinDenom,
 
-        }
+        };
         setTotalDefineObject(totalData);
-        setExternalComponent('Keystore')
+        setExternalComponent('Keystore');
         setShow(false);
-      
+
         setLoader(false);
         // const WrapResponse = WrapQuery.wrap(userAddress, "test", userTypeToken, FromId, CoinAmount + CoinDenom, config.feesAmount, config.feesToken, config.gas, config.mode);
         // WrapResponse.then(function (item) {
@@ -111,10 +104,6 @@ const Wrap = (props) => {
                     </Form>
                 </Modal.Body>
             </Modal>
-            {!(Object.keys(response).length === 0) ?
-                <ModalCommon data={response} setExternal={handleClose}/>
-                : ""
-            }
             <div>
                 {
                     externalComponent === 'Keystore' ?

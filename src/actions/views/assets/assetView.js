@@ -17,9 +17,9 @@ import {MakeOrder} from "../../forms/orders";
 import {Define} from "../../forms";
 import AssetDefineJS from "persistencejs/transaction/assets/define";
 
-const assetsQuery = new assetsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const assetDefine = new AssetDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const assetsQuery = new assetsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const assetDefine = new AssetDefineJS(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const AssetView = React.memo((props) => {
     const PropertyHelper = new GetProperty();
@@ -31,7 +31,6 @@ const AssetView = React.memo((props) => {
     const [externalComponent, setExternalComponent] = useState("");
     const [ownerId, setOwnerId] = useState("");
     const [ownableId, setOwnableId] = useState("");
-    const [loader, setLoader] = useState(true)
     const [mutateProperties, setMutateProperties] = useState({});
     const [asset, setAsset] = useState({});
 
@@ -41,7 +40,7 @@ const AssetView = React.memo((props) => {
             filterAssetList.then(function (Asset) {
                 const parsedAsset = JSON.parse(Asset);
                 if (parsedAsset.result.value.assets.value.list !== null) {
-                    const assetItems = parsedAsset.result.value.assets.value.list
+                    const assetItems = parsedAsset.result.value.assets.value.list;
                     setAssetList(assetItems);
                     assetItems.map((asset, index) => {
                         let immutableProperties = "";
@@ -50,24 +49,24 @@ const AssetView = React.memo((props) => {
                             immutableProperties = PropertyHelper.ParseProperties(asset.value.immutables.value.properties.value.propertyList);
                         }
                         if (asset.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = PropertyHelper.ParseProperties(asset.value.mutables.value.properties.value.propertyList)
+                            mutableProperties = PropertyHelper.ParseProperties(asset.value.mutables.value.properties.value.propertyList);
                         }
                         let immutableKeys = Object.keys(immutableProperties);
                         let mutableKeys = Object.keys(mutableProperties);
                         GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset_view', index, "assetViewUrlId");
                         GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset_view', index, 'assetViewMutableViewUrlId');
-                    })
+                    });
                 }
-            })
+            });
         }
-    }, [])
+    }, []);
     const handleModalData = (formName, mutableProperties1, asset1, assetOwnerId, ownableId) => {
-        setMutateProperties(mutableProperties1)
-        setAsset(asset1)
-        setOwnerId(assetOwnerId)
-        setExternalComponent(formName)
-        setOwnableId(ownableId)
-    }
+        setMutateProperties(mutableProperties1);
+        setAsset(asset1);
+        setOwnerId(assetOwnerId);
+        setExternalComponent(formName);
+        setOwnableId(ownableId);
+    };
     return (
         <div className="content-section">
             <Sidebar/>
@@ -98,189 +97,189 @@ const AssetView = React.memo((props) => {
 
                         {props.location.state.splitList.length ?
                             props.location.state.splitList.map((split, index) => {
-                                    const ownableID = GetIDHelper.GetIdentityOwnableId(split)
-                                    let ownableId = split.value.id.value.ownableID.value.idString;
-                                    let ownerId = split.value.id.value.ownerID.value.idString;
-                                    if (ownableID === props.location.state.assetID) {
-                                        return (
-                                            <div className="list-container view-container" key={index}>
-                                                <div className="row card-deck">
-                                                    {
-                                                        assetList.map((asset, index) => {
-                                                            let immutableProperties = "";
-                                                            let mutableProperties = "";
+                                const ownableID = GetIDHelper.GetIdentityOwnableId(split);
+                                let ownableId = split.value.id.value.ownableID.value.idString;
+                                let ownerId = split.value.id.value.ownerID.value.idString;
+                                if (ownableID === props.location.state.assetID) {
+                                    return (
+                                        <div className="list-container view-container" key={index}>
+                                            <div className="row card-deck">
+                                                {
+                                                    assetList.map((asset, index) => {
+                                                        let immutableProperties = "";
+                                                        let mutableProperties = "";
 
-                                                            if (asset.value.immutables.value.properties.value.propertyList !== null) {
-                                                                immutableProperties = PropertyHelper.ParseProperties(asset.value.immutables.value.properties.value.propertyList);
-                                                            }
-                                                            if (asset.value.mutables.value.properties.value.propertyList !== null) {
-                                                                mutableProperties = PropertyHelper.ParseProperties(asset.value.mutables.value.properties.value.propertyList)
-                                                            }
-                                                            let immutableKeys = Object.keys(immutableProperties);
-                                                            let mutableKeys = Object.keys(mutableProperties);
-                                                            return (
-                                                                <div className="row" key={index}>
-                                                                    <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                                                                        {immutableKeys !== null ?
-                                                                            immutableKeys.map((keyName, index1) => {
-                                                                                if (immutableProperties[keyName] !== "") {
-                                                                                    if (keyName === config.URI) {
-                                                                                        return (
+                                                        if (asset.value.immutables.value.properties.value.propertyList !== null) {
+                                                            immutableProperties = PropertyHelper.ParseProperties(asset.value.immutables.value.properties.value.propertyList);
+                                                        }
+                                                        if (asset.value.mutables.value.properties.value.propertyList !== null) {
+                                                            mutableProperties = PropertyHelper.ParseProperties(asset.value.mutables.value.properties.value.propertyList);
+                                                        }
+                                                        let immutableKeys = Object.keys(immutableProperties);
+                                                        let mutableKeys = Object.keys(mutableProperties);
+                                                        return (
+                                                            <div className="row" key={index}>
+                                                                <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                                                    {immutableKeys !== null ?
+                                                                        immutableKeys.map((keyName, index1) => {
+                                                                            if (immutableProperties[keyName] !== "") {
+                                                                                if (keyName === config.URI) {
+                                                                                    return (
+                                                                                        <div
+                                                                                            className="dummy-image image-sectiont"
+                                                                                            key={index1}>
                                                                                             <div
-                                                                                                className="dummy-image image-sectiont"
-                                                                                                key={index1}>
-                                                                                                <div
-                                                                                                    id={`assetViewUrlId` + index + `${index1}`}>
+                                                                                                id={`assetViewUrlId` + index + `${index1}`}>
 
-                                                                                                </div>
                                                                                             </div>
-                                                                                        )
+                                                                                        </div>
+                                                                                    );
 
-                                                                                    }
                                                                                 }
-                                                                            })
-                                                                            : ""
-                                                                        }
-                                                                        {mutableKeys !== null ?
-                                                                            mutableKeys.map((keyName, index1) => {
-                                                                                if (mutableProperties[keyName] !== "") {
-                                                                                    if (keyName === config.URI) {
-                                                                                        return (
-                                                                                            <div className="dummy-image image-sectiont"
-                                                                                                 key={index1}>
-                                                                                                <div
-                                                                                                    id={`assetViewMutableViewUrlId` + index + `${index1}`}>
+                                                                            }
+                                                                        })
+                                                                        : ""
+                                                                    }
+                                                                    {mutableKeys !== null ?
+                                                                        mutableKeys.map((keyName, index1) => {
+                                                                            if (mutableProperties[keyName] !== "") {
+                                                                                if (keyName === config.URI) {
+                                                                                    return (
+                                                                                        <div className="dummy-image image-sectiont"
+                                                                                            key={index1}>
+                                                                                            <div
+                                                                                                id={`assetViewMutableViewUrlId` + index + `${index1}`}>
 
-                                                                                                </div>
                                                                                             </div>
-                                                                                        )
+                                                                                        </div>
+                                                                                    );
 
-                                                                                    }
                                                                                 }
-                                                                            })
-                                                                            : ""
-                                                                        }
-                                                                        <div className="button-group property-actions">
-                                                                            <Button variant="primary" size="sm"
-                                                                                    onClick={() => handleModalData("MutateAsset", mutableProperties, asset)}>{t("MUTATE_ASSET")}
-                                                                            </Button>
-                                                                            <Button variant="primary" size="sm"
-                                                                                    onClick={() => handleModalData("BurnAsset", "", asset, ownerId, ownableID)}>{t("BURN_ASSET")}
-                                                                            </Button>
-                                                                            <Button variant="primary" size="sm"
-                                                                                    onClick={() => handleModalData("MakeOrder", "", "", ownerId, ownableID)}>{t("MAKE")}</Button>
-                                                                            <Button variant="primary" size="sm"
-                                                                                    onClick={() => handleModalData("SendSplit", "", "", ownerId, ownableID)}>{t("SEND_SPLITS")}</Button>
-                                                                        </div>
+                                                                            }
+                                                                        })
+                                                                        : ""
+                                                                    }
+                                                                    <div className="button-group property-actions">
+                                                                        <Button variant="primary" size="sm"
+                                                                            onClick={() => handleModalData("MutateAsset", mutableProperties, asset)}>{t("MUTATE_ASSET")}
+                                                                        </Button>
+                                                                        <Button variant="primary" size="sm"
+                                                                            onClick={() => handleModalData("BurnAsset", "", asset, ownerId, ownableID)}>{t("BURN_ASSET")}
+                                                                        </Button>
+                                                                        <Button variant="primary" size="sm"
+                                                                            onClick={() => handleModalData("MakeOrder", "", "", ownerId, ownableID)}>{t("MAKE")}</Button>
+                                                                        <Button variant="primary" size="sm"
+                                                                            onClick={() => handleModalData("SendSplit", "", "", ownerId, ownableID)}>{t("SEND_SPLITS")}</Button>
                                                                     </div>
-                                                                    <div
-                                                                        className="col-xl-8 col-lg-8 col-md-12 col-sm-12 asset-data">
-                                                                        <div className="row">
-                                                                            <div
-                                                                                className="col-xl-6 col-lg-6 col-md-12">
-                                                                                <div className="list-item">
+                                                                </div>
+                                                                <div
+                                                                    className="col-xl-8 col-lg-8 col-md-12 col-sm-12 asset-data">
+                                                                    <div className="row">
+                                                                        <div
+                                                                            className="col-xl-6 col-lg-6 col-md-12">
+                                                                            <div className="list-item">
                                                                                 <p className="list-item-label">{t("ASSET_ID")}</p>
                                                                                 <div className="list-item-value id-section">
                                                                                     <div className="flex">
                                                                                         <p className="id-string"
-                                                                                           title={ownableId}> {ownableId}</p>
+                                                                                            title={ownableId}> {ownableId}</p>
 
                                                                                     </div>
                                                                                 </div>
-                                                                                    <Copy
-                                                                                        id={ownableId}/>
-                                                                                </div>
+                                                                                <Copy
+                                                                                    id={ownableId}/>
                                                                             </div>
                                                                         </div>
-                                                                        <div className="row">
-                                                                            <div
-                                                                                className="col-xl-6 col-lg-6 col-md-12">
-                                                                                <div className="list-item">
+                                                                    </div>
+                                                                    <div className="row">
+                                                                        <div
+                                                                            className="col-xl-6 col-lg-6 col-md-12">
+                                                                            <div className="list-item">
                                                                                 <p className="list-item-label">{t("OWNER_ID")}</p>
                                                                                 <div className="list-item-value id-section">
                                                                                     <div className="flex">
                                                                                         <p className="id-string"
-                                                                                           title={ownerId}> {ownerId}</p>
+                                                                                            title={ownerId}> {ownerId}</p>
 
                                                                                     </div>
                                                                                 </div>
-                                                                                    <Copy
-                                                                                        id={ownerId}/>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className="row property-section">
-                                                                            <div
-                                                                                className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                                                                <p className="sub-title">{t("IMMUTABLES")}</p>
-                                                                                {immutableKeys !== null ?
-                                                                                    immutableKeys.map((keyName, index1) => {
-                                                                                        if (immutableProperties[keyName] !== "" && keyName !== 'style' && keyName !== config.URI) {
-                                                                                            return (
-                                                                                                <div key={index + keyName}
-                                                                                                     className="list-item">
-                                                                                                    <p
-                                                                                                        className="list-item-label">{keyName} </p>
-                                                                                                    <p
-                                                                                                        id={`immutable_asset_view` + index + index1}
-                                                                                                        className="list-item-value"></p>
-                                                                                                </div>)
-                                                                                        } else if(keyName !== 'style' && keyName !== config.URI){
-                                                                                            return (
-                                                                                                <div key={index + keyName}
-                                                                                                     className="list-item">
-                                                                                                    <p
-                                                                                                        className="list-item-label">{keyName} </p>
-                                                                                                    <p
-                                                                                                        className="list-item-hash-value">{immutableProperties[keyName]}</p>
-                                                                                                </div>)
-                                                                                        }
-                                                                                    })
-                                                                                    : ""
-                                                                                }
-                                                                            </div>
-                                                                            <div
-                                                                                className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                                                                <p className="sub-title">{t("MUTABLES")}</p>
-                                                                                {mutableKeys !== null ?
-                                                                                    mutableKeys.map((keyName, index1) => {
-                                                                                        if (mutableProperties[keyName] !== ""  && keyName !== config.URI) {
-                                                                                            return (
-                                                                                                <div key={index + keyName}
-                                                                                                     className="list-item">
-                                                                                                    <p
-                                                                                                        className="list-item-label">{keyName} </p>
-                                                                                                    <p
-                                                                                                        id={`mutable_asset_view` + index + index1}
-                                                                                                        className="list-item-value"></p>
-                                                                                                </div>)
-                                                                                        } else if(keyName !== config.URI){
-                                                                                            return (
-                                                                                                <div key={index + keyName}
-                                                                                                     className="list-item">
-                                                                                                    <p
-                                                                                                        className="list-item-label">{keyName} </p>
-                                                                                                    <p
-                                                                                                        className="list-item-hash-value">{mutableProperties[keyName]}</p>
-                                                                                                </div>)
-                                                                                        }
-                                                                                    })
-                                                                                    : ""
-                                                                                }
+                                                                                <Copy
+                                                                                    id={ownerId}/>
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                    <div className="row property-section">
+                                                                        <div
+                                                                            className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                                            <p className="sub-title">{t("IMMUTABLES")}</p>
+                                                                            {immutableKeys !== null ?
+                                                                                immutableKeys.map((keyName, index1) => {
+                                                                                    if (immutableProperties[keyName] !== "" && keyName !== 'style' && keyName !== config.URI) {
+                                                                                        return (
+                                                                                            <div key={index + keyName}
+                                                                                                className="list-item">
+                                                                                                <p
+                                                                                                    className="list-item-label">{keyName} </p>
+                                                                                                <p
+                                                                                                    id={`immutable_asset_view` + index + index1}
+                                                                                                    className="list-item-value"></p>
+                                                                                            </div>);
+                                                                                    } else if(keyName !== 'style' && keyName !== config.URI){
+                                                                                        return (
+                                                                                            <div key={index + keyName}
+                                                                                                className="list-item">
+                                                                                                <p
+                                                                                                    className="list-item-label">{keyName} </p>
+                                                                                                <p
+                                                                                                    className="list-item-hash-value">{immutableProperties[keyName]}</p>
+                                                                                            </div>);
+                                                                                    }
+                                                                                })
+                                                                                : ""
+                                                                            }
+                                                                        </div>
+                                                                        <div
+                                                                            className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                                                            <p className="sub-title">{t("MUTABLES")}</p>
+                                                                            {mutableKeys !== null ?
+                                                                                mutableKeys.map((keyName, index1) => {
+                                                                                    if (mutableProperties[keyName] !== ""  && keyName !== config.URI) {
+                                                                                        return (
+                                                                                            <div key={index + keyName}
+                                                                                                className="list-item">
+                                                                                                <p
+                                                                                                    className="list-item-label">{keyName} </p>
+                                                                                                <p
+                                                                                                    id={`mutable_asset_view` + index + index1}
+                                                                                                    className="list-item-value"></p>
+                                                                                            </div>);
+                                                                                    } else if(keyName !== config.URI){
+                                                                                        return (
+                                                                                            <div key={index + keyName}
+                                                                                                className="list-item">
+                                                                                                <p
+                                                                                                    className="list-item-label">{keyName} </p>
+                                                                                                <p
+                                                                                                    className="list-item-hash-value">{mutableProperties[keyName]}</p>
+                                                                                            </div>);
+                                                                                    }
+                                                                                })
+                                                                                : ""
+                                                                            }
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                            )
-                                                        })
-                                                    }
+                                                            </div>
+                                                        );
+                                                    })
+                                                }
 
 
-                                                </div>
                                             </div>
-                                        )
-                                    }
+                                        </div>
+                                    );
                                 }
+                            }
                             )
                             : ""
                         }
@@ -293,30 +292,30 @@ const AssetView = React.memo((props) => {
             <div>
                 {externalComponent === 'MutateAsset' ?
                     <MutateAsset setExternalComponent={setExternalComponent} mutatePropertiesList={mutateProperties}
-                                 asset={asset}/> :
+                        asset={asset}/> :
                     null
                 }
                 {
                     externalComponent === 'BurnAsset' ?
                         <BurnAsset setExternalComponent={setExternalComponent} ownerId={ownerId}
-                                   ownableId={ownableId}/> :
+                            ownableId={ownableId}/> :
                         null
                 }
                 {
                     externalComponent === 'MakeOrder' ?
                         <MakeOrder setExternalComponent={setExternalComponent} ownerId={ownerId}
-                                   ownableId={ownableId}/> :
+                            ownableId={ownableId}/> :
                         null
                 }
                 {
                     externalComponent === 'SendSplit' ?
                         <SendSplit setExternalComponent={setExternalComponent} ownerId={ownerId}
-                                   ownableId={ownableId}/> :
+                            ownableId={ownableId}/> :
                         null
                 }
                 {externalComponent === 'DefineAsset' ?
                     <Define setExternalComponent={setExternalComponent} ActionName={assetDefine}
-                            FormName={'Define Asset'} type={'asset'}/> :
+                        FormName={'Define Asset'} type={'asset'}/> :
                     null
                 }
                 {
@@ -338,6 +337,6 @@ const AssetView = React.memo((props) => {
         </div>
 
     );
-})
+});
 
 export default AssetView;

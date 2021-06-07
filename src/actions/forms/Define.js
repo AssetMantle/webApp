@@ -1,25 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
-import InputField from "../../components/inputField"
+import InputField from "../../components/inputField";
 import { useTranslation } from "react-i18next";
-import config from "../../constants/config.json";
 import CommonKeystore from '../../actions/forms/login/CommonKeystore';
 import CommonKeystorePwd from '../../actions/forms/login/CommonKeystorePwd';
-import ModalCommon from "../../components/modal";
 import Loader from "../../components/loader";
-import base64url from "base64url";
 import GetProperty from "../../utilities/Helpers/getProperty";
 
 
 const Define = (props) => {
     const PropertyHelper = new GetProperty();
-    const [loader, setLoader] = useState(false)
+    const [loader, setLoader] = useState(false);
     const [show, setShow] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
     const [externalComponent, setExternalComponent] = useState("");
     const [typeOption, setTypeOption] = useState("identity");
     const [mutableStyle, setMutableStyle] = useState("Blue");
-    const [response, setResponse] = useState({});
     const [mutableProperties, setMutableProperties] = useState([]);
     const [immutableProperties, setImmutableProperties] = useState([]);
     const [inputValues, setInputValues] = useState([]);
@@ -34,10 +30,10 @@ const Define = (props) => {
 
     useEffect(() => {
         let fromIDValue = localStorage.getItem('fromID');
-        let testIdentityId = localStorage.getItem("identityId")
+        let testIdentityId = localStorage.getItem("identityId");
         setFromID(fromIDValue);
         settestIdentityId(testIdentityId);
-        
+
     }, []);
 
     const handleChange = evt => {
@@ -61,7 +57,7 @@ const Define = (props) => {
     };
 
     const handleClose = () => {
-        setShow(false)
+        setShow(false);
         props.setExternalComponent("");
     };
     const handleChangeType = evt => {
@@ -88,7 +84,7 @@ const Define = (props) => {
                 setMetaCheckboxList(metaCheckboxList.filter(item => item !== checkboxname));
             }
         }
-    }
+    };
     const addImmutableMeta = (evt, val) => {
         const checkedValue = evt.target.checked;
         let checkboxname = `ImmutableDataName${val}`;
@@ -99,15 +95,15 @@ const Define = (props) => {
                 setImmutableMetaCheckboxList(immutableMetaCheckboxList.filter(item => item !== checkboxname));
             }
         }
-    }
+    };
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
         setLoader(true);
 
-       
-           
-        
+
+
+
 
         let assetSpecificMutables = '';
         if (typeOption === 'asset') {
@@ -125,7 +121,7 @@ const Define = (props) => {
         const ImmutableIdentifier = evt.target.ImmutableIdentifier.value;
         const ImmutableClassifier = evt.target.ImmutableClassifier.value;
         let staticImmutables = `style:S|${mutableStyle},type:S|${typeOption}`;
-        staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription}`
+        staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription}`;
         if (uriField) {
             const ImmutableUrl = evt.target.URI.value;
             let ImmutableUrlEncode = "";
@@ -133,17 +129,15 @@ const Define = (props) => {
                 ImmutableUrlEncode = PropertyHelper.getUrlEncode(ImmutableUrl);
             }
             if (selectedOption === "Immutable") {
-                uriImmutable = `URI:S|${ImmutableUrlEncode}`
+                uriImmutable = `URI:S|${ImmutableUrlEncode}`;
             } else {
-                uriMutable = `URI:S|${ImmutableUrlEncode}`
+                uriMutable = `URI:S|${ImmutableUrlEncode}`;
             }
         }
-        const userTypeToken = localStorage.getItem('mnemonic');
-        const userAddress = localStorage.getItem('address');
-        let mutablePropertyValue = ""
-        let mutableMetaPropertyValue = ""
-        let immutablePropertyValue = ""
-        let immutableMetaPropertyValue = ""
+        let mutablePropertyValue = "";
+        let mutableMetaPropertyValue = "";
+        let immutablePropertyValue = "";
+        let immutableMetaPropertyValue = "";
 
         mutablePropertyValue = PropertyHelper.MutablePropertyValues(mutableProperties, inputValues, metaCheckboxList);
 
@@ -196,17 +190,17 @@ const Define = (props) => {
 
         if (mutablePropertyValue !== "") {
             if (mutableMetaPropertyValue !== "") {
-              
+
                 let totalData = {
                     fromID:FromId,
                     mutablePropertyValue:mutablePropertyValue,
                     immutablePropertyValue:immutablePropertyValue,
                     mutableMetaPropertyValue:mutableMetaPropertyValue,
                     immutableMetaPropertyValue:immutableMetaPropertyValue
-                }
+                };
                 setTotalDefineObject(totalData);
-                setExternalComponent('Keystore')
-                setShow(false)
+                setExternalComponent('Keystore');
+                setShow(false);
                 setLoader(false);
                 // const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, config.feesAmount, config.feesToken, config.gas, config.mode)
                 // defineIdentityResult.then(function (item) {
@@ -216,23 +210,23 @@ const Define = (props) => {
                 //     setLoader(false);
                 // })
             } else {
-                setErrorMessage(t("ADD_MUTABLE_META_PROPERTY"))
+                setErrorMessage(t("ADD_MUTABLE_META_PROPERTY"));
                 setLoader(false);
             }
         } else {
-            setErrorMessage(t("ADD_MUTABLE_PROPERTY"))
+            setErrorMessage(t("ADD_MUTABLE_PROPERTY"));
             setLoader(false);
         }
 
-    }
+    };
 
     const handleMutableProperties = () => {
         setMutableProperties(mutableProperties => mutableProperties.concat([{ name: "" }]));
-    }
+    };
 
     const handleImmutableProperties = () => {
         setImmutableProperties(immutableProperties => immutableProperties.concat([{ name: '' }]));
-    }
+    };
 
     const handleRemoveMutableProperties = (i) => {
         if (mutableProperties[i].name == "") {
@@ -242,19 +236,19 @@ const Define = (props) => {
             items[i] = item;
             setMutableProperties(items);
         }
-        const dataType = `MutableDataType${i + 1}`
-        const dataName = `MutableDataName${i + 1}`
-        const dataValue = `MutableDataValue${i + 1}`
+        const dataType = `MutableDataType${i + 1}`;
+        const dataName = `MutableDataName${i + 1}`;
+        const dataValue = `MutableDataValue${i + 1}`;
         delete inputValues[dataName];
         delete inputValues[dataValue];
         if (inputValues[dataType] !== undefined) {
             delete inputValues[dataType];
         }
-    }
+    };
 
     const handleURI = () => {
-        setUriField(!uriField)
-    }
+        setUriField(!uriField);
+    };
 
     const handleRemoveImmutableProperties = (i) => {
         if (immutableProperties[i].name == "") {
@@ -264,18 +258,18 @@ const Define = (props) => {
             items[i] = item;
             setImmutableProperties(items);
         }
-        const dataType = `ImmutableDataType${i + 1}`
-        const dataName = `ImmutableDataName${i + 1}`
-        const dataValue = `ImmutableDataValue${i + 1}`
+        const dataType = `ImmutableDataType${i + 1}`;
+        const dataName = `ImmutableDataName${i + 1}`;
+        const dataValue = `ImmutableDataValue${i + 1}`;
         delete inputValues[dataName];
         delete inputValues[dataValue];
         if (inputValues[dataType] !== undefined) {
             delete inputValues[dataType];
         }
-    }
+    };
     const onValueChange = (event) => {
         setSelectedOption(event.target.value);
-    }
+    };
 
     return (
         <div>
@@ -502,7 +496,7 @@ const Define = (props) => {
                                                 required={false}
                                                 placeholder="Data Value"
                                                 onChange={(evt) => {
-                                                    handleChangeMutable(evt, idx + 1)
+                                                    handleChangeMutable(evt, idx + 1);
                                                 }}
                                             />
                                         </Form.Group>
@@ -515,7 +509,7 @@ const Define = (props) => {
                                                 name={`add_mutable_meta${idx + 1}`}
                                                 id={`add_mutable_meta${idx + 1}`}
                                                 onChange={(evt) => {
-                                                    addMutableMeta(evt, idx + 1)
+                                                    addMutableMeta(evt, idx + 1);
                                                 }}
 
                                             />
@@ -523,9 +517,9 @@ const Define = (props) => {
                                         <Button variant="warning" type="button" size="sm" id={`buttin${idx}`}
                                             onClick={() => handleRemoveMutableProperties(idx)}
                                             className="small button-define">remove
-                                            </Button>
+                                        </Button>
                                     </div>
-                                )
+                                );
                             }
                         }
                         )}
@@ -567,7 +561,7 @@ const Define = (props) => {
                                                 required={false}
                                                 placeholder="Data Value"
                                                 onChange={(evt) => {
-                                                    handleChangeImmutable(evt, idx + 1)
+                                                    handleChangeImmutable(evt, idx + 1);
                                                 }}
                                             />
                                         </Form.Group>
@@ -579,7 +573,7 @@ const Define = (props) => {
                                                 name={`add_immutable_meta${idx + 1}`}
                                                 id={`add_immutable_meta${idx + 1}`}
                                                 onChange={(evt) => {
-                                                    addImmutableMeta(evt, idx + 1)
+                                                    addImmutableMeta(evt, idx + 1);
                                                 }}
                                             />
                                         </Form.Group>
@@ -589,7 +583,7 @@ const Define = (props) => {
                                         </Button>
 
                                     </div>
-                                )
+                                );
                             }
                         })
                         }
@@ -608,14 +602,14 @@ const Define = (props) => {
                     </form>
                 </Modal.Body>
             </Modal>
-            
+
             <div>
                 {
                     externalComponent === 'Keystore' ?
                         <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'defineIdentity'} ActionName={props.ActionName}/> :
                         null
                 }
-                 {
+                {
                     externalComponent === 'Keystorepwd' ?
                         <CommonKeystorePwd setExternalComponent={setExternalComponent} /> :
                         null

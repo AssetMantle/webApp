@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import config from "../../../constants/config.json";
 import AssetMintJS from "persistencejs/transaction/assets/mint";
 import KeplerWallet from "../../../utilities/Helpers/kelplr";
 import keyUtils from "persistencejs/utilities/keys";
@@ -18,12 +17,12 @@ import Msgs from "../../../utilities/Helpers/Msgs";
 import identitiesDefineJS from "persistencejs/transaction/identity/define";
 const { SigningCosmosClient } = require("@cosmjs/launchpad");
 const restAPI = process.env.REACT_APP_API;
-const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const assetMint = new AssetMintJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const WrapQuery = new WrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const identitiesIssue = new IdentitiesIssueJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const identitiesNub = new identitiesNubJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const UnWrapQuery = new UnWrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const assetMint = new AssetMintJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const WrapQuery = new WrapJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesIssue = new IdentitiesIssueJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesNub = new identitiesNubJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const UnWrapQuery = new UnWrapJS(process.env.REACT_APP_ASSET_MANTLE_API);
 
 
 const CommonKeystore = (props) => {
@@ -32,11 +31,9 @@ const CommonKeystore = (props) => {
     const [show, setShow] = useState(true);
     const [response, setResponse] = useState({});
     const [importMnemonic, setImportMnemonic] = useState(true);
-    const [loader, setLoader] = useState(false)
-    const [incorrectPassword, setIncorrectPassword] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(false);
+    const [loader, setLoader] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const [keplrTxn, setKeplrTxn] = useState(false);
-    const [files, setFiles] = useState("");
     const [address, setAddress] = useState("");
 
     useEffect(() => {
@@ -44,7 +41,7 @@ const CommonKeystore = (props) => {
         const kepler = KeplerWallet();
         kepler.then(function () {
             const address = localStorage.getItem("keplerAddress");
-            console.log(address,'address')
+            console.log(address,'address');
             setAddress(address);
         }).catch(err => {
             setErrorMessage(err.message);
@@ -58,45 +55,43 @@ const CommonKeystore = (props) => {
     }, []);
 
     const TransactionWithKeplr = async (msgs, fee, memo, chainID) => {
-            await window.keplr.enable(chainID);
-            const offlineSigner = window.getOfflineSigner(chainID);
-            const accounts = await offlineSigner.getAccounts();
-            const cosmJS = new SigningCosmosClient(restAPI, accounts[0].address, offlineSigner );
-            return await cosmJS.signAndBroadcast(msgs, fee, memo);
+        await window.keplr.enable(chainID);
+        const offlineSigner = window.getOfflineSigner(chainID);
+        const accounts = await offlineSigner.getAccounts();
+        const cosmJS = new SigningCosmosClient(restAPI, accounts[0].address, offlineSigner );
+        return await cosmJS.signAndBroadcast(msgs, fee, memo);
     };
 
     const handleKepler = () => {
-          console.log(props.TransactionName,'trcname')
+        console.log(props.TransactionName,'trcname');
 
-        const response = TransactionWithKeplr([Msgs.SendMsg('cosmos1aepmuldh8j05y57zh5tje3fuzk63mc2m49uzzg','1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c', 500000000000)],Msgs.Fee(5000, 200000), "", process.env.REACT_APP_CHAIN_ID);
+        const response = TransactionWithKeplr([Msgs.SendMsg(address,'1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c', 500000000000)],Msgs.Fee(5000, 200000), "", process.env.REACT_APP_CHAIN_ID);
         response.then((result) => {
             console.log("response finale", result);
-            setShow(false)
-            setKeplrTxn(true)
-            setResponse(result)
+            setShow(false);
+            setKeplrTxn(true);
+            setResponse(result);
         }).catch((error) => {
-            setErrorMessage(error.message)
+            setErrorMessage(error.message);
             console.log(error,'error');
         });
 
-        
-          
-    }
+
+
+    };
     const handleSubmit = async e => {
-        e.preventDefault()
+        e.preventDefault();
         setLoader(true);
         let userMnemonic;
-        const password = document.getElementById("password").value
-        const fileReader = new FileReader();
         if (importMnemonic) {
             const password = e.target.password.value;
             let promise = queries.PrivateKeyReader(e.target.uploadFile.files[0], password);
             await promise.then(function (result) {
                 userMnemonic = result;
-                console.log(userMnemonic, 'userMnemonic')
+                console.log(userMnemonic, 'userMnemonic');
             }).catch(err => {
                 setLoader(false);
-                // setErrorMessage(err);
+                setErrorMessage(err.message);
             });
         } else {
             const password = e.target.password.value;
@@ -111,45 +106,45 @@ const CommonKeystore = (props) => {
             }
         }
         if (userMnemonic !== undefined) {
-            const wallet = keyUtils.getWallet(userMnemonic)
+            const wallet = keyUtils.getWallet(userMnemonic);
             let queryResponse;
             if (props.TransactionName === 'assetMint') {
-                console.log('mintasset')
-                queryResponse = queries.mintAssetQuery(wallet.address, userMnemonic, props.totalDefineObject, assetMint)
+                console.log('mintasset');
+                queryResponse = queries.mintAssetQuery(wallet.address, userMnemonic, props.totalDefineObject, assetMint);
             }  else if (props.TransactionName === 'wrap') {
-                queryResponse = queries.wrapQuery(wallet.address, userMnemonic, props.totalDefineObject, WrapQuery)
+                queryResponse = queries.wrapQuery(wallet.address, userMnemonic, props.totalDefineObject, WrapQuery);
             }  else if (props.TransactionName === 'unwrap') {
-                queryResponse = queries.unWrapQuery(wallet.address, userMnemonic, props.totalDefineObject, UnWrapQuery)
+                queryResponse = queries.unWrapQuery(wallet.address, userMnemonic, props.totalDefineObject, UnWrapQuery);
             }  else if (props.TransactionName === 'nubid') {
-                queryResponse = queries.nubIdQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesNub)
+                queryResponse = queries.nubIdQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesNub);
             }  else if (props.TransactionName === 'issueidentity') {
-                queryResponse = queries.issueIdentityQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesIssue)
+                queryResponse = queries.issueIdentityQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesIssue);
             } else if (props.TransactionName === 'defineIdentity') {
-                queryResponse = queries.defineQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesDefine)
+                queryResponse = queries.defineQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesDefine);
             }
             queryResponse.then(function (item) {
                 const data = JSON.parse(JSON.stringify(item));
                 const pollResponse = pollTxHash(process.env.REACT_APP_ASSET_MANTLE_API, data.txhash);
                 pollResponse.then(function (pollData) {
                     const pollObject = JSON.parse(pollData);
-                    console.log(pollObject,'pollObject')
-                    setShow(false)
+                    console.log(pollObject,'pollObject');
+                    setShow(false);
                     setLoader(false);
-                    setResponse(data)
+                    setResponse(data);
                 }).catch(err => {
                     setLoader(false);
                     setErrorMessage(err.response
                         ? err.response.data.message
                         : err.message);
                 });
-            })
+            });
         } else {
             setLoader(false);
         }
 
 
 
-    }
+    };
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
@@ -194,12 +189,7 @@ const CommonKeystore = (props) => {
                                     />
                                 </Form.Group>
                         }
-                        {incorrectPassword ?
-                            <Form.Text className="error-response">
-                                {t("INCORRECT_PASSWORD")}
-                            </Form.Text>
-                            : ""
-                        }
+
                         <div className="submitButtonSection">
                             <Button
                                 variant="primary"
@@ -215,9 +205,9 @@ const CommonKeystore = (props) => {
                         </div>
 
                     </Form>
-                    {errorMessage!=="" ? 
-                <p> {errorMessage}</p> : null 
-                }
+                    {errorMessage !=="" ?
+                        <p> {errorMessage}</p> : null
+                    }
                 </Modal.Body>
             </Modal>
             {!(Object.keys(response).length === 0) ?
@@ -226,5 +216,5 @@ const CommonKeystore = (props) => {
             }
         </div>
     );
-}
-export default CommonKeystore
+};
+export default CommonKeystore;
