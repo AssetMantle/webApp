@@ -35,6 +35,7 @@ const CommonKeystore = (props) => {
     const [loader, setLoader] = useState(false)
     const [incorrectPassword, setIncorrectPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState(false);
+    const [keplrTxn, setKeplrTxn] = useState(false);
     const [files, setFiles] = useState("");
     const [address, setAddress] = useState("");
 
@@ -65,35 +66,20 @@ const CommonKeystore = (props) => {
     };
 
     const handleKepler = () => {
-              const tx = {
-                msg: [{
-                    type: "cosmos-sdk/MsgSend",
-                    value: {
-                        from_address: 'cosmos1aepmuldh8j05y57zh5tje3fuzk63mc2m49uzzg',
-                        to_address: 'cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c',
-                        amount: [{ amount: String(5000), denom: 'stake' }],
-                    },
-                }],
-                fee: { amount: [{ amount: String(5000), denom: 'stake' }], gas: String(200000) },
-                memo: '',
-            };
+          console.log(props.TransactionName,'trcname')
 
-        const response = TransactionWithKeplr([Msgs.SendMsg('cosmos1aepmuldh8j05y57zh5tje3fuzk63mc2m49uzzg','cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c', 5000)],Msgs.Fee(5000, 200000), "", process.env.REACT_APP_CHAIN_ID);
+        const response = TransactionWithKeplr([Msgs.SendMsg('cosmos1aepmuldh8j05y57zh5tje3fuzk63mc2m49uzzg','1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c', 500000000000)],Msgs.Fee(5000, 200000), "", process.env.REACT_APP_CHAIN_ID);
         response.then((result) => {
             console.log("response finale", result);
+            setShow(false)
+            setKeplrTxn(true)
+            setResponse(result)
         }).catch((error) => {
+            setErrorMessage(error.message)
             console.log(error,'error');
         });
 
-        // cosmosSignTxAndBroadcast(tx, address, (error, result) => {
-        //         if (error) {
-        //            console.log(error,'error')
-        //             return;
-        //         }
-        //
-        //
-        //         console.log(result && result.transactionHash, 'success')
-        //     });
+        
           
     }
     const handleSubmit = async e => {
@@ -150,7 +136,12 @@ const CommonKeystore = (props) => {
                     setShow(false)
                     setLoader(false);
                     setResponse(data)
-                })
+                }).catch(err => {
+                    setLoader(false);
+                    setErrorMessage(err.response
+                        ? err.response.data.message
+                        : err.message);
+                });
             })
         } else {
             setLoader(false);
@@ -222,11 +213,15 @@ const CommonKeystore = (props) => {
                             <button type={"button"} variant="primary" className="button-double-border" onClick={() => handleKepler("kepler")}>{t("SIGN_IN_KEPLER")}
                             </button>
                         </div>
+
                     </Form>
+                    {errorMessage!=="" ? 
+                <p> {errorMessage}</p> : null 
+                }
                 </Modal.Body>
             </Modal>
             {!(Object.keys(response).length === 0) ?
-                <ModalCommon data={response} setExternal={handleClose} />
+                <ModalCommon data={response} setExternal={handleClose} keplrTxn={keplrTxn}/>
                 : ""
             }
         </div>

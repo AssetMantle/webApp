@@ -22,10 +22,16 @@ const ModalCommon = (props) => {
                 {t("Result")}
             </Modal.Header>
             <Modal.Body>
-                {props.data.code ?
-                    <p>Error: {props.data.raw_log}</p>
-                    :
-                    <p className="tx-hash">TxHash: <a href={process.env.REACT_APP_ASSET_MANTLE_API + '/txs/' + props.data.txhash} target="_blank">{props.data.txhash}</a></p>
+                { props.keplrTxn ?
+                    props.data.code ?
+                        <p>Error: {props.data.rawLog}</p>
+                        :
+                        <p className="tx-hash">TxHash: <a href={process.env.REACT_APP_ASSET_MANTLE_API + '/txs/' + props.data.transactionHash} target="_blank">{props.data.transactionHash}</a></p>
+                :
+                    props.data.code ?
+                        <p>Error: {props.data.raw_log}</p>
+                        :
+                        <p className="tx-hash">TxHash: <a href={process.env.REACT_APP_ASSET_MANTLE_API + '/txs/' + props.data.txhash} target="_blank">{props.data.txhash}</a></p>
 
                 }
             </Modal.Body>

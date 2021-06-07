@@ -2,9 +2,9 @@ function SendMsg(fromAddress, toAddress, amount, denom) {
     return {
             type: "cosmos-sdk/MsgSend",
             value: {
-                from_address: 'cosmos1aepmuldh8j05y57zh5tje3fuzk63mc2m49uzzg',
-                to_address: 'cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c',
-                amount: [{ amount: String(5000), denom: 'stake' }],
+                from_address: fromAddress,
+                to_address: toAddress,
+                amount: [{ amount: String(amount), denom: denom }],
             },
     };
 }
