@@ -5,12 +5,15 @@ import {useTranslation} from "react-i18next";
 import config from "../../../constants/config.json"
 import Loader from "../../../components/loader"
 import ModalCommon from "../../../components/modal"
+import CommonKeystore from '../../../actions/forms/login/CommonKeystore';
 const SendCoinQuery = new SendCoinJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const SendCoin = (props) => {
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
     const [response, setResponse] = useState({});
     const [loader, setLoader] = useState(false)
+    const [externalComponent, setExternalComponent] = useState("");
+    const [totalDefineObject, setTotalDefineObject] = useState({});
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
@@ -22,14 +25,24 @@ const SendCoin = (props) => {
         const denom = event.target.denom.value;
         const amountData = event.target.amount.value;
         const userTypeToken = localStorage.getItem('mnemonic');
-        const sendCoinResponse = SendCoinQuery.sendCoin("test", userTypeToken, toAddress, denom, amountData, config.feesAmount, config.feesToken, config.gas, config.mode);
-        sendCoinResponse.then(function (item) {
-            const data = JSON.parse(JSON.stringify(item));
+        let totalData = {
+            amountData:amountData,
+            denom:denom,
+            toAddress:toAddress
+            
+        }
+        setTotalDefineObject(totalData);
+        setExternalComponent('Keystore')
+        setShow(false);
+        setLoader(false);
+        // const sendCoinResponse = SendCoinQuery.sendCoin("test", userTypeToken, toAddress, denom, amountData, config.feesAmount, config.feesToken, config.gas, config.mode);
+        // sendCoinResponse.then(function (item) {
+        //     const data = JSON.parse(JSON.stringify(item));
 
-                    setResponse(data)
-                    setShow(false);
-                    setLoader(false)
-        })
+        //             setResponse(data)
+        //             setShow(false);
+        //             setLoader(false)
+        // })
     };
 
     return (
@@ -91,6 +104,13 @@ const SendCoin = (props) => {
                 <ModalCommon data={response} setExternal={handleClose}/>
                 : ""
             }
+             <div>
+                {
+                    externalComponent === 'Keystore' ?
+                        <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'sendcoin'}/> :
+                        null
+                }
+            </div>
         </div>
 
     );

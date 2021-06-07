@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import config from "../../../constants/config.json";
 import AssetMintJS from "persistencejs/transaction/assets/mint";
 import KeplerWallet from "../../../utilities/Helpers/kelplr";
+import SendCoinJS from "persistencejs/transaction/bank/sendCoin";
 import keyUtils from "persistencejs/utilities/keys";
 import { useTranslation } from "react-i18next";
 import { pollTxHash } from "../../../utilities/Helpers/filter";
@@ -19,6 +20,7 @@ import identitiesDefineJS from "persistencejs/transaction/identity/define";
 const { SigningCosmosClient } = require("@cosmjs/launchpad");
 const restAPI = process.env.REACT_APP_API;
 const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const SendCoinQuery = new SendCoinJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const assetMint = new AssetMintJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const WrapQuery = new WrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
 const identitiesIssue = new IdentitiesIssueJS(process.env.REACT_APP_ASSET_MANTLE_API)
@@ -40,6 +42,7 @@ const CommonKeystore = (props) => {
     const [address, setAddress] = useState("");
 
     useEffect(() => {
+        console.log(props.totalDefineObject,'props.totalDefineObject')
         setErrorMessage("");
         const kepler = KeplerWallet();
         kepler.then(function () {
@@ -58,6 +61,7 @@ const CommonKeystore = (props) => {
     }, []);
 
     const TransactionWithKeplr = async (msgs, fee, memo, chainID) => {
+        console.log(msgs,'msgs')
             await window.keplr.enable(chainID);
             const offlineSigner = window.getOfflineSigner(chainID);
             const accounts = await offlineSigner.getAccounts();
@@ -65,16 +69,21 @@ const CommonKeystore = (props) => {
             return await cosmJS.signAndBroadcast(msgs, fee, memo);
     };
 
-    const handleKepler = () => {
-          console.log(props.TransactionName,'trcname')
-
-        const response = TransactionWithKeplr([Msgs.SendMsg('cosmos1aepmuldh8j05y57zh5tje3fuzk63mc2m49uzzg','1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c', 500000000000)],Msgs.Fee(5000, 200000), "", process.env.REACT_APP_CHAIN_ID);
-        response.then((result) => {
+    const handleKepler = async() => {
+        setLoader(true);
+        console.log(address,'address')
+            let queryResponse;
+            if (props.TransactionName === 'sendcoin') {
+                queryResponse = TransactionWithKeplr([Msgs.SendMsg(address,props.totalDefineObject.toAddress, props.totalDefineObject.amountData, props.totalDefineObject.denom)],Msgs.Fee(5000, 200000), "", process.env.REACT_APP_CHAIN_ID);
+            }
+            queryResponse.then((result) => {
             console.log("response finale", result);
             setShow(false)
+            setLoader(false);
             setKeplrTxn(true)
             setResponse(result)
         }).catch((error) => {
+            setLoader(false);
             setErrorMessage(error.message)
             console.log(error,'error');
         });
@@ -126,6 +135,8 @@ const CommonKeystore = (props) => {
                 queryResponse = queries.issueIdentityQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesIssue)
             } else if (props.TransactionName === 'defineIdentity') {
                 queryResponse = queries.defineQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesDefine)
+            } else if (props.TransactionName === 'sendcoin') {
+                queryResponse = queries.sendCoinQuery(userMnemonic, props.totalDefineObject, SendCoinQuery)
             }
             queryResponse.then(function (item) {
                 const data = JSON.parse(JSON.stringify(item));
