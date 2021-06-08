@@ -649,75 +649,79 @@ html, body, #root, .app {
   overflow: hidden;
   text-overflow: ellipsis; }
 
-.profile-section .col-md-9.card-deck .card-deck .card {
-  height: 300px !important;
-  padding: 20px; }
-.profile-section .card {
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
-  border-radius: 7px; }
-  .profile-section .card .card-heading {
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 21px;
-    margin-bottom: 15px; }
-.profile-section .list-item {
-  padding-bottom: 15px; }
-  .profile-section .list-item .list-item-label {
-    width: 200px; }
-  .profile-section .list-item .list-item-value {
-    text-align: left; }
-.profile-section .profile-picture-section {
-  padding: 40px !important; }
-.profile-section .profile-picture {
-  display: flex;
-  align-items: center;
-  padding-bottom: 15px; }
-  .profile-section .profile-picture .image {
-    margin-right: 15px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #FBF1C5; }
-.profile-section .ledger-box {
-  border: 1px solid;
-  box-sizing: border-box;
-  border-radius: 14px;
-  padding: 20px; }
-  .profile-section .ledger-box .image-section {
+.profile-section {
+  width: 100%; }
+  .profile-section .card-deck {
+    height: auto !important; }
+    .profile-section .card-deck .card {
+      height: 300px !important;
+      padding: 20px; }
+  .profile-section .card {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 7px; }
+    .profile-section .card .card-heading {
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 21px;
+      margin-bottom: 15px; }
+  .profile-section .list-item {
+    padding-bottom: 15px; }
+    .profile-section .list-item .list-item-label {
+      width: 200px; }
+    .profile-section .list-item .list-item-value {
+      text-align: left; }
+  .profile-section .profile-picture-section {
+    padding: 40px !important; }
+  .profile-section .profile-picture {
     display: flex;
-    justify-content: center;
-    position: relative; }
-    .profile-section .ledger-box .image-section::before {
-      content: "";
-      width: 85px;
-      border-top: 0.5px dashed #EFCB30;
-      top: 20px;
-      position: absolute; }
-    .profile-section .ledger-box .image-section .ledger-image {
-      text-align: center;
-      width: 40px;
-      height: 40px;
-      background: #FBF1C5;
-      position: relative;
+    align-items: center;
+    padding-bottom: 15px; }
+    .profile-section .profile-picture .image {
+      margin-right: 15px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #FBF1C5; }
+  .profile-section .ledger-box {
+    border: 1px solid;
+    box-sizing: border-box;
+    border-radius: 14px;
+    padding: 20px; }
+    .profile-section .ledger-box .image-section {
       display: flex;
-      align-items: center;
       justify-content: center;
-      border-radius: 50%; }
-      .profile-section .ledger-box .image-section .ledger-image img {
-        margin-top: 8px;
-        width: 24px; }
-  .profile-section .ledger-box .heading {
-    font-weight: 600;
-    font-size: 14px;
-    text-align: center;
-    margin: 10px 0 15px 0; }
-  .profile-section .ledger-box .button-view {
-    opacity: .65;
-    cursor: not-allowed;
-    width: 150px;
-    margin: 0 auto;
-    background: #EFCB30;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05); }
+      position: relative; }
+      .profile-section .ledger-box .image-section::before {
+        content: "";
+        width: 85px;
+        border-top: 0.5px dashed #EFCB30;
+        top: 20px;
+        position: absolute; }
+      .profile-section .ledger-box .image-section .ledger-image {
+        text-align: center;
+        width: 40px;
+        height: 40px;
+        background: #FBF1C5;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%; }
+        .profile-section .ledger-box .image-section .ledger-image img {
+          margin-top: 8px;
+          width: 24px; }
+    .profile-section .ledger-box .heading {
+      font-weight: 600;
+      font-size: 14px;
+      text-align: center;
+      margin: 10px 0 15px 0; }
+    .profile-section .ledger-box .button-view {
+      opacity: .65;
+      cursor: not-allowed;
+      width: 150px;
+      margin: 0 auto;
+      background: #EFCB30;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05); }
 
 .Blue::before, .Red::before, .Green::before, .Black::before {
   content: "\A";

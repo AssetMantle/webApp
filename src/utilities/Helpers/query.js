@@ -25,6 +25,10 @@ async function issueIdentityQuery(address, mnemonic, data, actionName) {
     return await actionName.issue(address, "test", mnemonic, data.toAddress, data.FromId, data.classificationId, data.mutableValues, data.immutableValues, data.mutableMetaValues, data.immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode);
 
 }
+async function sendCoinQuery(mnemonic, data, actionName) {
+    return await actionName.sendCoin("test", mnemonic, data.toAddress, data.denom, data.amountData, config.feesAmount, config.feesToken, config.gas, config.mode);
+
+}
 function PrivateKeyReader(file, password) {
     return new Promise(function (resolve, reject) {
         const fileReader = new FileReader();
@@ -99,6 +103,7 @@ export default {
     wrapQuery,
     unWrapQuery,
     nubIdQuery,
+    sendCoinQuery,
     issueIdentityQuery,
     mintAssetQuery,
     PrivateKeyReader,

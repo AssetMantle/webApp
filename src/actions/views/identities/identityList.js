@@ -9,6 +9,7 @@ import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetID from "../../../utilities/Helpers/getID";
 import {useHistory} from "react-router-dom";
 import {Button, Form} from "react-bootstrap";
+import {Profile} from '../../../components';
 
 const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
 const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
@@ -99,6 +100,7 @@ const IdentityList = React.memo(() => {
                 : ""
             }
             <div className="row card-deck">
+                <Profile/>
                 {filteredIdentitiesList.length ?
                     filteredIdentitiesList.map((identity, index) => {
                         let immutableProperties = "";

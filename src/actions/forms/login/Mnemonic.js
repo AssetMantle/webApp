@@ -21,7 +21,7 @@ const LoginMnemonic = React.memo((props) => {
             const wallet = keyUtils.getWallet(event.target.mnemonic.value);
             localStorage.setItem("address", wallet.address);
             localStorage.setItem("mnemonic", event.target.mnemonic.value);
-            history.push('/identities');
+            history.push('/profile');
         }
     };
     const handleClose = () => {

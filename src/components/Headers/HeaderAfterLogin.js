@@ -12,7 +12,7 @@ const HeaderAfterLogin = () => {
     const {t} = useTranslation();
     const userTypeToken = localStorage.getItem('identityId');
     const userAddress = localStorage.getItem('address');
-    console.log(userAddress,'userAddress', userTypeToken);
+
     const handleRoute = route => () => {
         history.push(route);
     };
@@ -21,7 +21,7 @@ const HeaderAfterLogin = () => {
     };
 
     const logout  = () => {
-        localStorage.removeItem('mnemonic');
+        console.log(userAddress,'userAddress', userTypeToken, "raju");
         localStorage.removeItem('address');
         localStorage.removeItem('encryptedMnemonic');
         localStorage.removeItem('fromID');
@@ -32,7 +32,7 @@ const HeaderAfterLogin = () => {
 
     useEffect(() => {
         if(userTypeToken !== null  && window.location.pathname === "/"){
-            history.push('/identities');
+            history.push('/profile');
         }
         if (userTypeToken === null) {
             history.push('/Login');
@@ -41,7 +41,7 @@ const HeaderAfterLogin = () => {
     return (
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="login-after">
-                <Navbar.Brand><Nav.Link onClick={handleRoute("/identities")}>
+                <Navbar.Brand><Nav.Link onClick={handleRoute("/profile")}>
                     <img src={logo} alt="logo"/>
                 </Nav.Link></Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
@@ -94,7 +94,7 @@ const HeaderAfterLogin = () => {
                                         {/* <NavLink className="dropdown-item" to="/identities">{t("IDENTITIES")}</NavLink> */}
                                         <NavLink className="dropdown-item" to="/maintainers">{t("MAINTAINERS")}</NavLink>
                                         <NavLink className="dropdown-item" to="/profile">{t("PROFILE")}</NavLink>
-                                        <NavDropdown.Item onClick={logout("/")}>{t("LOGOUT")}</NavDropdown.Item>
+                                        <NavDropdown.Item onClick={logout}>{t("LOGOUT")}</NavDropdown.Item>
                                     </div>
 
                                 </li>

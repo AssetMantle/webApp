@@ -15,31 +15,28 @@ const IdentityLogin = React.memo((props) => {
     const {t} = useTranslation();
     const GetIDHelper = new GetID();
     const handleSubmit = async event => {
+        event.preventDefault();
         const IdentityName = event.target.identityname.value;
         const identities = identitiesQuery.queryIdentityWithID("all");
         if (identities) {
             identities.then(function (item) {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
-                const userIdentity =  dataList.filter((identity) => {
+                dataList.map((identity) => {
                     if (identity.value.immutables.value.properties.value.propertyList !== null) {
                         const identityId = GetIDHelper.GetIdentityID(identity);
                         if(IdentityName === identityId) {
-                            return true;
-                        } return false;
+                            console.log(identity, "ggerr");
+                            let address = identity.value.provisionedAddressList[0];
+                            console.log(address, "ggerr");
+                            localStorage.setItem("address", address);
+                            localStorage.setItem("identityId", IdentityName);
+                            history.push('/profile');
+                        } else {
+                            setErrorMessage(true);
+                        }
                     }
                 });
-
-                if(userIdentity.length){
-                    let address = userIdentity[0].value.provisionedAddressList[0];
-                    console.log(address, "ggerr");
-                    localStorage.setItem("address", address);
-                    localStorage.setItem("identityId", IdentityName);
-                    history.push('/identities');
-                } else {
-                    setErrorMessage(true);
-                }
-
             });
         }
     };

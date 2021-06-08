@@ -36,7 +36,7 @@ const App = () => {
         path: '/orders',
         component: Orders
     }, {
-        path: '/identities',
+        path: '/profile',
         component: Identities
     }, {
         path: '/allidentities',

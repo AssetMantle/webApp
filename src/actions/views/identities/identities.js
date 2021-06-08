@@ -15,7 +15,8 @@ const Identities = () => {
     const [externalComponent, setExternalComponent] = useState("");
     const [identityId, setIdentityId] = useState("");
     const [identity, setIdentity] = useState([]);
-
+    const identityIddd = localStorage.getItem('address');
+    console.log(identityIddd , "Sss");
     const handleModalData = (formName) => {
         setExternalComponent(formName);
         setIdentity(identity);
@@ -45,6 +46,7 @@ const Identities = () => {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </div>
+
                         <IdentityList/>
                     </div>
                     <div className="col-md-3 summary-section">

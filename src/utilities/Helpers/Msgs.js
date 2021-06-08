@@ -10,7 +10,7 @@ function SendMsg(fromAddress, toAddress, amount, denom) {
 }
 
 function Fee(amount, gas = 250000) {
-    return {amount: [{amount: String(amount), denom: "uxprt"}], gas: String(gas)};
+    return {amount: [{amount: String(amount), denom: "stake"}], gas: String(gas)};
 }
 
 
