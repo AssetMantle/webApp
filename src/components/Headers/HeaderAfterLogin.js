@@ -27,6 +27,7 @@ const HeaderAfterLogin = () => {
         localStorage.removeItem('fromID');
         localStorage.removeItem('lastFromID');
         localStorage.removeItem('identityId');
+        localStorage.removeItem('keplerAddress');
         history.push('/');
     };
 

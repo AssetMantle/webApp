@@ -29,9 +29,9 @@ const ModalCommon = (props) => {
                         <p className="tx-hash">TxHash: <a href={process.env.REACT_APP_ASSET_MANTLE_API + '/txs/' + props.data.transactionHash} target="_blank" rel="noreferrer">{props.data.transactionHash}</a></p>
                     :
                     props.data.code ?
-                        <p>Error: {props.data.raw_log}</p>
+                        <p>Error: {props.data.rawLog}</p>
                         :
-                        <p className="tx-hash">TxHash: <a href={process.env.REACT_APP_ASSET_MANTLE_API + '/txs/' + props.data.txhash} target="_blank" rel="noreferrer">{props.data.txhash}</a></p>
+                        <p className="tx-hash">TxHash: <a href={process.env.REACT_APP_ASSET_MANTLE_API + '/txs/' + props.data.transactionHash} target="_blank" rel="noreferrer">{props.data.transactionHash}</a></p>
 
                 }
             </Modal.Body>

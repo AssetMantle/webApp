@@ -60,13 +60,13 @@ const CommonKeystore = (props) => {
         await window.keplr.enable(chainID);
         const offlineSigner = window.getOfflineSigner(chainID);
         const accounts = await offlineSigner.getAccounts();
+        console.log(offlineSigner, address, "offlineSigner nd address");
         const cosmJS = new SigningCosmosClient(restAPI, accounts[0].address, offlineSigner );
         return await cosmJS.signAndBroadcast(msgs, fee, memo);
     };
 
     const handleKepler = () => {
         setLoader(true);
-        console.log(address,'address');
         let queryResponse;
         if (props.TransactionName === 'sendcoin') {
             queryResponse = TransactionWithKeplr([Msgs.SendMsg(address,props.totalDefineObject.toAddress, props.totalDefineObject.amountData, props.totalDefineObject.denom)],Msgs.Fee(5000, 200000), "", process.env.REACT_APP_CHAIN_ID);
@@ -127,11 +127,12 @@ const CommonKeystore = (props) => {
             } else if (props.TransactionName === 'defineIdentity') {
                 queryResponse = queries.defineQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesDefine);
             } else if (props.TransactionName === 'sendcoin') {
-                queryResponse = queries.sendCoinQuery(userMnemonic, props.totalDefineObject, SendCoinQuery);
+                queryResponse = queries.sendCoinQuery(wallet.address, userMnemonic, props.totalDefineObject, SendCoinQuery);
             }
             queryResponse.then(function (item) {
                 const data = JSON.parse(JSON.stringify(item));
-                const pollResponse = pollTxHash(process.env.REACT_APP_ASSET_MANTLE_API, data.txhash);
+                console.log(data, "befoer poll");
+                const pollResponse = pollTxHash(process.env.REACT_APP_ASSET_MANTLE_API, data.transactionHash);
                 pollResponse.then(function (pollData) {
                     const pollObject = JSON.parse(pollData);
                     console.log(pollObject,'pollObject');
@@ -161,7 +162,7 @@ const CommonKeystore = (props) => {
         <div>
             <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select" centered>
                 <Modal.Header closeButton>
-                    {t("LOGIN_WITH_KEYSTORE")}
+                    {t("Choose Option")}
                 </Modal.Header>
                 {loader ?
                     <Loader />
@@ -203,11 +204,11 @@ const CommonKeystore = (props) => {
                                 type="submit"
                                 className="button-double-border"
                             >
-                                {t("LOGIN")}
+                                {t("SUBMIT")}
                             </Button>
                         </div>
                         <div className="submitButtonSection">
-                            <button type={"button"} variant="primary" className="button-double-border" onClick={() => handleKepler("kepler")}>{t("SIGN_IN_KEPLER")}
+                            <button type={"button"} variant="primary" className="button-double-border" onClick={() => handleKepler("kepler")}>{t("USE_KEPLER")}
                             </button>
                         </div>
 

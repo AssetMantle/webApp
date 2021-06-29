@@ -1,6 +1,13 @@
-import config from "../../constants/config.json";
+import {stringToPath} from "@cosmjs/crypto";
+import {  Secp256k1HdWallet } from "@cosmjs/amino";
+import config from "../../config";
+import Msgs from './Msgs';
+
 const crypto = require("crypto");
 const passwordHashAlgorithm = "sha512";
+const { SigningCosmosClient } = require("@cosmjs/launchpad");
+const restAPI = process.env.REACT_APP_API;
+const configCoinType = config.coinType;
 async function defineQuery(address, mnemonic, data, actionName) {
     return await actionName.define(address, "test", mnemonic, data.fromID, data.mutablePropertyValue, data.immutablePropertyValue, data.mutableMetaPropertyValue, data.immutableMetaPropertyValue, config.feesAmount, config.feesToken, config.gas, config.mode);
 
@@ -25,10 +32,12 @@ async function issueIdentityQuery(address, mnemonic, data, actionName) {
     return await actionName.issue(address, "test", mnemonic, data.toAddress, data.FromId, data.classificationId, data.mutableValues, data.immutableValues, data.mutableMetaValues, data.immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode);
 
 }
-async function sendCoinQuery(mnemonic, data, actionName) {
-    return await actionName.sendCoin("test", mnemonic, data.toAddress, data.denom, data.amountData, config.feesAmount, config.feesToken, config.gas, config.mode);
 
+async function sendCoinQuery(address, mnemonic, data, actionName) {
+    console.log(actionName);
+    return await TransactionWithMnemonic( [Msgs.SendMsg(address, data.toAddress, data.amountData, data.denom)],Msgs.Fee(5000, 200000), "" , mnemonic);
 }
+
 function PrivateKeyReader(file, password) {
     return new Promise(function (resolve, reject) {
         const fileReader = new FileReader();
@@ -47,6 +56,7 @@ function PrivateKeyReader(file, password) {
         };
     });
 }
+
 function createStore(mnemonic, password) {
     try {
         const key = crypto.randomBytes(32);
@@ -98,6 +108,36 @@ function decryptStore(fileData, password) {
         };
     }
 }
+
+async function Transaction(wallet, signerAddress, msgs, fee, memo = "") {
+    console.log(wallet, signerAddress, msgs, fee, memo, "Rer");
+    const cosmJS = new SigningCosmosClient(restAPI, signerAddress, wallet);
+    return await cosmJS.signAndBroadcast(msgs, fee, memo);
+}
+
+async function TransactionWithMnemonic(msgs, fee, memo, mnemonic) {
+    const [wallet, address] = await MnemonicWalletWithPassphrase(mnemonic);
+    return Transaction(wallet, address, msgs, fee, memo);
+}
+
+async function MnemonicWalletWithPassphrase(mnemonic) {
+    const wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic);
+
+    // const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
+    //     prefix: prefix,
+    //     bip39Password: password,
+    //     hdPaths: [hdPath]
+    // });
+
+    const [firstAccount] = await wallet.getAccounts();
+    return [wallet, firstAccount.address];
+}
+
+function makeHdPath(accountNumber = "0", addressIndex = "0", coinType = configCoinType) {
+    return stringToPath("m/44'/" + coinType + "'/" + accountNumber + "'/0/" + addressIndex);
+}
+
+
 export default {
     defineQuery,
     wrapQuery,
@@ -108,6 +148,8 @@ export default {
     mintAssetQuery,
     PrivateKeyReader,
     createStore,
-    decryptStore
-
+    decryptStore,
+    Transaction,
+    TransactionWithMnemonic,
+    makeHdPath
 };

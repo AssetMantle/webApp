@@ -5,8 +5,10 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "@cosmjs/amino": "^0.25.4",
     "@cosmjs/crypto": "^0.25.4",
     "@cosmjs/launchpad": "^0.25.4",
+    "@cosmjs/proto-signing": "^v0.25.4",
     "@fortawesome/fontawesome-svg-core": "^1.2.31",
     "@fortawesome/free-solid-svg-icons": "^5.15.0",
     "@fortawesome/react-fontawesome": "^0.1.11",
