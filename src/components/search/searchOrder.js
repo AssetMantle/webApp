@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import metasQueryJS from "persistencejs/transaction/meta/query";
+import {queryMeta} from "persistencejs/build/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import GetProperty from "../../utilities/Helpers/getProperty";
 import GetMeta from "../../utilities/Helpers/getMeta";
@@ -8,11 +8,11 @@ import Sidebar from "../sidebar/sidebar";
 
 import {Summary} from "../summary";
 import Copy from "../copy";
-import ordersQueryJS from "persistencejs/transaction/orders/query";
+import {queryOrders} from "persistencejs/build/transaction/orders/query";
 import {useHistory} from "react-router-dom";
 import Icon from "../../icons";
-const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const ordersQuery = new queryOrders(process.env.REACT_APP_ASSET_MANTLE_API);
+const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const SearchOrder = React.memo((props) => {
     const PropertyHelper = new GetProperty();

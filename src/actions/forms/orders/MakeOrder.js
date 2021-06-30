@@ -1,20 +1,19 @@
 import React, {useState} from "react";
 import {Form, Button, Modal} from "react-bootstrap";
-import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
-import ordersMakeJS from "persistencejs/transaction/orders/make";
-import metasQueryJS from "persistencejs/transaction/meta/query";
+import {cls} from "persistencejs/build/transaction/classification/query";
+import {queryMeta} from "persistencejs/build/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
-import ModalCommon from "../../../components/modal";
 import config from "../../../constants/config.json";
 
 import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetProperty from "../../../utilities/Helpers/getProperty";
+import CommonKeystore from '../login/CommonKeystore';
 
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const ordersMake = new ordersMakeJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
+
+const classificationsQuery = new cls(process.env.REACT_APP_ASSET_MANTLE_API);
 const MakeOrder = (props) => {
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
@@ -22,7 +21,6 @@ const MakeOrder = (props) => {
     const [loader, setLoader] = useState(false);
     const [showNext, setShowNext] = useState(false);
     const [classificationId, setClassificationId] = useState("");
-    const [response, setResponse] = useState({});
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     const [mutableList, setMutableList] = useState([]);
     const [immutableList, setImmutableList] = useState([]);
@@ -35,6 +33,8 @@ const MakeOrder = (props) => {
     const PropertyHelper = new GetProperty();
     const FilterHelper = new FilterHelpers();
     const GetMetaHelper = new GetMeta();
+    const [totalDefineObject, setTotalDefineObject] = useState({});
+    const [externalComponent, setExternalComponent] = useState("");
 
     const handleCloseNext = () => {
         setShowNext(false);
@@ -211,15 +211,31 @@ const MakeOrder = (props) => {
                     }
                 });
             }
-            const userTypeToken = localStorage.getItem('mnemonic');
-            const userAddress = localStorage.getItem('address');
-            const makeOrderResult = ordersMake.make(userAddress, "test", userTypeToken, FromId, classificationId, assetId, TakerOwnableId, ExpiresIn, Makersplit, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode);
-            makeOrderResult.then(function (item) {
-                const data = JSON.parse(JSON.stringify(item));
-                setResponse(data);
-                setShowNext(false);
-                setLoader(false);
-            });
+            let totalData = {
+                fromID:FromId,
+                classificationId:classificationId,
+                makerOwnableID:assetId,
+                TakerOwnableId:TakerOwnableId,
+                ExpiresIn:ExpiresIn,
+                Makersplit:Makersplit,
+                mutableValues:mutableValues,
+                immutableValues:immutableValues,
+                mutableMetaValues:mutableMetaValues,
+                immutableMetaValues:immutableMetaValues,
+            };
+            setTotalDefineObject(totalData);
+            setExternalComponent('Keystore');
+            setShow(false);
+            setLoader(false);
+            // const userTypeToken = localStorage.getItem('mnemonic');
+            // const userAddress = localStorage.getItem('address');
+            // const makeOrderResult = ordersMake.make(userAddress, "test", userTypeToken, FromId, classificationId, assetId, TakerOwnableId, ExpiresIn, Makersplit, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode);
+            // makeOrderResult.then(function (item) {
+            //     const data = JSON.parse(JSON.stringify(item));
+            //     setResponse(data);
+            //     setShowNext(false);
+            //     setLoader(false);
+            // });
         }
     };
     const handleUpload = (id) => {
@@ -545,9 +561,10 @@ const MakeOrder = (props) => {
                     <input type="file" name="file" onChange={handleFileInputChange}/>
                 </Modal.Body>
             </Modal>
-            {!(Object.keys(response).length === 0) ?
-                <ModalCommon data={response} setExternal={handleClose}/>
-                : ""
+            {
+                externalComponent === 'Keystore' ?
+                    <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'make order'} ActionName={props.ActionName}/> :
+                    null
             }
         </div>
     );

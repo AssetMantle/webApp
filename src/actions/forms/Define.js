@@ -29,7 +29,7 @@ const Define = (props) => {
     const [testIdentityId, settestIdentityId] = useState("");
 
     useEffect(() => {
-        let fromIDValue = localStorage.getItem('fromID');
+        let fromIDValue = localStorage.getItem('identityId');
         let testIdentityId = localStorage.getItem("identityId");
         setFromID(fromIDValue);
         settestIdentityId(testIdentityId);
@@ -606,7 +606,7 @@ const Define = (props) => {
             <div>
                 {
                     externalComponent === 'Keystore' ?
-                        <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'defineIdentity'} ActionName={props.ActionName}/> :
+                        <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={props.FormName} ActionName={props.ActionName}/> :
                         null
                 }
                 {

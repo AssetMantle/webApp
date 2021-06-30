@@ -1,31 +1,50 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import AssetMintJS from "persistencejs/transaction/assets/mint";
+import {mintAsset} from "persistencejs/build/transaction/assets/mint";
 import KeplerWallet from "../../../utilities/Helpers/kelplr";
-import keyUtils from "persistencejs/utilities/keys";
+import {getWallet} from "persistencejs/build/utilities/keys";
 import { useTranslation } from "react-i18next";
 import { pollTxHash } from "../../../utilities/Helpers/filter";
 import queries from '../../../utilities/Helpers/query';
 import Loader from "../../../components/loader";
-import SendCoinJS from "persistencejs/transaction/bank/sendCoin";
+import {bank} from "persistencejs/build/transaction/bank/sendCoin";
 import ModalCommon from "../../../components/modal";
-import WrapJS from "persistencejs/transaction/splits/wrap";
-import UnWrapJS from "persistencejs/transaction/splits/unwrap";
-import IdentitiesIssueJS from "persistencejs/transaction/identity/issue";
-import identitiesNubJS from "persistencejs/transaction/identity/nub";
+import {wrapSplits} from "persistencejs/build/transaction/splits/wrap";
+import {unwrapsplits} from "persistencejs/build/transaction/splits/unwrap";
+import {issueIdentity} from "persistencejs/build/transaction/identity/issue";
+import {nubIdentity} from "persistencejs/build/transaction/identity/nub";
 import Msgs from "../../../utilities/Helpers/Msgs";
-import identitiesDefineJS from "persistencejs/transaction/identity/define";
+import {defineIdentity} from "persistencejs/build/transaction/identity/define";
+import {defineAsset} from 'persistencejs/build/transaction/assets/define';
+import {defineOrder} from 'persistencejs/build/transaction/orders/define';
+import {sendSplits} from 'persistencejs/build/transaction/splits/send';
+import {makeOrder} from 'persistencejs/build/transaction/orders/make';
+import {mutateAsset} from 'persistencejs/build/transaction/assets/mutate';
+import {cancelOrder} from 'persistencejs/build/transaction/orders/cancel';
+import {burnAsset} from 'persistencejs/build/transaction/assets/burn';
+import {deputizeMaintainer as dm} from 'persistencejs/build/transaction/maintainers/deputize';
+import {provisionIdentity} from 'persistencejs/build/transaction/identity/provision';
+import {unprovisionIdentity} from 'persistencejs/build/transaction/identity/unprovision';
 const { SigningCosmosClient } = require("@cosmjs/launchpad");
 const restAPI = process.env.REACT_APP_API;
-const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const assetMint = new AssetMintJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const SendCoinQuery = new SendCoinJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const WrapQuery = new WrapJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const identitiesIssue = new IdentitiesIssueJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const identitiesNub = new identitiesNubJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const UnWrapQuery = new UnWrapJS(process.env.REACT_APP_ASSET_MANTLE_API);
-
+const identitiesDefine = new defineIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
+const assetDefine = new defineAsset(process.env.REACT_APP_ASSET_MANTLE_API);
+const ordersDefine = new defineOrder(process.env.REACT_APP_ASSET_MANTLE_API);
+const assetMint = new mintAsset(process.env.REACT_APP_ASSET_MANTLE_API);
+const SendCoinQuery = new bank(process.env.REACT_APP_ASSET_MANTLE_API);
+const WrapQuery = new wrapSplits(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesIssue = new issueIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesNub = new nubIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
+const UnWrapQuery = new unwrapsplits(process.env.REACT_APP_ASSET_MANTLE_API);
+const sendSplitQuery = new sendSplits(process.env.REACT_APP_ASSET_MANTLE_API);
+const ordersMake = new makeOrder(process.env.REACT_APP_ASSET_MANTLE_API);
+const assetMutate = new mutateAsset(process.env.REACT_APP_ASSET_MANTLE_API);
+const ordersCancel = new cancelOrder(process.env.REACT_APP_ASSET_MANTLE_API);
+const assetBurn = new burnAsset(process.env.REACT_APP_ASSET_MANTLE_API);
+const deputizeMaintainer = new dm(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesProvision = new provisionIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesUnprovision = new unprovisionIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const CommonKeystore = (props) => {
     const { t } = useTranslation();
@@ -110,11 +129,14 @@ const CommonKeystore = (props) => {
                 setErrorMessage("");
             }
         }
+
+
         if (userMnemonic !== undefined) {
-            const wallet = keyUtils.getWallet(userMnemonic);
+            console.log(userMnemonic, "out memonic");
+            const wallet = await getWallet(userMnemonic, "");
+            console.log(wallet, "in memonic");
             let queryResponse;
             if (props.TransactionName === 'assetMint') {
-                console.log('mintasset');
                 queryResponse = queries.mintAssetQuery(wallet.address, userMnemonic, props.totalDefineObject, assetMint);
             }  else if (props.TransactionName === 'wrap') {
                 queryResponse = queries.wrapQuery(wallet.address, userMnemonic, props.totalDefineObject, WrapQuery);
@@ -124,10 +146,30 @@ const CommonKeystore = (props) => {
                 queryResponse = queries.nubIdQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesNub);
             }  else if (props.TransactionName === 'issueidentity') {
                 queryResponse = queries.issueIdentityQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesIssue);
-            } else if (props.TransactionName === 'defineIdentity') {
+            } else if (props.TransactionName === 'Define Asset') {
+                queryResponse = queries.defineIdentityQuery(wallet.address, userMnemonic, props.totalDefineObject, assetDefine);
+            }  else if (props.TransactionName === 'Define Order') {
+                queryResponse = queries.defineOrderQuery    (wallet.address, userMnemonic, props.totalDefineObject, ordersDefine);
+            } else if (props.TransactionName === 'Define Identity') {
                 queryResponse = queries.defineQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesDefine);
             } else if (props.TransactionName === 'sendcoin') {
                 queryResponse = queries.sendCoinQuery(wallet.address, userMnemonic, props.totalDefineObject, SendCoinQuery);
+            } else if (props.TransactionName === 'send splits') {
+                queryResponse = queries.sendSplitsQuery(wallet.address, userMnemonic, props.totalDefineObject, sendSplitQuery);
+            } else if (props.TransactionName === 'make order') {
+                queryResponse = queries.makeOrderQuery(wallet.address, userMnemonic, props.totalDefineObject, ordersMake);
+            } else if (props.TransactionName === 'mutate Asset') {
+                queryResponse = queries.mutateAssetQuery(wallet.address, userMnemonic, props.totalDefineObject, assetMutate);
+            } else if (props.TransactionName === 'cancel order') {
+                queryResponse = queries.cancelOrderQuery(wallet.address, userMnemonic, props.totalDefineObject, ordersCancel);
+            } else if (props.TransactionName === 'burn asset') {
+                queryResponse = queries.burnAassetQuery(wallet.address, userMnemonic, props.totalDefineObject, assetBurn);
+            } else if (props.TransactionName === 'deputize') {
+                queryResponse = queries.deputizeQuery(wallet.address, userMnemonic, props.totalDefineObject, deputizeMaintainer);
+            } else if (props.TransactionName === 'provision') {
+                queryResponse = queries.provisionQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesProvision);
+            } else if (props.TransactionName === 'un provision') {
+                queryResponse = queries.unProvisionQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesUnprovision);
             }
             queryResponse.then(function (item) {
                 const data = JSON.parse(JSON.stringify(item));

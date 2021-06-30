@@ -1,18 +1,17 @@
 import React, {useState, useEffect} from "react";
 import {Form, Button, Modal} from "react-bootstrap";
-import metasQueryJS from "persistencejs/transaction/meta/query";
-import assetMutateJS from "persistencejs/transaction/assets/mutate";
+import {queryMeta} from "persistencejs/build/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
-import ModalCommon from "../../../components/modal";
 import config from "../../../constants/config.json";
 import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetID from "../../../utilities/Helpers/getID";
 import GetProperty from "../../../utilities/Helpers/getProperty";
+import CommonKeystore from '../login/CommonKeystore';
 
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const assetMutate = new assetMutateJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
+
 
 const MutateAsset = (props) => {
     const FilterHelper = new FilterHelpers();
@@ -24,12 +23,13 @@ const MutateAsset = (props) => {
     const [errorMessage, setErrorMessage] = useState("");
     const [loader, setLoader] = useState(false);
     const [keyList, setKeyList] = useState([]);
-    const [response, setResponse] = useState({});
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     const [fromID, setFromID] = useState("");
+    const [externalComponent, setExternalComponent] = useState("");
+    const [totalDefineObject, setTotalDefineObject] = useState({});
 
     useEffect(() => {
-        let fromIDValue = localStorage.getItem('fromID');
+        let fromIDValue = localStorage.getItem('identityId');
         setFromID(fromIDValue);
         const mutateProperties = props.mutatePropertiesList;
         const mutableKeys = Object.keys(mutateProperties);
@@ -114,15 +114,28 @@ const MutateAsset = (props) => {
                 }
                 );
             }
-            const userTypeToken = localStorage.getItem('mnemonic');
-            const userAddress = localStorage.getItem('address');
-            const mutateResponse = assetMutate.mutate(userAddress, "test", userTypeToken, FromId, assetId, mutableValues, mutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode);
-            mutateResponse.then(function (item) {
-                const data = JSON.parse(JSON.stringify(item));
-                setResponse(data);
-                setShow(false);
-                setLoader(false);
-            });
+            // const userTypeToken = localStorage.getItem('mnemonic');
+            // const userAddress = localStorage.getItem('address');
+
+            let totalData = {
+                fromID:FromId,
+                assetId:assetId,
+                mutableValues:mutableValues,
+                mutableMetaValues:mutableMetaValues,
+            };
+            setTotalDefineObject(totalData);
+            setExternalComponent('Keystore');
+            setShow(false);
+
+            setLoader(false);
+            //
+            // const mutateResponse = assetMutate.mutate(userAddress, "test", userTypeToken, FromId, assetId, mutableValues, mutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode);
+            // mutateResponse.then(function (item) {
+            //     const data = JSON.parse(JSON.stringify(item));
+            //     setResponse(data);
+            //     setShow(false);
+            //     setLoader(false);
+            // });
         }
     };
 
@@ -205,9 +218,10 @@ const MutateAsset = (props) => {
                     </Form>
                 </Modal.Body>
             </Modal>
-            {!(Object.keys(response).length === 0) ?
-                <ModalCommon data={response} setExternal={handleClose}/>
-                : ""
+            {
+                externalComponent === 'Keystore' ?
+                    <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'mutate Asset'}/> :
+                    null
             }
         </div>
     );

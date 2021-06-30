@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import metasQueryJS from "persistencejs/transaction/meta/query";
+import {queryMeta} from "persistencejs/build/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
 import {useHistory} from "react-router-dom";
@@ -11,15 +11,15 @@ import config from "../../../constants/config.json";
 import GetID from "../../../utilities/Helpers/getID";
 import Copy from "../../../components/copy";
 import {Button, Dropdown} from "react-bootstrap";
-import identitiesQueryJS from "persistencejs/transaction/identity/query";
+import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 import {IssueIdentity, Nub, Provision, UnProvision} from "../../forms/identities";
 import Loader from "../../../components/loader";
 import {Define} from "../../forms";
-import identitiesDefineJS from "persistencejs/transaction/identity/define";
+import {defineIdentity} from "persistencejs/build/transaction/identity/define";
 
-const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesDefine = new defineIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
+const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const IdentityView = React.memo((props) => {
     const PropertyHelper = new GetProperty();
     const GetMetaHelper = new GetMeta();

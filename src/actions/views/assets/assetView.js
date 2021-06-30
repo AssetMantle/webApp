@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
-import assetsQueryJS from "persistencejs/transaction/assets/query";
-import metasQueryJS from "persistencejs/transaction/meta/query";
+import {queryAssets} from "persistencejs/build/transaction/assets/query";
+import {queryMeta} from "persistencejs/build/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
 import {useHistory} from "react-router-dom";
@@ -15,11 +15,11 @@ import Icon from "../../../icons";
 import {BurnAsset, MintAsset, MutateAsset, SendSplit, UnWrap, Wrap} from "../../forms/assets";
 import {MakeOrder} from "../../forms/orders";
 import {Define} from "../../forms";
-import AssetDefineJS from "persistencejs/transaction/assets/define";
+import {defineAsset} from "persistencejs/build/transaction/assets/define";
 
-const assetsQuery = new assetsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const assetDefine = new AssetDefineJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const assetsQuery = new queryAssets(process.env.REACT_APP_ASSET_MANTLE_API);
+const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
+const assetDefine = new defineAsset(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const AssetView = React.memo((props) => {
     const PropertyHelper = new GetProperty();

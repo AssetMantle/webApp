@@ -3,10 +3,10 @@ import {Modal, Form, Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import GetID from "../../../utilities/Helpers/getID";
-import identitiesQueryJS from "persistencejs/transaction/identity/query";
+import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 import MnemonicIcon from "../../../assets/images/MnemonicIcon.svg";
 import Icon from "../../../icons";
-const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const IdentityLogin = React.memo((props) => {
     const history = useHistory();

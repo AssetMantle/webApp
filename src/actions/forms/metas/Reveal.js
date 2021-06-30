@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import RevealMetaJS from "persistencejs/transaction/meta/reveal";
+import {revealMeta} from "persistencejs/build/transaction/meta/reveal";
 import {Form, Button, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
@@ -7,7 +7,7 @@ import ModalCommon from "../../../components/modal";
 import config from "../../../constants/config.json";
 import GetProperty from "../../../utilities/Helpers/getProperty";
 
-const RevealMeta = new RevealMetaJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const RevealMeta = new revealMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const Reveal = (props) => {
     const PropertyHelper = new GetProperty();

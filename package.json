@@ -23,7 +23,7 @@
     "i18next-xhr-backend": "^3.2.2",
     "js-base64": "^3.6.0",
     "js-sha1": "^0.6.0",
-    "persistencejs": "https://github.com/persistenceOne/persistenceJS#v0.1.0",
+    "persistencejs": "https://github.com/persistenceOne/persistenceJS#typescriptExample",
     "react": "^16.14.0",
     "react-bootstrap": "^1.4.0",
     "react-copy-to-clipboard": "^5.0.2",

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
-import keyUtils from "persistencejs/utilities/keys";
-import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import identitiesNubJS from "persistencejs/transaction/identity/nub";
+import {createRandomWallet, createStore} from "persistencejs/build/utilities/keys";
+import {queryIdentities} from "persistencejs/build/transaction/identity/query";
+import {nubIdentity} from "persistencejs/build/transaction/identity/nub";
 import DownloadLink from "react-download-link";
 import config from "../../constants/config.json";
 import GetID from "../../utilities/Helpers/getID";
@@ -13,8 +13,8 @@ import { pollTxHash } from "../../utilities/Helpers/filter";
 import { useHistory } from "react-router-dom";
 import Loader from "../../components/loader";
 import Icon from "../../icons";
-const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const identitiesNub = new identitiesNubJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesNub = new nubIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
 const SignUp = () => {
     const [response, setResponse] = useState({});
     const [loader, setLoader] = useState(false);
@@ -116,12 +116,12 @@ const SignUp = () => {
     const handleSubmit = e => {
         e.preventDefault();
         const password = document.getElementById("password").value;
-        const error = keyUtils.createRandomWallet();
+        const error = createRandomWallet();
         if (error.error != null) {
             return (<div>ERROR!!</div>);
         }
 
-        const create = keyUtils.createStore(error.mnemonic, password);
+        const create = createStore(error.mnemonic, password);
         if (create.error != null) {
             return (<div>ERROR!!</div>);
         }

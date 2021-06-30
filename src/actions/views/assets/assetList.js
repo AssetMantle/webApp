@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
 import {useHistory} from "react-router-dom";
-import splitsQueryJS from "persistencejs/transaction/splits/query";
-import assetsQueryJS from "persistencejs/transaction/assets/query";
-import metasQueryJS from "persistencejs/transaction/meta/query";
-import identitiesQueryJS from "persistencejs/transaction/identity/query";
+import {querySplits} from "persistencejs/build/transaction/splits/query";
+import {queryAssets} from "persistencejs/build/transaction/assets/query";
+import {queryMeta} from "persistencejs/build/transaction/meta/query";
+import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 import {useTranslation} from "react-i18next";
 import {Button} from "react-bootstrap";
 import Loader from "../../../components/loader";
@@ -15,10 +15,10 @@ import GetID from "../../../utilities/Helpers/getID";
 import {MakeOrder} from "../../forms/orders";
 import {SendSplit} from "../../forms/assets";
 
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const assetsQuery = new assetsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const splitsQuery = new splitsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
+const assetsQuery = new queryAssets(process.env.REACT_APP_ASSET_MANTLE_API);
+const splitsQuery = new querySplits(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const AssetList = React.memo(() => {
     const PropertyHelper = new GetProperty();
@@ -48,8 +48,11 @@ const AssetList = React.memo(() => {
                         splits.then(function (splitsItem) {
                             const splitData = JSON.parse(splitsItem);
                             const splitList = splitData.result.value.splits.value.list;
+
                             if (splitList) {
                                 const filterSplitsByIdentities = FilterHelper.FilterSplitsByIdentity(filterIdentities, splitList);
+                                console.log(filterSplitsByIdentities, "splitList");
+
                                 if (filterSplitsByIdentities.length) {
                                     setSplitList(filterSplitsByIdentities);
                                     filterSplitsByIdentities.map((split, index) => {

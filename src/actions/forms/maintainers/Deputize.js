@@ -1,21 +1,19 @@
 import React, {useState, useEffect} from "react";
-import deputizeJS from "persistencejs/transaction/maintainers/deputize";
 import {Form, Button, Modal} from "react-bootstrap";
-import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
+import {cls} from "persistencejs/build/transaction/classification/query";
 import {useTranslation} from "react-i18next";
-import ModalCommon from "../../../components/modal";
 import Loader from "../../../components/loader";
 
-import config from "../../../constants/config.json";
-const deputizeMaintainer = new deputizeJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+import CommonKeystore from '../login/CommonKeystore';
+const classificationsQuery = new cls(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const Deputize = (props) => {
     const {t} = useTranslation();
     const [loader, setLoader] = useState(false);
     const [show, setShow] = useState(true);
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
-    const [response, setResponse] = useState({});
+    const [externalComponent, setExternalComponent] = useState("");
+    const [totalDefineObject, setTotalDefineObject] = useState({});
     const [mutableList, setMutableList] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -60,16 +58,27 @@ const Deputize = (props) => {
             }
         });
         const ToId = event.target.ToId.value;
-        const userTypeToken = localStorage.getItem('mnemonic');
-        const userAddress = localStorage.getItem('address');
         if (maintainedTraits !== "") {
-            const DeputizeResponse = deputizeMaintainer.deputize(userAddress, "test", userTypeToken, identityId, classificationId, ToId, maintainedTraits, addMaintainer, removeMaintainer, mutateMaintainer, config.feesAmount, config.feesToken, config.gas, config.mode);
-            DeputizeResponse.then(function (item) {
-                const data = JSON.parse(JSON.stringify(item));
-                setResponse(data);
-                setShow(false);
-                setLoader(false);
-            });
+            let totalData = {
+                identityId:identityId,
+                classificationId:classificationId,
+                toId:ToId,
+                maintainedTraits:maintainedTraits,
+                addMaintainer:addMaintainer,
+                removeMaintainer:removeMaintainer,
+                mutateMaintainer:mutateMaintainer
+            };
+            setTotalDefineObject(totalData);
+            setExternalComponent('Keystore');
+            setShow(false);
+            setLoader(false);
+            // const DeputizeResponse = deputizeMaintainer.deputize(userAddress, "test", userTypeToken, identityId, classificationId, ToId, maintainedTraits, addMaintainer, removeMaintainer, mutateMaintainer, config.feesAmount, config.feesToken, config.gas, config.mode);
+            // DeputizeResponse.then(function (item) {
+            //     const data = JSON.parse(JSON.stringify(item));
+            //     setResponse(data);
+            //     setShow(false);
+            //     setLoader(false);
+            // });
         } else {
             setErrorMessage(t("SELECT_ANY_MUTABLE_TRAITS"));
             setLoader(false);
@@ -156,9 +165,10 @@ const Deputize = (props) => {
                     </Form>
                 </Modal.Body>
             </Modal>
-            { !(Object.keys(response).length === 0) ?
-                <ModalCommon data={response} setExternal={handleClose}/>
-                :""
+            {
+                externalComponent === 'Keystore' ?
+                    <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'deputize'}/> :
+                    null
             }
         </div>
     );

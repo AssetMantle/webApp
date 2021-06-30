@@ -1,7 +1,7 @@
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-const keys = require("persistencejs/utilities/keys");
-const broadcast = require("persistencejs/utilities/broadcastTx");
-const constants = require("./constants")
+const {getWallet} = require("persistencejs/build/utilities/keys");
+const broadcast = require("persistencejs/build/utilities/broadcastTx");
+const constants = require("./constants");
 
 
 function unsignedTx(msgs, gas, memo) {
@@ -30,8 +30,8 @@ function msg(fromAddress, toAddress, denom, amount) {
 function runner() {
     setInterval(function () {
         if (constants.FaucetList.length > 0) {
-            let fromWallet = keys.getWallet(process.env.FAUCET_MNEMONIC)
-            console.log("fauceting accounts : ", constants.FaucetList)
+            let fromWallet = getWallet(process.env.FAUCET_MNEMONIC);
+            console.log("fauceting accounts : ", constants.FaucetList);
             let msgs = []
             constants.FaucetList.forEach(address => msgs.push(msg(fromWallet.address, address, constants.DENOM, constants.AMOUNT)))
             let tx = unsignedTx(msgs, "400000", "Faucet")

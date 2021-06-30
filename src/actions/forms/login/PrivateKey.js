@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
-import keyUtils from "persistencejs/utilities/keys";
+import {getWallet, decryptStore} from "persistencejs/build/utilities/keys";
 import {useTranslation} from "react-i18next";
 import privateKeyIcon from "../../../assets/images/PrivatekeyIcon.svg";
 import Icon from "../../../icons";
 
-const PrivateKey = (props) => {
+const PrivateKey = async (props) => {
     const {t} = useTranslation();
     const history = useHistory();
     const [show, setShow] = useState(true);
@@ -16,14 +16,14 @@ const PrivateKey = (props) => {
         const password = document.getElementById("password").value;
         const fileReader = new FileReader();
         fileReader.readAsText(e.target.uploadFile.files[0], "UTF-8");
-        fileReader.onload = e => {
+        fileReader.onload = async e => {
             const res = JSON.parse(e.target.result);
-            const error = keyUtils.decryptStore(res, password);
+            const error = decryptStore(res, password);
             if (error.error != null) {
                 setIncorrectPassword(true);
                 return (<div>ERROR!!</div>);
             } else {
-                const wallet = keyUtils.getWallet(error.mnemonic);
+                const wallet = await getWallet(error.mnemonic, "");
                 localStorage.setItem("address", wallet.address);
                 localStorage.setItem("mnemonic", error.mnemonic);
                 history.push('/profile');

@@ -1,17 +1,15 @@
 import React, { useState} from "react";
-import sendSplitJS from "persistencejs/transaction/splits/send";
 import {Form, Button, Modal} from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import Loader from "../../../components/loader";
-import ModalCommon from "../../../components/modal";
-const sendSplitQuery = new sendSplitJS(process.env.REACT_APP_ASSET_MANTLE_API);
-import config from "../../../constants/config.json";
+import CommonKeystore from '../login/CommonKeystore';
 
 const SendSplit = (props) => {
     const { t } = useTranslation();
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false);
-    const [response, setResponse] = useState({});
+    const [externalComponent, setExternalComponent] = useState("");
+    const [totalDefineObject, setTotalDefineObject] = useState({});
 
     const handleClose = () => {
         setShow(false);
@@ -21,19 +19,29 @@ const SendSplit = (props) => {
     const handleSubmit = (event) => {
         setLoader(true);
         event.preventDefault();
-        const IdentityID = event.target.IdentityID.value;
-        const splitId = props.ownableId;
-        const fromId = props.ownerId;
-        const splitAmount = event.target.splitAmount.value;
-        const userTypeToken = localStorage.getItem('mnemonic');
-        const userAddress = localStorage.getItem('address');
-        const sendSplitResponse = sendSplitQuery.send(userAddress, "test", userTypeToken, fromId, IdentityID, splitId, splitAmount, config.feesAmount, config.feesToken, config.gas, config.mode);
-        sendSplitResponse.then(function (item) {
-            const data = JSON.parse(JSON.stringify(item));
-            setResponse(data);
-            setShow(false);
-            setLoader(false);
-        });
+        // const IdentityID = event.target.IdentityID.value;
+        // const splitId = props.ownableId;
+        // const fromId = props.ownerId;
+        // const splitAmount = event.target.splitAmount.value;
+        // const userTypeToken = localStorage.getItem('mnemonic');
+        // const userAddress = localStorage.getItem('address');
+
+        let totalData = {
+            fromID:props.ownerId,
+            IdentityID:event.target.IdentityID.value,
+            ownableId : props.ownableId,
+            splitAmount : event.target.splitAmount.value,
+        };
+        setTotalDefineObject(totalData);
+        setExternalComponent('Keystore');
+        setShow(false);
+        // const sendSplitResponse = sendSplitQuery.send(userAddress, "test", userTypeToken, fromId, IdentityID, splitId, splitAmount, config.feesAmount, config.feesToken, config.gas, config.mode);
+        // sendSplitResponse.then(function (item) {
+        //     const data = JSON.parse(JSON.stringify(item));
+        //     setResponse(data);
+        //     setShow(false);
+        //     setLoader(false);
+        // });
     };
 
     return (
@@ -78,9 +86,10 @@ const SendSplit = (props) => {
                     </Form>
                 </Modal.Body>
             </Modal>
-            {!(Object.keys(response).length === 0) ?
-                <ModalCommon data={response} setExternal={handleClose}/>
-                : ""
+            {
+                externalComponent === 'Keystore' ?
+                    <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'send splits'}/> :
+                    null
             }
         </div>
     );

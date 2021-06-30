@@ -5,11 +5,11 @@ import GetProperty from "../../utilities/Helpers/getProperty";
 
 import {Summary} from "../summary";
 import Copy from "../copy";
-import maintainersQueryJS from "persistencejs/transaction/maintainers/query";
+import {queryMaintainer} from "persistencejs/build/transaction/maintainers/query";
 import {useHistory} from "react-router-dom";
 import Icon from "../../icons";
 
-const maintainersQuery = new maintainersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const maintainersQuery = new queryMaintainer(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const SearchMaintainer = React.memo((props) => {
     const PropertyHelper = new GetProperty();

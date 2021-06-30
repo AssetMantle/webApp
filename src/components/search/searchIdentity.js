@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
-import metasQueryJS from "persistencejs/transaction/meta/query";
+import {queryMeta} from "persistencejs/build/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../sidebar/sidebar";
 import {Summary} from "../summary";
-import identitiesQueryJS from "persistencejs/transaction/identity/query";
+import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 import Copy from "../copy";
 import {useHistory} from "react-router-dom";
 import Icon from "../../icons";
@@ -11,8 +11,8 @@ import GetProperty from "../../utilities/Helpers/getProperty";
 import GetMeta from "../../utilities/Helpers/getMeta";
 import GetID from "../../utilities/Helpers/getID";
 
-const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
+const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const SearchIdentity = React.memo((props) => {
     const PropertyHelper = new GetProperty();

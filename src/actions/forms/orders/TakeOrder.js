@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import TakeOrderJS from "persistencejs/transaction/orders/take";
+import {takeOrder as takeOrderQuery} from "persistencejs/build/transaction/orders/take";
 import {Form, Button, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
@@ -7,7 +7,7 @@ import ModalCommon from "../../../components/modal";
 
 import config from "../../../constants/config.json";
 
-const takeOrder = new TakeOrderJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const takeOrder = new takeOrderQuery(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const TakeOrder = (props) => {
     const {t} = useTranslation();
@@ -17,7 +17,7 @@ const TakeOrder = (props) => {
     const [fromID, setFromID] = useState("");
 
     useEffect(()=>{
-        let fromIDValue = localStorage.getItem('fromID');
+        let fromIDValue = localStorage.getItem('identityId');
         setFromID(fromIDValue);
     },[]);
     const handleSubmit = (event) => {

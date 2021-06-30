@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
-import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import metasQueryJS from "persistencejs/transaction/meta/query";
+import {queryIdentities} from "persistencejs/build/transaction/identity/query";
+import {queryMeta} from "persistencejs/build/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
 import config from "../../../constants/config.json";
@@ -11,8 +11,8 @@ import {useHistory} from "react-router-dom";
 import {Button, Form} from "react-bootstrap";
 import {Profile} from '../../../components';
 
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const IdentityList = React.memo(() => {
     const PropertyHelper = new GetProperty();

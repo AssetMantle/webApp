@@ -14,7 +14,7 @@ const UnWrap = (props) => {
     const [externalComponent, setExternalComponent] = useState("");
 
     useEffect(()=>{
-        let fromIDValue = localStorage.getItem('fromID');
+        let fromIDValue = localStorage.getItem('identityId');
         let testIdentityId = localStorage.getItem("identityId");
         settestIdentityId(testIdentityId);
         setFromID(fromIDValue);

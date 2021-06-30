@@ -14,7 +14,7 @@ const Wrap = (props) => {
     const [fromID, setFromID] = useState("");
     const [testIdentityId, settestIdentityId] = useState("");
     useEffect(()=>{
-        let fromIDValue = localStorage.getItem('fromID');
+        let fromIDValue = localStorage.getItem('identityId');
         let testIdentityId = localStorage.getItem("identityId");
         settestIdentityId(testIdentityId);
         setFromID(fromIDValue);
@@ -29,7 +29,6 @@ const Wrap = (props) => {
         let totalData = {
             fromID:FromId,
             CoinAmountDenom:CoinAmount + CoinDenom,
-
         };
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');

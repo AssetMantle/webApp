@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
-import keyUtils from "persistencejs/utilities/keys";
+import {getWallet, createWallet} from "persistencejs/build/utilities/keys";
 import {useTranslation} from "react-i18next";
 import MnemonicIcon from "../../../assets/images/MnemonicIcon.svg";
 import Icon from "../../../icons";
@@ -13,12 +13,12 @@ const LoginMnemonic = React.memo((props) => {
     const {t} = useTranslation();
     const handleSubmit = async event => {
         event.preventDefault();
-        const error = keyUtils.createWallet(event.target.mnemonic.value);
+        const error = createWallet(event.target.mnemonic.value);
         if (error.error != null) {
             setErrorMessage(error.error);
         }
         else {
-            const wallet = keyUtils.getWallet(event.target.mnemonic.value);
+            const wallet = getWallet(event.target.mnemonic.value, "");
             localStorage.setItem("address", wallet.address);
             localStorage.setItem("mnemonic", event.target.mnemonic.value);
             history.push('/profile');

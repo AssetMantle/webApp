@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import identitiesDefineJS from "persistencejs/transaction/identity/define";
+import {defineIdentity} from "persistencejs/build/transaction/identity/define";
 import {Dropdown} from "react-bootstrap";
 import {Define} from "../../forms";
 import {Nub, IssueIdentity} from "../../forms/identities";
@@ -8,7 +8,7 @@ import Sidebar from "../../../components/sidebar/sidebar";
 import IdentityList from "./identityList";
 import {Summary} from "../../../components/summary";
 
-const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesDefine = new defineIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const Identities = () => {
     const {t} = useTranslation();

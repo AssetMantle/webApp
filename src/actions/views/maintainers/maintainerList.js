@@ -1,20 +1,20 @@
 import React, {useState, useEffect} from "react";
-import maintainersQueryJS from "persistencejs/transaction/maintainers/query";
-import identitiesQueryJS from "persistencejs/transaction/identity/query";
+import {queryMaintainer} from "persistencejs/build/transaction/maintainers/query";
+import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 import {Button} from "react-bootstrap";
 import {Deputize} from "../../forms/maintainers";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
 import Copy from "../../../components/copy";
-import metasQueryJS from "persistencejs/transaction/meta/query";
+import {queryMeta} from "persistencejs/build/transaction/meta/query";
 import GetProperty from "../../../utilities/Helpers/getProperty";
 import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import config from "../../../constants/config";
 
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const maintainersQuery = new maintainersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
+const maintainersQuery = new queryMaintainer(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const MaintainerList = React.memo(() => {
     const PropertyHelper = new GetProperty();

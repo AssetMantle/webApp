@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
-import ordersQueryJS from "persistencejs/transaction/orders/query";
-import metasQueryJS from "persistencejs/transaction/meta/query";
+import {queryOrders} from "persistencejs/build/transaction/orders/query";
+import {queryMeta} from "persistencejs/build/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
 import config from "../../../constants/config.json";
@@ -9,8 +9,8 @@ import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetID from "../../../utilities/Helpers/getID";
 import {useHistory} from "react-router-dom";
 import {Button} from "react-bootstrap";
-const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const ordersQuery = new queryOrders(process.env.REACT_APP_ASSET_MANTLE_API);
+const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const TotalOrders = React.memo(() => {
     const PropertyHelper = new GetProperty();

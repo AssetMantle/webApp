@@ -1,31 +1,38 @@
 import React, {useState} from "react";
-import ordersCancelJS from "persistencejs/transaction/orders/cancel";
 import {Form, Button, Modal} from "react-bootstrap";
 import GetID from "../../../utilities/Helpers/getID";
 import {useTranslation} from "react-i18next";
-import config from "../../../constants/config.json";
 import Loader from "../../../components/loader";
-import ModalCommon from "../../../components/modal";
-const ordersCancel = new ordersCancelJS(process.env.REACT_APP_ASSET_MANTLE_API);
+import CommonKeystore from '../login/CommonKeystore';
 
 const CancelOrder = (props) => {
     const GetIDHelper = new GetID();
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false);
-    const [response, setResponse] = useState({});
+    const [externalComponent, setExternalComponent] = useState("");
+    const [totalDefineObject, setTotalDefineObject] = useState({});
     const handleSubmit = (event) => {
         setLoader(true);
         event.preventDefault();
-        const userTypeToken = localStorage.getItem('mnemonic');
-        const userAddress = localStorage.getItem('address');
-        const cancelOrderResponse = ordersCancel.cancel(userAddress, "test", userTypeToken, props.order.value.id.value.makerID.value.idString, GetIDHelper.GetOrderID(props.order), config.feesAmount, config.feesToken, config.gas, config.mode);
-        cancelOrderResponse.then(function (item) {
-            const data = JSON.parse(JSON.stringify(item));
-            setResponse(data);
-            setShow(false);
-            setLoader(false);
-        });
+        let totalData = {
+            fromID:props.order.value.id.value.makerID.value.idString,
+            orderID:GetIDHelper.GetOrderID(props.order),
+        };
+        setTotalDefineObject(totalData);
+        setExternalComponent('Keystore');
+        setShow(false);
+
+        setLoader(false);
+        // const userTypeToken = localStorage.getItem('mnemonic');
+        // const userAddress = localStorage.getItem('address');
+        // const cancelOrderResponse = ordersCancel.cancel(userAddress, "test", userTypeToken, props.order.value.id.value.makerID.value.idString, GetIDHelper.GetOrderID(props.order), config.feesAmount, config.feesToken, config.gas, config.mode);
+        // cancelOrderResponse.then(function (item) {
+        //     const data = JSON.parse(JSON.stringify(item));
+        //     setResponse(data);
+        //     setShow(false);
+        //     setLoader(false);
+        // });
     };
     const handleClose = () => {
         setShow(false);
@@ -55,9 +62,10 @@ const CancelOrder = (props) => {
                     </Form>
                 </Modal.Body>
             </Modal>
-            {!(Object.keys(response).length === 0) ?
-                <ModalCommon data={response} setExternal={handleClose}/>
-                : ""
+            {
+                externalComponent === 'Keystore' ?
+                    <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'cancel order'}/> :
+                    null
             }
         </div>
     );

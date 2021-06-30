@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import metasQueryJS from "persistencejs/transaction/meta/query";
+import {queryMeta} from "persistencejs/build/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
 import {useHistory} from "react-router-dom";
@@ -10,14 +10,14 @@ import GetMeta from "../../../utilities/Helpers/getMeta";
 import config from "../../../constants/config.json";
 import GetID from "../../../utilities/Helpers/getID";
 import Copy from "../../../components/copy";
-import ordersQueryJS from "persistencejs/transaction/orders/query";
+import {queryOrders} from "persistencejs/build/transaction/orders/query";
 import {Button, Dropdown} from "react-bootstrap";
 import {CancelOrder, TakeOrder} from "../../forms/orders";
 import {Define} from "../../forms";
-import ordersDefineJS from "persistencejs/transaction/orders/define";
+import {defineOrder as ordersDefineJS} from "persistencejs/build/transaction/orders/define";
 
-const ordersQuery = new ordersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const ordersQuery = new queryOrders(process.env.REACT_APP_ASSET_MANTLE_API);
+const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 const ordersDefine = new ordersDefineJS(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const OrderView = React.memo((props) => {

@@ -1,17 +1,17 @@
 import React, {useState, useEffect} from "react";
-import ClassificationsQueryJS from "persistencejs/transaction/classification/query";
+import {cls} from "persistencejs/build/transaction/classification/query";
 import {Form, Button, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import CommonKeystore from '../../../actions/forms/login/CommonKeystore';
-import metasQueryJS from "persistencejs/transaction/meta/query";
+import {queryMeta} from "persistencejs/build/transaction/meta/query";
 import config from "../../../constants/config.json";
 import Loader from "../../../components/loader";
 import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetProperty from "../../../utilities/Helpers/getProperty";
 
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const classificationsQuery = new ClassificationsQueryJS(process.env.REACT_APP_ASSET_MANTLE_API);
+const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
+const classificationsQuery = new cls(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const MintAsset = (props) => {
     const PropertyHelper = new GetProperty();
@@ -37,7 +37,7 @@ const MintAsset = (props) => {
     const [fromID, setFromID] = useState("");
     const [testIdentityId, settestIdentityId] = useState("");
     useEffect(() => {
-        let fromIDValue = localStorage.getItem('fromID');
+        let fromIDValue = localStorage.getItem('identityId');
         let testIdentityId = localStorage.getItem("identityId");
         setFromID(fromIDValue);
         settestIdentityId(testIdentityId);
