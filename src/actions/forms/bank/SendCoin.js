@@ -23,7 +23,6 @@ const SendCoin = (props) => {
             amountData:amountData,
             denom:denom,
             toAddress:toAddress
-
         };
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');

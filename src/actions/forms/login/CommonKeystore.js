@@ -14,7 +14,6 @@ import {wrapSplits} from "persistencejs/build/transaction/splits/wrap";
 import {unwrapsplits} from "persistencejs/build/transaction/splits/unwrap";
 import {issueIdentity} from "persistencejs/build/transaction/identity/issue";
 import {nubIdentity} from "persistencejs/build/transaction/identity/nub";
-import Msgs from "../../../utilities/Helpers/Msgs";
 import {defineIdentity} from "persistencejs/build/transaction/identity/define";
 import {defineAsset} from 'persistencejs/build/transaction/assets/define';
 import {defineOrder} from 'persistencejs/build/transaction/orders/define';
@@ -26,8 +25,7 @@ import {burnAsset} from 'persistencejs/build/transaction/assets/burn';
 import {deputizeMaintainer as dm} from 'persistencejs/build/transaction/maintainers/deputize';
 import {provisionIdentity} from 'persistencejs/build/transaction/identity/provision';
 import {unprovisionIdentity} from 'persistencejs/build/transaction/identity/unprovision';
-const { SigningCosmosClient } = require("@cosmjs/launchpad");
-const restAPI = process.env.REACT_APP_API;
+import transactions from '../../../utilities/Helpers/transactions';
 const identitiesDefine = new defineIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
 const assetDefine = new defineAsset(process.env.REACT_APP_ASSET_MANTLE_API);
 const ordersDefine = new defineOrder(process.env.REACT_APP_ASSET_MANTLE_API);
@@ -75,21 +73,52 @@ const CommonKeystore = (props) => {
         }
     }, []);
 
-    const TransactionWithKeplr = async (msgs, fee, memo, chainID) => {
-        await window.keplr.enable(chainID);
-        const offlineSigner = window.getOfflineSigner(chainID);
-        const accounts = await offlineSigner.getAccounts();
-        console.log(offlineSigner, address, "offlineSigner nd address");
-        const cosmJS = new SigningCosmosClient(restAPI, accounts[0].address, offlineSigner );
-        return await cosmJS.signAndBroadcast(msgs, fee, memo);
+    const transactionDefination = async (address, userMnemonic, type) => {
+        let queryResponse;
+        if (props.TransactionName === 'assetMint') {
+            queryResponse = queries.mintAssetQuery(address, userMnemonic, props.totalDefineObject, assetMint, type);
+        }  else if (props.TransactionName === 'wrap') {
+            queryResponse = queries.wrapQuery(address, userMnemonic, props.totalDefineObject, WrapQuery, type);
+        }  else if (props.TransactionName === 'unwrap') {
+            queryResponse = queries.unWrapQuery(address, userMnemonic, props.totalDefineObject, UnWrapQuery, type);
+        }  else if (props.TransactionName === 'nubid') {
+            queryResponse = queries.nubIdQuery(address, userMnemonic, props.totalDefineObject, identitiesNub, type);
+        }  else if (props.TransactionName === 'issueidentity') {
+            queryResponse = queries.issueIdentityQuery(address, userMnemonic, props.totalDefineObject, identitiesIssue, type);
+        } else if (props.TransactionName === 'Define Asset') {
+            queryResponse = queries.defineAssetQuery(address, userMnemonic, props.totalDefineObject, assetDefine, type);
+        }  else if (props.TransactionName === 'Define Order') {
+            queryResponse = queries.defineOrderQuery(address, userMnemonic, props.totalDefineObject, ordersDefine, type);
+        } else if (props.TransactionName === 'Define Identity') {
+            queryResponse = queries.defineQuery(address, userMnemonic, props.totalDefineObject, identitiesDefine, type);
+        } else if (props.TransactionName === 'sendcoin') {
+            queryResponse = queries.sendCoinQuery(address, userMnemonic, props.totalDefineObject, SendCoinQuery,type);
+        } else if (props.TransactionName === 'send splits') {
+            queryResponse = queries.sendSplitsQuery(address, userMnemonic, props.totalDefineObject, sendSplitQuery, type);
+        } else if (props.TransactionName === 'make order') {
+            queryResponse = queries.makeOrderQuery(address, userMnemonic, props.totalDefineObject, ordersMake, type);
+        } else if (props.TransactionName === 'mutate Asset') {
+            queryResponse = queries.mutateAssetQuery(address, userMnemonic, props.totalDefineObject, assetMutate,type);
+        } else if (props.TransactionName === 'cancel order') {
+            queryResponse = queries.cancelOrderQuery(address, userMnemonic, props.totalDefineObject, ordersCancel, type);
+        } else if (props.TransactionName === 'burn asset') {
+            queryResponse = queries.burnAassetQuery(address, userMnemonic, props.totalDefineObject, assetBurn, type);
+        } else if (props.TransactionName === 'deputize') {
+            queryResponse = queries.deputizeQuery(address, userMnemonic, props.totalDefineObject, deputizeMaintainer, type);
+        } else if (props.TransactionName === 'provision') {
+            queryResponse = queries.provisionQuery(address, userMnemonic, props.totalDefineObject, identitiesProvision, type);
+        } else if (props.TransactionName === 'un provision') {
+            queryResponse = queries.unProvisionQuery(address, userMnemonic, props.totalDefineObject, identitiesUnprovision, type);
+        }
+        return queryResponse;
     };
 
     const handleKepler = () => {
         setLoader(true);
-        let queryResponse;
-        if (props.TransactionName === 'sendcoin') {
-            queryResponse = TransactionWithKeplr([Msgs.SendMsg(address,props.totalDefineObject.toAddress, props.totalDefineObject.amountData, props.totalDefineObject.denom)],Msgs.Fee(5000, 200000), "", process.env.REACT_APP_CHAIN_ID);
-        }
+        let queryResponse = transactionDefination(address , "", "keplr");
+        // if (props.TransactionName === 'sendcoin') {
+        //     queryResponse = transactions.TransactionWithKeplr([Msgs.SendMsg(address,props.totalDefineObject.toAddress, props.totalDefineObject.amountData, props.totalDefineObject.denom)],Msgs.Fee(5000, 200000), "", process.env.REACT_APP_CHAIN_ID);
+        // }
         queryResponse.then((result) => {
             console.log("response finale", result);
             setShow(false);
@@ -109,7 +138,7 @@ const CommonKeystore = (props) => {
         let userMnemonic;
         if (importMnemonic) {
             const password = e.target.password.value;
-            let promise = queries.PrivateKeyReader(e.target.uploadFile.files[0], password);
+            let promise = transactions.PrivateKeyReader(e.target.uploadFile.files[0], password);
             await promise.then(function (result) {
                 userMnemonic = result;
                 console.log(userMnemonic, 'userMnemonic');
@@ -121,7 +150,7 @@ const CommonKeystore = (props) => {
             const password = e.target.password.value;
             const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
             const res = JSON.parse(encryptedMnemonic);
-            const decryptedData = queries.decryptStore(res, password);
+            const decryptedData = transactions.decryptStore(res, password);
             if (decryptedData.error != null) {
                 setErrorMessage(decryptedData.error);
             } else {
@@ -132,48 +161,10 @@ const CommonKeystore = (props) => {
 
 
         if (userMnemonic !== undefined) {
-            console.log(userMnemonic, "out memonic");
             const wallet = await getWallet(userMnemonic, "");
-            console.log(wallet, "in memonic");
-            let queryResponse;
-            if (props.TransactionName === 'assetMint') {
-                queryResponse = queries.mintAssetQuery(wallet.address, userMnemonic, props.totalDefineObject, assetMint);
-            }  else if (props.TransactionName === 'wrap') {
-                queryResponse = queries.wrapQuery(wallet.address, userMnemonic, props.totalDefineObject, WrapQuery);
-            }  else if (props.TransactionName === 'unwrap') {
-                queryResponse = queries.unWrapQuery(wallet.address, userMnemonic, props.totalDefineObject, UnWrapQuery);
-            }  else if (props.TransactionName === 'nubid') {
-                queryResponse = queries.nubIdQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesNub);
-            }  else if (props.TransactionName === 'issueidentity') {
-                queryResponse = queries.issueIdentityQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesIssue);
-            } else if (props.TransactionName === 'Define Asset') {
-                queryResponse = queries.defineIdentityQuery(wallet.address, userMnemonic, props.totalDefineObject, assetDefine);
-            }  else if (props.TransactionName === 'Define Order') {
-                queryResponse = queries.defineOrderQuery    (wallet.address, userMnemonic, props.totalDefineObject, ordersDefine);
-            } else if (props.TransactionName === 'Define Identity') {
-                queryResponse = queries.defineQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesDefine);
-            } else if (props.TransactionName === 'sendcoin') {
-                queryResponse = queries.sendCoinQuery(wallet.address, userMnemonic, props.totalDefineObject, SendCoinQuery);
-            } else if (props.TransactionName === 'send splits') {
-                queryResponse = queries.sendSplitsQuery(wallet.address, userMnemonic, props.totalDefineObject, sendSplitQuery);
-            } else if (props.TransactionName === 'make order') {
-                queryResponse = queries.makeOrderQuery(wallet.address, userMnemonic, props.totalDefineObject, ordersMake);
-            } else if (props.TransactionName === 'mutate Asset') {
-                queryResponse = queries.mutateAssetQuery(wallet.address, userMnemonic, props.totalDefineObject, assetMutate);
-            } else if (props.TransactionName === 'cancel order') {
-                queryResponse = queries.cancelOrderQuery(wallet.address, userMnemonic, props.totalDefineObject, ordersCancel);
-            } else if (props.TransactionName === 'burn asset') {
-                queryResponse = queries.burnAassetQuery(wallet.address, userMnemonic, props.totalDefineObject, assetBurn);
-            } else if (props.TransactionName === 'deputize') {
-                queryResponse = queries.deputizeQuery(wallet.address, userMnemonic, props.totalDefineObject, deputizeMaintainer);
-            } else if (props.TransactionName === 'provision') {
-                queryResponse = queries.provisionQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesProvision);
-            } else if (props.TransactionName === 'un provision') {
-                queryResponse = queries.unProvisionQuery(wallet.address, userMnemonic, props.totalDefineObject, identitiesUnprovision);
-            }
+            let queryResponse = transactionDefination(wallet.address , userMnemonic, "normal");
             queryResponse.then(function (item) {
                 const data = JSON.parse(JSON.stringify(item));
-                console.log(data, "befoer poll");
                 const pollResponse = pollTxHash(process.env.REACT_APP_ASSET_MANTLE_API, data.transactionHash);
                 pollResponse.then(function (pollData) {
                     const pollObject = JSON.parse(pollData);
