@@ -1,22 +1,22 @@
-import React, {useState, useEffect} from "react";
-import {Form, Button, Modal} from "react-bootstrap";
-import {useTranslation} from "react-i18next";
-import Loader from "../../../components/loader";
+import React, {useState, useEffect} from 'react';
+import {Form, Button, Modal} from 'react-bootstrap';
+import {useTranslation} from 'react-i18next';
+import Loader from '../../../components/loader';
 import CommonKeystore from '../login/CommonKeystore';
 
 
 const UnProvision = (props) => {
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false);
-    const [selectedAddress, setSelectedAddress] = useState("");
+    const [selectedAddress, setSelectedAddress] = useState('');
     const [provisionAddressList, setProvisionAddressList] = useState([]);
     const [totalDefineObject, setTotalDefineObject] = useState({});
-    const [externalComponent, setExternalComponent] = useState("");
+    const [externalComponent, setExternalComponent] = useState('');
     const {t} = useTranslation();
     const fromID = localStorage.getItem('identityId');
     useEffect(() => {
         const provisionedAddressList = props.identityIdList.value.provisionedAddressList;
-        if(provisionedAddressList !== null) {
+        if (provisionedAddressList !== null) {
             provisionedAddressList.map((address) => {
                 setProvisionAddressList((provisionAddressList) => [
                     ...provisionAddressList,
@@ -27,7 +27,7 @@ const UnProvision = (props) => {
     }, []);
     const handleClose = () => {
         setShow(false);
-        props.setExternalComponent("");
+        props.setExternalComponent('');
     };
     const handleSubmit = (event) => {
         setLoader(true);
@@ -35,8 +35,8 @@ const UnProvision = (props) => {
         const selectValue = event.target.selectAddress.value;
 
         let totalData = {
-            identityId:fromID,
-            to:selectValue,
+            identityId: fromID,
+            to: selectValue,
         };
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');
@@ -57,18 +57,18 @@ const UnProvision = (props) => {
         <div>
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    {t("UN_PROVISION")}
+                    {t('UN_PROVISION')}
                 </Modal.Header>
                 <div>
                     {loader ?
-                        <Loader />
-                        : ""
+                        <Loader/>
+                        : ''
                     }
                 </div>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("ADDRESS_TO_PROVISION")}*</Form.Label>
+                            <Form.Label>{t('ADDRESS_TO_PROVISION')}*</Form.Label>
                             <Form.Control
                                 as="select"
                                 name="selectAddress"
@@ -86,7 +86,7 @@ const UnProvision = (props) => {
                         </Form.Group>
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">
-                                {t("SUBMIT")}
+                                {t('SUBMIT')}
                             </Button>
                         </div>
                     </Form>
@@ -94,7 +94,12 @@ const UnProvision = (props) => {
             </Modal>
             {
                 externalComponent === 'Keystore' ?
-                    <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'un provision'}/> :
+                    <CommonKeystore
+                        setExternalComponent={setExternalComponent}
+                        totalDefineObject={totalDefineObject}
+                        TransactionName={'un provision'}
+                        handleClose={handleClose}
+                    /> :
                     null
             }
         </div>

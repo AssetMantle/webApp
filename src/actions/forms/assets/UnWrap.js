@@ -1,24 +1,24 @@
-import React, {useState, useEffect} from "react";
-import {Form, Button, Modal} from "react-bootstrap";
-import {useTranslation} from "react-i18next";
-import Loader from "../../../components/loader";
+import React, {useState, useEffect} from 'react';
+import {Form, Button, Modal} from 'react-bootstrap';
+import {useTranslation} from 'react-i18next';
+import Loader from '../../../components/loader';
 import CommonKeystore from '../../../actions/forms/login/CommonKeystore';
 
 const UnWrap = (props) => {
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false);
     const {t} = useTranslation();
-    const [fromID, setFromID] = useState("");
-    const [testIdentityId, settestIdentityId] = useState("");
+    const [fromID, setFromID] = useState('');
+    const [testIdentityId, settestIdentityId] = useState('');
     const [totalDefineObject, setTotalDefineObject] = useState({});
-    const [externalComponent, setExternalComponent] = useState("");
+    const [externalComponent, setExternalComponent] = useState('');
 
-    useEffect(()=>{
+    useEffect(() => {
         let fromIDValue = localStorage.getItem('identityId');
-        let testIdentityId = localStorage.getItem("identityId");
+        let testIdentityId = localStorage.getItem('identityId');
         settestIdentityId(testIdentityId);
         setFromID(fromIDValue);
-    },[]);
+    }, []);
 
     const handleSubmit = (event) => {
         setLoader(true);
@@ -27,9 +27,9 @@ const UnWrap = (props) => {
         const OwnableId = event.target.OwnableId.value;
         const Split = event.target.Split.value;
         let totalData = {
-            fromID:FromId,
-            Split:Split,
-            OwnableId:OwnableId
+            fromID: FromId,
+            Split: Split,
+            OwnableId: OwnableId,
         };
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');
@@ -46,24 +46,24 @@ const UnWrap = (props) => {
     };
     const handleClose = () => {
         setShow(false);
-        props.setExternalComponent("");
+        props.setExternalComponent('');
     };
     return (
         <div>
-            <Modal show={show} onHide={handleClose}  centered>
+            <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
                     {props.FormName}
                 </Modal.Header>
                 <div>
                     {loader ?
                         <Loader/>
-                        : ""
+                        : ''
                     }
                 </div>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("FROM_ID")}* </Form.Label>
+                            <Form.Label>{t('FROM_ID')}* </Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -75,7 +75,7 @@ const UnWrap = (props) => {
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Label>{t("OWNABLE_ID")}* </Form.Label>
+                            <Form.Label>{t('OWNABLE_ID')}* </Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -85,7 +85,7 @@ const UnWrap = (props) => {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>{t("SPLIT")}* </Form.Label>
+                            <Form.Label>{t('SPLIT')}* </Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -97,7 +97,7 @@ const UnWrap = (props) => {
 
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">
-                                {t("SUBMIT")}
+                                {t('SUBMIT')}
                             </Button>
                         </div>
                     </Form>
@@ -106,7 +106,12 @@ const UnWrap = (props) => {
             <div>
                 {
                     externalComponent === 'Keystore' ?
-                        <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'unwrap'}/> :
+                        <CommonKeystore
+                            setExternalComponent={setExternalComponent}
+                            totalDefineObject={totalDefineObject}
+                            TransactionName={'unwrap'}
+                            handleClose={handleClose}
+                        /> :
                         null
                 }
             </div>

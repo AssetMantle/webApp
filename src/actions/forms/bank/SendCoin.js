@@ -88,7 +88,12 @@ const SendCoin = (props) => {
             <div>
                 {
                     externalComponent === 'Keystore' ?
-                        <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'sendcoin'}/> :
+                        <CommonKeystore
+                            setExternalComponent={setExternalComponent}
+                            totalDefineObject={totalDefineObject}
+                            TransactionName={'sendcoin'}
+                            handleClose={handleClose}
+                        /> :
                         null
                 }
             </div>

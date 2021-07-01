@@ -9,12 +9,16 @@ import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetID from "../../../utilities/Helpers/getID";
 import { useHistory } from "react-router-dom";
-import { Button, Form } from "react-bootstrap";
+import {Button, Dropdown} from 'react-bootstrap';
 import { Summary } from "../../../components/summary";
+import Sidebar from '../../../components/sidebar/sidebar';
+import {IssueIdentity, Nub} from '../../forms/identities';
+import {Define} from '../../forms';
+import {defineIdentity} from 'persistencejs/build/transaction/identity/define';
 
 const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
-
+const identitiesDefine = new defineIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
 const AllIdentityList = React.memo((props) => {
 
     const PropertyHelper = new GetProperty();
@@ -25,13 +29,18 @@ const AllIdentityList = React.memo((props) => {
     let history = useHistory();
     const [loader, setLoader] = useState(true);
     const [filteredIdentitiesList, setFilteredIdentitiesList] = useState([]);
-    const userAddress = props.location.address;
-    let lastFromIDValue = localStorage.getItem('lastFromID');
-    console.log(userAddress, 'userAddress');
-    if (lastFromIDValue !== null && document.getElementById(lastFromIDValue) !== null) {
-        document.getElementById(lastFromIDValue).checked = true;
+    const [userToken, setUserToken] = useState('');
+    const [externalComponent, setExternalComponent] = useState("");
+    const [identityId, setIdentityId] = useState("");
+    const [identity, setIdentity] = useState([]);
+
+    let userAddress;
+    userAddress = props.location.address;
+    if(userAddress === undefined){
+        userAddress = localStorage.getItem('address');
     }
     useEffect(() => {
+        setUserToken(localStorage.getItem('identityId'));
         const fetchToIdentities = () => {
             const identities = identitiesQuery.queryIdentityWithID("all");
             if (identities) {
@@ -85,25 +94,41 @@ const AllIdentityList = React.memo((props) => {
             );
         }
     };
-
-    const handleFromID = (evt, id, elementID) => {
-        let lastFromIDValue = localStorage.getItem('lastFromID');
-        if (lastFromIDValue !== 'null' && lastFromIDValue !== null) {
-            if (document.getElementById(lastFromIDValue).checked === true) {
-                document.getElementById(lastFromIDValue).checked = false;
-                document.getElementById(elementID).checked = true;
-            }
-        }
-        localStorage.setItem("fromID", id);
-        localStorage.setItem("lastFromID", elementID);
+    const handleModalData = (formName) => {
+        setExternalComponent(formName);
+        setIdentity(identity);
+        setIdentityId(identityId);
     };
 
     return (
         <div className="content-section">
+            {userToken ?
+                <Sidebar/>
+                : ""}
             <div className="accountInfo">
                 <div className="row">
                     <div className="col-md-9 card-deck">
-
+                        {userToken ?
+                            <div className="dropdown-section">
+                                <h4>Identities</h4>
+                                <Dropdown>
+                                    <Dropdown.Toggle id="dropdown-basic">
+                                        {t("ACTIONS")}
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item
+                                            onClick={() => handleModalData("Nub")}>{t("NUB")}</Dropdown.Item>
+                                        <Dropdown.Item
+                                            onClick={() => handleModalData("DefineIdentity")}>{t("DEFINE_IDENTITY")}
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                            onClick={() => handleModalData("IssueIdentity")}>{t("ISSUE_IDENTITY")}
+                                        </Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            </div>
+                            : ""
+                        }
                         <div className="list-container">
                             {loader ?
                                 <Loader />
@@ -189,15 +214,6 @@ const AllIdentityList = React.memo((props) => {
                                                             })
                                                             : ""
                                                         }
-                                                        <Form.Group className="checkbox-fromid">
-                                                            <Form.Check custom type="checkbox" label="Use FromID"
-                                                                name="checkboxURIee"
-                                                                id={"checkboxFromID" + index}
-                                                                onChange={(evt) => {
-                                                                    handleFromID(evt, identityId, "checkboxFromID" + index);
-                                                                }}
-                                                            />
-                                                        </Form.Group>
                                                         <Button variant="primary" className="viewButton" size="sm"
                                                             onClick={() => handleAsset(identityId)}>View</Button>
 
@@ -216,7 +232,22 @@ const AllIdentityList = React.memo((props) => {
 
                 </div>
             </div>
+            <div>
+                {externalComponent === 'Nub' ?
+                    <Nub setExternalComponent={setExternalComponent}/> :
+                    null
+                }
+                {externalComponent === 'DefineIdentity' ?
+                    <Define setExternalComponent={setExternalComponent} ActionName={identitiesDefine}
+                        FormName={'Define Identity'}/> :
+                    null
+                }
+                {externalComponent === 'IssueIdentity' ?
 
+                    <IssueIdentity setExternalComponent={setExternalComponent}/> :
+                    null
+                }
+            </div>
         </div>
     );
 });

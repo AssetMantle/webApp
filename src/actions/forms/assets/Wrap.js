@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from "react";
-import {Form, Button, Modal} from "react-bootstrap";
-import {useTranslation} from "react-i18next";
-import Loader from "../../../components/loader";
+import React, {useState, useEffect} from 'react';
+import {Form, Button, Modal} from 'react-bootstrap';
+import {useTranslation} from 'react-i18next';
+import Loader from '../../../components/loader';
 import CommonKeystore from '../../../actions/forms/login/CommonKeystore';
 
 
@@ -9,16 +9,16 @@ const Wrap = (props) => {
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false);
-    const [externalComponent, setExternalComponent] = useState("");
+    const [externalComponent, setExternalComponent] = useState('');
     const [totalDefineObject, setTotalDefineObject] = useState({});
-    const [fromID, setFromID] = useState("");
-    const [testIdentityId, settestIdentityId] = useState("");
-    useEffect(()=>{
+    const [fromID, setFromID] = useState('');
+    const [testIdentityId, settestIdentityId] = useState('');
+    useEffect(() => {
         let fromIDValue = localStorage.getItem('identityId');
-        let testIdentityId = localStorage.getItem("identityId");
+        let testIdentityId = localStorage.getItem('identityId');
         settestIdentityId(testIdentityId);
         setFromID(fromIDValue);
-    },[]);
+    }, []);
     const handleSubmit = (event) => {
         setLoader(true);
         event.preventDefault();
@@ -27,8 +27,8 @@ const Wrap = (props) => {
 
         const CoinAmount = event.target.CoinAmount.value;
         let totalData = {
-            fromID:FromId,
-            CoinAmountDenom:CoinAmount + CoinDenom,
+            fromID: FromId,
+            CoinAmountDenom: CoinAmount + CoinDenom,
         };
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');
@@ -45,7 +45,7 @@ const Wrap = (props) => {
     };
     const handleClose = () => {
         setShow(false);
-        props.setExternalComponent("");
+        props.setExternalComponent('');
     };
     return (
         <div>
@@ -57,13 +57,13 @@ const Wrap = (props) => {
                 <div>
                     {loader ?
                         <Loader/>
-                        : ""
+                        : ''
                     }
                 </div>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("FROM_ID")}* </Form.Label>
+                            <Form.Label>{t('FROM_ID')}* </Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -75,7 +75,7 @@ const Wrap = (props) => {
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Label>{t("COIN_DENOM")}* </Form.Label>
+                            <Form.Label>{t('COIN_DENOM')}* </Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -85,7 +85,7 @@ const Wrap = (props) => {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>{t("COIN_AMOUNT")}*</Form.Label>
+                            <Form.Label>{t('COIN_AMOUNT')}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -97,7 +97,7 @@ const Wrap = (props) => {
 
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">
-                                {t("SUBMIT")}
+                                {t('SUBMIT')}
                             </Button>
                         </div>
                     </Form>
@@ -106,7 +106,12 @@ const Wrap = (props) => {
             <div>
                 {
                     externalComponent === 'Keystore' ?
-                        <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'wrap'}/> :
+                        <CommonKeystore
+                            setExternalComponent={setExternalComponent}
+                            totalDefineObject={totalDefineObject}
+                            TransactionName={'wrap'}
+                            handleClose={handleClose}
+                        /> :
                         null
                 }
             </div>

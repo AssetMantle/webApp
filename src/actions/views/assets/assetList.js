@@ -51,8 +51,6 @@ const AssetList = React.memo(() => {
 
                             if (splitList) {
                                 const filterSplitsByIdentities = FilterHelper.FilterSplitsByIdentity(filterIdentities, splitList);
-                                console.log(filterSplitsByIdentities, "splitList");
-
                                 if (filterSplitsByIdentities.length) {
                                     setSplitList(filterSplitsByIdentities);
                                     filterSplitsByIdentities.map((split, index) => {

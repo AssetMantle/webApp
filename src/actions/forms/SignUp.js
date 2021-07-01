@@ -4,7 +4,7 @@ import {createRandomWallet, createStore} from "persistencejs/build/utilities/key
 import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 import {nubIdentity} from "persistencejs/build/transaction/identity/nub";
 import DownloadLink from "react-download-link";
-import config from "../../constants/config.json";
+import config from "../../config";
 import GetID from "../../utilities/Helpers/getID";
 import { useTranslation } from "react-i18next";
 import GetMeta from "../../utilities/Helpers/getMeta";
@@ -13,6 +13,8 @@ import { pollTxHash } from "../../utilities/Helpers/filter";
 import { useHistory } from "react-router-dom";
 import Loader from "../../components/loader";
 import Icon from "../../icons";
+import Msgs from '../../utilities/Helpers/Msgs';
+import transactions from '../../utilities/Helpers/transactions';
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const identitiesNub = new nubIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
 const SignUp = () => {
@@ -82,41 +84,40 @@ const SignUp = () => {
             });
         }
     };
-    const handleSubmitIdentity = e => {
+    const handleSubmitIdentity = async e => {
         setLoader(true);
         e.preventDefault();
         const userid = document.getElementById("userName").value;
         const hashGenerate = GetMetaHelper.Hash(userid);
-        const userTypeToken = localStorage.getItem('mnemonic');
-        const userAddress = localStorage.getItem('address');
-        const nubResponse = identitiesNub.nub(userAddress, "test", userTypeToken, userid, config.feesAmount, config.feesToken, config.gas, config.mode);
-        nubResponse.then(function (item) {
-            const data = JSON.parse(JSON.stringify(item));
-            const pollResponse = pollTxHash(process.env.REACT_APP_ASSET_MANTLE_API, data.txhash);
-            pollResponse.then(function (pollData) {
-                const pollObject = JSON.parse(pollData);
-                if (pollObject.code) {
-                    setLoader(false);
-                    setuserExist(true);
-                } else {
-                    getIdentityId(hashGenerate);
-                    setLoader(false);
-                    setShowFaucet(false);
-                    setshowtxnHash(true);
-                }
+        const msgs = await identitiesNub.createIdentityNubMsg(address, config.chainID, userid, config.feesAmount, config.feesToken, config.gas, config.mode);
+        console.log(msgs, 'nubResponse');
 
-            });
-            setResponse(data);
-
-            setshowDownloadModal(false);
-            setShowDownload(false);
+        const nubResponse = await transactions.TransactionWithMnemonic([msgs.value.msg[0]], Msgs.Fee(0, 200000), '', mnemonic);
+        const data = JSON.parse(JSON.stringify(nubResponse));
+        const pollResponse = pollTxHash(process.env.REACT_APP_ASSET_MANTLE_API, data.transactionHash);
+        pollResponse.then(function (pollData) {
+            const pollObject = JSON.parse(pollData);
+            if (pollObject.code) {
+                setLoader(false);
+                setuserExist(true);
+            } else {
+                getIdentityId(hashGenerate);
+                setLoader(false);
+                setShowFaucet(false);
+                setshowtxnHash(true);
+            }
 
         });
+        setResponse(data);
+
+        setshowDownloadModal(false);
+        setShowDownload(false);
     };
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
         const password = document.getElementById("password").value;
-        const error = createRandomWallet();
+        const error = await createRandomWallet("");
+        console.log(error);
         if (error.error != null) {
             return (<div>ERROR!!</div>);
         }

@@ -27,9 +27,10 @@ const IdentityLogin = React.memo((props) => {
                         const identityId = GetIDHelper.GetIdentityID(identity);
                         if(IdentityName === identityId) {
                             console.log(identity, "ggerr");
-                            let address = identity.value.provisionedAddressList[0];
-                            console.log(address, "ggerr");
-                            localStorage.setItem("address", address);
+                            if(identity.value.provisionedAddressList){
+                                let address = identity.value.provisionedAddressList[0];
+                                localStorage.setItem("address", address);
+                            }
                             localStorage.setItem("identityId", IdentityName);
                             history.push('/profile');
                         } else {

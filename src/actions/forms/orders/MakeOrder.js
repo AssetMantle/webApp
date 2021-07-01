@@ -563,7 +563,12 @@ const MakeOrder = (props) => {
             </Modal>
             {
                 externalComponent === 'Keystore' ?
-                    <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'make order'} ActionName={props.ActionName}/> :
+                    <CommonKeystore
+                        setExternalComponent={setExternalComponent}
+                        totalDefineObject={totalDefineObject} TransactionName={'make order'}
+                        ActionName={props.ActionName}
+                        handleClose={handleClose}
+                    /> :
                     null
             }
         </div>

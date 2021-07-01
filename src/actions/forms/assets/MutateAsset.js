@@ -1,13 +1,13 @@
-import React, {useState, useEffect} from "react";
-import {Form, Button, Modal} from "react-bootstrap";
-import {queryMeta} from "persistencejs/build/transaction/meta/query";
-import {useTranslation} from "react-i18next";
-import Loader from "../../../components/loader";
-import config from "../../../constants/config.json";
-import FilterHelpers from "../../../utilities/Helpers/filter";
-import GetMeta from "../../../utilities/Helpers/getMeta";
-import GetID from "../../../utilities/Helpers/getID";
-import GetProperty from "../../../utilities/Helpers/getProperty";
+import React, {useState, useEffect} from 'react';
+import {Form, Button, Modal} from 'react-bootstrap';
+import {queryMeta} from 'persistencejs/build/transaction/meta/query';
+import {useTranslation} from 'react-i18next';
+import Loader from '../../../components/loader';
+import config from '../../../constants/config.json';
+import FilterHelpers from '../../../utilities/Helpers/filter';
+import GetMeta from '../../../utilities/Helpers/getMeta';
+import GetID from '../../../utilities/Helpers/getID';
+import GetProperty from '../../../utilities/Helpers/getProperty';
 import CommonKeystore from '../login/CommonKeystore';
 
 const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
@@ -20,12 +20,12 @@ const MutateAsset = (props) => {
     const GetIDHelper = new GetID();
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState('');
     const [loader, setLoader] = useState(false);
     const [keyList, setKeyList] = useState([]);
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
-    const [fromID, setFromID] = useState("");
-    const [externalComponent, setExternalComponent] = useState("");
+    const [fromID, setFromID] = useState('');
+    const [externalComponent, setExternalComponent] = useState('');
     const [totalDefineObject, setTotalDefineObject] = useState({});
 
     useEffect(() => {
@@ -35,9 +35,9 @@ const MutateAsset = (props) => {
         const mutableKeys = Object.keys(mutateProperties);
         setKeyList(mutableKeys);
         mutableKeys.map((keyName, idx) => {
-            if (mutateProperties[keyName] !== "" && mutateProperties[keyName] !== null) {
+            if (mutateProperties[keyName] !== '' && mutateProperties[keyName] !== null) {
                 const metaQueryResult = metasQuery.queryMetaWithID(mutateProperties[keyName]);
-                metaQueryResult.then(function (item) {
+                metaQueryResult.then(function(item) {
                     const data = JSON.parse(item);
                     let metaValue = GetMetaHelper.FetchMetaValue(data, mutateProperties[keyName]);
                     if (document.getElementById(keyName + idx)) {
@@ -50,11 +50,11 @@ const MutateAsset = (props) => {
 
     const handleClose = () => {
         setShow(false);
-        props.setExternalComponent("");
+        props.setExternalComponent('');
     };
     const handleCheckMutableChange = evt => {
         const checkedValue = evt.target.checked;
-        const name = evt.target.getAttribute("name");
+        const name = evt.target.getAttribute('name');
         if (checkedValue) {
             const checkboxNames = evt.target.name;
             setCheckboxMutableNamesList((checkboxMutableNamesList) => [...checkboxMutableNamesList, checkboxNames]);
@@ -72,18 +72,18 @@ const MutateAsset = (props) => {
         const assetId = GetIDHelper.GetAssetID(asset);
         const assetList = asset.value.mutables.value.properties.value.propertyList;
         let assetDataTypeList = {};
-        assetList.forEach(function (item) {
+        assetList.forEach(function(item) {
             assetDataTypeList[item.value.id.value.idString] = item.value.fact.value.type;
         });
         if (checkboxMutableNamesList.length === 0) {
-            setErrorMessage(t("SELECT_MUTABLE_META"));
+            setErrorMessage(t('SELECT_MUTABLE_META'));
             setLoader(false);
         } else if (keyList.length !== 0 && checkboxMutableNamesList.length !== 0 && keyList.length === checkboxMutableNamesList.length) {
-            setErrorMessage(t("SELECT_ALL_MUTABLE_ERROR"));
+            setErrorMessage(t('SELECT_ALL_MUTABLE_ERROR'));
             setLoader(false);
         } else {
-            let mutableValues = "";
-            let mutableMetaValues = "";
+            let mutableValues = '';
+            let mutableMetaValues = '';
             if (keyList !== null) {
                 keyList.map((key, index) => {
                     let mutableFieldValue = document.getElementById(key + index).value;
@@ -91,10 +91,10 @@ const MutateAsset = (props) => {
                     const inputName = (key + index);
                     if (key !== config.URI) {
                         const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, key, mutableType, mutableFieldValue);
-                        if (mutableMetaValuesResponse[0] !== "") {
+                        if (mutableMetaValuesResponse[0] !== '') {
                             mutableValues = mutableMetaValuesResponse[0];
                         }
-                        if (mutableMetaValuesResponse[1] !== "") {
+                        if (mutableMetaValuesResponse[1] !== '') {
                             mutableMetaValues = mutableMetaValuesResponse[1];
                         }
                     }
@@ -111,17 +111,15 @@ const MutateAsset = (props) => {
                             mutableMetaValues = uriMutable;
                         }
                     }
-                }
+                },
                 );
             }
-            // const userTypeToken = localStorage.getItem('mnemonic');
-            // const userAddress = localStorage.getItem('address');
 
             let totalData = {
-                fromID:FromId,
-                assetId:assetId,
-                mutableValues:mutableValues,
-                mutableMetaValues:mutableMetaValues,
+                fromID: FromId,
+                assetId: assetId,
+                mutableValues: mutableValues,
+                mutableMetaValues: mutableMetaValues,
             };
             setTotalDefineObject(totalData);
             setExternalComponent('Keystore');
@@ -144,24 +142,24 @@ const MutateAsset = (props) => {
 
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    {t("MUTATE_ASSET")}
+                    {t('MUTATE_ASSET')}
                 </Modal.Header>
                 <div>
                     {loader ?
                         <Loader/>
-                        : ""
+                        : ''
                     }
                 </div>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("FROM_ID")}*</Form.Label>
+                            <Form.Label>{t('FROM_ID')}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
                                 name="FromId"
                                 required={true}
-                                defaultValue={fromID !== null ? fromID : ""}
+                                defaultValue={fromID !== null ? fromID : ''}
                                 placeholder="FromId"
                             />
                         </Form.Group>
@@ -195,7 +193,8 @@ const MutateAsset = (props) => {
                                         />
                                     </Form.Group>
                                     <Form.Group>
-                                        <Form.Check custom type="checkbox" label="Meta"
+                                        <Form.Check custom type="checkbox"
+                                            label="Meta"
                                             name={keyName + idx}
                                             id={`checkbox${keyName + idx}`}
                                             onClick={handleCheckMutableChange}
@@ -205,14 +204,15 @@ const MutateAsset = (props) => {
                             );
                         })
                         }
-                        {errorMessage !== "" ?
-                            <span className="error-response">{errorMessage}</span>
-                            : ""
+                        {errorMessage !== '' ?
+                            <span
+                                className="error-response">{errorMessage}</span>
+                            : ''
 
                         }
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">
-                                {t("submit")}
+                                {t('submit')}
                             </Button>
                         </div>
                     </Form>
@@ -220,7 +220,12 @@ const MutateAsset = (props) => {
             </Modal>
             {
                 externalComponent === 'Keystore' ?
-                    <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'mutate Asset'}/> :
+                    <CommonKeystore
+                        setExternalComponent={setExternalComponent}
+                        totalDefineObject={totalDefineObject}
+                        TransactionName={'mutate Asset'}
+                        handleClose={handleClose}
+                    /> :
                     null
             }
         </div>

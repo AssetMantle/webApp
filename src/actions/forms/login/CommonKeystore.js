@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
 import {mintAsset} from "persistencejs/build/transaction/assets/mint";
 import KeplerWallet from "../../../utilities/Helpers/kelplr";
 import {getWallet} from "persistencejs/build/utilities/keys";
@@ -26,6 +25,8 @@ import {deputizeMaintainer as dm} from 'persistencejs/build/transaction/maintain
 import {provisionIdentity} from 'persistencejs/build/transaction/identity/provision';
 import {unprovisionIdentity} from 'persistencejs/build/transaction/identity/unprovision';
 import transactions from '../../../utilities/Helpers/transactions';
+import {takeOrder as takeOrderQuery} from 'persistencejs/build/transaction/orders/take';
+import {revealMeta} from 'persistencejs/build/transaction/meta/reveal';
 const identitiesDefine = new defineIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
 const assetDefine = new defineAsset(process.env.REACT_APP_ASSET_MANTLE_API);
 const ordersDefine = new defineOrder(process.env.REACT_APP_ASSET_MANTLE_API);
@@ -43,28 +44,19 @@ const assetBurn = new burnAsset(process.env.REACT_APP_ASSET_MANTLE_API);
 const deputizeMaintainer = new dm(process.env.REACT_APP_ASSET_MANTLE_API);
 const identitiesProvision = new provisionIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
 const identitiesUnprovision = new unprovisionIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
+const takeOrder = new takeOrderQuery(process.env.REACT_APP_ASSET_MANTLE_API);
+const RevealMeta = new revealMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const CommonKeystore = (props) => {
     const { t } = useTranslation();
-    const history = useHistory();
     const [show, setShow] = useState(true);
     const [response, setResponse] = useState({});
     const [importMnemonic, setImportMnemonic] = useState(true);
     const [loader, setLoader] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [keplrTxn, setKeplrTxn] = useState(false);
-    const [address, setAddress] = useState("");
 
     useEffect(() => {
-        setErrorMessage("");
-        const kepler = KeplerWallet();
-        kepler.then(function () {
-            const address = localStorage.getItem("keplerAddress");
-            console.log(address,'address');
-            setAddress(address);
-        }).catch(err => {
-            setErrorMessage(err.message);
-        });
         const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
         if (encryptedMnemonic !== null) {
             setImportMnemonic(false);
@@ -74,6 +66,7 @@ const CommonKeystore = (props) => {
     }, []);
 
     const transactionDefination = async (address, userMnemonic, type) => {
+        console.log(address, "in t helper");
         let queryResponse;
         if (props.TransactionName === 'assetMint') {
             queryResponse = queries.mintAssetQuery(address, userMnemonic, props.totalDefineObject, assetMint, type);
@@ -97,6 +90,8 @@ const CommonKeystore = (props) => {
             queryResponse = queries.sendSplitsQuery(address, userMnemonic, props.totalDefineObject, sendSplitQuery, type);
         } else if (props.TransactionName === 'make order') {
             queryResponse = queries.makeOrderQuery(address, userMnemonic, props.totalDefineObject, ordersMake, type);
+        }else if (props.TransactionName === 'take order') {
+            queryResponse = queries.takeOrderQuery(address, userMnemonic, props.totalDefineObject, takeOrder, type);
         } else if (props.TransactionName === 'mutate Asset') {
             queryResponse = queries.mutateAssetQuery(address, userMnemonic, props.totalDefineObject, assetMutate,type);
         } else if (props.TransactionName === 'cancel order') {
@@ -109,27 +104,41 @@ const CommonKeystore = (props) => {
             queryResponse = queries.provisionQuery(address, userMnemonic, props.totalDefineObject, identitiesProvision, type);
         } else if (props.TransactionName === 'un provision') {
             queryResponse = queries.unProvisionQuery(address, userMnemonic, props.totalDefineObject, identitiesUnprovision, type);
+        } else if (props.TransactionName === 'reveal') {
+            queryResponse = queries.revealHashQuery(address, userMnemonic, props.totalDefineObject, RevealMeta, type);
         }
         return queryResponse;
     };
 
     const handleKepler = () => {
         setLoader(true);
-        let queryResponse = transactionDefination(address , "", "keplr");
-        // if (props.TransactionName === 'sendcoin') {
-        //     queryResponse = transactions.TransactionWithKeplr([Msgs.SendMsg(address,props.totalDefineObject.toAddress, props.totalDefineObject.amountData, props.totalDefineObject.denom)],Msgs.Fee(5000, 200000), "", process.env.REACT_APP_CHAIN_ID);
-        // }
-        queryResponse.then((result) => {
-            console.log("response finale", result);
-            setShow(false);
+        setErrorMessage("");
+        const kepler = KeplerWallet();
+        kepler.then(function () {
+            const keplrAddress = localStorage.getItem("keplerAddress");
+            const loginAddress =  localStorage.getItem("address");
+            if(keplrAddress !== loginAddress){
+                setLoader(false);
+                setErrorMessage("Adress Mismatch: Login address not matched with keplr address");
+                return;
+            }
+            let queryResponse = transactionDefination(loginAddress , "", "keplr");
+            queryResponse.then((result) => {
+                console.log("response finale", result);
+                setShow(false);
+                setLoader(false);
+                setKeplrTxn(true);
+                setResponse(result);
+            }).catch((error) => {
+                setLoader(false);
+                setErrorMessage(error.message);
+                console.log(error,'error');
+            });
+        }).catch(err => {
             setLoader(false);
-            setKeplrTxn(true);
-            setResponse(result);
-        }).catch((error) => {
-            setLoader(false);
-            setErrorMessage(error.message);
-            console.log(error,'error');
+            setErrorMessage(err.message);
         });
+
 
     };
     const handleSubmit = async e => {
@@ -137,14 +146,17 @@ const CommonKeystore = (props) => {
         setLoader(true);
         let userMnemonic;
         if (importMnemonic) {
+
             const password = e.target.password.value;
             let promise = transactions.PrivateKeyReader(e.target.uploadFile.files[0], password);
             await promise.then(function (result) {
+
                 userMnemonic = result;
-                console.log(userMnemonic, 'userMnemonic');
+
             }).catch(err => {
+                console.log(err, 'userMnemonic');
                 setLoader(false);
-                setErrorMessage(err.message);
+                setErrorMessage(err);
             });
         } else {
             const password = e.target.password.value;
@@ -189,7 +201,7 @@ const CommonKeystore = (props) => {
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
-        history.push('/');
+        props.handleClose();
     };
     return (
         <div>
@@ -252,7 +264,7 @@ const CommonKeystore = (props) => {
                 </Modal.Body>
             </Modal>
             {!(Object.keys(response).length === 0) ?
-                <ModalCommon data={response} setExternal={handleClose} keplrTxn={keplrTxn}/>
+                <ModalCommon data={response} handleClose={handleClose} keplrTxn={keplrTxn}/>
                 : ""
             }
         </div>

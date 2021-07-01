@@ -1,28 +1,28 @@
-import React, {useState, useEffect} from "react";
-import {Form, Button, Modal} from "react-bootstrap";
-import InputField from "../../../components/inputField";
-import {useTranslation} from "react-i18next";
-import Loader from "../../../components/loader";
+import React, {useState, useEffect} from 'react';
+import {Form, Button, Modal} from 'react-bootstrap';
+import InputField from '../../../components/inputField';
+import {useTranslation} from 'react-i18next';
+import Loader from '../../../components/loader';
 import CommonKeystore from '../../../actions/forms/login/CommonKeystore';
 
 const Nub = (props) => {
     const [totalDefineObject, setTotalDefineObject] = useState({});
-    const [externalComponent, setExternalComponent] = useState("");
-    const [testIdentityId, settestIdentityId] = useState("");
+    const [externalComponent, setExternalComponent] = useState('');
+    const [testIdentityId, settestIdentityId] = useState('');
     const [loader, setLoader] = useState(false);
     const [showIdentity, setShowIdentity] = useState(true);
     const {t} = useTranslation();
-    useEffect(()=>{
-        let testIdentityId = localStorage.getItem("identityId");
+    useEffect(() => {
+        let testIdentityId = localStorage.getItem('identityId');
         settestIdentityId(testIdentityId);
 
-    },[]);
+    }, []);
     const handleSubmit = (event) => {
         event.preventDefault();
         setLoader(true);
         const nubId = event.target.nubID.value;
         let totalData = {
-            nubId:nubId,
+            nubId: nubId,
 
         };
         setTotalDefineObject(totalData);
@@ -40,7 +40,7 @@ const Nub = (props) => {
 
     const handleClose = () => {
         setShowIdentity(false);
-        props.setExternalComponent("");
+        props.setExternalComponent('');
     };
 
     return (
@@ -56,11 +56,11 @@ const Nub = (props) => {
                 <div>
                     {loader ?
                         <Loader/>
-                        : ""
+                        : ''
                     }
                 </div>
                 <Modal.Header closeButton>
-                    {t("NUB")}
+                    {t('NUB')}
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
@@ -76,7 +76,7 @@ const Nub = (props) => {
                         />
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">
-                                {t("SUBMIT")}
+                                {t('SUBMIT')}
                             </Button>
                         </div>
                     </Form>
@@ -85,7 +85,12 @@ const Nub = (props) => {
             <div>
                 {
                     externalComponent === 'Keystore' ?
-                        <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'nubid'}/> :
+                        <CommonKeystore
+                            setExternalComponent={setExternalComponent}
+                            totalDefineObject={totalDefineObject}
+                            TransactionName={'nubid'}
+                            handleClose={handleClose}
+                        /> :
                         null
                 }
             </div>

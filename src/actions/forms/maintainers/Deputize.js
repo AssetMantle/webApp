@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from "react";
-import {Form, Button, Modal} from "react-bootstrap";
-import {cls} from "persistencejs/build/transaction/classification/query";
-import {useTranslation} from "react-i18next";
-import Loader from "../../../components/loader";
+import React, {useState, useEffect} from 'react';
+import {Form, Button, Modal} from 'react-bootstrap';
+import {cls} from 'persistencejs/build/transaction/classification/query';
+import {useTranslation} from 'react-i18next';
+import Loader from '../../../components/loader';
 
 import CommonKeystore from '../login/CommonKeystore';
+
 const classificationsQuery = new cls(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const Deputize = (props) => {
@@ -12,16 +13,16 @@ const Deputize = (props) => {
     const [loader, setLoader] = useState(false);
     const [show, setShow] = useState(true);
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
-    const [externalComponent, setExternalComponent] = useState("");
+    const [externalComponent, setExternalComponent] = useState('');
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const [mutableList, setMutableList] = useState([]);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         const classificationId = props.maintainerData.value.id.value.classificationID.value.idString;
         const classificationResponse = classificationsQuery.queryClassificationWithID(classificationId);
 
-        classificationResponse.then(function (item) {
+        classificationResponse.then(function(item) {
             const data = JSON.parse(item);
             const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
             setMutableList(mutablePropertyList);
@@ -45,28 +46,27 @@ const Deputize = (props) => {
         event.preventDefault();
         const classificationId = props.maintainerData.value.id.value.classificationID.value.idString;
         const identityId = props.maintainerData.value.id.value.identityID.value.idString;
-        const addMaintainer = document.getElementById("addMaintainer").checked;
-        const mutateMaintainer = document.getElementById("mutateMaintainer").checked;
-        const removeMaintainer = document.getElementById("removeMaintainer").checked;
-        let maintainedTraits = "";
+        const addMaintainer = document.getElementById('addMaintainer').checked;
+        const mutateMaintainer = document.getElementById('mutateMaintainer').checked;
+        const removeMaintainer = document.getElementById('removeMaintainer').checked;
+        let maintainedTraits = '';
         checkboxMutableNamesList.forEach((checkboxMutableName) => {
-            if (maintainedTraits === "") {
+            if (maintainedTraits === '') {
                 maintainedTraits = maintainedTraits + checkboxMutableName;
-            }
-            else{
-                maintainedTraits = maintainedTraits + "," + checkboxMutableName;
+            } else {
+                maintainedTraits = maintainedTraits + ',' + checkboxMutableName;
             }
         });
         const ToId = event.target.ToId.value;
-        if (maintainedTraits !== "") {
+        if (maintainedTraits !== '') {
             let totalData = {
-                identityId:identityId,
-                classificationId:classificationId,
-                toId:ToId,
-                maintainedTraits:maintainedTraits,
-                addMaintainer:addMaintainer,
-                removeMaintainer:removeMaintainer,
-                mutateMaintainer:mutateMaintainer
+                identityId: identityId,
+                classificationId: classificationId,
+                toId: ToId,
+                maintainedTraits: maintainedTraits,
+                addMaintainer: addMaintainer,
+                removeMaintainer: removeMaintainer,
+                mutateMaintainer: mutateMaintainer,
             };
             setTotalDefineObject(totalData);
             setExternalComponent('Keystore');
@@ -80,35 +80,35 @@ const Deputize = (props) => {
             //     setLoader(false);
             // });
         } else {
-            setErrorMessage(t("SELECT_ANY_MUTABLE_TRAITS"));
+            setErrorMessage(t('SELECT_ANY_MUTABLE_TRAITS'));
             setLoader(false);
         }
 
     };
     const handleClose = () => {
         setShow(false);
-        props.setExternalComponent("");
+        props.setExternalComponent('');
     };
     return (
         <div>
-            <Modal show={show} onHide={handleClose}  centered>
+            <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    {t("DEPUTIZE")}
+                    {t('DEPUTIZE')}
                 </Modal.Header>
                 {loader ?
-                    <Loader />
-                    :""
+                    <Loader/>
+                    : ''
                 }
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label> {t("TO_ID")}*</Form.Label>
+                            <Form.Label> {t('TO_ID')}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
                                 name="ToId"
                                 required={true}
-                                placeholder={t("TO_ID")}
+                                placeholder={t('TO_ID')}
                             />
                         </Form.Group>
 
@@ -119,13 +119,15 @@ const Deputize = (props) => {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Check custom type="checkbox" label="Can mutate"
+                            <Form.Check custom type="checkbox"
+                                label="Can mutate"
                                 name="mutateMaintainer"
                                 id="mutateMaintainer"
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Check custom type="checkbox" label="Can remove"
+                            <Form.Check custom type="checkbox"
+                                label="Can remove"
                                 name="removeMaintainer"
                                 id="removeMaintainer"
                             />
@@ -138,8 +140,10 @@ const Deputize = (props) => {
                                     const mutableName = mutable.value.id.value.idString;
                                     return (
                                         <div key={index}>
-                                            <Form.Group >
-                                                <Form.Check custom type="checkbox" label={mutableName}
+                                            <Form.Group>
+                                                <Form.Check custom
+                                                    type="checkbox"
+                                                    label={mutableName}
                                                     name={`${mutableName}:${mutableType}|${index}`}
                                                     id={`${mutableName}:${mutableType}|${index}`}
                                                     value={`${mutableName}:${mutableType}|`}
@@ -149,16 +153,16 @@ const Deputize = (props) => {
                                         </div>
                                     );
                                 })
-                                : ""
+                                : ''
                             }
                         </div>
-                        {errorMessage !== "" ?
+                        {errorMessage !== '' ?
                             <p className="error-response">{errorMessage}</p>
-                            : ""
+                            : ''
                         }
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">
-                                {t("SUBMIT")}
+                                {t('SUBMIT')}
                             </Button>
                         </div>
 
@@ -167,7 +171,12 @@ const Deputize = (props) => {
             </Modal>
             {
                 externalComponent === 'Keystore' ?
-                    <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'deputize'}/> :
+                    <CommonKeystore
+                        setExternalComponent={setExternalComponent}
+                        totalDefineObject={totalDefineObject}
+                        TransactionName={'deputize'}
+                        handleClose={handleClose}
+                    /> :
                     null
             }
         </div>

@@ -7,8 +7,8 @@ const ModalCommon = (props) => {
     const [showIdentity, setShowIdentity] = useState(true);
     const handleClose = () => {
         setShowIdentity(false);
-        // props.setExternal();
-        // window.location.reload();
+        props.handleClose();
+        window.location.reload();
     };
     return (
         <Modal

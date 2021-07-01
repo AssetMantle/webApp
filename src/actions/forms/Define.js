@@ -1,36 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { Form, Button, Modal } from "react-bootstrap";
-import InputField from "../../components/inputField";
-import { useTranslation } from "react-i18next";
+import React, {useEffect, useState} from 'react';
+import {Form, Button, Modal} from 'react-bootstrap';
+import InputField from '../../components/inputField';
+import {useTranslation} from 'react-i18next';
 import CommonKeystore from '../../actions/forms/login/CommonKeystore';
 import CommonKeystorePwd from '../../actions/forms/login/CommonKeystorePwd';
-import Loader from "../../components/loader";
-import GetProperty from "../../utilities/Helpers/getProperty";
+import Loader from '../../components/loader';
+import GetProperty from '../../utilities/Helpers/getProperty';
 
 
 const Define = (props) => {
     const PropertyHelper = new GetProperty();
     const [loader, setLoader] = useState(false);
     const [show, setShow] = useState(true);
-    const [errorMessage, setErrorMessage] = useState("");
-    const [externalComponent, setExternalComponent] = useState("");
-    const [typeOption, setTypeOption] = useState("identity");
-    const [mutableStyle, setMutableStyle] = useState("Blue");
+    const [errorMessage, setErrorMessage] = useState('');
+    const [externalComponent, setExternalComponent] = useState('');
+    const [typeOption, setTypeOption] = useState('identity');
+    const [mutableStyle, setMutableStyle] = useState('Blue');
     const [mutableProperties, setMutableProperties] = useState([]);
     const [immutableProperties, setImmutableProperties] = useState([]);
     const [inputValues, setInputValues] = useState([]);
     const [metaCheckboxList, setMetaCheckboxList] = useState([]);
     const [uriField, setUriField] = useState(false);
-    const [selectedOption, setSelectedOption] = useState("Mutable");
+    const [selectedOption, setSelectedOption] = useState('Mutable');
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const [immutableMetaCheckboxList, setImmutableMetaCheckboxList] = useState([]);
-    const { t } = useTranslation();
-    const [fromID, setFromID] = useState("");
-    const [testIdentityId, settestIdentityId] = useState("");
+    const {t} = useTranslation();
+    const [fromID, setFromID] = useState('');
+    const [testIdentityId, settestIdentityId] = useState('');
 
     useEffect(() => {
         let fromIDValue = localStorage.getItem('identityId');
-        let testIdentityId = localStorage.getItem("identityId");
+        let testIdentityId = localStorage.getItem('identityId');
         setFromID(fromIDValue);
         settestIdentityId(testIdentityId);
 
@@ -38,27 +38,27 @@ const Define = (props) => {
 
     const handleChange = evt => {
         const newValue = evt.target.value;
-        setInputValues({ ...inputValues, [evt.target.name]: newValue });
+        setInputValues({...inputValues, [evt.target.name]: newValue});
     };
     const handleChangeMutable = (evt, idx) => {
         const newValue = evt.target.value;
-        const selectValue = document.getElementById("MutableDataType" + idx).value;
+        const selectValue = document.getElementById('MutableDataType' + idx).value;
         const checkError = PropertyHelper.DataTypeValidation(selectValue, newValue);
         PropertyHelper.showHideDataTypeError(checkError, `MutableDefine${idx}`);
-        setInputValues({ ...inputValues, [evt.target.name]: newValue });
+        setInputValues({...inputValues, [evt.target.name]: newValue});
     };
 
     const handleChangeImmutable = (evt, idx) => {
         const newValue = evt.target.value;
-        const selectValue = document.getElementById("ImmutableDataType" + idx).value;
+        const selectValue = document.getElementById('ImmutableDataType' + idx).value;
         const checkError = PropertyHelper.DataTypeValidation(selectValue, newValue);
         PropertyHelper.showHideDataTypeError(checkError, `ImmutableDefine${idx}`);
-        setInputValues({ ...inputValues, [evt.target.name]: newValue });
+        setInputValues({...inputValues, [evt.target.name]: newValue});
     };
 
     const handleClose = () => {
         setShow(false);
-        props.setExternalComponent("");
+        props.setExternalComponent('');
     };
     const handleChangeType = evt => {
         setTypeOption(evt.target.value);
@@ -69,7 +69,7 @@ const Define = (props) => {
 
     const handleSelectChange = evt => {
         const newValue = evt.target.value;
-        setInputValues({ ...inputValues, [evt.target.name]: newValue });
+        setInputValues({...inputValues, [evt.target.name]: newValue});
 
     };
 
@@ -102,9 +102,6 @@ const Define = (props) => {
         setLoader(true);
 
 
-
-
-
         let assetSpecificMutables = '';
         if (typeOption === 'asset') {
             assetSpecificMutables = 'burn:H|,lock:H|';
@@ -114,9 +111,9 @@ const Define = (props) => {
             orderSpecificMutables = 'exchangeRate:D|,expiry:H|,makerOwnableSplit:D|,takerID:I|';
         }
         const FromId = evt.target.FromId.value;
-        let staticImmutableMeta = "";
-        let uriMutable = "";
-        let uriImmutable = "";
+        let staticImmutableMeta = '';
+        let uriMutable = '';
+        let uriImmutable = '';
         const ImmutableDescription = evt.target.ImmutableDescription.value;
         const ImmutableIdentifier = evt.target.ImmutableIdentifier.value;
         const ImmutableClassifier = evt.target.ImmutableClassifier.value;
@@ -124,20 +121,20 @@ const Define = (props) => {
         staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription}`;
         if (uriField) {
             const ImmutableUrl = evt.target.URI.value;
-            let ImmutableUrlEncode = "";
-            if (ImmutableUrl !== "") {
+            let ImmutableUrlEncode = '';
+            if (ImmutableUrl !== '') {
                 ImmutableUrlEncode = PropertyHelper.getUrlEncode(ImmutableUrl);
             }
-            if (selectedOption === "Immutable") {
+            if (selectedOption === 'Immutable') {
                 uriImmutable = `URI:S|${ImmutableUrlEncode}`;
             } else {
                 uriMutable = `URI:S|${ImmutableUrlEncode}`;
             }
         }
-        let mutablePropertyValue = "";
-        let mutableMetaPropertyValue = "";
-        let immutablePropertyValue = "";
-        let immutableMetaPropertyValue = "";
+        let mutablePropertyValue = '';
+        let mutableMetaPropertyValue = '';
+        let immutablePropertyValue = '';
+        let immutableMetaPropertyValue = '';
 
         mutablePropertyValue = PropertyHelper.MutablePropertyValues(mutableProperties, inputValues, metaCheckboxList);
 
@@ -188,15 +185,15 @@ const Define = (props) => {
             immutableMetaPropertyValue = staticImmutableMeta;
         }
 
-        if (mutablePropertyValue !== "") {
-            if (mutableMetaPropertyValue !== "") {
+        if (mutablePropertyValue !== '') {
+            if (mutableMetaPropertyValue !== '') {
 
                 let totalData = {
-                    fromID:FromId,
-                    mutablePropertyValue:mutablePropertyValue,
-                    immutablePropertyValue:immutablePropertyValue,
-                    mutableMetaPropertyValue:mutableMetaPropertyValue,
-                    immutableMetaPropertyValue:immutableMetaPropertyValue
+                    fromID: FromId,
+                    mutablePropertyValue: mutablePropertyValue,
+                    immutablePropertyValue: immutablePropertyValue,
+                    mutableMetaPropertyValue: mutableMetaPropertyValue,
+                    immutableMetaPropertyValue: immutableMetaPropertyValue,
                 };
                 setTotalDefineObject(totalData);
                 setExternalComponent('Keystore');
@@ -210,28 +207,28 @@ const Define = (props) => {
                 //     setLoader(false);
                 // })
             } else {
-                setErrorMessage(t("ADD_MUTABLE_META_PROPERTY"));
+                setErrorMessage(t('ADD_MUTABLE_META_PROPERTY'));
                 setLoader(false);
             }
         } else {
-            setErrorMessage(t("ADD_MUTABLE_PROPERTY"));
+            setErrorMessage(t('ADD_MUTABLE_PROPERTY'));
             setLoader(false);
         }
 
     };
 
     const handleMutableProperties = () => {
-        setMutableProperties(mutableProperties => mutableProperties.concat([{ name: "" }]));
+        setMutableProperties(mutableProperties => mutableProperties.concat([{name: ''}]));
     };
 
     const handleImmutableProperties = () => {
-        setImmutableProperties(immutableProperties => immutableProperties.concat([{ name: '' }]));
+        setImmutableProperties(immutableProperties => immutableProperties.concat([{name: ''}]));
     };
 
     const handleRemoveMutableProperties = (i) => {
-        if (mutableProperties[i].name == "") {
+        if (mutableProperties[i].name == '') {
             let items = [...mutableProperties];
-            let item = { ...mutableProperties[i] };
+            let item = {...mutableProperties[i]};
             item.name = 'empty';
             items[i] = item;
             setMutableProperties(items);
@@ -251,9 +248,9 @@ const Define = (props) => {
     };
 
     const handleRemoveImmutableProperties = (i) => {
-        if (immutableProperties[i].name == "") {
+        if (immutableProperties[i].name == '') {
             let items = [...immutableProperties];
-            let item = { ...immutableProperties[i] };
+            let item = {...immutableProperties[i]};
             item.name = 'empty';
             items[i] = item;
             setImmutableProperties(items);
@@ -278,25 +275,27 @@ const Define = (props) => {
                     {props.FormName}
                 </Modal.Header>
                 {loader ?
-                    <Loader />
-                    : ""
+                    <Loader/>
+                    : ''
                 }
                 <Modal.Body>
                     <form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("FROM_ID")}*</Form.Label>
+                            <Form.Label>{t('FROM_ID')}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
                                 name="FromId"
                                 required={true}
                                 defaultValue={fromID !== null ? fromID : testIdentityId}
-                                placeholder={t("FROM_ID")}
+                                placeholder={t('FROM_ID')}
                             />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Immutable style:S|*</Form.Label>
-                            <Form.Control as="select" onChange={handleChangeStyle} name="ImmutableStyle"
+                            <Form.Control as="select"
+                                onChange={handleChangeStyle}
+                                name="ImmutableStyle"
                                 required={true}>
                                 <option value="Blue"> Blue</option>
                                 <option value="Red">Red</option>
@@ -307,23 +306,25 @@ const Define = (props) => {
                         <Form.Group>
                             <Form.Label>Immutable type:S|* </Form.Label>
                             <Form.Control as="select" name="type"
-                                required={true} onChange={handleChangeType}>
-                                <option value="identitiy">{t("IDENTITY")}</option>
-                                <option value="asset">{t("ASSET")}</option>
-                                <option value="order">{t("ORDER")}</option>
+                                required={true}
+                                onChange={handleChangeType}>
+                                <option
+                                    value="identitiy">{t('IDENTITY')}</option>
+                                <option value="asset">{t('ASSET')}</option>
+                                <option value="order">{t('ORDER')}</option>
                             </Form.Control>
                         </Form.Group>
                         {uriField
                             ?
                             <>
                                 <Form.Group>
-                                    <Form.Label>{t("URI")}</Form.Label>
+                                    <Form.Label>{t('URI')}</Form.Label>
                                     <Form.Control
                                         type="text"
                                         className=""
                                         name="URI"
                                         required={false}
-                                        placeholder={t("URI")}
+                                        placeholder={t('URI')}
                                     />
                                 </Form.Group>
                                 <Form.Group>
@@ -349,7 +350,7 @@ const Define = (props) => {
 
                                 </Form.Group>
                             </>
-                            : ""
+                            : ''
                         }
 
                         <Form.Group>
@@ -410,7 +411,7 @@ const Define = (props) => {
                                     disabled={true}
                                 />
                             </>
-                            : ""
+                            : ''
                         }
                         {typeOption === 'order'
                             ?
@@ -456,27 +457,32 @@ const Define = (props) => {
                                     disabled={true}
                                 />
                             </>
-                            : ""
+                            : ''
                         }
 
                         {mutableProperties.map((shareholder, idx) => {
-                            if (shareholder.name !== "empty") {
+                            if (shareholder.name !== 'empty') {
                                 return (
                                     <div key={idx}>
                                         <Form.Group>
-                                            <Form.Label>{t("DATA_TYPE")}*</Form.Label>
-                                            <Form.Control as="select" name={`MutableDataType${idx + 1}`}
+                                            <Form.Label>{t('DATA_TYPE')}*</Form.Label>
+                                            <Form.Control as="select"
+                                                name={`MutableDataType${idx + 1}`}
                                                 id={`MutableDataType${idx + 1}`}
                                                 onChange={handleSelectChange}
                                                 required={true}>
-                                                <option value="S|">{t("STRING")}</option>
-                                                <option value="D|">{t("DECIMAL")}</option>
-                                                <option value="H|">{t("HEIGHT")}</option>
-                                                <option value="I|">{t("ID_TYPE")}</option>
+                                                <option
+                                                    value="S|">{t('STRING')}</option>
+                                                <option
+                                                    value="D|">{t('DECIMAL')}</option>
+                                                <option
+                                                    value="H|">{t('HEIGHT')}</option>
+                                                <option
+                                                    value="I|">{t('ID_TYPE')}</option>
                                             </Form.Control>
                                         </Form.Group>
                                         <Form.Group>
-                                            <Form.Label>{t("DATA_NAME")}*</Form.Label>
+                                            <Form.Label>{t('DATA_NAME')}*</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 className=""
@@ -488,7 +494,7 @@ const Define = (props) => {
                                         </Form.Group>
 
                                         <Form.Group>
-                                            <Form.Label>{t("DATA_VALUE")}</Form.Label>
+                                            <Form.Label>{t('DATA_VALUE')}</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 className=""
@@ -501,11 +507,14 @@ const Define = (props) => {
                                             />
                                         </Form.Group>
 
-                                        <Form.Text id={`MutableDefine${idx + 1}`} className="text-muted none">
-                                            {t("DATA_TYPE_ERROR")}
+                                        <Form.Text
+                                            id={`MutableDefine${idx + 1}`}
+                                            className="text-muted none">
+                                            {t('DATA_TYPE_ERROR')}
                                         </Form.Text>
                                         <Form.Group>
-                                            <Form.Check custom type="checkbox" label="Mutable meta"
+                                            <Form.Check custom type="checkbox"
+                                                label="Mutable meta"
                                                 name={`add_mutable_meta${idx + 1}`}
                                                 id={`add_mutable_meta${idx + 1}`}
                                                 onChange={(evt) => {
@@ -514,35 +523,43 @@ const Define = (props) => {
 
                                             />
                                         </Form.Group>
-                                        <Button variant="warning" type="button" size="sm" id={`buttin${idx}`}
+                                        <Button variant="warning" type="button"
+                                            size="sm" id={`buttin${idx}`}
                                             onClick={() => handleRemoveMutableProperties(idx)}
                                             className="small button-define">remove
                                         </Button>
                                     </div>
                                 );
                             }
-                        }
+                        },
                         )}
-                        <Button type="button" variant="secondary" size="sm" onClick={handleMutableProperties}
-                            className="small button-define">Add Mutable</Button>
+                        <Button type="button" variant="secondary" size="sm"
+                            onClick={handleMutableProperties}
+                            className="small button-define">Add
+                            Mutable</Button>
 
                         {immutableProperties.map((shareholder, idx) => {
-                            if (shareholder.name !== "empty") {
+                            if (shareholder.name !== 'empty') {
                                 return (
                                     <div key={idx}>
                                         <Form.Group>
-                                            <Form.Label>{t("DATA_TYPE")}*</Form.Label>
-                                            <Form.Control as="select" name={`ImmutableDataType${idx + 1}`}
+                                            <Form.Label>{t('DATA_TYPE')}*</Form.Label>
+                                            <Form.Control as="select"
+                                                name={`ImmutableDataType${idx + 1}`}
                                                 id={`ImmutableDataType${idx + 1}`}
                                                 onChange={handleChange}>
-                                                <option value="S|">{t("STRING")}</option>
-                                                <option value="D|">{t("DECIMAL")}</option>
-                                                <option value="H|">{t("HEIGHT")}</option>
-                                                <option value="I|">{t("ID_TYPE")}</option>
+                                                <option
+                                                    value="S|">{t('STRING')}</option>
+                                                <option
+                                                    value="D|">{t('DECIMAL')}</option>
+                                                <option
+                                                    value="H|">{t('HEIGHT')}</option>
+                                                <option
+                                                    value="I|">{t('ID_TYPE')}</option>
                                             </Form.Control>
                                         </Form.Group>
                                         <Form.Group>
-                                            <Form.Label>{t("DATA_NAME")}*</Form.Label>
+                                            <Form.Label>{t('DATA_NAME')}*</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 className=""
@@ -553,7 +570,7 @@ const Define = (props) => {
                                             />
                                         </Form.Group>
                                         <Form.Group>
-                                            <Form.Label>{t("DATA_VALUE")}</Form.Label>
+                                            <Form.Label>{t('DATA_VALUE')}</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 className=""
@@ -565,11 +582,14 @@ const Define = (props) => {
                                                 }}
                                             />
                                         </Form.Group>
-                                        <Form.Text id={`ImmutableDefine${idx + 1}`} className="text-muted none">
-                                            {t("DATA_TYPE_ERROR")}
+                                        <Form.Text
+                                            id={`ImmutableDefine${idx + 1}`}
+                                            className="text-muted none">
+                                            {t('DATA_TYPE_ERROR')}
                                         </Form.Text>
                                         <Form.Group>
-                                            <Form.Check custom type="checkbox" label="Immutable meta"
+                                            <Form.Check custom type="checkbox"
+                                                label="Immutable meta"
                                                 name={`add_immutable_meta${idx + 1}`}
                                                 id={`add_immutable_meta${idx + 1}`}
                                                 onChange={(evt) => {
@@ -577,7 +597,8 @@ const Define = (props) => {
                                                 }}
                                             />
                                         </Form.Group>
-                                        <Button variant="warning" type="button" size="sm"
+                                        <Button variant="warning" type="button"
+                                            size="sm"
                                             onClick={() => handleRemoveImmutableProperties(idx)}
                                             className="small button-define">remove
                                         </Button>
@@ -587,16 +608,19 @@ const Define = (props) => {
                             }
                         })
                         }
-                        <Button type="button" variant="secondary" size="sm" onClick={handleImmutableProperties}
-                            className="small button-define">Add Immutable</Button>
+                        <Button type="button" variant="secondary" size="sm"
+                            onClick={handleImmutableProperties}
+                            className="small button-define">Add
+                            Immutable</Button>
 
-                        {errorMessage !== "" ?
+                        {errorMessage !== '' ?
                             <p className="error-response">{errorMessage}</p>
-                            : ""
+                            : ''
                         }
                         <div className="submitButtonSection">
-                            <Button variant="primary" type="submit" id="defineSubmitButton">
-                                {t("SUBMIT")}
+                            <Button variant="primary" type="submit"
+                                id="defineSubmitButton">
+                                {t('SUBMIT')}
                             </Button>
                         </div>
                     </form>
@@ -606,12 +630,19 @@ const Define = (props) => {
             <div>
                 {
                     externalComponent === 'Keystore' ?
-                        <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={props.FormName} ActionName={props.ActionName}/> :
+                        <CommonKeystore
+                            setExternalComponent={setExternalComponent}
+                            totalDefineObject={totalDefineObject}
+                            TransactionName={props.FormName}
+                            ActionName={props.ActionName}
+                            handleClose={handleClose}
+                        /> :
                         null
                 }
                 {
                     externalComponent === 'Keystorepwd' ?
-                        <CommonKeystorePwd setExternalComponent={setExternalComponent} /> :
+                        <CommonKeystorePwd
+                            setExternalComponent={setExternalComponent}/> :
                         null
                 }
             </div>

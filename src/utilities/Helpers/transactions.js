@@ -93,7 +93,7 @@ async function MnemonicWalletWithPassphrase(mnemonic) {
 }
 
 async function TransactionWithKeplr(msgs, fee, memo, chainID) {
-    console.log(msgs, "rr");
+    console.log(msgs, "rr", fee);
     await window.keplr.enable(chainID);
     const offlineSigner = window.getOfflineSigner(chainID);
     const accounts = await offlineSigner.getAccounts();

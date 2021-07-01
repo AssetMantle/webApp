@@ -1,18 +1,19 @@
-import React, {useState} from "react";
-import {Form, Button, Modal} from "react-bootstrap";
-import { useTranslation } from "react-i18next";
-import Loader from "../../../components/loader";
+import React, {useState} from 'react';
+import {Form, Button, Modal} from 'react-bootstrap';
+import {useTranslation} from 'react-i18next';
+import Loader from '../../../components/loader';
 
 import CommonKeystore from '../login/CommonKeystore';
+
 const BurnAsset = (props) => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false);
-    const [externalComponent, setExternalComponent] = useState("");
+    const [externalComponent, setExternalComponent] = useState('');
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const handleClose = () => {
         setShow(false);
-        props.setExternalComponent("");
+        props.setExternalComponent('');
     };
 
     const handleSubmit = (event) => {
@@ -20,8 +21,8 @@ const BurnAsset = (props) => {
         setLoader(true);
         event.preventDefault();
         let totalData = {
-            fromID:props.ownerId,
-            assetId:props.ownableId,
+            fromID: props.ownerId,
+            assetId: props.ownableId,
         };
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');
@@ -44,29 +45,35 @@ const BurnAsset = (props) => {
         <div>
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    {t("BURN_ASSET")}
+                    {t('BURN_ASSET')}
                 </Modal.Header>
                 <div>
                     {loader ?
-                        <Loader />
-                        : ""
+                        <Loader/>
+                        : ''
                     }
                 </div>
                 <Modal.Body>
-                    <Form onSubmit={handleSubmit} className="burn-confirmation-buttons">
-                        <p>{t("ARE_YOU_SURE")}</p>
+                    <Form onSubmit={handleSubmit}
+                        className="burn-confirmation-buttons">
+                        <p>{t('ARE_YOU_SURE')}</p>
                         <Button variant="primary" type="submit">
-                            {t("YES")}
+                            {t('YES')}
                         </Button>
                         <Button variant="secondary" onClick={handleClose}>
-                            {t("NO")}
+                            {t('NO')}
                         </Button>
                     </Form>
                 </Modal.Body>
             </Modal>
             {
                 externalComponent === 'Keystore' ?
-                    <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'burn asset'}/> :
+                    <CommonKeystore
+                        setExternalComponent={setExternalComponent}
+                        totalDefineObject={totalDefineObject}
+                        TransactionName={'burn asset'}
+                        handleClose={handleClose}
+                    /> :
                     null
             }
         </div>

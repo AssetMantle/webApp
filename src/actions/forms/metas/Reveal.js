@@ -1,20 +1,19 @@
 import React, {useState} from "react";
-import {revealMeta} from "persistencejs/build/transaction/meta/reveal";
 import {Form, Button, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
-import ModalCommon from "../../../components/modal";
-import config from "../../../constants/config.json";
 import GetProperty from "../../../utilities/Helpers/getProperty";
+import CommonKeystore from '../login/CommonKeystore';
 
-const RevealMeta = new revealMeta(process.env.REACT_APP_ASSET_MANTLE_API);
+
 
 const Reveal = (props) => {
     const PropertyHelper = new GetProperty();
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
-    const [response, setResponse] = useState({});
     const [loader, setLoader] = useState(false);
+    const [totalDefineObject, setTotalDefineObject] = useState({});
+    const [externalComponent, setExternalComponent] = useState("");
     const [dataTypeOption, setDataTypeOption] = useState("S|");
     const handleSelectChange = evt => {
         setDataTypeOption(evt.target.value);
@@ -34,15 +33,22 @@ const Reveal = (props) => {
         event.preventDefault();
         const MutableDataName = event.target.MutableDataName.value;
         const metaFact = dataTypeOption + MutableDataName;
-        const userTypeToken = localStorage.getItem('mnemonic');
-        const userAddress = localStorage.getItem('address');
-        const RevealMetaResponse = RevealMeta.reveal(userAddress, "test", userTypeToken, metaFact, config.feesAmount, config.feesToken, config.gas, config.mode);
-        RevealMetaResponse.then(function (item) {
-            const data = JSON.parse(JSON.stringify(item));
-            setResponse(data);
-            setShow(false);
-            setLoader(false);
-        });
+
+        let totalData = {
+            metaFact:metaFact,
+        };
+        setTotalDefineObject(totalData);
+        setExternalComponent('Keystore');
+        setShow(false);
+        setLoader(false);
+
+        // const RevealMetaResponse = RevealMeta.reveal(userAddress, "test", userTypeToken, metaFact, config.feesAmount, config.feesToken, config.gas, config.mode);
+        // RevealMetaResponse.then(function (item) {
+        //     const data = JSON.parse(JSON.stringify(item));
+        //     setResponse(data);
+        //     setShow(false);
+        //     setLoader(false);
+        // });
     };
 
     return (
@@ -97,9 +103,15 @@ const Reveal = (props) => {
                     </Form>
                 </Modal.Body>
             </Modal>
-            {!(Object.keys(response).length === 0) ?
-                <ModalCommon data={response} setExternal={handleClose}/>
-                : ""
+            {
+                externalComponent === 'Keystore' ?
+                    <CommonKeystore
+                        setExternalComponent={setExternalComponent}
+                        totalDefineObject={totalDefineObject} TransactionName={'reveal'}
+                        ActionName={props.ActionName}
+                        handleClose={handleClose}
+                    /> :
+                    null
             }
         </div>
     );

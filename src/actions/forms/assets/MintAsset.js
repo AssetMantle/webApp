@@ -1,14 +1,14 @@
-import React, {useState, useEffect} from "react";
-import {cls} from "persistencejs/build/transaction/classification/query";
-import {Form, Button, Modal} from "react-bootstrap";
-import {useTranslation} from "react-i18next";
+import React, {useState, useEffect} from 'react';
+import {cls} from 'persistencejs/build/transaction/classification/query';
+import {Form, Button, Modal} from 'react-bootstrap';
+import {useTranslation} from 'react-i18next';
 import CommonKeystore from '../../../actions/forms/login/CommonKeystore';
-import {queryMeta} from "persistencejs/build/transaction/meta/query";
-import config from "../../../constants/config.json";
-import Loader from "../../../components/loader";
-import FilterHelpers from "../../../utilities/Helpers/filter";
-import GetMeta from "../../../utilities/Helpers/getMeta";
-import GetProperty from "../../../utilities/Helpers/getProperty";
+import {queryMeta} from 'persistencejs/build/transaction/meta/query';
+import config from '../../../constants/config.json';
+import Loader from '../../../components/loader';
+import FilterHelpers from '../../../utilities/Helpers/filter';
+import GetMeta from '../../../utilities/Helpers/getMeta';
+import GetProperty from '../../../utilities/Helpers/getProperty';
 
 const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 const classificationsQuery = new cls(process.env.REACT_APP_ASSET_MANTLE_API);
@@ -21,42 +21,42 @@ const MintAsset = (props) => {
     const [show, setShow] = useState(true);
     const [showUpload, setShowUpload] = useState(false);
     const [totalDefineObject, setTotalDefineObject] = useState({});
-    const [uploadId, setUploadId] = useState("");
+    const [uploadId, setUploadId] = useState('');
     const [uploadFile, setUploadFile] = useState(null);
-    const [externalComponent, setExternalComponent] = useState("");
+    const [externalComponent, setExternalComponent] = useState('');
     const [loader, setLoader] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState('');
     const [showNext, setShowNext] = useState(false);
     const [checkedD, setCheckedD] = useState({});
-    const [classificationId, setClassificationId] = useState("");
+    const [classificationId, setClassificationId] = useState('');
     const [mutableList, setMutableList] = useState([]);
     const [immutableList, setImmutableList] = useState([]);
     const [inputValues, setInputValues] = useState([]);
     const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     const [checkboxImmutableNamesList, setCheckboxImmutableNamesList] = useState([]);
-    const [fromID, setFromID] = useState("");
-    const [testIdentityId, settestIdentityId] = useState("");
+    const [fromID, setFromID] = useState('');
+    const [testIdentityId, settestIdentityId] = useState('');
     useEffect(() => {
         let fromIDValue = localStorage.getItem('identityId');
-        let testIdentityId = localStorage.getItem("identityId");
+        let testIdentityId = localStorage.getItem('identityId');
         setFromID(fromIDValue);
         settestIdentityId(testIdentityId);
     }, []);
 
     const handleCloseNext = () => {
         setShowNext(false);
-        props.setExternalComponent("");
+        props.setExternalComponent('');
     };
     const handleClose = () => {
         setShow(false);
-        props.setExternalComponent("");
+        props.setExternalComponent('');
     };
     const handleCloseUpload = () => {
         setShowUpload(false);
     };
     const handleCheckMutableChange = evt => {
         const checkedValue = evt.target.checked;
-        const name = evt.target.getAttribute("name");
+        const name = evt.target.getAttribute('name');
         if (checkedValue) {
             const checkboxNames = evt.target.name;
             setCheckboxMutableNamesList((checkboxMutableNamesList) => [...checkboxMutableNamesList, checkboxNames]);
@@ -71,7 +71,7 @@ const MintAsset = (props) => {
         const checkedValue = evt.target.checked;
         setCheckedD({...checkedD, [evt.target.name]: evt.target.checked});
 
-        const name = evt.target.getAttribute("name");
+        const name = evt.target.getAttribute('name');
         if (checkedValue) {
             const checkboxNames = evt.target.name;
             setCheckboxImmutableNamesList((checkboxImmutableNamesList) => [...checkboxImmutableNamesList, checkboxNames]);
@@ -99,13 +99,13 @@ const MintAsset = (props) => {
         const ClassificationId = event.target.ClassificationId.value;
         setClassificationId(ClassificationId);
         const classificationResponse = classificationsQuery.queryClassificationWithID(ClassificationId);
-        classificationResponse.then(function (item) {
+        classificationResponse.then(function(item) {
             const data = JSON.parse(JSON.parse(JSON.stringify(item)));
             if (data.result.value.classifications.value.list !== null) {
                 const immutablePropertyList = data.result.value.classifications.value.list[0].value.immutableTraits.value.properties.value.propertyList;
                 const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
-                GetMetaHelper.FetchInputFieldMeta(immutablePropertyList, metasQuery, "MintAsset");
-                GetMetaHelper.FetchMutableInputFieldMeta(mutablePropertyList, metasQuery, "MintAsset");
+                GetMetaHelper.FetchInputFieldMeta(immutablePropertyList, metasQuery, 'MintAsset');
+                GetMetaHelper.FetchMutableInputFieldMeta(mutablePropertyList, metasQuery, 'MintAsset');
                 setMutableList(mutablePropertyList);
                 setImmutableList(immutablePropertyList);
             }
@@ -120,10 +120,10 @@ const MintAsset = (props) => {
         event.preventDefault();
         const FromId = event.target.FromId.value;
         const toID = event.target.toID.value;
-        let mutableValues = "";
-        let immutableValues = "";
-        let mutableMetaValues = "";
-        let immutableMetaValues = "";
+        let mutableValues = '';
+        let immutableValues = '';
+        let mutableMetaValues = '';
+        let immutableMetaValues = '';
         if (mutableList !== null) {
             mutableList.map((mutable, index) => {
                 const mutableType = mutable.value.fact.value.type;
@@ -132,10 +132,10 @@ const MintAsset = (props) => {
                 const inputName = `${mutableName}|${mutableType}${index}`;
                 if (mutableName !== config.URI) {
                     const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, mutableName, mutableType, mutableFieldValue);
-                    if (mutableMetaValuesResponse[0] !== "") {
+                    if (mutableMetaValuesResponse[0] !== '') {
                         mutableValues = mutableMetaValuesResponse[0];
                     }
-                    if (mutableMetaValuesResponse[1] !== "") {
+                    if (mutableMetaValuesResponse[1] !== '') {
                         mutableMetaValues = mutableMetaValuesResponse[1];
                     }
                 }
@@ -164,17 +164,17 @@ const MintAsset = (props) => {
                 let immutableFieldValue = document.getElementById(`MintAsset${immutableName}|${immutableType}${index}`).value;
                 if (immutableName !== config.URI) {
                     const ImmutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxImmutableNamesList, immutableValues, immutableMetaValues, immutableInputName, immutableName, immutableType, immutableFieldValue);
-                    if (ImmutableMetaValuesResponse[0] !== "") {
+                    if (ImmutableMetaValuesResponse[0] !== '') {
                         immutableValues = ImmutableMetaValuesResponse[0];
                     }
-                    if (ImmutableMetaValuesResponse[1] !== "") {
+                    if (ImmutableMetaValuesResponse[1] !== '') {
                         immutableMetaValues = ImmutableMetaValuesResponse[1];
                     }
                 }
                 let uriImmutableFieldValue;
                 let uriImmutable;
                 if (immutableName === config.URI) {
-                    if (immutableHash === "") {
+                    if (immutableHash === '') {
                         uriImmutableFieldValue = PropertyHelper.getUrlEncode(immutableFieldValue);
                         uriImmutable = `URI:S|${uriImmutableFieldValue}`;
                     } else {
@@ -190,30 +190,30 @@ const MintAsset = (props) => {
                 }
             });
         }
-        if (mutableValues === "") {
-            setErrorMessage(t("SELECT_MUTABLE"));
+        if (mutableValues === '') {
+            setErrorMessage(t('SELECT_MUTABLE'));
             setLoader(false);
-        }else if (mutableMetaValues === "") {
-            setErrorMessage(t("SELECT_MUTABLE_META"));
+        } else if (mutableMetaValues === '') {
+            setErrorMessage(t('SELECT_MUTABLE_META'));
             setLoader(false);
         } else if (mutableList.length !== 0 && checkboxMutableNamesList.length !== 0 && mutableList.length === checkboxMutableNamesList.length) {
-            setErrorMessage(t("SELECT_ALL_MUTABLE_ERROR"));
+            setErrorMessage(t('SELECT_ALL_MUTABLE_ERROR'));
             setLoader(false);
         } else if (immutableList.length !== 0 && checkboxImmutableNamesList.length !== 0 && immutableList.length === checkboxImmutableNamesList.length) {
-            setErrorMessage(t("SELECT_ALL_IMMUTABLE_ERROR"));
+            setErrorMessage(t('SELECT_ALL_IMMUTABLE_ERROR'));
             setLoader(false);
         } else if (checkboxImmutableNamesList.length === 0) {
-            setErrorMessage(t("SELECT_IMMUTABLE_META"));
+            setErrorMessage(t('SELECT_IMMUTABLE_META'));
             setLoader(false);
         } else {
             let totalData = {
-                fromID:FromId,
-                toID:toID,
-                classificationId:classificationId,
-                mutableValues:mutableValues,
-                immutableValues:immutableValues,
-                immutableMetaValues:immutableMetaValues,
-                mutableMetaValues:mutableMetaValues
+                fromID: FromId,
+                toID: toID,
+                classificationId: classificationId,
+                mutableValues: mutableValues,
+                immutableValues: immutableValues,
+                immutableMetaValues: immutableMetaValues,
+                mutableMetaValues: mutableMetaValues,
             };
             setTotalDefineObject(totalData);
             setExternalComponent('Keystore');
@@ -241,7 +241,7 @@ const MintAsset = (props) => {
         file = e.target.files[0];
         PropertyHelper.getBase64(file)
             .then(result => {
-                file["base64"] = result;
+                file['base64'] = result;
                 const fileData = result.split('base64,')[1];
                 const fileBase64Hash = PropertyHelper.getBase64Hash(fileData);
                 setInputValues({...inputValues, [uploadId]: fileBase64Hash});
@@ -259,24 +259,24 @@ const MintAsset = (props) => {
         <div>
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    {t("MINT_ASSET")}
+                    {t('MINT_ASSET')}
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("CLASSIFICATION_ID")}* </Form.Label>
+                            <Form.Label>{t('CLASSIFICATION_ID')}* </Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
                                 name="ClassificationId"
                                 required={true}
-                                placeholder={t("CLASSIFICATION_ID")}
+                                placeholder={t('CLASSIFICATION_ID')}
                             />
                         </Form.Group>
 
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">
-                                {t("NEXT")}
+                                {t('NEXT')}
                             </Button>
                         </div>
                     </Form>
@@ -292,33 +292,33 @@ const MintAsset = (props) => {
                 <div>
                     {loader ?
                         <Loader/>
-                        : ""
+                        : ''
                     }
                 </div>
                 <Modal.Header closeButton>
-                    {t("MINT_ASSET")}
+                    {t('MINT_ASSET')}
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleFormSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("FROM_ID")}*</Form.Label>
+                            <Form.Label>{t('FROM_ID')}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
                                 name="FromId"
                                 required={true}
                                 defaultValue={fromID !== null ? fromID : testIdentityId}
-                                placeholder={t("FROM_ID")}
+                                placeholder={t('FROM_ID')}
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>{t("TO_ID")}*</Form.Label>
+                            <Form.Label>{t('TO_ID')}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
                                 name="toID"
                                 required={true}
-                                placeholder={t("TO_ID")}
+                                placeholder={t('TO_ID')}
                             />
                         </Form.Group>
 
@@ -346,7 +346,8 @@ const MintAsset = (props) => {
                                                     disabled={false}
                                                 />
                                             </Form.Group>
-                                            <Form.Text id={`mutableMint${index + 1}`}
+                                            <Form.Text
+                                                id={`mutableMint${index + 1}`}
                                                 className="text-muted none">
 
                                             </Form.Text>
@@ -362,9 +363,11 @@ const MintAsset = (props) => {
                                                         Traits {mutableName}|{mutableType}* </Form.Label>
                                                     {mutableType === 'S' && mutableName !== config.URI
                                                         ?
-                                                        <Button variant="secondary" size="sm"
+                                                        <Button
+                                                            variant="secondary"
+                                                            size="sm"
                                                             onClick={() => handleUpload(id)}>upload</Button>
-                                                        : ""
+                                                        : ''
                                                     }
                                                 </div>
                                                 <Form.Control
@@ -373,17 +376,22 @@ const MintAsset = (props) => {
                                                     name={`${mutableName}|${mutableType}${index}`}
                                                     id={`${mutableName}|${mutableType}${index}`}
                                                     required={true}
-                                                    placeholder={t("TRAIT_VALUE")}
+                                                    placeholder={t('TRAIT_VALUE')}
                                                     onChange={(evt) => {
                                                         handleChangeMutable(evt, index + 1);
                                                     }}
                                                 />
                                             </Form.Group>
-                                            <Form.Text id={`mutableMint${index + 1}`} className="text-muted none">
-                                                {t("MUTABLE_VALIDATION_ERROR")}
+                                            <Form.Text
+                                                id={`mutableMint${index + 1}`}
+                                                className="text-muted none">
+                                                {t('MUTABLE_VALIDATION_ERROR')}
                                             </Form.Text>
-                                            <Form.Group controlId="formBasicCheckbox">
-                                                <Form.Check custom type="checkbox" label="Meta"
+                                            <Form.Group
+                                                controlId="formBasicCheckbox">
+                                                <Form.Check custom
+                                                    type="checkbox"
+                                                    label="Meta"
                                                     name={`${mutableName}|${mutableType}${index}`}
                                                     id={`checkbox${mutableName}|${mutableType}${index}`}
                                                     onClick={handleCheckMutableChange}
@@ -394,7 +402,7 @@ const MintAsset = (props) => {
                                 }
                             })
                             :
-                            ""
+                            ''
                         }
 
                         {immutableList !== null ?
@@ -416,13 +424,15 @@ const MintAsset = (props) => {
                                                     name={`${immutableName}|${immutableType}${index}`}
                                                     id={`MintAsset${immutableName}|${immutableType}${index}`}
                                                     required={true}
-                                                    placeholder={t("TRAIT_VALUE")}
+                                                    placeholder={t('TRAIT_VALUE')}
                                                     onChange={(evt) => {
                                                         handleChangeImmutable(evt, index + 1);
                                                     }}
                                                 />
                                             </Form.Group>
-                                            <Form.Text id={`ImmutableMint${index + 1}`} className="text-muted none">
+                                            <Form.Text
+                                                id={`ImmutableMint${index + 1}`}
+                                                className="text-muted none">
 
                                             </Form.Text>
                                         </div>
@@ -434,11 +444,13 @@ const MintAsset = (props) => {
                                                 <div className="upload-section">
                                                     <Form.Label>Immutable
                                                         Traits {immutableName} |{immutableType}* </Form.Label>
-                                                    {immutableType === 'S' && immutableHash == ""
+                                                    {immutableType === 'S' && immutableHash == ''
                                                         ?
-                                                        <Button variant="secondary" size="sm"
+                                                        <Button
+                                                            variant="secondary"
+                                                            size="sm"
                                                             onClick={() => handleUpload(id)}>upload</Button>
-                                                        : ""
+                                                        : ''
                                                     }
                                                 </div>
                                                 <Form.Control
@@ -447,18 +459,22 @@ const MintAsset = (props) => {
                                                     name={`${immutableName}|${immutableType}${index}`}
                                                     id={`MintAsset${immutableName}|${immutableType}${index}`}
                                                     required={true}
-                                                    placeholder={t("TRAIT_VALUE")}
+                                                    placeholder={t('TRAIT_VALUE')}
                                                     onChange={(evt) => {
                                                         handleChangeImmutable(evt, index + 1);
                                                     }}
                                                     disabled={false}
                                                 />
                                             </Form.Group>
-                                            <Form.Text id={`ImmutableMint${index + 1}`} className="text-muted none">
-                                                {t("MUTABLE_VALIDATION_ERROR")}
+                                            <Form.Text
+                                                id={`ImmutableMint${index + 1}`}
+                                                className="text-muted none">
+                                                {t('MUTABLE_VALIDATION_ERROR')}
                                             </Form.Text>
                                             <Form.Group>
-                                                <Form.Check custom type="checkbox" label="Meta"
+                                                <Form.Check custom
+                                                    type="checkbox"
+                                                    label="Meta"
                                                     name={`${immutableName}|${immutableType}${index}`}
                                                     id={`checkbox${immutableName}|${immutableType}${index}`}
                                                     onChange={handleCheckImmutableChange}/>
@@ -469,15 +485,16 @@ const MintAsset = (props) => {
                                 }
                             })
                             :
-                            ""
+                            ''
                         }
-                        {errorMessage !== "" ?
-                            <span className="error-response">{errorMessage}</span>
-                            : ""
+                        {errorMessage !== '' ?
+                            <span
+                                className="error-response">{errorMessage}</span>
+                            : ''
                         }
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">
-                                {t("SUBMIT")}
+                                {t('SUBMIT')}
                             </Button>
                         </div>
                     </Form>
@@ -485,13 +502,19 @@ const MintAsset = (props) => {
             </Modal>
             <Modal show={showUpload} onHide={handleCloseUpload} centered>
                 <Modal.Body className="upload-modal">
-                    <input type="file" name="file" onChange={handleFileInputChange}/>
+                    <input type="file" name="file"
+                        onChange={handleFileInputChange}/>
                 </Modal.Body>
             </Modal>
             <div>
                 {
                     externalComponent === 'Keystore' ?
-                        <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'assetMint'}/> :
+                        <CommonKeystore
+                            setExternalComponent={setExternalComponent}
+                            totalDefineObject={totalDefineObject}
+                            TransactionName={'assetMint'}
+                            handleClose={handleClose}
+                        /> :
                         null
                 }
             </div>

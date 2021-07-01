@@ -1,20 +1,17 @@
 import React, {useState, useEffect} from "react";
-import {takeOrder as takeOrderQuery} from "persistencejs/build/transaction/orders/take";
 import {Form, Button, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
-import ModalCommon from "../../../components/modal";
+import CommonKeystore from '../login/CommonKeystore';
 
-import config from "../../../constants/config.json";
-
-const takeOrder = new takeOrderQuery(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const TakeOrder = (props) => {
     const {t} = useTranslation();
-    const [response, setResponse] = useState({});
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false);
     const [fromID, setFromID] = useState("");
+    const [totalDefineObject, setTotalDefineObject] = useState({});
+    const [externalComponent, setExternalComponent] = useState("");
 
     useEffect(()=>{
         let fromIDValue = localStorage.getItem('identityId');
@@ -26,15 +23,27 @@ const TakeOrder = (props) => {
         const orderId = props.id;
         const FromId = event.target.FromId.value;
         const ownableAmount = event.target.ownableAmount.value;
-        const userTypeToken = localStorage.getItem('mnemonic');
-        const userAddress = localStorage.getItem('address');
-        const takeOrderResponse = takeOrder.take(userAddress, "test", userTypeToken, FromId, ownableAmount, orderId, config.feesAmount, config.feesToken, config.gas, config.mode);
-        takeOrderResponse.then(function (item) {
-            const data = JSON.parse(JSON.stringify(item));
-            setResponse(data);
-            setShow(false);
-            setLoader(false);
-        });
+
+        let totalData = {
+            fromID:FromId,
+            ownableAmount:ownableAmount,
+            orderId:orderId,
+        };
+        setTotalDefineObject(totalData);
+        setExternalComponent('Keystore');
+        setShow(false);
+        setLoader(false);
+
+
+        // const userTypeToken = localStorage.getItem('mnemonic');
+        // const userAddress = localStorage.getItem('address');
+        // const takeOrderResponse = takeOrder.take(userAddress, "test", userTypeToken, FromId, ownableAmount, orderId, config.feesAmount, config.feesToken, config.gas, config.mode);
+        // takeOrderResponse.then(function (item) {
+        //     const data = JSON.parse(JSON.stringify(item));
+        //     setResponse(data);
+        //     setShow(false);
+        //     setLoader(false);
+        // });
     };
     const handleClose = () => {
         setShow(false);
@@ -83,9 +92,15 @@ const TakeOrder = (props) => {
                     </Form>
                 </Modal.Body>
             </Modal>
-            {!(Object.keys(response).length === 0) ?
-                <ModalCommon data={response} setExternal={handleClose}/>
-                : ""
+            {
+                externalComponent === 'Keystore' ?
+                    <CommonKeystore
+                        setExternalComponent={setExternalComponent}
+                        totalDefineObject={totalDefineObject} TransactionName={'take order'}
+                        ActionName={props.ActionName}
+                        handleClose={handleClose}
+                    /> :
+                    null
             }
         </div>
     );

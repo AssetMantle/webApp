@@ -8,7 +8,7 @@ import GetProperty from "../../../utilities/Helpers/getProperty";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetID from "../../../utilities/Helpers/getID";
 import {useHistory} from "react-router-dom";
-import {Button, Form} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import {Profile} from '../../../components';
 
 const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
@@ -23,20 +23,15 @@ const IdentityList = React.memo(() => {
     const [loader, setLoader] = useState(true);
     const [filteredIdentitiesList, setFilteredIdentitiesList] = useState([]);
     const identityId = localStorage.getItem('identityId');
-    let lastFromIDValue = localStorage.getItem('lastFromID');
-    if (lastFromIDValue !== null && document.getElementById(lastFromIDValue) !== null) {
-        document.getElementById(lastFromIDValue).checked = true;
-    }
+
     useEffect(() => {
         const fetchToIdentities = () => {
             const identities = identitiesQuery.queryIdentityWithID(identityId);
-
             if (identities) {
                 identities.then(function (item) {
                     const data = JSON.parse(item);
                     console.log(data,'dataList');
                     const dataList = data.result.value.identities.value.list;
-
                     if (dataList) {
                         setFilteredIdentitiesList(dataList);
                         dataList.map((identity, index) => {
@@ -79,18 +74,6 @@ const IdentityList = React.memo(() => {
             }
             );
         }
-    };
-
-    const handleFromID = (evt, id, elementID) => {
-        let lastFromIDValue = localStorage.getItem('lastFromID');
-        if (lastFromIDValue !== 'null' && lastFromIDValue !== null) {
-            if (document.getElementById(lastFromIDValue).checked === true) {
-                document.getElementById(lastFromIDValue).checked = false;
-                document.getElementById(elementID).checked = true;
-            }
-        }
-        localStorage.setItem("fromID", id);
-        localStorage.setItem("lastFromID", elementID);
     };
 
     return (
@@ -180,15 +163,6 @@ const IdentityList = React.memo(() => {
                                             })
                                             : ""
                                         }
-                                        <Form.Group className="checkbox-fromid">
-                                            <Form.Check custom type="checkbox" label="Use FromID"
-                                                name="checkboxURIee"
-                                                id={"checkboxFromID" + index}
-                                                onChange={(evt) => {
-                                                    handleFromID(evt, identityId, "checkboxFromID" + index);
-                                                }}
-                                            />
-                                        </Form.Group>
                                         <Button variant="primary" className="viewButton" size="sm"
                                             onClick={() => handleAsset(identityId)}>View</Button>
 

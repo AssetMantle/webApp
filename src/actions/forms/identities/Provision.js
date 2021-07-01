@@ -1,8 +1,8 @@
-import React, {useState} from "react";
-import {Form, Button, Modal} from "react-bootstrap";
-import InputField from "../../../components/inputField";
-import {useTranslation} from "react-i18next";
-import Loader from "../../../components/loader";
+import React, {useState} from 'react';
+import {Form, Button, Modal} from 'react-bootstrap';
+import InputField from '../../../components/inputField';
+import {useTranslation} from 'react-i18next';
+import Loader from '../../../components/loader';
 import CommonKeystore from '../login/CommonKeystore';
 
 
@@ -13,14 +13,14 @@ const Provision = (props) => {
     const [loader, setLoader] = useState(false);
     const fromID = localStorage.getItem('identityId');
     const [totalDefineObject, setTotalDefineObject] = useState({});
-    const [externalComponent, setExternalComponent] = useState("");
+    const [externalComponent, setExternalComponent] = useState('');
     const handleSubmit = (event) => {
         setLoader(true);
         event.preventDefault();
         const toAddress = event.target.toAddress.value;
         let totalData = {
-            identityId:fromID,
-            to:toAddress,
+            identityId: fromID,
+            to: toAddress,
         };
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');
@@ -36,18 +36,18 @@ const Provision = (props) => {
     };
     const handleClose = () => {
         setShow(false);
-        props.setExternalComponent("");
+        props.setExternalComponent('');
     };
     return (
         <div>
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    {t("PROVISION")}
+                    {t('PROVISION')}
                 </Modal.Header>
                 <div>
                     {loader ?
-                        <Loader />
-                        : ""
+                        <Loader/>
+                        : ''
                     }
                 </div>
                 <Modal.Body>
@@ -63,7 +63,7 @@ const Provision = (props) => {
                         />
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">
-                                {t("SUBMIT")}
+                                {t('SUBMIT')}
                             </Button>
                         </div>
 
@@ -72,7 +72,12 @@ const Provision = (props) => {
             </Modal>
             {
                 externalComponent === 'Keystore' ?
-                    <CommonKeystore setExternalComponent={setExternalComponent} totalDefineObject={totalDefineObject} TransactionName={'provision'}/> :
+                    <CommonKeystore
+                        setExternalComponent={setExternalComponent}
+                        totalDefineObject={totalDefineObject}
+                        TransactionName={'provision'}
+                        handleClose={handleClose}
+                    /> :
                     null
             }
         </div>
