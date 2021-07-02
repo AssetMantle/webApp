@@ -91,7 +91,6 @@ const SignUp = () => {
         const hashGenerate = GetMetaHelper.Hash(userid);
         const msgs = await identitiesNub.createIdentityNubMsg(address, config.chainID, userid, config.feesAmount, config.feesToken, config.gas, config.mode);
         console.log(msgs, 'nubResponse');
-
         const nubResponse = await transactions.TransactionWithMnemonic([msgs.value.msg[0]], Msgs.Fee(0, 200000), '', mnemonic);
         const data = JSON.parse(JSON.stringify(nubResponse));
         const pollResponse = pollTxHash(process.env.REACT_APP_ASSET_MANTLE_API, data.transactionHash);
@@ -268,7 +267,7 @@ const SignUp = () => {
                         response.code ?
                             <p>Error: {response.raw_log}</p>
                             :
-                            <p className="tx-hash">TxHash: <a href={process.env.REACT_APP_ASSET_MANTLE_API + '/txs/' + response.txhash} target="_blank" rel="noreferrer">{response.txhash}</a>
+                            <p className="tx-hash">TxHash: <a href={process.env.REACT_APP_ASSET_MANTLE_API + '/txs/' + response.transactionHash} target="_blank" rel="noreferrer">{response.transactionHash}</a>
                             </p>
 
                         : ""}

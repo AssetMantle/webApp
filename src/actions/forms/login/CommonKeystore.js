@@ -4,7 +4,6 @@ import {mintAsset} from "persistencejs/build/transaction/assets/mint";
 import KeplerWallet from "../../../utilities/Helpers/kelplr";
 import {getWallet} from "persistencejs/build/utilities/keys";
 import { useTranslation } from "react-i18next";
-import { pollTxHash } from "../../../utilities/Helpers/filter";
 import queries from '../../../utilities/Helpers/query';
 import Loader from "../../../components/loader";
 import {bank} from "persistencejs/build/transaction/bank/sendCoin";
@@ -185,20 +184,9 @@ const CommonKeystore = (props) => {
             const wallet = await getWallet(userMnemonic, "");
             let queryResponse =  transactionDefination(wallet.address , userMnemonic, "normal");
             queryResponse.then(function (item) {
-                const data = JSON.parse(JSON.stringify(item));
-                const pollResponse = pollTxHash(process.env.REACT_APP_ASSET_MANTLE_API, data.transactionHash);
-                pollResponse.then(function (pollData) {
-                    const pollObject = JSON.parse(pollData);
-                    console.log(pollObject,'pollObject');
-                    setShow(false);
-                    setLoader(false);
-                    setResponse(data);
-                }).catch(err => {
-                    setLoader(false);
-                    setErrorMessage(err.response
-                        ? err.response.data.message
-                        : err.message);
-                });
+                setShow(false);
+                setLoader(false);
+                setResponse(item);
             }).catch(err => {
                 console.log( err.message, " err.message");
                 setLoader(false);

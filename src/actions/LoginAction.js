@@ -38,16 +38,16 @@ const Login = () => {
                             <Icon viewClass="arrow-icon" icon="arrow"/>
                         </div>
                     </div>
-                    <div className="mrt-10">
-                        <div className="button-view"
-                            onClick={() => handleRoute("LoginMnemonic")}
-                        >
-                            <div className="icon-section">
-                                <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/></div>
-                                {t("LOGIN_MNEMONIC")}</div>
-                            <Icon viewClass="arrow-icon" icon="arrow"/>
-                        </div>
-                    </div>
+                    {/*<div className="mrt-10">*/}
+                    {/*    <div className="button-view"*/}
+                    {/*        onClick={() => handleRoute("LoginMnemonic")}*/}
+                    {/*    >*/}
+                    {/*        <div className="icon-section">*/}
+                    {/*            <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/></div>*/}
+                    {/*            {t("LOGIN_MNEMONIC")}</div>*/}
+                    {/*        <Icon viewClass="arrow-icon" icon="arrow"/>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                     {/*<div className="mrt-10">*/}
                     {/*    <div className="button-view"*/}
                     {/*        onClick={() => handleRoute("PrivateKey")}*/}
