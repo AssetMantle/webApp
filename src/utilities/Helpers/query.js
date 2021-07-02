@@ -6,7 +6,6 @@ const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_A
 
 async function defineQuery(address, mnemonic, data, actionName, type) {
     const msgs = await actionName.createIdentityDefineMsg(address, config.chainID, data.fromID, data.mutablePropertyValue, data.immutablePropertyValue, data.mutableMetaPropertyValue, data.immutableMetaPropertyValue, config.feesAmount, config.feesToken, config.gas, config.mode);
-    console.log(msgs, 'msgs from pj', type);
     return makeTransaction(address, msgs, mnemonic, type);
 }
 
@@ -121,7 +120,6 @@ async function revealHashQuery(address, mnemonic, data, actionName,type) {
 
 async function makeTransaction(address, msgs,mnemonic, type){
     const addressList = await getProvisionList();
-    console.log(address, "address address");
     if(addressList || addressList.length){
         if (addressList.includes(address)) {
             if(type === "keplr"){
@@ -151,7 +149,6 @@ async function getProvisionList() {
             if (dataList[0].value.provisionedAddressList !== null) {
                 provisionedAddressList = dataList[0].value.provisionedAddressList;
             }
-            console.log(provisionedAddressList, "provisionedAddressList");
             return provisionedAddressList;
         }
     }

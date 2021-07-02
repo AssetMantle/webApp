@@ -15,8 +15,6 @@ const Identities = () => {
     const [externalComponent, setExternalComponent] = useState("");
     const [identityId, setIdentityId] = useState("");
     const [identity, setIdentity] = useState([]);
-    const identityIddd = localStorage.getItem('address');
-    console.log(identityIddd , "Sss");
     const handleModalData = (formName) => {
         setExternalComponent(formName);
         setIdentity(identity);

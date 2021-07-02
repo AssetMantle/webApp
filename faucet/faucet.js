@@ -10,7 +10,7 @@ function unsignedTx(msgs, gas, memo) {
         "fee": {"amount": [], "gas": gas},
         "signatures": null,
         "memo": memo
-    }
+    };
 
 }
 
@@ -24,7 +24,7 @@ function msg(fromAddress, toAddress, denom, amount) {
                 "denom": denom, "amount": amount
             }]
         }
-    }
+    };
 }
 
 function runner() {
@@ -32,14 +32,14 @@ function runner() {
         if (constants.FaucetList.length > 0) {
             let fromWallet = getWallet(process.env.FAUCET_MNEMONIC);
             console.log("fauceting accounts : ", constants.FaucetList);
-            let msgs = []
-            constants.FaucetList.forEach(address => msgs.push(msg(fromWallet.address, address, constants.DENOM, constants.AMOUNT)))
-            let tx = unsignedTx(msgs, "400000", "Faucet")
-            console.log("Tx : ", tx)
-            broadcast.broadcastTx(process.env.BLOCKCHAIN_REST_SERVER, fromWallet, tx, constants.CHAIN_ID, "block").then(response => console.log(response))
-            constants.FaucetList.splice(0, constants.FaucetList.length)
+            let msgs = [];
+            constants.FaucetList.forEach(address => msgs.push(msg(fromWallet.address, address, constants.DENOM, constants.AMOUNT)));
+            let tx = unsignedTx(msgs, "400000", "Faucet");
+            console.log("Tx : ", tx);
+            broadcast.broadcastTx(process.env.BLOCKCHAIN_REST_SERVER, fromWallet, tx, constants.CHAIN_ID, "block").then(response => console.log(response));
+            constants.FaucetList.splice(0, constants.FaucetList.length);
         } else {
-            console.log("No Accounts to faucet :(")
+            console.log("No Accounts to faucet :");
         }
     }, 10000);
 }
@@ -50,21 +50,21 @@ function handleFaucetRequest(userAddress) {
         let xmlHttp = new XMLHttpRequest();
         xmlHttp.open("GET", process.env.BLOCKCHAIN_REST_SERVER + "/auth/accounts/" + userAddress, false); // false for synchronous request
         xmlHttp.send(null);
-        const accountResponse = JSON.parse(xmlHttp.responseText)
+        const accountResponse = JSON.parse(xmlHttp.responseText);
 
         if (constants.FaucetList.length < constants.FAUCET_LIST_LIMIT && !constants.FaucetList.includes(userAddress) && accountResponse.result.value.address == "") {
-            constants.FaucetList.push(userAddress)
-            console.log(userAddress, "ADDED TO LIST: total = ", constants.FaucetList.length)
-            return JSON.stringify({result: "Success, your address will be faucet"})
+            constants.FaucetList.push(userAddress);
+            console.log(userAddress, "ADDED TO LIST: total = ", constants.FaucetList.length);
+            return JSON.stringify({result: "Success, your address will be faucet"});
         } else {
-            console.log(userAddress, "NOT ADDED: total = ", constants.FaucetList.length)
-            return JSON.stringify({result: "Failure, your account cannot be faucet right now, please try after sometime"})
+            console.log(userAddress, "NOT ADDED: total = ", constants.FaucetList.length);
+            return JSON.stringify({result: "Failure, your account cannot be faucet right now, please try after sometime"});
         }
     } catch (e) {
-        return JSON.stringify({result: "Failure, incorrect address"})
+        return JSON.stringify({result: "Failure, incorrect address"});
     }
 
 
 }
 
-module.exports = {runner, handleFaucetRequest}
+module.exports = {runner, handleFaucetRequest};

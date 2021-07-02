@@ -26,7 +26,6 @@ const IdentityLogin = React.memo((props) => {
                     if (identity.value.immutables.value.properties.value.propertyList !== null) {
                         const identityId = GetIDHelper.GetIdentityID(identity);
                         if(IdentityName === identityId) {
-                            console.log(identity, "ggerr");
                             if(identity.value.provisionedAddressList){
                                 let address = identity.value.provisionedAddressList[0];
                                 localStorage.setItem("address", address);

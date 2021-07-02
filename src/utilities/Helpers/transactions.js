@@ -76,7 +76,6 @@ function decryptStore(fileData, password) {
 }
 
 async function Transaction(wallet, signerAddress, msgs, fee, memo = '') {
-    console.log(wallet, signerAddress, msgs, fee, memo, 'Rer');
     const cosmJS = new SigningCosmosClient(restAPI, signerAddress, wallet);
     return await cosmJS.signAndBroadcast(msgs, fee, memo);
 }
@@ -93,7 +92,6 @@ async function MnemonicWalletWithPassphrase(mnemonic) {
 }
 
 async function TransactionWithKeplr(msgs, fee, memo, chainID) {
-    console.log(msgs, "rr", fee);
     await window.keplr.enable(chainID);
     const offlineSigner = window.getOfflineSigner(chainID);
     const accounts = await offlineSigner.getAccounts();

@@ -10,7 +10,6 @@ const HeaderAfterLogin = () => {
     const history = useHistory();
     const {t} = useTranslation();
     const userTypeToken = localStorage.getItem('identityId');
-    const userAddress = localStorage.getItem('address');
 
     const handleRoute = route => () => {
         history.push(route);
@@ -20,7 +19,6 @@ const HeaderAfterLogin = () => {
     };
 
     const logout  = () => {
-        console.log(userAddress,'userAddress', userTypeToken, "raju");
         localStorage.removeItem('address');
         localStorage.removeItem('encryptedMnemonic');
         localStorage.removeItem('fromID');

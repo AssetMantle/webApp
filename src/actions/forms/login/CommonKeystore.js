@@ -164,7 +164,6 @@ const CommonKeystore = (props) => {
             await promise.then(function (result) {
                 userMnemonic = result;
             }).catch(err => {
-                console.log(err, 'userMnemonic');
                 setLoader(false);
                 setErrorMessage(err);
             });
@@ -188,7 +187,6 @@ const CommonKeystore = (props) => {
                 setLoader(false);
                 setResponse(item);
             }).catch(err => {
-                console.log( err.message, " err.message");
                 setLoader(false);
                 setErrorMessage(err.response
                     ? err.response.data.message

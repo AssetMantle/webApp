@@ -31,7 +31,6 @@ const IdentityList = React.memo(() => {
             if (identities) {
                 identities.then(function (item) {
                     const data = JSON.parse(item);
-                    console.log(data,'dataList');
                     const dataList = data.result.value.identities.value.list;
                     if (dataList) {
                         setFilteredIdentitiesList(dataList);
