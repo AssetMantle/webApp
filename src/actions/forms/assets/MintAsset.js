@@ -393,7 +393,7 @@ const MintAsset = (props) => {
                                                     type="checkbox"
                                                     label="Meta"
                                                     name={`${mutableName}|${mutableType}${index}`}
-                                                    id={`checkbox${mutableName}|${mutableType}${index}`}
+                                                    id={`checkboxMutable${mutableName}|${mutableType}${index}`}
                                                     onClick={handleCheckMutableChange}
                                                 />
                                             </Form.Group>
@@ -476,7 +476,7 @@ const MintAsset = (props) => {
                                                     type="checkbox"
                                                     label="Meta"
                                                     name={`${immutableName}|${immutableType}${index}`}
-                                                    id={`checkbox${immutableName}|${immutableType}${index}`}
+                                                    id={`checkboxImmutable${immutableName}|${immutableType}${index}`}
                                                     onChange={handleCheckImmutableChange}/>
                                             </Form.Group>
                                         </div>

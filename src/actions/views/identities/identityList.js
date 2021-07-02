@@ -9,7 +9,8 @@ import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetID from "../../../utilities/Helpers/getID";
 import {useHistory} from "react-router-dom";
 import {Button} from "react-bootstrap";
-import {Profile} from '../../../components';
+import ledger from '../../../assets/images/ledger.svg';
+import Icon from '../../../icons';
 
 const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
@@ -77,13 +78,12 @@ const IdentityList = React.memo(() => {
     };
 
     return (
-        <div className="list-container">
+        <div className="list-container profile-section">
             {loader ?
                 <Loader/>
                 : ""
             }
             <div className="row card-deck">
-                <Profile/>
                 {filteredIdentitiesList.length ?
                     filteredIdentitiesList.map((identity, index) => {
                         let immutableProperties = "";
@@ -172,6 +172,24 @@ const IdentityList = React.memo(() => {
                         );
                     })
                     : <p className="empty-list">{t("IDENTITIES_NOT_FOUND")}</p>}
+                <div className="col-xl-3 col-lg-4 col-md-12 col-sm-12">
+                    <div className="card">
+                        <h4 className="card-heading">{t("HARDWARE_DEVICES")}</h4>
+                        <div className="ledger-box">
+                            <div className="image-section">
+                                <div className="ledger-image">
+                                    <img src={ledger} alt="ledger"/>
+                                </div>
+                            </div>
+                            <p className="heading">{t("ENABLE_LEDGER")}</p>
+                            <div className="button-view" title="To be implemented">
+                                <p className="icon-section">{t("CONNECT")}</p>
+                                <Icon viewClass="arrow-icon" icon="arrow"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </div>

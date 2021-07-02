@@ -3,7 +3,6 @@ import {useHistory} from "react-router-dom";
 import {querySplits} from "persistencejs/build/transaction/splits/query";
 import {queryAssets} from "persistencejs/build/transaction/assets/query";
 import {queryMeta} from "persistencejs/build/transaction/meta/query";
-import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 import {useTranslation} from "react-i18next";
 import {Button} from "react-bootstrap";
 import Loader from "../../../components/loader";
@@ -16,7 +15,6 @@ import {MakeOrder} from "../../forms/orders";
 import {SendSplit} from "../../forms/assets";
 
 const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
-const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const assetsQuery = new queryAssets(process.env.REACT_APP_ASSET_MANTLE_API);
 const splitsQuery = new querySplits(process.env.REACT_APP_ASSET_MANTLE_API);
 
@@ -30,73 +28,58 @@ const AssetList = React.memo(() => {
     const [assetList, setAssetList] = useState([]);
     const [loader, setLoader] = useState(true);
     const [splitList, setSplitList] = useState([]);
-    const userAddress = localStorage.getItem('address');
+    const identityId = localStorage.getItem('identityId');
     const [externalComponent, setExternalComponent] = useState("");
     const [ownerId, setOwnerId] = useState("");
     const [ownableId, setOwnableId] = useState("");
 
     useEffect(() => {
         const fetchAssets = () => {
-            const identities = identitiesQuery.queryIdentityWithID("all");
-            if (identities) {
-                identities.then(function (item) {
-                    const data = JSON.parse(item);
-                    const dataList = data.result.value.identities.value.list;
-                    if (dataList) {
-                        const filterIdentities = FilterHelper.FilterIdentitiesByProvisionedAddress(dataList, userAddress);
-                        const splits = splitsQuery.querySplitsWithID("all");
-                        splits.then(function (splitsItem) {
-                            const splitData = JSON.parse(splitsItem);
-                            const splitList = splitData.result.value.splits.value.list;
-
-                            if (splitList) {
-                                const filterSplitsByIdentities = FilterHelper.FilterSplitsByIdentity(filterIdentities, splitList);
-                                if (filterSplitsByIdentities.length) {
-                                    setSplitList(filterSplitsByIdentities);
-                                    filterSplitsByIdentities.map((split, index) => {
-                                        const ownableID = GetIDHelper.GetIdentityOwnableId(split);
-                                        const filterAssetList = assetsQuery.queryAssetWithID(ownableID);
-                                        filterAssetList.then(function (Asset) {
-                                            const parsedAsset = JSON.parse(Asset);
-                                            if (parsedAsset.result.value.assets.value.list !== null) {
-                                                const assetId = GetIDHelper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
-                                                if (ownableID === assetId) {
-                                                    setAssetList(assetList => [...assetList, parsedAsset]);
-                                                    let immutableProperties = "";
-                                                    let mutableProperties = "";
-                                                    if (parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
-                                                        immutableProperties = PropertyHelper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
-                                                    }
-                                                    if (parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
-                                                        mutableProperties = PropertyHelper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList);
-                                                    }
-                                                    let immutableKeys = Object.keys(immutableProperties);
-                                                    let mutableKeys = Object.keys(mutableProperties);
-                                                    GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset', index, 'assetUrlId');
-                                                    GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset', index, 'assetMutableUrlId');
-                                                    setLoader(false);
-                                                } else {
-                                                    setLoader(false);
-                                                }
-                                            } else {
-                                                setLoader(false);
-                                            }
-                                        });
-                                    });
+            const splits = splitsQuery.querySplitsWithID("all");
+            splits.then(function (splitsItem) {
+                const splitData = JSON.parse(splitsItem);
+                const splitList = splitData.result.value.splits.value.list;
+                if (splitList) {
+                    const filterSplitsByIdentities = FilterHelper.FilterSplitsByIdentity(identityId, splitList);
+                    if (filterSplitsByIdentities.length) {
+                        setSplitList(filterSplitsByIdentities);
+                        filterSplitsByIdentities.map((split, index) => {
+                            const ownableID = GetIDHelper.GetIdentityOwnableId(split);
+                            const filterAssetList = assetsQuery.queryAssetWithID(ownableID);
+                            filterAssetList.then(function (Asset) {
+                                const parsedAsset = JSON.parse(Asset);
+                                if (parsedAsset.result.value.assets.value.list !== null) {
+                                    const assetId = GetIDHelper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
+                                    if (ownableID === assetId) {
+                                        setAssetList(assetList => [...assetList, parsedAsset]);
+                                        let immutableProperties = "";
+                                        let mutableProperties = "";
+                                        if (parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
+                                            immutableProperties = PropertyHelper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
+                                        }
+                                        if (parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
+                                            mutableProperties = PropertyHelper.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList);
+                                        }
+                                        let immutableKeys = Object.keys(immutableProperties);
+                                        let mutableKeys = Object.keys(mutableProperties);
+                                        GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset', index, 'assetUrlId');
+                                        GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset', index, 'assetMutableUrlId');
+                                        setLoader(false);
+                                    } else {
+                                        setLoader(false);
+                                    }
                                 } else {
                                     setLoader(false);
                                 }
-                            } else {
-                                setLoader(false);
-                            }
+                            });
                         });
                     } else {
                         setLoader(false);
                     }
-                });
-            } else {
-                setLoader(false);
-            }
+                } else {
+                    setLoader(false);
+                }
+            });
         };
         fetchAssets();
     }, []);

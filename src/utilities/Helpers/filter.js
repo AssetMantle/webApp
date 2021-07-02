@@ -13,19 +13,32 @@ export default class Filter {
         });
     }
 
-    FilterSplitsByIdentity(identities, splits) {
+    FilterSplitsByIdentities(identities, splits) {
         let identityOwnerIdlist = GetIDHelper.GetIdentityIDs(identities);
         return splits.filter(function filterFunc(split) {
             return identityOwnerIdlist.includes(split.value.id.value.ownerID.value.idString);
         });
     }
 
-    FilterOrdersByIdentity(identities, orders) {
+    FilterSplitsByIdentity(identityId, splits) {
+        return splits.filter(function filterFunc(split) {
+            return identityId === split.value.id.value.ownerID.value.idString;
+        });
+    }
+
+    FilterOrdersByIdentities(identities, orders) {
         let identityOwnerIdlist = GetIDHelper.GetIdentityIDs(identities);
         return orders.filter(function filterFunc(order) {
             return identityOwnerIdlist.includes(order.value.id.value.makerID.value.idString);
         });
     }
+
+    FilterOrdersByIdentity(identityId, orders) {
+        return orders.filter(function filterFunc(order) {
+            return identityId === order.value.id.value.makerID.value.idString;
+        });
+    }
+
 
     FilterMaintainersByIdentity(identities, maintainers) {
         let identityOwnerIdlist = GetIDHelper.GetIdentityIDs(identities);

@@ -30,7 +30,7 @@ const Identities = () => {
                 <div className="row">
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
-                            <h4>Identities</h4>
+                            <h4>Profile</h4>
                             <Dropdown>
                                 <Dropdown.Toggle  id="dropdown-basic">
                                     {t("ACTIONS")}

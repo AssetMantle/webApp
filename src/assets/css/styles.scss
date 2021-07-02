@@ -918,7 +918,6 @@ html, body, #root, .app {
 .profile-section {
   width: 100%;
   .card-deck {
-    height: auto !important;
     .card{
       height: 300px !important;
       padding: 20px;
@@ -1140,3 +1139,4 @@ html, body, #root, .app {
 .dropdown.profile .dropdown-menu{
   top: 95% !important;
 }
+

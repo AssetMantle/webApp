@@ -113,9 +113,10 @@ const IdentityView = React.memo((props) => {
                                 if (identity.value.provisionedAddressList !== null) {
                                     provisionedAddressList = identity.value.provisionedAddressList;
                                 }
-                                if (identity.value.provisionedAddressList !== null) {
+                                if (identity.value.unprovisionedAddressList !== null) {
                                     unProvisionedAddressList = identity.value.unprovisionedAddressList;
                                 }
+
                                 let immutableKeys = Object.keys(immutableProperties);
                                 let mutableKeys = Object.keys(mutableProperties);
                                 return (

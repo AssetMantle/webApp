@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {queryOrders} from "persistencejs/build/transaction/orders/query";
 import {queryMeta} from "persistencejs/build/transaction/meta/query";
-import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
 import config from "../../../constants/config.json";
@@ -13,7 +12,6 @@ import {useHistory} from "react-router-dom";
 import {Button} from "react-bootstrap";
 
 const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
-const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const ordersQuery = new queryOrders(process.env.REACT_APP_ASSET_MANTLE_API);
 
 
@@ -25,48 +23,39 @@ const OrderList = React.memo(() => {
     const {t} = useTranslation();
     const [loader, setLoader] = useState(true);
     const [orderList, setOrderList] = useState([]);
-    const userAddress = localStorage.getItem('address');
+    const identityId = localStorage.getItem('identityId');
     let history = useHistory();
 
     useEffect(() => {
         const fetchOrder = () => {
-            const identities = identitiesQuery.queryIdentityWithID("all");
-
-            identities.then(function (item) {
-                const data = JSON.parse(item);
-                const dataList = data.result.value.identities.value.list;
-                if (dataList) {
-                    const filterIdentities = FilterHelper.FilterIdentitiesByProvisionedAddress(dataList, userAddress);
-                    const ordersData = ordersQuery.queryOrderWithID("all");
-                    ordersData.then(function (item) {
-                        const ordersData = JSON.parse(item);
-                        const ordersDataList = ordersData.result.value.orders.value.list;
-                        if (ordersDataList) {
-                            const filterOrdersByIdentities = FilterHelper.FilterOrdersByIdentity(filterIdentities, ordersDataList);
-                            if (filterOrdersByIdentities.length) {
-                                setOrderList(filterOrdersByIdentities);
-                                filterOrdersByIdentities.map((order, index) => {
-                                    let immutableProperties = "";
-                                    let mutableProperties = "";
-                                    if (order.value.immutables.value.properties.value.propertyList !== null) {
-                                        immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList);
-                                    }
-                                    if (order.value.mutables.value.properties.value.propertyList !== null) {
-                                        mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList);
-                                    }
-                                    let immutableKeys = Object.keys(immutableProperties);
-                                    let mutableKeys = Object.keys(mutableProperties);
-                                    GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order', index, 'orderUrlId');
-                                    GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order', index, 'orderMutableUrlId');
-                                    setLoader(false);
-                                });
-                            } else {
-                                setLoader(false);
+            const ordersData = ordersQuery.queryOrderWithID("all");
+            ordersData.then(function (item) {
+                const ordersData = JSON.parse(item);
+                const ordersDataList = ordersData.result.value.orders.value.list;
+                if (ordersDataList) {
+                    const filterOrdersByIdentities = FilterHelper.FilterOrdersByIdentity(identityId, ordersDataList);
+                    if (filterOrdersByIdentities.length) {
+                        setOrderList(filterOrdersByIdentities);
+                        filterOrdersByIdentities.map((order, index) => {
+                            let immutableProperties = "";
+                            let mutableProperties = "";
+                            if (order.value.immutables.value.properties.value.propertyList !== null) {
+                                immutableProperties = PropertyHelper.ParseProperties(order.value.immutables.value.properties.value.propertyList);
                             }
-                        } else {
+                            if (order.value.mutables.value.properties.value.propertyList !== null) {
+                                mutableProperties = PropertyHelper.ParseProperties(order.value.mutables.value.properties.value.propertyList);
+                            }
+                            let immutableKeys = Object.keys(immutableProperties);
+                            let mutableKeys = Object.keys(mutableProperties);
+                            GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_order', index, 'orderUrlId');
+                            GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_order', index, 'orderMutableUrlId');
                             setLoader(false);
-                        }
-                    });
+                        });
+                    } else {
+                        setLoader(false);
+                    }
+                } else {
+                    setLoader(false);
                 }
             });
         };

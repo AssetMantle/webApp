@@ -66,7 +66,13 @@ const CommonKeystore = (props) => {
     }, []);
 
     const transactionDefination = async (address, userMnemonic, type) => {
-        console.log(address, "in t helper");
+        // const addressList = await queries.getProvisionList();
+        // console.log(addressList, "list from get provionlist ",);
+        // if(addressList || addressList.length){
+        //     return Error("provision address empty please add");
+        // }
+
+
         let queryResponse;
         if (props.TransactionName === 'assetMint') {
             queryResponse = queries.mintAssetQuery(address, userMnemonic, props.totalDefineObject, assetMint, type);
@@ -107,6 +113,7 @@ const CommonKeystore = (props) => {
         } else if (props.TransactionName === 'reveal') {
             queryResponse = queries.revealHashQuery(address, userMnemonic, props.totalDefineObject, RevealMeta, type);
         }
+
         return queryResponse;
     };
 
@@ -133,6 +140,12 @@ const CommonKeystore = (props) => {
                 setLoader(false);
                 setErrorMessage(error.message);
                 console.log(error,'error');
+                const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
+                if (encryptedMnemonic !== null) {
+                    setImportMnemonic(false);
+                } else {
+                    setImportMnemonic(true);
+                }
             });
         }).catch(err => {
             setLoader(false);
@@ -144,15 +157,13 @@ const CommonKeystore = (props) => {
     const handleSubmit = async e => {
         e.preventDefault();
         setLoader(true);
+        setErrorMessage("");
         let userMnemonic;
         if (importMnemonic) {
-
             const password = e.target.password.value;
             let promise = transactions.PrivateKeyReader(e.target.uploadFile.files[0], password);
             await promise.then(function (result) {
-
                 userMnemonic = result;
-
             }).catch(err => {
                 console.log(err, 'userMnemonic');
                 setLoader(false);
@@ -170,11 +181,9 @@ const CommonKeystore = (props) => {
                 setErrorMessage("");
             }
         }
-
-
         if (userMnemonic !== undefined) {
             const wallet = await getWallet(userMnemonic, "");
-            let queryResponse = transactionDefination(wallet.address , userMnemonic, "normal");
+            let queryResponse =  transactionDefination(wallet.address , userMnemonic, "normal");
             queryResponse.then(function (item) {
                 const data = JSON.parse(JSON.stringify(item));
                 const pollResponse = pollTxHash(process.env.REACT_APP_ASSET_MANTLE_API, data.transactionHash);
@@ -190,6 +199,18 @@ const CommonKeystore = (props) => {
                         ? err.response.data.message
                         : err.message);
                 });
+            }).catch(err => {
+                console.log( err.message, " err.message");
+                setLoader(false);
+                setErrorMessage(err.response
+                    ? err.response.data.message
+                    : err.message);
+                const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
+                if (encryptedMnemonic !== null) {
+                    setImportMnemonic(false);
+                } else {
+                    setImportMnemonic(true);
+                }
             });
         } else {
             setLoader(false);
@@ -259,7 +280,7 @@ const CommonKeystore = (props) => {
 
                     </Form>
                     {errorMessage !=="" ?
-                        <p> {errorMessage}</p> : null
+                        <p className="error-response"> {errorMessage}</p> : null
                     }
                 </Modal.Body>
             </Modal>
