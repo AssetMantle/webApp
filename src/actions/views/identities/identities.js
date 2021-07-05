@@ -1,26 +1,25 @@
 import React, {useState} from "react";
-import identitiesDefineJS from "persistencejs/transaction/identity/define";
+import {defineIdentity} from "persistencejs/build/transaction/identity/define";
 import {Dropdown} from "react-bootstrap";
 import {Define} from "../../forms";
 import {Nub, IssueIdentity} from "../../forms/identities";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
-import IdentityList from "./identityList"
+import IdentityList from "./identityList";
 import {Summary} from "../../../components/summary";
 
-const identitiesDefine = new identitiesDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const identitiesDefine = new defineIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const Identities = () => {
     const {t} = useTranslation();
     const [externalComponent, setExternalComponent] = useState("");
     const [identityId, setIdentityId] = useState("");
     const [identity, setIdentity] = useState([]);
-
     const handleModalData = (formName) => {
-        setExternalComponent(formName)
+        setExternalComponent(formName);
         setIdentity(identity);
-        setIdentityId(identityId)
-    }
+        setIdentityId(identityId);
+    };
 
     return (
         <div className="content-section">
@@ -29,7 +28,7 @@ const Identities = () => {
                 <div className="row">
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
-                            <h4>Identities</h4>
+                            <h4>Profile</h4>
                             <Dropdown>
                                 <Dropdown.Toggle  id="dropdown-basic">
                                     {t("ACTIONS")}
@@ -45,6 +44,7 @@ const Identities = () => {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </div>
+
                         <IdentityList/>
                     </div>
                     <div className="col-md-3 summary-section">
@@ -60,7 +60,7 @@ const Identities = () => {
                 }
                 {externalComponent === 'DefineIdentity' ?
                     <Define setExternalComponent={setExternalComponent} ActionName={identitiesDefine}
-                            FormName={'Define Identity'}/> :
+                        FormName={'Define Identity'}/> :
                     null
                 }
                 {externalComponent === 'IssueIdentity' ?
@@ -71,5 +71,5 @@ const Identities = () => {
             </div>
         </div>
     );
-}
-export default Identities
+};
+export default Identities;

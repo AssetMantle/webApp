@@ -1,3 +1,3 @@
-import Login from "./LoginAction"
+import Login from "./LoginAction";
 
 export {Login};

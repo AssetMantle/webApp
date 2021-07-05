@@ -1,43 +1,51 @@
-import React, {useState, useEffect} from "react";
-import WrapJS from "persistencejs/transaction/splits/wrap";
-import {Form, Button, Modal} from "react-bootstrap";
-import {useTranslation} from "react-i18next";
-import config from "../../../constants/config.json"
-import Loader from "../../../components/loader"
-import ModalCommon from "../../../components/modal"
+import React, {useState, useEffect} from 'react';
+import {Form, Button, Modal} from 'react-bootstrap';
+import {useTranslation} from 'react-i18next';
+import Loader from '../../../components/loader';
+import CommonKeystore from '../../../actions/forms/login/CommonKeystore';
 
-const WrapQuery = new WrapJS(process.env.REACT_APP_ASSET_MANTLE_API)
 
 const Wrap = (props) => {
     const {t} = useTranslation();
-    const [response, setResponse] = useState({});
     const [show, setShow] = useState(true);
-    const [loader, setLoader] = useState(false)
-    const [fromID, setFromID] = useState("");
-
-    useEffect(()=>{
-        let fromIDValue = localStorage.getItem('fromID');
+    const [loader, setLoader] = useState(false);
+    const [externalComponent, setExternalComponent] = useState('');
+    const [totalDefineObject, setTotalDefineObject] = useState({});
+    const [fromID, setFromID] = useState('');
+    const [testIdentityId, settestIdentityId] = useState('');
+    useEffect(() => {
+        let fromIDValue = localStorage.getItem('identityId');
+        let testIdentityId = localStorage.getItem('identityId');
+        settestIdentityId(testIdentityId);
         setFromID(fromIDValue);
-    },[])
+    }, []);
     const handleSubmit = (event) => {
-        setLoader(true)
+        setLoader(true);
         event.preventDefault();
         const FromId = event.target.FromId.value;
         const CoinDenom = event.target.CoinDenom.value;
+
         const CoinAmount = event.target.CoinAmount.value;
-        const userTypeToken = localStorage.getItem('mnemonic');
-        const userAddress = localStorage.getItem('address');
-        const WrapResponse = WrapQuery.wrap(userAddress, "test", userTypeToken, FromId, CoinAmount + CoinDenom, config.feesAmount, config.feesToken, config.gas, config.mode);
-        WrapResponse.then(function (item) {
-            const data = JSON.parse(JSON.stringify(item));
-            setResponse(data)
-            setShow(false);
-            setLoader(false)
-        })
+        let totalData = {
+            fromID: FromId,
+            CoinAmountDenom: CoinAmount + CoinDenom,
+        };
+        setTotalDefineObject(totalData);
+        setExternalComponent('Keystore');
+        setShow(false);
+
+        setLoader(false);
+        // const WrapResponse = WrapQuery.wrap(userAddress, "test", userTypeToken, FromId, CoinAmount + CoinDenom, config.feesAmount, config.feesToken, config.gas, config.mode);
+        // WrapResponse.then(function (item) {
+        //     const data = JSON.parse(JSON.stringify(item));
+        //     setResponse(data)
+        //     setShow(false);
+        //     setLoader(false)
+        // })
     };
     const handleClose = () => {
         setShow(false);
-        props.setExternalComponent("");
+        props.setExternalComponent('');
     };
     return (
         <div>
@@ -49,17 +57,17 @@ const Wrap = (props) => {
                 <div>
                     {loader ?
                         <Loader/>
-                        : ""
+                        : ''
                     }
                 </div>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
-                            <Form.Label>{t("FROM_ID")}* </Form.Label>
+                            <Form.Label>{t('FROM_ID')}* </Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
-                                defaultValue={fromID !== null ? fromID : ""}
+                                defaultValue={fromID !== null ? fromID : testIdentityId}
                                 name="FromId"
                                 required={true}
                                 placeholder="FromId"
@@ -67,7 +75,7 @@ const Wrap = (props) => {
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Label>{t("COIN_DENOM")}* </Form.Label>
+                            <Form.Label>{t('COIN_DENOM')}* </Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -77,7 +85,7 @@ const Wrap = (props) => {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>{t("COIN_AMOUNT")}*</Form.Label>
+                            <Form.Label>{t('COIN_AMOUNT')}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -89,16 +97,24 @@ const Wrap = (props) => {
 
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">
-                                {t("SUBMIT")}
+                                {t('SUBMIT')}
                             </Button>
                         </div>
                     </Form>
                 </Modal.Body>
             </Modal>
-            {!(Object.keys(response).length === 0) ?
-                <ModalCommon data={response} setExternal={handleClose}/>
-                : ""
-            }
+            <div>
+                {
+                    externalComponent === 'Keystore' ?
+                        <CommonKeystore
+                            setExternalComponent={setExternalComponent}
+                            totalDefineObject={totalDefineObject}
+                            TransactionName={'wrap'}
+                            handleClose={handleClose}
+                        /> :
+                        null
+                }
+            </div>
         </div>
     );
 };

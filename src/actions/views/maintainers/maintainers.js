@@ -2,7 +2,7 @@ import React from "react";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
 import {Summary} from "../../../components/summary";
-import MaintainerList from "./maintainerList"
+import MaintainerList from "./maintainerList";
 
 const Maintainers = () => {
     const {t} = useTranslation();

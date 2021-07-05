@@ -1,28 +1,26 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
-import keyUtils from "persistencejs/utilities/keys";
-import identitiesQueryJS from "persistencejs/transaction/identity/query";
-import metasQueryJS from "persistencejs/transaction/meta/query";
-import identitiesNubJS from "persistencejs/transaction/identity/nub";
+import {createRandomWallet, createStore} from "persistencejs/build/utilities/keys";
+import {queryIdentities} from "persistencejs/build/transaction/identity/query";
+import {nubIdentity} from "persistencejs/build/transaction/identity/nub";
 import DownloadLink from "react-download-link";
-import config from "../../constants/config.json"
-import { getFaucet } from "../../constants/url";
+import config from "../../config";
 import GetID from "../../utilities/Helpers/getID";
 import { useTranslation } from "react-i18next";
 import GetMeta from "../../utilities/Helpers/getMeta";
 import axios from "axios";
-import { pollTxHash } from "../../utilities/Helpers/filter"
+import { pollTxHash } from "../../utilities/Helpers/filter";
 import { useHistory } from "react-router-dom";
 import Loader from "../../components/loader";
 import Icon from "../../icons";
-const metasQuery = new metasQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const identitiesQuery = new identitiesQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
-const identitiesNub = new identitiesNubJS(process.env.REACT_APP_ASSET_MANTLE_API)
+import Msgs from '../../utilities/Helpers/Msgs';
+import transactions from '../../utilities/Helpers/transactions';
+const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesNub = new nubIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
 const SignUp = () => {
     const [response, setResponse] = useState({});
     const [loader, setLoader] = useState(false);
     const userAddress = localStorage.getItem('address');
-    const url = getFaucet(userAddress);
     const { t } = useTranslation();
     const history = useHistory();
     const GetIDHelper = new GetID();
@@ -32,7 +30,6 @@ const SignUp = () => {
     const [showEncrypt, setShowEncrypt] = useState(false);
     const [mnemonic, setMnemonic] = useState("");
     const [formName, setFormName] = useState("");
-    const [hashID, setHashId] = useState('');
     const [testID, settestID] = useState('');
     const [address, setAddress] = useState('');
     const [showDownload, setShowDownload] = useState(false);
@@ -41,117 +38,110 @@ const SignUp = () => {
     const [showtxnHash, setshowtxnHash] = useState(false);
     const [userExist, setuserExist] = useState(false);
     const handleClose = () => {
-        setShow(false)
+        setShow(false);
         history.push('/');
     };
     const handleFaucet = () => {
-        setLoader(true)
-
+        setLoader(true);
         axios.post(process.env.REACT_APP_FAUCET_SERVER + "/faucetRequest", { address: userAddress })
             .then(response => {
-                setLoader(false)
+                console.log(response);
+                setLoader(false);
             }
             )
             .catch(err => {
-                setLoader(false)
-            })
+                console.log(err);
+                setLoader(false);
+            });
 
-        setShowDownload(false)
-        setshowDownloadModal(false)
-        setShowFaucet(true)
-        setshowtxnHash(false)
-    }
+        setShowDownload(false);
+        setshowDownloadModal(false);
+        setShowFaucet(true);
+        setshowtxnHash(false);
+    };
     const handleCloseEncrypt = () => {
-        setShowEncrypt(false)
+        setShowEncrypt(false);
         history.push('/');
     };
     const getIdentityId = (userIdHash) => {
-        const identities = identitiesQuery.queryIdentityWithID("all")
+        const identities = identitiesQuery.queryIdentityWithID("all");
         if (identities) {
             identities.then(function (item) {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
-                dataList.map((identity, index) => {
+                dataList.map((identity) => {
                     if (identity.value.immutables.value.properties.value.propertyList !== null) {
                         const immutablePropertyList = identity.value.immutables.value.properties.value.propertyList[0];
-                      
-                        if (immutablePropertyList.value.fact.value.hash === userIdHash) { 
+
+                        if (immutablePropertyList.value.fact.value.hash === userIdHash) {
                             const identityId = GetIDHelper.GetIdentityID(identity);
 
-                            settestID(identityId)
+                            settestID(identityId);
                         }
                     }
                 });
 
-            })
+            });
         }
-    }
-    const handleSubmitIdentity = e => {
-        console.log('repeating')
-        setLoader(true)
-        e.preventDefault()
-        const userid = document.getElementById("userName").value
-        const hashGenerate = GetMetaHelper.Hash(userid)
-        console.log(hashGenerate, 'hashGenerate')
-        const userTypeToken = localStorage.getItem('mnemonic');
-        const userAddress = localStorage.getItem('address');
-        console.log(userAddress, userTypeToken, userid, config.feesAmount, config.feesToken, config.gas, config.mode)
-        const nubResponse = identitiesNub.nub(userAddress, "test", userTypeToken, userid, config.feesAmount, config.feesToken, config.gas, config.mode);
-        nubResponse.then(function (item) {
-            const data = JSON.parse(JSON.stringify(item));
-            const pollResponse = pollTxHash(process.env.REACT_APP_ASSET_MANTLE_API, data.txhash);
-            pollResponse.then(function (pollData) {
-                const pollObject = JSON.parse(pollData);
-                if (pollObject.code) {
-                    console.log('code is there');
-                    setLoader(false)
-                    setuserExist(true)
-                } else {
-                    getIdentityId(hashGenerate);
-                    setLoader(false)
-                    setShowFaucet(false)
-                    setshowtxnHash(true)
-                }
-                console.log(pollObject, "pollObject")
-            })
-            setResponse(data)
-            console.log(userid, data)
-            setshowDownloadModal(false)
-            setShowDownload(false)
+    };
+    const handleSubmitIdentity = async e => {
+        setLoader(true);
+        e.preventDefault();
+        const userid = document.getElementById("userName").value;
+        const hashGenerate = GetMetaHelper.Hash(userid);
+        const msgs = await identitiesNub.createIdentityNubMsg(address, config.chainID, userid, config.feesAmount, config.feesToken, config.gas, config.mode);
+        console.log(msgs, 'nubResponse');
+        const nubResponse = await transactions.TransactionWithMnemonic([msgs.value.msg[0]], Msgs.Fee(0, 200000), '', mnemonic);
+        const data = JSON.parse(JSON.stringify(nubResponse));
+        const pollResponse = pollTxHash(process.env.REACT_APP_ASSET_MANTLE_API, data.transactionHash);
+        pollResponse.then(function (pollData) {
+            const pollObject = JSON.parse(pollData);
+            if (pollObject.code) {
+                setLoader(false);
+                setuserExist(true);
+            } else {
+                getIdentityId(hashGenerate);
+                setLoader(false);
+                setShowFaucet(false);
+                setshowtxnHash(true);
+            }
 
+        });
+        setResponse(data);
 
-            setHashId(hashGenerate);
-        })
-    }
-    const handleSubmit = e => {
-        e.preventDefault()
-        const password = document.getElementById("password").value
-        const error = keyUtils.createRandomWallet()
+        setshowDownloadModal(false);
+        setShowDownload(false);
+    };
+    const handleSubmit = async e => {
+        e.preventDefault();
+        const password = document.getElementById("password").value;
+        const error = await createRandomWallet("");
+        console.log(error);
         if (error.error != null) {
-            return (<div>ERROR!!</div>)
+            return (<div>ERROR!!</div>);
         }
 
-        const create = keyUtils.createStore(error.mnemonic, password)
+        const create = createStore(error.mnemonic, password);
         if (create.error != null) {
-            return (<div>ERROR!!</div>)
+            return (<div>ERROR!!</div>);
         }
         const jsonContent = JSON.stringify(create.Response);
-        localStorage.setItem("address", error.address)
-        localStorage.setItem("mnemonic", error.mnemonic)
-        setJsonName(jsonContent)
-        setAddress(error.address)
-        setMnemonic(error.mnemonic)
-        setShowEncrypt(true)
-        setshowDownloadModal(false)
-        setShowDownload(true)
-        setshowtxnHash(false)
-    }
+        localStorage.setItem("address", error.address);
+        localStorage.setItem("mnemonic", error.mnemonic);
+        setJsonName(jsonContent);
+        setAddress(error.address);
+        setMnemonic(error.mnemonic);
+        setShowEncrypt(true);
+        setshowDownloadModal(false);
+        setShowDownload(true);
+        setshowtxnHash(false);
+    };
 
     const handleEncrypt = (name) => {
-        setShow(false)
-        setFormName(name)
-        setShowEncrypt(true)
-    }
+        setShow(false);
+        setFormName(name);
+        setShowEncrypt(true);
+    };
 
     return (
         <div>
@@ -180,7 +170,7 @@ const SignUp = () => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Form.Check custom type="checkbox" label="Accept Terms&Conditions"
+                    <Form.Check custom type="checkbox" label="Accept Terms & Conditions"
                         name="removeMaintainer"
                         id="removeMaintainer"
                     />
@@ -268,7 +258,7 @@ const SignUp = () => {
                         </Form>
                         : ""
                     }
-                   
+
                     {loader ?
                         <Loader />
                         : ""
@@ -277,15 +267,15 @@ const SignUp = () => {
                         response.code ?
                             <p>Error: {response.raw_log}</p>
                             :
-                            <p className="tx-hash">TxHash: <a href={process.env.REACT_APP_ASSET_MANTLE_API + '/txs/' + response.txhash} target="_blank">{response.txhash}</a> 
+                            <p className="tx-hash">TxHash: <a href={process.env.REACT_APP_ASSET_MANTLE_API + '/txs/' + response.transactionHash} target="_blank" rel="noreferrer">{response.transactionHash}</a>
                             </p>
 
                         : ""}
-                        {testID}
+                    {testID}
                 </Modal.Body>
             </Modal>
 
         </div>
     );
-}
-export default SignUp
+};
+export default SignUp;

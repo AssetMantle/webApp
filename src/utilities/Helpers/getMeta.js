@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 import React from "react";
 import base64url from "base64url";
-import config from "../../constants/config.json"
+import config from "../../constants/config.json";
 const sha1 = require("js-sha1");
 export default class GetMeta {
 
@@ -11,19 +11,19 @@ export default class GetMeta {
             metaValue = hash;
         } else {
             switch (data.result.value.metas.value.list[0].value.data.type) {
-                case "xprt/idData":
-                    metaValue = data.result.value.metas.value.list[0].value.data.value.value.value.idString;
-                    break;
-                case "xprt/stringData":
-                    metaValue = data.result.value.metas.value.list[0].value.data.value.value;
-                    break;
-                case "xprt/heightData":
-                    metaValue = data.result.value.metas.value.list[0].value.data.value.value.value.height;
-                    break;
-                case "xprt/decData":
-                    metaValue = data.result.value.metas.value.list[0].value.data.value.value;
-                    break;
-                default:
+            case "xprt/idData":
+                metaValue = data.result.value.metas.value.list[0].value.data.value.value.value.idString;
+                break;
+            case "xprt/stringData":
+                metaValue = data.result.value.metas.value.list[0].value.data.value.value;
+                break;
+            case "xprt/heightData":
+                metaValue = data.result.value.metas.value.list[0].value.data.value.value.value.height;
+                break;
+            case "xprt/decData":
+                metaValue = data.result.value.metas.value.list[0].value.data.value.value;
+                break;
+            default:
             }
         }
         return metaValue;
@@ -49,10 +49,10 @@ export default class GetMeta {
                             if (document.getElementById(id)) {
                                 document.getElementById(id).value = metaValue;
                             }
-                        })
+                        });
                     }
                 }
-            })
+            });
         }
     }
 
@@ -73,10 +73,10 @@ export default class GetMeta {
                         if (document.getElementById(id)) {
                             document.getElementById(id).value = metaValue;
                         }
-                    })
+                    });
                 }
 
-            })
+            });
         }
     }
 
@@ -89,13 +89,13 @@ export default class GetMeta {
                     metaQueryResult.then(function (item) {
                         const data = JSON.parse(item);
                         let myElement = "";
-                        let metaValue = $this.FetchMetaValue(data, properties[keyName])
+                        let metaValue = $this.FetchMetaValue(data, properties[keyName]);
                         if (keyName === config.URI) {
                             let img = document.createElement('img');
                             const UrlDecode = base64url.decode(metaValue);
                             img.src = UrlDecode;
                             img.alt = keyName;
-                            let imageElement = document.getElementById(urlId + index + index1)
+                            let imageElement = document.getElementById(urlId + index + index1);
                             if (typeof (imageElement) != 'undefined' && imageElement != null) {
                                 document.getElementById(urlId + index + index1).appendChild(img);
                             }
@@ -112,7 +112,7 @@ export default class GetMeta {
                                 myElement = <span>{metaValue}</span>;
                             }
 
-                            var element = document.getElementById(idPrefix + index + index1)
+                            var element = document.getElementById(idPrefix + index + index1);
                             if (typeof (element) != 'undefined' && element != null) {
                                 ReactDOM.render(myElement, document.getElementById(idPrefix + index + index1));
                             } else {
@@ -122,12 +122,12 @@ export default class GetMeta {
                     });
                 }
             }
-        })
+        });
     }
 
 
     Hash(meta) {
         let hash = sha1.array(meta);
-        return base64url.encode(hash) + "="
+        return base64url.encode(hash) + "=";
     }
 }

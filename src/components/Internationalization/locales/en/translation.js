@@ -1,5 +1,3 @@
-import React from "react";
-
 let en = {
     translations: {
         "WelcomeTitle": "Welcome En",
@@ -13,7 +11,7 @@ let en = {
         "LOGIN_FORM": "Login",
         "LOGOUT": "Logout",
         "SIGNUP": "SIGN UP",
-        "SIGNING_UP": "Signing Up",
+        "SIGNING_UP": "Sign Up",
         "CONTACT_US": "CONTACT US",
         "BURN_ASSET": "Delete NFT",
         "ARE_YOU_SURE": "Are you sure",
@@ -45,9 +43,12 @@ let en = {
         "LOGIN_MNEMONIC": "Login with Mnemonic",
         "LOGIN_IDENTITY": "Login with Identity",
         "MNEMONIC": "Mnemonic",
+        "LOGIN_WITH_KEYSTORE": "Login with Keystore",
         "LOGIN_PRIVATE_KEY": "Login with Private key",
+        "LOGIN_WITH_PWD": "Login With password",
         "UPLOAD_KEY": "upload private key file",
         "DECRYPT_KEY_STORE": "Enter password to decrypt keystore file",
+        "SIGN_IN_KEPLER": "Signin with Keplr",
         "INCORRECT_PASSWORD": "Incorrect Password",
         "ORDER_CANCEL": "Cancel Order",
         "MAKE_ORDER": "Make Order",
@@ -72,9 +73,9 @@ let en = {
         "AMOUNT": "Amount",
         "SEND_COIN": "Send Coin",
         "DENOM": "Denom",
-        "SIGNUP_NOTE": "choose how you store your key",
+        "SIGNUP_NOTE": "Options to store your private key",
         "PRIVATE_KEY": "Private Key",
-        "LEDGER_STORE": "Store in Ledger",
+        "LEDGER_STORE": "Ledger",
         "ENCRYPT_KEY_STORE": "Enter password to encrypt keystore file",
         "ENTER_USER_NAME": "Enter UserName",
         "DOWNLOAD_KEY": "Use Private key to login",
@@ -121,7 +122,6 @@ let en = {
         "SPLIT_AMOUNT": "Split Amount",
         "SEND": "Send",
         "SEND_SPLITS": "Send",
-        "FAUCET": "Faucet",
         "MY_ACCOUNT": "My Account",
         "PROFILE": "Profile",
         "TOTAL_BALANCE": "Total Balance",

@@ -1,26 +1,26 @@
 import React, {useEffect} from "react";
 import {withRouter} from "react-router-dom";
 import {useHistory} from "react-router-dom";
-import {Navbar, Nav, NavDropdown, Button} from "react-bootstrap";
+import {Navbar, Nav, Button} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
-import logo from '../../assets/images/logo.svg'
+import logo from '../../assets/images/logo.svg';
 
 const HeaderBeforeLogin = () => {
     const history = useHistory();
     const {t} = useTranslation();
     const handleRoute = route => () => {
-        history.push(route)
+        history.push(route);
     };
     const handleModelRoute = (route) => {
         history.push(`/${route}`);
     };
 
     useEffect(() => {
-        const userAddress = localStorage.getItem('address');
-        if (userAddress === null) {
+        const identityId = localStorage.getItem('identityId');
+        if (identityId === null) {
             history.push('/Login');
         }
-    }, [])
+    }, []);
     return (
         <div className="container login-before">
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -41,11 +41,11 @@ const HeaderBeforeLogin = () => {
                         <Nav.Link onClick={() => handleModelRoute("SignUp")}>{t("SIGNUP")}</Nav.Link>
                         <div className="button-login-section">
                             <Button variant="primary" className="button-double-border"
-                                    onClick={handleRoute("/Login")}>{t("LOGIN")}</Button>
+                                onClick={handleRoute("/Login")}>{t("LOGIN")}</Button>
                         </div>
                         <div className="button-login-section">
                             <Button variant="primary" className="button-double-border"
-                                    onClick={handleRoute("/addressLogin")}>{t("ALL_IDENTITIES")}</Button>
+                                onClick={handleRoute("/addressLogin")}>{t("ALL_IDENTITIES")}</Button>
                         </div>
 
                     </Nav>
@@ -53,8 +53,8 @@ const HeaderBeforeLogin = () => {
                 </Navbar.Collapse>
             </Navbar>
         </div>
-    )
-}
+    );
+};
 
 
 export default withRouter(HeaderBeforeLogin);

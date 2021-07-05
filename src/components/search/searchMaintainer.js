@@ -5,11 +5,11 @@ import GetProperty from "../../utilities/Helpers/getProperty";
 
 import {Summary} from "../summary";
 import Copy from "../copy";
-import maintainersQueryJS from "persistencejs/transaction/maintainers/query";
+import {queryMaintainer} from "persistencejs/build/transaction/maintainers/query";
 import {useHistory} from "react-router-dom";
 import Icon from "../../icons";
 
-const maintainersQuery = new maintainersQueryJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const maintainersQuery = new queryMaintainer(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const SearchMaintainer = React.memo((props) => {
     const PropertyHelper = new GetProperty();
@@ -20,16 +20,16 @@ const SearchMaintainer = React.memo((props) => {
     const [maintainersList, setMaintainersList] = useState([]);
     useEffect(() => {
         if (props.location.data !== undefined) {
-            const maintainersData = maintainersQuery.queryMaintainerWithID(props.location.data.data)
+            const maintainersData = maintainersQuery.queryMaintainerWithID(props.location.data.data);
             maintainersData.then(function (item) {
                 const parsedMaintainersData = JSON.parse(item);
                 const maintainersDataList = parsedMaintainersData.result.value.maintainers.value.list;
                 if (maintainersDataList.length) {
                     setMaintainersList(maintainersDataList);
                 }
-            })
+            });
         }
-    }, [])
+    }, []);
 
     return (
         <div className="content-section">
@@ -44,34 +44,34 @@ const SearchMaintainer = React.memo((props) => {
                         <div className="list-container">
                             <div className="row card-deck">
                                 {maintainersList.map((maintainer, index) => {
-                                    const maintainerPropertyList = PropertyHelper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList)
+                                    const maintainerPropertyList = PropertyHelper.ParseProperties(maintainer.value.maintainedTraits.value.properties.value.propertyList);
                                     let keys = Object.keys(maintainerPropertyList);
-                                    let id = maintainer.value.id.value.classificationID.value.idString+"*"+maintainer.value.id.value.identityID.value.idString
+                                    let id = maintainer.value.id.value.classificationID.value.idString+"*"+maintainer.value.id.value.identityID.value.idString;
                                     return (
                                         <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
                                             <div className="card height-medium">
                                                 <div className="info-section">
-                                                <div className="list-item">
-                                                    <p className="list-item-label">{t("ID")} :</p>
-                                                    <div className="list-item-value id-section">
-                                                        <div className="flex">
-                                                        <p className="id-string" title={id}> {id}</p>
+                                                    <div className="list-item">
+                                                        <p className="list-item-label">{t("ID")} :</p>
+                                                        <div className="list-item-value id-section">
+                                                            <div className="flex">
+                                                                <p className="id-string" title={id}> {id}</p>
+                                                            </div>
                                                         </div>
+                                                        <Copy
+                                                            id={id}/>
                                                     </div>
-                                                    <Copy
-                                                        id={id}/>
-                                                </div>
-                                                {
-                                                    keys.map((keyName) => {
-                                                        return (
-                                                            <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName}: </p> <div className="list-item-value id-section"><p className="id-string"  title={maintainerPropertyList[keyName]}>{maintainerPropertyList[keyName]}</p></div></div>
-                                                        )
-                                                    })
-                                                }
+                                                    {
+                                                        keys.map((keyName) => {
+                                                            return (
+                                                                <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName}: </p> <div className="list-item-value id-section"><p className="id-string"  title={maintainerPropertyList[keyName]}>{maintainerPropertyList[keyName]}</p></div></div>
+                                                            );
+                                                        })
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
-                                    )
+                                    );
                                 })}
                             </div>
                         </div>
@@ -84,6 +84,6 @@ const SearchMaintainer = React.memo((props) => {
         </div>
 
     );
-})
-
+});
+SearchMaintainer.displayName = 'SearchMaintainer';
 export default SearchMaintainer;

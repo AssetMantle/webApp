@@ -1,23 +1,21 @@
 import React, {useState} from "react";
 import {Dropdown} from "react-bootstrap";
 import {Define} from "../../forms";
-import ordersDefineJS from "persistencejs/transaction/orders/define";
+import {defineOrder} from "persistencejs/build/transaction/orders/define";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
 import OrderList from "./orderList";
 import {Summary} from "../../../components/summary";
 
-const ordersDefine = new ordersDefineJS(process.env.REACT_APP_ASSET_MANTLE_API)
+const ordersDefine = new defineOrder(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const Orders = () => {
     const {t} = useTranslation();
     const [externalComponent, setExternalComponent] = useState("");
-    const [order, setOrder] = useState([]);
 
-    const handleModalData = (formName, order) => {
-        setOrder(order);
-        setExternalComponent(formName)
-    }
+    const handleModalData = (formName) => {
+        setExternalComponent(formName);
+    };
 
     return (
         <div className="content-section">
@@ -47,7 +45,7 @@ const Orders = () => {
 
             {externalComponent === 'DefineOrder' ?
                 <Define setExternalComponent={setExternalComponent} ActionName={ordersDefine}
-                        FormName={'Define Order'}/> :
+                    FormName={'Define Order'}/> :
                 null
             }
 

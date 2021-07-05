@@ -1,50 +1,54 @@
-import React, {useState, useEffect} from "react";
-import RevealMetaJS from "persistencejs/transaction/meta/reveal";
+import React, {useState} from "react";
 import {Form, Button, Modal} from "react-bootstrap";
-import InputField from "../../../components/inputField";
 import {useTranslation} from "react-i18next";
-import Loader from "../../../components/loader"
-import ModalCommon from "../../../components/modal"
-import config from "../../../constants/config.json"
+import Loader from "../../../components/loader";
 import GetProperty from "../../../utilities/Helpers/getProperty";
+import CommonKeystore from '../login/CommonKeystore';
 
-const RevealMeta = new RevealMetaJS(process.env.REACT_APP_ASSET_MANTLE_API)
+
 
 const Reveal = (props) => {
     const PropertyHelper = new GetProperty();
-    const url = process.env.REACT_APP_ASSET_MANTLE_API;
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
-    const [response, setResponse] = useState({});
-    const [loader, setLoader] = useState(false)
+    const [loader, setLoader] = useState(false);
+    const [totalDefineObject, setTotalDefineObject] = useState({});
+    const [externalComponent, setExternalComponent] = useState("");
     const [dataTypeOption, setDataTypeOption] = useState("S|");
     const handleSelectChange = evt => {
         setDataTypeOption(evt.target.value);
-    }
+    };
     const handleChangeMutable = (evt) => {
         const newValue = evt.target.value;
         const selectValue = document.getElementById("RevealMutableType" ).value;
         const checkError = PropertyHelper.DataTypeValidation(selectValue, newValue);
         PropertyHelper.showHideDataTypeError(checkError, 'RevealError');
-    }
+    };
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
     };
     const handleSubmit = (event) => {
-        setLoader(true)
+        setLoader(true);
         event.preventDefault();
         const MutableDataName = event.target.MutableDataName.value;
-        const metaFact = dataTypeOption + MutableDataName
-        const userTypeToken = localStorage.getItem('mnemonic');
-        const userAddress = localStorage.getItem('address');
-        const RevealMetaResponse = RevealMeta.reveal(userAddress, "test", userTypeToken, metaFact, config.feesAmount, config.feesToken, config.gas, config.mode);
-        RevealMetaResponse.then(function (item) {
-            const data = JSON.parse(JSON.stringify(item));
-            setResponse(data)
-            setShow(false);
-            setLoader(false)
-        })
+        const metaFact = dataTypeOption + MutableDataName;
+
+        let totalData = {
+            metaFact:metaFact,
+        };
+        setTotalDefineObject(totalData);
+        setExternalComponent('Keystore');
+        setShow(false);
+        setLoader(false);
+
+        // const RevealMetaResponse = RevealMeta.reveal(userAddress, "test", userTypeToken, metaFact, config.feesAmount, config.feesToken, config.gas, config.mode);
+        // RevealMetaResponse.then(function (item) {
+        //     const data = JSON.parse(JSON.stringify(item));
+        //     setResponse(data);
+        //     setShow(false);
+        //     setLoader(false);
+        // });
     };
 
     return (
@@ -64,9 +68,9 @@ const Reveal = (props) => {
                         <Form.Group>
                             <Form.Label>{t("DATA_TYPE")}</Form.Label>
                             <Form.Control as="select" value={dataTypeOption} name="MutableDataType"
-                                          onChange={handleSelectChange}
-                                          id='RevealMutableType'
-                                          required={true}>
+                                onChange={handleSelectChange}
+                                id='RevealMutableType'
+                                required={true}>
                                 <option value="S|">{t("STRING")}</option>
                                 <option value="D|">{t("DECIMAL")}</option>
                                 <option value="H|">{t("HEIGHT")}</option>
@@ -83,7 +87,7 @@ const Reveal = (props) => {
                                 id="RevealMutable"
                                 placeholder="Data Name"
                                 onChange={(evt) => {
-                                    handleChangeMutable(evt)
+                                    handleChangeMutable(evt);
                                 }}
                                 disabled={false}
                             />
@@ -99,9 +103,15 @@ const Reveal = (props) => {
                     </Form>
                 </Modal.Body>
             </Modal>
-            {!(Object.keys(response).length === 0) ?
-                <ModalCommon data={response} setExternal={handleClose}/>
-                : ""
+            {
+                externalComponent === 'Keystore' ?
+                    <CommonKeystore
+                        setExternalComponent={setExternalComponent}
+                        totalDefineObject={totalDefineObject} TransactionName={'reveal'}
+                        ActionName={props.ActionName}
+                        handleClose={handleClose}
+                    /> :
+                    null
             }
         </div>
     );

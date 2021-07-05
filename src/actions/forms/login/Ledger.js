@@ -15,14 +15,14 @@ const Ledger = (props) => {
     return (
         <div>
             <Modal show={show} onHide={handleClose}  className="mnemonic-login-section login-section"centered>
-            <Modal.Header closeButton>
-                {t("LEDGER_LOGIN")}
-            </Modal.Header>
-            <Modal.Body>
-                <p>{t("LEDGER_CONNECT")}</p>
-            </Modal.Body>
+                <Modal.Header closeButton>
+                    {t("LEDGER_LOGIN")}
+                </Modal.Header>
+                <Modal.Body>
+                    <p>{t("LEDGER_CONNECT")}</p>
+                </Modal.Body>
             </Modal>
         </div>
     );
-}
-export default Ledger
+};
+export default Ledger;

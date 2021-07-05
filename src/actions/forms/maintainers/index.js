@@ -1,4 +1,4 @@
-import Deputize from "./Deputize"
+import Deputize from "./Deputize";
 
 export {Deputize};
 
