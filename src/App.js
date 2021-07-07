@@ -12,7 +12,6 @@ import Footer from './components/Footer';
 import { useTranslation } from 'react-i18next';
 import './assets/css/styles.css';
 import './assets/css/mediaqueries.css';
-import { SearchAsset, SearchIdentity, SearchOrder, SearchMaintainer } from './components/search';
 
 const App = () => {
     const { t } = useTranslation();
@@ -47,19 +46,7 @@ const App = () => {
     }, {
         path: '/marketplace',
         component: MarketPlace
-    }, {
-        path: '/SearchAsset',
-        component: SearchAsset
-    }, {
-        path: '/SearchIdentity',
-        component: SearchIdentity
-    }, {
-        path: '/SearchOrder',
-        component: SearchOrder
-    }, {
-        path: '/SearchMaintainer',
-        component: SearchMaintainer
-    }, {
+    },{
         path: '/AssetView',
         component: AssetView
     }, {

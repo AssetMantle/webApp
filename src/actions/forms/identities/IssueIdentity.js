@@ -225,13 +225,6 @@ const IssueIdentity = (props) => {
             setShow(false);
             setShowNext(false);
             setLoader(false);
-            // const issueIdentityResult = identitiesIssue.issue(userAddress, "test", userTypeToken, toAddress, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode)
-            // issueIdentityResult.then(function (item) {
-            //     const data = JSON.parse(JSON.stringify(item));
-            //     setResponse(data);
-            //     setShowNext(false);
-            //     setLoader(false);
-            // })
         }
     };
     const handleUpload = (id) => {

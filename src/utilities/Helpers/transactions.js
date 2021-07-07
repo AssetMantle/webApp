@@ -82,7 +82,7 @@ async function Transaction(wallet, signerAddress, msgs, fee, memo = '') {
 
 async function TransactionWithMnemonic(msgs, fee, memo, mnemonic) {
     const [wallet, address] = await MnemonicWalletWithPassphrase(mnemonic);
-    return Transaction(wallet, address, msgs, fee, memo);
+    return await Transaction(wallet, address, msgs, fee, memo);
 }
 
 async function MnemonicWalletWithPassphrase(mnemonic) {

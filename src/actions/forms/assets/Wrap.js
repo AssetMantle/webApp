@@ -33,15 +33,8 @@ const Wrap = (props) => {
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');
         setShow(false);
-
         setLoader(false);
-        // const WrapResponse = WrapQuery.wrap(userAddress, "test", userTypeToken, FromId, CoinAmount + CoinDenom, config.feesAmount, config.feesToken, config.gas, config.mode);
-        // WrapResponse.then(function (item) {
-        //     const data = JSON.parse(JSON.stringify(item));
-        //     setResponse(data)
-        //     setShow(false);
-        //     setLoader(false)
-        // })
+
     };
     const handleClose = () => {
         setShow(false);

@@ -29,13 +29,6 @@ const Nub = (props) => {
         setExternalComponent('Keystore');
         setShowIdentity(false);
         setLoader(false);
-        // const nubResponse = identitiesNub.nub(userAddress, "test", userTypeToken, nubId, config.feesAmount, config.feesToken, config.gas, config.mode);
-        // nubResponse.then(function (item) {
-        //     const data = JSON.parse(JSON.stringify(item));
-        //     setLoader(false)
-        //     setShowIdentity(false);
-        //     setResponse(data)
-        // })
     };
 
     const handleClose = () => {

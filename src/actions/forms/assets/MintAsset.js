@@ -220,13 +220,6 @@ const MintAsset = (props) => {
             setShowNext(false);
 
             setLoader(false);
-            // const assetMintResult = assetMint.mint(userAddress, "test", userTypeToken, toID, FromId, classificationId, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode)
-            // assetMintResult.then(function (item) {
-            //     const data = JSON.parse(JSON.stringify(item));
-            //     setResponse(data);
-            //     setShowNext(false);
-            //     setLoader(false)
-            // })
         }
     };
 

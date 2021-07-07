@@ -28,13 +28,6 @@ const SendSplit = (props) => {
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');
         setShow(false);
-        // const sendSplitResponse = sendSplitQuery.send(userAddress, "test", userTypeToken, fromId, IdentityID, splitId, splitAmount, config.feesAmount, config.feesToken, config.gas, config.mode);
-        // sendSplitResponse.then(function (item) {
-        //     const data = JSON.parse(JSON.stringify(item));
-        //     setResponse(data);
-        //     setShow(false);
-        //     setLoader(false);
-        // });
     };
 
     return (

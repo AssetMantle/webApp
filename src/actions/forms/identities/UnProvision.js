@@ -42,13 +42,6 @@ const UnProvision = (props) => {
         setExternalComponent('Keystore');
         setShow(false);
         setLoader(false);
-        // const UnProvisionResponse = identitiesUnprovision.unprovision(userAddress, "test", userTypeToken, fromID, selectValue, config.feesAmount, config.feesToken, config.gas, config.mode);
-        // UnProvisionResponse.then(function (item) {
-        //     const data = JSON.parse(JSON.stringify(item));
-        //     setResponse(data);
-        //     setShow(false);
-        //     setLoader(false);
-        // });
     };
     const handleSelectChange = (evt) => {
         setSelectedAddress(evt.target.value);

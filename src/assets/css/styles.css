@@ -278,6 +278,8 @@ html, body, #root, .app {
     font-weight: 500;
     font-size: 18px;
     text-align: center; }
+    .modal-content .modal-header .close {
+      outline: none !important; }
   .modal-content .modal-body {
     padding: 25px 25px 40px 25px; }
   .modal-content .modal-footer {
@@ -302,7 +304,8 @@ html, body, #root, .app {
   .signup-section .private-key input {
     min-width: 200px;
     max-width: 300px;
-    padding: 20px; }
+    padding: 20px;
+    margin: auto; }
   .signup-section .private-key button {
     min-width: 200px;
     max-width: 300px;
@@ -374,7 +377,7 @@ html, body, #root, .app {
   font-weight: 600;
   font-size: 14px;
   display: flex;
-  width: 400px;
+  width: 100%;
   justify-content: space-between;
   padding: 18px 25px 18px 15px;
   background: #FFFFFF;

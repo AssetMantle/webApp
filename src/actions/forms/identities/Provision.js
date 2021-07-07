@@ -26,13 +26,6 @@ const Provision = (props) => {
         setExternalComponent('Keystore');
         setShow(false);
         setLoader(false);
-        // const provisionResponse = identitiesProvision.provision(userAddress, "test", userTypeToken, fromID, toAddress, config.feesAmount, config.feesToken, config.gas, config.mode);
-        // provisionResponse.then(function (item) {
-        //     const data = JSON.parse(JSON.stringify(item));
-        //     setResponse(data);
-        //     setShow(false);
-        //     setLoader(false);
-        // });
     };
     const handleClose = () => {
         setShow(false);
