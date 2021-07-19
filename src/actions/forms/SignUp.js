@@ -103,6 +103,7 @@ const SignUp = () => {
                     setLoader(false);
                     setuserExist(true);
                 } else {
+                    console.log(pollObject);
                     getIdentityId(hashGenerate);
                     setLoader(false);
                     setShowFaucet(false);

@@ -20,7 +20,6 @@ const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const identitiesDefine = new defineIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
 const AllIdentityList = React.memo((props) => {
-
     const PropertyHelper = new GetProperty();
     const FilterHelper = new FilterHelpers();
     const GetMetaHelper = new GetMeta();
@@ -89,11 +88,13 @@ const AllIdentityList = React.memo((props) => {
                 state: {
                     identityID: id,
                     currentPath: window.location.pathname,
+                    userAddress:userAddress
                 }
             }
             );
         }
     };
+
     const handleModalData = (formName) => {
         setExternalComponent(formName);
         setIdentity(identity);

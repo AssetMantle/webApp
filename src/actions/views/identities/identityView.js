@@ -66,7 +66,12 @@ const IdentityView = React.memo((props) => {
         setIdentity(identity);
         setIdentityId(identityId);
     };
-
+    const handleBack = () => {
+        history.push({
+            pathname:props.location.state.currentPath,
+            address:props.location.state.userAddress
+        });
+    };
     return (
         <div className="content-section">
             {loader ?
@@ -80,7 +85,7 @@ const IdentityView = React.memo((props) => {
                     <div className="col-md-9 card-deck">
                         <div className="dropdown-section">
 
-                            <p className="back-arrow" onClick={() => history.push(props.location.state.currentPath)}>
+                            <p className="back-arrow" onClick={handleBack}>
                                 <Icon viewClass="arrow-icon" icon="arrow"/> Back</p>
                             <Dropdown>
                                 <Dropdown.Toggle id="dropdown-basic">
