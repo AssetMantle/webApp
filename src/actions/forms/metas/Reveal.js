@@ -5,8 +5,6 @@ import Loader from "../../../components/loader";
 import GetProperty from "../../../utilities/Helpers/getProperty";
 import CommonKeystore from '../login/CommonKeystore';
 
-
-
 const Reveal = (props) => {
     const PropertyHelper = new GetProperty();
     const {t} = useTranslation();
@@ -42,13 +40,6 @@ const Reveal = (props) => {
         setShow(false);
         setLoader(false);
 
-        // const RevealMetaResponse = RevealMeta.reveal(userAddress, "test", userTypeToken, metaFact, config.feesAmount, config.feesToken, config.gas, config.mode);
-        // RevealMetaResponse.then(function (item) {
-        //     const data = JSON.parse(JSON.stringify(item));
-        //     setResponse(data);
-        //     setShow(false);
-        //     setLoader(false);
-        // });
     };
 
     return (

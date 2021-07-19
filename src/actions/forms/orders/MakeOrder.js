@@ -227,15 +227,6 @@ const MakeOrder = (props) => {
             setExternalComponent('Keystore');
             setShow(false);
             setLoader(false);
-            // const userTypeToken = localStorage.getItem('mnemonic');
-            // const userAddress = localStorage.getItem('address');
-            // const makeOrderResult = ordersMake.make(userAddress, "test", userTypeToken, FromId, classificationId, assetId, TakerOwnableId, ExpiresIn, Makersplit, mutableValues, immutableValues, mutableMetaValues, immutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode);
-            // makeOrderResult.then(function (item) {
-            //     const data = JSON.parse(JSON.stringify(item));
-            //     setResponse(data);
-            //     setShowNext(false);
-            //     setLoader(false);
-            // });
         }
     };
     const handleUpload = (id) => {

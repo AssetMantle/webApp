@@ -33,17 +33,6 @@ const TakeOrder = (props) => {
         setExternalComponent('Keystore');
         setShow(false);
         setLoader(false);
-
-
-        // const userTypeToken = localStorage.getItem('mnemonic');
-        // const userAddress = localStorage.getItem('address');
-        // const takeOrderResponse = takeOrder.take(userAddress, "test", userTypeToken, FromId, ownableAmount, orderId, config.feesAmount, config.feesToken, config.gas, config.mode);
-        // takeOrderResponse.then(function (item) {
-        //     const data = JSON.parse(JSON.stringify(item));
-        //     setResponse(data);
-        //     setShow(false);
-        //     setLoader(false);
-        // });
     };
     const handleClose = () => {
         setShow(false);

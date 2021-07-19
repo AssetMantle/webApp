@@ -124,16 +124,8 @@ const MutateAsset = (props) => {
             setTotalDefineObject(totalData);
             setExternalComponent('Keystore');
             setShow(false);
-
             setLoader(false);
-            //
-            // const mutateResponse = assetMutate.mutate(userAddress, "test", userTypeToken, FromId, assetId, mutableValues, mutableMetaValues, config.feesAmount, config.feesToken, config.gas, config.mode);
-            // mutateResponse.then(function (item) {
-            //     const data = JSON.parse(JSON.stringify(item));
-            //     setResponse(data);
-            //     setShow(false);
-            //     setLoader(false);
-            // });
+
         }
     };
 

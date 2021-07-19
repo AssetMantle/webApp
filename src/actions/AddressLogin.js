@@ -14,7 +14,6 @@ const AddressLogin = () => {
     };
 
     const handleSubmit = event => {
-
         const address = event.target.address.value;
         history.push({
             pathname:'/allidentities',

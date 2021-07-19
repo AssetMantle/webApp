@@ -28,17 +28,6 @@ const BurnAsset = (props) => {
         setExternalComponent('Keystore');
         setShow(false);
         setLoader(false);
-        // const FromId =  props.ownerId;
-        // const userTypeToken = localStorage.getItem('mnemonic');
-        // const userAddress = localStorage.getItem('address');
-        // const assetId =  props.ownableId;
-        // const burnResponse = assetBurn.burn(userAddress, "test", userTypeToken, FromId, assetId, config.feesAmount, config.feesToken, config.gas, config.mode, '');
-        // burnResponse.then(function (item) {
-        //     const data = JSON.parse(JSON.stringify(item));
-        //     setResponse(data);
-        //     setShow(false);
-        //     setLoader(false);
-        // });
     };
 
     return (

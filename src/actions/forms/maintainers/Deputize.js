@@ -72,13 +72,6 @@ const Deputize = (props) => {
             setExternalComponent('Keystore');
             setShow(false);
             setLoader(false);
-            // const DeputizeResponse = deputizeMaintainer.deputize(userAddress, "test", userTypeToken, identityId, classificationId, ToId, maintainedTraits, addMaintainer, removeMaintainer, mutateMaintainer, config.feesAmount, config.feesToken, config.gas, config.mode);
-            // DeputizeResponse.then(function (item) {
-            //     const data = JSON.parse(JSON.stringify(item));
-            //     setResponse(data);
-            //     setShow(false);
-            //     setLoader(false);
-            // });
         } else {
             setErrorMessage(t('SELECT_ANY_MUTABLE_TRAITS'));
             setLoader(false);

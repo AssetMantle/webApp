@@ -199,13 +199,6 @@ const Define = (props) => {
                 setExternalComponent('Keystore');
                 setShow(false);
                 setLoader(false);
-                // const defineIdentityResult = props.ActionName.define(userAddress, "test", userTypeToken, FromId, mutablePropertyValue, immutablePropertyValue, mutableMetaPropertyValue, immutableMetaPropertyValue, config.feesAmount, config.feesToken, config.gas, config.mode)
-                // defineIdentityResult.then(function (item) {
-                //     const data = JSON.parse(JSON.stringify(item));
-                //     setResponse(data)
-                //     setShow(false)
-                //     setLoader(false);
-                // })
             } else {
                 setErrorMessage(t('ADD_MUTABLE_META_PROPERTY'));
                 setLoader(false);

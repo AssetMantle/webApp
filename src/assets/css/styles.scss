@@ -401,6 +401,9 @@ html, body, #root, .app {
     font-weight: 500;
     font-size: 18px;
     text-align: center;
+    .close{
+      outline: none !important;
+    }
   }
 
   .modal-body {
@@ -441,6 +444,7 @@ html, body, #root, .app {
       min-width: 200px;
       max-width: 300px;
       padding: 20px;
+      margin: auto;
     }
 
     button {
@@ -548,7 +552,7 @@ html, body, #root, .app {
   font-weight: 600;
   font-size: 14px;
   display: flex;
-  width: 400px;
+  width: 100%;
   justify-content: space-between;
   padding: 18px 25px 18px 15px;
   background: #FFFFFF;
@@ -742,7 +746,6 @@ html, body, #root, .app {
       margin: 0;
       font-weight: bold;
       font-size: 14px;
-      text-transform: uppercase;
       color: #E3E3E3;
     }
 

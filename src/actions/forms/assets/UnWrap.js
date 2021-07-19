@@ -35,14 +35,6 @@ const UnWrap = (props) => {
         setExternalComponent('Keystore');
         setShow(false);
         setLoader(false);
-
-        // const UnWrapResponse = UnWrapQuery.unwrap(userAddress, "test", userTypeToken, FromId, OwnableId, Split, config.feesAmount, config.feesToken, config.gas, config.mode);
-        // UnWrapResponse.then(function (item) {
-        //     const data = JSON.parse(JSON.stringify(item));
-        //     setResponse(data)
-        //     setShow(false);
-        //     setLoader(false)
-        // })
     };
     const handleClose = () => {
         setShow(false);

@@ -22,17 +22,7 @@ const CancelOrder = (props) => {
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');
         setShow(false);
-
         setLoader(false);
-        // const userTypeToken = localStorage.getItem('mnemonic');
-        // const userAddress = localStorage.getItem('address');
-        // const cancelOrderResponse = ordersCancel.cancel(userAddress, "test", userTypeToken, props.order.value.id.value.makerID.value.idString, GetIDHelper.GetOrderID(props.order), config.feesAmount, config.feesToken, config.gas, config.mode);
-        // cancelOrderResponse.then(function (item) {
-        //     const data = JSON.parse(JSON.stringify(item));
-        //     setResponse(data);
-        //     setShow(false);
-        //     setLoader(false);
-        // });
     };
     const handleClose = () => {
         setShow(false);
