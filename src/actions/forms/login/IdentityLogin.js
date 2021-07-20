@@ -8,14 +8,15 @@ import MnemonicIcon from "../../../assets/images/MnemonicIcon.svg";
 import Icon from "../../../icons";
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 
-const IdentityLogin = React.memo((props) => {
+const IdentityLogin = React.memo(() => {
     const history = useHistory();
     const [show, setShow] = useState(true);
-    const [errorMessage, setErrorMessage] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const {t} = useTranslation();
     const GetIDHelper = new GetID();
     const handleSubmit = async event => {
         event.preventDefault();
+        setErrorMessage('');
         const IdentityName = event.target.identityname.value;
         const identities = identitiesQuery.queryIdentityWithID("all");
         if (identities) {
@@ -30,10 +31,22 @@ const IdentityLogin = React.memo((props) => {
                                 let address = identity.value.provisionedAddressList[0];
                                 localStorage.setItem("address", address);
                             }
-                            localStorage.setItem("identityId", IdentityName);
-                            history.push('/profile');
+                            let list = [];
+                            const idList = localStorage.getItem("identityIDList");
+                            if(idList !== null){
+                                list = JSON.parse(idList);
+                            }
+                            if (list.includes(IdentityName)) {
+                                console.log(list);
+                                setErrorMessage('identityID already Added');
+                            } else {
+                                list.push(IdentityName);
+                                localStorage.setItem("identityIDList", JSON.stringify(list));
+                                localStorage.setItem("identityId", IdentityName);
+                                history.push('/profile');
+                            }
                         } else {
-                            setErrorMessage(true);
+                            setErrorMessage('UserName not exist');
                         }
                     }
                 });
@@ -43,7 +56,6 @@ const IdentityLogin = React.memo((props) => {
     const handleClose = () => {
         setShow(false);
         history.push('/');
-        props.setExternalComponent("");
     };
     return (
         <div>
@@ -64,8 +76,8 @@ const IdentityLogin = React.memo((props) => {
                         <Form.Control type="text" name="identityname"
                             placeholder="Enter Identity ID"
                             required={true}/>
-                        {errorMessage ?
-                            <div className="login-error"><p className="error-response">UserName Not Exist</p></div>
+                        {errorMessage !== "" ?
+                            <div className="login-error"><p className="error-response">{errorMessage}</p></div>
                             : ""
                         }
                         <div className="submitButtonSection">

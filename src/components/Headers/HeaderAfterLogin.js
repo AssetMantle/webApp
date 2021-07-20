@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect} from 'react';
 import {withRouter} from "react-router-dom";
 import {useHistory} from "react-router-dom";
 import {Navbar, Nav, NavDropdown, Button} from "react-bootstrap";
@@ -10,6 +10,7 @@ const HeaderAfterLogin = () => {
     const history = useHistory();
     const {t} = useTranslation();
     const userTypeToken = localStorage.getItem('identityId');
+    // const [identityIDList, setIdentityIDList] = useState(JSON.parse(localStorage.getItem("identityIDList")));
 
     const handleRoute = route => () => {
         history.push(route);
@@ -19,23 +20,51 @@ const HeaderAfterLogin = () => {
     };
 
     const logout  = () => {
-        localStorage.removeItem('address');
-        localStorage.removeItem('encryptedMnemonic');
-        localStorage.removeItem('fromID');
-        localStorage.removeItem('lastFromID');
-        localStorage.removeItem('identityId');
-        localStorage.removeItem('keplerAddress');
+        localStorage.clear();
         history.push('/');
     };
 
+    let identityIDList = JSON.parse(localStorage.getItem("identityIDList"));
+    // console.log(idList, "idList");
+    // if(identityIDList !== null){
+    //     console.log(JSON.parse(localStorage.getItem("identityIDList")), "identityIDList");
+    //     setIdentityIDList(JSON.parse(idList));
+    // }
+
     useEffect(() => {
+
         if(userTypeToken !== null  && window.location.pathname === "/"){
             history.push('/profile');
         }
         if (userTypeToken === null) {
             history.push('/Login');
         }
-    }, []);
+    },[]);
+
+    const handleAddIdentity = () =>{
+        history.push('/identityLogin');
+    };
+
+    const changeIdentityHandler = (id) =>{
+        localStorage.setItem("identityId", id);
+        window.location.reload();
+    };
+
+    const dropdownTitle = (
+        <div className="nav-link dropdown-toggle"
+            id="profile-nav-dropdown"
+            role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <div className="profile-icon">
+                <p className="address">{userTypeToken}</p>
+                <img className="thumbnail-image"
+                    src={profileIcon}
+                    alt="user pic"
+                />
+
+            </div>
+        </div>
+    );
     return (
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="login-after">
@@ -45,8 +74,6 @@ const HeaderAfterLogin = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="search-section ml-auto">
-
-
                         {
                             userTypeToken == null ?
                                 <Nav>
@@ -68,28 +95,27 @@ const HeaderAfterLogin = () => {
                                     <li className="nav-item">
                                         <NavLink className="nav-link" to="/marketplace">{t("MARKET_PLACE")}</NavLink>
                                     </li>
-                                    <li className="nav-item dropdown profile">
-                                        <div className="nav-link dropdown-toggle"
-                                            id="profile-nav-dropdown"
-                                            role="button" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            <div className="profile-icon">
-                                                <p className="address">{userTypeToken}</p>
-                                                <img className="thumbnail-image"
-                                                    src={profileIcon}
-                                                    alt="user pic"
-                                                />
+                                    <li className="nav-item">
+                                        <NavLink className="nav-link" to="/maintainers">{t("MAINTAINERS")}</NavLink>
+                                    </li>
+                                    <li className="nav-item">
+                                        <NavLink className="nav-link" to="/profile">{t("PROFILE")}</NavLink>
+                                    </li>
 
+                                    <li className="nav-item dropdown">
+                                        <NavDropdown title={dropdownTitle} id="basic-nav-dropdown" className="profile-dropdown">
+                                            <div className="profile-dropdown-menu"
+                                                aria-labelledby="profile-nav-dropdown">
+                                                <div className="address-list">
+                                                    {
+                                                        identityIDList.map((id, index) => <p key={index} className="address" onClick={()=>changeIdentityHandler(id)}>{id}</p>)
+                                                    }
+                                                </div>
+
+                                                <p onClick={handleAddIdentity} className="add-id">Add Identity</p>
+                                                <p onClick={logout} className="logout">{t("LOGOUT")}</p>
                                             </div>
-                                        </div>
-                                        <div className="dropdown-menu profile-menu"
-                                            aria-labelledby="profile-nav-dropdown">
-                                            {/* <NavLink className="dropdown-item" to="/identities">{t("IDENTITIES")}</NavLink> */}
-                                            <NavLink className="dropdown-item" to="/maintainers">{t("MAINTAINERS")}</NavLink>
-                                            <NavLink className="dropdown-item" to="/profile">{t("PROFILE")}</NavLink>
-                                            <NavDropdown.Item onClick={logout}>{t("LOGOUT")}</NavDropdown.Item>
-                                        </div>
-
+                                        </NavDropdown>
                                     </li>
 
                                 </Nav>

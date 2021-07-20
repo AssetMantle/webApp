@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { Login } from './actions';
+import { IdentityLogin } from "./actions/forms/login";
 import AddressLogin from './actions/AddressLogin';
 import { SignUp } from './actions/forms';
 import { HomePage, RouteNotFound } from './components';
@@ -55,6 +56,9 @@ const App = () => {
     }, {
         path: '/OrderView',
         component: OrderView
+    }, {
+        path: '/identityLogin',
+        component: IdentityLogin
     }];
 
     const [isOnline, setNetwork] = useState(window.navigator.onLine);

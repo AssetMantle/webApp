@@ -2,7 +2,7 @@ import {Secp256k1HdWallet} from '@cosmjs/amino';
 const crypto = require('crypto');
 const passwordHashAlgorithm = 'sha512';
 const {SigningCosmosClient} = require('@cosmjs/launchpad');
-const restAPI = process.env.REACT_APP_API;
+const restAPI = process.env.REACT_APP_ASSET_MANTLE_API;
 
 function PrivateKeyReader(file, password) {
     return new Promise(function(resolve, reject) {

@@ -826,4 +826,26 @@ html, body, #root, .app {
 .dropdown.profile .dropdown-menu {
   top: 95% !important; }
 
+.profile-dropdown-menu {
+  min-width: 250px; }
+  .profile-dropdown-menu P {
+    cursor: pointer; }
+  .profile-dropdown-menu .address-list {
+    max-height: 300px;
+    padding: 0px 25px;
+    overflow-y: auto; }
+  .profile-dropdown-menu .add-id {
+    border-top: 1px solid #f5f5f5;
+    padding: 10px 25px;
+    margin: 0; }
+    .profile-dropdown-menu .add-id:hover {
+      background: #f5f5f5; }
+  .profile-dropdown-menu .logout {
+    border-top: 1px solid #f5f5f5;
+    text-align: center;
+    padding: 10px 25px;
+    margin: 0; }
+    .profile-dropdown-menu .logout:hover {
+      background: #f5f5f5; }
+
 /*# sourceMappingURL=styles.css.map */
