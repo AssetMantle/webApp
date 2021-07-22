@@ -4,12 +4,11 @@ import {useHistory} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import GetID from "../../../utilities/Helpers/getID";
 import {queryIdentities} from "persistencejs/build/transaction/identity/query";
-import MnemonicIcon from "../../../assets/images/MnemonicIcon.svg";
 import Icon from "../../../icons";
 import Loader from '../../../components/loader';
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 
-const IdentityLogin = (props) => {
+const AddIdentity = (props) => {
     const history = useHistory();
     const [show, setShow] = useState(true);
     const [errorMessage, setErrorMessage] = useState(false);
@@ -18,8 +17,8 @@ const IdentityLogin = (props) => {
     const {t} = useTranslation();
     const GetIDHelper = new GetID();
     const handleSubmit = async event => {
-        setLoader(true);
         event.preventDefault();
+        setLoader(true);
         setErrorMessage(false);
         setIdErrorMessage('');
         const IdentityName = event.target.identityname.value;
@@ -51,6 +50,9 @@ const IdentityLogin = (props) => {
                                 setLoader(false);
                                 localStorage.setItem("identityIDList", JSON.stringify(list));
                                 localStorage.setItem("identityId", IdentityName);
+                                setShow(false);
+                                props.setExternalComponent("");
+                                window.location.reload();
                                 history.push('/profile');
                             }
                             count = 0;
@@ -70,8 +72,9 @@ const IdentityLogin = (props) => {
 
     const handleClose = () => {
         setShow(false);
-        history.push('/');
+        props.setExternalComponent("");
     };
+
     const backHandler = (item) => {
         if (item === "identityLogin") {
             setShow(false);
@@ -79,34 +82,30 @@ const IdentityLogin = (props) => {
             props.setExternalComponent("");
         }
     };
+
     return (
         <div>
-            <Modal show={show} onHide={handleClose}  className="mnemonic-login-section login-section" centered>
+            <Modal show={show} onHide={handleClose} backdrop="static" className="mnemonic-login-section login-section" centered>
                 <Modal.Header closeButton>
                     {props.pageName === "LoginAction" ?
                         <div className="back-button" onClick={() => backHandler('identityLogin')}>
                             <Icon viewClass="arrow-icon" icon="arrow"/>
                         </div>
                         : ""}
-                    {t("LOGIN_FORM")}
+                   Add Identity
                 </Modal.Header>
                 <Modal.Body>
                     {loader ?
                         <Loader/>
                         : ''
                     }
-                    <div className="mrt-10">
-                        <div className="button-view">
-                            <div className="icon-section">
-                                <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/> </div>
-                                {t("LOGIN_IDENTITY")}</div>
-                            <Icon viewClass="arrow-icon" icon="arrow" />
-                        </div>
-                    </div>
                     <Form onSubmit={handleSubmit}>
-                        <Form.Control type="text" name="identityname"
-                            placeholder="Enter Identity ID"
-                            required={true}/>
+                        <Form.Group>
+                            <Form.Label>Enter Identity ID</Form.Label>
+                            <Form.Control type="text" name="identityname"
+                                placeholder="Enter Identity ID"
+                                required={true}/>
+                        </Form.Group>
                         {errorMessage ?
                             <div className="login-error"><p className="error-response">UserName Not Exist</p></div>
                             : ""
@@ -121,7 +120,7 @@ const IdentityLogin = (props) => {
                                 type="submit"
                                 className="button-double-border"
                             >
-                                {t("LOGIN")}
+                                {t("SUBMIT")}
                             </Button>
                         </div>
                     </Form>
@@ -131,5 +130,4 @@ const IdentityLogin = (props) => {
     );
 };
 
-IdentityLogin.displayName = 'IdentityLogin';
-export default IdentityLogin;
+export default AddIdentity;

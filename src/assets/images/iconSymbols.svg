@@ -13,5 +13,14 @@
         <symbol id="icon-search"  viewBox="0 0 14 14">
             <path d="M6 11A5 5 0 1 0 6 1a5 5 0 0 0 0 10zM10 10l3 3" stroke="#434849" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </symbol>
+        <symbol id="icon-minus" fill="none" viewBox="0 0 34 4">
+            <path d="M34 2a2 2 0 0 1-2 2H2a2 2 0 1 1 0-4h30a2 2 0 0 1 2 2z" fill="#000"/>
+        </symbol>
+        <symbol id="icon-cross" fill="none" viewBox="0 0 49 49">
+            <path d="M36.203 35.917a2 2 0 0 1-2.828.033l-9.301-9.082-9.083 9.301a2 2 0 0 1-2.861-2.794l9.082-9.301-9.301-9.083a2 2 0 0 1 2.794-2.861l9.301 9.082 9.083-9.301a2 2 0 1 1 2.861 2.794l-9.082 9.301 9.302 9.083a2 2 0 0 1 .033 2.828z" fill="#000"/>
+        </symbol>
+        <symbol id="icon-plus" fill="none" viewBox="0 0 34 34">
+            <path d="M34 17a2 2 0 0 1-2 2H19v13a2 2 0 0 1-4 0V19H2a2 2 0 1 1 0-4h13V2a2 2 0 1 1 4 0v13h13a2 2 0 0 1 2 2z" fill="#000"/>
+        </symbol>
     </defs>
 </svg>
