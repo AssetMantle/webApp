@@ -78,6 +78,7 @@ const CreateIdentity = (props) => {
                         setLoader(false);
                         setShowForm(false);
                         console.log(pollObject);
+                        localStorage.clear();
                         getIdentityId(hashGenerate);
                         setshowtxnHash(true);
                     }
