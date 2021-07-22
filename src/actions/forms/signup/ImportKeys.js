@@ -276,6 +276,7 @@ const ImportKeys = () => {
                                 <p>{response.address}</p>
                                 <Button
                                     variant="primary"
+                                    onClick={handleClose}
                                 >
                                     {t('Done')}
                                 </Button>
@@ -305,6 +306,7 @@ const ImportKeys = () => {
                                     />
                                 </p>
                                 <Button
+                                    onClick={handleClose}
                                     variant="primary"
                                 >
                                     {t('Done')}

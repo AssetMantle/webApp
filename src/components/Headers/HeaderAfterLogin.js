@@ -33,7 +33,7 @@ const HeaderAfterLogin = () => {
             history.push('/profile');
         }
         if (userTypeToken === null) {
-            history.push('/Login');
+            history.push('/');
         }
     },[]);
 
