@@ -67,7 +67,7 @@ const HeaderAfterLogin = () => {
     };
 
     const dropdownTitle = (
-        <div className="nav-link dropdown-toggle"
+        <div className="dropdown-toggle"
             id="profile-nav-dropdown"
             role="button" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">
@@ -117,7 +117,6 @@ const HeaderAfterLogin = () => {
                                     <li className="nav-item">
                                         <NavLink className="nav-link" to="/profile">{t("PROFILE")}</NavLink>
                                     </li>
-
                                     <li className="nav-item dropdown">
                                         <NavDropdown title={dropdownTitle} id="basic-nav-dropdown" className="profile-dropdown">
                                             <div className="profile-dropdown-menu"

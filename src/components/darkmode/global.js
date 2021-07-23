@@ -207,5 +207,11 @@ export const GlobalStyles = createGlobalStyle`
   .copy-section p{
     background: ${({theme}) => theme.copyBackground};
   }
+  .profile-dropdown-menu{
+  color: ${({theme}) => theme.listItemColor};
+  }
+  .profile-dropdown-menu .add-id, .profile-dropdown-menu .logout{
+   border-top: 1px solid ${({theme}) => theme.modalHeaderBorderColor} !important;
+  }
 `;
 

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {withRouter} from "react-router-dom";
 import {useHistory} from "react-router-dom";
 import {Navbar, Nav, Button} from "react-bootstrap";
@@ -15,12 +15,12 @@ const HeaderBeforeLogin = () => {
         history.push(`/${route}`);
     };
 
-    useEffect(() => {
-        const identityId = localStorage.getItem('identityId');
-        if (identityId === null) {
-            history.push('/');
-        }
-    }, []);
+    // useEffect(() => {
+    //     const identityId = localStorage.getItem('identityId');
+    //     if (identityId === null) {
+    //         history.push('/');
+    //     }
+    // }, []);
     return (
         <div className="container login-before">
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">

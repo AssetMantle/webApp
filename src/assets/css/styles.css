@@ -68,7 +68,7 @@ html, body, #root, .app {
 .navbar-dark .navbar-nav .button-login-section {
   display: flex;
   align-items: center;
-  padding: 0 0 0 16px; }
+  padding: 0 1.3rem; }
   .navbar-dark .navbar-nav .button-login-section .button-double-border {
     padding: 3px .75rem; }
 .navbar-dark .navbar-nav .dropdown-toggle .profile-icon {
@@ -823,7 +823,7 @@ html, body, #root, .app {
 
 .profile-dropdown-menu {
   min-width: 250px; }
-  .profile-dropdown-menu P {
+  .profile-dropdown-menu p {
     cursor: pointer; }
   .profile-dropdown-menu .address-list {
     max-height: 300px;
@@ -852,22 +852,21 @@ html, body, #root, .app {
         .profile-dropdown-menu .address-list .address-item .cross-icon:hover {
           background-color: rgba(60, 64, 67, 0.078); }
   .profile-dropdown-menu .add-id {
-    border-top: 1px solid #f5f5f5;
     padding: 10px 25px;
     margin: 0; }
     .profile-dropdown-menu .add-id:hover {
-      background: #f5f5f5; }
+      background-color: rgba(60, 64, 67, 0.078); }
   .profile-dropdown-menu .logout {
-    border-top: 1px solid #f5f5f5;
     text-align: center;
     padding: 10px 25px;
     margin: 0; }
     .profile-dropdown-menu .logout:hover {
-      background: #f5f5f5; }
+      background-color: rgba(60, 64, 67, 0.078); }
 
 .import-tabs .nav-tabs .nav-link {
   flex: 1;
-  text-align: center; }
+  text-align: center;
+  border: 0px solid !important; }
 
 .back-button {
   transform: rotate(180deg);
@@ -875,7 +874,7 @@ html, body, #root, .app {
   left: 30px;
   top: 20px;
   padding: 0px 10px;
-  background: #cccccc;
+  background: #343a4024;
   border-radius: 5px; }
 
 /*# sourceMappingURL=styles.css.map */

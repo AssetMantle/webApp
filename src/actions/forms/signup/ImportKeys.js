@@ -55,24 +55,32 @@ const ImportKeys = () => {
     const handleSubmitMnemonic = async event => {
         event.preventDefault();
         const id = document.getElementById('mnemonic').value;
-        const error = createWallet(id, '');
-        if (error.error != null) {
-            setErrorMessage(error.error);
-        } else {
-            const walletResponse = getWallet(id, '');
-            await walletResponse.then(function(result) {
-                const address = result.address;
-                const data = {
-                    mnemonic: id,
-                    address: address,
-                };
-                setResponse(data);
-                setInitialTabs(false);
-                setGenerateKeystore(true);
-            }).catch(err => {
-                setErrorMessage(err);
-            });
+        let mnemonic = transactions.mnemonicTrim(id);
+        let memoCheck = transactions.mnemonicValidation(mnemonic);
+        console.log(mnemonic, memoCheck);
+        if(!memoCheck){
+            setErrorMessage("Error in mnemonic");
+        }else {
+            const error = createWallet(id, '');
+            if (error.error != null) {
+                setErrorMessage(error.error);
+            } else {
+                const walletResponse = getWallet(id, '');
+                await walletResponse.then(function(result) {
+                    const address = result.address;
+                    const data = {
+                        mnemonic: id,
+                        address: address,
+                    };
+                    setResponse(data);
+                    setInitialTabs(false);
+                    setGenerateKeystore(true);
+                }).catch(err => {
+                    setErrorMessage(err);
+                });
+            }
         }
+
     };
 
     const KeyStoreGenerateHandler = () => {
@@ -110,7 +118,9 @@ const ImportKeys = () => {
             seShowResponse(false);
         }
     };
-
+    const handleTabSelect = () =>{
+        setErrorMessage("");
+    };
     return (
         <div className="accountInfo">
             <Modal show={show} onHide={handleClose}
@@ -123,7 +133,7 @@ const ImportKeys = () => {
                         <Modal.Body className="import-tabs">
                             <Tabs defaultActiveKey="mnemonic"
                                 id="uncontrolled-tab-example"
-                                className="mb-3">
+                                className="mb-3" onSelect={handleTabSelect}>
                                 <Tab eventKey="mnemonic" title="Use Mnemonic">
                                     <Form onSubmit={handleSubmitMnemonic}>
                                         <Form.Control as="textarea" rows={5}
