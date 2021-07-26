@@ -13,8 +13,6 @@ const HeaderAfterLogin = () => {
     const {t} = useTranslation();
     const userTypeToken = localStorage.getItem('identityId');
     const [externalComponent, setExternalComponent] = useState("");
-    // const [identityIDList, setIdentityIDList] = useState(JSON.parse(localStorage.getItem("identityIDList")));
-
     const handleRoute = route => () => {
         history.push(route);
     };

@@ -55,21 +55,21 @@ const ImportKeys = () => {
     const handleSubmitMnemonic = async event => {
         event.preventDefault();
         const id = document.getElementById('mnemonic').value;
-        let mnemonic = transactions.mnemonicTrim(id);
+        let mnemonic = transactions.mnemonicTrim(id).toString();
         let memoCheck = transactions.mnemonicValidation(mnemonic);
         console.log(mnemonic, memoCheck);
         if(!memoCheck){
             setErrorMessage("Error in mnemonic");
         }else {
-            const error = createWallet(id, '');
+            const error = createWallet(mnemonic, '');
             if (error.error != null) {
                 setErrorMessage(error.error);
             } else {
-                const walletResponse = getWallet(id, '');
+                const walletResponse = getWallet(mnemonic, '');
                 await walletResponse.then(function(result) {
                     const address = result.address;
                     const data = {
-                        mnemonic: id,
+                        mnemonic: mnemonic,
                         address: address,
                     };
                     setResponse(data);

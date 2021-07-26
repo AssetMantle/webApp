@@ -53,8 +53,6 @@ async function issueIdentityQuery(address, mnemonic, data, actionName, type) {
 
 async function sendCoinQuery(address, mnemonic, data, actionName, type) {
     const msgs = await actionName.createSendCoinMsg(address, config.chainID, data.toAddress, data.denom, data.amountData, config.feesAmount, config.feesToken, config.gas, '');
-    // const response = await makeTransaction(msgs,mnemonic, type);
-    // console.log(response, ":sendCoinQuery");
     return makeTransaction(address, msgs,mnemonic, type);
 }
 
@@ -176,5 +174,4 @@ export default {
     defineOrderQuery,
     takeOrderQuery,
     revealHashQuery,
-    getProvisionList
 };

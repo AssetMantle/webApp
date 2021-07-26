@@ -16,9 +16,8 @@ function PrivateKeyReader(file, password) {
             if (decryptedData.error != null) {
                 reject(decryptedData.error);
             } else {
-                // const wallet = keyUtils.getWallet(decryptedData.mnemonic)
-                // console.log(decryptedData.mnemonic, wallet.address, event.target.result,'whole data')
-                resolve(decryptedData.mnemonic);
+                let mnemonic = mnemonicTrim(decryptedData.mnemonic);
+                resolve(mnemonic);
                 localStorage.setItem('encryptedMnemonic', event.target.result);
             }
         };
@@ -117,7 +116,7 @@ function mnemonicTrim(mnemonic) {
 }
 
 function mnemonicValidation(memo) {
-    const mnemonicWords = mnemonicTrim(memo);
+    const mnemonicWords = mnemonicTrim(memo).toString();
     console.log(mnemonicWords,"mnemonicWords");
     let validateMnemonic = bip39.validateMnemonic(mnemonicWords);
     return validateMnemonic;
