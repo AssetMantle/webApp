@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import {Modal} from "react-bootstrap";
-import {LoginMnemonic, PrivateKey, Ledger} from "./forms/login";
+import {Button, Modal} from 'react-bootstrap';
+import {CreateIdentity, PrivateKey, Ledger} from "./forms/login";
 import IdentityLogin from './forms/login/IdentityLogin';
 import {useTranslation} from "react-i18next";
 import {useHistory} from "react-router-dom";
@@ -11,6 +11,7 @@ const Login = () => {
     const {t} = useTranslation();
     const history = useHistory();
     const [show, setShow] = useState(true);
+
     const [externalComponent, setExternalComponent] = useState("");
     const handleClose = () => {
         setShow(false);
@@ -27,7 +28,7 @@ const Login = () => {
                 <Modal.Header closeButton>
                     {t("LOGIN_FORM")}
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className="text-center">
                     <div className="mrt-10">
                         <div className="button-view"
                             onClick={() => handleRoute("IdentityLogin")}
@@ -38,51 +39,28 @@ const Login = () => {
                             <Icon viewClass="arrow-icon" icon="arrow"/>
                         </div>
                     </div>
-                    {/*<div className="mrt-10">*/}
-                    {/*    <div className="button-view"*/}
-                    {/*        onClick={() => handleRoute("LoginMnemonic")}*/}
-                    {/*    >*/}
-                    {/*        <div className="icon-section">*/}
-                    {/*            <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/></div>*/}
-                    {/*            {t("LOGIN_MNEMONIC")}</div>*/}
-                    {/*        <Icon viewClass="arrow-icon" icon="arrow"/>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
-                    {/*<div className="mrt-10">*/}
-                    {/*    <div className="button-view"*/}
-                    {/*        onClick={() => handleRoute("PrivateKey")}*/}
-                    {/*    >*/}
-                    {/*        <div className="icon-section">*/}
-                    {/*            <div className="icon"><img src={PrivatekeyIcon} alt="PrivatekeyIcon"/></div>*/}
-                    {/*            {t("LOGIN_PRIVATE_KEY")}*/}
-                    {/*        </div>*/}
-                    {/*        <Icon viewClass="arrow-icon" icon="arrow"/>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
-                    {/*<div className="mrt-10">*/}
-                    {/*    <div className="button-view disabled"*/}
-                    {/*        // onClick={() => handleRoute("Ledger")}*/}
-                    {/*        title="To be implemented"*/}
-                    {/*    >*/}
-                    {/*        <div className="icon-section">*/}
-                    {/*            <div className="icon"><img src={LedgerIcon} alt="LedgerIcon"/></div>*/}
-                    {/*            {t("LEDGER_LOGIN")}*/}
-                    {/*        </div>*/}
-                    {/*        <Icon viewClass="arrow-icon" icon="arrow"/>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
+                    <div className="submitButtonSection">
+                        <Button
+                            variant="primary"
+                            type="button"
+                            className="button-double-border"
+                            onClick={() => handleRoute("CreateIdentity")}
+                        >
+                            Create Identity
+                        </Button>
+                    </div>
                 </Modal.Body>
             </Modal>
 
             <div>
                 {
                     externalComponent === 'IdentityLogin' ?
-                        <IdentityLogin setExternalComponent={setExternalComponent}/> :
+                        <IdentityLogin setExternalComponent={setExternalComponent} setShow={setShow} pageName="LoginAction"/> :
                         null
                 }
                 {
-                    externalComponent === 'LoginMnemonic' ?
-                        <LoginMnemonic setExternalComponent={setExternalComponent}/> :
+                    externalComponent === 'CreateIdentity' ?
+                        <CreateIdentity setExternalComponent={setExternalComponent} setShow={setShow} pageName="LoginAction"/> :
                         null
                 }
                 {

@@ -27,10 +27,10 @@ const MaintainerList = React.memo(() => {
     const [maintainer, setMaintainer] = useState({});
     const userAddress = localStorage.getItem('address');
     const [externalComponent, setExternalComponent] = useState("");
-
+    const identityId = localStorage.getItem('identityId');
     useEffect(() => {
         const fetchOrder = () => {
-            const identities = identitiesQuery.queryIdentityWithID("all");
+            const identities = identitiesQuery.queryIdentityWithID(identityId);
             identities.then(function (item) {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;

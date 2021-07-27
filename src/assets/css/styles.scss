@@ -97,7 +97,7 @@ html, body, #root, .app {
     .button-login-section {
       display: flex;
       align-items: center;
-      padding: 0 0 0 16px;
+      padding: 0 1.3rem;
 
       .button-double-border {
         padding: 3px .75rem;
@@ -425,10 +425,6 @@ html, body, #root, .app {
 }
 
 .signup-section {
-  .modal-body {
-    text-align: center;
-  }
-
   .private-key {
     text-align: center;
     display: flex;
@@ -922,7 +918,6 @@ html, body, #root, .app {
   width: 100%;
   .card-deck {
     .card{
-      height: 300px !important;
       padding: 20px;
     }
   }
@@ -937,7 +932,6 @@ html, body, #root, .app {
     }
   }
   .list-item{
-    padding-bottom: 15px;
     .list-item-label{
       width: 200px;
     }
@@ -1139,7 +1133,80 @@ html, body, #root, .app {
 .dropdown.profile:hover .profile-menu {
   display: block;
 }
+
 .dropdown.profile .dropdown-menu{
   top: 95% !important;
 }
 
+.profile-dropdown-menu{
+  min-width: 250px;
+  p{
+    cursor: pointer;
+  }
+  .address-list{
+    max-height: 300px;
+    overflow-y: auto;
+    .address-item.active{
+      background-color: rgba(60,64,67,0.078);
+    }
+    .address-item{
+      padding: 10px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      &:hover{
+        background-color: rgba(60,64,67,0.078);
+      }
+      p{
+        margin: 0;
+      }
+      .cross-icon{
+        border-radius: 50%;
+        cursor: pointer;
+        height: 32px;
+        margin: 2px;
+        padding: 8px;
+        width: 32px;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        &:hover{
+          background-color: rgba(60,64,67,0.078);
+        }
+      }
+    }
+  }
+  .add-id{
+    padding: 10px 25px;
+    margin: 0;
+    &:hover{
+      background-color: rgba(60,64,67,0.078);
+    }
+  }
+  .logout{
+    text-align: center;
+    padding: 10px 25px;
+    margin: 0;
+    &:hover{
+      background-color: rgba(60,64,67,0.078);
+    }
+  }
+}
+
+.import-tabs{
+  .nav-tabs .nav-link{
+    flex: 1;
+    text-align: center;
+    border: 0px solid !important;
+  }
+}
+
+.back-button{
+  transform: rotate(180deg);
+  position: absolute;
+  left: 30px;
+  top: 20px;
+  padding: 0px 10px;
+  background: #343a4024;
+  border-radius: 5px;
+}

@@ -2,21 +2,22 @@ import {Secp256k1HdWallet} from '@cosmjs/amino';
 const crypto = require('crypto');
 const passwordHashAlgorithm = 'sha512';
 const {SigningCosmosClient} = require('@cosmjs/launchpad');
-const restAPI = process.env.REACT_APP_API;
+const restAPI = process.env.REACT_APP_ASSET_MANTLE_API;
+const bip39 = require("bip39");
 
 function PrivateKeyReader(file, password) {
     return new Promise(function(resolve, reject) {
         const fileReader = new FileReader();
         fileReader.readAsText(file, 'UTF-8');
         fileReader.onload = event => {
+            console.log(event);
             const res = JSON.parse(event.target.result);
             const decryptedData = decryptStore(res, password);
             if (decryptedData.error != null) {
                 reject(decryptedData.error);
             } else {
-                // const wallet = keyUtils.getWallet(decryptedData.mnemonic)
-                // console.log(decryptedData.mnemonic, wallet.address, event.target.result,'whole data')
-                resolve(decryptedData.mnemonic);
+                let mnemonic = mnemonicTrim(decryptedData.mnemonic);
+                resolve(mnemonic);
                 localStorage.setItem('encryptedMnemonic', event.target.result);
             }
         };
@@ -99,11 +100,35 @@ async function TransactionWithKeplr(msgs, fee, memo, chainID) {
     return await cosmJS.signAndBroadcast(msgs, fee, memo);
 }
 
+function mnemonicTrim(mnemonic) {
+    let mnemonicList = mnemonic.replace(/\s/g, " ").split(/\s/g);
+    let mnemonicWords = [];
+    for (let word of mnemonicList) {
+        if (word === "") {
+            console.log();
+        } else {
+            let trimmedWord = word.replace(/\s/g, "");
+            mnemonicWords.push(trimmedWord);
+        }
+    }
+    mnemonicWords = mnemonicWords.join(" ");
+    return mnemonicWords;
+}
+
+function mnemonicValidation(memo) {
+    const mnemonicWords = mnemonicTrim(memo).toString();
+    console.log(mnemonicWords,"mnemonicWords");
+    let validateMnemonic = bip39.validateMnemonic(mnemonicWords);
+    return validateMnemonic;
+}
+
 export default {
     PrivateKeyReader,
     createStore,
     decryptStore,
     Transaction,
     TransactionWithMnemonic,
-    TransactionWithKeplr
+    TransactionWithKeplr,
+    mnemonicValidation,
+    mnemonicTrim
 };

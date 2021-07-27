@@ -250,17 +250,17 @@ const IdentityView = React.memo((props) => {
                                                     <p className="sub-title">provisionedAddressList</p>
                                                     {provisionedAddressList !== null && provisionedAddressList !== "" ?
                                                         provisionedAddressList.map((provisionedAddress, addressKey) => {
-                                                            return (<p key={addressKey}>{provisionedAddress}</p>);
+                                                            return (<p className="provision-address" key={addressKey}>{provisionedAddress}</p>);
                                                         })
-                                                        : <p>Empty</p>
+                                                        : <p className="provision-address">Empty</p>
                                                     }
                                                     <p className="sub-title">UnProvisionedAddressList</p>
                                                     {unProvisionedAddressList !== null && unProvisionedAddressList !== "" ?
                                                         unProvisionedAddressList.map((unprovisionedAddress, unprovisionedAddressKey) => {
                                                             return (
-                                                                <p key={unprovisionedAddressKey}>{unprovisionedAddress}</p>);
+                                                                <p className="provision-address" key={unprovisionedAddressKey}>{unprovisionedAddress}</p>);
                                                         })
-                                                        : <p>Empty</p>
+                                                        : <p className="provision-address">Empty</p>
                                                     }
                                                 </div>
                                             </div>

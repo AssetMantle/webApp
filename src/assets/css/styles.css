@@ -68,7 +68,7 @@ html, body, #root, .app {
 .navbar-dark .navbar-nav .button-login-section {
   display: flex;
   align-items: center;
-  padding: 0 0 0 16px; }
+  padding: 0 1.3rem; }
   .navbar-dark .navbar-nav .button-login-section .button-double-border {
     padding: 3px .75rem; }
 .navbar-dark .navbar-nav .dropdown-toggle .profile-icon {
@@ -291,8 +291,6 @@ html, body, #root, .app {
 .btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus, .btn-primary.focus, .btn-primary:focus {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05); }
 
-.signup-section .modal-body {
-  text-align: center; }
 .signup-section .private-key {
   text-align: center;
   display: flex;
@@ -654,7 +652,6 @@ html, body, #root, .app {
 .profile-section {
   width: 100%; }
   .profile-section .card-deck .card {
-    height: 300px !important;
     padding: 20px; }
   .profile-section .card {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
@@ -664,12 +661,10 @@ html, body, #root, .app {
       font-size: 14px;
       line-height: 21px;
       margin-bottom: 15px; }
-  .profile-section .list-item {
-    padding-bottom: 15px; }
-    .profile-section .list-item .list-item-label {
-      width: 200px; }
-    .profile-section .list-item .list-item-value {
-      text-align: left; }
+  .profile-section .list-item .list-item-label {
+    width: 200px; }
+  .profile-section .list-item .list-item-value {
+    text-align: left; }
   .profile-section .profile-picture-section {
     padding: 40px !important; }
   .profile-section .profile-picture {
@@ -825,5 +820,61 @@ html, body, #root, .app {
 
 .dropdown.profile .dropdown-menu {
   top: 95% !important; }
+
+.profile-dropdown-menu {
+  min-width: 250px; }
+  .profile-dropdown-menu p {
+    cursor: pointer; }
+  .profile-dropdown-menu .address-list {
+    max-height: 300px;
+    overflow-y: auto; }
+    .profile-dropdown-menu .address-list .address-item.active {
+      background-color: rgba(60, 64, 67, 0.078); }
+    .profile-dropdown-menu .address-list .address-item {
+      padding: 10px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center; }
+      .profile-dropdown-menu .address-list .address-item:hover {
+        background-color: rgba(60, 64, 67, 0.078); }
+      .profile-dropdown-menu .address-list .address-item p {
+        margin: 0; }
+      .profile-dropdown-menu .address-list .address-item .cross-icon {
+        border-radius: 50%;
+        cursor: pointer;
+        height: 32px;
+        margin: 2px;
+        padding: 8px;
+        width: 32px;
+        align-items: center;
+        justify-content: center;
+        display: flex; }
+        .profile-dropdown-menu .address-list .address-item .cross-icon:hover {
+          background-color: rgba(60, 64, 67, 0.078); }
+  .profile-dropdown-menu .add-id {
+    padding: 10px 25px;
+    margin: 0; }
+    .profile-dropdown-menu .add-id:hover {
+      background-color: rgba(60, 64, 67, 0.078); }
+  .profile-dropdown-menu .logout {
+    text-align: center;
+    padding: 10px 25px;
+    margin: 0; }
+    .profile-dropdown-menu .logout:hover {
+      background-color: rgba(60, 64, 67, 0.078); }
+
+.import-tabs .nav-tabs .nav-link {
+  flex: 1;
+  text-align: center;
+  border: 0px solid !important; }
+
+.back-button {
+  transform: rotate(180deg);
+  position: absolute;
+  left: 30px;
+  top: 20px;
+  padding: 0px 10px;
+  background: #343a4024;
+  border-radius: 5px; }
 
 /*# sourceMappingURL=styles.css.map */

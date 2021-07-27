@@ -175,7 +175,7 @@ const CommonKeystore = (props) => {
             if (decryptedData.error != null) {
                 setErrorMessage(decryptedData.error);
             } else {
-                userMnemonic = decryptedData.mnemonic;
+                userMnemonic = transactions.mnemonicTrim(decryptedData.mnemonic);
                 setErrorMessage("");
             }
         }

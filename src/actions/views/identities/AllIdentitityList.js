@@ -35,10 +35,13 @@ const AllIdentityList = React.memo((props) => {
 
     let userAddress;
     userAddress = props.location.address;
-    if(userAddress === undefined){
-        userAddress = localStorage.getItem('address');
+    if(userAddress !== undefined){
+        localStorage.setItem('address', userAddress);
+    }else {
+        userAddress =  localStorage.getItem('address');
     }
     useEffect(() => {
+        console.log(userAddress);
         setUserToken(localStorage.getItem('identityId'));
         const fetchToIdentities = () => {
             const identities = identitiesQuery.queryIdentityWithID("all");

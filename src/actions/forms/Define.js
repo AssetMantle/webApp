@@ -3,7 +3,6 @@ import {Form, Button, Modal} from 'react-bootstrap';
 import InputField from '../../components/inputField';
 import {useTranslation} from 'react-i18next';
 import CommonKeystore from '../../actions/forms/login/CommonKeystore';
-import CommonKeystorePwd from '../../actions/forms/login/CommonKeystorePwd';
 import Loader from '../../components/loader';
 import GetProperty from '../../utilities/Helpers/getProperty';
 
@@ -632,12 +631,7 @@ const Define = (props) => {
                         /> :
                         null
                 }
-                {
-                    externalComponent === 'Keystorepwd' ?
-                        <CommonKeystorePwd
-                            setExternalComponent={setExternalComponent}/> :
-                        null
-                }
+
             </div>
         </div>
     );
