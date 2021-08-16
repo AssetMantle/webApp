@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState, useReducer, useCallback} from 'react';
 import {cls} from 'persistencejs/build/transaction/classification/query';
 import {Form, Button, Modal} from 'react-bootstrap';
 import {queryMeta} from 'persistencejs/build/transaction/meta/query';
@@ -13,6 +13,30 @@ import GetProperty from '../../../utilities/Helpers/getProperty';
 const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 const classificationsQuery = new cls(process.env.REACT_APP_ASSET_MANTLE_API);
 
+const INPUT_CHANGE = "INPUT_CHANGE";
+
+const inputReducer = (state, action) => {
+    if (action.type === INPUT_CHANGE) {
+        const updatedValues = {
+            ...state.inputValues,
+            [action.input]: action.value
+        };
+        const updatedValidities = {
+            ...state.inputValidities,
+            [action.input]: action.isValid
+        };
+        let updatedFormIsValid = true;
+        for (const key in updatedValidities) {
+            updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
+        }
+        return {
+            formIsValid: updatedFormIsValid,
+            inputValidities: updatedValidities,
+            inputValues: updatedValues
+        };
+    }
+    return state;
+};
 const IssueIdentity = (props) => {
     const PropertyHelper = new GetProperty();
     const FilterHelper = new FilterHelpers();
@@ -35,15 +59,18 @@ const IssueIdentity = (props) => {
     const [checkboxImmutableNamesList, setCheckboxImmutableNamesList] = useState([]);
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const [externalComponent, setExternalComponent] = useState('');
-    const [testIdentityId, settestIdentityId] = useState('');
-    const [fromID, setFromID] = useState('');
 
-    useEffect(() => {
-        let fromIDValue = localStorage.getItem('identityId');
-        let testIdentityId = localStorage.getItem('identityId');
-        settestIdentityId(testIdentityId);
-        setFromID(fromIDValue);
-    }, []);
+    const [formState, dispatchFormState] = useReducer(inputReducer, {
+        inputValues: {
+            fromID: localStorage.getItem('identityId')  ? localStorage.getItem('identityId') : '',
+            toAddress: '',
+        },
+        inputValidities: {
+            title: false,
+            imageUrl: false,
+        },
+        formIsValid: false
+    });
 
     const handleClose = () => {
         setShow(false);
@@ -252,6 +279,23 @@ const IssueIdentity = (props) => {
             });
         setUploadFile(e.target.files[0]);
     };
+
+    const handleInputChange = useCallback(
+        (e, text) => {
+            let isValid = false;
+            if(e.target.value.trim().length > 0){
+                isValid = true;
+            }
+            dispatchFormState({
+                type: INPUT_CHANGE,
+                value: e.target.value,
+                isValid: isValid,
+                input: text
+            });
+        },
+        [dispatchFormState]
+    );
+
     return (
         <div>
             <Modal show={show} onHide={handleClose} centered>
@@ -303,9 +347,10 @@ const IssueIdentity = (props) => {
                                 type="text"
                                 className=""
                                 name="FromId"
-                                defaultValue={fromID !== null ? fromID : testIdentityId}
+                                defaultValue={formState.inputValues.fromID}
                                 required={true}
                                 placeholder={t('FROM_ID')}
+                                onChange={(e) => handleInputChange(e,"fromID")}
                             />
                         </Form.Group>
                         <Form.Group>
@@ -315,7 +360,9 @@ const IssueIdentity = (props) => {
                                 className=""
                                 name="toAddress"
                                 required={true}
+                                value={formState.inputValues.toAddress}
                                 placeholder={t('TO_ADDRESS')}
+                                onChange={(e) => handleInputChange(e,"toAddress")}
                             />
                         </Form.Group>
                         {mutableList !== null ?
