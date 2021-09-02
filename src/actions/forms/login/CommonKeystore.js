@@ -121,14 +121,14 @@ const CommonKeystore = (props) => {
         setErrorMessage("");
         const kepler = KeplerWallet();
         kepler.then(function () {
+            let addressList = JSON.parse(localStorage.getItem("addresses"));
             const keplrAddress = localStorage.getItem("keplerAddress");
-            const loginAddress =  localStorage.getItem("address");
-            if(keplrAddress !== loginAddress){
+            if (!addressList.includes(keplrAddress)) {
                 setLoader(false);
                 setErrorMessage("Adress Mismatch: Login address not matched with keplr address");
                 return;
             }
-            let queryResponse = transactionDefination(loginAddress , "", "keplr");
+            let queryResponse = transactionDefination(keplrAddress , "", "keplr");
             queryResponse.then((result) => {
                 console.log("response finale", result);
                 setShow(false);

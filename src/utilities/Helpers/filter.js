@@ -39,8 +39,13 @@ export default class Filter {
         });
     }
 
+    FilterMaintainersByIdentity(identityID, maintainers) {
+        return maintainers.filter(function filterFunc(maintainer) {
+            return identityID === maintainer.value.id.value.identityID.value.idString;
+        });
+    }
 
-    FilterMaintainersByIdentity(identities, maintainers) {
+    FilterMaintainersByIdentities(identities, maintainers) {
         let identityOwnerIdlist = GetIDHelper.GetIdentityIDs(identities);
         return maintainers.filter(function filterFunc(maintainer) {
             return identityOwnerIdlist.includes(maintainer.value.id.value.identityID.value.idString);

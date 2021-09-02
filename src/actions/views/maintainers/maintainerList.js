@@ -25,7 +25,6 @@ const MaintainerList = React.memo(() => {
     const [loader, setLoader] = useState(true);
     const [maintainersList, setMaintainersList] = useState([]);
     const [maintainer, setMaintainer] = useState({});
-    const userAddress = localStorage.getItem('address');
     const [externalComponent, setExternalComponent] = useState("");
     const identityId = localStorage.getItem('identityId');
     useEffect(() => {
@@ -35,13 +34,12 @@ const MaintainerList = React.memo(() => {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
                 if (dataList) {
-                    const filterIdentities = FilterHelper.FilterIdentitiesByProvisionedAddress(dataList, userAddress);
                     const maintainersData = maintainersQuery.queryMaintainerWithID("all");
                     maintainersData.then(function (item) {
                         const parsedMaintainersData = JSON.parse(item);
                         const maintainersDataList = parsedMaintainersData.result.value.maintainers.value.list;
                         if (maintainersDataList) {
-                            const filterMaintainersByIdentity = FilterHelper.FilterMaintainersByIdentity(filterIdentities, maintainersDataList);
+                            const filterMaintainersByIdentity = FilterHelper.FilterMaintainersByIdentity(identityId, maintainersDataList);
                             if (filterMaintainersByIdentity.length) {
                                 setMaintainersList(filterMaintainersByIdentity);
                                 filterMaintainersByIdentity.map((identity, index) => {

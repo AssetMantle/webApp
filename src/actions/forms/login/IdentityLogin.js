@@ -19,6 +19,7 @@ const IdentityLogin = (props) => {
     const GetIDHelper = new GetID();
     const handleSubmit = async event => {
         setLoader(true);
+        localStorage.clear();
         event.preventDefault();
         setErrorMessage(false);
         setIdErrorMessage('');
@@ -34,8 +35,9 @@ const IdentityLogin = (props) => {
                         const identityId = GetIDHelper.GetIdentityID(dataList[i]);
                         if(IdentityName === identityId) {
                             if(dataList[i].value.provisionedAddressList){
-                                let address = dataList[i].value.provisionedAddressList[0];
-                                localStorage.setItem("address", address);
+                                let addresses = dataList[i].value.provisionedAddressList;
+                                console.log("response finale", dataList[i].value.provisionedAddressList);
+                                localStorage.setItem('addresses', JSON.stringify(addresses));
                             }
                             let list = [];
                             const idList = localStorage.getItem("identityIDList");
