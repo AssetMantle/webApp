@@ -27,6 +27,7 @@ const HeaderBeforeLogin = () => {
                     </Nav>
 
                     <Nav>
+                        <Nav.Link onClick={() => handleModelRoute("create")}>Create Keys</Nav.Link>
                         <Nav.Link onClick={() => handleModelRoute("SignUp")}>{t("SIGNUP")}</Nav.Link>
                         <div className="button-login-section">
                             <Button variant="primary" className="button-double-border"

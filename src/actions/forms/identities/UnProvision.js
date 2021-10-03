@@ -15,7 +15,7 @@ const UnProvision = (props) => {
     const {t} = useTranslation();
     const fromID = localStorage.getItem('identityId');
     useEffect(() => {
-        const provisionedAddressList = props.identityIdList.value.provisionedAddressList;
+        const provisionedAddressList = props.userList.value.provisionedAddressList;
         if (provisionedAddressList !== null) {
             provisionedAddressList.map((address) => {
                 setProvisionAddressList((provisionAddressList) => [

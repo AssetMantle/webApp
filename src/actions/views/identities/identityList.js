@@ -45,6 +45,7 @@ const IdentityList = React.memo(() => {
                             }
                             let immutableKeys = Object.keys(immutableProperties);
                             let mutableKeys = Object.keys(mutableProperties);
+                            console.log(immutableKeys, immutableProperties);
                             GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList', index, 'identityUrlId');
                             GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index, "identityMutableUrlId");
                             setLoader(false);

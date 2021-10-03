@@ -39,10 +39,10 @@ async function unWrapQuery(address, mnemonic, data, actionName,type) {
     return makeTransaction(address, msgs, mnemonic, type);
 }
 
-async function nubIdQuery(address, mnemonic, data, actionName,type) {
+async function nubIdQuery(address, mnemonic, data, actionName,type, txName) {
     const msgs = await actionName.createIdentityNubMsg(address, config.chainID, data.nubId, config.feesAmount, config.feesToken, config.gas, '');
-    console.log(msgs, 'msgs unWrapQuery');
-    return makeTransaction(address, msgs, mnemonic, type);
+    console.log(msgs, 'msgs nubIdQuery');
+    return makeTransaction(address, msgs, mnemonic, type, txName);
 }
 
 async function issueIdentityQuery(address, mnemonic, data, actionName, type) {
@@ -116,21 +116,29 @@ async function revealHashQuery(address, mnemonic, data, actionName,type) {
 }
 
 
-async function makeTransaction(address, msgs,mnemonic, type){
-    const addressList = await getProvisionList();
-    if(addressList || addressList.length){
-        if (addressList.includes(address)) {
-            if(type === "keplr"){
-                return await transactions.TransactionWithKeplr([msgs.value.msg[0]], Msgs.Fee(0, 200000), "", process.env.REACT_APP_CHAIN_ID);
-            }else {
-                return await transactions.TransactionWithMnemonic([msgs.value.msg[0]], Msgs.Fee(0, 200000), '', mnemonic);
+async function makeTransaction(address, msgs,mnemonic, type, txName){
+    if(txName !== 'nub') {
+        const addressList = await getProvisionList();
+        if (addressList || addressList.length) {
+            if (addressList.includes(address)) {
+                if (type === "keplr") {
+                    return await transactions.TransactionWithKeplr([msgs.value.msg[0]], Msgs.Fee(0, 200000), "", process.env.REACT_APP_CHAIN_ID);
+                } else {
+                    return await transactions.TransactionWithMnemonic([msgs.value.msg[0]], Msgs.Fee(0, 200000), '', mnemonic);
+                }
+            } else {
+                localStorage.removeItem('encryptedMnemonic');
+                throw new Error(`Provision address keystore address different please check. keystore address: ${address}, Provision address:${addressList[0]}`);
             }
-        }else {
-            localStorage.removeItem('encryptedMnemonic');
-            throw new Error(`Provision address keystore address different please check. keystore address: ${address}, Provision address:${addressList[0]}`);
+        } else {
+            throw new Error("provision address empty please add");
         }
     }else {
-        throw new Error("provision address empty please add");
+        if (type === "keplr") {
+            return await transactions.TransactionWithKeplr([msgs.value.msg[0]], Msgs.Fee(0, 200000), "", process.env.REACT_APP_CHAIN_ID);
+        } else {
+            return await transactions.TransactionWithMnemonic([msgs.value.msg[0]], Msgs.Fee(0, 200000), '', mnemonic);
+        }
     }
 
 }

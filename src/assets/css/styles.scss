@@ -302,6 +302,9 @@ html, body, #root, .app {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 99999;
+  img{
+    width: 120px;
+  }
 }
 .dropdown-item{
   padding: 8px 20px !important;
@@ -526,6 +529,9 @@ html, body, #root, .app {
 .loader .modal-content {
   border: 0;
   background: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .tx-hash {
@@ -1158,6 +1164,7 @@ html, body, #root, .app {
         background-color: rgba(60,64,67,0.078);
       }
       p{
+        flex: 1;
         margin: 0;
       }
       .cross-icon{
@@ -1209,4 +1216,8 @@ html, body, #root, .app {
   padding: 0px 10px;
   background: #343a4024;
   border-radius: 5px;
+}
+
+.form-group{
+  width: 100%;
 }

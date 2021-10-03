@@ -137,6 +137,7 @@ async function KeplerWallet() {
     //     tendermintRPC,
     //     offlineSigner,
     // );
+    console.log(accounts[0].address, "accounts[0].address");
     localStorage.setItem('keplerAddress', accounts[0].address);
 
 }

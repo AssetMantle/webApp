@@ -78,7 +78,7 @@ let en = {
         "PRIVATE_KEY": "Private Key",
         "LEDGER_STORE": "Ledger",
         "ENCRYPT_KEY_STORE": "Enter password to encrypt keystore file",
-        "ENTER_USER_NAME": "Enter UserName",
+        "ENTER_USER_NAME": "Enter User Name",
         "DOWNLOAD_KEY": "Use Private key to login",
         "SAVE_MNEMONIC": "Please save mnemonic",
         "DEFINE_ASSET": "Define Asset",
@@ -147,6 +147,9 @@ let en = {
         "SIGNUP_WITH_MNEMONIC":"Sign up with mnemonic",
         "ACCOUNT":"Account",
         "ADDRESS_INDEX":"Address Index",
+        "LOGIN_WITH_USER_NAME":"Login With User Name",
+        "USE_KEPLR":"User Keplr",
+        "SIGN_UP":"Sign Up"
     }
 };
 

@@ -22,6 +22,15 @@ const ModalCommon = (props) => {
                 {t("Result")}
             </Modal.Header>
             <Modal.Body>
+                {
+                    props.transactionName === 'nubid' ?
+                        <>
+                            <p><b>User Name:</b> {props.nubID}</p>
+                            <p><b>IdentityID:</b> {props.testID}</p>
+                        </>
+                        : ""
+                }
+
                 { props.keplrTxn ?
                     props.data.code ?
                         <p>Error: {props.data.rawLog}</p>

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Modal} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import {CreateIdentity, PrivateKey, Ledger} from "./forms/login";
 import IdentityLogin from './forms/login/IdentityLogin';
 import {useTranslation} from "react-i18next";
@@ -35,20 +35,20 @@ const Login = () => {
                         >
                             <div className="icon-section">
                                 <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/></div>
-                                Login with Identity</div>
+                                {t("LOGIN_WITH_USER_NAME")}</div>
                             <Icon viewClass="arrow-icon" icon="arrow"/>
                         </div>
                     </div>
-                    <div className="submitButtonSection">
-                        <Button
-                            variant="primary"
-                            type="button"
-                            className="button-double-border"
-                            onClick={() => handleRoute("CreateIdentity")}
-                        >
-                            Create Identity
-                        </Button>
-                    </div>
+                    {/*<div className="submitButtonSection">*/}
+                    {/*    <Button*/}
+                    {/*        variant="primary"*/}
+                    {/*        type="button"*/}
+                    {/*        className="button-double-border"*/}
+                    {/*        onClick={() => handleRoute("CreateIdentity")}*/}
+                    {/*    >*/}
+                    {/*        Create Identity*/}
+                    {/*    </Button>*/}
+                    {/*</div>*/}
                 </Modal.Body>
             </Modal>
 

@@ -3,12 +3,13 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import { Login } from './actions';
 import { IdentityLogin } from "./actions/forms/login";
 import AddressLogin from './actions/AddressLogin';
-import { SignUp } from './actions/forms';
+import CreateIdentity from "./actions/forms/login/CreateIdentity";
 import { HomePage, RouteNotFound } from './components';
 import HeaderAfterLogin from './components/Headers/HeaderAfterLogin';
 import HeaderBeforeLogin from './components/Headers/HeaderBeforeLogin';
 import offline from './assets/images/offline.svg';
 import { Maintainers, Identities, Assets, Orders, MarketPlace, AssetView, IdentityView, OrderView, AllIdentityList } from './actions/views';
+import KeysCreate from "./actions/forms/KeysCreate";
 import Footer from './components/Footer';
 import { useTranslation } from 'react-i18next';
 import './assets/css/styles.css';
@@ -28,7 +29,7 @@ const App = () => {
         component: AddressLogin
     }, {
         path: '/SignUp',
-        component: SignUp
+        component: CreateIdentity
     }, {
         path: '/assets',
         component: Assets
@@ -59,6 +60,9 @@ const App = () => {
     }, {
         path: '/identityLogin',
         component: IdentityLogin
+    }, {
+        path: '/create',
+        component: KeysCreate
     }];
 
     const [isOnline, setNetwork] = useState(window.navigator.onLine);

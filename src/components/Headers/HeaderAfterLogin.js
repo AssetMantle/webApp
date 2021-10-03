@@ -11,7 +11,7 @@ import AddIdentity from '../../actions/forms/identities/AddIdentity';
 const HeaderAfterLogin = () => {
     const history = useHistory();
     const {t} = useTranslation();
-    const userTypeToken = localStorage.getItem('identityId');
+    const userTypeToken = localStorage.getItem('userName');
     const [externalComponent, setExternalComponent] = useState("");
     const handleRoute = route => () => {
         history.push(route);
@@ -25,7 +25,7 @@ const HeaderAfterLogin = () => {
         history.push('/');
     };
 
-    let identityIDList = JSON.parse(localStorage.getItem("identityIDList"));
+    let userList = JSON.parse(localStorage.getItem("userList"));
     useEffect(() => {
         if(userTypeToken !== null  && window.location.pathname === "/"){
             history.push('/profile');
@@ -40,25 +40,53 @@ const HeaderAfterLogin = () => {
     };
 
     const removeIdentityHandler = (removeItem) =>{
-        if(identityIDList !== null){
-            if(identityIDList.length === 1){
+        if(userList !== null){
+            if(userList.length === 1){
                 return false;
             }
             else {
-                const result = identityIDList.filter(id => id !== removeItem);
+                const result = userList.filter(id => id !== removeItem);
                 if(result.length === 1){
-                    localStorage.setItem("identityId", result[0]);
+                    console.log(result, "reasult");
+                    const identityList = localStorage.getItem("identityList");
+                    const idList = JSON.parse(identityList);
+                    for (let i = 0; i <= idList.length; i++) {
+                        for(let key in idList[i]) {
+                            if(key === result[0]){
+                                console.log(idList[i][key]);
+                                localStorage.setItem("identityId", idList[i][key]);
+                                localStorage.setItem("userName", result[0]);
+                                localStorage.setItem('userList', JSON.stringify(result));
+                                window.location.reload();
+                            }
+                        }
+                    }
+
                 }
-                localStorage.setItem('identityIDList', JSON.stringify(result));
+
             }
         }
-        window.location.reload();
+        // window.location.reload();
     };
 
-    const changeIdentityHandler = (id) =>{
-        if(localStorage.getItem('identityId') !== id) {
-            localStorage.setItem("identityId", id);
-            window.location.reload();
+    const changeIdentityHandler = (name) =>{
+        console.log(name, "out Raju");
+        const identityList = localStorage.getItem("identityList");
+        const idList = JSON.parse(identityList);
+
+        if(localStorage.getItem('userName') !== name) {
+            for (let i = 0; i <= idList.length; i++) {
+                for(let key in idList[i]) {
+                    if(key === name){
+                        console.log(name, "Raju");
+                        console.log(idList[i][key]);
+                        localStorage.setItem("identityId", idList[i][key]);
+                        localStorage.setItem("userName", name);
+                        window.location.reload();
+                    }
+                }
+            }
+
         }else {
             return false;
         }
@@ -120,9 +148,9 @@ const HeaderAfterLogin = () => {
                                             <div className="profile-dropdown-menu"
                                                 aria-labelledby="profile-nav-dropdown">
                                                 <div className="address-list">
-                                                    { identityIDList !== null ?
-                                                        identityIDList.map((id, index) => {
-                                                            if(localStorage.getItem('identityId') === id){
+                                                    { userList !== null ?
+                                                        userList.map((id, index) => {
+                                                            if(localStorage.getItem('userName') === id){
                                                                 return(
                                                                     <div key={index} className="address-item active">
                                                                         <p className="address" title={id} onClick={()=>changeIdentityHandler(id)}>{id}</p>

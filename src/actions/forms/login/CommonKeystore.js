@@ -26,6 +26,10 @@ import {unprovisionIdentity} from 'persistencejs/build/transaction/identity/unpr
 import transactions from '../../../utilities/Helpers/transactions';
 import {takeOrder as takeOrderQuery} from 'persistencejs/build/transaction/orders/take';
 import {revealMeta} from 'persistencejs/build/transaction/meta/reveal';
+import Icon from "../../../icons";
+import GetMeta from '../../../utilities/Helpers/getMeta';
+import {queryIdentities} from 'persistencejs/build/transaction/identity/query';
+import GetID from '../../../utilities/Helpers/getID';
 const identitiesDefine = new defineIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
 const assetDefine = new defineAsset(process.env.REACT_APP_ASSET_MANTLE_API);
 const ordersDefine = new defineOrder(process.env.REACT_APP_ASSET_MANTLE_API);
@@ -45,7 +49,7 @@ const identitiesProvision = new provisionIdentity(process.env.REACT_APP_ASSET_MA
 const identitiesUnprovision = new unprovisionIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
 const takeOrder = new takeOrderQuery(process.env.REACT_APP_ASSET_MANTLE_API);
 const RevealMeta = new revealMeta(process.env.REACT_APP_ASSET_MANTLE_API);
-
+const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const CommonKeystore = (props) => {
     const { t } = useTranslation();
     const [show, setShow] = useState(true);
@@ -54,7 +58,11 @@ const CommonKeystore = (props) => {
     const [loader, setLoader] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [keplrTxn, setKeplrTxn] = useState(false);
+    const [testID, setTestID] = useState('');
+    const [nubID, setNubID] = useState('');
 
+    const GetIDHelper = new GetID();
+    const GetMetaHelper = new GetMeta();
     useEffect(() => {
         const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
         if (encryptedMnemonic !== null) {
@@ -63,6 +71,27 @@ const CommonKeystore = (props) => {
             setImportMnemonic(true);
         }
     }, []);
+
+    const getIdentityId = (userIdHash) => {
+        const identities = identitiesQuery.queryIdentityWithID('all');
+        if (identities) {
+            identities.then(function(item) {
+                const data = JSON.parse(item);
+                const dataList = data.result.value.identities.value.list;
+                dataList.map((identity) => {
+                    if (identity.value.immutables.value.properties.value.propertyList !== null) {
+                        const immutablePropertyList = identity.value.immutables.value.properties.value.propertyList[0];
+                        if (immutablePropertyList.value.fact.value.hash === userIdHash) {
+                            console.log("new id",GetIDHelper.GetIdentityID(identity) );
+                            setTestID(GetIDHelper.GetIdentityID(identity));
+                        }
+                    }
+                });
+
+            });
+        }
+    };
+
 
     const transactionDefination = async (address, userMnemonic, type) => {
         // const addressList = await queries.getProvisionList();
@@ -80,7 +109,8 @@ const CommonKeystore = (props) => {
         }  else if (props.TransactionName === 'unwrap') {
             queryResponse = queries.unWrapQuery(address, userMnemonic, props.totalDefineObject, UnWrapQuery, type);
         }  else if (props.TransactionName === 'nubid') {
-            queryResponse = queries.nubIdQuery(address, userMnemonic, props.totalDefineObject, identitiesNub, type);
+            console.log(address, userMnemonic, props.totalDefineObject, identitiesNub, type, 'nubIdQuery');
+            queryResponse = queries.nubIdQuery(address, userMnemonic, props.totalDefineObject, identitiesNub, type, 'nub');
         }  else if (props.TransactionName === 'issueidentity') {
             queryResponse = queries.issueIdentityQuery(address, userMnemonic, props.totalDefineObject, identitiesIssue, type);
         } else if (props.TransactionName === 'Define Asset') {
@@ -121,20 +151,44 @@ const CommonKeystore = (props) => {
         setErrorMessage("");
         const kepler = KeplerWallet();
         kepler.then(function () {
-            let addressList = JSON.parse(localStorage.getItem("addresses"));
+            // let addressList = JSON.parse(localStorage.getItem("addresses"));
+            // console.log(addressList, 'addressList');
+
             const keplrAddress = localStorage.getItem("keplerAddress");
-            if (!addressList.includes(keplrAddress)) {
-                setLoader(false);
-                setErrorMessage("Adress Mismatch: Login address not matched with keplr address");
-                return;
-            }
+            // if (!addressList.includes(keplrAddress)) {
+            //     setLoader(false);
+            //     setErrorMessage("Adress Mismatch: Login address not matched with keplr address");
+            //     return;
+            // }
             let queryResponse = transactionDefination(keplrAddress , "", "keplr");
             queryResponse.then((result) => {
                 console.log("response finale", result);
-                setShow(false);
-                setLoader(false);
-                setKeplrTxn(true);
-                setResponse(result);
+                if(result.code){
+                    setLoader(false);
+                    if(props.TransactionName === "nubid"){
+                        setErrorMessage(result.rawLog);
+                    }else
+                    {
+                        setErrorMessage(result.rawLog);
+
+                    }
+                    const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
+                    if (encryptedMnemonic !== null) {
+                        setImportMnemonic(false);
+                    } else {
+                        setImportMnemonic(true);
+                    }
+                }else {
+                    if(props.TransactionName === "nubid"){
+                        setNubID(props.totalDefineObject.nubId);
+                        const hashGenerate = GetMetaHelper.Hash(props.totalDefineObject.nubId);
+                        getIdentityId(hashGenerate);
+                    }
+                    setShow(false);
+                    setLoader(false);
+                    setKeplrTxn(true);
+                    setResponse(result);
+                }
             }).catch((error) => {
                 setLoader(false);
                 setErrorMessage(error.message);
@@ -183,9 +237,31 @@ const CommonKeystore = (props) => {
             const wallet = await getWallet(userMnemonic, "");
             let queryResponse =  transactionDefination(wallet.address , userMnemonic, "normal");
             queryResponse.then(function (item) {
-                setShow(false);
-                setLoader(false);
-                setResponse(item);
+                if(item.code){
+                    if(props.TransactionName === "nubid"){
+                        setErrorMessage(item.rawLog);
+                    }else
+                    {
+                        setErrorMessage(item.rawLog);
+                    }
+                    setLoader(false);
+                    const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
+                    if (encryptedMnemonic !== null) {
+                        setImportMnemonic(false);
+                    } else {
+                        setImportMnemonic(true);
+                    }
+                }
+                else {
+                    if(props.TransactionName === "nubid"){
+                        setNubID(props.totalDefineObject.nubId);
+                        const hashGenerate = GetMetaHelper.Hash(props.totalDefineObject.nubId);
+                        getIdentityId(hashGenerate);
+                    }
+                    setShow(false);
+                    setLoader(false);
+                    setResponse(item);
+                }
             }).catch(err => {
                 setLoader(false);
                 setErrorMessage(err.response
@@ -210,10 +286,22 @@ const CommonKeystore = (props) => {
         props.setExternalComponent("");
         props.handleClose();
     };
+
+    const backHandler = () => {
+        if (props.TransactionName === "nubid") {
+            setShow(false);
+            props.setShow(true);
+            props.setExternalComponent('');
+        }
+    };
+
     return (
         <div>
             <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select" centered>
                 <Modal.Header closeButton>
+                    <div className="back-button" onClick={backHandler}>
+                        <Icon viewClass="arrow-icon" icon="arrow"/>
+                    </div>
                     {t("Choose Option")}
                 </Modal.Header>
                 {loader ?
@@ -260,7 +348,7 @@ const CommonKeystore = (props) => {
                             </Button>
                         </div>
                         <div className="submitButtonSection">
-                            <button type={"button"} variant="primary" className="button-double-border" onClick={() => handleKepler("kepler")}>{t("USE_KEPLER")}
+                            <button type={"button"} variant="primary" className="button-double-border" onClick={() => handleKepler("kepler")}>{t("USE_KEPLR")}
                             </button>
                         </div>
 
@@ -271,7 +359,15 @@ const CommonKeystore = (props) => {
                 </Modal.Body>
             </Modal>
             {!(Object.keys(response).length === 0) ?
-                <ModalCommon data={response} handleClose={handleClose} keplrTxn={keplrTxn}/>
+                <ModalCommon
+                    data={response}
+                    handleClose={handleClose}
+                    keplrTxn={keplrTxn}
+                    setErrorMessage={setErrorMessage}
+                    testID={testID}
+                    transactionName={props.TransactionName}
+                    nubID={nubID}
+                />
                 : ""
             }
         </div>

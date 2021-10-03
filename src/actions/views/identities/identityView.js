@@ -287,7 +287,7 @@ const IdentityView = React.memo((props) => {
                     }
                     {externalComponent === 'UnProvision' ?
                         <UnProvision setExternalComponent={setExternalComponent} identityId={identityId}
-                            identityIdList={identity}/> :
+                            userList={identity}/> :
                         null
                     }
                     {externalComponent === 'Nub' ?

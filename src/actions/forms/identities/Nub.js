@@ -23,7 +23,6 @@ const Nub = (props) => {
         const nubId = event.target.nubID.value;
         let totalData = {
             nubId: nubId,
-
         };
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');

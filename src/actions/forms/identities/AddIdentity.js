@@ -6,6 +6,7 @@ import GetID from "../../../utilities/Helpers/getID";
 import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 import Icon from "../../../icons";
 import Loader from '../../../components/loader';
+import GetMeta from "../../../utilities/Helpers/getMeta";
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const AddIdentity = (props) => {
@@ -16,6 +17,7 @@ const AddIdentity = (props) => {
     const [idErrorMessage, setIdErrorMessage] = useState("");
     const {t} = useTranslation();
     const GetIDHelper = new GetID();
+    const GetMetaHelper = new GetMeta();
     const handleSubmit = async event => {
         event.preventDefault();
         setLoader(true);
@@ -27,29 +29,40 @@ const AddIdentity = (props) => {
             identities.then(function (item) {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
+                const hashGenerate = GetMetaHelper.Hash(IdentityName);
                 let count = 0;
                 for (var i = 0; i < dataList.length; i++) {
                     if (dataList[i].value.immutables.value.properties.value.propertyList !== null) {
-                        const identityId = GetIDHelper.GetIdentityID(dataList[i]);
-                        if(IdentityName === identityId) {
+                        const immutablePropertyList = dataList[i].value.immutables.value.properties.value.propertyList[0];
+                        if(immutablePropertyList.value.fact.value.hash === hashGenerate) {
+                            const identityId = GetIDHelper.GetIdentityID(dataList[i]);
+                            console.log(identityId, "identityId");
                             if(dataList[i].value.provisionedAddressList){
                                 let address = dataList[i].value.provisionedAddressList[0];
                                 localStorage.setItem("address", address);
                             }
                             let list = [];
-                            const idList = localStorage.getItem("identityIDList");
-                            if(idList !== null){
-                                list = JSON.parse(idList);
+                            let idList = [];
+                            const userList = localStorage.getItem("userList");
+                            const identityList = localStorage.getItem("identityList");
+                            if(identityList !== null){
+                                idList = JSON.parse(identityList);
+                            }
+                            if(userList !== null){
+                                list = JSON.parse(userList);
                             }
                             if (list.includes(IdentityName)) {
                                 setErrorMessage(false);
                                 setLoader(false);
                                 setIdErrorMessage('identityID already Added');
                             } else {
+                                idList.push({[IdentityName]:identityId});
                                 list.push(IdentityName);
                                 setLoader(false);
-                                localStorage.setItem("identityIDList", JSON.stringify(list));
-                                localStorage.setItem("identityId", IdentityName);
+                                localStorage.setItem("userList", JSON.stringify(list));
+                                localStorage.setItem("identityList",  JSON.stringify(idList));
+                                localStorage.setItem("identityId", identityId);
+                                localStorage.setItem("userName", IdentityName);
                                 setShow(false);
                                 props.setExternalComponent("");
                                 window.location.reload();
