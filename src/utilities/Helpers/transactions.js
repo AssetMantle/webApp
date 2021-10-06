@@ -1,10 +1,13 @@
 import {Secp256k1HdWallet} from '@cosmjs/amino';
+import {queryIdentities} from "persistencejs/build/transaction/identity/query";
+// import GetID from "./getID";
+const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const crypto = require('crypto');
 const passwordHashAlgorithm = 'sha512';
 const {SigningCosmosClient} = require('@cosmjs/launchpad');
 const restAPI = process.env.REACT_APP_ASSET_MANTLE_API;
 const bip39 = require("bip39");
-
+// const GetIDHelper = new GetID();
 function PrivateKeyReader(file, password) {
     return new Promise(function(resolve, reject) {
         const fileReader = new FileReader();
@@ -122,6 +125,26 @@ function mnemonicValidation(memo) {
     return validateMnemonic;
 }
 
+function updateAddressList() {
+    const identityID = localStorage.getItem('identityId');
+    const identities = identitiesQuery.queryIdentityWithID(identityID);
+    if (identities) {
+        identities.then(function (item) {
+            const data = JSON.parse(item);
+            const dataList = data.result.value.identities.value.list;
+            for (let i = 0; i < dataList.length; i++) {
+                if (dataList[i].value.immutables.value.properties.value.propertyList !== null) {
+                    if (dataList[i].value.provisionedAddressList) {
+                        let address = dataList[i].value.provisionedAddressList[0];
+                        localStorage.setItem("address", address);
+                        localStorage.setItem("addressList", JSON.stringify(dataList[i].value.provisionedAddressList));
+                    }
+                }
+            }
+        });
+    }
+}
+
 export default {
     PrivateKeyReader,
     createStore,
@@ -130,5 +153,6 @@ export default {
     TransactionWithMnemonic,
     TransactionWithKeplr,
     mnemonicValidation,
-    mnemonicTrim
+    mnemonicTrim,
+    updateAddressList
 };

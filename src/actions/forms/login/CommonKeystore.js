@@ -107,8 +107,10 @@ const CommonKeystore = (props) => {
             queryResponse = queries.deputizeQuery(address, userMnemonic, props.totalDefineObject, deputizeMaintainer, type);
         } else if (props.TransactionName === 'provision') {
             queryResponse = queries.provisionQuery(address, userMnemonic, props.totalDefineObject, identitiesProvision, type);
+            transactions.updateAddressList();
         } else if (props.TransactionName === 'un provision') {
             queryResponse = queries.unProvisionQuery(address, userMnemonic, props.totalDefineObject, identitiesUnprovision, type);
+            transactions.updateAddressList();
         } else if (props.TransactionName === 'reveal') {
             queryResponse = queries.revealHashQuery(address, userMnemonic, props.totalDefineObject, RevealMeta, type);
         }
@@ -122,13 +124,18 @@ const CommonKeystore = (props) => {
         const kepler = KeplerWallet();
         kepler.then(function () {
             const keplrAddress = localStorage.getItem("keplerAddress");
-            const loginAddress =  localStorage.getItem("address");
-            if(keplrAddress !== loginAddress){
+            let addresses = [];
+            const addressList = localStorage.getItem("addressList");
+            if(addressList !== null){
+                addresses = JSON.parse(addressList);
+            }
+            console.log(addresses, keplrAddress);
+            if (!addresses.includes(keplrAddress)) {
                 setLoader(false);
                 setErrorMessage("Adress Mismatch: Login address not matched with keplr address");
                 return;
             }
-            let queryResponse = transactionDefination(loginAddress , "", "keplr");
+            let queryResponse = transactionDefination(keplrAddress , "", "keplr");
             queryResponse.then((result) => {
                 console.log("response finale", result);
                 setShow(false);

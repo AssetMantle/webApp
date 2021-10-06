@@ -35,6 +35,7 @@ const AddIdentity = (props) => {
                             if(dataList[i].value.provisionedAddressList){
                                 let address = dataList[i].value.provisionedAddressList[0];
                                 localStorage.setItem("address", address);
+                                localStorage.setItem("addressList", JSON.stringify(dataList[i].value.provisionedAddressList));
                             }
                             let list = [];
                             const idList = localStorage.getItem("identityIDList");
