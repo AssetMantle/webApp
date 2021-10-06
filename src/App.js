@@ -15,11 +15,14 @@ import { useTranslation } from 'react-i18next';
 import './assets/css/styles.css';
 import './assets/css/mediaqueries.css';
 import * as markePlace from "./store/actions/marketPlace";
+import * as assets from "./store/actions/assets";
+import * as orders from "./store/actions/orders";
 import {useDispatch} from "react-redux";
 import PrivateRoute from "./containers/PrivateRoute";
 const App = () => {
     const { t } = useTranslation();
     const userTypeToken = localStorage.getItem('userName');
+    const identityID = localStorage.getItem('identityId');
     const routes = [{
         path: '/',
         component: HomePage,
@@ -89,7 +92,11 @@ const App = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         const fetchOrder = async () => {
-            await dispatch(markePlace.fetchMarketPlace());
+            await Promise.all([
+                dispatch(markePlace.fetchMarketPlace()),
+                dispatch(assets.fetchAssets(identityID)),
+                dispatch(orders.fetchOrders(identityID))
+            ]);
         };
         fetchOrder();
     }, []);
@@ -152,21 +159,6 @@ const App = () => {
                 <Route component={RouteNotFound}/>
             </Switch>
 
-
-
-            {/*<Switch>*/}
-            {/*    {*/}
-            {/*        routes.map((route) =>*/}
-            {/*            <Route*/}
-            {/*                key={route.path}*/}
-            {/*                exact*/}
-            {/*                component={route.component}*/}
-            {/*                path={route.path}/>*/}
-            {/*        )*/}
-            {/*    }*/}
-
-            {/*    <Route component={RouteNotFound}/>*/}
-            {/*</Switch>*/}
             {
                 userTypeToken === null || window.location.pathname === '/'
                     ? <Footer/>

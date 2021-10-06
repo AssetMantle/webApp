@@ -1,34 +1,34 @@
-async function  GetClassificationID(data) {
+function  GetClassificationID(data) {
     return data.value.id.value.classificationID.value.idString;
 }
 
-async function  GetIdentityID(identity) {
+function  GetIdentityID(identity) {
     return identity.value.id.value.classificationID.value.idString + "|" +
         identity.value.id.value.hashID.value.idString;
 }
 
-async function GetAssetID(asset) {
+function GetAssetID(asset) {
     return asset.value.id.value.classificationID.value.idString + "|" +
         asset.value.id.value.hashID.value.idString;
 }
 
-async function GetMakerOwnableID(data) {
+function GetMakerOwnableID(data) {
     return data.value.id.value.makerOwnableID.value.idString;
 }
 
-async function GetTakerOwnableID(data) {
+function GetTakerOwnableID(data) {
     return data.value.id.value.takerOwnableID.value.idString;
 }
 
-async function GetMakerID(data) {
+function GetMakerID(data) {
     return data.value.id.value.makerID.value.idString;
 }
 
-async function GetHashID(data) {
+function GetHashID(data) {
     return data.value.id.value.hashID.value.idString;
 }
 
-async function GetOrderID(order) {
+function GetOrderID(order) {
     return order.value.id.value.classificationID.value.idString + "*" +
         order.value.id.value.makerOwnableID.value.idString + "*" +
         order.value.id.value.takerOwnableID.value.idString + "*" +
@@ -36,7 +36,7 @@ async function GetOrderID(order) {
         order.value.id.value.hashID.value.idString;
 }
 
-async function GetIdentityIDs(identities) {
+function GetIdentityIDs(identities) {
     let idList = [];
     let $this = this;
     identities.forEach(function (identity) {
@@ -45,11 +45,11 @@ async function GetIdentityIDs(identities) {
     return idList;
 }
 
-async function GetIdentityOwnableId(identity) {
+function GetIdentityOwnableId(identity) {
     return identity.value.id.value.ownableID.value.idString;
 }
 
-async function GetIdentityOwnableIds(identities) {
+function GetIdentityOwnableIds(identities) {
     let ownableIdList = [];
     let $this = this;
     identities.forEach(function (identity) {

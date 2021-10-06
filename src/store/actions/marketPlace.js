@@ -6,7 +6,6 @@ const ordersQuery = new queryOrders(process.env.REACT_APP_ASSET_MANTLE_API);
 export const SET_MARKET_ORDERS = "SET_MARKET_ORDERS";
 
 export const fetchMarketPlace = () => {
-    console.log("again");
     return async (dispatch) => {
         try {
             const orders = await  ordersQuery.queryOrderWithID("all");

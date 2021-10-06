@@ -8,7 +8,9 @@ const ModalCommon = (props) => {
     const handleClose = () => {
         setShowIdentity(false);
         props.handleClose();
-        // window.location.reload();
+        if (props.transactionName === ""){
+            window.location.reload();
+        }
     };
     return (
         <Modal

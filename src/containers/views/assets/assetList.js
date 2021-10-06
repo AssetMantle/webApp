@@ -1,79 +1,26 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {useHistory} from "react-router-dom";
-import {querySplits} from "persistencejs/build/transaction/splits/query";
-import {queryAssets} from "persistencejs/build/transaction/assets/query";
 import {useTranslation} from "react-i18next";
 import {Button} from "react-bootstrap";
-import Loader from "../../../components/loader";
 import config from "../../../constants/config.json";
-import FilterHelpers from "../../../utilities/Helpers/filter";
-import GetID from "../../../utilities/Helpers/getID";
 import {MakeOrder} from "../../forms/orders";
 import {SendSplit} from "../../forms/assets";
-import GetProperties from "../../../utilities/GetProperties";
-import helper from "../../../utilities/helper";
+import {useSelector} from "react-redux";
+import loaderImage from "../../../assets/images/loader.svg";
 
-const assetsQuery = new queryAssets(process.env.REACT_APP_ASSET_MANTLE_API);
-const splitsQuery = new querySplits(process.env.REACT_APP_ASSET_MANTLE_API);
+
 
 const AssetList = React.memo(() => {
-    const FilterHelper = new FilterHelpers();
-    const GetIDHelper = new GetID();
     const {t} = useTranslation();
     let history = useHistory();
-    const [assetList, setAssetList] = useState([]);
-    const [loader, setLoader] = useState(true);
-    const identityId = localStorage.getItem('identityId');
+    const assetList = useSelector((state) => state.assets.assetList);
+    const loader = useSelector((state) => state.assets.loading);
+    const error = useSelector((state) => state.assets.error);
+
     const [externalComponent, setExternalComponent] = useState("");
     const [ownerId, setOwnerId] = useState("");
     const [ownableId, setOwnableId] = useState("");
 
-    useEffect(() => {
-        const fetchAssets = async () => {
-            const splits = await splitsQuery.querySplitsWithID("all").catch(()=>{setLoader(false);});
-            const splitData = JSON.parse(splits);
-            const splitList = splitData.result.value.splits.value.list;
-            if (splitList) {
-                const filterSplitsByIdentities = FilterHelper.FilterSplitsByIdentity(identityId, splitList);
-                if (filterSplitsByIdentities.length) {
-                    const assetsListNew = [];
-                    for (const split of filterSplitsByIdentities) {
-                        let ownerId = split.value.id.value.ownerID.value.idString;
-                        const ownableID = GetIDHelper.GetIdentityOwnableId(split);
-                        const filterAssetList = await assetsQuery.queryAssetWithID(ownableID).catch(()=>{setLoader(false);});
-                        const parsedAsset = JSON.parse(filterAssetList);
-                        if (parsedAsset.result.value.assets.value.list !== null) {
-                            const assetId = GetIDHelper.GetAssetID(parsedAsset.result.value.assets.value.list[0]);
-                            if (ownableID === assetId) {
-                                let immutableProperties = "";
-                                let mutableProperties = "";
-                                if (parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList !== null) {
-                                    immutableProperties = await GetProperties.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.immutables.value.properties.value.propertyList);
-                                }
-                                if (parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
-                                    mutableProperties = await GetProperties.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList);
-                                }
-                                const totalData = {...immutableProperties, ...mutableProperties};
-                                const objSorted = helper.SortObjectData(totalData);
-                                assetsListNew.push({'totalData': objSorted, 'ownerID':ownerId, 'ownableID':ownableID, 'mutableProperties':mutableProperties});
-                                setLoader(false);
-                            } else {
-                                setLoader(false);
-                            }
-                        } else {
-                            setLoader(false);
-                        }
-                    }
-                    setAssetList(assetsListNew);
-                } else {
-                    setLoader(false);
-                }
-            } else {
-                setLoader(false);
-            }
-        };
-        fetchAssets();
-    }, []);
 
     const handleModalData = (formName, assetOwnerId, ownableId) => {
         setOwnerId(assetOwnerId);
@@ -95,12 +42,13 @@ const AssetList = React.memo(() => {
         }
     };
     return (
-        <div className="list-container">
+        <div className="list-container list-container-loader">
             {loader ?
-                <Loader/>
+                <div className="loader-container">
+                    <img src={loaderImage} alt="loader"/>
+                </div>
                 : ""
             }
-
             <div className="row card-deck">
                 {assetList.length ?
                     assetList.map((asset, index) => {
@@ -196,8 +144,15 @@ const AssetList = React.memo(() => {
                             </div>
                         );
                     })
-                    : <p className="empty-list">{t("ASSETS_NOT_FOUND")}</p>}
-            </div><div>
+                    : ""}
+
+                {
+                    error !== '' ?
+                        <p className="empty-list">{t("ORDERS_NOT_FOUND")}</p>
+                        : ""
+                }
+            </div>
+            <div>
                 {
                     externalComponent === 'MakeOrder' ?
                         <MakeOrder setExternalComponent={setExternalComponent} ownerId={ownerId}
