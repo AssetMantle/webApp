@@ -302,6 +302,9 @@ html, body, #root, .app {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 99999;
+  img{
+    width: 120px;
+  }
 }
 .dropdown-item{
   padding: 8px 20px !important;
