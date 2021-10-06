@@ -1,5 +1,5 @@
 import React from "react";
-import {withRouter} from "react-router-dom";
+import {NavLink, withRouter} from "react-router-dom";
 import {useHistory} from "react-router-dom";
 import {Navbar, Nav, Button} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
@@ -28,15 +28,19 @@ const HeaderBeforeLogin = () => {
 
                     <Nav>
                         <Nav.Link onClick={() => handleModelRoute("create")}>Create Keys</Nav.Link>
-                        <Nav.Link onClick={() => handleModelRoute("SignUp")}>{t("SIGNUP")}</Nav.Link>
+                        <Nav.Link onClick={() => handleModelRoute("signup")}>{t("SIGN_UP")}</Nav.Link>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/marketplace">{t("MARKET_PLACE")}</NavLink>
+                        </li>
                         <div className="button-login-section">
                             <Button variant="primary" className="button-double-border"
-                                onClick={handleRoute("/Login")}>{t("LOGIN")}</Button>
+                                onClick={handleRoute("/login")}>{t("LOGIN")}</Button>
                         </div>
-                        <div className="button-login-section">
-                            <Button variant="primary" className="button-double-border"
-                                onClick={handleRoute("/addressLogin")}>{t("ALL_IDENTITIES")}</Button>
-                        </div>
+
+                        {/*<div className="button-login-section">*/}
+                        {/*    <Button variant="primary" className="button-double-border"*/}
+                        {/*        onClick={handleRoute("/address/login")}>{t("ALL_IDENTITIES")}</Button>*/}
+                        {/*</div>*/}
 
                     </Nav>
 

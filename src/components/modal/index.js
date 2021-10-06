@@ -8,7 +8,7 @@ const ModalCommon = (props) => {
     const handleClose = () => {
         setShowIdentity(false);
         props.handleClose();
-        window.location.reload();
+        // window.location.reload();
     };
     return (
         <Modal

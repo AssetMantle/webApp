@@ -149,7 +149,11 @@ let en = {
         "ADDRESS_INDEX":"Address Index",
         "LOGIN_WITH_USER_NAME":"Login With User Name",
         "USE_KEPLR":"User Keplr",
-        "SIGN_UP":"Sign Up"
+        "SIGN_UP":"Sign Up",
+        "USER_NAME":"User Name",
+        "ADDRESS":"Address",
+        "ADD_USER":"Add User",
+
     }
 };
 

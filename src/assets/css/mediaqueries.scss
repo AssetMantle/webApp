@@ -83,6 +83,14 @@
     .banner-image-section imge{
         margin-right: auto;
     }
+    .profile-data-item{
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: flex-start;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }
 @media (max-width: 576px)
 {
@@ -171,13 +179,8 @@
             }
         }
     }
-
 }
-//@media (min-width: 991px){
-//    .navbar-dark .navbar-brand a img {
-//        width: 130px;
-//    }
-//}
+
 @media (min-width: 992px) and (max-width: 1080px){
     .navbar-dark .navbar-nav .nav-link{
         padding: 0 0.75rem !important;

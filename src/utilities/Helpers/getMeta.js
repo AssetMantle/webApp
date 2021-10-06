@@ -3,6 +3,7 @@ import React from "react";
 import base64url from "base64url";
 import config from "../../constants/config.json";
 const sha1 = require("js-sha1");
+
 export default class GetMeta {
 
     FetchMetaValue(data, hash) {
@@ -79,6 +80,8 @@ export default class GetMeta {
             });
         }
     }
+
+
 
     AssignMetaValue(keys, properties, metasQuery, idPrefix, index, urlId) {
         let $this = this;

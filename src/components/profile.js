@@ -10,12 +10,13 @@ import Icon from "../icons";
 const Profile = () => {
     const {t} = useTranslation();
     const [accountResponse, setAccountResponse] = useState("");
-    const userAddress = localStorage.getItem('address');
+    const userAddress = localStorage.getItem('userAddress');
     const url = getFaucet(userAddress);
     useEffect(() => {
         axios.get(url)
             .then((response) => {
                 setAccountResponse(response.data.result.value);
+                console.log(response.data.result.value, "PROFILE");
             }).catch((error) => {
                 console.log(error, "error section");
             });

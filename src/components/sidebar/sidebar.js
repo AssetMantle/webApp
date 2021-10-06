@@ -3,14 +3,21 @@ import {useTranslation} from "react-i18next";
 import sidebarIcon from "../../assets/images/sidbarIcon.svg";
 import Footer from "../../components/Footer";
 import {Button} from "react-bootstrap";
-import {Reveal} from "../../actions/forms/metas";
-import {SendCoin} from "../../actions/forms/bank";
+import {Reveal} from "../../containers/forms/metas";
+import {SendCoin} from "../../containers/forms/bank";
+import {useHistory} from "react-router-dom";
 
 const Sidebar = () => {
     const {t} = useTranslation();
+    const history = useHistory();
+    const address = localStorage.getItem("userAddress");
     const [externalComponent, setExternalComponent] = useState("");
     const handleRoute = (route) => {
-        setExternalComponent(route);
+        if (address === '' || address === null) {
+            history.push('/Login');
+        }else {
+            setExternalComponent(route);
+        }
     };
     const [hideSideNav, setHideSideNav] = useState(false);
     const toggleClass = () => {

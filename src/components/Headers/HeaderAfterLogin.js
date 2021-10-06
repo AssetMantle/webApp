@@ -7,7 +7,7 @@ import {NavLink} from 'react-router-dom';
 import logo from '../../assets/images/logo.svg';
 import profileIcon from "../../assets/images/profile.svg";
 import Icon from '../../icons';
-import AddIdentity from '../../actions/forms/identities/AddIdentity';
+import AddIdentity from '../../containers/forms/identities/AddIdentity';
 const HeaderAfterLogin = () => {
     const history = useHistory();
     const {t} = useTranslation();
@@ -143,7 +143,7 @@ const HeaderAfterLogin = () => {
                                     <li className="nav-item">
                                         <NavLink className="nav-link" to="/profile">{t("PROFILE")}</NavLink>
                                     </li>
-                                    <li className="nav-item dropdown">
+                                    <li className="profile-section">
                                         <NavDropdown title={dropdownTitle} id="basic-nav-dropdown" className="profile-dropdown">
                                             <div className="profile-dropdown-menu"
                                                 aria-labelledby="profile-nav-dropdown">
@@ -182,11 +182,17 @@ const HeaderAfterLogin = () => {
                                                     }
                                                 </div>
 
-                                                <p onClick={handleAddIdentity} className="add-id">Add Identity</p>
+                                                <p onClick={handleAddIdentity} className="add-id">{t("ADD_USER")}</p>
                                                 <p onClick={logout} className="logout">{t("LOGOUT")}</p>
                                             </div>
                                         </NavDropdown>
                                     </li>
+                                    
+                                    {/*<li className="nav-item dropdown">*/}
+                                    {/*    <NavDropdown title={dropdownTitle} id="basic-nav-dropdown" className="profile-dropdown">*/}
+                                    {/*        */}
+                                    {/*    </NavDropdown>*/}
+                                    {/*</li>*/}
 
                                 </Nav>
                         }
