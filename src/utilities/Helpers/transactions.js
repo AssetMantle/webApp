@@ -1,13 +1,11 @@
 import {Secp256k1HdWallet} from '@cosmjs/amino';
 import {queryIdentities} from "persistencejs/build/transaction/identity/query";
-// import GetID from "./getID";
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const crypto = require('crypto');
 const passwordHashAlgorithm = 'sha512';
 const {SigningCosmosClient} = require('@cosmjs/launchpad');
 const restAPI = process.env.REACT_APP_ASSET_MANTLE_API;
 const bip39 = require("bip39");
-// const GetIDHelper = new GetID();
 function PrivateKeyReader(file, password) {
     return new Promise(function(resolve, reject) {
         const fileReader = new FileReader();

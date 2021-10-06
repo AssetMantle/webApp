@@ -257,6 +257,9 @@ html, body, #root, .app {
   transform: translate(-50%, -50%);
   z-index: 99999;
 }
+.loader img {
+  width: 120px;
+}
 
 .dropdown-item {
   padding: 8px 20px !important;
