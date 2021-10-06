@@ -37,7 +37,8 @@ const AddIdentity = (props) => {
                         if(immutablePropertyList.value.fact.value.hash === hashGenerate) {
                             const identityId = GetIDHelper.GetIdentityID(dataList[i]);
                             if(dataList[i].value.provisionedAddressList){
-                                let loginAddress = localStorage.getItem("address");
+                                let loginAddress = localStorage.getItem("userAddress");
+                                console.log(dataList[i].value.provisionedAddressList, "dataList[i].value.provisionedAddressList", loginAddress);
                                 if (!dataList[i].value.provisionedAddressList.includes(loginAddress)) {
                                     let list = [];
                                     const userList = localStorage.getItem("userList");
@@ -74,8 +75,9 @@ const AddIdentity = (props) => {
                                     localStorage.setItem("userName", IdentityName);
                                     setShow(false);
                                     props.setExternalComponent("");
-                                    window.location.reload();
                                     history.push('/profile');
+
+                                    window.location.reload();
                                     count = 0;
                                     break;
                                 }

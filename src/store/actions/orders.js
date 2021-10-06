@@ -37,11 +37,19 @@ export const fetchOrders = (identityId) => {
                         loading:false,
                         data:''
                     });
+                }else {
+                    dispatch({
+                        type: SET_USER_ORDERS,
+                        userOrders: [],
+                        loading: false,
+                        data: "Orders not found",
+                    });
                 }
             }
             else {
                 dispatch({
                     type: SET_USER_ORDERS,
+                    userOrders: [],
                     loading: false,
                     data: "Orders not found",
                 });
@@ -51,6 +59,7 @@ export const fetchOrders = (identityId) => {
             console.log(err);
             dispatch({
                 type: SET_USER_ORDERS,
+                userOrders: [],
                 loading: false,
                 data: "Orders not found",
             });

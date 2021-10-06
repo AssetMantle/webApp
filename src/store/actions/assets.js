@@ -40,18 +40,25 @@ export const fetchAssets = (identityID) => {
                             }
                         }
                     }
-                    console.log(assetsListNew, "assetsListNew");
                     dispatch({
                         type: SET_ASSETS,
                         assets: assetsListNew,
                         loading: false,
                         data: ''
                     });
+                } else {
+                    dispatch({
+                        type: SET_ASSETS,
+                        assets: [],
+                        loading: false,
+                        data: "Assets Not found",
+                    });
                 }
             }
             else {
                 dispatch({
                     type: SET_ASSETS,
+                    assets: [],
                     loading: false,
                     data: "Assets Not found",
                 });
@@ -61,10 +68,10 @@ export const fetchAssets = (identityID) => {
             console.log(err);
             dispatch({
                 type: SET_ASSETS,
+                assets: [],
                 loading: false,
                 data: err.messsage,
             });
-            console.log(err.messsage, "error");
         }
     };
 };

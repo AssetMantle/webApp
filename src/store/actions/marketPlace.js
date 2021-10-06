@@ -38,6 +38,7 @@ export const fetchMarketPlace = () => {
             else {
                 dispatch({
                     type: SET_MARKET_ORDERS,
+                    marketOrders: [],
                     loading: false,
                     data: "Orders not found",
                 });
@@ -47,10 +48,10 @@ export const fetchMarketPlace = () => {
             console.log(err);
             dispatch({
                 type: SET_MARKET_ORDERS,
+                marketOrders: [],
                 loading: false,
                 data: "Orders not found",
             });
-            console.log(err.messsage, "error");
         }
     };
 };
