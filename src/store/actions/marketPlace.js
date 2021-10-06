@@ -14,7 +14,6 @@ export const fetchMarketPlace = () => {
             if (ordersDataList) {
                 let ordersListNew = [];
                 for (const order of ordersDataList) {
-                    console.log("order", order);
                     let immutableProperties = "";
                     let mutableProperties = "";
                     if (order.value.immutables.value.properties.value.propertyList !== null) {

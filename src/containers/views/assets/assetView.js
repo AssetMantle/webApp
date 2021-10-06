@@ -54,8 +54,9 @@ const AssetView = React.memo((props) => {
             // });
         }
     }, []);
-    console.log(assetData, "EE");
     const handleModalData = (formName, mutableProperties1, asset1, assetOwnerId, ownableId) => {
+        console.log(asset1, "asset1");
+
         setMutateProperties(mutableProperties1);
         setAsset(asset1);
         setOwnerId(assetOwnerId);
@@ -99,7 +100,7 @@ const AssetView = React.memo((props) => {
                 buttonsData = 
                     <div className="button-group property-actions">
                         <Button variant="primary" size="sm"
-                            onClick={() => handleModalData("MutateAsset", assetData.mutableProperties, asset)}>{t("MUTATE_ASSET")}
+                            onClick={() => handleModalData("MutateAsset", assetData.mutableProperties, assetData)}>{t("MUTATE_ASSET")}
                         </Button>
                         <Button variant="primary" size="sm"
                             onClick={() => handleModalData("BurnAsset", "", asset, assetData.ownerID, assetData.ownableID)}>{t("BURN_ASSET")}
