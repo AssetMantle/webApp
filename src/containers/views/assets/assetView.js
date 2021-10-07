@@ -12,12 +12,11 @@ import {MakeOrder} from "../../forms/orders";
 import {Define} from "../../forms";
 import {defineAsset} from "persistencejs/build/transaction/assets/define";
 import "@google/model-viewer/dist/model-viewer";
+import Lightbox from "react-image-lightbox";
 
 const assetDefine = new defineAsset(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const AssetView = React.memo((props) => {
-    console.log(props.location.state.assetList, "props.location.state.assetList");
-
     let history = useHistory();
     const {t} = useTranslation();
     const [assetData, setAssetData] = useState({});
@@ -26,37 +25,14 @@ const AssetView = React.memo((props) => {
     const [ownableId, setOwnableId] = useState("");
     const [mutateProperties, setMutateProperties] = useState({});
     const [asset, setAsset] = useState({});
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         if (props.location.state !== undefined) {
             setAssetData(props.location.state.assetList);
-            // const filterAssetList = assetsQuery.queryAssetWithID(props.location.state.assetID);
-            // filterAssetList.then(function (Asset) {
-            //     const parsedAsset = JSON.parse(Asset);
-            //     if (parsedAsset.result.value.assets.value.list !== null) {
-            //         const assetItems = parsedAsset.result.value.assets.value.list;
-            //         setAssetList(assetItems);
-            //         assetItems.map((asset, index) => {
-            //             let immutableProperties = "";
-            //             let mutableProperties = "";
-            //             if (asset.value.immutables.value.properties.value.propertyList !== null) {
-            //                 immutableProperties = PropertyHelper.ParseProperties(asset.value.immutables.value.properties.value.propertyList);
-            //             }
-            //             if (asset.value.mutables.value.properties.value.propertyList !== null) {
-            //                 mutableProperties = PropertyHelper.ParseProperties(asset.value.mutables.value.properties.value.propertyList);
-            //             }
-            //             let immutableKeys = Object.keys(immutableProperties);
-            //             let mutableKeys = Object.keys(mutableProperties);
-            //             GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_asset_view', index, "assetViewUrlId");
-            //             GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_asset_view', index, 'assetViewMutableViewUrlId');
-            //         });
-            //     }
-            // });
         }
     }, []);
     const handleModalData = (formName, mutableProperties1, asset1, assetOwnerId, ownableId) => {
-        console.log(asset1, "asset1");
-
         setMutateProperties(mutableProperties1);
         setAsset(asset1);
         setOwnerId(assetOwnerId);
@@ -71,7 +47,6 @@ const AssetView = React.memo((props) => {
         Object.keys(assetData.totalData).map((asset, index) => {
             if(asset === config.URI){
                 const imageExtension = assetData.totalData[asset].substring(assetData.totalData[asset].lastIndexOf('.') + 1);
-                console.log(imageExtension, "imageex");
                 if(imageExtension === "gltf"){
                     ImageData =  <div className="dummy-image image-sectiont asset-view-modal-viewer">
                         <model-viewer
@@ -89,47 +64,50 @@ const AssetView = React.memo((props) => {
                         </model-viewer>
                     </div>;
                 }else {
-                    ImageData = <div className="dummy-image image-sectiont">
-                        <img src={assetData.totalData[asset]} alt="image"/>
+                    ImageData = <div className="dummy-image image-sectiont asset-image">
+                        <img src={assetData.totalData[asset]} alt="image" onClick={()=> setIsOpen(true)}/>
+                        {isOpen && (
+                            <Lightbox
+                                mainSrc={assetData.totalData[asset]}
+                                onCloseRequest={() => setIsOpen(false )}
+                            />
+                        )}
                     </div>;
                 }
 
             }
-                
+
             if(index === 0 ){
-                buttonsData = 
+                buttonsData =
                     <div className="button-group property-actions">
-                        <Button variant="primary" size="sm"
+                        <Button variant="primary" size="sm" className="button-txn"
                             onClick={() => handleModalData("MutateAsset", assetData.mutableProperties, assetData)}>{t("MUTATE_ASSET")}
                         </Button>
-                        <Button variant="primary" size="sm"
+                        <Button variant="primary" size="sm" className="button-txn"
                             onClick={() => handleModalData("BurnAsset", "", asset, assetData.ownerID, assetData.ownableID)}>{t("BURN_ASSET")}
                         </Button>
-                        <Button variant="primary" size="sm"
+                        <Button variant="primary" size="sm" className="button-txn"
                             onClick={() => handleModalData("MakeOrder", "", "", assetData.ownerID, assetData.ownableID)}>{t("MAKE")}</Button>
-                        <Button variant="primary" size="sm"
+                        <Button variant="primary" size="sm" className="button-txn"
                             onClick={() => handleModalData("SendSplit", "", "", assetData.ownerID, assetData.ownableID)}>{t("SEND_SPLITS")}</Button>
                     </div>;
             }
             let content =
-                <div className="row property-section">
-                    <div
-                        className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                        {asset !== 'style' && asset !== config.URI ?
-                            <div className="list-item">
-                                <p
-                                    className="list-item-label">{asset} </p>
-                                <p
-                                    className="list-item-value">{assetData.totalData[asset]}</p>
-                            </div>
-                            : ""
-                        }
-                    </div>
-                </div>;
+              asset !== 'style' && asset !== config.URI ?
+                  <div className="list-item">
+                      <p
+                          className="list-item-label">{asset} </p>
+                      <p
+                          className="list-item-value">{assetData.totalData[asset]}</p>
+                  </div>
+                  : "";
+
 
             contentData.push(content);
         });
     }
+
+
 
     return (
         <div className="content-section">
@@ -161,84 +139,46 @@ const AssetView = React.memo((props) => {
 
                         <div className="list-container view-container">
                             <div className="row card-deck">
-
-                                {/*{*/}
-                                {/*    assetData.totalData ?*/}
-                                {/*        Object.keys(assetData.totalData).map((asset, index) => {*/}
-                                {/*            return (*/}
                                 <div className="row">
-                                    <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 sdfdf">
-
+                                    <div className="col-xl-5 col-lg-5 col-md-12 col-sm-12 sdfdf">
                                         {ImageData}
                                         {buttonsData}
-                                        {/*{*/}
-                                        {/*    index === 0 ?*/}
-                                        {/*        <div className="button-group property-actions">*/}
-                                        {/*            <Button variant="primary" size="sm"*/}
-                                        {/*                onClick={() => handleModalData("MutateAsset", asset.mutableProperties, asset)}>{t("MUTATE_ASSET")}*/}
-                                        {/*            </Button>*/}
-                                        {/*            <Button variant="primary" size="sm"*/}
-                                        {/*                onClick={() => handleModalData("BurnAsset", "", asset, assetData.ownerID, assetData.ownableID)}>{t("BURN_ASSET")}*/}
-                                        {/*            </Button>*/}
-                                        {/*            <Button variant="primary" size="sm"*/}
-                                        {/*                onClick={() => handleModalData("MakeOrder", "", "", assetData.ownerID, assetData.ownableID)}>{t("MAKE")}</Button>*/}
-                                        {/*            <Button variant="primary" size="sm"*/}
-                                        {/*                onClick={() => handleModalData("SendSplit", "", "", assetData.ownerID, assetData.ownableID)}>{t("SEND_SPLITS")}</Button>*/}
-                                        {/*        </div>*/}
-                                        {/*        : ""*/}
-                                        {/*}*/}
-                                                        
                                     </div>
+
                                     <div
-                                        className="col-xl-8 col-lg-8 col-md-12 col-sm-12 asset-data">
-                                        
+                                        className="col-xl-7 col-lg-7 col-md-12 col-sm-12 asset-data">
                                         <>
-                                            <div className="row">
+                                            <div className="list-item">
+                                                <p className="list-item-label">{t("ASSET_ID")}</p>
+                                                <div className="list-item-value id-section">
+                                                    <div className="flex">
+                                                        <p className="id-string"
+                                                            title={assetData.ownableID}> {assetData.ownableID}</p>
 
-                                                <div
-                                                    className="col-xl-6 col-lg-6 col-md-12">
-                                                    <div className="list-item">
-                                                        <p className="list-item-label">{t("ASSET_ID")}</p>
-                                                        <div className="list-item-value id-section">
-                                                            <div className="flex">
-                                                                <p className="id-string"
-                                                                    title={assetData.ownableID}> {assetData.ownableID}</p>
-
-                                                            </div>
-                                                        </div>
-                                                        <Copy
-                                                            id={assetData.ownableID}/>
                                                     </div>
+                                                    <Copy
+                                                        id={assetData.ownableID}/>
                                                 </div>
+
                                             </div>
-                                            <div className="row">
-                                                <div
-                                                    className="col-xl-6 col-lg-6 col-md-12">
-                                                    <div className="list-item">
-                                                        <p className="list-item-label">{t("OWNER_ID")}</p>
-                                                        <div className="list-item-value id-section">
-                                                            <div className="flex">
-                                                                <p className="id-string"
-                                                                    title={assetData.ownerID}> {assetData.ownerID}</p>
+                                            <div className="list-item">
+                                                <p className="list-item-label">{t("OWNER_ID")}</p>
+                                                <div className="list-item-value id-section">
+                                                    <div className="flex">
+                                                        <p className="id-string"
+                                                            title={assetData.ownerID}> {assetData.ownerID}</p>
 
-                                                            </div>
-                                                        </div>
-                                                        <Copy
-                                                            id={assetData.ownerID}/>
                                                     </div>
+                                                    <Copy
+                                                        id={assetData.ownerID}/>
                                                 </div>
+
                                             </div>
                                         </>
-                                   
+
                                         {contentData}
                                     </div>
                                 </div>
-                                {/*);*/}
-                                {/*})*/}
-                                {/*: <p className="empty-list">{t("DATA_FOUND")}</p>*/}
-                                {/*}*/}
-
-
                             </div>
                         </div>
 

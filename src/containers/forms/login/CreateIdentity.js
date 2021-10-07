@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Form, Button, Modal} from 'react-bootstrap';
 import InputField from '../../../components/inputField';
 import {useTranslation} from 'react-i18next';
@@ -9,16 +9,11 @@ import {useHistory} from "react-router-dom";
 const CreateIdentity = () => {
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const [externalComponent, setExternalComponent] = useState('');
-    const [testIdentityId, settestIdentityId] = useState('');
     const [loader, setLoader] = useState(false);
     const [show, setShow] = useState(true);
     const {t} = useTranslation();
     const history = useHistory();
-    useEffect(() => {
-        let testIdentityId = localStorage.getItem('identityId');
-        settestIdentityId(testIdentityId);
 
-    }, []);
     const handleSubmit = (event) => {
         event.preventDefault();
         setLoader(true);
@@ -62,7 +57,6 @@ const CreateIdentity = () => {
                             type="text"
                             className=""
                             name="userName"
-                            value={testIdentityId}
                             required={true}
                             placeholder="User Name"
                             label="User Name"

@@ -1,23 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import {Form, Button, Modal} from 'react-bootstrap';
-import {queryMeta} from 'persistencejs/build/transaction/meta/query';
 import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
 import config from '../../../constants/config.json';
 import FilterHelpers from '../../../utilities/Helpers/filter';
-import GetMeta from '../../../utilities/Helpers/getMeta';
-import GetID from '../../../utilities/Helpers/getID';
 import GetProperty from '../../../utilities/Helpers/getProperty';
 import CommonKeystore from '../login/CommonKeystore';
 
-const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 
 
 const MutateAsset = (props) => {
     const FilterHelper = new FilterHelpers();
-    const GetMetaHelper = new GetMeta();
     const PropertyHelper = new GetProperty();
-    const GetIDHelper = new GetID();
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
@@ -31,21 +25,9 @@ const MutateAsset = (props) => {
     useEffect(() => {
         let fromIDValue = localStorage.getItem('identityId');
         setFromID(fromIDValue);
-        const mutateProperties = props.mutatePropertiesList;
+        const mutateProperties = props.mutatePropertiesList[0];
         const mutableKeys = Object.keys(mutateProperties);
         setKeyList(mutableKeys);
-        mutableKeys.map((keyName, idx) => {
-            if (mutateProperties[keyName] !== '' && mutateProperties[keyName] !== null) {
-                const metaQueryResult = metasQuery.queryMetaWithID(mutateProperties[keyName]);
-                metaQueryResult.then(function(item) {
-                    const data = JSON.parse(item);
-                    let metaValue = GetMetaHelper.FetchMetaValue(data, mutateProperties[keyName]);
-                    if (document.getElementById(keyName + idx)) {
-                        document.getElementById(keyName + idx).value = metaValue;
-                    }
-                });
-            }
-        });
     }, []);
 
     const handleClose = () => {
@@ -67,14 +49,13 @@ const MutateAsset = (props) => {
     const handleSubmit = (event) => {
         setLoader(true);
         event.preventDefault();
-        const asset = props.asset;
         const FromId = event.target.FromId.value;
-        const assetId = GetIDHelper.GetAssetID(asset);
-        const assetList = asset.value.mutables.value.properties.value.propertyList;
-        let assetDataTypeList = {};
-        assetList.forEach(function(item) {
-            assetDataTypeList[item.value.id.value.idString] = item.value.fact.value.type;
-        });
+        const assetId = props.asset.ownableID;
+        // const assetList = asset.value.mutables.value.properties.value.propertyList;
+        // let assetDataTypeList = {};
+        // assetList.forEach(function(item) {
+        //     assetDataTypeList[item.value.id.value.idString] = item.value.fact.value.type;
+        // });
         if (checkboxMutableNamesList.length === 0) {
             setErrorMessage(t('SELECT_MUTABLE_META'));
             setLoader(false);
@@ -87,7 +68,7 @@ const MutateAsset = (props) => {
             if (keyList !== null) {
                 keyList.map((key, index) => {
                     let mutableFieldValue = document.getElementById(key + index).value;
-                    const mutableType = assetDataTypeList[key];
+                    const mutableType = props.mutatePropertiesList[1][key];
                     const inputName = (key + index);
                     if (key !== config.URI) {
                         const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, key, mutableType, mutableFieldValue);
@@ -155,7 +136,7 @@ const MutateAsset = (props) => {
                                 placeholder="FromId"
                             />
                         </Form.Group>
-                        {keyList.map((keyName, idx) => {
+                        {Object.keys(props.mutatePropertiesList[0]).map((keyName, idx) => {
                             if (keyName === config.URI) {
                                 return (
                                     <div key={idx}>
@@ -167,6 +148,7 @@ const MutateAsset = (props) => {
                                                 required={true}
                                                 id={keyName + idx}
                                                 name={keyName + idx}
+                                                defaultValue={props.mutatePropertiesList[0][keyName]}
                                             />
                                         </Form.Group>
                                     </div>
@@ -182,6 +164,7 @@ const MutateAsset = (props) => {
                                             required={true}
                                             id={keyName + idx}
                                             name={keyName + idx}
+                                            defaultValue={props.mutatePropertiesList[0][keyName]}
                                         />
                                     </Form.Group>
                                     <Form.Group>

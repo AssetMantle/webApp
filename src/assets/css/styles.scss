@@ -1081,6 +1081,8 @@ html, body, #root, .app {
   }
 }
 .asset-data {
+  padding-top: 20px !important;
+  padding-right: 30px !important;
   .property-section {
     .sub-title {
       border-bottom: 1px solid;
@@ -1089,18 +1091,25 @@ html, body, #root, .app {
     }
   }
   .list-item {
+    display: flex;
     .list-item-label {
-      font-weight: 300;
-      font-size: 14px;
-      color: #666666;
-    }
-
-    .list-item-value {
-      text-align: right;
-      color: #666666;
       font-weight: 500;
+      font-size: 16px;
+      flex: 1;
+    }
+    .list-item-value.id-section{
+      flex-direction: unset;
+    }
+    .list-item-value {
+      text-align: left;
+      font-size: 16px;
+      flex: 1;
+      .id-string{
+        width: 200px;
+      }
     }
   }
+
 }
 .view-container{
   .card-deck .row{
@@ -1109,7 +1118,12 @@ html, body, #root, .app {
 }
 
 .property-actions{
-  padding: 0 30px;
+  padding: 0px 30px;
+  text-align: center;
+}
+
+.property-actions.button-group{
+  padding: 10px 30px;
   text-align: center;
 }
 
@@ -1234,6 +1248,7 @@ html, body, #root, .app {
     text-overflow: ellipsis;
   .id-string{
     width: 280px;
+    margin-bottom: 8px;
   }
 
 }
@@ -1279,3 +1294,28 @@ model-viewer{
     transform: translate(-120px,50px)!important;
   }
 }
+
+.button-txn{
+  padding: 5px 25px !important;
+  border-radius: 10px !important;
+}
+.asset-image img {
+  transition: transform .1s ease;
+}
+
+.asset-image:hover img {
+  cursor: pointer;
+}
+.properties-section{
+  display: flex;
+  .property{
+    flex: 1;
+  }
+}
+.address-container{
+  .provision-address{
+    font-size: 14px;
+    margin: 8px 0;
+  }
+}
+

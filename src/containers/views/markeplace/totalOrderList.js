@@ -13,13 +13,13 @@ const TotalOrders = React.memo(() => {
     const markeOrders = useSelector((state) => state.markePlace.markeOrders);
     const loader = useSelector((state) => state.markePlace.loading);
     const error = useSelector((state) => state.markePlace.error);
-    console.log(markeOrders, "markeOrders in redux", loader);
 
-    const handleAsset = (id) => {
+    const handleAsset = (id,order) => {
         history.push({
             pathname : '/order/view',
             state :{
                 orderID : id,
+                order:order,
                 currentPath : window.location.pathname,
             }
         }
@@ -46,9 +46,6 @@ const TotalOrders = React.memo(() => {
                                                 let imageExtension;
                                                 if(key === config.URI){
                                                     imageExtension = order['totalData'][key].substring(order['totalData'][key].lastIndexOf('.') + 1);
-                                                    if(imageExtension === "gltf"){
-                                                        console.log(order['totalData'][key], "sss");
-                                                    }
                                                 }
                                                 return (
                                                     <>
@@ -85,7 +82,7 @@ const TotalOrders = React.memo(() => {
                                                         }
 
                                                         <Button variant="primary" className="viewButton" size="sm"
-                                                            onClick={() => handleAsset(order['orderID'])}>View</Button>
+                                                            onClick={() => handleAsset(order['orderID'], order)}>View</Button>
                                                     </>
 
                                                 );

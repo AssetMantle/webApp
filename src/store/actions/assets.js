@@ -34,9 +34,14 @@ export const fetchAssets = (identityID) => {
                                 if (parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList !== null) {
                                     mutableProperties = await GetProperties.ParseProperties(parsedAsset.result.value.assets.value.list[0].value.mutables.value.properties.value.propertyList);
                                 }
-                                const totalData = {...immutableProperties, ...mutableProperties};
+                                const totalData = {...immutableProperties[0], ...mutableProperties[0]};
                                 const objSorted = helper.SortObjectData(totalData);
-                                assetsListNew.push({'totalData': objSorted, 'ownerID':ownerId, 'ownableID':ownableID, 'mutableProperties':mutableProperties});
+                                assetsListNew.push({'totalData': objSorted,
+                                    'ownerID':ownerId,
+                                    'ownableID':ownableID,
+                                    'mutableProperties':mutableProperties[0],
+                                    'immutableProperties':immutableProperties[0]
+                                });
                             }
                         }
                     }

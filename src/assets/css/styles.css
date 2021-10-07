@@ -974,20 +974,33 @@ html, body, #root, .app {
   height: 300px;
 }
 
+.asset-data {
+  padding-top: 20px !important;
+  padding-right: 30px !important;
+}
 .asset-data .property-section .sub-title {
   border-bottom: 1px solid;
   line-height: 3;
   text-transform: uppercase;
 }
+.asset-data .list-item {
+  display: flex;
+}
 .asset-data .list-item .list-item-label {
-  font-weight: 300;
-  font-size: 14px;
-  color: #666666;
+  font-weight: 500;
+  font-size: 16px;
+  flex: 1;
+}
+.asset-data .list-item .list-item-value.id-section {
+  flex-direction: unset;
 }
 .asset-data .list-item .list-item-value {
-  text-align: right;
-  color: #666666;
-  font-weight: 500;
+  text-align: left;
+  font-size: 16px;
+  flex: 1;
+}
+.asset-data .list-item .list-item-value .id-string {
+  width: 200px;
 }
 
 .view-container .card-deck .row {
@@ -995,7 +1008,12 @@ html, body, #root, .app {
 }
 
 .property-actions {
-  padding: 0 30px;
+  padding: 0px 30px;
+  text-align: center;
+}
+
+.property-actions.button-group {
+  padding: 10px 30px;
   text-align: center;
 }
 
@@ -1113,6 +1131,7 @@ html, body, #root, .app {
 }
 .profile-data-item .id-string {
   width: 280px;
+  margin-bottom: 8px;
 }
 
 .profile-data .copy-section {
@@ -1152,6 +1171,31 @@ model-viewer {
   bottom: auto !important;
   -webkit-transform: translate(-120px, 50px) !important;
   transform: translate(-120px, 50px) !important;
+}
+
+.button-txn {
+  padding: 5px 25px !important;
+  border-radius: 10px !important;
+}
+
+.asset-image img {
+  transition: transform 0.1s ease;
+}
+
+.asset-image:hover img {
+  cursor: pointer;
+}
+
+.properties-section {
+  display: flex;
+}
+.properties-section .property {
+  flex: 1;
+}
+
+.address-container .provision-address {
+  font-size: 14px;
+  margin: 8px 0;
 }
 
 /*# sourceMappingURL=styles.css.map */

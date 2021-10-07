@@ -75,7 +75,12 @@ async function takeOrderQuery(address, mnemonic, data, actionName,type) {
 }
 
 async function mutateAssetQuery(address, mnemonic, data, actionName,type) {
-    const msgs = await actionName.createAssetMutateMsg(address, config.chainID, data.fromID, data.assetId, data.mutableValues, data.mutableMetaValues, config.feesAmount, config.feesToken, config.gas, '');
+    console.log(address, config.chainID, data.fromID, data.assetId, data.mutableValues, data.mutableMetaValues, config.feesAmount, config.feesToken, config.gas, '', 'msgs mutateAssetQuery');
+
+    const msgs = await actionName.createAssetMutateMsg(address, config.chainID, data.fromID, data.assetId, data.mutableValues, data.mutableMetaValues, config.feesAmount, config.feesToken, config.gas, '')
+        .catch((err)=>{
+            console.log(err, 'error mutateAssetQuery');
+        });
     console.log(msgs, 'msgs mutateAssetQuery');
     return makeTransaction(address, msgs, mnemonic, type);
 }

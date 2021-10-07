@@ -8,8 +8,6 @@ import {SendSplit} from "../../forms/assets";
 import {useSelector} from "react-redux";
 import loaderImage from "../../../assets/images/loader.svg";
 
-
-
 const AssetList = React.memo(() => {
     const {t} = useTranslation();
     let history = useHistory();

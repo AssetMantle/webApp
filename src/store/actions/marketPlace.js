@@ -23,10 +23,24 @@ export const fetchMarketPlace = () => {
                         mutableProperties = await GetProperties.ParseProperties(order.value.mutables.value.properties.value.propertyList);
                     }
                     let orderIdData = await GetID.GetOrderID(order);
-                    const totalData = {...immutableProperties, ...mutableProperties};
+                    let classificationID = await GetID.GetClassificationID(order);
+                    let makerOwnableID = await GetID.GetMakerOwnableID(order);
+                    let takerOwnableID = await GetID.GetTakerOwnableID(order);
+                    let makerID = await GetID.GetMakerID(order);
+                    const totalData = {...immutableProperties[0], ...mutableProperties[0]};
                     const objSorted = helper.SortObjectData(totalData);
-                    ordersListNew.push({'totalData': objSorted, 'orderID':orderIdData});
+                    ordersListNew.push({'totalData': objSorted,
+                        'orderID':orderIdData,
+                        'classificationID':classificationID,
+                        'makerOwnableID':makerOwnableID,
+                        'takerOwnableID':takerOwnableID,
+                        'makerID':makerID,
+                        'immutableProperties':immutableProperties[0],
+                        'mutableProperties':mutableProperties[0]
+                    });
                 }
+                console.log(ordersListNew, "iuser ordersListNew");
+
                 dispatch({
                     type: SET_MARKET_ORDERS,
                     marketOrders: ordersListNew,

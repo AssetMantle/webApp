@@ -1,85 +1,123 @@
-import React, {useState, useEffect} from "react";
-import {queryIdentities} from "persistencejs/build/transaction/identity/query";
-import {queryMeta} from "persistencejs/build/transaction/meta/query";
+import React, {useEffect} from "react";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
 import config from "../../../constants/config.json";
-import GetProperty from "../../../utilities/Helpers/getProperty";
-import GetMeta from "../../../utilities/Helpers/getMeta";
-import GetID from "../../../utilities/Helpers/getID";
-import {useHistory} from "react-router-dom";
-import {Button} from "react-bootstrap";
-// import ledger from '../../../assets/images/ledger.svg';
-// import Icon from '../../../icons';
-import GetProperties from "../../../utilities/GetProperties";
 import Copy from "../../../components/copy";
-const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
-const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
+import {useDispatch, useSelector} from "react-redux";
+import * as faucet from "../../../store/actions/faucet";
 
 const IdentityList = React.memo(() => {
-    const PropertyHelper = new GetProperty();
-    const GetMetaHelper = new GetMeta();
-    const GetIDHelper = new GetID();
     const {t} = useTranslation();
-    let history = useHistory();
-    const [loader, setLoader] = useState(true);
-    const [filteredIdentitiesList, setFilteredIdentitiesList] = useState([]);
     const identityId = localStorage.getItem('identityId');
     const userAddress = localStorage.getItem('userAddress');
     const userName = localStorage.getItem('userName');
 
-    useEffect(() => {
-        const fetchToIdentities = () => {
-            const identities = identitiesQuery.queryIdentityWithID(identityId);
-            if (identities) {
-                identities.then( function (item) {
-                    const data = JSON.parse(item);
-                    const dataList = data.result.value.identities.value.list;
-                    if (dataList) {
-                        setFilteredIdentitiesList(dataList);
-                        dataList.map(async (identity, index) => {
-                            let immutableProperties = "";
-                            let mutableProperties = "";
-                            if (identity.value.immutables.value.properties.value.propertyList !== null) {
-                                immutableProperties = await GetProperties.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
-                            }
-                            if (identity.value.mutables.value.properties.value.propertyList !== null) {
-                                mutableProperties = await GetProperties.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
-                            }
-                            let immutableKeys = Object.keys(immutableProperties);
-                            let mutableKeys = Object.keys(mutableProperties);
-                            console.log(immutableKeys, immutableProperties, "LIST");
-                            GetMetaHelper.AssignMetaValue(immutableKeys, immutableProperties, metasQuery, 'immutable_identityList', index, 'identityUrlId');
-                            GetMetaHelper.AssignMetaValue(mutableKeys, mutableProperties, metasQuery, 'mutable_identityList', index, "identityMutableUrlId");
-                            setLoader(false);
-                        });
+    const identityList = useSelector((state) => state.identities.identityList);
 
-                    } else {
-                        setLoader(false);
-                    }
-                });
-            } else {
-                setLoader(false);
-            }
+    const loader = useSelector((state) => state.identities.loading);
+    const faucetData = useSelector((state) => state.faucet.faucetData);
+    console.log(faucetData, "faucetData");
+    // const error = useSelector((state) => state.identities.error);
+    let ImageData;
+    let mutableContentData  = [];
+    let imMutableContentData  = [];
+
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        const fetchData = async () => {
+            await dispatch(faucet.fetchFaucet(userAddress));
         };
-        fetchToIdentities();
-    }, []);
+        fetchData();
+    },[]);
 
-
-    const handleAsset = (id) => {
-
-        if (id !== "stake") {
-            history.push({
-                pathname: '/identity/view',
-                state: {
-                    identityID: id,
-                    currentPath: window.location.pathname,
+    if(identityList.length && identityList[0]['mutableProperties'])
+    {
+        const identity= identityList[0];
+        Object.keys(identity['mutableProperties']).map((key, index) => {
+            if(key === config.URI){
+                const imageExtension = identity['mutableProperties'][key].substring(identity['mutableProperties'][key].lastIndexOf('.') + 1);
+                if(imageExtension === "gltf"){
+                    ImageData =  <div className="dummy-image image-sectiont asset-view-modal-viewer">
+                        <model-viewer
+                            id="mv-astronaut"
+                            src={identity['mutableProperties'][key]}
+                            camera-controls
+                            ar
+                            auto-rotate
+                            alt="A 3D model of an astronaut"
+                        >
+                        </model-viewer>
+                    </div>;
+                }else {
+                    ImageData = <div className="dummy-image image-sectiont">
+                        <img src={identity['mutableProperties'][key]} alt="image"/>
+                    </div>;
                 }
-            }
-            );
-        }
-    };
 
+            }
+            let content =
+                <div className="row property-section" key={index}>
+                    <div
+                        className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                        {key !== 'style' && key !== config.URI ?
+                            <div className="list-item">
+                                <p
+                                    className="list-item-label">{key} </p>
+                                <p
+                                    className="list-item-value">{identity['mutableProperties'][key]}</p>
+                            </div>
+                            : ""
+                        }
+                    </div>
+                </div>;
+
+            mutableContentData.push(content);
+        });
+    }
+    if(identityList.length && identityList[0]['immutableProperties'])
+    {
+        const identity= identityList[0];
+        Object.keys(identity.immutableProperties).map((key, index) => {
+            if(key === config.URI){
+                const imageExtension = identity['immutableProperties'][key].substring(identity['immutableProperties'][key].lastIndexOf('.') + 1);
+                console.log(imageExtension, "imageex");
+                if(imageExtension === "gltf"){
+                    ImageData =  <div className="dummy-image image-sectiont asset-view-modal-viewer">
+                        <model-viewer
+                            id="mv-astronaut"
+                            src={identity['immutableProperties'][key]}
+                            camera-controls
+                            ar
+                            auto-rotate
+                            alt="A 3D model of an astronaut"
+                        >
+                        </model-viewer>
+                    </div>;
+                }else {
+                    ImageData = <div className="dummy-image image-sectiont">
+                        <img src={identity['immutableProperties'][key]} alt="image"/>
+                    </div>;
+                }
+
+            }
+            let content =
+                <div className="row property-section" key={index}>
+                    <div
+                        className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                        {key !== 'style' && key !== config.URI ?
+                            <div className="list-item">
+                                <p
+                                    className="list-item-label">{key} </p>
+                                <p
+                                    className="list-item-value">{identity['immutableProperties'][key]}</p>
+                            </div>
+                            : ""
+                        }
+                    </div>
+                </div>;
+            imMutableContentData.push(content);
+        });
+    }
     return (
         <div className="list-container profile-section">
             {loader ?
@@ -87,121 +125,78 @@ const IdentityList = React.memo(() => {
                 : ""
             }
             <div className="row card-deck">
-                {filteredIdentitiesList.length ?
-                    filteredIdentitiesList.map((identity, index) => {
-                        let immutableProperties = "";
-                        let mutableProperties = "";
-                        const identityId = GetIDHelper.GetIdentityID(identity);
-                        if (identity.value.immutables.value.properties.value.propertyList !== null) {
-                            immutableProperties = PropertyHelper.ParseProperties(identity.value.immutables.value.properties.value.propertyList);
-                        }
-                        if (identity.value.mutables.value.properties.value.propertyList !== null) {
-                            mutableProperties = PropertyHelper.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
-                        }
-                        let immutableKeys = Object.keys(immutableProperties);
-                        let mutableKeys = Object.keys(mutableProperties);
-                        return (
-                            <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
-                                <div className="card identity-card">
-                                    <div id={"identityImagUri" + identityId + index} className="image-container">
-                                        <div id={"identityImage" + identityId + index} className="dummy-image image-box">
-
-                                        </div>
-                                    </div>
-
-                                    <div className="info-section">
-                                        <div className="list-item">
-                                            <p className="list-item-label">{t("IDENTITY_ID")}:</p>
-                                            <div className="list-item-value id-section">
-                                                <p className="id-string" title={identityId}> {identityId}</p>
-                                            </div>
-                                        </div>
-
-                                        {immutableKeys !== null ?
-                                            immutableKeys.map((keyName, index1) => {
-                                                if (immutableProperties[keyName] !== "") {
-                                                    if (keyName === config.URI) {
-                                                        let imageElement = document.getElementById("identityImage" + identityId + index);
-                                                        if (typeof (imageElement) != 'undefined' && imageElement != null) {
-                                                            let divd = document.createElement('div');
-                                                            divd.id = `identityUrlId` + index + `${index1}`;
-                                                            divd.className = "assetImage";
-                                                            document.getElementById("identityImagUri" + identityId + index).replaceChild(divd, imageElement);
-                                                        }
-                                                    } else if (keyName === "style") {
-                                                        return (<div key={index + keyName} className="list-item"><p
-                                                            className="list-item-label"></p> <p
-                                                            id={`immutable_identityList` + index + `${index1}`}
-                                                            className="list-item-value"></p></div>);
-                                                    }
-                                                    else if (keyName === "identifier") {
-                                                        return (<div key={index + keyName} className="list-item"><p
-                                                            className="list-item-label">{keyName}: </p> <p
-                                                            id={`immutable_identityList` + index + `${index1}`}
-                                                            className="list-item-value"></p></div>);
-                                                    }
-                                                } else {
-                                                    return (
-                                                        <div key={index + keyName} className="list-item"><p
-                                                            className="list-item-label">{keyName}: </p> <p
-                                                            className="list-item-hash-value">{immutableProperties[keyName]}</p>
-                                                        </div>);
-                                                }
-                                            })
-                                            : ""
-                                        }
-                                        {mutableKeys !== null ?
-                                            mutableKeys.map((keyName, index1) => {
-                                                if (mutableProperties[keyName] !== "") {
-                                                    if (keyName === config.URI) {
-                                                        let imageElement = document.getElementById("identityImage" + identityId + index);
-                                                        if (typeof (imageElement) != 'undefined' && imageElement != null) {
-                                                            let divd = document.createElement('div');
-                                                            divd.id = `identityMutableUrlId` + index + `${index1}`;
-                                                            divd.className = "assetImage";
-                                                            document.getElementById("identityImagUri" + identityId + index).replaceChild(divd, imageElement);
-                                                        }
-                                                    }
-                                                }
-                                            })
-                                            : ""
-                                        }
-                                        <Button variant="primary" className="viewButton" size="sm"
-                                            onClick={() => handleAsset(identityId)}>View</Button>
-
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })
-                    : <p className="empty-list">{t("IDENTITIES_NOT_FOUND")}</p>}
-
-                <div className="col-xl-5 col-lg-5 col-md-6 col-sm-12">
+                <div className="col-xl-8 col-lg-8 col-md-12 col-sm-12" >
                     <div className="card identity-card">
-                        <div className="info-section">
+                        <div className="list-item">
+                            <p className="list-item-label">{t("USER_NAME")}:</p>
+                            <div className="list-item-value profile-data-item">
+                                <p className="id-string"> {userName}</p>
+                            </div>
+                        </div>
+                        <div className="list-item profile-data">
+                            <p className="list-item-label">{t("IDENTITY_ID")}:</p>
+                            <div className="list-item-value profile-data-item">
+                                <p className="id-string" title={identityId}> {identityId}</p>
+                            </div>
+                            <Copy
+                                id={identityId}/>
+                        </div>
+                        <div className="list-item">
+                            <p className="list-item-label">{t("ADDRESS")}:</p>
+                            <div className="list-item-value profile-data-item">
+                                <p className="id-string"> {userAddress}</p>
+                            </div>
+                        </div>
+                        {faucetData.length ?
                             <div className="list-item">
-                                <p className="list-item-label">{t("USER_NAME")}:</p>
+                                <p className="list-item-label">{t("Amount")}:</p>
                                 <div className="list-item-value profile-data-item">
-                                    <p className="id-string"> {userName}</p>
+                                    <p className="id-string"> {faucetData[0].amount}{faucetData[0].denom}</p>
                                 </div>
                             </div>
-                            <div className="list-item profile-data">
-                                <p className="list-item-label">{t("IDENTITY_ID")}:</p>
-                                <div className="list-item-value profile-data-item">
-                                    <p className="id-string" title={identityId}> {identityId}</p>
-                                </div>
-                                <Copy
-                                    id={identityId}/>
+                            :""
+                        }
+                        {ImageData}
+                        <div className="properties-section">
+                            <div className="property">
+                                <p className="sub-title">{t("MUTABLES")}</p>
+                                {mutableContentData}
                             </div>
-                            <div className="list-item">
-                                <p className="list-item-label">{t("ADDRESS")}:</p>
-                                <div className="list-item-value profile-data-item">
-                                    <p className="id-string"> {userAddress}</p>
-                                </div>
+                            <div className="property">
+                                <p className="sub-title">{t("IMMUTABLES")}</p>
+                                {imMutableContentData}
                             </div>
+                        </div>
+                        <div className="address-container">
+                            <p className="sub-title">provisionedAddressList</p>
+                            {identityList[0] && identityList[0].provisionedAddressList && identityList[0].provisionedAddressList !== "" ?
+                                identityList[0].provisionedAddressList.map((provisionedAddress, addressKey) => {
+                                    return (<p className="provision-address" key={addressKey}>{provisionedAddress}</p>);
+                                })
+                                : <p className="provision-address">Empty</p>
+                            }
+                        </div>
+                        <div className="address-container">
+                            <p className="sub-title">UnProvisionedAddressList</p>
+                            {identityList[0] && identityList[0].unprovisionedAddressList && identityList[0].unprovisionedAddressList !== "" ?
+                                identityList[0].unprovisionedAddressList.map((unprovisionedAddress, unprovisionedAddressKey) => {
+                                    return (
+                                        <p className="provision-address" key={unprovisionedAddressKey}>{unprovisionedAddress}</p>);
+                                })
+                                : <p className="provision-address">Empty</p>
+                            }
                         </div>
                     </div>
                 </div>
+                  
+
+                {/*<div className="col-xl-5 col-lg-5 col-md-6 col-sm-12">*/}
+                {/*    <div className="card identity-card">*/}
+                {/*        <div className="info-section">*/}
+
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
                 {/*<div className="col-xl-3 col-lg-4 col-md-12 col-sm-12">*/}
                 {/*    <div className="card">*/}
                 {/*        <h4 className="card-heading">{t("HARDWARE_DEVICES")}</h4>*/}

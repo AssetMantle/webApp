@@ -14,11 +14,12 @@ const OrderList = React.memo(() => {
     const loader = useSelector((state) => state.orders.loading);
     const error = useSelector((state) => state.orders.error);
 
-    const handleAsset = (id) => {
+    const handleAsset = (id, order) => {
         history.push({
             pathname : '/order/view',
             state :{
                 orderID : id,
+                order: order,
                 currentPath : window.location.pathname,
             }
         }
@@ -47,9 +48,6 @@ const OrderList = React.memo(() => {
                                                 let imageExtension;
                                                 if(key === config.URI){
                                                     imageExtension = order['totalData'][key].substring(order['totalData'][key].lastIndexOf('.') + 1);
-                                                    if(imageExtension === "gltf"){
-                                                        console.log(order['totalData'][key], "sss");
-                                                    }
                                                 }
                                                 return (
                                                     <>
@@ -86,7 +84,7 @@ const OrderList = React.memo(() => {
                                                         }
 
                                                         <Button variant="primary" className="viewButton" size="sm"
-                                                            onClick={() => handleAsset(order['orderID'])}>View</Button>
+                                                            onClick={() => handleAsset(order['orderID'], order)}>View</Button>
                                                     </>
 
                                                 );

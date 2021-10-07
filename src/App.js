@@ -17,8 +17,11 @@ import './assets/css/mediaqueries.css';
 import * as markePlace from "./store/actions/marketPlace";
 import * as assets from "./store/actions/assets";
 import * as orders from "./store/actions/orders";
+import * as identities from "./store/actions/identities";
 import {useDispatch} from "react-redux";
 import PrivateRoute from "./containers/PrivateRoute";
+import "react-image-lightbox/style.css";
+
 const App = () => {
     const { t } = useTranslation();
     const userTypeToken = localStorage.getItem('userName');
@@ -95,7 +98,8 @@ const App = () => {
             await Promise.all([
                 dispatch(markePlace.fetchMarketPlace()),
                 dispatch(assets.fetchAssets(identityID)),
-                dispatch(orders.fetchOrders(identityID))
+                dispatch(orders.fetchOrders(identityID)),
+                dispatch(identities.fetchIdentities(identityID)),
             ]);
         };
         fetchOrder();

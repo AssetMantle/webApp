@@ -41,7 +41,6 @@ const AllIdentityList = React.memo((props) => {
         userAddress =  localStorage.getItem('address');
     }
     useEffect(() => {
-        console.log(userAddress);
         setUserToken(localStorage.getItem('identityId'));
         const fetchToIdentities = () => {
             const identities = identitiesQuery.queryIdentityWithID("all");
