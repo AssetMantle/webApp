@@ -4,7 +4,7 @@ import {Form} from "react-bootstrap";
 const InputField = (props) => {
     return (
         <Form.Group className={props.className}>
-            <Form.Label>{props.label}</Form.Label>
+            <Form.Label>{props.label}{props.required ? '*' : null}</Form.Label>
             <Form.Control
                 type={props.type}
                 placeholder={props.placeholder}

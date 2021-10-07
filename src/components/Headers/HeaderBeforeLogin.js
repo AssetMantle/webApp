@@ -1,26 +1,20 @@
-import React, {useEffect} from "react";
-import {withRouter} from "react-router-dom";
+import React from "react";
+import {NavLink, withRouter} from "react-router-dom";
 import {useHistory} from "react-router-dom";
-import {Navbar, Nav, NavDropdown, Button} from "react-bootstrap";
+import {Navbar, Nav, Button} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
-import logo from '../../assets/images/logo.svg'
+import logo from '../../assets/images/logo.svg';
 
 const HeaderBeforeLogin = () => {
     const history = useHistory();
     const {t} = useTranslation();
     const handleRoute = route => () => {
-        history.push(route)
+        history.push(route);
     };
     const handleModelRoute = (route) => {
         history.push(`/${route}`);
     };
 
-    useEffect(() => {
-        const userAddress = localStorage.getItem('address');
-        if (userAddress === null) {
-            history.push('/Login');
-        }
-    }, [])
     return (
         <div className="container login-before">
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -30,27 +24,31 @@ const HeaderBeforeLogin = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto ml-auto">
-                        <Nav.Link>{t("MAIN_SITE")}</Nav.Link>
-                        <Nav.Link>{t("EXPLORER")}</Nav.Link>
-                        <Nav.Link>{t("DOCS")}</Nav.Link>
-                        <Nav.Link>{t("DASHBOARD")}</Nav.Link>
-                        <Nav.Link>{t("CONTACT_US")}</Nav.Link>
                     </Nav>
 
                     <Nav>
-                        <Nav.Link onClick={() => handleModelRoute("SignUp")}>{t("SIGNUP")}</Nav.Link>
+                        <Nav.Link onClick={() => handleModelRoute("create")}>Create Keys</Nav.Link>
+                        <Nav.Link onClick={() => handleModelRoute("signup")}>{t("SIGN_UP")}</Nav.Link>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/marketplace">{t("MARKET_PLACE")}</NavLink>
+                        </li>
                         <div className="button-login-section">
                             <Button variant="primary" className="button-double-border"
-                                    onClick={handleRoute("/Login")}>{t("LOGIN")}</Button>
+                                onClick={handleRoute("/login")}>{t("LOGIN")}</Button>
                         </div>
+
+                        {/*<div className="button-login-section">*/}
+                        {/*    <Button variant="primary" className="button-double-border"*/}
+                        {/*        onClick={handleRoute("/address/login")}>{t("ALL_IDENTITIES")}</Button>*/}
+                        {/*</div>*/}
 
                     </Nav>
 
                 </Navbar.Collapse>
             </Navbar>
         </div>
-    )
-}
+    );
+};
 
 
 export default withRouter(HeaderBeforeLogin);

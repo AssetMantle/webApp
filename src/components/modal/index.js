@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Form, Modal} from "react-bootstrap";
+import {Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 
 const ModalCommon = (props) => {
@@ -7,8 +7,11 @@ const ModalCommon = (props) => {
     const [showIdentity, setShowIdentity] = useState(true);
     const handleClose = () => {
         setShowIdentity(false);
-        props.setExternal();
+        props.handleClose();
         window.location.reload();
+        // if (props.transactionName === ""){
+        //     window.location.reload();
+        // }
     };
     return (
         <Modal
@@ -22,10 +25,25 @@ const ModalCommon = (props) => {
                 {t("Result")}
             </Modal.Header>
             <Modal.Body>
-                {props.data.code ?
-                    <p>Error: {props.data.raw_log}</p>
+                {
+                    props.transactionName === 'nubid' ?
+                        <>
+                            <p><b>User Name:</b> {props.nubID}</p>
+                            <p><b>IdentityID:</b> {props.testID}</p>
+                        </>
+                        : ""
+                }
+
+                { props.keplrTxn ?
+                    props.data.code ?
+                        <p>Error: {props.data.rawLog}</p>
+                        :
+                        <p className="tx-hash">TxHash: <a href={process.env.REACT_APP_ASSET_MANTLE_API + '/txs/' + props.data.transactionHash} target="_blank" rel="noreferrer">{props.data.transactionHash}</a></p>
                     :
-                    <p className="tx-hash">TxHash: {props.data.txhash}</p>
+                    props.data.code ?
+                        <p>Error: {props.data.rawLog}</p>
+                        :
+                        <p className="tx-hash">TxHash: <a href={process.env.REACT_APP_ASSET_MANTLE_API + '/txs/' + props.data.transactionHash} target="_blank" rel="noreferrer">{props.data.transactionHash}</a></p>
 
                 }
             </Modal.Body>

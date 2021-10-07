@@ -8,7 +8,7 @@ import {useTranslation} from "react-i18next";
 
 const Footer = () => {
     const {t} = useTranslation();
-    const [theme, toggleTheme, componentMounted] = useDarkMode();
+    const [theme, toggleTheme] = useDarkMode();
     const themeMode = theme === 'light' ? lightTheme : darkTheme;
     return (
         <ThemeProvider theme={themeMode}>
@@ -22,8 +22,8 @@ const Footer = () => {
                     checked={theme === 'light' ? true : false}
                     label={theme === 'light' ? 'LightMode' : 'DarkMode'}
                 />
-                <p className="footer_left"> © 2020
-                    <span className="link_color">{t("APP_TITLE")}</span>
+                <p className="footer_left"> © {new Date().getFullYear()}
+                    <span className="link_color"> {t("APP_TITLE")}</span>
                 </p>
             </div>
         </ThemeProvider>

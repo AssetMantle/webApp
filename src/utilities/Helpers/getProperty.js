@@ -1,15 +1,14 @@
-import React from "react";
 import base64url from "base64url";
 import sha1 from 'crypto-js/sha1';
-import Base64 from 'crypto-js/enc-base64'
+import Base64 from 'crypto-js/enc-base64';
 
 export default class GetProperty {
     ParseProperties(properties) {
         let propertiesDictionary = {};
         properties.forEach(function (property) {
             propertiesDictionary[property.value.id.value.idString] = property.value.fact.value.hash;
-        })
-        return propertiesDictionary
+        });
+        return propertiesDictionary;
     }
 
     MutablePropertyValues(mutableProperties, inputValues, metaCheckboxList) {
@@ -30,7 +29,7 @@ export default class GetProperty {
                     }
                 }
             }
-        })
+        });
         return mutableValues;
     }
 
@@ -53,7 +52,7 @@ export default class GetProperty {
                     }
                 }
             }
-        })
+        });
         return mutableMetaValues;
     }
 
@@ -75,7 +74,7 @@ export default class GetProperty {
                     }
                 }
             }
-        })
+        });
         return immutableValues;
     }
 
@@ -97,7 +96,7 @@ export default class GetProperty {
                     }
                 }
             }
-        })
+        });
         return immutableMetaValues;
     }
 
@@ -111,7 +110,7 @@ export default class GetProperty {
                 resolve(baseURL);
             };
         });
-    };
+    }
 
     getUrlEncode(Url) {
         let UrlEncode;
@@ -124,7 +123,7 @@ export default class GetProperty {
     getBase64Hash(fileData) {
         var pwdHash = sha1(fileData);
         var joinedDataHashB64 = Base64.stringify(pwdHash);
-        var finalHash = base64url.fromBase64(joinedDataHashB64) + "="
+        var finalHash = base64url.fromBase64(joinedDataHashB64) + "=";
         return finalHash;
     }
 
@@ -134,7 +133,7 @@ export default class GetProperty {
         if (!stringRegEx.test(propertyName)) {
             errorData = false;
         } else {
-            errorData = true
+            errorData = true;
         }
         return errorData;
     }
@@ -145,7 +144,7 @@ export default class GetProperty {
         if (!numberRegEx.test(propertyName)) {
             errorData = false;
         } else {
-            errorData = true
+            errorData = true;
         }
         return errorData;
     }
@@ -156,22 +155,22 @@ export default class GetProperty {
         if (!DecimalRegEx.test(propertyName)) {
             errorData = false;
         } else {
-            errorData = true
+            errorData = true;
         }
         return errorData;
     }
 
     DataTypeValidation(inputValue, propertyName) {
-        let $this = this
+        let $this = this;
         let errorData = false;
         if (inputValue === 'S|') {
-            errorData = $this.StringChecking(propertyName)
+            errorData = $this.StringChecking(propertyName);
         } else if (inputValue === 'I|') {
-            errorData = $this.NumberChecking(propertyName)
+            errorData = $this.NumberChecking(propertyName);
         } else if (inputValue === 'H|') {
-            errorData = $this.NumberChecking(propertyName)
+            errorData = $this.NumberChecking(propertyName);
         } else if (inputValue === 'D|') {
-            errorData = $this.DecimalChecking(propertyName)
+            errorData = $this.DecimalChecking(propertyName);
         }
         return errorData;
     }

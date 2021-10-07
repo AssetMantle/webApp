@@ -5,12 +5,19 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "@cosmjs/amino": "^0.25.4",
+    "@cosmjs/crypto": "^0.25.4",
+    "@cosmjs/launchpad": "^0.25.4",
+    "@cosmjs/proto-signing": "^v0.25.4",
     "@fortawesome/fontawesome-svg-core": "^1.2.31",
     "@fortawesome/free-solid-svg-icons": "^5.15.0",
     "@fortawesome/react-fontawesome": "^0.1.11",
+    "@google/model-viewer": "^1.8.0",
     "axios": "^0.21.1",
     "base64url": "^3.0.1",
+    "bip39": "^3.0.2",
     "bootstrap": "4.3.1",
+    "crypto": "^1.0.1",
     "crypto-js": "^4.0.0",
     "history": "^4.10.1",
     "i18next": "^19.8.4",
@@ -18,7 +25,7 @@
     "i18next-xhr-backend": "^3.2.2",
     "js-base64": "^3.6.0",
     "js-sha1": "^0.6.0",
-    "persistencejs": "https://github.com/persistenceOne/persistenceJS#v0.1.0",
+    "persistencejs": "https://github.com/persistenceOne/persistenceJS#typescriptExample",
     "react": "^16.14.0",
     "react-bootstrap": "^1.4.0",
     "react-copy-to-clipboard": "^5.0.2",
@@ -29,10 +36,17 @@
     "react-router-dom": "5.2.0",
     "react-scripts": "^4.0.0",
     "request": "^2.88.2",
+    "redux": "^4.0.5",
+    "react-redux": "^7.2.2",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0",
     "styled-components": "^5.2.1"
   },
-  "devDependencies": {
-    "typescript": "3.3.3"
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "scripts": {
     "start": "react-scripts start",
@@ -45,5 +59,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "eslint": "^7.28.0",
+    "eslint-plugin-react": "^7.24.0"
+  }
 }

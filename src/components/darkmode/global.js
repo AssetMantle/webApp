@@ -62,15 +62,15 @@ export const GlobalStyles = createGlobalStyle`
     color: ${({theme}) => theme.ActiveNavLinkColor};
   }
   .form-control {
-    background-color: ${({theme}) => theme.inputFieldBackground};
-    border: 1px solid ${({theme}) => theme.inputFieldBorderColor};
+    background-color: ${({theme}) => theme.inputFieldBackground} !important;
+    border: 1px solid ${({theme}) => theme.inputFieldBorderColor} !important;
     color: ${({theme}) => theme.inputFieldTextColor};
   }
 
   .form-control:focus {
-    background-color: ${({theme}) => theme.inputFieldBackground};
-    border: 1px solid ${({theme}) => theme.inputFieldBorderColor};
-    box-shadow: 0 0 0 0.2rem #efcb3057
+    background-color: ${({theme}) => theme.inputFieldBackground} !important;
+    border: 1px solid ${({theme}) => theme.inputFieldBorderColor} !important;
+    box-shadow: 0 0 0 0.2rem #efcb3057;
   }
 
   .close {
@@ -206,6 +206,12 @@ export const GlobalStyles = createGlobalStyle`
   }
   .copy-section p{
     background: ${({theme}) => theme.copyBackground};
+  }
+  .profile-dropdown-menu{
+  color: ${({theme}) => theme.listItemColor};
+  }
+  .profile-dropdown-menu .add-id, .profile-dropdown-menu .logout{
+   border-top: 1px solid ${({theme}) => theme.modalHeaderBorderColor} !important;
   }
 `;
 

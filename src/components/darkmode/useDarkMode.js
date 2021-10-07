@@ -5,15 +5,15 @@ export const useDarkMode = () => {
     const [componentMounted, setComponentMounted] = useState(false);
 
     const setMode = mode => {
-        window.localStorage.setItem('theme', mode)
-        setTheme(mode)
+        window.localStorage.setItem('theme', mode);
+        setTheme(mode);
     };
 
     const toggleTheme = () => {
         if (theme === 'light') {
-            setMode('dark')
+            setMode('dark');
         } else {
-            setMode('light')
+            setMode('light');
         }
     };
 
@@ -29,5 +29,5 @@ export const useDarkMode = () => {
         setComponentMounted(true);
     }, []);
 
-    return [theme, toggleTheme, componentMounted]
+    return [theme, toggleTheme, componentMounted];
 };
