@@ -1318,4 +1318,27 @@ model-viewer{
     margin: 8px 0;
   }
 }
-
+.options-container{
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+.option-box{
+  padding:20px 10px;
+  background: #343232e6;
+  border-radius: 15px;
+  border: 1px solid #424548;
+  text-align: center;
+  flex: 1;
+  cursor: pointer;
+  &:nth-child(2){
+    margin: 0px 30px;
+  }
+  .icon{
+    width: 28px;
+    height: 28px;
+  }
+  p{
+    margin: 0;
+  }
+}

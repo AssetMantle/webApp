@@ -3,4 +3,5 @@ import PrivateKey from "./PrivateKey";
 import Ledger from "./Ledger";
 import CreateIdentity from "./CreateIdentity";
 import IdentityLogin from './IdentityLogin';
-export {LoginMnemonic, PrivateKey, Ledger, CreateIdentity, IdentityLogin};
+import Keplr from "./Keplr";
+export {LoginMnemonic, PrivateKey, Ledger, CreateIdentity, IdentityLogin, Keplr};

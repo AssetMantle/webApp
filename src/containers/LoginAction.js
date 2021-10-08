@@ -6,6 +6,7 @@ import {useTranslation} from "react-i18next";
 import {useHistory} from "react-router-dom";
 import MnemonicIcon from "../assets/images/MnemonicIcon.svg";
 import Icon from "../icons";
+import TransactionOptions from "./forms/login/TransactionOptions";
 
 const Login = () => {
     const {t} = useTranslation();
@@ -53,6 +54,11 @@ const Login = () => {
             </Modal>
 
             <div>
+                {
+                    externalComponent === 'loginOptions' ?
+                        <TransactionOptions setExternalComponent={setExternalComponent} setShow={setShow} pageName="LoginAction"/> :
+                        null
+                }
                 {
                     externalComponent === 'IdentityLogin' ?
                         <IdentityLogin setExternalComponent={setExternalComponent} setShow={setShow} pageName="LoginAction"/> :

@@ -1,10 +1,12 @@
 import {Secp256k1HdWallet} from '@cosmjs/amino';
+import {stringToPath} from "@cosmjs/crypto";
+import config from "../../config";
+
 const crypto = require('crypto');
 const passwordHashAlgorithm = 'sha512';
 const {SigningCosmosClient} = require('@cosmjs/launchpad');
 const restAPI = process.env.REACT_APP_ASSET_MANTLE_API;
 const bip39 = require("bip39");
-
 function PrivateKeyReader(file, password) {
     return new Promise(function(resolve, reject) {
         const fileReader = new FileReader();
@@ -115,6 +117,11 @@ function mnemonicTrim(mnemonic) {
     return mnemonicWords;
 }
 
+function makeHdPath(accountNumber = "0", addressIndex = "0", coinType = config.coinType) {
+    return stringToPath("m/44'/" + coinType + "'/" + accountNumber + "'/0/" + addressIndex);
+}
+
+
 function mnemonicValidation(memo) {
     const mnemonicWords = mnemonicTrim(memo).toString();
     console.log(mnemonicWords,"mnemonicWords");
@@ -130,5 +137,6 @@ export default {
     TransactionWithMnemonic,
     TransactionWithKeplr,
     mnemonicValidation,
-    mnemonicTrim
+    mnemonicTrim,
+    makeHdPath
 };

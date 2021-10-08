@@ -10,6 +10,7 @@ import CommonKeystore from '../login/CommonKeystore';
 
 
 const MutateAsset = (props) => {
+    console.log(props, "mutatePropertiesList");
     const FilterHelper = new FilterHelpers();
     const PropertyHelper = new GetProperty();
     const {t} = useTranslation();
@@ -25,7 +26,7 @@ const MutateAsset = (props) => {
     useEffect(() => {
         let fromIDValue = localStorage.getItem('identityId');
         setFromID(fromIDValue);
-        const mutateProperties = props.mutatePropertiesList[0];
+        const mutateProperties = props.mutatePropertiesList;
         const mutableKeys = Object.keys(mutateProperties);
         setKeyList(mutableKeys);
     }, []);
@@ -136,8 +137,25 @@ const MutateAsset = (props) => {
                                 placeholder="FromId"
                             />
                         </Form.Group>
-                        {Object.keys(props.mutatePropertiesList[0]).map((keyName, idx) => {
-                            if (keyName === config.URI) {
+                        {props.mutatePropertiesList ?
+                            Object.keys(props.mutatePropertiesList).map((keyName, idx) => {
+                                if (keyName === config.URI) {
+                                    return (
+                                        <div key={idx}>
+                                            <Form.Group>
+                                                <Form.Label>{keyName}*</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    className=""
+                                                    required={true}
+                                                    id={keyName + idx}
+                                                    name={keyName + idx}
+                                                    defaultValue={props.mutatePropertiesList[keyName]}
+                                                />
+                                            </Form.Group>
+                                        </div>
+                                    );
+                                }
                                 return (
                                     <div key={idx}>
                                         <Form.Group>
@@ -148,36 +166,22 @@ const MutateAsset = (props) => {
                                                 required={true}
                                                 id={keyName + idx}
                                                 name={keyName + idx}
-                                                defaultValue={props.mutatePropertiesList[0][keyName]}
+                                                defaultValue={props.mutatePropertiesList[keyName]}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group>
+                                            <Form.Check custom type="checkbox"
+                                                label="Meta"
+                                                name={keyName + idx}
+                                                id={`checkbox${keyName + idx}`}
+                                                onClick={handleCheckMutableChange}
                                             />
                                         </Form.Group>
                                     </div>
                                 );
-                            }
-                            return (
-                                <div key={idx}>
-                                    <Form.Group>
-                                        <Form.Label>{keyName}*</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            className=""
-                                            required={true}
-                                            id={keyName + idx}
-                                            name={keyName + idx}
-                                            defaultValue={props.mutatePropertiesList[0][keyName]}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group>
-                                        <Form.Check custom type="checkbox"
-                                            label="Meta"
-                                            name={keyName + idx}
-                                            id={`checkbox${keyName + idx}`}
-                                            onClick={handleCheckMutableChange}
-                                        />
-                                    </Form.Group>
-                                </div>
-                            );
-                        })
+                            })
+                            : ""
+
                         }
                         {errorMessage !== '' ?
                             <span
