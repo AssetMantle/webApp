@@ -15,7 +15,7 @@ import Lightbox from "react-image-lightbox";
 const ordersDefine = new ordersDefineJS(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const OrderView = React.memo((props) => {
-    console.log(props, "propss");
+
     const {t} = useTranslation();
     let history = useHistory();
     const [order, setOrder] = useState([]);
@@ -23,6 +23,7 @@ const OrderView = React.memo((props) => {
     const [externalComponent, setExternalComponent] = useState("");
     const [orderId, setOrderId] = useState("");
     const [isOpen, setIsOpen] = useState(false);
+
     useEffect(() => {
         if (props.location.state !== undefined) {
             setOrderData(props.location.state.order);
@@ -165,8 +166,10 @@ const OrderView = React.memo((props) => {
                                         {ImageData}
                                         <div className="property-actions">
                                             {props.location.state.currentPath === "/marketplace" ?
-                                                <Button variant="primary" size="sm"
-                                                    onClick={() => handleModalData("TakeOrder", orderId)}>{t("TAKE")}</Button>
+                                                localStorage.getItem('userName') !== null ?
+                                                    <Button variant="primary" size="sm"
+                                                        onClick={() => handleModalData("TakeOrder", orderId)}>{t("TAKE")}</Button>
+                                                    : ""
                                                 : <Button variant="primary" size="sm"
                                                     onClick={() => handleModalData("CancelOrder", "" , order)}>{t("CANCEL")}</Button>
                                             }

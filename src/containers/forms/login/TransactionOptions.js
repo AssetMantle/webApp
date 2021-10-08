@@ -55,17 +55,27 @@ const TransactionOptions = (props) => {
             </Modal>
             {
                 externalComponent === 'Keystore' ?
-                    <PrivateKey setExternalComponent={setExternalComponent} setShow={setShow} pageName="LoginAction"/> :
+                    <PrivateKey 
+                        setExternalComponent={setExternalComponent}
+                        setShow={setShow}
+                        userData={props.userData}
+                        pageName="LoginAction"
+                    /> :
                     null
             }
             {
                 externalComponent === 'Keplr' ?
-                    <Keplr setExternalComponent={setExternalComponent} setShow={setShow}/> :
+                    <Keplr setExternalComponent={setExternalComponent}
+                        userData={props.userData}
+                        setShow={setShow}/> :
                     null
             }
             {
                 externalComponent === 'Ledger' ?
-                    <Ledger setExternalComponent={setExternalComponent} setShow={setShow}/> :
+                    <Ledger setExternalComponent={setExternalComponent}
+                        userData={props.userData}
+                        setShow={setShow}
+                    /> :
                     null
             }
         </div>

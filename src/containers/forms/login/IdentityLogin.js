@@ -18,6 +18,7 @@ const IdentityLogin = (props) => {
     const [loader, setLoader] = useState(false);
     const [idErrorMessage, setIdErrorMessage] = useState("");
     const [externalComponent, setExternalComponent] = useState("");
+    const [userData, setUserData] = useState({});
     const {t} = useTranslation();
     const GetIDHelper = new GetID();
     const GetMetaHelper = new GetMeta();
@@ -40,17 +41,19 @@ const IdentityLogin = (props) => {
 
                     if (dataList[i].value.immutables.value.properties.value.propertyList !== null) {
                         const immutablePropertyList = dataList[i].value.immutables.value.properties.value.propertyList[0];
-                        console.log(hashGenerate,"in");
-
+                        
                         if (immutablePropertyList.value.fact.value.hash === hashGenerate) {
                             const identityId = GetIDHelper.GetIdentityID(dataList[i]);
-                            localStorage.setItem("identityId", identityId);
-                            console.log(identityId, "identityId");
+
                             if(dataList[i].value.provisionedAddressList){
+                               
                                 let addresses = dataList[i].value.provisionedAddressList;
-                                console.log("response finale", dataList[i].value.provisionedAddressList);
+                                const userData = {
+                                    'userName' : IdentityName,
+                                    'identityId':identityId
+                                };
+                                setUserData(userData);
                                 localStorage.setItem('addresses', JSON.stringify(addresses));
-                                localStorage.setItem("userName", IdentityName);
                                 setShow(false);
                                 setExternalComponent("loginOptions");
                             }
@@ -73,84 +76,6 @@ const IdentityLogin = (props) => {
         }
     };
 
-    // const keyStoreSubmitHandler = async (e) =>{
-    //     e.preventDefault();
-    //     const password = e.target.password.value;
-    //     let promise = transactions.PrivateKeyReader(e.target.uploadFile.files[0], password);
-    //     let userMnemonic;
-    //     await promise.then(function (result) {
-    //         userMnemonic = result;
-    //     }).catch(err => {
-    //         setLoader(false);
-    //         setErrorMessage(err);
-    //     });
-    //     const wallet = await getWallet(userMnemonic, "");
-    //     let list = [];
-    //     let idList = [];
-    //
-    //     const addressList = localStorage.getItem("addresses");
-    //     console.log(addressList, "addressList");
-    //     const userList = localStorage.getItem("userList");
-    //     const identityList = localStorage.getItem("identityList");
-    //     if(identityList !== null){
-    //         idList = JSON.parse(identityList);
-    //     }
-    //     if(userList !== null){
-    //         list = JSON.parse(userList);
-    //     }
-    //     if (addressList.includes(wallet.address)) {
-    //         idList.push({[userName]:  localStorage.getItem("identityId")});
-    //         setErrorMessage(false);
-    //         setLoader(false);
-    //         list.push(userName);
-    //         localStorage.setItem("userList", JSON.stringify(list));
-    //         localStorage.setItem("userName", userName);
-    //         localStorage.setItem("userAddress", wallet.address);
-    //         localStorage.setItem("identityList",  JSON.stringify(idList));
-    //
-    //         history.push('/profile');
-    //     } else {
-    //         setLoader(false);
-    //         setIdErrorMessage('Address Not Present');
-    //     }
-    //     console.log("address", wallet.address);
-    // };
-    //
-    // const handleKepler = () =>{
-    //     setLoader(true);
-    //     const kepler = KeplerWallet();
-    //     kepler.then(function () {
-    //         const keplrAddress = localStorage.getItem("keplerAddress");
-    //         let list = [];
-    //         let idList = [];
-    //         const addressList = localStorage.getItem("addresses");
-    //         const userList = localStorage.getItem("userList");
-    //         const identityList = localStorage.getItem("identityList");
-    //         if(identityList !== null){
-    //             idList = JSON.parse(identityList);
-    //         }
-    //         if(userList !== null){
-    //             list = JSON.parse(userList);
-    //         }
-    //         if (addressList.includes(keplrAddress)) {
-    //             idList.push({[userName]:  localStorage.getItem("identityId")});
-    //             list.push(userName);
-    //             localStorage.setItem("userList", JSON.stringify(list));
-    //             localStorage.setItem("userName", userName);
-    //             localStorage.setItem("userAddress", keplrAddress);
-    //             localStorage.setItem("identityList",  JSON.stringify(idList));
-    //             setErrorMessage(false);
-    //             setLoader(false);
-    //             history.push('/profile');
-    //         } else {
-    //             setLoader(false);
-    //             setIdErrorMessage('Keplr address not found in identity list');
-    //         }
-    //     }).catch(err => {
-    //         setLoader(false);
-    //         setErrorMessage(err.message);
-    //     });
-    // };
 
     const handleClose = () => {
         setShow(false);
@@ -217,7 +142,7 @@ const IdentityLogin = (props) => {
             </Modal>
             {
                 externalComponent === 'loginOptions' ?
-                    <TransactionOptions setExternalComponent={setExternalComponent} setShow={setShow} pageName="LoginAction"/> :
+                    <TransactionOptions setExternalComponent={setExternalComponent} userData={userData} setShow={setShow} pageName="LoginAction"/> :
                     null
             }
         </div>

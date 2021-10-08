@@ -78,44 +78,24 @@ const IdentityList = React.memo(() => {
     {
         const identity= identityList[0];
         Object.keys(identity.immutableProperties).map((key, index) => {
-            if(key === config.URI){
-                const imageExtension = identity['immutableProperties'][key].substring(identity['immutableProperties'][key].lastIndexOf('.') + 1);
-                console.log(imageExtension, "imageex");
-                if(imageExtension === "gltf"){
-                    ImageData =  <div className="dummy-image image-sectiont asset-view-modal-viewer">
-                        <model-viewer
-                            id="mv-astronaut"
-                            src={identity['immutableProperties'][key]}
-                            camera-controls
-                            ar
-                            auto-rotate
-                            alt="A 3D model of an astronaut"
-                        >
-                        </model-viewer>
+            if(key !== config.URI) {
+                let content =
+                    <div className="row property-section" key={index}>
+                        <div
+                            className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            {key !== 'style' && key !== config.URI ?
+                                <div className="list-item">
+                                    <p
+                                        className="list-item-label">{key} </p>
+                                    <p
+                                        className="list-item-value">{identity['immutableProperties'][key]}</p>
+                                </div>
+                                : ""
+                            }
+                        </div>
                     </div>;
-                }else {
-                    ImageData = <div className="dummy-image image-sectiont">
-                        <img src={identity['immutableProperties'][key]} alt="image"/>
-                    </div>;
-                }
-
+                imMutableContentData.push(content);
             }
-            let content =
-                <div className="row property-section" key={index}>
-                    <div
-                        className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                        {key !== 'style' && key !== config.URI ?
-                            <div className="list-item">
-                                <p
-                                    className="list-item-label">{key} </p>
-                                <p
-                                    className="list-item-value">{identity['immutableProperties'][key]}</p>
-                            </div>
-                            : ""
-                        }
-                    </div>
-                </div>;
-            imMutableContentData.push(content);
         });
     }
     return (

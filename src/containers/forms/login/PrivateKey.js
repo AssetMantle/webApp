@@ -14,9 +14,10 @@ const PrivateKey = (props) => {
     const [errorMessage, setErrorMessage] = useState(false);
     const [loader, setLoader] = useState(false);
     const [idErrorMessage, setIdErrorMessage] = useState("");
+    console.log(props.userData, props.userData.userName, "ss");
     const keyStoreSubmitHandler = async (e) =>{
         e.preventDefault();
-        const userName = localStorage.getItem("userName");
+        const userName = props.userData.userName;
         const password = e.target.password.value;
         let promise = transactions.PrivateKeyReader(e.target.uploadFile.files[0], password);
         let userMnemonic;
@@ -31,7 +32,6 @@ const PrivateKey = (props) => {
         let idList = [];
 
         const addressList = localStorage.getItem("addresses");
-        console.log(addressList, "addressList");
         const userList = localStorage.getItem("userList");
         const identityList = localStorage.getItem("identityList");
         if(identityList !== null){
@@ -45,6 +45,8 @@ const PrivateKey = (props) => {
             setErrorMessage(false);
             setLoader(false);
             list.push(userName);
+            localStorage.setItem("identityId", props.userData.identityId);
+            localStorage.setItem('addresses', props.userData.addresses);
             localStorage.setItem("userList", JSON.stringify(list));
             localStorage.setItem("userName", userName);
             localStorage.setItem("userAddress", wallet.address);

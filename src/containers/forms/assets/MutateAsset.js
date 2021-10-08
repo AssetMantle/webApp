@@ -69,7 +69,7 @@ const MutateAsset = (props) => {
             if (keyList !== null) {
                 keyList.map((key, index) => {
                     let mutableFieldValue = document.getElementById(key + index).value;
-                    const mutableType = props.mutatePropertiesList[1][key];
+                    const mutableType = props.mutatePropertiesList[key];
                     const inputName = (key + index);
                     if (key !== config.URI) {
                         const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, key, mutableType, mutableFieldValue);

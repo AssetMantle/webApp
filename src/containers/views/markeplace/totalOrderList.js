@@ -9,7 +9,6 @@ import loaderImage from "../../../assets/images/loader.svg";
 const TotalOrders = React.memo(() => {
     const {t} = useTranslation();
     let history = useHistory();
-
     const markeOrders = useSelector((state) => state.markePlace.markeOrders);
     const loader = useSelector((state) => state.markePlace.loading);
     const error = useSelector((state) => state.markePlace.error);

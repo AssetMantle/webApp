@@ -63,6 +63,7 @@ const CommonKeystore = (props) => {
 
     const GetIDHelper = new GetID();
     const GetMetaHelper = new GetMeta();
+
     useEffect(() => {
         const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
         if (encryptedMnemonic !== null) {
