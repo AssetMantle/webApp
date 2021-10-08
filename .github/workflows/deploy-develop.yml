@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Reconfigure git to use HTTP authentication
-          run: >
+        run: >
             git config --global url."https://github.com/".insteadOf
             ssh://git@github.com/
       - name: Clean install dependencies
