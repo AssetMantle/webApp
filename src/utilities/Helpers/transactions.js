@@ -1,12 +1,16 @@
 import {Secp256k1HdWallet} from '@cosmjs/amino';
 import {stringToPath} from "@cosmjs/crypto";
 import config from "../../config";
+import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
+import {LedgerSigner} from "@cosmjs/ledger-amino";
 
 const crypto = require('crypto');
 const passwordHashAlgorithm = 'sha512';
 const {SigningCosmosClient} = require('@cosmjs/launchpad');
 const restAPI = process.env.REACT_APP_ASSET_MANTLE_API;
 const bip39 = require("bip39");
+const loginMode = localStorage.getItem("loginMode");
+
 function PrivateKeyReader(file, password) {
     return new Promise(function(resolve, reject) {
         const fileReader = new FileReader();
@@ -84,9 +88,41 @@ async function Transaction(wallet, signerAddress, msgs, fee, memo = '') {
 }
 
 async function TransactionWithMnemonic(msgs, fee, memo, mnemonic) {
-    const [wallet, address] = await MnemonicWalletWithPassphrase(mnemonic);
-    return await Transaction(wallet, address, msgs, fee, memo);
+    let accountNumber = localStorage.getItem('accountNumber')*1;
+    let addressIndex = localStorage.getItem('addressIndex')*1;
+    if(loginMode === "normal"){
+        const [wallet, address] = await MnemonicWalletWithPassphrase(mnemonic);
+        return await Transaction(wallet, address, msgs, fee, memo);
+    }else {
+        const [wallet, address] = await LedgerWallet(makeHdPath(accountNumber , addressIndex), "cosmos");
+        return await Transaction(wallet, address, msgs, fee, memo);
+    }
+
+    // return await Transaction(wallet, address, msgs, fee, memo);
 }
+
+// async function TransactionWithLedger(msgs, fee, memo, hdpath = makeHdPath(), prefix = "") {
+//     const [wallet, address] = await LedgerWallet(hdpath, prefix);
+//     return Transaction(wallet, address, msgs, fee, memo);
+// }
+
+async function LedgerWallet(hdpath, prefix) {
+    const interactiveTimeout = 120_000;
+    async function createTransport() {
+        const ledgerTransport = await TransportWebUSB.create(interactiveTimeout, interactiveTimeout);
+        return ledgerTransport;
+    }
+
+    const transport = await createTransport();
+    const signer = new LedgerSigner(transport, {
+        testModeAllowed: true,
+        hdPaths: [hdpath],
+        prefix: prefix
+    });
+    const [firstAccount] = await signer.getAccounts();
+    return [signer, firstAccount.address];
+}
+
 
 async function MnemonicWalletWithPassphrase(mnemonic) {
     const wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic);
@@ -124,7 +160,6 @@ function makeHdPath(accountNumber = "0", addressIndex = "0", coinType = config.c
 
 function mnemonicValidation(memo) {
     const mnemonicWords = mnemonicTrim(memo).toString();
-    console.log(mnemonicWords,"mnemonicWords");
     let validateMnemonic = bip39.validateMnemonic(mnemonicWords);
     return validateMnemonic;
 }

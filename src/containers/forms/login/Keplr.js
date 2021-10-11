@@ -10,7 +10,7 @@ const Keplr = (props) => {
     const [errorMessage, setErrorMessage] = useState("");
     const [address, setAddress] = useState(false);
     // const [loader, setLoader] = useState(false);
-    const userName = localStorage.getItem("userName");
+    const userName = props.userData.userName;
     const backHandler = () => {
         setShow(false);
         props.setShow(true);
@@ -33,14 +33,14 @@ const Keplr = (props) => {
                 list = JSON.parse(userList);
             }
             if (addressList.includes(keplrAddress)) {
-
-
-                idList.push({[userName]:  localStorage.getItem("identityId")});
+                idList.push({[userName]:  props.userData.identityId});
                 list.push(userName);
+                localStorage.setItem("identityId", props.userData.identityId);
                 localStorage.setItem("userList", JSON.stringify(list));
                 localStorage.setItem("userName", userName);
                 setAddress(keplrAddress);
                 localStorage.setItem("userAddress", keplrAddress);
+                localStorage.setItem("loginMode","keplr");
                 localStorage.setItem("identityList",  JSON.stringify(idList));
                 setErrorMessage("");
             } else {

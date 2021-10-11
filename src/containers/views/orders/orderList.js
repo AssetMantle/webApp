@@ -15,6 +15,7 @@ const OrderList = React.memo(() => {
     const error = useSelector((state) => state.orders.error);
 
     const handleAsset = (id, order) => {
+        console.log(id, "order data", order);
         history.push({
             pathname : '/order/view',
             state :{

@@ -14,7 +14,7 @@ import ImportKeys from './signup/ImportKeys';
 
 const KeysCreate = () => {
     const [loader, setLoader] = useState(false);
-    const userAddress = localStorage.getItem('address');
+    // const userAddress = localStorage.getItem('address');
     const {t} = useTranslation();
     const history = useHistory();
     const [show, setShow] = useState(true);
@@ -30,24 +30,7 @@ const KeysCreate = () => {
         setShow(false);
         history.push('/');
     };
-    const handleFaucet = () => {
-        setLoader(true);
-        axios.post(process.env.REACT_APP_FAUCET_SERVER + '/faucetRequest', {address: userAddress})
-            .then(response => {
-                console.log(response);
-                setLoader(false);
-            },
-            )
-            .catch(err => {
-                console.log(err);
-                setLoader(false);
-            });
-
-        setShowDownload(false);
-        setshowDownloadModal(false);
-        setShowEncrypt(false);
-        history.push('/');
-    };
+  
     const handleCloseEncrypt = () => {
         setShowEncrypt(false);
         history.push('/');
@@ -65,18 +48,38 @@ const KeysCreate = () => {
         const create = createStore(error.mnemonic, password);
         if (create.error != null) {
             return (<div>ERROR!!</div>);
+        }else {
+            const jsonContent = JSON.stringify(create.Response);
+            // localStorage.setItem('address', error.address);
+            // localStorage.setItem('mnemonic', error.mnemonic);
+            setJsonName(jsonContent);
+            setAddress(error.address);
+            setMnemonic(error.mnemonic);
+            setShowEncrypt(true);
+            setshowDownloadModal(false);
+            setShowDownload(true);
+            handleFaucet(error.address);
         }
-        const jsonContent = JSON.stringify(create.Response);
-        localStorage.setItem('address', error.address);
-        localStorage.setItem('mnemonic', error.mnemonic);
-        setJsonName(jsonContent);
-        setAddress(error.address);
-        setMnemonic(error.mnemonic);
-        setShowEncrypt(true);
-        setshowDownloadModal(false);
-        setShowDownload(true);
     };
+    
+    const handleFaucet = (loginAddress) => {
+        setLoader(true);
+        axios.post(process.env.REACT_APP_FAUCET_SERVER + '/faucetRequest', {address: loginAddress})
+            .then(response => {
+                console.log(response, "facuet response", loginAddress);
+                setLoader(false);
+            },
+            )
+            .catch(err => {
+                console.log(err);
+                setLoader(false);
+            });
 
+        // setShowDownload(false);
+        // setshowDownloadModal(false);
+        // setShowEncrypt(false);
+        // history.push('/');
+    };
     const handleEncrypt = (name) => {
         setShow(false);
         setFormName(name);
@@ -173,12 +176,12 @@ const KeysCreate = () => {
                                 <Icon viewClass="arrow-icon" icon="arrow"/>
                             </p>
                             <p className="download-note">({t('DOWNLOAD_KEY')})</p>
-                            <Button
-                                variant="primary"
-                                onClick={handleFaucet}
-                            >
-                                {t('SUBMIT')}
-                            </Button>
+                            {/*<Button*/}
+                            {/*    variant="primary"*/}
+                            {/*    onClick={handleFaucet}*/}
+                            {/*>*/}
+                            {/*    {t('SUBMIT')}*/}
+                            {/*</Button>*/}
                         </div>
                         :
                         ''

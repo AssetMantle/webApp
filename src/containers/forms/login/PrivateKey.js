@@ -46,10 +46,10 @@ const PrivateKey = (props) => {
             setLoader(false);
             list.push(userName);
             localStorage.setItem("identityId", props.userData.identityId);
-            localStorage.setItem('addresses', props.userData.addresses);
             localStorage.setItem("userList", JSON.stringify(list));
             localStorage.setItem("userName", userName);
             localStorage.setItem("userAddress", wallet.address);
+            localStorage.setItem("loginMode","normal");
             localStorage.setItem("identityList",  JSON.stringify(idList));
 
             history.push('/profile');

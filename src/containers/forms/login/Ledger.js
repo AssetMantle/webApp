@@ -10,7 +10,9 @@ const Ledger = (props) => {
     const [show, setShow] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
     const [advancedMode, setAdvancedMode] = useState(false);
+    const [addressUpdate, setAddressUpdate] = useState(false);
     // const [loader, setLoader] = useState(false);
+    const userName = props.userData.userName;
     const handleAdvanceMode = () => {
         setAdvancedMode(!advancedMode);
     };
@@ -48,13 +50,51 @@ const Ledger = (props) => {
         let ledgerResponse = fetchAddress("cosmos", accountNumber, addressIndex);
         ledgerResponse.then(function (result) {
             setLedgerAddress(result);
+            setAddressUpdate(true);
             localStorage.setItem('accountNumber', accountNumber.toString());
             localStorage.setItem('addressIndex', addressIndex.toString());
+
         }).catch(err => {
             setErrorMessage(err.response
                 ? err.response.data.message
                 : err.message);
         });
+    };
+    const handleLogin = () => {
+        if (!addressUpdate) {
+            let accountNumber = 0;
+            let addressIndex = 0;
+            localStorage.setItem('accountNumber', accountNumber.toString());
+            localStorage.setItem('addressIndex', addressIndex.toString());
+        }
+        let list = [];
+        let idList = [];
+        const addressList = localStorage.getItem("addresses");
+        const userList = localStorage.getItem("userList");
+        const identityList = localStorage.getItem("identityList");
+        if(identityList !== null){
+            idList = JSON.parse(identityList);
+        }
+        if(userList !== null){
+            list = JSON.parse(userList);
+        }
+        if (addressList.includes(ledgerAddress)) {
+            idList.push({[userName]:  props.userData.identityId});
+            list.push(userName);
+            localStorage.setItem("identityId", props.userData.identityId);
+            localStorage.setItem("userList", JSON.stringify(list));
+            localStorage.setItem("userName", userName);
+            // setAddress(ledgerAddress);
+            localStorage.setItem("userAddress", ledgerAddress);
+            localStorage.setItem("loginMode","ledger");
+
+            localStorage.setItem("identityList",  JSON.stringify(idList));
+            history.push('/profile');
+            setErrorMessage("");
+        } else {
+            console.log(addressList, "addressList");
+            setErrorMessage('Address not found in identity list');
+        }
     };
     const handleClose = () => {
         setShow(false);
@@ -78,7 +118,7 @@ const Ledger = (props) => {
                 <Modal.Body>
                     {
                         errorMessage !== "" ?
-                            <p className="form-error">{errorMessage}</p>
+                            <p className="error-response">{errorMessage}</p>
                             :
                             <>
                                 {
@@ -87,6 +127,16 @@ const Ledger = (props) => {
                                         <>
                                             <div className="buttons-list">
                                                 <p>{ledgerAddress}</p>
+                                                <div className="submitButtonSection">
+                                                    <Button
+                                                        variant="primary"
+                                                        type="submit"
+                                                        onClick={handleLogin}
+                                                        className="button-double-border"
+                                                    >
+                                                        Proceed to Login
+                                                    </Button>
+                                                </div>
                                             </div>
                                             <div className="select-gas">
                                                 <p onClick={handleAdvanceMode}
@@ -137,17 +187,7 @@ const Ledger = (props) => {
                                                 </Form>
                                                 : ""
                                             }
-                                            <hr/>
-                                            <div className="submitButtonSection">
-                                                <Button
-                                                    variant="primary"
-                                                    type="submit"
-                                                    onClick={handleSubmit}
-                                                    className="button-double-border"
-                                                >
-                                                    Proceed to Login
-                                                </Button>
-                                            </div>
+
                                         </>
                                         :
                                         <>

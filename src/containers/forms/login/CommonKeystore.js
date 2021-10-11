@@ -30,6 +30,7 @@ import Icon from "../../../icons";
 import GetMeta from '../../../utilities/Helpers/getMeta';
 import {queryIdentities} from 'persistencejs/build/transaction/identity/query';
 import GetID from '../../../utilities/Helpers/getID';
+import {fetchAddress} from "../../../utilities/Helpers/ledger";
 const identitiesDefine = new defineIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
 const assetDefine = new defineAsset(process.env.REACT_APP_ASSET_MANTLE_API);
 const ordersDefine = new defineOrder(process.env.REACT_APP_ASSET_MANTLE_API);
@@ -95,13 +96,6 @@ const CommonKeystore = (props) => {
 
 
     const transactionDefination = async (address, userMnemonic, type) => {
-        // const addressList = await queries.getProvisionList();
-        // console.log(addressList, "list from get provionlist ",);
-        // if(addressList || addressList.length){
-        //     return Error("provision address empty please add");
-        // }
-
-
         let queryResponse;
         if (props.TransactionName === 'assetMint') {
             queryResponse = queries.mintAssetQuery(address, userMnemonic, props.totalDefineObject, assetMint, type);
@@ -268,6 +262,9 @@ const CommonKeystore = (props) => {
                 setErrorMessage(err.response
                     ? err.response.data.message
                     : err.message);
+                if(props.TransactionName === "nubid"){
+                    localStorage.clear();
+                }
                 const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
                 if (encryptedMnemonic !== null) {
                     setImportMnemonic(false);
@@ -278,10 +275,63 @@ const CommonKeystore = (props) => {
         } else {
             setLoader(false);
         }
-
-
-
     };
+
+
+    const handleLedgerSubmit = async () => {
+        let loginAddress;
+        if(props.TransactionName === "nubid"){
+
+            let ledgerResponse = await fetchAddress("cosmos", 0, 0);
+            loginAddress = ledgerResponse;
+        }else {
+            loginAddress = localStorage.getItem('userAddress');
+        }
+
+        setLoader(true);
+
+        let queryResponse = transactionDefination(loginAddress , "", "normal");
+        queryResponse.then((result) => {
+            if(result.code){
+                setLoader(false);
+                if(props.TransactionName === "nubid"){
+                    setErrorMessage(result.rawLog);
+                }else
+                {
+                    setErrorMessage(result.rawLog);
+
+                }
+                const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
+                if (encryptedMnemonic !== null) {
+                    setImportMnemonic(false);
+                } else {
+                    setImportMnemonic(true);
+                }
+            }else {
+                if(props.TransactionName === "nubid"){
+                    setNubID(props.totalDefineObject.nubId);
+                    const hashGenerate = GetMetaHelper.Hash(props.totalDefineObject.nubId);
+                    getIdentityId(hashGenerate);
+                }
+                setShow(false);
+                setLoader(false);
+                setKeplrTxn(true);
+                setResponse(result);
+            }
+        }).catch((error) => {
+            setLoader(false);
+            setErrorMessage(error.message);
+            console.log(error,'error');
+            const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
+            if (encryptedMnemonic !== null) {
+                setImportMnemonic(false);
+            } else {
+                setImportMnemonic(true);
+            }
+        });
+    };
+
+
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
@@ -356,7 +406,10 @@ const CommonKeystore = (props) => {
                             <button type={"button"} variant="primary" className="button-double-border" onClick={() => handleKepler("kepler")}>{t("USE_KEPLR")}
                             </button>
                         </div>
-
+                        <div className="submitButtonSection">
+                            <button type={"button"} variant="primary" className="button-double-border" onClick={() => handleLedgerSubmit()}>{t("USE_LEDGER")}
+                            </button>
+                        </div>
                     </Form>
                     {errorMessage !=="" ?
                         <p className="error-response"> {errorMessage}</p> : null

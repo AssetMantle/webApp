@@ -53,6 +53,7 @@ async function issueIdentityQuery(address, mnemonic, data, actionName, type) {
 
 async function sendCoinQuery(address, mnemonic, data, actionName, type) {
     const msgs = await actionName.createSendCoinMsg(address, config.chainID, data.toAddress, data.denom, data.amountData, config.feesAmount, config.feesToken, config.gas, '');
+    console.log(msgs, 'msgs send Query');
     return makeTransaction(address, msgs,mnemonic, type);
 }
 
@@ -124,6 +125,7 @@ async function revealHashQuery(address, mnemonic, data, actionName,type) {
 async function makeTransaction(address, msgs,mnemonic, type, txName){
     if(txName !== 'nub') {
         const addressList = await getProvisionList();
+        console.log(addressList, address, "in check");
         if (addressList || addressList.length) {
             if (addressList.includes(address)) {
                 if (type === "keplr") {

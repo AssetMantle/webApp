@@ -107,8 +107,8 @@ async function KeplerWallet() {
                     // Make sure that the gas prices are higher than the minimum gas prices accepted by chain validators and RPC/REST endpoint.
                     gasPriceStep: {
                         low: 0.00,
-                        average: 0.025,
-                        high: 0.04
+                        average: 0.0,
+                        high: 0.00
                     }
                 });
             } catch {

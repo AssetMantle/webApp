@@ -148,7 +148,7 @@ let en = {
         "ACCOUNT":"Account",
         "ADDRESS_INDEX":"Address Index",
         "LOGIN_WITH_USER_NAME":"Login With User Name",
-        "USE_KEPLR":"User Keplr",
+        "USE_KEPLR":"Use Keplr",
         "SIGN_UP":"Sign Up",
         "USER_NAME":"User Name",
         "ADDRESS":"Address",

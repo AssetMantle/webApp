@@ -1,17 +1,20 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
 import config from "../../../constants/config.json";
 import Copy from "../../../components/copy";
 import {useDispatch, useSelector} from "react-redux";
 import * as faucet from "../../../store/actions/faucet";
+import {Button} from "react-bootstrap";
+import {Provision, UnProvision} from "../../forms/identities";
 
 const IdentityList = React.memo(() => {
     const {t} = useTranslation();
     const identityId = localStorage.getItem('identityId');
     const userAddress = localStorage.getItem('userAddress');
     const userName = localStorage.getItem('userName');
-
+    const [externalComponent, setExternalComponent] = useState("");
+    const [identity, setIdentity] = useState([]);
     const identityList = useSelector((state) => state.identities.identityList);
 
     const loader = useSelector((state) => state.identities.loading);
@@ -34,44 +37,25 @@ const IdentityList = React.memo(() => {
     {
         const identity= identityList[0];
         Object.keys(identity['mutableProperties']).map((key, index) => {
-            if(key === config.URI){
-                const imageExtension = identity['mutableProperties'][key].substring(identity['mutableProperties'][key].lastIndexOf('.') + 1);
-                if(imageExtension === "gltf"){
-                    ImageData =  <div className="dummy-image image-sectiont asset-view-modal-viewer">
-                        <model-viewer
-                            id="mv-astronaut"
-                            src={identity['mutableProperties'][key]}
-                            camera-controls
-                            ar
-                            auto-rotate
-                            alt="A 3D model of an astronaut"
-                        >
-                        </model-viewer>
+            if(key !== config.URI) {
+                let content =
+                    <div className="row property-section" key={index}>
+                        <div
+                            className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            {key !== 'style' && key !== config.URI ?
+                                <div className="list-item">
+                                    <p
+                                        className="list-item-label">{key} </p>
+                                    <p
+                                        className="list-item-value">{identity['mutableProperties'][key]}</p>
+                                </div>
+                                : ""
+                            }
+                        </div>
                     </div>;
-                }else {
-                    ImageData = <div className="dummy-image image-sectiont">
-                        <img src={identity['mutableProperties'][key]} alt="image"/>
-                    </div>;
-                }
 
+                mutableContentData.push(content);
             }
-            let content =
-                <div className="row property-section" key={index}>
-                    <div
-                        className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                        {key !== 'style' && key !== config.URI ?
-                            <div className="list-item">
-                                <p
-                                    className="list-item-label">{key} </p>
-                                <p
-                                    className="list-item-value">{identity['mutableProperties'][key]}</p>
-                            </div>
-                            : ""
-                        }
-                    </div>
-                </div>;
-
-            mutableContentData.push(content);
         });
     }
     if(identityList.length && identityList[0]['immutableProperties'])
@@ -98,6 +82,12 @@ const IdentityList = React.memo(() => {
             }
         });
     }
+
+    const handleModalData = (formName, identityId, identity) => {
+        setExternalComponent(formName);
+        setIdentity(identity);
+    };
+    
     return (
         <div className="list-container profile-section">
             {loader ?
@@ -166,6 +156,12 @@ const IdentityList = React.memo(() => {
                                 : <p className="provision-address">Empty</p>
                             }
                         </div>
+                        <div className="property-actions">
+                            <Button variant="primary" size="sm"
+                                onClick={() => handleModalData("Provision", identityId)}>{t("PROVISION")}</Button>
+                            <Button variant="primary" size="sm"
+                                onClick={() => handleModalData("UnProvision", identityId, identityList[0].provisionedAddressList)}>{t("UN_PROVISION")}</Button>
+                        </div>
                     </div>
                 </div>
                   
@@ -196,7 +192,15 @@ const IdentityList = React.memo(() => {
                 {/*</div>*/}
 
             </div>
-
+            {externalComponent === 'Provision' ?
+                <Provision setExternalComponent={setExternalComponent} identityId={identityId}/> :
+                null
+            }
+            {externalComponent === 'UnProvision' ?
+                <UnProvision setExternalComponent={setExternalComponent} identityId={identityId}
+                    userList={identity}/> :
+                null
+            }
         </div>
     );
 });

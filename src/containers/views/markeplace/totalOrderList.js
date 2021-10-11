@@ -14,6 +14,7 @@ const TotalOrders = React.memo(() => {
     const error = useSelector((state) => state.markePlace.error);
 
     const handleAsset = (id,order) => {
+        console.log(id, "order data", order);
         history.push({
             pathname : '/order/view',
             state :{

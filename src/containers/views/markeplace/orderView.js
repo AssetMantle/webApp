@@ -27,6 +27,7 @@ const OrderView = React.memo((props) => {
     useEffect(() => {
         if (props.location.state !== undefined) {
             setOrderData(props.location.state.order);
+            setOrderId(props.location.state.orderID);
         }
     }, []);
     const handleModalData = (formName, orderId, order) => {

@@ -39,7 +39,6 @@ export const fetchMarketPlace = () => {
                         'mutableProperties':mutableProperties[0]
                     });
                 }
-                console.log(ordersListNew, "iuser ordersListNew");
 
                 dispatch({
                     type: SET_MARKET_ORDERS,
