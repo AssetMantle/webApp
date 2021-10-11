@@ -233,6 +233,7 @@ const CommonKeystore = (props) => {
             let queryResponse =  transactionDefination(wallet.address , userMnemonic, "normal");
             queryResponse.then(function (item) {
                 if(item.code){
+                    localStorage.setItem('loginMode','normal');
                     if(props.TransactionName === "nubid"){
                         setErrorMessage(item.rawLog);
                     }else
@@ -248,6 +249,7 @@ const CommonKeystore = (props) => {
                     }
                 }
                 else {
+                    localStorage.setItem('loginMode','normal');
                     if(props.TransactionName === "nubid"){
                         setNubID(props.totalDefineObject.nubId);
                         const hashGenerate = GetMetaHelper.Hash(props.totalDefineObject.nubId);
@@ -279,6 +281,7 @@ const CommonKeystore = (props) => {
 
 
     const handleLedgerSubmit = async () => {
+
         let loginAddress;
         if(props.TransactionName === "nubid"){
 
@@ -293,6 +296,7 @@ const CommonKeystore = (props) => {
         let queryResponse = transactionDefination(loginAddress , "", "normal");
         queryResponse.then((result) => {
             if(result.code){
+                localStorage.setItem('loginMode','ledger');
                 setLoader(false);
                 if(props.TransactionName === "nubid"){
                     setErrorMessage(result.rawLog);
@@ -313,6 +317,7 @@ const CommonKeystore = (props) => {
                     const hashGenerate = GetMetaHelper.Hash(props.totalDefineObject.nubId);
                     getIdentityId(hashGenerate);
                 }
+                localStorage.setItem('loginMode','ledger');
                 setShow(false);
                 setLoader(false);
                 setKeplrTxn(true);
@@ -403,11 +408,11 @@ const CommonKeystore = (props) => {
                             </Button>
                         </div>
                         <div className="submitButtonSection">
-                            <button type={"button"} variant="primary" className="button-double-border" onClick={() => handleKepler("kepler")}>{t("USE_KEPLR")}
+                            <button type="button" variant="primary" className="button-double-border" onClick={() => handleKepler("kepler")}>{t("USE_KEPLR")}
                             </button>
                         </div>
                         <div className="submitButtonSection">
-                            <button type={"button"} variant="primary" className="button-double-border" onClick={() => handleLedgerSubmit()}>{t("USE_LEDGER")}
+                            <button type="button" variant="primary" className="button-double-border" onClick={() => handleLedgerSubmit()}>{t("USE_LEDGER")}
                             </button>
                         </div>
                     </Form>
