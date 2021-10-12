@@ -138,7 +138,7 @@ const MaintainerList = React.memo(() => {
                     : ""}
                 {
                     error !== '' ?
-                        <p className="empty-list">{t("ASSETS_NOT_FOUND")}</p>
+                        <p className="empty-list">{t("MAINTAINERS_NOT_FOUND")}</p>
                         : ""
                 }
 

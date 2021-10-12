@@ -6,8 +6,10 @@ import { Ledger, PrivateKey, Keplr} from "./index";
 import  LedgerTransaction from "../transaction/Ledger";
 import  KeplrTransaction from "../transaction/Keplr";
 import PrivateKeyTransaction from "../transaction/PrivateKey";
+import {useHistory} from "react-router-dom";
 
 const TransactionOptions = (props) => {
+    const history = useHistory();
     const { t } = useTranslation();
     const [show, setShow] = useState(true);
     const [externalComponent, setExternalComponent] = useState("");
@@ -16,6 +18,9 @@ const TransactionOptions = (props) => {
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
+        if(props.TransactionName==="nubid" || props.TransactionName === "login"){
+            history.push('/');
+        }
     };
 
     const handleRoute = (route) => {
@@ -56,7 +61,7 @@ const TransactionOptions = (props) => {
                     </div>
                 </Modal.Body>
             </Modal>
-            {props.pageName === "login" ?
+            {props.TransactionName === "login" ?
                 <>
                     {
                         externalComponent === 'Keystore' ?

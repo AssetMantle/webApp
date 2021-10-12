@@ -3,7 +3,7 @@ import Icon from "../../../icons";
 import {Button, Modal} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import KeplerWallet from "../../../utilities/Helpers/kelplr";
-// import Loader from "../../../components/loader";
+
 const Keplr = (props) => {
     const history = useHistory();
     const [show, setShow] = useState(true);
@@ -21,38 +21,38 @@ const Keplr = (props) => {
         const kepler = KeplerWallet();
         kepler.then(function () {
             const keplrAddress = localStorage.getItem("keplerAddress");
-            let list = [];
-            let idList = [];
-            const addressList = localStorage.getItem("addresses");
-            const userList = localStorage.getItem("userList");
-            const identityList = localStorage.getItem("identityList");
-            if(identityList !== null){
-                idList = JSON.parse(identityList);
-            }
-            if(userList !== null){
-                list = JSON.parse(userList);
-            }
-            if (addressList.includes(keplrAddress)) {
-                idList.push({[userName]:  props.userData.identityId});
-                list.push(userName);
-                localStorage.setItem("identityId", props.userData.identityId);
-                localStorage.setItem("userList", JSON.stringify(list));
-                localStorage.setItem("userName", userName);
-                setAddress(keplrAddress);
-                localStorage.setItem("userAddress", keplrAddress);
-                localStorage.setItem("loginMode","keplr");
-                localStorage.setItem("identityList",  JSON.stringify(idList));
-                setErrorMessage("");
-            } else {
-                console.log(addressList, "addressList");
-                setErrorMessage('Keplr address not found in identity list');
-            }
+            setAddress(keplrAddress);
         }).catch(err => {
             setErrorMessage(err.message);
         });
 
     }, []);
     const handleSubmit = () => {
+        let list = [];
+        let idList = [];
+        const addressList = localStorage.getItem("addresses");
+        const userList = localStorage.getItem("userList");
+        const identityList = localStorage.getItem("identityList");
+        if(identityList !== null){
+            idList = JSON.parse(identityList);
+        }
+        if(userList !== null){
+            list = JSON.parse(userList);
+        }
+        if (addressList.includes(address)) {
+            idList.push({[userName]:  props.userData.identityId});
+            list.push(userName);
+            localStorage.setItem("identityId", props.userData.identityId);
+            localStorage.setItem("userList", JSON.stringify(list));
+            localStorage.setItem("userName", userName);
+            localStorage.setItem("userAddress", address);
+            localStorage.setItem("loginMode","keplr");
+            localStorage.setItem("identityList",  JSON.stringify(idList));
+            setErrorMessage("");
+        } else {
+            console.log(addressList, "addressList");
+            setErrorMessage('Keplr address not found in identity list');
+        }
         history.push('/profile');
     };
     const handleClose = () => {
