@@ -3,8 +3,8 @@ import {Form, Button, Modal} from 'react-bootstrap';
 import InputField from '../../../components/inputField';
 import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
-import CommonKeystore from './CommonKeystore';
 import {useHistory} from "react-router-dom";
+import TransactionOptions from "../login/TransactionOptions";
 
 const CreateIdentity = () => {
     const [totalDefineObject, setTotalDefineObject] = useState({});
@@ -73,7 +73,7 @@ const CreateIdentity = () => {
             <div>
                 {
                     externalComponent === 'Keystore' ?
-                        <CommonKeystore
+                        <TransactionOptions
                             setExternalComponent={setExternalComponent}
                             totalDefineObject={totalDefineObject}
                             TransactionName={'nubid'}

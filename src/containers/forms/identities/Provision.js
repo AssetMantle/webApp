@@ -3,7 +3,7 @@ import {Form, Button, Modal} from 'react-bootstrap';
 import InputField from '../../../components/inputField';
 import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
-import CommonKeystore from '../login/CommonKeystore';
+import TransactionOptions from "../login/TransactionOptions";
 
 
 const Provision = (props) => {
@@ -65,7 +65,7 @@ const Provision = (props) => {
             </Modal>
             {
                 externalComponent === 'Keystore' ?
-                    <CommonKeystore
+                    <TransactionOptions
                         setExternalComponent={setExternalComponent}
                         totalDefineObject={totalDefineObject}
                         TransactionName={'provision'}

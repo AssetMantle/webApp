@@ -5,7 +5,7 @@ import Loader from '../../../components/loader';
 import config from '../../../constants/config.json';
 import FilterHelpers from '../../../utilities/Helpers/filter';
 import GetProperty from '../../../utilities/Helpers/getProperty';
-import CommonKeystore from '../login/CommonKeystore';
+import TransactionOptions from "../login/TransactionOptions";
 
 
 
@@ -199,7 +199,7 @@ const MutateAsset = (props) => {
             </Modal>
             {
                 externalComponent === 'Keystore' ?
-                    <CommonKeystore
+                    <TransactionOptions
                         setExternalComponent={setExternalComponent}
                         totalDefineObject={totalDefineObject}
                         TransactionName={'mutate Asset'}

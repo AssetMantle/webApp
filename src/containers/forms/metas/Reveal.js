@@ -3,7 +3,7 @@ import {Form, Button, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
 import GetProperty from "../../../utilities/Helpers/getProperty";
-import CommonKeystore from '../login/CommonKeystore';
+import TransactionOptions from "../login/TransactionOptions";
 
 const Reveal = (props) => {
     const PropertyHelper = new GetProperty();
@@ -96,7 +96,7 @@ const Reveal = (props) => {
             </Modal>
             {
                 externalComponent === 'Keystore' ?
-                    <CommonKeystore
+                    <TransactionOptions
                         setExternalComponent={setExternalComponent}
                         totalDefineObject={totalDefineObject} TransactionName={'reveal'}
                         ActionName={props.ActionName}

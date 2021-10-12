@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
-import CommonKeystore from '../login/CommonKeystore';
+import TransactionOptions from "../login/TransactionOptions";
 import Loader from "../../../components/loader";
 const SendCoin = (props) => {
     const {t} = useTranslation();
@@ -88,7 +88,7 @@ const SendCoin = (props) => {
             <div>
                 {
                     externalComponent === 'Keystore' ?
-                        <CommonKeystore
+                        <TransactionOptions
                             setExternalComponent={setExternalComponent}
                             totalDefineObject={totalDefineObject}
                             TransactionName={'sendcoin'}

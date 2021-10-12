@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import {Form, Button, Modal} from 'react-bootstrap';
 import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
-
-import CommonKeystore from '../login/CommonKeystore';
+import TransactionOptions from "../login/TransactionOptions";
 
 const BurnAsset = (props) => {
     const {t} = useTranslation();
@@ -57,7 +56,7 @@ const BurnAsset = (props) => {
             </Modal>
             {
                 externalComponent === 'Keystore' ?
-                    <CommonKeystore
+                    <TransactionOptions
                         setExternalComponent={setExternalComponent}
                         totalDefineObject={totalDefineObject}
                         TransactionName={'burn asset'}

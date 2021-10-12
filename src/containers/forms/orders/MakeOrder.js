@@ -9,7 +9,7 @@ import config from "../../../constants/config.json";
 import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetProperty from "../../../utilities/Helpers/getProperty";
-import CommonKeystore from '../login/CommonKeystore';
+import TransactionOptions from "../login/TransactionOptions";
 
 const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 
@@ -554,7 +554,7 @@ const MakeOrder = (props) => {
             </Modal>
             {
                 externalComponent === 'Keystore' ?
-                    <CommonKeystore
+                    <TransactionOptions
                         setExternalComponent={setExternalComponent}
                         totalDefineObject={totalDefineObject} TransactionName={'make order'}
                         ActionName={props.ActionName}

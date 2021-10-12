@@ -8,9 +8,9 @@ import DownloadLink from 'react-download-link';
 import {useTranslation} from 'react-i18next';
 import axios from 'axios';
 import {useHistory} from 'react-router-dom';
-import Loader from '../../components/loader';
-import Icon from '../../icons';
-import ImportKeys from './signup/ImportKeys';
+import Loader from '../../../components/loader';
+import Icon from '../../../icons';
+import ImportKeys from './ImportKeys';
 
 const KeysCreate = () => {
     const [loader, setLoader] = useState(false);

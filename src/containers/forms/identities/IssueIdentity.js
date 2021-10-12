@@ -7,8 +7,8 @@ import config from '../../../constants/config.json';
 import Loader from '../../../components/loader';
 import FilterHelpers from '../../../utilities/Helpers/filter';
 import GetMeta from '../../../utilities/Helpers/getMeta';
-import CommonKeystore from '../login/CommonKeystore';
 import GetProperty from '../../../utilities/Helpers/getProperty';
+import TransactionOptions from "../login/TransactionOptions";
 
 const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 const classificationsQuery = new cls(process.env.REACT_APP_ASSET_MANTLE_API);
@@ -507,7 +507,7 @@ const IssueIdentity = (props) => {
             <div>
                 {
                     externalComponent === 'Keystore' ?
-                        <CommonKeystore
+                        <TransactionOptions
                             setExternalComponent={setExternalComponent}
                             totalDefineObject={totalDefineObject}
                             TransactionName={'issueidentity'}

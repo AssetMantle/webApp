@@ -2,13 +2,13 @@ import React, {useState, useEffect} from 'react';
 import {cls} from 'persistencejs/build/transaction/classification/query';
 import {Form, Button, Modal} from 'react-bootstrap';
 import {useTranslation} from 'react-i18next';
-import CommonKeystore from '../login/CommonKeystore';
 import {queryMeta} from 'persistencejs/build/transaction/meta/query';
 import config from '../../../constants/config.json';
 import Loader from '../../../components/loader';
 import FilterHelpers from '../../../utilities/Helpers/filter';
 import GetMeta from '../../../utilities/Helpers/getMeta';
 import GetProperty from '../../../utilities/Helpers/getProperty';
+import TransactionOptions from "../login/TransactionOptions";
 
 const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 const classificationsQuery = new cls(process.env.REACT_APP_ASSET_MANTLE_API);
@@ -502,7 +502,7 @@ const MintAsset = (props) => {
             <div>
                 {
                     externalComponent === 'Keystore' ?
-                        <CommonKeystore
+                        <TransactionOptions
                             setExternalComponent={setExternalComponent}
                             totalDefineObject={totalDefineObject}
                             TransactionName={'assetMint'}

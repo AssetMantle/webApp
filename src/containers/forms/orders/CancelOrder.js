@@ -3,7 +3,7 @@ import {Form, Button, Modal} from 'react-bootstrap';
 import GetID from '../../../utilities/Helpers/getID';
 import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
-import CommonKeystore from '../login/CommonKeystore';
+import TransactionOptions from "../login/TransactionOptions";
 
 const CancelOrder = (props) => {
     const GetIDHelper = new GetID();
@@ -55,7 +55,7 @@ const CancelOrder = (props) => {
             </Modal>
             {
                 externalComponent === 'Keystore' ?
-                    <CommonKeystore
+                    <TransactionOptions
                         setExternalComponent={setExternalComponent}
                         totalDefineObject={totalDefineObject}
                         TransactionName={'cancel order'}

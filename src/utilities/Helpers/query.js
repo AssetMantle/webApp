@@ -1,7 +1,45 @@
 import config from '../../config';
 import Msgs from './Msgs';
 import transactions from './transactions';
+import {wrapSplits} from "persistencejs/build/transaction/splits/wrap";
+import {unwrapsplits} from "persistencejs/build/transaction/splits/unwrap";
+import {issueIdentity} from "persistencejs/build/transaction/identity/issue";
+import {nubIdentity} from "persistencejs/build/transaction/identity/nub";
+import {defineIdentity} from "persistencejs/build/transaction/identity/define";
+import {defineAsset} from 'persistencejs/build/transaction/assets/define';
+import {defineOrder} from 'persistencejs/build/transaction/orders/define';
+import {sendSplits} from 'persistencejs/build/transaction/splits/send';
+import {makeOrder} from 'persistencejs/build/transaction/orders/make';
+import {mutateAsset} from 'persistencejs/build/transaction/assets/mutate';
+import {cancelOrder} from 'persistencejs/build/transaction/orders/cancel';
+import {burnAsset} from 'persistencejs/build/transaction/assets/burn';
+import {deputizeMaintainer as dm} from 'persistencejs/build/transaction/maintainers/deputize';
+import {provisionIdentity} from 'persistencejs/build/transaction/identity/provision';
+import {unprovisionIdentity} from 'persistencejs/build/transaction/identity/unprovision';
+import {takeOrder} from 'persistencejs/build/transaction/orders/take';
+import {revealMeta} from 'persistencejs/build/transaction/meta/reveal';
 import {queryIdentities} from 'persistencejs/build/transaction/identity/query';
+import {mintAsset} from "persistencejs/build/transaction/assets/mint";
+import {bank} from "persistencejs/build/transaction/bank/sendCoin";
+const identitiesDefine = new defineIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
+const assetDefine = new defineAsset(process.env.REACT_APP_ASSET_MANTLE_API);
+const ordersDefine = new defineOrder(process.env.REACT_APP_ASSET_MANTLE_API);
+const assetMint = new mintAsset(process.env.REACT_APP_ASSET_MANTLE_API);
+const SendCoinQuery = new bank(process.env.REACT_APP_ASSET_MANTLE_API);
+const WrapQuery = new wrapSplits(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesIssue = new issueIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesNub = new nubIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
+const UnWrapQuery = new unwrapsplits(process.env.REACT_APP_ASSET_MANTLE_API);
+const sendSplitQuery = new sendSplits(process.env.REACT_APP_ASSET_MANTLE_API);
+const ordersMake = new makeOrder(process.env.REACT_APP_ASSET_MANTLE_API);
+const assetMutate = new mutateAsset(process.env.REACT_APP_ASSET_MANTLE_API);
+const ordersCancel = new cancelOrder(process.env.REACT_APP_ASSET_MANTLE_API);
+const assetBurn = new burnAsset(process.env.REACT_APP_ASSET_MANTLE_API);
+const deputizeMaintainer = new dm(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesProvision = new provisionIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
+const identitiesUnprovision = new unprovisionIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
+const orderTake = new takeOrder(process.env.REACT_APP_ASSET_MANTLE_API);
+const RevealMeta = new revealMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 
 async function defineQuery(address, mnemonic, data, actionName, type) {
@@ -131,7 +169,7 @@ async function makeTransaction(address, msgs,mnemonic, type, txName){
                 if (type === "keplr") {
                     return await transactions.TransactionWithKeplr([msgs.value.msg[0]], Msgs.Fee(0, 200000), "", process.env.REACT_APP_CHAIN_ID);
                 } else {
-                    return await transactions.TransactionWithMnemonic([msgs.value.msg[0]], Msgs.Fee(0, 200000), '', mnemonic);
+                    return await transactions.TransactionWithMnemonic([msgs.value.msg[0]], Msgs.Fee(0, 200000), '', mnemonic, type);
                 }
             } else {
                 localStorage.removeItem('encryptedMnemonic');
@@ -144,7 +182,7 @@ async function makeTransaction(address, msgs,mnemonic, type, txName){
         if (type === "keplr") {
             return await transactions.TransactionWithKeplr([msgs.value.msg[0]], Msgs.Fee(0, 200000), "", process.env.REACT_APP_CHAIN_ID);
         } else {
-            return await transactions.TransactionWithMnemonic([msgs.value.msg[0]], Msgs.Fee(0, 200000), '', mnemonic);
+            return await transactions.TransactionWithMnemonic([msgs.value.msg[0]], Msgs.Fee(0, 200000), '', mnemonic, type);
         }
     }
 
@@ -167,7 +205,50 @@ async function getProvisionList() {
     }
 }
 
-
+const transactionDefination = async (address, userMnemonic, type, TransactionName, totalDefineObject ) => {
+    let queryResponse;
+    if (TransactionName === 'assetMint') {
+        queryResponse = mintAssetQuery(address, userMnemonic, totalDefineObject, assetMint, type);
+    }  else if (TransactionName === 'wrap') {
+        queryResponse = wrapQuery(address, userMnemonic, totalDefineObject, WrapQuery, type);
+    }  else if (TransactionName === 'unwrap') {
+        queryResponse = unWrapQuery(address, userMnemonic, totalDefineObject, UnWrapQuery, type);
+    }  else if (TransactionName === 'nubid') {
+        console.log(address, userMnemonic, totalDefineObject, identitiesNub, type, 'nubIdQuery');
+        queryResponse = nubIdQuery(address, userMnemonic, totalDefineObject, identitiesNub, type, 'nub');
+    }  else if (TransactionName === 'issueidentity') {
+        queryResponse = issueIdentityQuery(address, userMnemonic, totalDefineObject, identitiesIssue, type);
+    } else if (TransactionName === 'Define Asset') {
+        queryResponse = defineAssetQuery(address, userMnemonic, totalDefineObject, assetDefine, type);
+    }  else if (TransactionName === 'Define Order') {
+        queryResponse = defineOrderQuery(address, userMnemonic, totalDefineObject, ordersDefine, type);
+    } else if (TransactionName === 'Define Identity') {
+        queryResponse = defineQuery(address, userMnemonic, totalDefineObject, identitiesDefine, type);
+    } else if (TransactionName === 'sendcoin') {
+        queryResponse = sendCoinQuery(address, userMnemonic, totalDefineObject, SendCoinQuery,type);
+    } else if (TransactionName === 'send splits') {
+        queryResponse = sendSplitsQuery(address, userMnemonic, totalDefineObject, sendSplitQuery, type);
+    } else if (TransactionName === 'make order') {
+        queryResponse = makeOrderQuery(address, userMnemonic, totalDefineObject, ordersMake, type);
+    }else if (TransactionName === 'take order') {
+        queryResponse = takeOrderQuery(address, userMnemonic, totalDefineObject, orderTake, type);
+    } else if (TransactionName === 'mutate Asset') {
+        queryResponse = mutateAssetQuery(address, userMnemonic, totalDefineObject, assetMutate,type);
+    } else if (TransactionName === 'cancel order') {
+        queryResponse = cancelOrderQuery(address, userMnemonic, totalDefineObject, ordersCancel, type);
+    } else if (TransactionName === 'burn asset') {
+        queryResponse = burnAassetQuery(address, userMnemonic, totalDefineObject, assetBurn, type);
+    } else if (TransactionName === 'deputize') {
+        queryResponse = deputizeQuery(address, userMnemonic, totalDefineObject, deputizeMaintainer, type);
+    } else if (TransactionName === 'provision') {
+        queryResponse = provisionQuery(address, userMnemonic, totalDefineObject, identitiesProvision, type);
+    } else if (TransactionName === 'un provision') {
+        queryResponse = unProvisionQuery(address, userMnemonic, totalDefineObject, identitiesUnprovision, type);
+    } else if (TransactionName === 'reveal') {
+        queryResponse = revealHashQuery(address, userMnemonic, totalDefineObject, RevealMeta, type);
+    }
+    return queryResponse;
+};
 
 export default {
     defineQuery,
@@ -189,4 +270,5 @@ export default {
     defineOrderQuery,
     takeOrderQuery,
     revealHashQuery,
+    transactionDefination,
 };

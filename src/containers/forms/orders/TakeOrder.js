@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {Form, Button, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
-import CommonKeystore from '../login/CommonKeystore';
+import TransactionOptions from "../login/TransactionOptions";
 
 
 const TakeOrder = (props) => {
@@ -83,7 +83,7 @@ const TakeOrder = (props) => {
             </Modal>
             {
                 externalComponent === 'Keystore' ?
-                    <CommonKeystore
+                    <TransactionOptions
                         setExternalComponent={setExternalComponent}
                         totalDefineObject={totalDefineObject} TransactionName={'take order'}
                         ActionName={props.ActionName}

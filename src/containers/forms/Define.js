@@ -2,10 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {Form, Button, Modal} from 'react-bootstrap';
 import InputField from '../../components/inputField';
 import {useTranslation} from 'react-i18next';
-import CommonKeystore from './login/CommonKeystore';
 import Loader from '../../components/loader';
 import GetProperty from '../../utilities/Helpers/getProperty';
-
+import TransactionOptions from "./login/TransactionOptions";
 
 const Define = (props) => {
     const PropertyHelper = new GetProperty();
@@ -301,7 +300,7 @@ const Define = (props) => {
                                 required={true}
                                 onChange={handleChangeType}>
                                 <option
-                                    value="identitiy">{t('IDENTITY')}</option>
+                                    value="identity">{t('IDENTITY')}</option>
                                 <option value="asset">{t('ASSET')}</option>
                                 <option value="order">{t('ORDER')}</option>
                             </Form.Control>
@@ -622,7 +621,7 @@ const Define = (props) => {
             <div>
                 {
                     externalComponent === 'Keystore' ?
-                        <CommonKeystore
+                        <TransactionOptions
                             setExternalComponent={setExternalComponent}
                             totalDefineObject={totalDefineObject}
                             TransactionName={props.FormName}

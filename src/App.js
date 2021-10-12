@@ -3,13 +3,13 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import { Login } from './containers';
 import { IdentityLogin } from "./containers/forms/login";
 import AddressLogin from './containers/AddressLogin';
-import CreateIdentity from "./containers/forms/login/CreateIdentity";
+import CreateIdentity from "./containers/forms/signup/CreateIdentity";
 import { HomePage, RouteNotFound } from './components';
 import HeaderAfterLogin from './components/Headers/HeaderAfterLogin';
 import HeaderBeforeLogin from './components/Headers/HeaderBeforeLogin';
 import offline from './assets/images/offline.svg';
 import { Maintainers, Identities, Assets, Orders, MarketPlace, AssetView, IdentityView, OrderView, AllIdentityList } from './containers/views';
-import KeysCreate from "./containers/forms/KeysCreate";
+import KeysCreate from "./containers/forms/signup/KeysCreate";
 import Footer from './components/Footer';
 import { useTranslation } from 'react-i18next';
 import './assets/css/styles.css';
@@ -18,6 +18,7 @@ import * as markePlace from "./store/actions/marketPlace";
 import * as assets from "./store/actions/assets";
 import * as orders from "./store/actions/orders";
 import * as identities from "./store/actions/identities";
+import * as maintainers from "./store/actions/maintainers";
 import {useDispatch} from "react-redux";
 import PrivateRoute from "./containers/PrivateRoute";
 import "react-image-lightbox/style.css";
@@ -100,6 +101,7 @@ const App = () => {
                 dispatch(assets.fetchAssets(identityID)),
                 dispatch(orders.fetchOrders(identityID)),
                 dispatch(identities.fetchIdentities(identityID)),
+                dispatch(maintainers.fetchMaintainers(identityID)),
             ]);
         };
         fetchOrder();

@@ -142,7 +142,7 @@ const IdentityLogin = (props) => {
             </Modal>
             {
                 externalComponent === 'loginOptions' ?
-                    <TransactionOptions setExternalComponent={setExternalComponent} userData={userData} setShow={setShow} pageName="LoginAction"/> :
+                    <TransactionOptions setExternalComponent={setExternalComponent} userData={userData} setShow={setShow} pageName="login"/> :
                     null
             }
         </div>

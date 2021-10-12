@@ -36,6 +36,7 @@ export const fetchAssets = (identityID) => {
                                 }
                                 const totalData = {...immutableProperties[0], ...mutableProperties[0]};
                                 const objSorted = helper.SortObjectData(totalData);
+
                                 assetsListNew.push({'totalData': objSorted,
                                     'ownerID':ownerId,
                                     'ownableID':ownableID,

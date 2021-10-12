@@ -1,55 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
-import {mintAsset} from "persistencejs/build/transaction/assets/mint";
 import KeplerWallet from "../../../utilities/Helpers/kelplr";
 import {getWallet} from "persistencejs/build/utilities/keys";
 import { useTranslation } from "react-i18next";
 import queries from '../../../utilities/Helpers/query';
 import Loader from "../../../components/loader";
-import {bank} from "persistencejs/build/transaction/bank/sendCoin";
 import ModalCommon from "../../../components/modal";
-import {wrapSplits} from "persistencejs/build/transaction/splits/wrap";
-import {unwrapsplits} from "persistencejs/build/transaction/splits/unwrap";
-import {issueIdentity} from "persistencejs/build/transaction/identity/issue";
-import {nubIdentity} from "persistencejs/build/transaction/identity/nub";
-import {defineIdentity} from "persistencejs/build/transaction/identity/define";
-import {defineAsset} from 'persistencejs/build/transaction/assets/define';
-import {defineOrder} from 'persistencejs/build/transaction/orders/define';
-import {sendSplits} from 'persistencejs/build/transaction/splits/send';
-import {makeOrder} from 'persistencejs/build/transaction/orders/make';
-import {mutateAsset} from 'persistencejs/build/transaction/assets/mutate';
-import {cancelOrder} from 'persistencejs/build/transaction/orders/cancel';
-import {burnAsset} from 'persistencejs/build/transaction/assets/burn';
-import {deputizeMaintainer as dm} from 'persistencejs/build/transaction/maintainers/deputize';
-import {provisionIdentity} from 'persistencejs/build/transaction/identity/provision';
-import {unprovisionIdentity} from 'persistencejs/build/transaction/identity/unprovision';
 import transactions from '../../../utilities/Helpers/transactions';
-import {takeOrder as takeOrderQuery} from 'persistencejs/build/transaction/orders/take';
-import {revealMeta} from 'persistencejs/build/transaction/meta/reveal';
 import Icon from "../../../icons";
 import GetMeta from '../../../utilities/Helpers/getMeta';
-import {queryIdentities} from 'persistencejs/build/transaction/identity/query';
 import GetID from '../../../utilities/Helpers/getID';
 import {fetchAddress} from "../../../utilities/Helpers/ledger";
-const identitiesDefine = new defineIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
-const assetDefine = new defineAsset(process.env.REACT_APP_ASSET_MANTLE_API);
-const ordersDefine = new defineOrder(process.env.REACT_APP_ASSET_MANTLE_API);
-const assetMint = new mintAsset(process.env.REACT_APP_ASSET_MANTLE_API);
-const SendCoinQuery = new bank(process.env.REACT_APP_ASSET_MANTLE_API);
-const WrapQuery = new wrapSplits(process.env.REACT_APP_ASSET_MANTLE_API);
-const identitiesIssue = new issueIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
-const identitiesNub = new nubIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
-const UnWrapQuery = new unwrapsplits(process.env.REACT_APP_ASSET_MANTLE_API);
-const sendSplitQuery = new sendSplits(process.env.REACT_APP_ASSET_MANTLE_API);
-const ordersMake = new makeOrder(process.env.REACT_APP_ASSET_MANTLE_API);
-const assetMutate = new mutateAsset(process.env.REACT_APP_ASSET_MANTLE_API);
-const ordersCancel = new cancelOrder(process.env.REACT_APP_ASSET_MANTLE_API);
-const assetBurn = new burnAsset(process.env.REACT_APP_ASSET_MANTLE_API);
-const deputizeMaintainer = new dm(process.env.REACT_APP_ASSET_MANTLE_API);
-const identitiesProvision = new provisionIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
-const identitiesUnprovision = new unprovisionIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
-const takeOrder = new takeOrderQuery(process.env.REACT_APP_ASSET_MANTLE_API);
-const RevealMeta = new revealMeta(process.env.REACT_APP_ASSET_MANTLE_API);
+import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const CommonKeystore = (props) => {
     const { t } = useTranslation();
@@ -95,67 +57,58 @@ const CommonKeystore = (props) => {
     };
 
 
-    const transactionDefination = async (address, userMnemonic, type) => {
-        let queryResponse;
-        if (props.TransactionName === 'assetMint') {
-            queryResponse = queries.mintAssetQuery(address, userMnemonic, props.totalDefineObject, assetMint, type);
-        }  else if (props.TransactionName === 'wrap') {
-            queryResponse = queries.wrapQuery(address, userMnemonic, props.totalDefineObject, WrapQuery, type);
-        }  else if (props.TransactionName === 'unwrap') {
-            queryResponse = queries.unWrapQuery(address, userMnemonic, props.totalDefineObject, UnWrapQuery, type);
-        }  else if (props.TransactionName === 'nubid') {
-            console.log(address, userMnemonic, props.totalDefineObject, identitiesNub, type, 'nubIdQuery');
-            queryResponse = queries.nubIdQuery(address, userMnemonic, props.totalDefineObject, identitiesNub, type, 'nub');
-        }  else if (props.TransactionName === 'issueidentity') {
-            queryResponse = queries.issueIdentityQuery(address, userMnemonic, props.totalDefineObject, identitiesIssue, type);
-        } else if (props.TransactionName === 'Define Asset') {
-            queryResponse = queries.defineAssetQuery(address, userMnemonic, props.totalDefineObject, assetDefine, type);
-        }  else if (props.TransactionName === 'Define Order') {
-            queryResponse = queries.defineOrderQuery(address, userMnemonic, props.totalDefineObject, ordersDefine, type);
-        } else if (props.TransactionName === 'Define Identity') {
-            queryResponse = queries.defineQuery(address, userMnemonic, props.totalDefineObject, identitiesDefine, type);
-        } else if (props.TransactionName === 'sendcoin') {
-            queryResponse = queries.sendCoinQuery(address, userMnemonic, props.totalDefineObject, SendCoinQuery,type);
-        } else if (props.TransactionName === 'send splits') {
-            queryResponse = queries.sendSplitsQuery(address, userMnemonic, props.totalDefineObject, sendSplitQuery, type);
-        } else if (props.TransactionName === 'make order') {
-            queryResponse = queries.makeOrderQuery(address, userMnemonic, props.totalDefineObject, ordersMake, type);
-        }else if (props.TransactionName === 'take order') {
-            queryResponse = queries.takeOrderQuery(address, userMnemonic, props.totalDefineObject, takeOrder, type);
-        } else if (props.TransactionName === 'mutate Asset') {
-            queryResponse = queries.mutateAssetQuery(address, userMnemonic, props.totalDefineObject, assetMutate,type);
-        } else if (props.TransactionName === 'cancel order') {
-            queryResponse = queries.cancelOrderQuery(address, userMnemonic, props.totalDefineObject, ordersCancel, type);
-        } else if (props.TransactionName === 'burn asset') {
-            queryResponse = queries.burnAassetQuery(address, userMnemonic, props.totalDefineObject, assetBurn, type);
-        } else if (props.TransactionName === 'deputize') {
-            queryResponse = queries.deputizeQuery(address, userMnemonic, props.totalDefineObject, deputizeMaintainer, type);
-        } else if (props.TransactionName === 'provision') {
-            queryResponse = queries.provisionQuery(address, userMnemonic, props.totalDefineObject, identitiesProvision, type);
-        } else if (props.TransactionName === 'un provision') {
-            queryResponse = queries.unProvisionQuery(address, userMnemonic, props.totalDefineObject, identitiesUnprovision, type);
-        } else if (props.TransactionName === 'reveal') {
-            queryResponse = queries.revealHashQuery(address, userMnemonic, props.totalDefineObject, RevealMeta, type);
-        }
-
-        return queryResponse;
-    };
+    // const transactionDefination = async (address, userMnemonic, type) => {
+    //     let queryResponse;
+    //     if (props.TransactionName === 'assetMint') {
+    //         queryResponse = queries.mintAssetQuery(address, userMnemonic, props.totalDefineObject, assetMint, type);
+    //     }  else if (props.TransactionName === 'wrap') {
+    //         queryResponse = queries.wrapQuery(address, userMnemonic, props.totalDefineObject, WrapQuery, type);
+    //     }  else if (props.TransactionName === 'unwrap') {
+    //         queryResponse = queries.unWrapQuery(address, userMnemonic, props.totalDefineObject, UnWrapQuery, type);
+    //     }  else if (props.TransactionName === 'nubid') {
+    //         console.log(address, userMnemonic, props.totalDefineObject, identitiesNub, type, 'nubIdQuery');
+    //         queryResponse = queries.nubIdQuery(address, userMnemonic, props.totalDefineObject, identitiesNub, type, 'nub');
+    //     }  else if (props.TransactionName === 'issueidentity') {
+    //         queryResponse = queries.issueIdentityQuery(address, userMnemonic, props.totalDefineObject, identitiesIssue, type);
+    //     } else if (props.TransactionName === 'Define Asset') {
+    //         queryResponse = queries.defineAssetQuery(address, userMnemonic, props.totalDefineObject, assetDefine, type);
+    //     }  else if (props.TransactionName === 'Define Order') {
+    //         queryResponse = queries.defineOrderQuery(address, userMnemonic, props.totalDefineObject, ordersDefine, type);
+    //     } else if (props.TransactionName === 'Define Identity') {
+    //         queryResponse = queries.defineQuery(address, userMnemonic, props.totalDefineObject, identitiesDefine, type);
+    //     } else if (props.TransactionName === 'sendcoin') {
+    //         queryResponse = queries.sendCoinQuery(address, userMnemonic, props.totalDefineObject, SendCoinQuery,type);
+    //     } else if (props.TransactionName === 'send splits') {
+    //         queryResponse = queries.sendSplitsQuery(address, userMnemonic, props.totalDefineObject, sendSplitQuery, type);
+    //     } else if (props.TransactionName === 'make order') {
+    //         queryResponse = queries.makeOrderQuery(address, userMnemonic, props.totalDefineObject, ordersMake, type);
+    //     }else if (props.TransactionName === 'take order') {
+    //         queryResponse = queries.takeOrderQuery(address, userMnemonic, props.totalDefineObject, takeOrder, type);
+    //     } else if (props.TransactionName === 'mutate Asset') {
+    //         queryResponse = queries.mutateAssetQuery(address, userMnemonic, props.totalDefineObject, assetMutate,type);
+    //     } else if (props.TransactionName === 'cancel order') {
+    //         queryResponse = queries.cancelOrderQuery(address, userMnemonic, props.totalDefineObject, ordersCancel, type);
+    //     } else if (props.TransactionName === 'burn asset') {
+    //         queryResponse = queries.burnAassetQuery(address, userMnemonic, props.totalDefineObject, assetBurn, type);
+    //     } else if (props.TransactionName === 'deputize') {
+    //         queryResponse = queries.deputizeQuery(address, userMnemonic, props.totalDefineObject, deputizeMaintainer, type);
+    //     } else if (props.TransactionName === 'provision') {
+    //         queryResponse = queries.provisionQuery(address, userMnemonic, props.totalDefineObject, identitiesProvision, type);
+    //     } else if (props.TransactionName === 'un provision') {
+    //         queryResponse = queries.unProvisionQuery(address, userMnemonic, props.totalDefineObject, identitiesUnprovision, type);
+    //     } else if (props.TransactionName === 'reveal') {
+    //         queryResponse = queries.revealHashQuery(address, userMnemonic, props.totalDefineObject, RevealMeta, type);
+    //     }
+    //     return queryResponse;
+    // };
 
     const handleKepler = () => {
         setLoader(true);
         setErrorMessage("");
         const kepler = KeplerWallet();
         kepler.then(function () {
-            // let addressList = JSON.parse(localStorage.getItem("addresses"));
-            // console.log(addressList, 'addressList');
-
             const keplrAddress = localStorage.getItem("keplerAddress");
-            // if (!addressList.includes(keplrAddress)) {
-            //     setLoader(false);
-            //     setErrorMessage("Adress Mismatch: Login address not matched with keplr address");
-            //     return;
-            // }
-            let queryResponse = transactionDefination(keplrAddress , "", "keplr");
+            let queryResponse = queries.transactionDefination(keplrAddress , "", "keplr", props.TransactionName, props.totalDefineObject);
             queryResponse.then((result) => {
                 console.log("response finale", result);
                 if(result.code){
@@ -199,8 +152,6 @@ const CommonKeystore = (props) => {
             setLoader(false);
             setErrorMessage(err.message);
         });
-
-
     };
     const handleSubmit = async e => {
         e.preventDefault();
@@ -230,7 +181,7 @@ const CommonKeystore = (props) => {
         }
         if (userMnemonic !== undefined) {
             const wallet = await getWallet(userMnemonic, "");
-            let queryResponse =  transactionDefination(wallet.address , userMnemonic, "normal");
+            let queryResponse =  queries.transactionDefination(wallet.address , userMnemonic, "normal", props.TransactionName, props.totalDefineObject);
             queryResponse.then(function (item) {
                 if(item.code){
                     localStorage.setItem('loginMode','normal');
@@ -284,7 +235,6 @@ const CommonKeystore = (props) => {
 
         let loginAddress;
         if(props.TransactionName === "nubid"){
-
             let ledgerResponse = await fetchAddress("cosmos", 0, 0);
             loginAddress = ledgerResponse;
         }else {
@@ -293,7 +243,7 @@ const CommonKeystore = (props) => {
 
         setLoader(true);
 
-        let queryResponse = transactionDefination(loginAddress , "", "normal");
+        let queryResponse = queries.transactionDefination(loginAddress , "", "ledger", props.TransactionName, props.totalDefineObject);
         queryResponse.then((result) => {
             if(result.code){
                 localStorage.setItem('loginMode','ledger');
@@ -407,15 +357,15 @@ const CommonKeystore = (props) => {
                                 {t("SUBMIT")}
                             </Button>
                         </div>
-                        <div className="submitButtonSection">
-                            <button type="button" variant="primary" className="button-double-border" onClick={() => handleKepler("kepler")}>{t("USE_KEPLR")}
-                            </button>
-                        </div>
-                        <div className="submitButtonSection">
-                            <button type="button" variant="primary" className="button-double-border" onClick={() => handleLedgerSubmit()}>{t("USE_LEDGER")}
-                            </button>
-                        </div>
                     </Form>
+                    <div className="submitButtonSection text-center">
+                        <button type="button" variant="primary" className="button-double-border" onClick={() => handleKepler("kepler")}>{t("USE_KEPLR")}
+                        </button>
+                    </div>
+                    <div className="submitButtonSection text-center">
+                        <button type="button" variant="primary" className="button-double-border" onClick={handleLedgerSubmit}>{t("USE_LEDGER")}
+                        </button>
+                    </div>
                     {errorMessage !=="" ?
                         <p className="error-response"> {errorMessage}</p> : null
                     }

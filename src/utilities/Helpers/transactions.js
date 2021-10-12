@@ -9,8 +9,6 @@ const passwordHashAlgorithm = 'sha512';
 const {SigningCosmosClient} = require('@cosmjs/launchpad');
 const restAPI = process.env.REACT_APP_ASSET_MANTLE_API;
 const bip39 = require("bip39");
-const loginMode = localStorage.getItem("loginMode");
-
 function PrivateKeyReader(file, password) {
     return new Promise(function(resolve, reject) {
         const fileReader = new FileReader();
@@ -87,10 +85,10 @@ async function Transaction(wallet, signerAddress, msgs, fee, memo = '') {
     return await cosmJS.signAndBroadcast(msgs, fee, memo);
 }
 
-async function TransactionWithMnemonic(msgs, fee, memo, mnemonic) {
+async function TransactionWithMnemonic(msgs, fee, memo, mnemonic, type) {
     let accountNumber = localStorage.getItem('accountNumber')*1;
     let addressIndex = localStorage.getItem('addressIndex')*1;
-    if(loginMode === "normal"){
+    if(type === "normal"){
         const [wallet, address] = await MnemonicWalletWithPassphrase(mnemonic);
         return await Transaction(wallet, address, msgs, fee, memo);
     }else {

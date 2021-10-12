@@ -146,7 +146,7 @@ const AssetList = React.memo(() => {
 
                 {
                     error !== '' ?
-                        <p className="empty-list">{t("ORDERS_NOT_FOUND")}</p>
+                        <p className="empty-list">{t("ASSETS_NOT_FOUND")}</p>
                         : ""
                 }
             </div>

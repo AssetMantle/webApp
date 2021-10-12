@@ -557,7 +557,7 @@ html, body, #root, .app {
 
 .mnemonic-login-section.login-section.key-select form {
   align-items: start;
-  padding-left: 25px;
+  padding: 0 20px;
   margin: 15px 0;
 }
 .mnemonic-login-section.login-section.key-select form input {

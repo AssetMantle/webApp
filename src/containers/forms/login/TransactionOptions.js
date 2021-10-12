@@ -3,6 +3,9 @@ import { Modal } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import Icon from "../../../icons";
 import { Ledger, PrivateKey, Keplr} from "./index";
+import  LedgerTransaction from "../transaction/Ledger";
+import  KeplrTransaction from "../transaction/Keplr";
+import PrivateKeyTransaction from "../transaction/PrivateKey";
 
 const TransactionOptions = (props) => {
     const { t } = useTranslation();
@@ -53,30 +56,74 @@ const TransactionOptions = (props) => {
                     </div>
                 </Modal.Body>
             </Modal>
-            {
-                externalComponent === 'Keystore' ?
-                    <PrivateKey 
-                        setExternalComponent={setExternalComponent}
-                        setShow={setShow}
-                        userData={props.userData}
-                        pageName="LoginAction"
-                    /> :
-                    null
-            }
-            {
-                externalComponent === 'Keplr' ?
-                    <Keplr setExternalComponent={setExternalComponent}
-                        userData={props.userData}
-                        setShow={setShow}/> :
-                    null
-            }
-            {
-                externalComponent === 'Ledger' ?
-                    <Ledger setExternalComponent={setExternalComponent}
-                        userData={props.userData}
-                        setShow={setShow}
-                    /> :
-                    null
+            {props.pageName === "login" ?
+                <>
+                    {
+                        externalComponent === 'Keystore' ?
+                            <PrivateKey
+                                setExternalComponent={setExternalComponent}
+                                setShow={setShow}
+                                userData={props.userData}
+                                pageName="LoginAction"
+                            /> :
+                            null
+                    }
+                    {
+                        externalComponent === 'Keplr' ?
+                            <Keplr setExternalComponent={setExternalComponent}
+                                userData={props.userData}
+                                setShow={setShow}/> :
+                            null
+                    }
+                    {
+                        externalComponent === 'Ledger' ?
+                            <Ledger setExternalComponent={setExternalComponent}
+                                userData={props.userData}
+                                setShow={setShow}
+                            /> :
+                            null
+                    }
+                </>
+                :
+                <>
+                    {
+                        externalComponent === 'Keystore' ?
+                            <PrivateKeyTransaction
+                                setExternalComponent={setExternalComponent}
+                                userData={props.userData}
+                                totalDefineObject={props.totalDefineObject}
+                                TransactionName={props.TransactionName}
+                                handleClose={handleClose}
+                                setShow={setShow}
+                            /> :
+                            null
+                    }
+                    {
+                        externalComponent === 'Keplr' ?
+                            <KeplrTransaction
+                                setExternalComponent={setExternalComponent}
+                                userData={props.userData}
+                                totalDefineObject={props.totalDefineObject}
+                                TransactionName={props.TransactionName}
+                                handleClose={handleClose}
+                                setShow={setShow}
+                            /> :
+                            null
+                    }
+                    {
+                        externalComponent === 'Ledger' ?
+                            <LedgerTransaction
+                                setExternalComponent={setExternalComponent}
+                                userData={props.userData}
+                                totalDefineObject={props.totalDefineObject}
+                                TransactionName={props.TransactionName}
+                                handleClose={handleClose}
+                                setShow={setShow}
+
+                            /> :
+                            null
+                    }
+                </>
             }
         </div>
     );

@@ -3,8 +3,7 @@ import {Form, Button, Modal} from 'react-bootstrap';
 import {cls} from 'persistencejs/build/transaction/classification/query';
 import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
-
-import CommonKeystore from '../login/CommonKeystore';
+import TransactionOptions from "../login/TransactionOptions";
 
 const classificationsQuery = new cls(process.env.REACT_APP_ASSET_MANTLE_API);
 
@@ -17,9 +16,9 @@ const Deputize = (props) => {
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const [mutableList, setMutableList] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
-
+    console.log(props, "props");
     useEffect(() => {
-        const classificationId = props.maintainerData.value.id.value.classificationID.value.idString;
+        const classificationId = props.maintainerData['classificationID'];
         const classificationResponse = classificationsQuery.queryClassificationWithID(classificationId);
 
         classificationResponse.then(function(item) {
@@ -44,8 +43,8 @@ const Deputize = (props) => {
     const handleSubmit = (event) => {
         setLoader(false);
         event.preventDefault();
-        const classificationId = props.maintainerData.value.id.value.classificationID.value.idString;
-        const identityId = props.maintainerData.value.id.value.identityID.value.idString;
+        const classificationId = props.maintainerData['classificationID'];
+        const identityId = props.maintainerData['identityID'];
         const addMaintainer = document.getElementById('addMaintainer').checked;
         const mutateMaintainer = document.getElementById('mutateMaintainer').checked;
         const removeMaintainer = document.getElementById('removeMaintainer').checked;
@@ -164,7 +163,7 @@ const Deputize = (props) => {
             </Modal>
             {
                 externalComponent === 'Keystore' ?
-                    <CommonKeystore
+                    <TransactionOptions
                         setExternalComponent={setExternalComponent}
                         totalDefineObject={totalDefineObject}
                         TransactionName={'deputize'}
