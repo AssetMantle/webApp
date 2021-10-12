@@ -153,6 +153,7 @@ let en = {
         "USER_NAME":"User Name",
         "ADDRESS":"Address",
         "ADD_USER":"Add User",
+        "KEYSTORE_LOGIN":"Keystore Login"
 
     }
 };

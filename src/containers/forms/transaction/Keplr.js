@@ -20,9 +20,6 @@ const KeplrTransaction = (props) => {
     const [response, setResponse] = useState({});
     const GetIDHelper = new GetID();
     const GetMetaHelper = new GetMeta();
-    // const [address, setAddress] = useState(false);
-    // const [loader, setLoader] = useState(false);
-    const address = localStorage.getItem("userAddress");
     const backHandler = () => {
         setShow(false);
         props.setShow(true);
@@ -52,8 +49,13 @@ const KeplrTransaction = (props) => {
         setErrorMessage("");
         const kepler = KeplerWallet();
         kepler.then(function () {
-            // const keplrAddress = localStorage.getItem("keplerAddress");
-            // setAddress(address);
+            let address;
+            if(props.TransactionName === "nubid"){
+                address = localStorage.getItem("keplerAddress");
+            }else {
+                address = localStorage.getItem('userAddress');
+            }
+
             let queryResponse = queries.transactionDefination(address , "", "keplr", props.TransactionName, props.totalDefineObject);
             queryResponse.then((result) => {
                 console.log("response finale", result);
@@ -87,9 +89,6 @@ const KeplrTransaction = (props) => {
 
     }, []);
 
-    // const handleSubmit = () => {
-    //     history.push('/profile');
-    // };
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
