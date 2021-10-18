@@ -58,7 +58,7 @@ let en = {
         "MAKER_SPLIT": "Maker Split",
         "EXPIRES_IN": "Expires In",
         "TAKER_OWNABLE_AMOUNT": "Taker Ownable Amount",
-        "IDENTITY": "Identitiy",
+        "IDENTITY": "Identity",
         "ASSET": "Asset",
         "ORDER": "Order",
         "DATA_TYPE": "Data Type",

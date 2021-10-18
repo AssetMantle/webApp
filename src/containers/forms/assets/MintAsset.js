@@ -9,6 +9,7 @@ import FilterHelpers from '../../../utilities/Helpers/filter';
 import GetMeta from '../../../utilities/Helpers/getMeta';
 import GetProperty from '../../../utilities/Helpers/getProperty';
 import TransactionOptions from "../login/TransactionOptions";
+// import helper from "../../../utilities/helper";
 
 const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 const classificationsQuery = new cls(process.env.REACT_APP_ASSET_MANTLE_API);
@@ -144,6 +145,7 @@ const MintAsset = (props) => {
                 if (mutableName === config.URI) {
                     let urimutableFieldValue = document.getElementById(`MintAssetMutable${mutableName}|${mutableType}${index}`).value;
                     uriFieldValue = PropertyHelper.getUrlEncode(urimutableFieldValue);
+                    // uriFieldValue = helper.GetIpfsUrl(urimutableFieldValue);
                     uriMutable = `URI:S|${uriFieldValue}`;
                 }
                 if (uriMutable) {

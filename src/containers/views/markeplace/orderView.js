@@ -156,10 +156,8 @@ const OrderView = React.memo((props) => {
                                 </Dropdown>
                                 : ""
                             }
-
                         </div>
                      
-                                
                         <div className="list-container view-container" >
                             <div className="row card-deck">
                                 <div className="row">
@@ -171,8 +169,10 @@ const OrderView = React.memo((props) => {
                                                     <Button variant="primary" size="sm"
                                                         onClick={() => handleModalData("TakeOrder", orderId)}>{t("TAKE")}</Button>
                                                     : ""
-                                                : <Button variant="primary" size="sm"
-                                                    onClick={() => handleModalData("CancelOrder", "" , order)}>{t("CANCEL")}</Button>
+                                                :   localStorage.getItem('userName') !== null ?
+                                                    <Button variant="primary" size="sm"
+                                                        onClick={() => handleModalData("CancelOrder", "" , order)}>{t("CANCEL")}</Button>
+                                                    : ""
                                             }
                                         </div>
                                     </div>

@@ -56,16 +56,11 @@ const AssetList = React.memo(() => {
                                     <div className="info-section">
                                         {
                                             Object.keys(asset['totalData']).map(key => {
-                                                let imageExtension;
-                                                if(key === config.URI){
-                                                    imageExtension = asset['totalData'][key].substring(asset['totalData'][key].lastIndexOf('.') + 1);
-                                                }
-
                                                 return(
                                                     <>
                                                         {
                                                             key === config.URI ?
-                                                                imageExtension === "gltf" ?
+                                                                asset['totalData']['uriExtension'] === "gltf" ?
                                                                     <div className="image-container">
                                                                         <model-viewer
                                                                             id="mv-astronaut"

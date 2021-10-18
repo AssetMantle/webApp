@@ -5,7 +5,7 @@ import {useTranslation} from 'react-i18next';
 import Loader from '../../components/loader';
 import GetProperty from '../../utilities/Helpers/getProperty';
 import TransactionOptions from "./login/TransactionOptions";
-
+import helper from "../../utilities/helper";
 const Define = (props) => {
     const PropertyHelper = new GetProperty();
     const [loader, setLoader] = useState(false);
@@ -95,11 +95,15 @@ const Define = (props) => {
         }
     };
 
-    const handleSubmit = (evt) => {
+    const handleSubmit = async (evt) => {
         evt.preventDefault();
+        evt.persist();
         setLoader(true);
+        const imagePath = evt.target.DefineURI.value;
+        console.log(imagePath, "PATH");
+        const imageExtension = imagePath.substring(imagePath.lastIndexOf('.') + 1);
 
-
+        const encodedURI = await helper.IpfsPath(evt.target.DefineURI.files[0]);
         let assetSpecificMutables = '';
         if (typeOption === 'asset') {
             assetSpecificMutables = 'burn:H|,lock:H|';
@@ -112,11 +116,14 @@ const Define = (props) => {
         let staticImmutableMeta = '';
         let uriMutable = '';
         let uriImmutable = '';
+        let uriImmutableExtension = '';
         const ImmutableDescription = evt.target.ImmutableDescription.value;
         const ImmutableIdentifier = evt.target.ImmutableIdentifier.value;
         const ImmutableClassifier = evt.target.ImmutableClassifier.value;
         let staticImmutables = `style:S|${mutableStyle},type:S|${typeOption}`;
         staticImmutableMeta = `classifier:S|${ImmutableClassifier},identifier:S|${ImmutableIdentifier},description:S|${ImmutableDescription}`;
+        uriImmutableExtension = `uriExtension:S|${imageExtension}`;
+        uriImmutable = `URI:S|${encodedURI}`;
         if (uriField) {
             const ImmutableUrl = evt.target.URI.value;
             let ImmutableUrlEncode = '';
@@ -164,13 +171,13 @@ const Define = (props) => {
             }
         }
 
-        if (uriImmutable) {
-            if (immutableMetaPropertyValue) {
-                immutableMetaPropertyValue = immutableMetaPropertyValue + ',' + uriImmutable;
-            } else {
-                immutableMetaPropertyValue = uriImmutable;
-            }
-        }
+        // if (uriImmutable) {
+        //     if (immutableMetaPropertyValue) {
+        //         immutableMetaPropertyValue = immutableMetaPropertyValue + ',' + uriImmutable;
+        //     } else {
+        //         immutableMetaPropertyValue = uriImmutable;
+        //     }
+        // }
 
         if (immutablePropertyValue) {
             immutablePropertyValue = immutablePropertyValue + ',' + staticImmutables;
@@ -180,7 +187,7 @@ const Define = (props) => {
         if (immutableMetaPropertyValue) {
             immutableMetaPropertyValue = immutableMetaPropertyValue + ',' + staticImmutableMeta;
         } else {
-            immutableMetaPropertyValue = staticImmutableMeta;
+            immutableMetaPropertyValue = staticImmutableMeta + ','+uriImmutable + ','+uriImmutableExtension;
         }
 
         if (mutablePropertyValue !== '') {
@@ -304,6 +311,9 @@ const Define = (props) => {
                                 <option value="asset">{t('ASSET')}</option>
                                 <option value="order">{t('ORDER')}</option>
                             </Form.Control>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.File id="DefineURI" name="DefineURI" label="Upload Image" required={true} />
                         </Form.Group>
                         {uriField
                             ?

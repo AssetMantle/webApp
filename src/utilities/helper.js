@@ -1,3 +1,6 @@
+import config from "../config";
+import { create } from 'ipfs-http-client';
+
 function SortObjectData(totalData) {
     const sortable = [];
     for (let item in totalData) {
@@ -21,6 +24,18 @@ function SortObjectData(totalData) {
     return objSorted;
 }
 
+async function IpfsPath(file) {
+    const client = create(config.IPFS_URL);
+    const added = await client.add(file);
+    return added.path;
+}
+
+function GetIpfsUrl(path) {
+    const url = `https://ipfs.infura.io/ipfs/${path}`;
+    return url;
+}
 export default {
-    SortObjectData
+    SortObjectData,
+    IpfsPath,
+    GetIpfsUrl
 };
