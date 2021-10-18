@@ -1,9 +1,6 @@
 import React, {useState} from 'react';
 import {Modal, Form, Button} from 'react-bootstrap';
-import {
-    createRandomWallet,
-    createStore,
-} from 'persistencejs/build/utilities/keys';
+import {createStore} from 'persistencejs/build/utilities/keys';
 import DownloadLink from 'react-download-link';
 import {useTranslation} from 'react-i18next';
 import axios from 'axios';
@@ -11,6 +8,7 @@ import {useHistory} from 'react-router-dom';
 import Loader from '../../components/loader';
 import Icon from '../../icons';
 import ImportKeys from './signup/ImportKeys';
+import transactions from "../../utilities/Helpers/transactions";
 
 const SignUp = () => {
     const [loader, setLoader] = useState(false);
@@ -56,22 +54,22 @@ const SignUp = () => {
     const handleSubmit = async e => {
         e.preventDefault();
         const password = document.getElementById('password').value;
-        const error = await createRandomWallet('');
+        const error = await transactions.MnemonicWallet();
         console.log(error);
         if (error.error != null) {
             return (<div>ERROR!!</div>);
         }
 
-        const create = createStore(error.mnemonic, password);
+        const create = createStore(error[0].mnemonic, password);
         if (create.error != null) {
             return (<div>ERROR!!</div>);
         }
         const jsonContent = JSON.stringify(create.Response);
-        localStorage.setItem('address', error.address);
-        localStorage.setItem('mnemonic', error.mnemonic);
+        localStorage.setItem('address', error[1]);
+        localStorage.setItem('mnemonic', error[0].mnemonic);
         setJsonName(jsonContent);
-        setAddress(error.address);
-        setMnemonic(error.mnemonic);
+        setAddress(error[1]);
+        setMnemonic(error[0].mnemonic);
         setShowEncrypt(true);
         setshowDownloadModal(false);
         setShowDownload(true);

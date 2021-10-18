@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
-import {getWallet} from "persistencejs/build/utilities/keys";
 import {useTranslation} from "react-i18next";
 import transactions from "../../../utilities/Helpers/transactions";
 import Loader from "../../../components/loader";
@@ -10,6 +9,8 @@ import queries from "../../../utilities/Helpers/query";
 import GetID from "../../../utilities/Helpers/getID";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import {queryIdentities} from "persistencejs/build/transaction/identity/query";
+
+
 import ModalCommon from "../../../components/modal";
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const PrivateKeyTransaction = (props) => {
@@ -71,8 +72,8 @@ const PrivateKeyTransaction = (props) => {
             }
         }
         if (userMnemonic !== undefined) {
-            const wallet = await getWallet(userMnemonic, "");
-            let queryResponse =  queries.transactionDefination(wallet.address , userMnemonic, "normal", props.TransactionName, props.totalDefineObject);
+            const wallet = await transactions.MnemonicWalletWithPassphrase(userMnemonic,'');
+            let queryResponse =  queries.transactionDefinition(wallet[1] , userMnemonic, "normal", props.TransactionName, props.totalDefineObject);
             queryResponse.then(function (item) {
                 if(item.code){
                     localStorage.setItem('loginMode','normal');

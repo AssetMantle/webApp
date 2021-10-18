@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Modal, Form, Button} from 'react-bootstrap';
 import {
-    createRandomWallet,
     createStore,
 } from 'persistencejs/build/utilities/keys';
 import DownloadLink from 'react-download-link';
@@ -11,6 +10,7 @@ import {useHistory} from 'react-router-dom';
 import Loader from '../../../components/loader';
 import Icon from '../../../icons';
 import ImportKeys from './ImportKeys';
+import transactions from "../../../utilities/Helpers/transactions";
 
 const KeysCreate = () => {
     const [loader, setLoader] = useState(false);
@@ -39,13 +39,12 @@ const KeysCreate = () => {
     const handleSubmit = async e => {
         e.preventDefault();
         const password = document.getElementById('password').value;
-        const error = await createRandomWallet('');
+        const error = await transactions.MnemonicWallet();
         console.log(error);
         if (error.error != null) {
             return (<div>ERROR!!</div>);
         }
-
-        const create = createStore(error.mnemonic, password);
+        const create = createStore(error[0].mnemonic, password);
         if (create.error != null) {
             return (<div>ERROR!!</div>);
         }else {
@@ -53,12 +52,12 @@ const KeysCreate = () => {
             // localStorage.setItem('address', error.address);
             // localStorage.setItem('mnemonic', error.mnemonic);
             setJsonName(jsonContent);
-            setAddress(error.address);
-            setMnemonic(error.mnemonic);
+            setAddress(error[1]);
+            setMnemonic(error[0].mnemonic);
             setShowEncrypt(true);
             setshowDownloadModal(false);
             setShowDownload(true);
-            handleFaucet(error.address);
+            handleFaucet(error[1]);
         }
     };
     

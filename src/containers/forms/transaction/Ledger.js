@@ -54,7 +54,7 @@ const LedgerTransaction = (props) => {
                 loginAddress = localStorage.getItem('userAddress');
             }
             setLoader(true);
-            let queryResponse = queries.transactionDefination(loginAddress , "", "ledger", props.TransactionName, props.totalDefineObject);
+            let queryResponse = queries.transactionDefinition(loginAddress , "", "ledger", props.TransactionName, props.totalDefineObject);
             queryResponse.then((result) => {
                 if(result.code){
                     localStorage.setItem('loginMode','ledger');
