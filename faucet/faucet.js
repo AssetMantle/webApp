@@ -1,9 +1,11 @@
+require("dotenv").config();
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-const {getWallet} = require("persistencejs/build/utilities/keys");
-const broadcast = require("persistencejs/build/utilities/broadcastTx");
 const constants = require("./constants");
-
-
+const {Secp256k1HdWallet} = require("@cosmjs/amino");
+const {SigningCosmosClient, GasPrice} = require("@cosmjs/launchpad");
+const {stringToPath} = require("@cosmjs/crypto");
+const restAPI=process.env.BLOCKCHAIN_REST_SERVER;
+console.log(restAPI)
 function unsignedTx(msgs, gas, memo) {
     return {
         "msg": msgs,
@@ -26,21 +28,29 @@ function msg(fromAddress, toAddress, denom, amount) {
         }
     };
 }
+async function Transaction(wallet, signerAddress, msgs, fee, memo = '') {
+    const cosmJS = new SigningCosmosClient(restAPI, signerAddress, wallet, GasPrice.fromString("0xprt"), {}, "block" );
+    return await cosmJS.signAndBroadcast(msgs, fee, memo);
+}
+
+async function MnemonicWalletWithPassphrase(mnemonic,passphrase) {
+    const wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic, {prefix: constants.prefix, bip39Password:passphrase,hdPaths:[stringToPath("m/44'/750'/0'/0/0")]});
+    const [firstAccount] = await wallet.getAccounts();
+    return [wallet, firstAccount.address];
+}
 
 function runner() {
-    setInterval(function () {
+    setInterval(async function ()  {
         if (constants.FaucetList.length > 0) {
-            let fromWallet = getWallet(process.env.FAUCET_MNEMONIC);
+            let [wallet, addr] = await MnemonicWalletWithPassphrase(process.env.FAUCET_MNEMONIC,'');
             console.log("fauceting accounts : ", constants.FaucetList);
             let msgs = [];
-            constants.FaucetList.forEach(address => msgs.push(msg(fromWallet.address, address, constants.DENOM, constants.AMOUNT)));
-            let tx = unsignedTx(msgs, "400000", "Faucet");
-            console.log("Tx : ", tx);
-            broadcast.broadcastTx(process.env.BLOCKCHAIN_REST_SERVER, fromWallet, tx, constants.CHAIN_ID, "block").then(response => console.log(response));
+            constants.FaucetList.forEach(address => msgs.push(msg(addr, address, constants.DENOM, constants.AMOUNT)));
+            Transaction(wallet,addr,msgs,{"amount": [], "gas": "500000"},"have fun").then(response => console.log(response));
             constants.FaucetList.splice(0, constants.FaucetList.length);
         } else {
-            console.log("No Accounts to faucet :");
-        }
+             console.log("No Accounts to faucet :");
+         }
     }, 10000);
 }
 
@@ -67,4 +77,4 @@ function handleFaucetRequest(userAddress) {
 
 }
 
-module.exports = {runner, handleFaucetRequest};
+module.exports = {runner, handleFaucetRequest,MnemonicWalletWithPassphrase,Transaction};
