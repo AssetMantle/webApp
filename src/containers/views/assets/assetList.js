@@ -86,7 +86,7 @@ const AssetList = React.memo(() => {
                                                                 : ""
                                                         }
                                                         {
-                                                            key === "identifier" ?
+                                                            key === "name" || key === "category" ?
                                                                 <div className="list-item"><p
                                                                     className="list-item-label">{key}: </p> <p
                                                                     className="list-item-value">{asset['totalData'][key]}</p>
@@ -115,12 +115,12 @@ const AssetList = React.memo(() => {
 
                                         }
 
-                                        <div className="list-item">
-                                            <p className="list-item-label">{t("OWNER_ID")}:</p>
-                                            <div className="list-item-value id-section">
-                                                <p className="id-string" title={asset['ownerID']}> {asset['ownerID']}</p>
-                                            </div>
-                                        </div>
+                                        {/*<div className="list-item">*/}
+                                        {/*    <p className="list-item-label">{t("OWNER_ID")}:</p>*/}
+                                        {/*    <div className="list-item-value id-section">*/}
+                                        {/*        <p className="id-string" title={asset['ownerID']}> {asset['ownerID']}</p>*/}
+                                        {/*    </div>*/}
+                                        {/*</div>*/}
 
                                         {asset['ownableID'] === "stake" ?
                                             <div className="button-group">

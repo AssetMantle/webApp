@@ -1342,3 +1342,11 @@ model-viewer{
     margin: 0;
   }
 }
+
+.input-property-group{
+  display: flex;
+  align-items: center;
+  input:nth-child(2){
+    margin:0px 5px;
+  }
+}

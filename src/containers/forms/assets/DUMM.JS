@@ -200,8 +200,8 @@ const OrderView = React.memo((props) => {
                             }
 
                         </div>
-                     
-                                
+
+
                         <div className="list-container view-container" >
                             <div className="row card-deck">
                                 <div className="row">
@@ -211,11 +211,11 @@ const OrderView = React.memo((props) => {
                                             {props.location.state.currentPath === "/marketplace" ?
                                                 localStorage.getItem('userName') !== null ?
                                                     <Button variant="primary" size="sm"
-                                                        onClick={() => handleModalData("TakeOrder", orderId)}>{t("TAKE")}</Button>
+                                                            onClick={() => handleModalData("TakeOrder", orderId)}>{t("TAKE")}</Button>
                                                     : ""
                                                 :   localStorage.getItem('userName') !== null ?
                                                     <Button variant="primary" size="sm"
-                                                        onClick={() => handleModalData("CancelOrder", "" , order)}>{t("CANCEL")}</Button>
+                                                            onClick={() => handleModalData("CancelOrder", "" , order)}>{t("CANCEL")}</Button>
                                                     : ""
                                             }
                                         </div>
@@ -227,7 +227,7 @@ const OrderView = React.memo((props) => {
                                             <div className="list-item-value id-section">
                                                 <div className="flex">
                                                     <p className="id-string"
-                                                        title={orderData.orderID}> {orderData.orderID}</p>
+                                                       title={orderData.orderID}> {orderData.orderID}</p>
                                                 </div>
                                                 <Copy
                                                     id={orderId}/>
@@ -241,7 +241,7 @@ const OrderView = React.memo((props) => {
                                             <div className="list-item-value id-section">
                                                 <div className="flex">
                                                     <p className="id-string"
-                                                        title={orderData.makerOwnableID}> {orderData.makerOwnableID}</p>
+                                                       title={orderData.makerOwnableID}> {orderData.makerOwnableID}</p>
                                                 </div>
                                                 <Copy
                                                     id={orderData.makerOwnableID}/>
@@ -273,7 +273,7 @@ const OrderView = React.memo((props) => {
 
                             </div>
                         </div>
-                         
+
                     </div>
                     <div className="col-md-3 summary-section">
                         <Summary/>
@@ -291,7 +291,7 @@ const OrderView = React.memo((props) => {
                 }
                 {externalComponent === 'DefineOrder' ?
                     <Define setExternalComponent={setExternalComponent} ActionName={ordersDefine}
-                        FormName={'Define Order'}/> :
+                            FormName={'Define Order'}/> :
                     null
                 }
             </div>

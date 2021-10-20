@@ -1224,4 +1224,12 @@ model-viewer {
   margin: 0;
 }
 
+.input-property-group {
+  display: flex;
+  align-items: center;
+}
+.input-property-group input:nth-child(2) {
+  margin: 0px 5px;
+}
+
 /*# sourceMappingURL=styles.css.map */

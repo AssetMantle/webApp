@@ -42,9 +42,24 @@ const AssetView = React.memo((props) => {
     let ImageData;
     let buttonsData;
     let contentData  = [];
+    // let PropertyObject =[];
+    // if(assetData.totalData){
+    //     const propertyData = JSON.parse(assetData.totalData["propertyName"]);
+    //     Object.keys(propertyData).map((property, keyprop) => {
+    //         let content = <div className="list-item red" key={keyprop}>
+    //             <p
+    //                 className="list-item-label">{propertyData[property]['propertyName']} </p>
+    //             <p
+    //                 className="list-item-value">{propertyData[property]['propertyValue']}</p>
+    //         </div>;
+    //         PropertyObject.push(content);
+    //     });
+    // }
+    let PropertyObject =[];
+
     if(assetData.totalData)
     {
-        Object.keys(assetData.totalData).map((asset, index) => {
+        Object.keys(assetData.totalData).map((asset) => {
             if(asset === config.URI){
                 const imageExtension = assetData.totalData[asset].substring(assetData.totalData[asset].lastIndexOf('.') + 1);
                 if(imageExtension === "gltf"){
@@ -76,8 +91,8 @@ const AssetView = React.memo((props) => {
                 }
 
             }
-
-            if(index === 0 ){
+            let content;
+            if(asset === config.URI){
                 buttonsData =
                     <div className="button-group property-actions">
                         <Button variant="primary" size="sm" className="button-txn"
@@ -87,27 +102,41 @@ const AssetView = React.memo((props) => {
                             onClick={() => handleModalData("BurnAsset", "", asset, assetData.ownerID, assetData.ownableID)}>{t("BURN_ASSET")}
                         </Button>
                         <Button variant="primary" size="sm" className="button-txn"
-                            onClick={() => handleModalData("MakeOrder", "", "", assetData.ownerID, assetData.ownableID)}>{t("MAKE")}</Button>
+                            onClick={() => handleModalData("MakeOrder", "", assetData, assetData.ownerID, assetData.ownableID)}>{t("MAKE")}</Button>
                         <Button variant="primary" size="sm" className="button-txn"
                             onClick={() => handleModalData("SendSplit", "", "", assetData.ownerID, assetData.ownableID)}>{t("SEND_SPLITS")}</Button>
                     </div>;
+            }else if(asset === "propertyName"){
+                const propertyData = JSON.parse(assetData.totalData["propertyName"]);
+                Object.keys(propertyData).map((property, keyprop) => {
+                    let content = <div key={keyprop}>
+                        <div className="list-item red">
+                            <p
+                                className="list-item-label">{propertyData[property]['propertyName']} </p>
+                            <p
+                                className="list-item-value">{propertyData[property]['propertyValue']}</p>
+                        </div>
+                    </div>;
+                    PropertyObject.push(content);
+                });
             }
-            let content =
-              asset !== 'style' && asset !== config.URI ?
-                  <div className="list-item">
-                      <p
-                          className="list-item-label">{asset} </p>
-                      <p
-                          className="list-item-value">{assetData.totalData[asset]}</p>
-                  </div>
-                  : "";
+            else {
+                content =
+                    asset !== 'style' && asset !== config.URI ?
+                        <div className="list-item">
+                            <p
+                                className="list-item-label">{asset} </p>
+                            <p
+                                className="list-item-value">{assetData.totalData[asset]}</p>
+                        </div>
+                        : "";
+                contentData.push(content);
 
-
-            contentData.push(content);
+            }
         });
     }
 
-
+    console.log(PropertyObject, "PropertyObject");
 
     return (
         <div className="content-section">
@@ -175,8 +204,12 @@ const AssetView = React.memo((props) => {
 
                                             </div>
                                         </>
-
                                         {contentData}
+
+                                        <p className="sub-title">Properties</p>
+
+                                        {PropertyObject}
+
                                     </div>
                                 </div>
                             </div>
@@ -203,7 +236,7 @@ const AssetView = React.memo((props) => {
                 {
                     externalComponent === 'MakeOrder' ?
                         <MakeOrder setExternalComponent={setExternalComponent} ownerId={ownerId}
-                            ownableId={ownableId}/> :
+                            ownableId={ownableId} asset={asset}/> :
                         null
                 }
                 {

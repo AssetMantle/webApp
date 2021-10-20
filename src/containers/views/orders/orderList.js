@@ -76,7 +76,7 @@ const OrderList = React.memo(() => {
                                                         }
 
                                                         {
-                                                            key === "identifier" || key === "type" ?
+                                                            key === "name" || key === "category" ?
                                                                 <div className="list-item"><p
                                                                     className="list-item-label">{key}: </p> <p
                                                                     className="list-item-value">{order['totalData'][key]}</p>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {withRouter} from "react-router-dom";
 import {useHistory} from "react-router-dom";
 import {Navbar, Nav, NavDropdown, Button} from "react-bootstrap";
@@ -26,14 +26,14 @@ const HeaderAfterLogin = () => {
     };
 
     let userList = JSON.parse(localStorage.getItem("userList"));
-    useEffect(() => {
-        if(userTypeToken !== null  && window.location.pathname === "/"){
-            history.push('/profile');
-        }
-        if (userTypeToken === null) {
-            history.push('/');
-        }
-    },[]);
+    // useEffect(() => {
+    //     if(userTypeToken !== null  && window.location.pathname === "/"){
+    //         history.push('/profile');
+    //     }
+    //     if (userTypeToken === null) {
+    //         history.push('/');
+    //     }
+    // },[]);
 
     const handleAddIdentity = () => {
         setExternalComponent('identityLogin');
@@ -70,7 +70,6 @@ const HeaderAfterLogin = () => {
     };
 
     const changeIdentityHandler = (name) =>{
-        console.log(name, "out Raju");
         const identityList = localStorage.getItem("identityList");
         const idList = JSON.parse(identityList);
 
@@ -78,8 +77,6 @@ const HeaderAfterLogin = () => {
             for (let i = 0; i <= idList.length; i++) {
                 for(let key in idList[i]) {
                     if(key === name){
-                        console.log(name, "Raju");
-                        console.log(idList[i][key]);
                         localStorage.setItem("identityId", idList[i][key]);
                         localStorage.setItem("userName", name);
                         window.location.reload();

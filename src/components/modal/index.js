@@ -1,17 +1,30 @@
 import React, {useState} from 'react';
 import {Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
+import {useHistory} from "react-router-dom";
 
 const ModalCommon = (props) => {
     const {t} = useTranslation();
+    const history = useHistory();
     const [showIdentity, setShowIdentity] = useState(true);
     const handleClose = () => {
         setShowIdentity(false);
         props.handleClose();
+        if (props.transactionName === "assetMint" ||
+            props.transactionName === "Define Asset" ||
+            props.transactionName === "wrap" ||
+            props.transactionName ==="unwrap" ||
+            props.transactionName ==="send splits" ||
+            props.transactionName ==="burn asset" ||
+            props.transactionName ==="mutate asset"){
+            history.push("/assets");
+        }else if (props.transactionName === "Define Order"){
+            history.push("/orders");
+        }else if (props.transactionName === "Make Order"){
+            history.push("/marketplace");
+        }
         window.location.reload();
-        // if (props.transactionName === ""){
-        //     window.location.reload();
-        // }
+
     };
     return (
         <Modal

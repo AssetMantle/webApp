@@ -1,8 +1,7 @@
 import React, {useState} from "react";
 import {Dropdown} from "react-bootstrap";
-import {MintAsset, Wrap, UnWrap} from "../../forms/assets";
+import {MintAsset, Wrap, UnWrap, DefineAsset} from "../../forms/assets";
 import {defineAsset} from "persistencejs/build/transaction/assets/define";
-import {Define} from "../../forms";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
 import AssetList from "./assetList";
@@ -52,7 +51,7 @@ const Assets = () => {
                 </div>
                 <div>
                     {externalComponent === 'DefineAsset' ?
-                        <Define setExternalComponent={setExternalComponent} ActionName={assetDefine}
+                        <DefineAsset setExternalComponent={setExternalComponent} ActionName={assetDefine}
                             FormName={'Define Asset'} type={'asset'}/> :
                         null
                     }

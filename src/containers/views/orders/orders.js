@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import {Dropdown} from "react-bootstrap";
-import {Define} from "../../forms";
 import {defineOrder} from "persistencejs/build/transaction/orders/define";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
 import OrderList from "./orderList";
 import {Summary} from "../../../components/summary";
-
+import DefineOrder from "../../forms/orders/DefineOrder";
+import {Define} from "../../forms";
 const ordersDefine = new defineOrder(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const Orders = () => {
@@ -32,6 +32,8 @@ const Orders = () => {
                                 <Dropdown.Menu>
                                     <Dropdown.Item
                                         onClick={() => handleModalData("DefineOrder")}>{t("DEFINE_ORDER")}</Dropdown.Item>
+                                    <Dropdown.Item
+                                        onClick={() => handleModalData("DefineOrder1")}>{t("DEFINE_ORDER1")}</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </div>
@@ -44,6 +46,11 @@ const Orders = () => {
             </div>
 
             {externalComponent === 'DefineOrder' ?
+                <DefineOrder setExternalComponent={setExternalComponent} ActionName={ordersDefine}
+                    FormName={'Define Order'}/> :
+                null
+            }
+            {externalComponent === 'DefineOrder1' ?
                 <Define setExternalComponent={setExternalComponent} ActionName={ordersDefine}
                     FormName={'Define Order'}/> :
                 null
