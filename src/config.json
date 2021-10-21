@@ -21,6 +21,7 @@
     "mode": "sync",
     "gas": 200000,
     "URI": "URI",
+    "IPFS_URL": "https://ipfs.infura.io:5001/api/v0",
     "channels": [
       {
           "name": "cosmos",

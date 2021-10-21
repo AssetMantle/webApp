@@ -1,3 +1,19 @@
+import config from "../config";
+import { create } from 'ipfs-http-client';
+const pinataSDK= require('@pinata/sdk');
+
+const pinata = pinataSDK(
+    'a021b51c3eee8d65e427','b7422d9d3a4d275bbb43ea05599f706883e5163277124bb6e9c9b86b0dd0a4e2'
+);
+
+pinata.testAuthentication().then((result) => {
+    //handle successful authentication here
+    console.log(result);
+}).catch((err) => {
+    //handle error here
+    console.log(err);
+});
+
 function SortObjectData(totalData) {
     const sortable = [];
     for (let item in totalData) {
@@ -20,7 +36,36 @@ function SortObjectData(totalData) {
     });
     return objSorted;
 }
+async function IpfsPath(file) {
+    const client = create(config.IPFS_URL);
+    const added = await client.add(file);
+
+    // const added = await client.add(
+    // //     { path: file.name, content: file },
+    // //     { wrapWithDirectory: true }
+    // // );
+    const options ={
+        "name":file.name,
+        "description":"adsfasfd",
+        "image":"ipfs://"+added.path,
+    };
+    await pinataFile(options);
+    console.log(added.path, "path");
+    return added.path;
+}
+async function pinataFile(metaObj){
+    let result= await pinata.pinJSONToIPFS(metaObj);
+    console.log(result);
+    return result;
+}
+function GetIpfsUrl(path) {
+    console.log(path, "decod");
+    const url = `https://ipfs.infura.io/ipfs/${path}`;
+    return url;
+}
 
 export default {
-    SortObjectData
+    SortObjectData,
+    IpfsPath,
+    GetIpfsUrl
 };

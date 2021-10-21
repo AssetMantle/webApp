@@ -40,7 +40,8 @@ export const fetchAssets = (identityID) => {
                                     'ownerID':ownerId,
                                     'ownableID':ownableID,
                                     'mutableProperties':mutableProperties[0],
-                                    'immutableProperties':immutableProperties[0]
+                                    'immutableProperties':immutableProperties[0],
+                                    'mutablePropertyTypes':mutableProperties[1],
                                 });
                             }
                         }

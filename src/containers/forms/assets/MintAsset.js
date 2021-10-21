@@ -5,7 +5,7 @@ import Loader from '../../../components/loader';
 import GetProperty from '../../../utilities/Helpers/getProperty';
 import TransactionOptions from "../login/TransactionOptions";
 import base64url from "base64url";
-
+import helper from "../../../utilities/helper";
 
 const MintAsset = (props) => {
     const PropertyHelper = new GetProperty();
@@ -22,6 +22,7 @@ const MintAsset = (props) => {
     const [mutableStyle, setMutableStyle] = useState('Blue');
     const [totalAttributes, setTotalAttributes] = useState(1);
     const [totalPropertiesList, setTotalPropertiesList] = useState(['property #1']);
+    const [encodedUrl, setEncodedUrl] = useState('');
 
     useEffect(() => {
         let fromIDValue = localStorage.getItem('identityId');
@@ -43,9 +44,6 @@ const MintAsset = (props) => {
         setMutableStyle(evt.target.value);
     };
 
-
-
-
     const handleProperties =()=>{
         const oldProperties = [...totalPropertiesList];
         oldProperties.push('property #'+(totalAttributes+1));
@@ -53,6 +51,12 @@ const MintAsset = (props) => {
         setTotalPropertiesList(oldProperties);
     };
 
+    const urlChangeHandler = async (e) =>{
+        const fileData = e.target.files[0];
+        const ImmutableUrlEncode = await helper.IpfsPath(fileData);
+        console.log(ImmutableUrlEncode, "ImmutableUrlEncode");
+        setEncodedUrl(ImmutableUrlEncode);
+    };
     const handleRemoveProperties =(index)=>{
         if(totalAttributes >1) {
             let newArr = [...totalPropertiesList];
@@ -61,11 +65,13 @@ const MintAsset = (props) => {
             setTotalAttributes(totalAttributes - 1);
         }
     };
-    const handleFormSubmit = (event) => {
-
+    const handleFormSubmit = async (event) => {
         setLoader(true);
         event.preventDefault();
         const propertyDataObject = [];
+
+        // ImmutableUrlEncode = PropertyHelper.getUrlEncode(ImmutableUrl);
+        // console.log(ImmutableUrlEncode, "ImmutableUrl");
         totalPropertiesList.map((property, idx) => {
             const propertyName = `propertyName`+(idx+1);
             const propertyValue = `propertyValue`+(idx+1);
@@ -86,17 +92,13 @@ const MintAsset = (props) => {
         const name = event.target.name.value;
         const description = event.target.description.value;
 
-        staticMutables = `propertyName:S|${propertyDataObjectHash}`;
+        staticMutables = `propertyName:S|${propertyDataObjectHash},type:S|${typeOption}`;
 
-        let staticImmutableMeta = `name:S|${name},description:S|${description},type:S|${typeOption},category:S|${category}`;
+        let staticImmutableMeta = `name:S|${name},description:S|${description},category:S|${category}`;
         let staticImMutables = `style:S|${mutableStyle}`;
-        const ImmutableUrl = event.target.URI.value;
-        let ImmutableUrlEncode = '';
-        if (ImmutableUrl !== '') {
-            ImmutableUrlEncode = PropertyHelper.getUrlEncode(ImmutableUrl);
-            console.log(ImmutableUrlEncode,ImmutableUrl, "ImmutableUrl");
-        }
-
+        // let ImmutableUrlEncode = '';
+        // const ImmutableUrl = event.target.URI.value;
+        // ImmutableUrlEncode = await helper.IpfsPath(event.target.DefineURI.files[0]);
         let mutableValues = '';
         let immutableValues = '';
         let mutableMetaValues = '';
@@ -106,9 +108,9 @@ const MintAsset = (props) => {
 
         mutableMetaValues = staticMutables;
 
-        immutableValues = `URI:S|${ImmutableUrlEncode},${staticImMutables}`;
+        immutableValues = `${staticImMutables}`;
 
-        immutableMetaValues = staticImmutableMeta;
+        immutableMetaValues =  `URI:S|${encodedUrl},${staticImmutableMeta}`;
 
         const toID = event.target.toID.value;
 
@@ -122,7 +124,7 @@ const MintAsset = (props) => {
             let totalData = {
                 fromID: FromId,
                 toID: toID,
-                classificationId: 'test.pby3u7108Yz6aF95BdKL303y7So=',
+                classificationId: 'test.j0Uuu1ZA7krYEQ036oQVnzmkQVs=',
                 mutableValues: mutableValues,
                 immutableValues: immutableValues,
                 immutableMetaValues: immutableMetaValues,
@@ -205,14 +207,7 @@ const MintAsset = (props) => {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>{t('URI')}</Form.Label>
-                            <Form.Control
-                                type="text"
-                                className=""
-                                name="URI"
-                                required={false}
-                                placeholder={t('URI')}
-                            />
+                            <Form.File onChange={urlChangeHandler} id="DefineURI" name="DefineURI" label="Upload Image" required={true} />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Category</Form.Label>

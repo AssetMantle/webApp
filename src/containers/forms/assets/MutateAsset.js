@@ -15,10 +15,8 @@ const MutateAsset = (props) => {
     const PropertyHelper = new GetProperty();
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
-    const [errorMessage, setErrorMessage] = useState('');
     const [loader, setLoader] = useState(false);
     const [keyList, setKeyList] = useState([]);
-    const [checkboxMutableNamesList, setCheckboxMutableNamesList] = useState([]);
     const [fromID, setFromID] = useState('');
     const [externalComponent, setExternalComponent] = useState('');
     const [totalDefineObject, setTotalDefineObject] = useState({});
@@ -28,6 +26,7 @@ const MutateAsset = (props) => {
         setFromID(fromIDValue);
         const mutateProperties = props.mutatePropertiesList;
         const mutableKeys = Object.keys(mutateProperties);
+        console.log(mutableKeys, "mutableKeys");
         setKeyList(mutableKeys);
     }, []);
 
@@ -35,18 +34,7 @@ const MutateAsset = (props) => {
         setShow(false);
         props.setExternalComponent('');
     };
-    const handleCheckMutableChange = evt => {
-        const checkedValue = evt.target.checked;
-        const name = evt.target.getAttribute('name');
-        if (checkedValue) {
-            const checkboxNames = evt.target.name;
-            setCheckboxMutableNamesList((checkboxMutableNamesList) => [...checkboxMutableNamesList, checkboxNames]);
-        } else {
-            if (checkboxMutableNamesList.includes(name)) {
-                setCheckboxMutableNamesList(checkboxMutableNamesList.filter(item => item !== name));
-            }
-        }
-    };
+
     const handleSubmit = (event) => {
         setLoader(true);
         event.preventDefault();
@@ -57,22 +45,34 @@ const MutateAsset = (props) => {
         // assetList.forEach(function(item) {
         //     assetDataTypeList[item.value.id.value.idString] = item.value.fact.value.type;
         // });
-        if (checkboxMutableNamesList.length === 0) {
-            setErrorMessage(t('SELECT_MUTABLE_META'));
-            setLoader(false);
-        } else if (keyList.length !== 0 && checkboxMutableNamesList.length !== 0 && keyList.length === checkboxMutableNamesList.length) {
-            setErrorMessage(t('SELECT_ALL_MUTABLE_ERROR'));
-            setLoader(false);
-        } else {
-            let mutableValues = '';
-            let mutableMetaValues = '';
-            if (keyList !== null) {
-                keyList.map((key, index) => {
-                    let mutableFieldValue = document.getElementById(key + index).value;
-                    const mutableType = props.mutatePropertiesList[key];
-                    const inputName = (key + index);
+       
+        let mutableValues = '';
+        let mutableMetaValues = '';
+        let mutableProperties = [];
+        const propertyData = JSON.parse(props.mutatePropertiesList["propertyName"]);
+        Object.keys(propertyData).map((property) => {
+            let name = propertyData[property]['propertyName'];
+            let mutableFieldValue = document.getElementById(propertyData[property]['propertyValue']).value;
+            mutableProperties.push(
+                {
+                    propertyName:name,
+                    propertyValue:mutableFieldValue
+                }
+            );
+            // if (mutableProperties !== "") {
+            //     // mutableProperties = mutableProperties + "," + name + ":S|" + mutableFieldValue;
+            // }
+        });
+
+        console.log(keyList, "keyList");
+        if (keyList !== null) {
+            keyList.map((key) => {
+                if (key !== "propertyName") {
+                    let mutableFieldValue = document.getElementById(key).value;
+                    const mutableType = props.asset.mutablePropertyTypes[key];
+                    const inputName = (key);
                     if (key !== config.URI) {
-                        const mutableMetaValuesResponse = FilterHelper.setTraitValues(checkboxMutableNamesList, mutableValues, mutableMetaValues, inputName, key, mutableType, mutableFieldValue);
+                        const mutableMetaValuesResponse = FilterHelper.setTraitValues([], mutableValues, mutableMetaValues, inputName, key, mutableType, mutableFieldValue);
                         if (mutableMetaValuesResponse[0] !== '') {
                             mutableValues = mutableMetaValuesResponse[0];
                         }
@@ -93,8 +93,14 @@ const MutateAsset = (props) => {
                             mutableMetaValues = uriMutable;
                         }
                     }
-                },
-                );
+                }
+            },
+            );
+            const propertyDataObjectHash = PropertyHelper.getUrlEncode(JSON.stringify(mutableProperties));
+            if (mutableMetaValues !== "") {
+                mutableMetaValues = mutableMetaValues + ',' + `propertyName:S|${propertyDataObjectHash}`;
+            } else {
+                mutableMetaValues = `propertyName:S|${propertyDataObjectHash}`;
             }
 
             let totalData = {
@@ -103,14 +109,34 @@ const MutateAsset = (props) => {
                 mutableValues: mutableValues,
                 mutableMetaValues: mutableMetaValues,
             };
+            console.log(totalData, "totalData");
             setTotalDefineObject(totalData);
             setExternalComponent('Keystore');
             setShow(false);
             setLoader(false);
-
         }
+
     };
 
+    let PropertyObject =[];
+    if(props.mutatePropertiesList){
+        const propertyData = JSON.parse(props.mutatePropertiesList["propertyName"]);
+        Object.keys(propertyData).map((property, keyprop) => {
+            let content =
+            <Form.Group key={keyprop}>
+                <Form.Label>{propertyData[property]['propertyName']}</Form.Label>
+                <Form.Control
+                    type="text"
+                    className=""
+                    required={true}
+                    id={propertyData[property]['propertyValue']}
+                    name={propertyData[property]['propertyValue']}
+                    defaultValue={propertyData[property]['propertyValue']}
+                />
+            </Form.Group>;
+            PropertyObject.push(content);
+        });
+    }
     return (
         <div>
 
@@ -139,7 +165,8 @@ const MutateAsset = (props) => {
                         </Form.Group>
                         {props.mutatePropertiesList ?
                             Object.keys(props.mutatePropertiesList).map((keyName, idx) => {
-                                if (keyName === config.URI) {
+                                console.log(idx, "idx");
+                                if (keyName !== "propertyName") {
                                     return (
                                         <div key={idx}>
                                             <Form.Group>
@@ -148,47 +175,25 @@ const MutateAsset = (props) => {
                                                     type="text"
                                                     className=""
                                                     required={true}
-                                                    id={keyName + idx}
-                                                    name={keyName + idx}
+                                                    id={keyName}
+                                                    name={keyName}
                                                     defaultValue={props.mutatePropertiesList[keyName]}
                                                 />
                                             </Form.Group>
                                         </div>
                                     );
                                 }
-                                return (
-                                    <div key={idx}>
-                                        <Form.Group>
-                                            <Form.Label>{keyName}*</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                className=""
-                                                required={true}
-                                                id={keyName + idx}
-                                                name={keyName + idx}
-                                                defaultValue={props.mutatePropertiesList[keyName]}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group>
-                                            <Form.Check custom type="checkbox"
-                                                label="Meta"
-                                                name={keyName + idx}
-                                                id={`checkbox${keyName + idx}`}
-                                                onClick={handleCheckMutableChange}
-                                            />
-                                        </Form.Group>
-                                    </div>
-                                );
                             })
                             : ""
 
                         }
-                        {errorMessage !== '' ?
-                            <span
-                                className="error-response">{errorMessage}</span>
-                            : ''
+                        {PropertyObject}
+                        {/*{errorMessage !== '' ?*/}
+                        {/*    <span*/}
+                        {/*        className="error-response">{errorMessage}</span>*/}
+                        {/*    : ''*/}
 
-                        }
+                        {/*}*/}
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">
                                 {t('submit')}

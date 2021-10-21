@@ -42,9 +42,9 @@ const DefineAsset = (props) => {
 
         const propertyName = evt.target.propertyName.value;
         const propertyValue = evt.target.propertyValue.value;
-        let staticMutables = `${propertyName}:S|${propertyValue}`;
+        let staticMutables = `${propertyName}:S|${propertyValue},type:S|`;
 
-        let staticImmutableMeta = `name:S|,description:S|,type:S|,category:S|`;
+        let staticImmutableMeta = `name:S|,description:S|,category:S|`;
         let staticImMutables = `style:S|`;
 
         uriMutable = `URI:S|`;

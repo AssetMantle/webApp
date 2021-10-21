@@ -10,6 +10,7 @@ const ModalCommon = (props) => {
     const handleClose = () => {
         setShowIdentity(false);
         props.handleClose();
+        window.location.reload();
         if (props.transactionName === "assetMint" ||
             props.transactionName === "Define Asset" ||
             props.transactionName === "wrap" ||
@@ -23,7 +24,7 @@ const ModalCommon = (props) => {
         }else if (props.transactionName === "Make Order"){
             history.push("/marketplace");
         }
-        window.location.reload();
+
 
     };
     return (
