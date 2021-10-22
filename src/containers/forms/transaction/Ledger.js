@@ -25,25 +25,27 @@ const LedgerTransaction = (props) => {
         props.setShow(true);
         props.setExternalComponent('');
     };
-    const getIdentityId = (userIdHash) => {
-        const identities = identitiesQuery.queryIdentityWithID('all');
+    const getIdentityId = async (userIdHash) => {
+        let identityID = '';
+        const identities = await identitiesQuery.queryIdentityWithID('all');
         if (identities) {
-            identities.then(function(item) {
-                const data = JSON.parse(item);
-                const dataList = data.result.value.identities.value.list;
-                dataList.map((identity) => {
-                    if (identity.value.immutables.value.properties.value.propertyList !== null) {
-                        const immutablePropertyList = identity.value.immutables.value.properties.value.propertyList[0];
-                        if (immutablePropertyList.value.fact.value.hash === userIdHash) {
-                            console.log("new id",GetIDHelper.GetIdentityID(identity) );
-                            setTestID(GetIDHelper.GetIdentityID(identity));
-                        }
+            const data = JSON.parse(identities);
+            const dataList = data.result.value.identities.value.list;
+            for (let identity in dataList) {
+                if (dataList[identity].value.immutables.value.properties.value.propertyList !== null) {
+                    const immutablePropertyList = dataList[identity].value.immutables.value.properties.value.propertyList[0];
+                    if (immutablePropertyList.value.fact.value.hash === userIdHash) {
+                        console.log("new id",GetIDHelper.GetIdentityID(dataList[identity]) );
+                        identityID = GetIDHelper.GetIdentityID(dataList[identity]);
+                        console.log(identityID, "new issssss");
+                        setTestID(GetIDHelper.GetIdentityID(dataList[identity]));
                     }
-                });
-
-            });
+                }
+            }
         }
+        return identityID;
     };
+
     useEffect(() => {
         const ledgerHandler = async () =>{
             let loginAddress;
@@ -55,7 +57,7 @@ const LedgerTransaction = (props) => {
             }
             setLoader(true);
             let queryResponse = queries.transactionDefination(loginAddress , "", "ledger", props.TransactionName, props.totalDefineObject);
-            queryResponse.then((result) => {
+            queryResponse.then(async (result) => {
                 if(result.code){
                     localStorage.setItem('loginMode','ledger');
                     setLoader(false);
@@ -70,7 +72,18 @@ const LedgerTransaction = (props) => {
                     if(props.TransactionName === "nubid"){
                         setNubID(props.totalDefineObject.nubId);
                         const hashGenerate = GetMetaHelper.Hash(props.totalDefineObject.nubId);
-                        getIdentityId(hashGenerate);
+                        const identityID = await getIdentityId(hashGenerate);
+                        let totalData = {
+                            fromID: identityID,
+                            CoinAmountDenom: 'stake' + '5',
+                        };
+
+                        let queryResponse = queries.transactionDefination(loginAddress , "", "ledger", 'wrap', totalData);
+                        queryResponse.then(async function (item) {
+                            console.log(item, "item wrap response");
+                        }).catch(err => {
+                            console.log(err, "err");
+                        });
                     }
                     localStorage.setItem('loginMode','ledger');
                     setShow(false);

@@ -37,6 +37,7 @@
     "js-sha1": "^0.6.0",
     "persistencejs": "https://github.com/persistenceOne/persistenceJS#typescriptExample",
     "react": "^16.14.0",
+    "react-3d-viewer": "^1.0.12",
     "react-bootstrap": "^1.4.0",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.8.6",

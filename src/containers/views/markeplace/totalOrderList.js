@@ -64,11 +64,20 @@ const TotalOrders = React.memo(() => {
                                                                         </model-viewer>
                                                                     </div>
                                                                     :
-                                                                    <div className="image-container">
-                                                                        <div className="assetImage">
-                                                                            <img src={order['totalData'][key]} alt="image"/>
+                                                                    imageExtension === "mp4" ?
+                                                                        <div className="image-container">
+                                                                            <video className = "banner-video" autoPlay playsInline preload="metadata" loop="loop"
+                                                                                muted src={order['totalData'][key]}>
+                                                                                <source type="video/webm" src={order['totalData'][key]}/>
+                                                                                <source type="video/mp4" src={order['totalData'][key]}/>
+                                                                                <source type="video/ogg" src={order['totalData'][key]}/>
+                                                                            </video>
                                                                         </div>
-                                                                    </div>
+                                                                        :    <div className="image-container">
+                                                                            <div className="assetImage">
+                                                                                <img src={order['totalData'][key]} alt="image"/>
+                                                                            </div>
+                                                                        </div>
                                                                 : ""
                                                         }
 

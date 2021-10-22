@@ -1,7 +1,7 @@
 import GetMeta from "./GetMeta";
 import base64url from "base64url";
 import config from "../config";
-import helper from "./helper";
+// import helper from "./helper";
 
 async function ParseProperties(properties) {
     let propertiesDictionary = {};
@@ -14,8 +14,8 @@ async function ParseProperties(properties) {
                 propertiesDictionary[property.value.id.value.idString] = UrlDecode;
                 propertiesType[property.value.id.value.idString] = property.value.fact.value.type;
             }else if(property.value.id.value.idString === config.URI){
-                // const UrlDecode = base64url.decode(metaValue);
-                const UrlDecode = helper.GetIpfsUrl(metaValue);
+                const UrlDecode = base64url.decode(metaValue);
+                // const UrlDecode = helper.GetIpfsUrl(metaValue);
                 propertiesDictionary[property.value.id.value.idString] = UrlDecode;
                 propertiesType[property.value.id.value.idString] = property.value.fact.value.type;
             }else {

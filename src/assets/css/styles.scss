@@ -1151,6 +1151,10 @@ html, body, #root, .app {
 }
 .image-container{
   padding: 0 10px 10px 10px;
+  video{
+    width: 100%;
+    height: 220px;
+  }
 }
 
 .dropdown.profile:hover .profile-menu {

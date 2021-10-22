@@ -78,7 +78,18 @@ const AssetView = React.memo((props) => {
                         >
                         </model-viewer>
                     </div>;
-                }else {
+                }else if(imageExtension === "mp4"){
+                    ImageData = <div className="image-container">
+                        <video className="banner-video" autoPlay playsInline preload="metadata" loop="loop" controls muted src={assetData.totalData[asset]}>
+                            <source type="video/webm" src={assetData.totalData[asset]}/>
+                            <source type="video/mp4" src={assetData.totalData[asset]}/>
+                            <source type="video/ogg" src={assetData.totalData[asset]}/>
+                        </video>
+                    </div>;
+                }
+
+
+                else {
                     ImageData = <div className="dummy-image image-sectiont asset-image">
                         <img src={assetData.totalData[asset]} alt="image" onClick={()=> setIsOpen(true)}/>
                         {isOpen && (

@@ -59,8 +59,9 @@ const AssetList = React.memo(() => {
                                                 let imageExtension;
                                                 if(key === config.URI){
                                                     imageExtension = asset['totalData'][key].substring(asset['totalData'][key].lastIndexOf('.') + 1);
+                                                    console.log(imageExtension, 'imageExtension');
                                                 }
-
+                
                                                 return(
                                                     <>
                                                         {
@@ -78,11 +79,20 @@ const AssetList = React.memo(() => {
                                                                         </model-viewer>
                                                                     </div>
                                                                     :
-                                                                    <div className="image-container">
-                                                                        <div className="assetImage">
-                                                                            <img src={asset['totalData'][key]} alt="image"/>
+                                                                    imageExtension === "mp4" ?
+                                                                        <div className="image-container">
+                                                                            <video className = "banner-video" autoPlay playsInline preload="metadata" loop="loop"
+                                                                                muted src={asset['totalData'][key]}>
+                                                                                <source type="video/webm" src={asset['totalData'][key]}/>
+                                                                                <source type="video/mp4" src={asset['totalData'][key]}/>
+                                                                                <source type="video/ogg" src={asset['totalData'][key]}/>
+                                                                            </video>
                                                                         </div>
-                                                                    </div>
+                                                                        :    <div className="image-container">
+                                                                            <div className="assetImage">
+                                                                                <img src={asset['totalData'][key]} alt="image"/>
+                                                                            </div>
+                                                                        </div>
                                                                 : ""
                                                         }
                                                         {

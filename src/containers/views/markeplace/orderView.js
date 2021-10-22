@@ -58,6 +58,7 @@ const OrderView = React.memo((props) => {
         Object.keys(orderData.mutableProperties).map((asset) => {
             if(asset === config.URI){
                 const imageExtension = orderData.mutableProperties[asset].substring(orderData.mutableProperties[asset].lastIndexOf('.') + 1);
+                console.log(imageExtension, "ima");
                 if(imageExtension === "gltf"){
                     ImageData =  <div className="dummy-image image-sectiont asset-view-modal-viewer">
                         <model-viewer
@@ -74,7 +75,16 @@ const OrderView = React.memo((props) => {
                         >
                         </model-viewer>
                     </div>;
-                }else {
+                }else if(imageExtension === "mp4"){
+                    ImageData = <div className="image-container">
+                        <video className="banner-video" autoPlay playsInline preload="metadata" loop="loop" controls muted src={orderData.mutableProperties[asset]}>
+                            <source type="video/webm" src={orderData.mutableProperties[asset]}/>
+                            <source type="video/mp4" src={orderData.mutableProperties[asset]}/>
+                            <source type="video/ogg" src={orderData.mutableProperties[asset]}/>
+                        </video>
+                    </div>;
+                }
+                else {
                     ImageData = <div className="dummy-image image-sectiont asset-image">
                         <img src={orderData.mutableProperties[asset]} alt="image" onClick={()=> setIsOpen(true)}/>
                         {isOpen && (
@@ -136,7 +146,15 @@ const OrderView = React.memo((props) => {
                         >
                         </model-viewer>
                     </div>;
-                }else {
+                }else if(imageExtension === "mp4"){
+                    ImageData = <div className="image-container">
+                        <video className="banner-video" autoPlay playsInline preload="metadata" loop="loop" controls muted src={orderData.immutableProperties[asset]}>
+                            <source type="video/webm" src={orderData.immutableProperties[asset]}/>
+                            <source type="video/mp4" src={orderData.immutableProperties[asset]}/>
+                            <source type="video/ogg" src={orderData.immutableProperties[asset]}/>
+                        </video>
+                    </div>;
+                } else {
                     ImageData = <div className="dummy-image image-sectiont asset-image">
                         <img src={orderData.immutableProperties[asset]} alt="image" onClick={()=> setIsOpen(true)}/>
                         {isOpen && (

@@ -5,7 +5,8 @@ import Loader from '../../../components/loader';
 import GetProperty from '../../../utilities/Helpers/getProperty';
 import TransactionOptions from "../login/TransactionOptions";
 import base64url from "base64url";
-import helper from "../../../utilities/helper";
+// import helper from "../../../utilities/helper";
+import {handleUpload} from "../../../utilities/Helpers/pinta";
 
 const MintAsset = (props) => {
     const PropertyHelper = new GetProperty();
@@ -53,7 +54,11 @@ const MintAsset = (props) => {
 
     const urlChangeHandler = async (e) =>{
         const fileData = e.target.files[0];
-        const ImmutableUrlEncode = await helper.IpfsPath(fileData);
+        let res = await handleUpload(fileData, fileData.name, true);
+        console.log(res.IpfsHash, "IPFS Hash Uploaded File");
+        const updateFileUrl="https://demo-assetmantle.mypinata.cloud/ipfs/"+res.IpfsHash+"/"+fileData.name;
+        const ImmutableUrlEncode = PropertyHelper.getUrlEncode(updateFileUrl);
+        // const ImmutableUrlEncode = await helper.IpfsPath(fileData);
         console.log(ImmutableUrlEncode, "ImmutableUrlEncode");
         setEncodedUrl(ImmutableUrlEncode);
     };

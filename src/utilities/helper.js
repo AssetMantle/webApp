@@ -60,6 +60,7 @@ async function pinataFile(metaObj){
 }
 function GetIpfsUrl(path) {
     console.log(path, "decod");
+    // const updateFileUrl ="https://demo-assetmantle.mypinata.cloud/ipfs/"+.IpfsHash+"/"+file.name;
     const url = `https://ipfs.infura.io/ipfs/${path}`;
     return url;
 }

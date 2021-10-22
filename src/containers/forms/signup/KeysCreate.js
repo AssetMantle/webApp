@@ -114,12 +114,12 @@ const KeysCreate = () => {
                         >
                             Import Keys
                         </Button>
-                        <Button
-                            variant="primary"
-                            className="button-signup button-signup-ledger disabled"
-                        >
-                            {t('LEDGER_STORE')}
-                        </Button>
+                        {/*<Button*/}
+                        {/*    variant="primary"*/}
+                        {/*    className="button-signup button-signup-ledger disabled"*/}
+                        {/*>*/}
+                        {/*    {t('LEDGER_STORE')}*/}
+                        {/*</Button>*/}
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
