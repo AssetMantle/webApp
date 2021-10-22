@@ -8,11 +8,13 @@ import logo from '../../assets/images/logo.svg';
 import profileIcon from "../../assets/images/profile.svg";
 import Icon from '../../icons';
 import AddIdentity from '../../containers/forms/identities/AddIdentity';
+import Darktheme from "../darkmode/Darktheme";
 const HeaderAfterLogin = () => {
     const history = useHistory();
     const {t} = useTranslation();
     const userTypeToken = localStorage.getItem('userName');
     const [externalComponent, setExternalComponent] = useState("");
+
     const handleRoute = route => () => {
         history.push(route);
     };
@@ -126,6 +128,9 @@ const HeaderAfterLogin = () => {
                                 :
                                 <Nav className="nav-items">
                                     <li className="nav-item">
+                                        <NavLink className="nav-link" to="/mint">{t("CREATE_NFT")}</NavLink>
+                                    </li>
+                                    <li className="nav-item">
                                         <NavLink className="nav-link" to="/assets">{t("ASSETS")}</NavLink>
                                     </li>
                                     <li className="nav-item">
@@ -184,13 +189,9 @@ const HeaderAfterLogin = () => {
                                             </div>
                                         </NavDropdown>
                                     </li>
-                                    
-                                    {/*<li className="nav-item dropdown">*/}
-                                    {/*    <NavDropdown title={dropdownTitle} id="basic-nav-dropdown" className="profile-dropdown">*/}
-                                    {/*        */}
-                                    {/*    </NavDropdown>*/}
-                                    {/*</li>*/}
-
+                                    <li className="nav-item flex">
+                                        <Darktheme/>
+                                    </li>
                                 </Nav>
                         }
                     </Nav>

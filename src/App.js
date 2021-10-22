@@ -9,6 +9,7 @@ import HeaderAfterLogin from './components/Headers/HeaderAfterLogin';
 import HeaderBeforeLogin from './components/Headers/HeaderBeforeLogin';
 import offline from './assets/images/offline.svg';
 import { Maintainers, Identities, Assets, Orders, MarketPlace, AssetView, IdentityView, OrderView, AllIdentityList } from './containers/views';
+import {MintAsset} from "./containers/forms/assets";
 import KeysCreate from "./containers/forms/signup/KeysCreate";
 import Footer from './components/Footer';
 import { useTranslation } from 'react-i18next';
@@ -87,6 +88,10 @@ const App = () => {
         path: '/create',
         component: KeysCreate,
         private: false,
+    }, {
+        path: '/mint',
+        component: MintAsset,
+        private: true,
     }];
 
     const [isOnline, setNetwork] = useState(window.navigator.onLine);

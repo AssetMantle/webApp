@@ -1,17 +1,19 @@
 import React, {useState, useEffect} from 'react';
-import {Form, Button, Modal} from 'react-bootstrap';
+import {Form, Button} from 'react-bootstrap';
 import {useTranslation} from 'react-i18next';
-import Loader from '../../../components/loader';
 import GetProperty from '../../../utilities/Helpers/getProperty';
 import TransactionOptions from "../login/TransactionOptions";
 import base64url from "base64url";
 // import helper from "../../../utilities/helper";
 import {handleUpload} from "../../../utilities/Helpers/pinta";
-
+import Loader from "../../../components/loader";
+import Icon from "../../../icons";
+import logo from "../../../assets/images/logo.svg";
+import loaderImage from "../../../assets/images/loader.svg";
 const MintAsset = (props) => {
     const PropertyHelper = new GetProperty();
     const {t} = useTranslation();
-    const [show, setShow] = useState(true);
+    // const [show, setShow] = useState(true);
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const [externalComponent, setExternalComponent] = useState('');
     const [loader, setLoader] = useState(false);
@@ -24,6 +26,11 @@ const MintAsset = (props) => {
     const [totalAttributes, setTotalAttributes] = useState(1);
     const [totalPropertiesList, setTotalPropertiesList] = useState(['property #1']);
     const [encodedUrl, setEncodedUrl] = useState('');
+    const [fileName, setFileName] = useState('No file chosen');
+    const [fileUrl, setFileUrl] = useState(logo);
+    const [urlLoader, setUrlLoader] = useState(false);
+    const [initialName, setInitialName] = useState('Name');
+    const [initialCategory, setInitialCategory] = useState('Category');
 
     useEffect(() => {
         let fromIDValue = localStorage.getItem('identityId');
@@ -34,7 +41,7 @@ const MintAsset = (props) => {
 
 
     const handleClose = () => {
-        setShow(false);
+        // setShow(false);
         props.setExternalComponent('');
     };
 
@@ -53,14 +60,19 @@ const MintAsset = (props) => {
     };
 
     const urlChangeHandler = async (e) =>{
+        setUrlLoader(true);
         const fileData = e.target.files[0];
+        setFileName(fileData.name);
+        console.log(fileData, "fileData");
         let res = await handleUpload(fileData, fileData.name, true);
-        console.log(res.IpfsHash, "IPFS Hash Uploaded File");
+        console.log(res, "IPFS Hash Uploaded File");
         const updateFileUrl="https://demo-assetmantle.mypinata.cloud/ipfs/"+res.IpfsHash+"/"+fileData.name;
+        setFileUrl(updateFileUrl);
         const ImmutableUrlEncode = PropertyHelper.getUrlEncode(updateFileUrl);
         // const ImmutableUrlEncode = await helper.IpfsPath(fileData);
-        console.log(ImmutableUrlEncode, "ImmutableUrlEncode");
+
         setEncodedUrl(ImmutableUrlEncode);
+        setUrlLoader(false);
     };
     const handleRemoveProperties =(index)=>{
         if(totalAttributes >1) {
@@ -138,7 +150,7 @@ const MintAsset = (props) => {
             console.log(totalData);
             setTotalDefineObject(totalData);
             setExternalComponent('Keystore');
-            setShow(false);
+            // setShow(false);
 
             setLoader(false);
         }
@@ -146,200 +158,225 @@ const MintAsset = (props) => {
     const handleChangeCategory = evt => {
         setCategory(evt.target.value);
     };
+    const nameChangeHandler = evt =>{
+        setInitialName(evt.target.value);
+    };
 
+    const categoryChangeHandler = evt =>{
+        setInitialCategory(evt.target.value);
+    };
+
+    const fileInputLabel = (<div className="text-center">
+        <Icon viewClass="icon-upload" icon="upload"/>
+        <p>{fileName}</p>
+    </div>);
+    
     return (
-        <div>
-            <Modal
-                show={show}
-                onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
-                centered
-            >
-                <div>
-                    {loader ?
-                        <Loader/>
-                        : ''
-                    }
-                </div>
-                <Modal.Header closeButton>
-                    {t('MINT_ASSET')}
-                </Modal.Header>
-                <Modal.Body>
-                    <Form onSubmit={handleFormSubmit}>
-                        <Form.Group>
-                            <Form.Label>{t('FROM_ID')}*</Form.Label>
-                            <Form.Control
-                                type="text"
-                                className=""
-                                name="FromId"
-                                required={true}
-                                defaultValue={fromID !== null ? fromID : testIdentityId}
-                                placeholder={t('FROM_ID')}
-                            />
-                        </Form.Group>
-                        <Form.Group className="hidden">
-                            <Form.Label>{t('TO_ID')}*</Form.Label>
-                            <Form.Control
-                                type="text"
-                                className=""
-                                name="toID"
-                                defaultValue={fromID !== null ? fromID : testIdentityId}
-                                required={true}
-                                placeholder={t('TO_ID')}
-                            />
-                        </Form.Group>
-                        <Form.Group className="hidden">
-                            <Form.Label>Burn</Form.Label>
-                            <Form.Control
-                                type="text"
-                                className=""
-                                name="MutableBurn"
-                                value={-1}
-                                required={true}
-                                placeholder='MutableBurn'
-                            />
-                        </Form.Group>
-                        <Form.Group className="hidden">
-                            <Form.Label>MutableLock</Form.Label>
-                            <Form.Control
-                                type="text"
-                                className=""
-                                name="MutableLock"
-                                value={-1}
-                                required={true}
-                                placeholder='MutableLock'
-                            />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.File onChange={urlChangeHandler} id="DefineURI" name="DefineURI" label="Upload Image" required={true} />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Category</Form.Label>
-                            <Form.Control as="select" name="category"
-                                required={true}
-                                onChange={handleChangeCategory}>
-                                <option
-                                    value="arts">{t('ARTS')}</option>
-                                <option value="virtual">{t('VIRTUAL_CARDS')}</option>
-                                <option value="3d">{t('3D')}</option>
-                                <option value="music">{t('MUSIC')}</option>
-                                <option value="collectibles">{t('COLLECTIBLES')}</option>
-                            </Form.Control>
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                className=""
-                                name="name"
-                                required={true}
-                                placeholder="Name"
-                            />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Description</Form.Label>
-                            <Form.Control
-                                type="text"
-                                className=""
-                                name="description"
-                                required={true}
-                                placeholder="Description"
-                            />
-                        </Form.Group>
-                        <Form.Group className="hidden">
-                            <Form.Label>Style</Form.Label>
-                            <Form.Control as="select"
-                                onChange={handleChangeStyle}
-                                name="Style"
-                                required={true}>
-                                <option value="Blue"> Blue</option>
-                                <option value="Red">Red</option>
-                                <option value="Green"> Green</option>
-                                <option value="Black">Black</option>
-                            </Form.Control>
-                        </Form.Group>
-                        <Form.Group className="hidden">
-                            <Form.Label>Type</Form.Label>
-                            <Form.Control as="select" name="type"
-                                required={true}
-                                onChange={handleChangeType}>
-                                <option
-                                    value="identity">{t('IDENTITY')}</option>
-                                <option value="asset">{t('ASSET')}</option>
-                                <option value="order">{t('ORDER')}</option>
-                            </Form.Control>
-                        </Form.Group>
-
-                        <Form.Group>
-                            <Form.Label>Attributes</Form.Label>
-                            <Button type="button" variant="secondary" size="sm"
-                                onClick={handleProperties}
-                                className="small button-define">Add
-                            </Button>
-                            {
-                                totalPropertiesList.map((property, idx) => {
-                                    return (
-                                        <Form.Group key={idx}>
-                                            <Form.Label>Property #{idx+1} </Form.Label>
-                                            <div className="input-property-group">
-                                                <Button type="button" variant="secondary" size="sm"
-                                                    onClick={() => handleRemoveProperties(idx)}
-                                                    className="small button-define">Remove
-                                                </Button>
-                                                <Form.Control
-                                                    type="text"
-                                                    className=""
-                                                    id={`propertyName`+(idx+1)}
-                                                    name={`propertyName`+(idx+1)}
-                                                    required={false}
-                                                    placeholder="Property"
-                                                />
-                                                <br/>
-                                                <Form.Control
-                                                    type="text"
-                                                    className=""
-                                                    id={`propertyValue`+(idx+1)}
-                                                    name={`propertyValue`+(idx+1)}
-                                                    required={false}
-                                                    placeholder="Value"
-                                                />
-                                            </div>
-
-                                        </Form.Group>
-                                    );
-                                })
-                            }
-
-                        </Form.Group>
-
-                        {errorMessage !== '' ?
-                            <span
-                                className="error-response">{errorMessage}</span>
-                            : ''
-                        }
-                        <div className="submitButtonSection">
-                            <Button variant="primary" type="submit">
-                                {t('SUBMIT')}
-                            </Button>
-                        </div>
-                    </Form>
-                </Modal.Body>
-            </Modal>
-
+        <div className="container page-body mint-page-body">
             <div>
-                {
-                    externalComponent === 'Keystore' ?
-                        <TransactionOptions
-                            setExternalComponent={setExternalComponent}
-                            totalDefineObject={totalDefineObject}
-                            TransactionName={'assetMint'}
-                            setShow={setShow}
-                            handleClose={handleClose}
-                        /> :
-                        null
+                {loader ?
+                    <Loader/>
+                    : ''
                 }
             </div>
+            <div className="left-content">
+                <Form onSubmit={handleFormSubmit}>
+                    <Form.Group className="hidden">
+                        <Form.Label>{t('FROM_ID')}*</Form.Label>
+                        <Form.Control
+                            type="text"
+                            className=""
+                            name="FromId"
+                            required={true}
+                            defaultValue={fromID !== null ? fromID : testIdentityId}
+                            placeholder={t('FROM_ID')}
+                        />
+                    </Form.Group>
+                    <Form.Group className="hidden">
+                        <Form.Label>{t('TO_ID')}*</Form.Label>
+                        <Form.Control
+                            type="text"
+                            className=""
+                            name="toID"
+                            defaultValue={fromID !== null ? fromID : testIdentityId}
+                            required={true}
+                            placeholder={t('TO_ID')}
+                        />
+                    </Form.Group>
+                    <Form.Group className="hidden">
+                        <Form.Label>Burn</Form.Label>
+                        <Form.Control
+                            type="text"
+                            className=""
+                            name="MutableBurn"
+                            value={-1}
+                            required={true}
+                            placeholder='MutableBurn'
+                        />
+                    </Form.Group>
+                    <Form.Group className="hidden">
+                        <Form.Label>MutableLock</Form.Label>
+                        <Form.Control
+                            type="text"
+                            className=""
+                            name="MutableLock"
+                            value={-1}
+                            required={true}
+                            placeholder='MutableLock'
+                        />
+                    </Form.Group>
+                    <Form.Group className="custom-file-upload">
+                        <Form.File
+                            onChange={urlChangeHandler}
+                            id="DefineURI"
+                            name="DefineURI"
+                            label={fileInputLabel}
+                            required={true}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Category</Form.Label>
+                        <Form.Control as="select" name="category"
+                            required={true}
+                            onBlur={categoryChangeHandler}
+                            onChange={handleChangeCategory}>
+                            <option
+                                value="arts">{t('ARTS')}</option>
+                            <option value="virtual">{t('VIRTUAL_CARDS')}</option>
+                            <option value="3d">{t('3D')}</option>
+                            <option value="music">{t('MUSIC')}</option>
+                            <option value="collectibles">{t('COLLECTIBLES')}</option>
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control
+                            type="text"
+                            className=""
+                            name="name"
+                            onBlur={nameChangeHandler}
+                            required={true}
+                            placeholder="Name"
+                        />
+                    </Form.Group>
+                    
+                    
+                    <Form.Group>
+                        <Form.Label>Description</Form.Label>
+                        <Form.Control as="textarea" rows={5}
+                            name="description"
+                            placeholder="Enter Description"
+                            id="Description"
+                            required={true}/>
+
+                    </Form.Group>
+                    <Form.Group className="hidden">
+                        <Form.Label>Style</Form.Label>
+                        <Form.Control as="select"
+                            onChange={handleChangeStyle}
+                            name="Style"
+                            required={true}>
+                            <option value="Blue"> Blue</option>
+                            <option value="Red">Red</option>
+                            <option value="Green"> Green</option>
+                            <option value="Black">Black</option>
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group className="hidden">
+                        <Form.Label>Type</Form.Label>
+                        <Form.Control as="select" name="type"
+                            required={true}
+                            onChange={handleChangeType}>
+                            <option
+                                value="identity">{t('IDENTITY')}</option>
+                            <option value="asset">{t('ASSET')}</option>
+                            <option value="order">{t('ORDER')}</option>
+                        </Form.Control>
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>Attributes</Form.Label>
+                        <Button type="button" variant="secondary" size="sm"
+                            onClick={handleProperties}
+                            className="small button-define"><Icon viewClass="icon-upload" icon="plus"/>
+                        </Button>
+                        {
+                            totalPropertiesList.map((property, idx) => {
+                                return (
+                                    <Form.Group key={idx}>
+                                        <Form.Label>Property #{idx+1} </Form.Label>
+                                        <div className="input-property-group">
+
+                                            <Form.Control
+                                                type="text"
+                                                className=""
+                                                id={`propertyName`+(idx+1)}
+                                                name={`propertyName`+(idx+1)}
+                                                required={false}
+                                                placeholder="Property"
+                                            />
+                                            <Form.Control
+                                                type="text"
+                                                className=""
+                                                id={`propertyValue`+(idx+1)}
+                                                name={`propertyValue`+(idx+1)}
+                                                required={false}
+                                                placeholder="Value"
+                                            />
+                                            <Button type="button" variant="secondary" size="sm"
+                                                onClick={() => handleRemoveProperties(idx)}
+                                                className="small button-define"><Icon viewClass="icon-upload" icon="minus"/>
+                                            </Button>
+                                        </div>
+
+                                    </Form.Group>
+                                );
+                            })
+                        }
+
+                    </Form.Group>
+
+                    {errorMessage !== '' ?
+                        <span
+                            className="error-response">{errorMessage}</span>
+                        : ''
+                    }
+                    <div className="submitButtonSection">
+                        <Button variant="primary" type="submit">
+                            {t('SUBMIT')}
+                        </Button>
+                    </div>
+                </Form>
+            </div>
+
+            <div className="right-content">
+                <p className="text-center">Preview NFT</p>
+                <div className="preview-container">
+                    <div className="image">
+                        {!urlLoader ?
+                            <img src={fileUrl} alt="img-logo"/>
+                            :
+                            <img src={loaderImage} alt="img-logo" className="loader-url"/>
+                        }
+                    </div>
+                    <div className="preview-content">
+                        <p>#{initialName}</p>
+                        <p>#{initialCategory}</p>
+                    </div>
+                </div>
+            </div>
+            {
+                externalComponent === 'Keystore' ?
+                    <TransactionOptions
+                        setExternalComponent={setExternalComponent}
+                        totalDefineObject={totalDefineObject}
+                        TransactionName={'assetMint'}
+                        // setShow={setShow}
+                        handleClose={handleClose}
+                    /> :
+                    null
+            }
+            
         </div>
     );
 };

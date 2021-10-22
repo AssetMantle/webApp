@@ -1,19 +1,24 @@
 import React, {useState} from "react";
 import {Dropdown} from "react-bootstrap";
-import {MintAsset, Wrap, UnWrap, DefineAsset} from "../../forms/assets";
+import { Wrap, UnWrap, DefineAsset} from "../../forms/assets";
 import {defineAsset} from "persistencejs/build/transaction/assets/define";
 import {useTranslation} from "react-i18next";
 import Sidebar from "../../../components/sidebar/sidebar";
 import AssetList from "./assetList";
 import {Summary} from "../../../components/summary";
+import {useHistory} from "react-router-dom";
 
 const assetDefine = new defineAsset(process.env.REACT_APP_ASSET_MANTLE_API);
 const Assets = () => {
+    const history = useHistory();
     const {t} = useTranslation();
     const [externalComponent, setExternalComponent] = useState("");
 
     const handleModalData = (formName) => {
         setExternalComponent(formName);
+        if(formName === "MintAsset"){
+            history.push("/mint");
+        }
     };
     const hanldeRoute= () =>{
 
@@ -55,12 +60,12 @@ const Assets = () => {
                             FormName={'Define Asset'} type={'asset'}/> :
                         null
                     }
-                    {
-                        externalComponent === 'MintAsset' ?
-                            <MintAsset setExternalComponent={setExternalComponent} ActionName={assetDefine}
-                                FormName={'Mint Asset'} type={'asset'}/> :
-                            null
-                    }
+                    {/*{*/}
+                    {/*    externalComponent === 'MintAsset' ?*/}
+                    {/*        <MintAsset setExternalComponent={setExternalComponent} ActionName={assetDefine}*/}
+                    {/*            FormName={'Mint Asset'} type={'asset'}/> :*/}
+                    {/*        null*/}
+                    {/*}*/}
                     {
                         externalComponent === 'Wrap' ?
                             <Wrap setExternalComponent={setExternalComponent} FormName={'Wrap'}/> :

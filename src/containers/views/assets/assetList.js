@@ -40,7 +40,7 @@ const AssetList = React.memo(() => {
         }
     };
     return (
-        <div className="list-container list-container-loader">
+        <div className="list-container list-container-loader container">
             {loader ?
                 <div className="loader-container">
                     <img src={loaderImage} alt="loader"/>

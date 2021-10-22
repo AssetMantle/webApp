@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {useTranslation} from "react-i18next";
 import sidebarIcon from "../../assets/images/sidbarIcon.svg";
-import Footer from "../../components/Footer";
 import {Button} from "react-bootstrap";
 import {Reveal} from "../../containers/forms/metas";
 import {SendCoin} from "../../containers/forms/bank";
@@ -37,7 +36,7 @@ const Sidebar = () => {
                     <Button onClick={() => handleRoute("SendCoin")}>{t("SEND_COIN")}</Button>
                 </div>
             </div>
-            <Footer/>
+            {/*<Footer/>*/}
             {externalComponent === 'Reveal' ?
                 <Reveal setExternalComponent={setExternalComponent}/> :
                 null

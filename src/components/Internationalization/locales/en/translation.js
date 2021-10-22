@@ -153,7 +153,8 @@ let en = {
         "USER_NAME":"User Name",
         "ADDRESS":"Address",
         "ADD_USER":"Add User",
-        "KEYSTORE_LOGIN":"Keystore Login"
+        "KEYSTORE_LOGIN":"Keystore Login",
+        "CREATE_NFT":"Create_Nft",
 
     }
 };

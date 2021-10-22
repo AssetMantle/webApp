@@ -10,7 +10,6 @@ const ModalCommon = (props) => {
     const handleClose = () => {
         setShowIdentity(false);
         props.handleClose();
-        window.location.reload();
         if (props.transactionName === "assetMint" ||
             props.transactionName === "Define Asset" ||
             props.transactionName === "wrap" ||
@@ -18,6 +17,7 @@ const ModalCommon = (props) => {
             props.transactionName ==="send splits" ||
             props.transactionName ==="burn asset" ||
             props.transactionName ==="mutate asset"){
+            window.location.reload();
             history.push("/assets");
         }else if (props.transactionName === "Define Order"){
             history.push("/orders");

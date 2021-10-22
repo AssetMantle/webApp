@@ -1,6 +1,7 @@
 const axios = require("axios");
 const FormData = require("form-data");
-const PinataJWT = process.env.PINATA_JWT;
+const PinataJWT = process.env.REACT_APP_PINATA_JWT;
+console.log(PinataJWT, "PinataJWT");
 const getApiConfig = async () => {
     const config = {
         headers: {
