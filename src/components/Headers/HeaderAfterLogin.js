@@ -108,7 +108,7 @@ const HeaderAfterLogin = () => {
     );
     return (
         <>
-            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="login-after">
+            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="login-after container-fluid">
                 <Navbar.Brand><Nav.Link onClick={handleRoute("/profile")}>
                     <img src={logo} alt="logo"/>
                 </Nav.Link></Navbar.Brand>
@@ -133,15 +133,15 @@ const HeaderAfterLogin = () => {
                                     <li className="nav-item">
                                         <NavLink className="nav-link" to="/assets">{t("ASSETS")}</NavLink>
                                     </li>
-                                    <li className="nav-item">
-                                        <NavLink className="nav-link" to="/orders">{t("ORDERS")}</NavLink>
-                                    </li>
+                                    {/*<li className="nav-item">*/}
+                                    {/*    <NavLink className="nav-link" to="/orders">{t("ORDERS")}</NavLink>*/}
+                                    {/*</li>*/}
                                     <li className="nav-item">
                                         <NavLink className="nav-link" to="/marketplace">{t("MARKET_PLACE")}</NavLink>
                                     </li>
-                                    <li className="nav-item">
-                                        <NavLink className="nav-link" to="/maintainers">{t("MAINTAINERS")}</NavLink>
-                                    </li>
+                                    {/*<li className="nav-item">*/}
+                                    {/*    <NavLink className="nav-link" to="/maintainers">{t("MAINTAINERS")}</NavLink>*/}
+                                    {/*</li>*/}
                                     <li className="nav-item">
                                         <NavLink className="nav-link" to="/profile">{t("PROFILE")}</NavLink>
                                     </li>

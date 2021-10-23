@@ -1,12 +1,10 @@
 import React, {useState, useEffect} from "react";
 import {useTranslation} from "react-i18next";
-import Sidebar from "../../../components/sidebar/sidebar";
-import {useHistory} from "react-router-dom";
-import {Summary} from "../../../components/summary";
+// import Sidebar from "../../../components/sidebar/sidebar";
+// import {useHistory} from "react-router-dom";
 import config from "../../../constants/config.json";
-import Copy from "../../../components/copy";
-import {Button, Dropdown} from "react-bootstrap";
-import Icon from "../../../icons";
+// import Copy from "../../../components/copy";
+import {Button} from "react-bootstrap";
 import {BurnAsset, MintAsset, MutateAsset, SendSplit, UnWrap, Wrap} from "../../forms/assets";
 import {MakeOrder} from "../../forms/orders";
 import {Define} from "../../forms";
@@ -17,7 +15,7 @@ import Lightbox from "react-image-lightbox";
 const assetDefine = new defineAsset(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const AssetView = React.memo((props) => {
-    let history = useHistory();
+    // let history = useHistory();
     const {t} = useTranslation();
     const [assetData, setAssetData] = useState({});
     const [externalComponent, setExternalComponent] = useState("");
@@ -41,22 +39,11 @@ const AssetView = React.memo((props) => {
     };
     let ImageData;
     let buttonsData;
-    let contentData  = [];
-    // let PropertyObject =[];
-    // if(assetData.totalData){
-    //     const propertyData = JSON.parse(assetData.totalData["propertyName"]);
-    //     Object.keys(propertyData).map((property, keyprop) => {
-    //         let content = <div className="list-item red" key={keyprop}>
-    //             <p
-    //                 className="list-item-label">{propertyData[property]['propertyName']} </p>
-    //             <p
-    //                 className="list-item-value">{propertyData[property]['propertyValue']}</p>
-    //         </div>;
-    //         PropertyObject.push(content);
-    //     });
-    // }
+    // let contentData  = [];
     let PropertyObject =[];
-
+    let assetName;
+    let assetCategory;
+    let assetDescription;
     if(assetData.totalData)
     {
         Object.keys(assetData.totalData).map((asset) => {
@@ -87,10 +74,8 @@ const AssetView = React.memo((props) => {
                         </video>
                     </div>;
                 }
-
-
                 else {
-                    ImageData = <div className="dummy-image image-sectiont asset-image">
+                    ImageData = <div className="dummy-image image-container asset-image">
                         <img src={assetData.totalData[asset]} alt="image" onClick={()=> setIsOpen(true)}/>
                         {isOpen && (
                             <Lightbox
@@ -102,7 +87,7 @@ const AssetView = React.memo((props) => {
                 }
 
             }
-            let content;
+            // let content;
             if(asset === config.URI){
                 buttonsData =
                     <div className="button-group property-actions">
@@ -131,154 +116,165 @@ const AssetView = React.memo((props) => {
                     PropertyObject.push(content);
                 });
             }
-            else {
-                content =
-                    asset !== 'style' && asset !== config.URI ?
-                        <div className="list-item">
-                            <p
-                                className="list-item-label">{asset} </p>
-                            <p
-                                className="list-item-value">{assetData.totalData[asset]}</p>
-                        </div>
-                        : "";
-                contentData.push(content);
-
+            else if(asset === "name"){
+                assetName = <p className="asset-name">{assetData.totalData[asset]}</p>;
+            }else if(asset === "category"){
+                assetCategory = <p className="asset-category">{assetData.totalData[asset]}</p>;
+            }else if(asset === "description"){
+                assetDescription = <p className="asset-description">{assetData.totalData[asset]}</p>;
             }
+            // else {
+            //     content =
+            //         asset !== 'style' && asset !== config.URI && asset !== "type" ?
+            //             <div className="list-item">
+            //                 <p
+            //                     className="list-item-label">{asset} </p>
+            //                 <p
+            //                     className="list-item-value">{assetData.totalData[asset]}</p>
+            //             </div>
+            //             : "";
+            //     contentData.push(content);
+            // }
         });
     }
 
     console.log(PropertyObject, "PropertyObject");
 
     return (
-        <div className="content-section">
-            <Sidebar/>
-            <div className="accountInfo">
-                <div className="row">
-                    <div className="col-md-9 card-deck">
-                        <div className="dropdown-section">
-                            <p className="back-arrow" onClick={() => history.push(props.location.state.currentPath)}>
-                                <Icon viewClass="arrow-icon" icon="arrow"/> Back</p>
-                            <Dropdown>
-                                <Dropdown.Toggle id="dropdown-basic">
-                                    {t("ACTIONS")}
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    <Dropdown.Item
-                                        onClick={() => handleModalData("DefineAsset")}>{t("DEFINE_ASSET")}
-                                    </Dropdown.Item>
-                                    <Dropdown.Item onClick={() => handleModalData("MintAsset")}>{t("MINT_ASSET")}
-                                    </Dropdown.Item>
-                                    <Dropdown.Item onClick={() => handleModalData("Wrap")}>{t("WRAP")}
-                                    </Dropdown.Item>
-                                    <Dropdown.Item onClick={() => handleModalData("UnWrap")}>{t("UN_WRAP")}
-                                    </Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
+        <div className="page-body">
+            <div className="content-section container">
+                <div className="accountInfo">
+                    <div className="row">
+                        {/*<div className="dropdown-section">*/}
+                        {/*    <p className="back-arrow" onClick={() => history.push(props.location.state.currentPath)}>*/}
+                        {/*        <Icon viewClass="arrow-icon" icon="arrow"/> Back</p>*/}
+                        {/*    <Dropdown>*/}
+                        {/*        <Dropdown.Toggle id="dropdown-basic">*/}
+                        {/*            {t("ACTIONS")}*/}
+                        {/*        </Dropdown.Toggle>*/}
+                        {/*        <Dropdown.Menu>*/}
+                        {/*            <Dropdown.Item*/}
+                        {/*                onClick={() => handleModalData("DefineAsset")}>{t("DEFINE_ASSET")}*/}
+                        {/*            </Dropdown.Item>*/}
+                        {/*            <Dropdown.Item onClick={() => handleModalData("MintAsset")}>{t("MINT_ASSET")}*/}
+                        {/*            </Dropdown.Item>*/}
+                        {/*            <Dropdown.Item onClick={() => handleModalData("Wrap")}>{t("WRAP")}*/}
+                        {/*            </Dropdown.Item>*/}
+                        {/*            <Dropdown.Item onClick={() => handleModalData("UnWrap")}>{t("UN_WRAP")}*/}
+                        {/*            </Dropdown.Item>*/}
+                        {/*        </Dropdown.Menu>*/}
+                        {/*    </Dropdown>*/}
 
-                        </div>
+                        {/*</div>*/}
 
                         <div className="list-container view-container">
                             <div className="row card-deck">
-                                <div className="row">
-                                    <div className="col-xl-5 col-lg-5 col-md-12 col-sm-12 sdfdf">
+                                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                    <div className="image-section">
                                         {ImageData}
-                                        {buttonsData}
+                                    </div>
+                                    {buttonsData}
+                                </div>
+
+                                <div
+                                    className="col-xl-6 col-lg-6 col-md-12 col-sm-12 asset-data">
+                                    {assetCategory}
+                                    {assetName}
+                                    {assetDescription}
+                                    {/*<>*/}
+                                    {/*    <div className="list-item">*/}
+                                    {/*        <p className="list-item-label">{t("ASSET_ID")}</p>*/}
+                                    {/*        <div className="list-item-value id-section">*/}
+                                    {/*            <div className="flex">*/}
+                                    {/*                <p className="id-string"*/}
+                                    {/*                    title={assetData.ownableID}> {assetData.ownableID}</p>*/}
+
+                                    {/*            </div>*/}
+                                    {/*            <Copy*/}
+                                    {/*                id={assetData.ownableID}/>*/}
+                                    {/*        </div>*/}
+
+                                    {/*    </div>*/}
+                                    {/*    <div className="list-item">*/}
+                                    {/*        <p className="list-item-label">{t("OWNER_ID")}</p>*/}
+                                    {/*        <div className="list-item-value id-section">*/}
+                                    {/*            <div className="flex">*/}
+                                    {/*                <p className="id-string"*/}
+                                    {/*                    title={assetData.ownerID}> {assetData.ownerID}</p>*/}
+
+                                    {/*            </div>*/}
+                                    {/*            <Copy*/}
+                                    {/*                id={assetData.ownerID}/>*/}
+                                    {/*        </div>*/}
+
+                                    {/*    </div>*/}
+                                    {/*</>*/}
+                                    {/*{contentData}*/}
+
+                                    <div className="properties-container">
+                                        <div className="header">
+                                            <p className="sub-title">Properties</p>
+                                        </div>
+                                        <div className="body">
+                                            {PropertyObject}
+
+                                        </div>
                                     </div>
 
-                                    <div
-                                        className="col-xl-7 col-lg-7 col-md-12 col-sm-12 asset-data">
-                                        <>
-                                            <div className="list-item">
-                                                <p className="list-item-label">{t("ASSET_ID")}</p>
-                                                <div className="list-item-value id-section">
-                                                    <div className="flex">
-                                                        <p className="id-string"
-                                                            title={assetData.ownableID}> {assetData.ownableID}</p>
 
-                                                    </div>
-                                                    <Copy
-                                                        id={assetData.ownableID}/>
-                                                </div>
 
-                                            </div>
-                                            <div className="list-item">
-                                                <p className="list-item-label">{t("OWNER_ID")}</p>
-                                                <div className="list-item-value id-section">
-                                                    <div className="flex">
-                                                        <p className="id-string"
-                                                            title={assetData.ownerID}> {assetData.ownerID}</p>
-
-                                                    </div>
-                                                    <Copy
-                                                        id={assetData.ownerID}/>
-                                                </div>
-
-                                            </div>
-                                        </>
-                                        {contentData}
-
-                                        <p className="sub-title">Properties</p>
-
-                                        {PropertyObject}
-
-                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-                    <div className="col-md-3 summary-section">
-                        <Summary/>
                     </div>
                 </div>
-            </div>
-            <div>
-                {externalComponent === 'MutateAsset' ?
-                    <MutateAsset setExternalComponent={setExternalComponent} mutatePropertiesList={mutateProperties}
-                        asset={asset}/> :
-                    null
-                }
-                {
-                    externalComponent === 'BurnAsset' ?
-                        <BurnAsset setExternalComponent={setExternalComponent} ownerId={ownerId}
-                            ownableId={ownableId}/> :
+                <div>
+                    {externalComponent === 'MutateAsset' ?
+                        <MutateAsset setExternalComponent={setExternalComponent} mutatePropertiesList={mutateProperties}
+                            asset={asset}/> :
                         null
-                }
-                {
-                    externalComponent === 'MakeOrder' ?
-                        <MakeOrder setExternalComponent={setExternalComponent} ownerId={ownerId}
-                            ownableId={ownableId} asset={asset}/> :
+                    }
+                    {
+                        externalComponent === 'BurnAsset' ?
+                            <BurnAsset setExternalComponent={setExternalComponent} ownerId={ownerId}
+                                ownableId={ownableId}/> :
+                            null
+                    }
+                    {
+                        externalComponent === 'MakeOrder' ?
+                            <MakeOrder setExternalComponent={setExternalComponent} ownerId={ownerId}
+                                ownableId={ownableId} asset={asset}/> :
+                            null
+                    }
+                    {
+                        externalComponent === 'SendSplit' ?
+                            <SendSplit setExternalComponent={setExternalComponent} ownerId={ownerId}
+                                ownableId={ownableId}/> :
+                            null
+                    }
+                    {externalComponent === 'DefineAsset' ?
+                        <Define setExternalComponent={setExternalComponent} ActionName={assetDefine}
+                            FormName={'Define Asset'} type={'asset'}/> :
                         null
-                }
-                {
-                    externalComponent === 'SendSplit' ?
-                        <SendSplit setExternalComponent={setExternalComponent} ownerId={ownerId}
-                            ownableId={ownableId}/> :
-                        null
-                }
-                {externalComponent === 'DefineAsset' ?
-                    <Define setExternalComponent={setExternalComponent} ActionName={assetDefine}
-                        FormName={'Define Asset'} type={'asset'}/> :
-                    null
-                }
-                {
-                    externalComponent === 'MintAsset' ?
-                        <MintAsset setExternalComponent={setExternalComponent}/> :
-                        null
-                }
-                {
-                    externalComponent === 'Wrap' ?
-                        <Wrap setExternalComponent={setExternalComponent} FormName={'Wrap'}/> :
-                        null
-                }
-                {
-                    externalComponent === 'UnWrap' ?
-                        <UnWrap setExternalComponent={setExternalComponent} FormName={'UnWrap'}/> :
-                        null
-                }
+                    }
+                    {
+                        externalComponent === 'MintAsset' ?
+                            <MintAsset setExternalComponent={setExternalComponent}/> :
+                            null
+                    }
+                    {
+                        externalComponent === 'Wrap' ?
+                            <Wrap setExternalComponent={setExternalComponent} FormName={'Wrap'}/> :
+                            null
+                    }
+                    {
+                        externalComponent === 'UnWrap' ?
+                            <UnWrap setExternalComponent={setExternalComponent} FormName={'UnWrap'}/> :
+                            null
+                    }
+                </div>
             </div>
         </div>
-
     );
 });
 

@@ -9,7 +9,7 @@ html, body, #root, .app {
 }
 
 .navbar-dark.login-after {
-  padding: 0 35px;
+  padding: 0 10%;
 }
 
 .navbar-dark {
@@ -594,34 +594,29 @@ html, body, #root, .app {
 .content-section .accountInfo .row {
   margin: 0;
 }
-.content-section .accountInfo .col-md-9.card-deck {
+.content-section .accountInfo .page-body {
   padding: 0;
   margin: 0;
   flex: 0 0 100%;
   max-width: 100%;
 }
-.content-section .accountInfo .col-md-9.card-deck .card-deck {
+.content-section .accountInfo .page-body .card-deck {
   padding: 20px 10px 0 10px;
-  overflow-y: auto;
-  height: calc(100vh - 151px);
-  scrollbar-color: #C2D2E4 transparent;
-  scrollbar-width: thin;
-  scrollbar-radius: 4px;
 }
-.content-section .accountInfo .col-md-9.card-deck .card-deck .col-xl-4, .content-section .accountInfo .col-md-9.card-deck .card-deck .col-lg-6, .content-section .accountInfo .col-md-9.card-deck .card-deck .col-md-6, .content-section .accountInfo .col-md-9.card-deck .card-deck .col-sm-12 {
+.content-section .accountInfo .page-body .card-deck .col-xl-4, .content-section .accountInfo .page-body .card-deck .col-lg-6, .content-section .accountInfo .page-body .card-deck .col-md-6, .content-section .accountInfo .page-body .card-deck .col-sm-12 {
   padding: 0 10px;
 }
-.content-section .accountInfo .col-md-9.card-deck .card-deck .card {
+.content-section .accountInfo .page-body .card-deck .card {
   height: 400px;
   overflow: auto;
   margin: 10px 0;
   box-shadow: 0px 5.27536px 5.27536px rgba(0, 0, 0, 0.05);
   border-radius: 9.23188px;
 }
-.content-section .accountInfo .col-md-9.card-deck .card-deck .card .info-section {
+.content-section .accountInfo .page-body .card-deck .card .info-section {
   padding: 15px;
 }
-.content-section .accountInfo .col-md-9.card-deck .card-deck .card:hover {
+.content-section .accountInfo .page-body .card-deck .card:hover {
   transform: translateY(-2px);
   box-shadow: rgba(47, 63, 78, 0.25) 0px 0px 8px 0px;
   transition: all 0.1s ease 0s;
@@ -798,6 +793,7 @@ html, body, #root, .app {
   margin: 0;
   font-weight: 500;
   font-size: 14px;
+  text-transform: capitalize;
 }
 .list-item .list-item-value {
   text-align: right;
@@ -1007,6 +1003,25 @@ html, body, #root, .app {
 .view-container .card-deck .row {
   width: 100%;
 }
+.view-container .image-section {
+  background-color: #f9f9f9;
+  width: 100%;
+  min-height: 40vh;
+}
+.view-container .image-section .image-container {
+  position: relative;
+}
+.view-container .image-section .image-container img, .view-container .image-section .image-container video {
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  object-fit: contain;
+  cursor: zoom-in;
+  min-height: 40vh !important;
+}
 
 .property-actions {
   padding: 0px 30px;
@@ -1040,7 +1055,7 @@ html, body, #root, .app {
 }
 
 .image-container {
-  padding: 0 10px 10px 10px;
+  padding: 0 0 10px 0;
 }
 .image-container video {
   width: 100%;
@@ -1239,30 +1254,45 @@ model-viewer {
 
 .page-body {
   padding-top: 15px;
+  overflow-y: auto;
+  height: calc(100vh - 60px);
+  scrollbar-color: #C2D2E4 transparent;
+  scrollbar-width: thin;
+  scrollbar-radius: 4px;
 }
 
-.custom-file-upload label {
-  width: 100%;
-  border-radius: 5px;
-  height: 110px;
+.custom-file-upload-box .form-label {
+  margin-bottom: 0;
+}
+.custom-file-upload-box .form-label .custom-icon .icon {
+  width: 14px;
+  height: 14px;
+}
+.custom-file-upload-box .text-muted {
+  margin-bottom: 15px;
+}
+.custom-file-upload-box .custom-file-upload label {
+  width: 50%;
+  height: 200px;
   display: flex;
   align-items: center;
   padding: 10px 20px;
   justify-content: center;
-  border: 3px dotted #d0d0d0;
+  border: 3px dashed #cccccc;
+  border-radius: 10px;
   cursor: pointer;
 }
-.custom-file-upload label p {
+.custom-file-upload-box .custom-file-upload label p {
   margin: 0;
   font-weight: 500;
   font-size: 14px;
   word-break: break-all;
 }
-.custom-file-upload label .icon {
+.custom-file-upload-box .custom-file-upload label .icon {
   width: 40px;
   height: 40px;
 }
-.custom-file-upload input {
+.custom-file-upload-box .custom-file-upload input {
   display: none;
 }
 
@@ -1273,8 +1303,19 @@ model-viewer {
 .mint-page-body .left-content {
   width: 70%;
 }
+.mint-page-body .page-title {
+  font-size: 26px;
+  font-weight: 500;
+  margin-top: 16px;
+}
 .mint-page-body .right-content {
   width: 30%;
+  width: 250px;
+  max-width: 250px;
+  margin-left: auto;
+}
+.mint-page-body .right-content .title {
+  color: rgba(255, 255, 255, 0.6);
 }
 .mint-page-body .right-content .preview-container {
   width: 250px;
@@ -1305,7 +1346,7 @@ model-viewer {
 .mint-page-body .right-content .preview-content {
   padding: 20px 0 0;
 }
-.mint-page-body .right-content .preview-content p {
+.mint-page-body .right-content .preview-content label {
   font-size: 14px;
   text-align: center;
   margin: 0;
@@ -1313,8 +1354,59 @@ model-viewer {
 
 .dark-mode-button {
   background: none;
-  border: 0px solid;
+  border: 0 solid;
   outline: none !important;
+}
+
+.icon-button.info {
+  padding-left: 5px;
+  background: no-repeat;
+  border: none;
+  outline: none !important;
+}
+
+.asset-name {
+  font-weight: 600;
+  font-size: 38px;
+  line-height: 1.2em;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+}
+
+.asset-category {
+  font-size: 14px;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.properties-container {
+  border-radius: 10px;
+  border-right: 1px solid #e5e8eb;
+  border-bottom: 1px solid #e5e8eb;
+  border-left: 1px solid #e5e8eb;
+  border-image: initial;
+  border-top: none;
+  color: #04111d;
+  background-color: white;
+  overflow: hidden;
+}
+.properties-container .header {
+  align-items: center;
+  border-radius: 10px;
+  border-top: 1px solid #e5e8eb;
+  cursor: pointer;
+  display: flex;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 20px;
+  user-select: none;
+  background-color: white;
+}
+.properties-container .body {
+  border-top: 1px solid #e5e8eb;
+  color: #353840;
+  padding: 20px;
+  background-color: #fbfdff;
 }
 
 /*# sourceMappingURL=styles.css.map */

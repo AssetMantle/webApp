@@ -10,6 +10,7 @@ import Loader from "../../../components/loader";
 import Icon from "../../../icons";
 import logo from "../../../assets/images/logo.svg";
 import loaderImage from "../../../assets/images/loader.svg";
+import {OverlayTrigger, Popover} from "react-bootstrap";
 const MintAsset = (props) => {
     const PropertyHelper = new GetProperty();
     const {t} = useTranslation();
@@ -170,213 +171,234 @@ const MintAsset = (props) => {
         <Icon viewClass="icon-upload" icon="upload"/>
         <p>{fileName}</p>
     </div>);
-    
+    const popoverTotal = (
+        <Popover id="popover-total">
+            <Popover.Content>
+                Please make sure you upload images / artwork that you have created or have the right to use.
+            </Popover.Content>
+        </Popover>
+    );
     return (
-        <div className="container page-body mint-page-body">
-            <div>
-                {loader ?
-                    <Loader/>
-                    : ''
-                }
-            </div>
-            <div className="left-content">
-                <Form onSubmit={handleFormSubmit}>
-                    <Form.Group className="hidden">
-                        <Form.Label>{t('FROM_ID')}*</Form.Label>
-                        <Form.Control
-                            type="text"
-                            className=""
-                            name="FromId"
-                            required={true}
-                            defaultValue={fromID !== null ? fromID : testIdentityId}
-                            placeholder={t('FROM_ID')}
-                        />
-                    </Form.Group>
-                    <Form.Group className="hidden">
-                        <Form.Label>{t('TO_ID')}*</Form.Label>
-                        <Form.Control
-                            type="text"
-                            className=""
-                            name="toID"
-                            defaultValue={fromID !== null ? fromID : testIdentityId}
-                            required={true}
-                            placeholder={t('TO_ID')}
-                        />
-                    </Form.Group>
-                    <Form.Group className="hidden">
-                        <Form.Label>Burn</Form.Label>
-                        <Form.Control
-                            type="text"
-                            className=""
-                            name="MutableBurn"
-                            value={-1}
-                            required={true}
-                            placeholder='MutableBurn'
-                        />
-                    </Form.Group>
-                    <Form.Group className="hidden">
-                        <Form.Label>MutableLock</Form.Label>
-                        <Form.Control
-                            type="text"
-                            className=""
-                            name="MutableLock"
-                            value={-1}
-                            required={true}
-                            placeholder='MutableLock'
-                        />
-                    </Form.Group>
-                    <Form.Group className="custom-file-upload">
-                        <Form.File
-                            onChange={urlChangeHandler}
-                            id="DefineURI"
-                            name="DefineURI"
-                            label={fileInputLabel}
-                            required={true}
-                        />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Category</Form.Label>
-                        <Form.Control as="select" name="category"
-                            required={true}
-                            onBlur={categoryChangeHandler}
-                            onChange={handleChangeCategory}>
-                            <option
-                                value="arts">{t('ARTS')}</option>
-                            <option value="virtual">{t('VIRTUAL_CARDS')}</option>
-                            <option value="3d">{t('3D')}</option>
-                            <option value="music">{t('MUSIC')}</option>
-                            <option value="collectibles">{t('COLLECTIBLES')}</option>
-                        </Form.Control>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control
-                            type="text"
-                            className=""
-                            name="name"
-                            onBlur={nameChangeHandler}
-                            required={true}
-                            placeholder="Name"
-                        />
-                    </Form.Group>
-                    
-                    
-                    <Form.Group>
-                        <Form.Label>Description</Form.Label>
-                        <Form.Control as="textarea" rows={5}
-                            name="description"
-                            placeholder="Enter Description"
-                            id="Description"
-                            required={true}/>
-
-                    </Form.Group>
-                    <Form.Group className="hidden">
-                        <Form.Label>Style</Form.Label>
-                        <Form.Control as="select"
-                            onChange={handleChangeStyle}
-                            name="Style"
-                            required={true}>
-                            <option value="Blue"> Blue</option>
-                            <option value="Red">Red</option>
-                            <option value="Green"> Green</option>
-                            <option value="Black">Black</option>
-                        </Form.Control>
-                    </Form.Group>
-                    <Form.Group className="hidden">
-                        <Form.Label>Type</Form.Label>
-                        <Form.Control as="select" name="type"
-                            required={true}
-                            onChange={handleChangeType}>
-                            <option
-                                value="identity">{t('IDENTITY')}</option>
-                            <option value="asset">{t('ASSET')}</option>
-                            <option value="order">{t('ORDER')}</option>
-                        </Form.Control>
-                    </Form.Group>
-
-                    <Form.Group>
-                        <Form.Label>Attributes</Form.Label>
-                        <Button type="button" variant="secondary" size="sm"
-                            onClick={handleProperties}
-                            className="small button-define"><Icon viewClass="icon-upload" icon="plus"/>
-                        </Button>
-                        {
-                            totalPropertiesList.map((property, idx) => {
-                                return (
-                                    <Form.Group key={idx}>
-                                        <Form.Label>Property #{idx+1} </Form.Label>
-                                        <div className="input-property-group">
-
-                                            <Form.Control
-                                                type="text"
-                                                className=""
-                                                id={`propertyName`+(idx+1)}
-                                                name={`propertyName`+(idx+1)}
-                                                required={false}
-                                                placeholder="Property"
-                                            />
-                                            <Form.Control
-                                                type="text"
-                                                className=""
-                                                id={`propertyValue`+(idx+1)}
-                                                name={`propertyValue`+(idx+1)}
-                                                required={false}
-                                                placeholder="Value"
-                                            />
-                                            <Button type="button" variant="secondary" size="sm"
-                                                onClick={() => handleRemoveProperties(idx)}
-                                                className="small button-define"><Icon viewClass="icon-upload" icon="minus"/>
-                                            </Button>
-                                        </div>
-
-                                    </Form.Group>
-                                );
-                            })
-                        }
-
-                    </Form.Group>
-
-                    {errorMessage !== '' ?
-                        <span
-                            className="error-response">{errorMessage}</span>
+        <div className="page-body">
+            <div className="container mint-page-body">
+                <div>
+                    {loader ?
+                        <Loader/>
                         : ''
                     }
-                    <div className="submitButtonSection">
-                        <Button variant="primary" type="submit">
-                            {t('SUBMIT')}
-                        </Button>
-                    </div>
-                </Form>
-            </div>
+                </div>
+                <div className="left-content">
+                    <h1 className="page-title">Create new item</h1>
+                    <Form onSubmit={handleFormSubmit}>
+                        <Form.Group className="hidden">
+                            <Form.Label>{t('FROM_ID')}*</Form.Label>
+                            <Form.Control
+                                type="text"
+                                className=""
+                                name="FromId"
+                                required={true}
+                                defaultValue={fromID !== null ? fromID : testIdentityId}
+                                placeholder={t('FROM_ID')}
+                            />
+                        </Form.Group>
+                        <Form.Group className="hidden">
+                            <Form.Label>{t('TO_ID')}*</Form.Label>
+                            <Form.Control
+                                type="text"
+                                className=""
+                                name="toID"
+                                defaultValue={fromID !== null ? fromID : testIdentityId}
+                                required={true}
+                                placeholder={t('TO_ID')}
+                            />
+                        </Form.Group>
+                        <Form.Group className="hidden">
+                            <Form.Label>Burn</Form.Label>
+                            <Form.Control
+                                type="text"
+                                className=""
+                                name="MutableBurn"
+                                value={-1}
+                                required={true}
+                                placeholder='MutableBurn'
+                            />
+                        </Form.Group>
+                        <Form.Group className="hidden">
+                            <Form.Label>MutableLock</Form.Label>
+                            <Form.Control
+                                type="text"
+                                className=""
+                                name="MutableLock"
+                                value={-1}
+                                required={true}
+                                placeholder='MutableLock'
+                            />
+                        </Form.Group>
+                        <div className="custom-file-upload-box">
+                            <Form.Label>Image
+                                <OverlayTrigger trigger={['hover', 'focus']} placement="bottom"
+                                    overlay={popoverTotal}>
+                                    <button className="icon-button info" type="button"><Icon
+                                        viewClass="arrow-right"
+                                        icon="info"/></button>
+                                </OverlayTrigger></Form.Label>
+                            <Form.Text className="text-muted">
+                           File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3. Max size: 100 MB
+                            </Form.Text>
+                            <Form.Group className="custom-file-upload">
+                                <Form.File
+                                    onChange={urlChangeHandler}
+                                    id="DefineURI"
+                                    name="DefineURI"
+                                    label={fileInputLabel}
+                                    required={true}
+                                />
+                            </Form.Group>
+                        </div>
+                        <Form.Group>
+                            <Form.Label>Category</Form.Label>
+                            <Form.Control as="select" name="category"
+                                required={true}
+                                onBlur={categoryChangeHandler}
+                                onChange={handleChangeCategory}>
+                                <option
+                                    value="arts">{t('ARTS')}</option>
+                                <option value="virtual">{t('VIRTUAL_CARDS')}</option>
+                                <option value="3d">{t('3D')}</option>
+                                <option value="music">{t('MUSIC')}</option>
+                                <option value="collectibles">{t('COLLECTIBLES')}</option>
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                className=""
+                                name="name"
+                                onBlur={nameChangeHandler}
+                                required={true}
+                                placeholder="Name"
+                            />
+                        </Form.Group>
+                    
+                    
+                        <Form.Group>
+                            <Form.Label>Description</Form.Label>
+                            <Form.Control as="textarea" rows={5}
+                                name="description"
+                                placeholder="Enter Description"
+                                id="Description"
+                                required={true}/>
 
-            <div className="right-content">
-                <p className="text-center">Preview NFT</p>
-                <div className="preview-container">
-                    <div className="image">
-                        {!urlLoader ?
-                            <img src={fileUrl} alt="img-logo"/>
-                            :
-                            <img src={loaderImage} alt="img-logo" className="loader-url"/>
+                        </Form.Group>
+                        <Form.Group className="hidden">
+                            <Form.Label>Style</Form.Label>
+                            <Form.Control as="select"
+                                onChange={handleChangeStyle}
+                                name="Style"
+                                required={true}>
+                                <option value="Blue"> Blue</option>
+                                <option value="Red">Red</option>
+                                <option value="Green"> Green</option>
+                                <option value="Black">Black</option>
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group className="hidden">
+                            <Form.Label>Type</Form.Label>
+                            <Form.Control as="select" name="type"
+                                required={true}
+                                onChange={handleChangeType}>
+                                <option
+                                    value="identity">{t('IDENTITY')}</option>
+                                <option value="asset">{t('ASSET')}</option>
+                                <option value="order">{t('ORDER')}</option>
+                            </Form.Control>
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label>Attributes</Form.Label>
+                            <Button type="button" variant="secondary" size="sm"
+                                onClick={handleProperties}
+                                className="small button-define"><Icon viewClass="icon-upload" icon="plus"/>
+                            </Button>
+                            {
+                                totalPropertiesList.map((property, idx) => {
+                                    return (
+                                        <Form.Group key={idx}>
+                                            <Form.Label>Property #{idx+1} </Form.Label>
+                                            <div className="input-property-group">
+
+                                                <Form.Control
+                                                    type="text"
+                                                    className=""
+                                                    id={`propertyName`+(idx+1)}
+                                                    name={`propertyName`+(idx+1)}
+                                                    required={false}
+                                                    placeholder="Property"
+                                                />
+                                                <Form.Control
+                                                    type="text"
+                                                    className=""
+                                                    id={`propertyValue`+(idx+1)}
+                                                    name={`propertyValue`+(idx+1)}
+                                                    required={false}
+                                                    placeholder="Value"
+                                                />
+                                                <Button type="button" variant="secondary" size="sm"
+                                                    onClick={() => handleRemoveProperties(idx)}
+                                                    className="small button-define"><Icon viewClass="icon-upload" icon="minus"/>
+                                                </Button>
+                                            </div>
+
+                                        </Form.Group>
+                                    );
+                                })
+                            }
+
+                        </Form.Group>
+
+                        {errorMessage !== '' ?
+                            <span
+                                className="error-response">{errorMessage}</span>
+                            : ''
                         }
-                    </div>
-                    <div className="preview-content">
-                        <p>#{initialName}</p>
-                        <p>#{initialCategory}</p>
+                        <div className="submitButtonSection">
+                            <Button variant="primary" type="submit">
+                                {t('SUBMIT')}
+                            </Button>
+                        </div>
+                    </Form>
+                </div>
+
+                <div className="right-content">
+                    <p className="text-center title">Preview NFT</p>
+                    <div className="preview-container">
+                        <div className="image">
+                            {!urlLoader ?
+                                <img src={fileUrl} alt="img-logo"/>
+                                :
+                                <img src={loaderImage} alt="img-logo" className="loader-url"/>
+                            }
+                        </div>
+                        <div className="preview-content">
+                            <p>#{initialName}</p>
+                            <p>#{initialCategory}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            {
-                externalComponent === 'Keystore' ?
-                    <TransactionOptions
-                        setExternalComponent={setExternalComponent}
-                        totalDefineObject={totalDefineObject}
-                        TransactionName={'assetMint'}
-                        // setShow={setShow}
-                        handleClose={handleClose}
-                    /> :
-                    null
-            }
+                {
+                    externalComponent === 'Keystore' ?
+                        <TransactionOptions
+                            setExternalComponent={setExternalComponent}
+                            totalDefineObject={totalDefineObject}
+                            TransactionName={'assetMint'}
+                            // setShow={setShow}
+                            handleClose={handleClose}
+                        /> :
+                        null
+                }
             
+            </div>
         </div>
     );
 };

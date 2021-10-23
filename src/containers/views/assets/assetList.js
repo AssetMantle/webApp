@@ -40,139 +40,141 @@ const AssetList = React.memo(() => {
         }
     };
     return (
-        <div className="list-container list-container-loader container">
-            {loader ?
-                <div className="loader-container">
-                    <img src={loaderImage} alt="loader"/>
-                </div>
-                : ""
-            }
-            <div className="row card-deck">
-                {assetList.length ?
-                    assetList.map((asset, index) => {
-                        return (
-                            <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
-                                <div className="card asset-card">
-                                    <div className="info-section">
-                                        {
-                                            Object.keys(asset['totalData']).map(key => {
-                                                let imageExtension;
-                                                if(key === config.URI){
-                                                    imageExtension = asset['totalData'][key].substring(asset['totalData'][key].lastIndexOf('.') + 1);
-                                                    console.log(imageExtension, 'imageExtension');
-                                                }
+        <div className="page-body">
+            <div className="list-container list-container-loader container">
+                {loader ?
+                    <div className="loader-container">
+                        <img src={loaderImage} alt="loader"/>
+                    </div>
+                    : ""
+                }
+                <div className="row card-deck">
+                    {assetList.length ?
+                        assetList.map((asset, index) => {
+                            return (
+                                <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
+                                    <div className="card asset-card">
+                                        <div className="info-section">
+                                            {
+                                                Object.keys(asset['totalData']).map(key => {
+                                                    let imageExtension;
+                                                    if(key === config.URI){
+                                                        imageExtension = asset['totalData'][key].substring(asset['totalData'][key].lastIndexOf('.') + 1);
+                                                        console.log(imageExtension, 'imageExtension');
+                                                    }
                 
-                                                return(
-                                                    <>
-                                                        {
-                                                            key === config.URI ?
-                                                                imageExtension === "gltf" ?
-                                                                    <div className="image-container">
-                                                                        <model-viewer
-                                                                            id="mv-astronaut"
-                                                                            src={asset['totalData'][key]}
-                                                                            camera-controls
-                                                                            ar
-                                                                            auto-rotate
-                                                                            alt="A 3D model of an astronaut"
-                                                                        >
-                                                                        </model-viewer>
-                                                                    </div>
-                                                                    :
-                                                                    imageExtension === "mp4" ?
+                                                    return(
+                                                        <>
+                                                            {
+                                                                key === config.URI ?
+                                                                    imageExtension === "gltf" ?
                                                                         <div className="image-container">
-                                                                            <video className = "banner-video" autoPlay playsInline preload="metadata" loop="loop"
-                                                                                muted src={asset['totalData'][key]}>
-                                                                                <source type="video/webm" src={asset['totalData'][key]}/>
-                                                                                <source type="video/mp4" src={asset['totalData'][key]}/>
-                                                                                <source type="video/ogg" src={asset['totalData'][key]}/>
-                                                                            </video>
+                                                                            <model-viewer
+                                                                                id="mv-astronaut"
+                                                                                src={asset['totalData'][key]}
+                                                                                camera-controls
+                                                                                ar
+                                                                                auto-rotate
+                                                                                alt="A 3D model of an astronaut"
+                                                                            >
+                                                                            </model-viewer>
                                                                         </div>
-                                                                        :    <div className="image-container">
-                                                                            <div className="assetImage">
-                                                                                <img src={asset['totalData'][key]} alt="image"/>
+                                                                        :
+                                                                        imageExtension === "mp4" ?
+                                                                            <div className="image-container">
+                                                                                <video className = "banner-video" autoPlay playsInline preload="metadata" loop="loop"
+                                                                                    muted src={asset['totalData'][key]}>
+                                                                                    <source type="video/webm" src={asset['totalData'][key]}/>
+                                                                                    <source type="video/mp4" src={asset['totalData'][key]}/>
+                                                                                    <source type="video/ogg" src={asset['totalData'][key]}/>
+                                                                                </video>
                                                                             </div>
-                                                                        </div>
-                                                                : ""
-                                                        }
-                                                        {
-                                                            key === "name" || key === "category" ?
-                                                                <div className="list-item"><p
-                                                                    className="list-item-label">{key}: </p> <p
-                                                                    className="list-item-value">{asset['totalData'][key]}</p>
-                                                                </div>
-                                                                : ""
-                                                        }
-                                                    </>
-                                                );
-                                            })
-                                        }
-                                        {asset['ownableID'] !== "stake" ?
-                                            <>
+                                                                            :    <div className="image-container">
+                                                                                <div className="assetImage">
+                                                                                    <img src={asset['totalData'][key]} alt="image"/>
+                                                                                </div>
+                                                                            </div>
+                                                                    : ""
+                                                            }
+                                                            {
+                                                                key === "name" || key === "category" ?
+                                                                    <div className="list-item"><p
+                                                                        className="list-item-label">{key} </p> <p
+                                                                        className="list-item-value">{asset['totalData'][key]}</p>
+                                                                    </div>
+                                                                    : ""
+                                                            }
+                                                        </>
+                                                    );
+                                                })
+                                            }
+                                            {asset['ownableID'] !== "stake" ?
+                                                <>
+                                                    <div className="list-item">
+                                                        <p className="list-item-label">{t("ASSET_ID")}:</p>
+                                                        <div className="list-item-value id-section">
+                                                            <p className="id-string" title={asset['ownableID']}> {asset['ownableID']}</p>
+                                                        </div>
+                                                    </div>
+
+                                                </>
+                                                :
                                                 <div className="list-item">
                                                     <p className="list-item-label">{t("ASSET_ID")}:</p>
-                                                    <div className="list-item-value id-section">
-                                                        <p className="id-string" title={asset['ownableID']}> {asset['ownableID']}</p>
-                                                    </div>
+                                                    <p className="list-item-value" title={asset['ownableID']}>{asset['ownableID']}</p>
                                                 </div>
 
-                                            </>
-                                            :
-                                            <div className="list-item">
-                                                <p className="list-item-label">{t("ASSET_ID")}:</p>
-                                                <p className="list-item-value" title={asset['ownableID']}>{asset['ownableID']}</p>
-                                            </div>
+                                            }
 
-                                        }
+                                            {/*<div className="list-item">*/}
+                                            {/*    <p className="list-item-label">{t("OWNER_ID")}:</p>*/}
+                                            {/*    <div className="list-item-value id-section">*/}
+                                            {/*        <p className="id-string" title={asset['ownerID']}> {asset['ownerID']}</p>*/}
+                                            {/*    </div>*/}
+                                            {/*</div>*/}
 
-                                        {/*<div className="list-item">*/}
-                                        {/*    <p className="list-item-label">{t("OWNER_ID")}:</p>*/}
-                                        {/*    <div className="list-item-value id-section">*/}
-                                        {/*        <p className="id-string" title={asset['ownerID']}> {asset['ownerID']}</p>*/}
-                                        {/*    </div>*/}
-                                        {/*</div>*/}
+                                            {asset['ownableID'] === "stake" ?
+                                                <div className="button-group">
+                                                    <Button variant="primary" size="sm"
+                                                        onClick={() => handleModalData("MakeOrder",  asset['ownerID'], asset['ownableID'])}>{t("MAKE")}</Button>
+                                                    <Button variant="primary" size="sm"
+                                                        onClick={() => handleModalData("SendSplit",  asset['ownerID'], asset['ownableID'])}>{t("SEND_SPLITS")}</Button>
+                                                </div>
+                                                : ""
+                                            }
 
-                                        {asset['ownableID'] === "stake" ?
-                                            <div className="button-group">
-                                                <Button variant="primary" size="sm"
-                                                    onClick={() => handleModalData("MakeOrder",  asset['ownerID'], asset['ownableID'])}>{t("MAKE")}</Button>
-                                                <Button variant="primary" size="sm"
-                                                    onClick={() => handleModalData("SendSplit",  asset['ownerID'], asset['ownableID'])}>{t("SEND_SPLITS")}</Button>
-                                            </div>
-                                            : ""
-                                        }
-
-                                        {asset['ownableID'] !== "stake" ?
-                                            <Button variant="primary" className="viewButton" size="sm"
-                                                onClick={() => handleAsset(asset['ownableID'], asset)}>View</Button>
-                                            :""
-                                        }
+                                            {asset['ownableID'] !== "stake" ?
+                                                <Button variant="primary" className="viewButton" size="sm"
+                                                    onClick={() => handleAsset(asset['ownableID'], asset)}>View</Button>
+                                                :""
+                                            }
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })
-                    : ""}
+                            );
+                        })
+                        : ""}
 
-                {
-                    error !== '' ?
-                        <p className="empty-list">{t("ASSETS_NOT_FOUND")}</p>
-                        : ""
-                }
-            </div>
-            <div>
-                {
-                    externalComponent === 'MakeOrder' ?
-                        <MakeOrder setExternalComponent={setExternalComponent} ownerId={ownerId}
-                            ownableId={ownableId}/> :
-                        null
-                }
-                {
-                    externalComponent === 'SendSplit' ?
-                        <SendSplit setExternalComponent={setExternalComponent} ownerId={ownerId}
-                            ownableId={ownableId}/> :
-                        null
-                }
+                    {
+                        error !== '' ?
+                            <p className="empty-list">{t("ASSETS_NOT_FOUND")}</p>
+                            : ""
+                    }
+                </div>
+                <div>
+                    {
+                        externalComponent === 'MakeOrder' ?
+                            <MakeOrder setExternalComponent={setExternalComponent} ownerId={ownerId}
+                                ownableId={ownableId}/> :
+                            null
+                    }
+                    {
+                        externalComponent === 'SendSplit' ?
+                            <SendSplit setExternalComponent={setExternalComponent} ownerId={ownerId}
+                                ownableId={ownableId}/> :
+                            null
+                    }
+                </div>
             </div>
         </div>
     );

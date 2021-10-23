@@ -154,7 +154,6 @@ let en = {
         "ADDRESS":"Address",
         "ADD_USER":"Add User",
         "KEYSTORE_LOGIN":"Keystore Login",
-        "CREATE_NFT":"Create_Nft",
 
     }
 };
