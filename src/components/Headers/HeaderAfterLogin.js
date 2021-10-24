@@ -5,7 +5,7 @@ import {Navbar, Nav, NavDropdown, Button} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import {NavLink} from 'react-router-dom';
 import logo from '../../assets/images/logo.svg';
-import profileIcon from "../../assets/images/profile.svg";
+// import profileIcon from "../../assets/images/profile.svg";
 import Icon from '../../icons';
 import AddIdentity from '../../containers/forms/identities/AddIdentity';
 import Darktheme from "../darkmode/Darktheme";
@@ -98,10 +98,10 @@ const HeaderAfterLogin = () => {
             aria-expanded="false">
             <div className="profile-icon">
                 <p className="address">{userTypeToken}</p>
-                <img className="thumbnail-image"
-                    src={profileIcon}
-                    alt="user pic"
-                />
+                {/*<img className="thumbnail-image"*/}
+                {/*    src={profileIcon}*/}
+                {/*    alt="user pic"*/}
+                {/*/>*/}
 
             </div>
         </div>
@@ -155,7 +155,12 @@ const HeaderAfterLogin = () => {
                                                             if(localStorage.getItem('userName') === id){
                                                                 return(
                                                                     <div key={index} className="address-item active">
-                                                                        <p className="address" title={id} onClick={()=>changeIdentityHandler(id)}>{id}</p>
+                                                                        <div className="icon-section">
+                                                                            <Icon
+                                                                                viewClass="user"
+                                                                                icon="user"/>
+                                                                            <p className="address" title={id} onClick={()=>changeIdentityHandler(id)}>{id}</p>
+                                                                        </div>
                                                                         <span className="cross-icon" onClick={()=> removeIdentityHandler(id)}>
                                                                             <Icon
                                                                                 viewClass="cross"
@@ -168,7 +173,12 @@ const HeaderAfterLogin = () => {
                                                             else {
                                                                 return(
                                                                     <div key={index} className="address-item">
-                                                                        <p className="address" title={id} onClick={()=>changeIdentityHandler(id)}>{id}</p>
+                                                                        <div className="icon-section">
+                                                                            <Icon
+                                                                                viewClass="user"
+                                                                                icon="user"/>
+                                                                            <p className="address" title={id} onClick={()=>changeIdentityHandler(id)}>{id}</p>
+                                                                        </div>
                                                                         <span className="cross-icon" onClick={()=> removeIdentityHandler(id)}>
                                                                             <Icon
                                                                                 viewClass="cross"
@@ -184,8 +194,20 @@ const HeaderAfterLogin = () => {
                                                     }
                                                 </div>
 
-                                                <p onClick={handleAddIdentity} className="add-id">{t("ADD_USER")}</p>
-                                                <p onClick={logout} className="logout">{t("LOGOUT")}</p>
+                                                <p onClick={handleAddIdentity} className="add-id">
+                                                    <div className="icon-section">
+                                                        <Icon
+                                                            viewClass="add-user"
+                                                            icon="add-user"/>{t("ADD_USER")}
+                                                    </div>
+                                                </p>
+                                                <p onClick={logout} className="logout">
+                                                    <div className="icon-section">
+                                                        <Icon
+                                                            viewClass="logout"
+                                                            icon="logout"/>{t("LOGOUT")}
+                                                    </div>
+                                                </p>
                                             </div>
                                         </NavDropdown>
                                     </li>

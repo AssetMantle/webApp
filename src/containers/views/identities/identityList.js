@@ -16,11 +16,10 @@ const IdentityList = React.memo(() => {
     const [externalComponent, setExternalComponent] = useState("");
     const [identity, setIdentity] = useState([]);
     const identityList = useSelector((state) => state.identities.identityList);
+    console.log(faucetData, "faucetData");
 
     const loader = useSelector((state) => state.identities.loading);
     const faucetData = useSelector((state) => state.faucet.faucetData);
-    console.log(faucetData, "faucetData");
-    let ImageData;
     const dispatch = useDispatch();
     useEffect(()=>{
         const fetchData = async () => {
@@ -52,9 +51,6 @@ const IdentityList = React.memo(() => {
                             </div>
                             <div className="list-item profile-data">
                                 <p className="list-item-label">{t("IDENTITY_ID")}:</p>
-                                <div className="list-item-value profile-data-item">
-                                    <p className="id-string" title={identityId}> {identityId}</p>
-                                </div>
                                 <Copy
                                     id={identityId}/>
                             </div>
@@ -73,7 +69,6 @@ const IdentityList = React.memo(() => {
                                 </div>
                                 :""
                             }
-                            {ImageData}
 
                             <div className="address-container">
                                 <p className="sub-title">provisionedAddressList</p>

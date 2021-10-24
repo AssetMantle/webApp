@@ -15,7 +15,7 @@ const UnProvision = (props) => {
     const {t} = useTranslation();
     const fromID = localStorage.getItem('identityId');
     useEffect(() => {
-        const provisionedAddressList = props.userList.value.provisionedAddressList;
+        const provisionedAddressList = props.userList;
         if (provisionedAddressList !== null) {
             provisionedAddressList.map((address) => {
                 setProvisionAddressList((provisionAddressList) => [
@@ -33,7 +33,6 @@ const UnProvision = (props) => {
         setLoader(true);
         event.preventDefault();
         const selectValue = event.target.selectAddress.value;
-
         let totalData = {
             identityId: fromID,
             to: selectValue,

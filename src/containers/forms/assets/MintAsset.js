@@ -11,6 +11,7 @@ import Icon from "../../../icons";
 import logo from "../../../assets/images/logo.svg";
 import loaderImage from "../../../assets/images/loader.svg";
 import {OverlayTrigger, Popover} from "react-bootstrap";
+import helper from "../../../utilities/helper";
 const MintAsset = (props) => {
     const PropertyHelper = new GetProperty();
     const {t} = useTranslation();
@@ -32,6 +33,7 @@ const MintAsset = (props) => {
     const [urlLoader, setUrlLoader] = useState(false);
     const [initialName, setInitialName] = useState('Name');
     const [initialCategory, setInitialCategory] = useState('Category');
+    const [imageExtension, setImageExtension] = useState('png');
 
     useEffect(() => {
         let fromIDValue = localStorage.getItem('identityId');
@@ -71,7 +73,9 @@ const MintAsset = (props) => {
         setFileUrl(updateFileUrl);
         const ImmutableUrlEncode = PropertyHelper.getUrlEncode(updateFileUrl);
         // const ImmutableUrlEncode = await helper.IpfsPath(fileData);
-
+        const imageExtension = fileData.name.substring(fileData.name.lastIndexOf('.') + 1);
+        console.log(imageExtension, "image");
+        setImageExtension(imageExtension);
         setEncodedUrl(ImmutableUrlEncode);
         setUrlLoader(false);
     };
@@ -88,13 +92,11 @@ const MintAsset = (props) => {
         event.preventDefault();
         const propertyDataObject = [];
 
-        // ImmutableUrlEncode = PropertyHelper.getUrlEncode(ImmutableUrl);
-        // console.log(ImmutableUrlEncode, "ImmutableUrl");
         totalPropertiesList.map((property, idx) => {
             const propertyName = `propertyName`+(idx+1);
             const propertyValue = `propertyValue`+(idx+1);
-            const propertyNameData = document.getElementById(propertyName).value;
-            const propertyValueData = document.getElementById(propertyValue).value;
+            const propertyNameData =  helper.stringFilter(document.getElementById(propertyName).value, ',', '//');
+            const propertyValueData = helper.stringFilter(document.getElementById(propertyValue).value, ',', '//');
             propertyDataObject.push(
                 {
                     propertyName:propertyNameData,
@@ -107,16 +109,14 @@ const MintAsset = (props) => {
         console.log(propertyDataObjectHash, base64url.decode(propertyDataObjectHash), "decode");
         const FromId = event.target.FromId.value;
         let staticMutables = '';
-        const name = event.target.name.value;
-        const description = event.target.description.value;
+        const name = helper.stringFilter(event.target.name.value, ',', '//');
+        const description = helper.stringFilter(event.target.description.value, ',', '//');
 
         staticMutables = `propertyName:S|${propertyDataObjectHash},type:S|${typeOption}`;
 
         let staticImmutableMeta = `name:S|${name},description:S|${description},category:S|${category}`;
         let staticImMutables = `style:S|${mutableStyle}`;
-        // let ImmutableUrlEncode = '';
-        // const ImmutableUrl = event.target.URI.value;
-        // ImmutableUrlEncode = await helper.IpfsPath(event.target.DefineURI.files[0]);
+
         let mutableValues = '';
         let immutableValues = '';
         let mutableMetaValues = '';
@@ -160,6 +160,7 @@ const MintAsset = (props) => {
         setCategory(evt.target.value);
     };
     const nameChangeHandler = evt =>{
+
         setInitialName(evt.target.value);
     };
 
@@ -315,7 +316,7 @@ const MintAsset = (props) => {
                             </Form.Control>
                         </Form.Group>
 
-                        <Form.Group>
+                        <Form.Group className="attributes-container">
                             <Form.Label>Attributes</Form.Label>
                             <Button type="button" variant="secondary" size="sm"
                                 onClick={handleProperties}
@@ -327,7 +328,6 @@ const MintAsset = (props) => {
                                         <Form.Group key={idx}>
                                             <Form.Label>Property #{idx+1} </Form.Label>
                                             <div className="input-property-group">
-
                                                 <Form.Control
                                                     type="text"
                                                     className=""
@@ -346,7 +346,7 @@ const MintAsset = (props) => {
                                                 />
                                                 <Button type="button" variant="secondary" size="sm"
                                                     onClick={() => handleRemoveProperties(idx)}
-                                                    className="small button-define"><Icon viewClass="icon-upload" icon="minus"/>
+                                                    className="small button-define"><Icon viewClass="icon-upload" icon="delete"/>
                                                 </Button>
                                             </div>
 
@@ -375,7 +375,14 @@ const MintAsset = (props) => {
                     <div className="preview-container">
                         <div className="image">
                             {!urlLoader ?
-                                <img src={fileUrl} alt="img-logo"/>
+                                imageExtension === "mp4" ?
+                                    <video className="banner-video" autoPlay playsinline preload="metadata" loop="loop" controls muted src={fileUrl}>
+                                        <source type="video/webm" src={fileUrl}/>
+                                        <source type="video/mp4" src={fileUrl}/>
+                                        <source type="video/ogg" src={fileUrl}/>
+                                    </video>
+                                    :
+                                    <img src={fileUrl} alt="img-logo"/>
                                 :
                                 <img src={loaderImage} alt="img-logo" className="loader-url"/>
                             }

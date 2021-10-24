@@ -53,7 +53,7 @@ const AssetList = React.memo(() => {
                         assetList.map((asset, index) => {
                             return (
                                 <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
-                                    <div className="card asset-card">
+                                    <div className="card asset-card" onClick={() => handleAsset(asset['ownableID'], asset)}>
                                         <div className="info-section">
                                             {
                                                 Object.keys(asset['totalData']).map(key => {
@@ -108,23 +108,23 @@ const AssetList = React.memo(() => {
                                                     );
                                                 })
                                             }
-                                            {asset['ownableID'] !== "stake" ?
-                                                <>
-                                                    <div className="list-item">
-                                                        <p className="list-item-label">{t("ASSET_ID")}:</p>
-                                                        <div className="list-item-value id-section">
-                                                            <p className="id-string" title={asset['ownableID']}> {asset['ownableID']}</p>
-                                                        </div>
-                                                    </div>
+                                            {/*{asset['ownableID'] !== "stake" ?*/}
+                                            {/*    <>*/}
+                                            {/*        <div className="list-item">*/}
+                                            {/*            <p className="list-item-label">{t("ASSET_ID")}:</p>*/}
+                                            {/*            <div className="list-item-value id-section">*/}
+                                            {/*                <p className="id-string" title={asset['ownableID']}> {asset['ownableID']}</p>*/}
+                                            {/*            </div>*/}
+                                            {/*        </div>*/}
 
-                                                </>
-                                                :
-                                                <div className="list-item">
-                                                    <p className="list-item-label">{t("ASSET_ID")}:</p>
-                                                    <p className="list-item-value" title={asset['ownableID']}>{asset['ownableID']}</p>
-                                                </div>
+                                            {/*    </>*/}
+                                            {/*    :*/}
+                                            {/*    <div className="list-item">*/}
+                                            {/*        <p className="list-item-label">{t("ASSET_ID")}:</p>*/}
+                                            {/*        <p className="list-item-value" title={asset['ownableID']}>{asset['ownableID']}</p>*/}
+                                            {/*    </div>*/}
 
-                                            }
+                                            {/*}*/}
 
                                             {/*<div className="list-item">*/}
                                             {/*    <p className="list-item-label">{t("OWNER_ID")}:</p>*/}
@@ -143,11 +143,11 @@ const AssetList = React.memo(() => {
                                                 : ""
                                             }
 
-                                            {asset['ownableID'] !== "stake" ?
-                                                <Button variant="primary" className="viewButton" size="sm"
-                                                    onClick={() => handleAsset(asset['ownableID'], asset)}>View</Button>
-                                                :""
-                                            }
+                                            {/*{asset['ownableID'] !== "stake" ?*/}
+                                            {/*    <Button variant="primary" className="viewButton" size="sm"*/}
+                                            {/*        onClick={() => handleAsset(asset['ownableID'], asset)}>View</Button>*/}
+                                            {/*    :""*/}
+                                            {/*}*/}
                                         </div>
                                     </div>
                                 </div>

@@ -65,8 +65,17 @@ function GetIpfsUrl(path) {
     return url;
 }
 
+function stringFilter(data, initialCharacter, replaceableText){
+    const re = new RegExp(initialCharacter,"g");
+    console.log(data.replace(re, replaceableText));
+    return data.replace(re, replaceableText);
+    // return data.replace(/${initialCharacter}/g, replaceableText);
+    // return result;
+}
+
 export default {
     SortObjectData,
     IpfsPath,
-    GetIpfsUrl
+    GetIpfsUrl,
+    stringFilter
 };

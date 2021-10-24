@@ -4,17 +4,20 @@ import {useTranslation} from "react-i18next";
 // import {useHistory} from "react-router-dom";
 import config from "../../../constants/config.json";
 // import Copy from "../../../components/copy";
-import {Button} from "react-bootstrap";
+import {Accordion, Button, Card} from "react-bootstrap";
 import {BurnAsset, MintAsset, MutateAsset, SendSplit, UnWrap, Wrap} from "../../forms/assets";
 import {MakeOrder} from "../../forms/orders";
 import {Define} from "../../forms";
 import {defineAsset} from "persistencejs/build/transaction/assets/define";
 import "@google/model-viewer/dist/model-viewer";
 import Lightbox from "react-image-lightbox";
+import Icon from "../../../icons";
+import Copy from "../../../components/copy";
+import helper from "../../../utilities/helper";
 
 const assetDefine = new defineAsset(process.env.REACT_APP_ASSET_MANTLE_API);
 
-const AssetView = React.memo((props) => {
+const AssetView = (props) => {
     // let history = useHistory();
     const {t} = useTranslation();
     const [assetData, setAssetData] = useState({});
@@ -24,6 +27,7 @@ const AssetView = React.memo((props) => {
     const [mutateProperties, setMutateProperties] = useState({});
     const [asset, setAsset] = useState({});
     const [isOpen, setIsOpen] = useState(false);
+    const [isAccordionOpen, setIsAccordionOpen] = useState(false);
 
     useEffect(() => {
         if (props.location.state !== undefined) {
@@ -38,11 +42,13 @@ const AssetView = React.memo((props) => {
         setOwnableId(ownableId);
     };
     let ImageData;
-    let buttonsData;
     // let contentData  = [];
     let PropertyObject =[];
     let assetName;
     let assetCategory;
+    let sellButton;
+    let mutateButton;
+    let burnButton;
     let assetDescription;
     if(assetData.totalData)
     {
@@ -89,59 +95,50 @@ const AssetView = React.memo((props) => {
             }
             // let content;
             if(asset === config.URI){
-                buttonsData =
-                    <div className="button-group property-actions">
-                        <Button variant="primary" size="sm" className="button-txn"
-                            onClick={() => handleModalData("MutateAsset", assetData.mutableProperties, assetData)}>{t("MUTATE_ASSET")}
-                        </Button>
-                        <Button variant="primary" size="sm" className="button-txn"
-                            onClick={() => handleModalData("BurnAsset", "", asset, assetData.ownerID, assetData.ownableID)}>{t("BURN_ASSET")}
-                        </Button>
-                        <Button variant="primary" size="sm" className="button-txn"
-                            onClick={() => handleModalData("MakeOrder", "", assetData, assetData.ownerID, assetData.ownableID)}>{t("MAKE")}</Button>
-                        <Button variant="primary" size="sm" className="button-txn"
-                            onClick={() => handleModalData("SendSplit", "", "", assetData.ownerID, assetData.ownableID)}>{t("SEND_SPLITS")}</Button>
-                    </div>;
+                mutateButton =  <button className="icon-button info"
+                    onClick={() => handleModalData("MutateAsset", assetData.mutableProperties, assetData)}>  <Icon
+                        viewClass="info"
+                        icon="edit"/>
+                </button>;
+                burnButton =   <button className="icon-bg-button" title="Delete NFT"
+                    onClick={() => handleModalData("BurnAsset", "", asset, assetData.ownerID, assetData.ownableID)}>
+                    <Icon
+                        viewClass="info"
+                        icon="delete"/>
+                </button>;
+                sellButton = <Button variant="primary" size="sm" className="button-txn action-button" onClick={() => handleModalData("MakeOrder", "", assetData, assetData.ownerID, assetData.ownableID)}>{t("MAKE")}</Button>;
+                {/*<Button variant="primary" size="sm" className="button-txn"*/}
+                {/*    onClick={() => handleModalData("SendSplit", "", "", assetData.ownerID, assetData.ownableID)}>{t("SEND_SPLITS")}</Button>*/}
             }else if(asset === "propertyName"){
                 const propertyData = JSON.parse(assetData.totalData["propertyName"]);
                 Object.keys(propertyData).map((property, keyprop) => {
                     let content = <div key={keyprop}>
                         <div className="list-item red">
                             <p
-                                className="list-item-label">{propertyData[property]['propertyName']} </p>
+                                className="list-item-label">{helper.stringFilter(propertyData[property]['propertyName'], '//', ',')} </p>
                             <p
-                                className="list-item-value">{propertyData[property]['propertyValue']}</p>
+                                className="list-item-value">{helper.stringFilter(propertyData[property]['propertyValue'], '//', ',')}</p>
                         </div>
                     </div>;
                     PropertyObject.push(content);
                 });
             }
             else if(asset === "name"){
-                assetName = <p className="asset-name">{assetData.totalData[asset]}</p>;
+                assetName = <p className="asset-name">{helper.stringFilter(assetData.totalData[asset], '//', ',')}</p>;
             }else if(asset === "category"){
-                assetCategory = <p className="asset-category">{assetData.totalData[asset]}</p>;
+                assetCategory = <p className="asset-category">{helper.stringFilter(assetData.totalData[asset], '//', ',')}</p>;
             }else if(asset === "description"){
-                assetDescription = <p className="asset-description">{assetData.totalData[asset]}</p>;
+                assetDescription = <p className="asset-description">{helper.stringFilter(assetData.totalData[asset], '//', ',')}</p>;
             }
-            // else {
-            //     content =
-            //         asset !== 'style' && asset !== config.URI && asset !== "type" ?
-            //             <div className="list-item">
-            //                 <p
-            //                     className="list-item-label">{asset} </p>
-            //                 <p
-            //                     className="list-item-value">{assetData.totalData[asset]}</p>
-            //             </div>
-            //             : "";
-            //     contentData.push(content);
-            // }
         });
     }
 
     console.log(PropertyObject, "PropertyObject");
-
+    const accordionHandler = () =>{
+        setIsAccordionOpen(!isAccordionOpen);
+    };
     return (
-        <div className="page-body">
+        <div className="page-body asset-view-body">
             <div className="content-section container">
                 <div className="accountInfo">
                     <div className="row">
@@ -173,7 +170,48 @@ const AssetView = React.memo((props) => {
                                     <div className="image-section">
                                         {ImageData}
                                     </div>
-                                    {buttonsData}
+                                    <Accordion className="details-accordion">
+                                        <Card>
+                                            <Accordion.Toggle as={Card.Header} onClick={accordionHandler} eventKey="0">
+                                                <div className="accordion-header">
+                                                    <p className="sub-title">Details</p>
+                                                    {isAccordionOpen ?
+                                                        <Icon
+                                                            viewClass="arrow-right"
+                                                            icon="up-arrow"/>
+                                                        :
+                                                        <Icon
+                                                            viewClass="arrow-right"
+                                                            icon="down-arrow"/>}
+                                                </div>
+                                            </Accordion.Toggle>
+                                            <Accordion.Collapse eventKey="0">
+                                                <Card.Body>
+                                                    <div className="list-item">
+                                                        <p className="list-item-label">{t("ASSET_ID")}</p>
+                                                        <div className="list-item-value id-section">
+                                                            <div className="flex">
+                                                                <Copy
+                                                                    id={assetData.ownableID}/>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div className="list-item">
+                                                        <p className="list-item-label">{t("OWNER_ID")}</p>
+                                                        <div className="list-item-value id-section">
+                                                            <div className="flex">
+                                                                <Copy
+                                                                    id={assetData.ownerID}/>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Card.Body>
+                                            </Accordion.Collapse>
+                                        </Card>
+                                    </Accordion>
                                 </div>
 
                                 <div
@@ -181,6 +219,7 @@ const AssetView = React.memo((props) => {
                                     {assetCategory}
                                     {assetName}
                                     {assetDescription}
+
                                     {/*<>*/}
                                     {/*    <div className="list-item">*/}
                                     {/*        <p className="list-item-label">{t("ASSET_ID")}</p>*/}
@@ -210,19 +249,17 @@ const AssetView = React.memo((props) => {
                                     {/*    </div>*/}
                                     {/*</>*/}
                                     {/*{contentData}*/}
-
+                                    {sellButton}
+                                    {burnButton}
                                     <div className="properties-container">
                                         <div className="header">
                                             <p className="sub-title">Properties</p>
+                                            {mutateButton}
                                         </div>
                                         <div className="body">
                                             {PropertyObject}
-
                                         </div>
                                     </div>
-
-
-
                                 </div>
                             </div>
                         </div>
@@ -276,7 +313,7 @@ const AssetView = React.memo((props) => {
             </div>
         </div>
     );
-});
+};
 
 export default AssetView;
 

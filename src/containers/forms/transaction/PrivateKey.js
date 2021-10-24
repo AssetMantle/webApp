@@ -119,14 +119,14 @@ const PrivateKeyTransaction = (props) => {
                         const identityID = await getIdentityId(hashGenerate);
                         let totalData = {
                             fromID: identityID,
-                            CoinAmountDenom: 'stake' + '5',
+                            CoinAmountDenom: '5' + 'stake',
                         };
 
                         let queryResponse = queries.transactionDefination(wallet.address , userMnemonic, "normal", 'wrap', totalData);
                         queryResponse.then(async function (item) {
                             console.log(item, "item wrap response");
                         }).catch(err => {
-                            console.log(err, "err");
+                            console.log(err, "err wrap");
                         });
                     }
                     setShow(false);

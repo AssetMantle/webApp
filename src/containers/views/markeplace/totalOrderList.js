@@ -2,7 +2,6 @@ import React from "react";
 import {useTranslation} from "react-i18next";
 import config from "../../../constants/config.json";
 import {useHistory} from "react-router-dom";
-import {Button} from "react-bootstrap";
 import {useSelector} from 'react-redux';
 import loaderImage from "../../../assets/images/loader.svg";
 
@@ -40,7 +39,7 @@ const TotalOrders = React.memo(() => {
                         markeOrders.map((order, index) => {
                             return(
                                 <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
-                                    <div className="card order-card">
+                                    <div className="card order-card" onClick={() => handleAsset(order['orderID'], order)}>
                                         <div className="info-section">
                                             {
                                                 Object.keys(order['totalData']).map(key => {
@@ -85,14 +84,11 @@ const TotalOrders = React.memo(() => {
                                                             {
                                                                 key === "name" || key === "category" ?
                                                                     <div className="list-item"><p
-                                                                        className="list-item-label">{key}: </p> <p
+                                                                        className="list-item-label">{key} </p> <p
                                                                         className="list-item-value">{order['totalData'][key]}</p>
                                                                     </div>
                                                                     : ""
                                                             }
-
-                                                            <Button variant="primary" className="viewButton" size="sm"
-                                                                onClick={() => handleAsset(order['orderID'], order)}>View</Button>
                                                         </>
 
                                                     );

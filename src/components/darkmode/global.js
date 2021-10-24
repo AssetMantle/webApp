@@ -44,7 +44,7 @@ export const GlobalStyles = createGlobalStyle`
     color: ${({theme}) => theme.navLinkColor};
   }
 
-  label {
+  label, .page-title, .title {
     color: ${({theme}) => theme.labelColor};
   }
 
@@ -204,9 +204,9 @@ export const GlobalStyles = createGlobalStyle`
     border-color: ${({theme}) => theme.subTitleBorderColor} !important;
     color: ${({theme}) => theme.subTitleColor};
   }
-  .copy-section p{
-    background: ${({theme}) => theme.copyBackground};
-  }
+  // .copy-section p{
+  //   background: ${({theme}) => theme.copyBackground};
+  // }
   .profile-dropdown-menu{
   color: ${({theme}) => theme.listItemColor};
   }

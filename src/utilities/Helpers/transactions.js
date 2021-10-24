@@ -95,14 +95,9 @@ async function TransactionWithMnemonic(msgs, fee, memo, mnemonic, type) {
         const [wallet, address] = await LedgerWallet(makeHdPath(accountNumber , addressIndex), "cosmos");
         return await Transaction(wallet, address, msgs, fee, memo);
     }
-
-    // return await Transaction(wallet, address, msgs, fee, memo);
 }
 
-// async function TransactionWithLedger(msgs, fee, memo, hdpath = makeHdPath(), prefix = "") {
-//     const [wallet, address] = await LedgerWallet(hdpath, prefix);
-//     return Transaction(wallet, address, msgs, fee, memo);
-// }
+
 
 async function LedgerWallet(hdpath, prefix) {
     const interactiveTimeout = 120_000;

@@ -17,6 +17,7 @@ html, body, #root, .app {
 .navbar-dark {
   padding: 0;
   .navbar-nav .nav-link {
+    white-space: nowrap;
     padding: 0 1.3rem !important;
     height: 60px;
     display: flex;
@@ -707,7 +708,8 @@ html, body, #root, .app {
         padding: 0 10px;
         }
         .card{
-          height: 400px;
+          height: 360px;
+          max-height: 360px;
           overflow: auto;
           margin:10px 0;
           box-shadow: 0px 5.27536px 5.27536px rgba(0, 0, 0, 0.05);
@@ -843,9 +845,6 @@ html, body, #root, .app {
   cursor: pointer;
   p{
     margin: 0;
-    font-size: 10px;
-    padding: 5px 10px;
-    border-radius: 30px;
     word-break: initial;
   }
 
@@ -1186,32 +1185,43 @@ html, body, #root, .app {
   min-width: 250px;
   p{
     cursor: pointer;
+    margin: 0;
+    line-height: initial;
+  }
+  .icon-section{
+    display: flex;
+    align-items: center;
+    .custom-icon{
+      margin-right: 10px;
+    }
   }
   .address-list{
     max-height: 300px;
     overflow-y: auto;
     .address-item.active{
-      background-color: rgba(60,64,67,0.078);
+      background-color: #6c757d;
+      color: #efcb30;
     }
+
     .address-item{
       padding: 10px 25px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       &:hover{
         background-color: rgba(60,64,67,0.078);
       }
       p{
-        flex: 1;
         margin: 0;
+        line-height: initial;
       }
       .cross-icon{
         border-radius: 50%;
         cursor: pointer;
-        height: 32px;
-        margin: 2px;
+        height: 26px;
         padding: 8px;
-        width: 32px;
+        width: 26px;
         align-items: center;
         justify-content: center;
         display: flex;
@@ -1302,11 +1312,11 @@ model-viewer{
   .dropdown-menu{
     margin: 0px;
     box-shadow: 0 4px 4px rgb(0 0 0 / 5%);
-    border: 1px solid;
+    border: 0px solid;
     padding: 0;
     border-radius: 0;
     position: absolute;
-    top: 0!important;
+    top: 10px !important;
     left: 0!important;
     margin: 0!important;
     right: auto!important;
@@ -1438,17 +1448,15 @@ model-viewer{
     width: 250px;
     max-width: 250px;
     margin-left: auto;
-    .title{
-      color: rgba(255,255,255,0.6);
-    }
+
     .preview-container{
       width: 250px;
       max-width: 250px;
       height: 360px;
       max-height: 360px;
-      background-color: #F5F5F5;
+      background-color: #FFFFFF;
       border-radius: 4px;
-      border: 2px solid #C2D2E4;
+      border: 1px solid #ced4da;
       padding:  10px 10px 0 10px;
       margin-left: auto;
       .image{
@@ -1457,7 +1465,7 @@ model-viewer{
         display: flex;
         align-items: center;
         justify-content: center;
-        img{
+        img, video{
           width: 100%;
           height: 100%;
         }
@@ -1517,13 +1525,20 @@ model-viewer{
     align-items: center;
     border-radius: 10px;
     border-top: 1px solid rgb(229, 232, 235);
-    cursor: pointer;
     display: flex;
     font-size: 16px;
     font-weight: 600;
     padding: 20px;
     user-select: none;
     background-color: rgb(255, 255, 255);
+    justify-content: space-between;
+    .icon-button.info{
+      padding: 0;
+      margin: 0;
+    }
+    p{
+      margin: 0;
+    }
   }
   .body{
     border-top: 1px solid rgb(229, 232, 235);
@@ -1531,4 +1546,55 @@ model-viewer{
     padding: 20px;
     background-color: rgb(251, 253, 255);
   }
+}
+.details-accordion {
+  margin-top: 1rem;
+ .card{
+    box-shadow: none;
+   p {
+     margin: 0;
+   }
+  }
+  .accordion-header {
+    display: flex;
+    cursor: pointer;
+    justify-content: space-between;
+    p {
+      margin: 0;
+    }
+  }
+}
+.icon-bg-button{
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  border-radius: 50% !important;
+  background: #6c757d;
+  border: 0px solid;
+  outline: none !important;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.action-button{
+  width: 200px;
+  height: 42px;
+  font-size: 16px;
+  border-radius: 25px !important;
+  outline: none !important;
+}
+.asset-view-body{
+  .action-button{
+    margin:0 0 1rem 0;
+  }
+}
+
+.attributes-container{
+  button{
+    padding: 4px 5px;
+    border-radius: 8px;
+  }
+
 }

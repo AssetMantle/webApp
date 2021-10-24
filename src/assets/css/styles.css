@@ -16,6 +16,7 @@ html, body, #root, .app {
   padding: 0;
 }
 .navbar-dark .navbar-nav .nav-link {
+  white-space: nowrap;
   padding: 0 1.3rem !important;
   height: 60px;
   display: flex;
@@ -607,7 +608,8 @@ html, body, #root, .app {
   padding: 0 10px;
 }
 .content-section .accountInfo .page-body .card-deck .card {
-  height: 400px;
+  height: 360px;
+  max-height: 360px;
   overflow: auto;
   margin: 10px 0;
   box-shadow: 0px 5.27536px 5.27536px rgba(0, 0, 0, 0.05);
@@ -732,9 +734,6 @@ html, body, #root, .app {
 }
 .copy-section p {
   margin: 0;
-  font-size: 10px;
-  padding: 5px 10px;
-  border-radius: 30px;
   word-break: initial;
 }
 .copy-section .copy-icon {
@@ -1075,13 +1074,23 @@ html, body, #root, .app {
 }
 .profile-dropdown-menu p {
   cursor: pointer;
+  margin: 0;
+  line-height: initial;
+}
+.profile-dropdown-menu .icon-section {
+  display: flex;
+  align-items: center;
+}
+.profile-dropdown-menu .icon-section .custom-icon {
+  margin-right: 10px;
 }
 .profile-dropdown-menu .address-list {
   max-height: 300px;
   overflow-y: auto;
 }
 .profile-dropdown-menu .address-list .address-item.active {
-  background-color: rgba(60, 64, 67, 0.078);
+  background-color: #6c757d;
+  color: #efcb30;
 }
 .profile-dropdown-menu .address-list .address-item {
   padding: 10px 25px;
@@ -1093,16 +1102,15 @@ html, body, #root, .app {
   background-color: rgba(60, 64, 67, 0.078);
 }
 .profile-dropdown-menu .address-list .address-item p {
-  flex: 1;
   margin: 0;
+  line-height: initial;
 }
 .profile-dropdown-menu .address-list .address-item .cross-icon {
   border-radius: 50%;
   cursor: pointer;
-  height: 32px;
-  margin: 2px;
+  height: 26px;
   padding: 8px;
-  width: 32px;
+  width: 26px;
   align-items: center;
   justify-content: center;
   display: flex;
@@ -1180,11 +1188,11 @@ model-viewer {
 .profile-dropdown .dropdown-menu {
   margin: 0px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
-  border: 1px solid;
+  border: 0px solid;
   padding: 0;
   border-radius: 0;
   position: absolute;
-  top: 0 !important;
+  top: 10px !important;
   left: 0 !important;
   margin: 0 !important;
   right: auto !important;
@@ -1314,17 +1322,14 @@ model-viewer {
   max-width: 250px;
   margin-left: auto;
 }
-.mint-page-body .right-content .title {
-  color: rgba(255, 255, 255, 0.6);
-}
 .mint-page-body .right-content .preview-container {
   width: 250px;
   max-width: 250px;
   height: 360px;
   max-height: 360px;
-  background-color: #F5F5F5;
+  background-color: #FFFFFF;
   border-radius: 4px;
-  border: 2px solid #C2D2E4;
+  border: 1px solid #ced4da;
   padding: 10px 10px 0 10px;
   margin-left: auto;
 }
@@ -1335,7 +1340,7 @@ model-viewer {
   align-items: center;
   justify-content: center;
 }
-.mint-page-body .right-content .preview-container .image img {
+.mint-page-body .right-content .preview-container .image img, .mint-page-body .right-content .preview-container .image video {
   width: 100%;
   height: 100%;
 }
@@ -1394,19 +1399,76 @@ model-viewer {
   align-items: center;
   border-radius: 10px;
   border-top: 1px solid #e5e8eb;
-  cursor: pointer;
   display: flex;
   font-size: 16px;
   font-weight: 600;
   padding: 20px;
   user-select: none;
   background-color: white;
+  justify-content: space-between;
+}
+.properties-container .header .icon-button.info {
+  padding: 0;
+  margin: 0;
+}
+.properties-container .header p {
+  margin: 0;
 }
 .properties-container .body {
   border-top: 1px solid #e5e8eb;
   color: #353840;
   padding: 20px;
   background-color: #fbfdff;
+}
+
+.details-accordion {
+  margin-top: 1rem;
+}
+.details-accordion .card {
+  box-shadow: none;
+}
+.details-accordion .card p {
+  margin: 0;
+}
+.details-accordion .accordion-header {
+  display: flex;
+  cursor: pointer;
+  justify-content: space-between;
+}
+.details-accordion .accordion-header p {
+  margin: 0;
+}
+
+.icon-bg-button {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  border-radius: 50% !important;
+  background: #6c757d;
+  border: 0px solid;
+  outline: none !important;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-button {
+  width: 200px;
+  height: 42px;
+  font-size: 16px;
+  border-radius: 25px !important;
+  outline: none !important;
+}
+
+.asset-view-body .action-button {
+  margin: 0 0 1rem 0;
+}
+
+.attributes-container button {
+  padding: 4px 5px;
+  border-radius: 8px;
 }
 
 /*# sourceMappingURL=styles.css.map */

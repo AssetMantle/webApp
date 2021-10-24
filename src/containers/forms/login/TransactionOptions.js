@@ -18,7 +18,7 @@ const TransactionOptions = (props) => {
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
-        if(props.TransactionName==="nubid" || props.TransactionName === "login"){
+        if (props.TransactionName === "nubid" || props.TransactionName === "login") {
             history.push('/');
         }
     };
@@ -30,8 +30,10 @@ const TransactionOptions = (props) => {
 
     const backHandler = () => {
         setShow(false);
-        props.setShow(true);
         props.setExternalComponent('');
+        if(props.TransactionName !== "assetMint"){
+            props.setShow(true);
+        }
     };
 
     return (

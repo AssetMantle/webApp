@@ -30,6 +30,7 @@ const Wrap = (props) => {
             fromID: FromId,
             CoinAmountDenom: CoinAmount + CoinDenom,
         };
+        console.log(totalData, "totalData");
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');
         setShow(false);

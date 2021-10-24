@@ -65,10 +65,10 @@ async function mintAssetQuery(address, mnemonic, data, actionName, type) {
     return makeTransaction(address, msgs, mnemonic, type);
 }
 
-async function wrapQuery(address, mnemonic, data, actionName,type) {
-    console.log(address, mnemonic, data, actionName, 'msgs wrapQuery');
+async function wrapQuery(address, mnemonic, data, actionName,type, txName) {
     const msgs = await actionName.createSplitsWrapMsg(address, config.chainID, data.fromID, data.CoinAmountDenom, config.feesAmount, config.feesToken, config.gas, '');
-    return makeTransaction(address, msgs, mnemonic, type);
+    console.log(msgs, 'msgs wrapQuery');
+    return makeTransaction(address, msgs, mnemonic, type, txName);
 }
 
 async function unWrapQuery(address, mnemonic, data, actionName,type) {
@@ -161,7 +161,7 @@ async function revealHashQuery(address, mnemonic, data, actionName,type) {
 
 
 async function makeTransaction(address, msgs,mnemonic, type, txName){
-    if(txName !== 'nub') {
+    if(txName !== 'nub' && txName !== 'wrap') {
         const addressList = await getProvisionList();
         console.log(addressList, address, "in check");
         if (addressList || addressList.length) {
@@ -210,7 +210,7 @@ const transactionDefination = async (address, userMnemonic, type, TransactionNam
     if (TransactionName === 'assetMint') {
         queryResponse = mintAssetQuery(address, userMnemonic, totalDefineObject, assetMint, type);
     }  else if (TransactionName === 'wrap') {
-        queryResponse = wrapQuery(address, userMnemonic, totalDefineObject, WrapQuery, type);
+        queryResponse = wrapQuery(address, userMnemonic, totalDefineObject, WrapQuery, type, "wrap");
     }  else if (TransactionName === 'unwrap') {
         queryResponse = unWrapQuery(address, userMnemonic, totalDefineObject, UnWrapQuery, type);
     }  else if (TransactionName === 'nubid') {
