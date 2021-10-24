@@ -1,34 +1,37 @@
-import React, {useState, useEffect} from "react";
-import {useTranslation} from "react-i18next";
-import config from "../../../constants/config.json";
-import Copy from "../../../components/copy";
+import React, {useState} from "react";
+
+import {useSelector} from "react-redux";
 import {Accordion, Button, Card} from "react-bootstrap";
+import Icon from "../../../icons";
+import Copy from "../../../components/copy";
 import {CancelOrder, TakeOrder} from "../../forms/orders";
 import {Define} from "../../forms";
-import {defineOrder as ordersDefineJS} from "persistencejs/build/transaction/orders/define";
+import config from "../../../constants/config";
 import Lightbox from "react-image-lightbox";
-import Icon from "../../../icons";
 import helper from "../../../utilities/helper";
+import {useTranslation} from "react-i18next";
+import {defineOrder as ordersDefineJS} from "persistencejs/build/transaction/orders/define";
 
 const ordersDefine = new ordersDefineJS(process.env.REACT_APP_ASSET_MANTLE_API);
-
-const OrderView = React.memo((props) => {
-
+const OrderView = (props) => {
     const {t} = useTranslation();
     const [order, setOrder] = useState([]);
-    const [orderData, setOrderData] = useState([]);
     const [externalComponent, setExternalComponent] = useState("");
-    const [orderId, setOrderId] = useState("");
+    const [orderId, setOrderId] = useState(props.match.params.id);
     const [isOpen, setIsOpen] = useState(false);
     const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+    const markeOrders = useSelector((state) => state.markePlace.markeOrders);
+    console.log(markeOrders, "markeOrders");
+    let orderData = [];
+    if(markeOrders.length){
+        markeOrders.forEach(function (order) {
+            if(order.orderID === props.match.params.id){
+                orderData = order;
+            }
+        });
+    }
+    console.log(orderData, "orderData");
 
-    useEffect(() => {
-        if (props.location.state !== undefined) {
-            console.log(props.location.state, "props.location.state");
-            setOrderData(props.location.state.order);
-            setOrderId(props.location.state.orderID);
-        }
-    }, []);
     const handleModalData = (formName, orderId, order) => {
         setOrderId(orderId);
         setOrder(order);
@@ -121,7 +124,6 @@ const OrderView = React.memo((props) => {
             }
         });
     }
-
     return (
         <div className="page-body asset-view-body">
             <div className="content-section container">
@@ -144,8 +146,8 @@ const OrderView = React.memo((props) => {
                         {/*    }*/}
 
                         {/*</div>*/}
-                     
-                                
+
+
                         <div className="list-container view-container">
                             <div className="row card-deck">
                                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
@@ -205,15 +207,15 @@ const OrderView = React.memo((props) => {
                                     {assetCategory}
                                     {assetName}
                                     {assetDescription}
-                                    {props.location.state.currentPath === "/marketplace" ?
-                                        localStorage.getItem('userName') !== null ?
-                                            <Button variant="primary" size="sm" className="action-button"
-                                                onClick={() => handleModalData("TakeOrder", orderId)}>{t("TAKE")}</Button>
-                                            : ""
-                                        :   localStorage.getItem('userName') !== null ?
-                                            <Button variant="primary" size="sm" className="action-button"
-                                                onClick={() => handleModalData("CancelOrder", "" , order)}>{t("CANCEL")}</Button>
-                                            : ""
+                                    {/*{props.location.state.currentPath === "/marketplace" ?*/}
+                                    {localStorage.getItem('userName') !== null ?
+                                        <Button variant="primary" size="sm" className="action-button"
+                                            onClick={() => handleModalData("TakeOrder", orderId)}>{t("TAKE")}</Button>
+                                        : ""
+                                        // :   localStorage.getItem('userName') !== null ?
+                                        //     <Button variant="primary" size="sm" className="action-button"
+                                        //         onClick={() => handleModalData("CancelOrder", "" , order)}>{t("CANCEL")}</Button>
+                                        //     : ""
                                     }
                                     <div className="properties-container">
                                         <div className="header">
@@ -247,6 +249,5 @@ const OrderView = React.memo((props) => {
         </div>
 
     );
-});
-OrderView.displayName = 'OrderView';
+};
 export default OrderView;

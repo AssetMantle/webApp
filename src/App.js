@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { Login } from './containers';
-import { IdentityLogin } from "./containers/forms/login";
-import AddressLogin from './containers/AddressLogin';
-import CreateIdentity from "./containers/forms/signup/CreateIdentity";
-import { HomePage, RouteNotFound } from './components';
+import { HomePage } from './components';
 import HeaderAfterLogin from './components/Headers/HeaderAfterLogin';
 import HeaderBeforeLogin from './components/Headers/HeaderBeforeLogin';
 import offline from './assets/images/offline.svg';
-import { Maintainers, Identities, Assets, Orders, MarketPlace, AssetView, IdentityView, OrderView, AllIdentityList } from './containers/views';
-import {MintAsset} from "./containers/forms/assets";
-import KeysCreate from "./containers/forms/signup/KeysCreate";
+import { MarketPlace} from './containers/views';
 import Footer from './components/Footer';
 import { useTranslation } from 'react-i18next';
 import './assets/css/styles.css';
@@ -23,77 +17,13 @@ import * as maintainers from "./store/actions/maintainers";
 import {useDispatch} from "react-redux";
 import PrivateRoute from "./containers/PrivateRoute";
 import "react-image-lightbox/style.css";
+import routes from "./routes";
+import RouteNotFound from "./components/RouteNotFound";
 
 const App = () => {
     const { t } = useTranslation();
     const userTypeToken = localStorage.getItem('userName');
     const identityID = localStorage.getItem('identityId');
-    const routes = [{
-        path: '/',
-        component: HomePage,
-        private: false,
-    }, {
-        path: '/login',
-        component: Login,
-        private: false,
-    }, {
-        path: '/address/login',
-        component: AddressLogin,
-        private: false,
-    }, {
-        path: '/signup',
-        component: CreateIdentity,
-        private: false,
-    }, {
-        path: '/assets',
-        component: Assets,
-        private: true,
-    }, {
-        path: '/orders',
-        component: Orders,
-        private: true,
-    }, {
-        path: '/profile',
-        component: Identities,
-        private: true,
-    }, {
-        path: '/identities/all',
-        component: AllIdentityList,
-        private: false,
-    }, {
-        path: '/maintainers',
-        component: Maintainers,
-        private: true,
-    }, {
-        path: '/marketplace',
-        component: MarketPlace,
-        private: false,
-    },{
-        path: '/asset/view',
-        component: AssetView,
-        private: true,
-    }, {
-        path: '/identity/view',
-        component: IdentityView,
-        private: true,
-    }, {
-        path: '/order/view',
-        component: OrderView,
-        private: false,
-    }, {
-        path: '/identityLogin',
-        component: IdentityLogin,
-        private: true,
-    }, {
-        path: '/create',
-        component: KeysCreate,
-        private: false,
-    }, {
-        path: '/mint',
-        component: MintAsset,
-        private: true,
-    }];
-
     const [isOnline, setNetwork] = useState(window.navigator.onLine);
     const updateNetwork = () => {
         setNetwork(window.navigator.onLine);

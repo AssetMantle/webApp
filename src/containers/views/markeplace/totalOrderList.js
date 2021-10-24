@@ -14,15 +14,7 @@ const TotalOrders = React.memo(() => {
 
     const handleAsset = (id,order) => {
         console.log(id, "order data", order);
-        history.push({
-            pathname : '/order/view',
-            state :{
-                orderID : id,
-                order:order,
-                currentPath : window.location.pathname,
-            }
-        }
-        );
+        history.push(`/order/view/${id}`);
     };
 
     return (
