@@ -7,6 +7,7 @@ import {MakeOrder} from "../../forms/orders";
 import {SendSplit} from "../../forms/assets";
 import {useSelector} from "react-redux";
 import loaderImage from "../../../assets/images/loader.svg";
+import base64url from "base64url";
 
 const AssetList = React.memo(() => {
     const {t} = useTranslation();
@@ -100,7 +101,7 @@ const AssetList = React.memo(() => {
                                                                 key === "name" || key === "category" ?
                                                                     <div className="list-item"><p
                                                                         className="list-item-label">{key} </p> <p
-                                                                        className="list-item-value">{asset['totalData'][key]}</p>
+                                                                        className="list-item-value">{base64url.decode(asset['totalData'][key])}</p>
                                                                     </div>
                                                                     : ""
                                                             }
@@ -143,11 +144,11 @@ const AssetList = React.memo(() => {
                                                 : ""
                                             }
 
-                                            {/*{asset['ownableID'] !== "stake" ?*/}
-                                            {/*    <Button variant="primary" className="viewButton" size="sm"*/}
-                                            {/*        onClick={() => handleAsset(asset['ownableID'], asset)}>View</Button>*/}
-                                            {/*    :""*/}
-                                            {/*}*/}
+                                            {asset['ownableID'] !== "stake" ?
+                                                <Button variant="primary" className="viewButton" size="sm"
+                                                    onClick={() => handleAsset(asset['ownableID'], asset)}>View</Button>
+                                                :""
+                                            }
                                         </div>
                                     </div>
                                 </div>

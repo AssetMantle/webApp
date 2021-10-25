@@ -13,7 +13,7 @@ import "@google/model-viewer/dist/model-viewer";
 import Lightbox from "react-image-lightbox";
 import Icon from "../../../icons";
 import Copy from "../../../components/copy";
-import helper from "../../../utilities/helper";
+import base64url from "base64url";
 
 const assetDefine = new defineAsset(process.env.REACT_APP_ASSET_MANTLE_API);
 
@@ -100,7 +100,7 @@ const AssetView = (props) => {
                         viewClass="info"
                         icon="edit"/>
                 </button>;
-                burnButton =   <button className="icon-bg-button" title="Delete NFT"
+                burnButton =  <button className="icon-bg-button" title="Delete NFT"
                     onClick={() => handleModalData("BurnAsset", "", asset, assetData.ownerID, assetData.ownableID)}>
                     <Icon
                         viewClass="info"
@@ -115,20 +115,20 @@ const AssetView = (props) => {
                     let content = <div key={keyprop}>
                         <div className="list-item red">
                             <p
-                                className="list-item-label">{helper.stringFilter(propertyData[property]['propertyName'], '//', ',')} </p>
+                                className="list-item-label">{propertyData[property]['propertyName']} </p>
                             <p
-                                className="list-item-value">{helper.stringFilter(propertyData[property]['propertyValue'], '//', ',')}</p>
+                                className="list-item-value">{propertyData[property]['propertyValue']}</p>
                         </div>
                     </div>;
                     PropertyObject.push(content);
                 });
             }
             else if(asset === "name"){
-                assetName = <p className="asset-name">{helper.stringFilter(assetData.totalData[asset], '//', ',')}</p>;
+                assetName = <p className="asset-name">{base64url.decode(assetData.totalData[asset])}</p>;
             }else if(asset === "category"){
-                assetCategory = <p className="asset-category">{helper.stringFilter(assetData.totalData[asset], '//', ',')}</p>;
+                assetCategory = <p className="asset-category">{base64url.decode(assetData.totalData[asset])}</p>;
             }else if(asset === "description"){
-                assetDescription = <p className="asset-description">{helper.stringFilter(assetData.totalData[asset], '//', ',')}</p>;
+                assetDescription = <p className="asset-description">{base64url.decode(assetData.totalData[asset])}</p>;
             }
         });
     }
@@ -142,6 +142,7 @@ const AssetView = (props) => {
             <div className="content-section container">
                 <div className="accountInfo">
                     <div className="row">
+                        {/*<p onClick={() => handleModalData("DefineAsset")}>{t("DEFINE_ASSET")}</p>*/}
                         {/*<div className="dropdown-section">*/}
                         {/*    <p className="back-arrow" onClick={() => history.push(props.location.state.currentPath)}>*/}
                         {/*        <Icon viewClass="arrow-icon" icon="arrow"/> Back</p>*/}

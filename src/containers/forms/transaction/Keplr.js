@@ -77,7 +77,7 @@ const KeplrTransaction = (props) => {
                         const identityID = await getIdentityId(hashGenerate);
                         let totalData = {
                             fromID: identityID,
-                            CoinAmountDenom: 'stake' + '5',
+                            CoinAmountDenom: '5' + 'stake',
                         };
 
                         let queryResponse = queries.transactionDefination(address , "", "keplr", 'wrap', totalData);

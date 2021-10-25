@@ -3,6 +3,7 @@ import {Form, Button, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
 import TransactionOptions from "../login/TransactionOptions";
+import base64url from "base64url";
 
 const MakeOrder = (props) => {
     const {t} = useTranslation();
@@ -34,13 +35,13 @@ const MakeOrder = (props) => {
 
         const name = props.asset.totalData && props.asset.totalData.name;
         const description = props.asset.totalData && props.asset.totalData.description;
-        // const category = props.asset.totalData && props.asset.totalData.category;
+        const category = props.asset.totalData && props.asset.totalData.category;
         const style = props.asset.totalData && props.asset.totalData.style;
         // const typeOption = props.asset.totalData && props.asset.totalData.type;
-
+        console.log(base64url.decode(category), "categpru");
         let staticMutables = `propertyName:S|propertyValue`;
 
-        let staticImmutableMeta = `category:S|arts,name:S|${name},description:S|${description}`;
+        let staticImmutableMeta = `category:S|${category},name:S|${name},description:S|${description}`;
         let staticImMutables = `style:S|${style},type:S|order`;
 
         mutableValues = staticMutables;
@@ -54,7 +55,7 @@ const MakeOrder = (props) => {
 
         let totalData = {
             fromID:FromId,
-            classificationId:'test.83ZJbMpehAINketcbTTMZ9jWxyo=',
+            classificationId:'test.O-qPtlWEqmo9WQmZgwfguoj0F0A=',
             makerOwnableID:assetId,
             TakerOwnableId:TakerOwnableId,
             ExpiresIn:ExpiresIn,

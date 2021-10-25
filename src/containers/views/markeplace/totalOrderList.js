@@ -4,6 +4,8 @@ import config from "../../../constants/config.json";
 import {useHistory} from "react-router-dom";
 import {useSelector} from 'react-redux';
 import loaderImage from "../../../assets/images/loader.svg";
+import base64url from "base64url";
+import {Button} from "react-bootstrap";
 
 const TotalOrders = React.memo(() => {
     const {t} = useTranslation();
@@ -12,8 +14,7 @@ const TotalOrders = React.memo(() => {
     const loader = useSelector((state) => state.markePlace.loading);
     const error = useSelector((state) => state.markePlace.error);
 
-    const handleAsset = (id,order) => {
-        console.log(id, "order data", order);
+    const handleAsset = (id) => {
         history.push(`/order/view/${id}`);
     };
 
@@ -77,7 +78,7 @@ const TotalOrders = React.memo(() => {
                                                                 key === "name" || key === "category" ?
                                                                     <div className="list-item"><p
                                                                         className="list-item-label">{key} </p> <p
-                                                                        className="list-item-value">{order['totalData'][key]}</p>
+                                                                        className="list-item-value">{base64url.decode(order['totalData'][key])}</p>
                                                                     </div>
                                                                     : ""
                                                             }
@@ -86,6 +87,8 @@ const TotalOrders = React.memo(() => {
                                                     );
                                                 })
                                             }
+                                            <Button variant="primary" className="viewButton" size="sm"
+                                                onClick={() => handleAsset(order['orderID'], order)}>View</Button>
                                         </div>
                                     </div>
                                 </div>

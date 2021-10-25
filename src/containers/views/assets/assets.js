@@ -24,6 +24,7 @@ const Assets = () => {
     return (
         <div className="content-section">
             <div className="accountInfo">
+                {/*<p onClick={() => handleModalData("DefineAsset")}>DEFINE_ASSET</p>*/}
                 {/*<div className="row">*/}
                 {/*    <div className="col-md-9 card-deck">*/}
                 {/*        /!*<div className="dropdown-section">*!/*/}

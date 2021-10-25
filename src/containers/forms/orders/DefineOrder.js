@@ -11,7 +11,6 @@ const DefineOrder = (props) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [externalComponent, setExternalComponent] = useState('');
     const [typeOption, setTypeOption] = useState('order');
-    const [mutableStyle, setMutableStyle] = useState('Blue');
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const {t} = useTranslation();
     const [fromID, setFromID] = useState('');
@@ -32,9 +31,7 @@ const DefineOrder = (props) => {
     const handleChangeType = evt => {
         setTypeOption(evt.target.value);
     };
-    const handleChangeStyle = evt => {
-        setMutableStyle(evt.target.value);
-    };
+
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
@@ -44,8 +41,8 @@ const DefineOrder = (props) => {
 
         let staticMutables = `propertyName:S|propertyValue`;
 
-        let staticImmutableMeta = `category:S|arts,name:S|,description:S|`;
-        let staticImMutables = `style:S|${mutableStyle},type:S|${typeOption}`;
+        let staticImmutableMeta = `category:S|,name:S|,description:S|`;
+        let staticImMutables = `style:S|,type:S|`;
 
         let mutablePropertyValue = '';
         let mutableMetaPropertyValue = '';
@@ -109,18 +106,7 @@ const DefineOrder = (props) => {
                                 placeholder={t('FROM_ID')}
                             />
                         </Form.Group>
-                        <Form.Group className="hidden">
-                            <Form.Label>Immutable style:S|*</Form.Label>
-                            <Form.Control as="select"
-                                onChange={handleChangeStyle}
-                                name="ImmutableStyle"
-                                required={true}>
-                                <option value="Blue"> Blue</option>
-                                <option value="Red">Red</option>
-                                <option value="Green"> Green</option>
-                                <option value="Black">Black</option>
-                            </Form.Control>
-                        </Form.Group>
+
                         <Form.Group className="hidden">
                             <Form.Label>Immutable type:S|* </Form.Label>
                             <Form.Control as="select" name="type"

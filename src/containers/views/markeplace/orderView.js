@@ -1,16 +1,17 @@
 import React, {useState} from "react";
 
 import {useSelector} from "react-redux";
-import {Accordion, Button, Card} from "react-bootstrap";
+import {Accordion, Button, Card, OverlayTrigger, Tooltip} from "react-bootstrap";
 import Icon from "../../../icons";
 import Copy from "../../../components/copy";
 import {CancelOrder, TakeOrder} from "../../forms/orders";
 import {Define} from "../../forms";
 import config from "../../../constants/config";
 import Lightbox from "react-image-lightbox";
-import helper from "../../../utilities/helper";
 import {useTranslation} from "react-i18next";
 import {defineOrder as ordersDefineJS} from "persistencejs/build/transaction/orders/define";
+import base64url from "base64url";
+import {FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton} from "react-share";
 
 const ordersDefine = new ordersDefineJS(process.env.REACT_APP_ASSET_MANTLE_API);
 const OrderView = (props) => {
@@ -65,7 +66,7 @@ const OrderView = (props) => {
     // }
     if(orderData.totalData)
     {
-        Object.keys(orderData.totalData).map((asset) => {
+        Object.keys(orderData.totalData).map((asset, key) => {
             if(asset === config.URI){
                 const imageExtension = orderData.totalData[asset].substring(orderData.totalData[asset].lastIndexOf('.') + 1);
                 console.log(imageExtension, "ima");
@@ -104,23 +105,23 @@ const OrderView = (props) => {
             }else if(asset === "propertyName"){
                 const propertyData = JSON.parse(orderData.totalData["propertyName"]);
                 Object.keys(propertyData).map((property, keyprop) => {
-                    let content = <div key={keyprop}>
+                    let content = <div key={key + keyprop}>
                         <div className="list-item red">
                             <p
-                                className="list-item-label">{helper.stringFilter(propertyData[property]['propertyName'],'//', ',')} </p>
+                                className="list-item-label">{propertyData[property]['propertyName']} </p>
                             <p
-                                className="list-item-value">{helper.stringFilter(propertyData[property]['propertyValue'], '//', ',')}</p>
+                                className="list-item-value">{propertyData[property]['propertyValue']}</p>
                         </div>
                     </div>;
                     PropertyObject.push(content);
                 });
             }
             else if(asset === "name"){
-                assetName = <p className="asset-name">{helper.stringFilter(orderData.totalData[asset], '//',',')}</p>;
+                assetName = <p className="asset-name">{base64url.decode(orderData.totalData[asset])}</p>;
             }else if(asset === "category"){
-                assetCategory = <p className="asset-category">{helper.stringFilter(orderData.totalData[asset], '//',',')}</p>;
+                assetCategory = <p className="asset-category">{base64url.decode(orderData.totalData[asset])}</p>;
             }else if(asset === "description"){
-                assetDescription = <p className="asset-description">{helper.stringFilter(orderData.totalData[asset], '//',',')}</p>;
+                assetDescription = <p className="asset-description">{base64url.decode(orderData.totalData[asset])}</p>;
             }
         });
     }
@@ -154,7 +155,50 @@ const OrderView = (props) => {
                                     <div className="image-section">
                                         {ImageData}
                                     </div>
+                                    <div className="share-container">
+                                        <div className="share-button-group">
+                                            <OverlayTrigger
+                                                key="top"
+                                                placement="top"
+                                                overlay={
+                                                    <Tooltip id={`tooltip-top}`}>
+                                                        <span>Share on facebook</span>
+                                                    </Tooltip>
+                                                }
+                                            >
+                                                <FacebookShareButton
+                                                    url={"https://demo.assetmantle.one"}
+                                                    quote={"asdfasdf123"}
+                                                    hashtag={"#hashtag"}
+                                                    description={"aiueo"}
+                                                    className="share-button"
+                                                >
+                                                    <FacebookIcon size={32} round />
+                                                </FacebookShareButton>
+                                            </OverlayTrigger>
+                                            <OverlayTrigger
+                                                key="top"
+                                                placement="top"
+                                                overlay={
+                                                    <Tooltip id={`tooltip-top}`}>
+                                                        <span>Share on twitter</span>
+                                                    </Tooltip>
+                                                }
+                                            >
+                                                <TwitterShareButton
+                                                    title={"test"}
+                                                    url={"https://demo.assetmantle.one"}
+                                                    hashtags={["hashtag1"]}
+                                                    className="share-button"
+                                                >
+                                                    <TwitterIcon size={32} round />
+                                                </TwitterShareButton>
+                                            </OverlayTrigger>
+                                            <Copy
+                                                id={orderId} name="share"/>
 
+                                        </div>
+                                    </div>
                                     <Accordion className="details-accordion">
                                         <Card>
                                             <Accordion.Toggle as={Card.Header} onClick={accordionHandler} eventKey="0">

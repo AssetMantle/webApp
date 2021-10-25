@@ -11,7 +11,6 @@ import Icon from "../../../icons";
 import logo from "../../../assets/images/logo.svg";
 import loaderImage from "../../../assets/images/loader.svg";
 import {OverlayTrigger, Popover} from "react-bootstrap";
-import helper from "../../../utilities/helper";
 const MintAsset = (props) => {
     const PropertyHelper = new GetProperty();
     const {t} = useTranslation();
@@ -70,9 +69,10 @@ const MintAsset = (props) => {
         let res = await handleUpload(fileData, fileData.name, true);
         console.log(res, "IPFS Hash Uploaded File");
         const updateFileUrl="https://demo-assetmantle.mypinata.cloud/ipfs/"+res.IpfsHash+"/"+fileData.name;
+        console.log(updateFileUrl, "updateFileUrl");
+
         setFileUrl(updateFileUrl);
         const ImmutableUrlEncode = PropertyHelper.getUrlEncode(updateFileUrl);
-        // const ImmutableUrlEncode = await helper.IpfsPath(fileData);
         const imageExtension = fileData.name.substring(fileData.name.lastIndexOf('.') + 1);
         console.log(imageExtension, "image");
         setImageExtension(imageExtension);
@@ -95,8 +95,8 @@ const MintAsset = (props) => {
         totalPropertiesList.map((property, idx) => {
             const propertyName = `propertyName`+(idx+1);
             const propertyValue = `propertyValue`+(idx+1);
-            const propertyNameData =  helper.stringFilter(document.getElementById(propertyName).value, ',', '//');
-            const propertyValueData = helper.stringFilter(document.getElementById(propertyValue).value, ',', '//');
+            const propertyNameData =  document.getElementById(propertyName).value;
+            const propertyValueData = document.getElementById(propertyValue).value;
             propertyDataObject.push(
                 {
                     propertyName:propertyNameData,
@@ -109,12 +109,12 @@ const MintAsset = (props) => {
         console.log(propertyDataObjectHash, base64url.decode(propertyDataObjectHash), "decode");
         const FromId = event.target.FromId.value;
         let staticMutables = '';
-        const name = helper.stringFilter(event.target.name.value, ',', '//');
-        const description = helper.stringFilter(event.target.description.value, ',', '//');
+        const name = PropertyHelper.getUrlEncode(event.target.name.value);
+        const description = PropertyHelper.getUrlEncode(event.target.description.value);
 
         staticMutables = `propertyName:S|${propertyDataObjectHash},type:S|${typeOption}`;
 
-        let staticImmutableMeta = `name:S|${name},description:S|${description},category:S|${category}`;
+        let staticImmutableMeta = `name:S|${name},description:S|${description},category:S|${PropertyHelper.getUrlEncode(category)}`;
         let staticImMutables = `style:S|${mutableStyle}`;
 
         let mutableValues = '';
