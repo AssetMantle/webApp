@@ -1,14 +1,16 @@
 const FAUCET_LIST_LIMIT = 15;
 const AMOUNT = "10";
-const DENOM = "xprt";
+const DENOM = "umantle";
 const CHAIN_ID = "test";
-let FaucetList = ["persistence1yh9zz93c5jlpj0yshl8ppfa4km9x79m6t9ww4y"]
-const prefix="persistence";
+let FaucetList=[];
+const prefix= "mantle";
+const gas_price = "0umantle";
 module.exports = {
     FAUCET_LIST_LIMIT,
     AMOUNT,
     DENOM,
     CHAIN_ID,
     FaucetList,
-    prefix
+    prefix,
+    gas_price,
 }

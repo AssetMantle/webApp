@@ -1,10 +1,10 @@
 {
     "chainID" : "test",
     "chainName": "assetMantle",
-    "addressPrefix": "persistence",
+    "addressPrefix": "mantle",
     "coinType": "750",
-    "coinDenom": "xprt",
-    "coinName": "Persistence",
+    "coinDenom": "umantle",
+    "coinName": "Mantle",
     "xprtValue": 1000000,
     "lowFee": 0,
     "averageFee": 0.025,
