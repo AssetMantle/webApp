@@ -10,7 +10,6 @@ const prefix= config.addressPrefix ;
 import {stringToPath} from "@cosmjs/crypto";
 const bip39 = require("bip39");
 
-
 function PrivateKeyReader(file, password) {
     return new Promise(function(resolve, reject) {
         const fileReader = new FileReader();
