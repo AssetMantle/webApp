@@ -3,8 +3,9 @@
   "scheduledTxHashQueryDelay": 8000,
   "numberOfRetries": 20,
   "feesAmount": 0,
-  "feesToken": "stake",
+  "feesToken": "umantle",
   "mode": "sync",
   "gas": 200000,
-  "URI": "URI"
+  "URI": "URI",
+  "prefix": "mantle"
 }

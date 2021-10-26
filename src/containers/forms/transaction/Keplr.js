@@ -58,7 +58,7 @@ const KeplrTransaction = (props) => {
                 address = localStorage.getItem('userAddress');
             }
 
-            let queryResponse = queries.transactionDefination(address , "", "keplr", props.TransactionName, props.totalDefineObject);
+            let queryResponse = queries.transactionDefinition(address , "", "keplr", props.TransactionName, props.totalDefineObject);
             queryResponse.then(async (result) => {
                 console.log("response finale", result);
                 if(result.code){

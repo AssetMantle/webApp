@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
-import {getWallet} from "persistencejs/build/utilities/keys";
 import {useTranslation} from "react-i18next";
 import transactions from "../../../utilities/Helpers/transactions";
 import Loader from "../../../components/loader";
@@ -27,7 +26,7 @@ const PrivateKey = (props) => {
             setLoader(false);
             setErrorMessage(err);
         });
-        const wallet = await getWallet(userMnemonic, "");
+        const wallet = await transactions.MnemonicWalletWithPassphrase(userMnemonic, "");
         let list = [];
         let idList = [];
 
@@ -40,7 +39,7 @@ const PrivateKey = (props) => {
         if(userList !== null){
             list = JSON.parse(userList);
         }
-        if (addressList.includes(wallet.address)) {
+        if (addressList.includes(wallet[1])) {
             idList.push({[userName]:  localStorage.getItem("identityId")});
             setErrorMessage(false);
             setLoader(false);
@@ -48,7 +47,7 @@ const PrivateKey = (props) => {
             localStorage.setItem("identityId", props.userData.identityId);
             localStorage.setItem("userList", JSON.stringify(list));
             localStorage.setItem("userName", userName);
-            localStorage.setItem("userAddress", wallet.address);
+            localStorage.setItem("userAddress", wallet[1]);
             localStorage.setItem("loginMode","normal");
             localStorage.setItem("identityList",  JSON.stringify(idList));
 
@@ -57,7 +56,7 @@ const PrivateKey = (props) => {
             setLoader(false);
             setIdErrorMessage('Address Not Present');
         }
-        console.log("address", wallet.address);
+        console.log("address", wallet[1]);
     };
     const handleClose = () => {
         setShow(false);

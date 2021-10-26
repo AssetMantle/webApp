@@ -25,7 +25,7 @@ function SendMsg(fromAddress, toAddress, amount, denom) {
 
 
 function Fee(amount, gas = 250000) {
-    return {amount: [{amount: String(0), denom: "stake"}], gas: String(gas)};
+    return {amount: [{amount: String(0), denom: "mantle"}], gas: String(gas)};
 }
 
 

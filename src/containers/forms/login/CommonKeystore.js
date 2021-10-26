@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 import KeplerWallet from "../../../utilities/Helpers/kelplr";
-import {getWallet} from "persistencejs/build/utilities/keys";
 import { useTranslation } from "react-i18next";
 import queries from '../../../utilities/Helpers/query';
 import Loader from "../../../components/loader";
@@ -13,6 +12,9 @@ import GetID from '../../../utilities/Helpers/getID';
 import {fetchAddress} from "../../../utilities/Helpers/ledger";
 import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
+
+
+
 const CommonKeystore = (props) => {
     const { t } = useTranslation();
     const [show, setShow] = useState(true);
@@ -57,7 +59,7 @@ const CommonKeystore = (props) => {
     };
 
 
-    // const transactionDefination = async (address, userMnemonic, type) => {
+    // const transactionDefinition = async (address, userMnemonic, type) => {
     //     let queryResponse;
     //     if (props.TransactionName === 'assetMint') {
     //         queryResponse = queries.mintAssetQuery(address, userMnemonic, props.totalDefineObject, assetMint, type);
@@ -102,13 +104,15 @@ const CommonKeystore = (props) => {
     //     return queryResponse;
     // };
 
+
+
     const handleKepler = () => {
         setLoader(true);
         setErrorMessage("");
         const kepler = KeplerWallet();
         kepler.then(function () {
             const keplrAddress = localStorage.getItem("keplerAddress");
-            let queryResponse = queries.transactionDefination(keplrAddress , "", "keplr", props.TransactionName, props.totalDefineObject);
+            let queryResponse = queries.transactionDefinition(keplrAddress , "", "keplr", props.TransactionName, props.totalDefineObject);
             queryResponse.then((result) => {
                 console.log("response finale", result);
                 if(result.code){
@@ -180,8 +184,8 @@ const CommonKeystore = (props) => {
             }
         }
         if (userMnemonic !== undefined) {
-            const wallet = await getWallet(userMnemonic, "");
-            let queryResponse =  queries.transactionDefination(wallet.address , userMnemonic, "normal", props.TransactionName, props.totalDefineObject);
+            const wallet = await transactions.MnemonicWalletWithPassphrase(userMnemonic,'');
+            let queryResponse =  queries.transactionDefinition(wallet.address , userMnemonic, "normal", props.TransactionName, props.totalDefineObject);
             queryResponse.then(function (item) {
                 if(item.code){
                     localStorage.setItem('loginMode','normal');
@@ -235,7 +239,7 @@ const CommonKeystore = (props) => {
 
         let loginAddress;
         if(props.TransactionName === "nubid"){
-            let ledgerResponse = await fetchAddress("cosmos", 0, 0);
+            let ledgerResponse = await fetchAddress(process.env.PREFIX, 0, 0);
             loginAddress = ledgerResponse;
         }else {
             loginAddress = localStorage.getItem('userAddress');
@@ -243,7 +247,7 @@ const CommonKeystore = (props) => {
 
         setLoader(true);
 
-        let queryResponse = queries.transactionDefination(loginAddress , "", "ledger", props.TransactionName, props.totalDefineObject);
+        let queryResponse = queries.transactionDefinition(loginAddress , "", "ledger", props.TransactionName, props.totalDefineObject);
         queryResponse.then((result) => {
             if(result.code){
                 localStorage.setItem('loginMode','ledger');

@@ -205,7 +205,7 @@ async function getProvisionList() {
     }
 }
 
-const transactionDefination = async (address, userMnemonic, type, TransactionName, totalDefineObject ) => {
+const transactionDefinition = async (address, userMnemonic, type, TransactionName, totalDefineObject ) => {
     let queryResponse;
     if (TransactionName === 'assetMint') {
         queryResponse = mintAssetQuery(address, userMnemonic, totalDefineObject, assetMint, type);
@@ -270,5 +270,5 @@ export default {
     defineOrderQuery,
     takeOrderQuery,
     revealHashQuery,
-    transactionDefination,
+    transactionDefinition,
 };
