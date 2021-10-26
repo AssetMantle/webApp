@@ -49,52 +49,57 @@ const LedgerTransaction = (props) => {
     useEffect(() => {
         const ledgerHandler = async () =>{
             let loginAddress;
-            if(props.TransactionName === "nubid"){
-                let ledgerResponse = await fetchAddress("cosmos", 0, 0);
-                loginAddress = ledgerResponse;
-            }else {
-                loginAddress = localStorage.getItem('userAddress');
-            }
-            setLoader(true);
-            let queryResponse = queries.transactionDefination(loginAddress , "", "ledger", props.TransactionName, props.totalDefineObject);
-            queryResponse.then(async (result) => {
-                if(result.code){
-                    localStorage.setItem('loginMode','ledger');
-                    setLoader(false);
-                    if(props.TransactionName === "nubid"){
-                        setErrorMessage(result.rawLog);
-                    }else
-                    {
-                        setErrorMessage(result.rawLog);
-
-                    }
-                }else {
-                    if(props.TransactionName === "nubid"){
-                        setNubID(props.totalDefineObject.nubId);
-                        const hashGenerate = GetMetaHelper.Hash(props.totalDefineObject.nubId);
-                        const identityID = await getIdentityId(hashGenerate);
-                        let totalData = {
-                            fromID: identityID,
-                            CoinAmountDenom: '5' + 'stake',
-                        };
-
-                        let queryResponse = queries.transactionDefination(loginAddress , "", "ledger", 'wrap', totalData);
-                        queryResponse.then(async function (item) {
-                            console.log(item, "item wrap response");
-                        }).catch(err => {
-                            console.log(err, "err");
-                        });
-                    }
-                    localStorage.setItem('loginMode','ledger');
-                    setShow(false);
-                    setLoader(false);
-                    setResponse(result);
+            try {
+                if (props.TransactionName === "nubid") {
+                    let ledgerResponse = await fetchAddress("cosmos", 0, 0);
+                    loginAddress = ledgerResponse;
+                } else {
+                    loginAddress = localStorage.getItem('userAddress');
                 }
-            }).catch((error) => {
+                setLoader(true);
+                let queryResponse = queries.transactionDefination(loginAddress, "", "ledger", props.TransactionName, props.totalDefineObject);
+                queryResponse.then(async (result) => {
+                    if (result.code) {
+                        localStorage.setItem('loginMode', 'ledger');
+                        setLoader(false);
+                        if (props.TransactionName === "nubid") {
+                            setErrorMessage(result.rawLog);
+                        } else {
+                            setErrorMessage(result.rawLog);
+
+                        }
+                    } else {
+                        if (props.TransactionName === "nubid") {
+                            setNubID(props.totalDefineObject.nubId);
+                            const hashGenerate = GetMetaHelper.Hash(props.totalDefineObject.nubId);
+                            const identityID = await getIdentityId(hashGenerate);
+                            let totalData = {
+                                fromID: identityID,
+                                CoinAmountDenom: '5' + 'stake',
+                            };
+
+                            let queryResponse = queries.transactionDefination(loginAddress, "", "ledger", 'wrap', totalData);
+                            queryResponse.then(async function (item) {
+                                console.log(item, "item wrap response");
+                            }).catch(err => {
+                                console.log(err, "err");
+                            });
+                        }
+                        localStorage.setItem('loginMode', 'ledger');
+                        setShow(false);
+                        setLoader(false);
+                        setResponse(result);
+                    }
+                }).catch((error) => {
+                    setLoader(false);
+                    setErrorMessage(error.message);
+                    console.log(error, 'error');
+                });
+            } catch(error) {
                 setLoader(false);
                 setErrorMessage(error.message);
-                console.log(error,'error');
-            });
+                console.log(error, 'error');
+            }
         };
         ledgerHandler();
     }, []);

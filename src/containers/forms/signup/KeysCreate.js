@@ -12,7 +12,7 @@ import Loader from '../../../components/loader';
 import Icon from '../../../icons';
 import ImportKeys from './ImportKeys';
 
-const KeysCreate = () => {
+const KeysCreate = (props) => {
     const [loader, setLoader] = useState(false);
     // const userAddress = localStorage.getItem('address');
     const {t} = useTranslation();
@@ -90,12 +90,25 @@ const KeysCreate = () => {
         setShow(false);
         setExternalComponent(name);
     };
+    const backHandler = (item) => {
+        if(item === "mainPage"){
+            setShow(false);
+            props.setShow(true);
+            props.setExternalComponent("");
+        }else if(item === "create"){
+            setShowEncrypt(false);
+            setShow(true);
+        }
+    };
 
     return (
         <div>
             <Modal show={show} onHide={handleClose} className="signup-section"
                 centered>
                 <Modal.Header closeButton>
+                    <div className="back-button" onClick={()=>backHandler("mainPage")}>
+                        <Icon viewClass="arrow-icon" icon="arrow"/>
+                    </div>
                     {t('Create Keys')}
                 </Modal.Header>
                 <Modal.Body className="text-center">
@@ -137,6 +150,9 @@ const KeysCreate = () => {
                 className="signup-section"
             >
                 <Modal.Header closeButton>
+                    <div className="back-button" onClick={()=>backHandler("create")}>
+                        <Icon viewClass="arrow-icon" icon="arrow"/>
+                    </div>
                     {formName}
                 </Modal.Header>
                 <Modal.Body className="private-key">

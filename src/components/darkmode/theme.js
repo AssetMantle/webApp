@@ -1,6 +1,11 @@
 export const lightTheme = {
-    body: '#F5F5F5',
     fontFamily: 'Poppins, sans-serif;',
+    textPrimaryColor:'#000000',
+    textSecondaryColor:'rgba(0, 0, 0, 0.89)',
+    textContentColor:'rgba(0, 0, 0, 0.69)',
+    textDisabledColor:'rgba(0, 0, 0, 0.42)',
+    backgroundColor:'#ffffff',
+    navigationShadow:'0 .125rem .25rem rgba(0,0,0,.075)!important',
     text: '#FAFAFA',
     toggleBorder: '#fff',
     gradient: 'linear-gradient(#39598A, #79D7ED)',
@@ -55,13 +60,18 @@ export const lightTheme = {
     copyIconColor:'#000',
     subTitleBorderColor:'#E3E3E3',
     copyBackground:'#E6E6E6'
-
 };
 
 export const darkTheme = {
-    body: '#121212',
     text: '#FAFAFA',
     fontFamily: 'Poppins, sans-serif;',
+    textPrimaryColor:'#FFFFFF',
+    textSecondaryColor:'rgba(255, 255, 255, 0.89)',
+    textContentColor:'rgba(255, 255, 255, 0.67)',
+    textDisabledColor:'rgba(255, 255, 255, 0.36)',
+    backgroundColor:'#0A0A0A',
+    navigationShadow:'0 .125rem .25rem rgba(255, 255, 255,.075)',
+
     toggleBorder: '#6B8096',
     gradient: 'linear-gradient(#091236, #1E215D)',
     navigationBackground: '#191c24',

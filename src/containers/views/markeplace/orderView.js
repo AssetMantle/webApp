@@ -11,7 +11,7 @@ import Lightbox from "react-image-lightbox";
 import {useTranslation} from "react-i18next";
 import {defineOrder as ordersDefineJS} from "persistencejs/build/transaction/orders/define";
 import base64url from "base64url";
-import {FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton} from "react-share";
+import {TwitterShareButton} from "react-share";
 
 const ordersDefine = new ordersDefineJS(process.env.REACT_APP_ASSET_MANTLE_API);
 const OrderView = (props) => {
@@ -162,36 +162,20 @@ const OrderView = (props) => {
                                                 placement="top"
                                                 overlay={
                                                     <Tooltip id={`tooltip-top}`}>
-                                                        <span>Share on facebook</span>
-                                                    </Tooltip>
-                                                }
-                                            >
-                                                <FacebookShareButton
-                                                    url={"https://demo.assetmantle.one"}
-                                                    quote={"asdfasdf123"}
-                                                    hashtag={"#hashtag"}
-                                                    description={"aiueo"}
-                                                    className="share-button"
-                                                >
-                                                    <FacebookIcon size={32} round />
-                                                </FacebookShareButton>
-                                            </OverlayTrigger>
-                                            <OverlayTrigger
-                                                key="top"
-                                                placement="top"
-                                                overlay={
-                                                    <Tooltip id={`tooltip-top}`}>
                                                         <span>Share on twitter</span>
                                                     </Tooltip>
                                                 }
                                             >
                                                 <TwitterShareButton
-                                                    title={"test"}
+                                                    title={"Check out this cool NFT I found on Asset Mantle"}
                                                     url={"https://demo.assetmantle.one"}
-                                                    hashtags={["hashtag1"]}
+                                                    via={"AssetMantle"}
+                                                    hashtags={["NFT,AssetMantle,XPRT"]}
                                                     className="share-button"
                                                 >
-                                                    <TwitterIcon size={32} round />
+                                                    <Icon
+                                                        viewClass="arrow-right"
+                                                        icon="twitter"/>
                                                 </TwitterShareButton>
                                             </OverlayTrigger>
                                             <Copy

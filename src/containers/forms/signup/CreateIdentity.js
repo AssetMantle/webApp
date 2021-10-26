@@ -5,33 +5,79 @@ import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
 import {useHistory} from "react-router-dom";
 import TransactionOptions from "../login/TransactionOptions";
+import GetMeta from "../../../utilities/Helpers/getMeta";
+import {queryIdentities} from "persistencejs/build/transaction/identity/query";
+const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const CreateIdentity = () => {
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const [externalComponent, setExternalComponent] = useState('');
     const [loader, setLoader] = useState(false);
     const [show, setShow] = useState(true);
+    const [errorMessage, setErrorMessage] = useState(false);
     const {t} = useTranslation();
     const history = useHistory();
+    const GetMetaHelper = new GetMeta();
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    const handleSubmit = async event => {
         setLoader(true);
-        const userName = event.target.userName.value;
-        let totalData = {
-            nubId: userName,
-        };
-        setTotalDefineObject(totalData);
-        setExternalComponent('Keystore');
-        setShow(false);
-        setLoader(false);
+        localStorage.clear();
+        event.preventDefault();
+        setErrorMessage(false);
+        const IdentityName = event.target.userName.value;
+        const identities = identitiesQuery.queryIdentityWithID("all");
+        if (identities) {
+            identities.then(async function (item) {
+                const data = JSON.parse(item);
+                const dataList = data.result.value.identities.value.list;
+                const hashGenerate = GetMetaHelper.Hash(IdentityName);
+                let count = 0;
+                for (var i = 0; i < dataList.length; i++) {
+                    if (dataList[i].value.immutables.value.properties.value.propertyList !== null) {
+                        const immutablePropertyList = dataList[i].value.immutables.value.properties.value.propertyList[0];
+                        if (immutablePropertyList.value.fact.value.hash === hashGenerate) {
+                            setLoader(false);
+                            count = 0;
+                            break;
+                        } else {
+                            count ++;
+                        }
+                    }
+                }
+                if(count === 0){
+                    setLoader(false);
+                    setErrorMessage(true);
+                }else {
+                    console.log("getting");
+
+                    let totalData = {
+                        nubId: IdentityName,
+                    };
+                    setShow(false);
+                    setTotalDefineObject(totalData);
+                    setExternalComponent('Keystore');
+                }
+            }).catch(err => {
+                console.log(err, "in login");
+                setLoader(false);
+            });
+        }
     };
+
+
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     setLoader(true);
+    //
+    //     setShow(false);
+    //     setLoader(false);
+    // };
 
     const handleClose = () => {
         setShow(false);
         history.push('/');
     };
-
+    console.log(loader , "loader");
     return (
         <div>
 
@@ -62,12 +108,17 @@ const CreateIdentity = () => {
                             label="User Name"
                             disabled={false}
                         />
+                        {errorMessage ?
+                            <div className="login-error"><p className="error-response">UserName Already Taken</p></div>
+                            : ""
+                        }
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">
                                 {t('SUBMIT')}
                             </Button>
                         </div>
                     </Form>
+
                 </Modal.Body>
             </Modal>
             <div>
@@ -78,6 +129,7 @@ const CreateIdentity = () => {
                             totalDefineObject={totalDefineObject}
                             TransactionName={'nubid'}
                             setShow={setShow}
+                            setLoader={setLoader}
                             handleClose={handleClose}
                         /> :
                         null

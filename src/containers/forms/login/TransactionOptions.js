@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
+import {Modal} from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import Icon from "../../../icons";
 import { Ledger, PrivateKey, Keplr} from "./index";
@@ -7,6 +7,7 @@ import  LedgerTransaction from "../transaction/Ledger";
 import  KeplrTransaction from "../transaction/Keplr";
 import PrivateKeyTransaction from "../transaction/PrivateKey";
 import {useHistory} from "react-router-dom";
+import KeysCreate from "../signup/KeysCreate";
 
 const TransactionOptions = (props) => {
     const history = useHistory();
@@ -32,6 +33,7 @@ const TransactionOptions = (props) => {
         setShow(false);
         props.setExternalComponent('');
         if(props.TransactionName !== "assetMint"){
+            props.setLoader(false);
             props.setShow(true);
         }
     };
@@ -61,6 +63,11 @@ const TransactionOptions = (props) => {
                             <p>Ledger</p>
                         </div>
                     </div>
+                    {props.TransactionName === "nubid" ?
+                        <div className="submitButtonSection">
+                            <p onClick={() => handleRoute('create')} className="text-link"> Don&apos;t have an existing keys? Create One</p>
+                        </div>
+                        : ""}
                 </Modal.Body>
             </Modal>
             {props.TransactionName === "login" ?
@@ -131,6 +138,11 @@ const TransactionOptions = (props) => {
                             null
                     }
                 </>
+            }
+            {
+                externalComponent === 'create' ?
+                    <KeysCreate setExternalComponent={setExternalComponent} setShow={setShow}/> :
+                    null
             }
         </div>
     );

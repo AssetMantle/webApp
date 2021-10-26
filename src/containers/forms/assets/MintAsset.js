@@ -5,12 +5,13 @@ import GetProperty from '../../../utilities/Helpers/getProperty';
 import TransactionOptions from "../login/TransactionOptions";
 import base64url from "base64url";
 // import helper from "../../../utilities/helper";
-import {handleUpload} from "../../../utilities/Helpers/pinta";
+import {handleUpload} from "../../../utilities/Helpers/pinata";
 import Loader from "../../../components/loader";
 import Icon from "../../../icons";
 import logo from "../../../assets/images/logo.svg";
 import loaderImage from "../../../assets/images/loader.svg";
 import {OverlayTrigger, Popover} from "react-bootstrap";
+import helper from "../../../utilities/helper";
 const MintAsset = (props) => {
     const PropertyHelper = new GetProperty();
     const {t} = useTranslation();
@@ -33,15 +34,35 @@ const MintAsset = (props) => {
     const [initialName, setInitialName] = useState('Name');
     const [initialCategory, setInitialCategory] = useState('Category');
     const [imageExtension, setImageExtension] = useState('png');
-
+    const [exampleState, setExampleState] = useState(
+        {mint_asset: {
+            img_url:'radd',
+            asset_category:'',
+            asset_name:'',
+            asset_description:'',
+        }
+        });
+    
     useEffect(() => {
         let fromIDValue = localStorage.getItem('identityId');
         let testIdentityId = localStorage.getItem('identityId');
         setFromID(fromIDValue);
         settestIdentityId(testIdentityId);
+
+
     }, []);
 
-
+    // const updateMintObject = () =>{
+    //     const dataObject = {
+    //         mint_asset: {
+    //             'img_url':'radd',
+    //             'category':'',
+    //             'name':'',
+    //             'description':'',
+    //         }
+    //     };
+    //     console.log(dataObject.mint_asset.img_url, "test");
+    // };
     const handleClose = () => {
         // setShow(false);
         props.setExternalComponent('');
@@ -50,6 +71,8 @@ const MintAsset = (props) => {
     const handleChangeType = evt => {
         setTypeOption(evt.target.value);
     };
+
+
     const handleChangeStyle = evt => {
         setMutableStyle(evt.target.value);
     };
@@ -70,8 +93,9 @@ const MintAsset = (props) => {
         console.log(res, "IPFS Hash Uploaded File");
         const updateFileUrl="https://demo-assetmantle.mypinata.cloud/ipfs/"+res.IpfsHash+"/"+fileData.name;
         console.log(updateFileUrl, "updateFileUrl");
-
         setFileUrl(updateFileUrl);
+        const ipfsPath = await helper.pinataFile(fileData, res.IpfsHash);
+        console.log(ipfsPath, "ipfspath");
         const ImmutableUrlEncode = PropertyHelper.getUrlEncode(updateFileUrl);
         const imageExtension = fileData.name.substring(fileData.name.lastIndexOf('.') + 1);
         console.log(imageExtension, "image");
@@ -80,6 +104,8 @@ const MintAsset = (props) => {
         setUrlLoader(false);
     };
     const handleRemoveProperties =(index)=>{
+        console.log(exampleState, "exampleStateexampleState");
+
         if(totalAttributes >1) {
             let newArr = [...totalPropertiesList];
             newArr.splice(index, 1);
@@ -160,12 +186,32 @@ const MintAsset = (props) => {
         setCategory(evt.target.value);
     };
     const nameChangeHandler = evt =>{
-
+        const newObject = exampleState;
+        console.log(newObject);
+        newObject.mint_asset.asset_name = evt.target.value;
+        localStorage.setItem("mint_asset",JSON.stringify(newObject));
+        console.log(newObject);
+        setExampleState(newObject);
         setInitialName(evt.target.value);
     };
 
     const categoryChangeHandler = evt =>{
+        const newObject = exampleState;
+        console.log(newObject);
+        newObject.mint_asset.asset_category = evt.target.value;
+        localStorage.setItem("mint_asset",JSON.stringify(newObject));
+        console.log(newObject);
+        setExampleState(newObject);
         setInitialCategory(evt.target.value);
+    };
+
+    const handleDescriptionChange = (evt) =>{
+        const newObject = exampleState;
+        console.log(newObject);
+        newObject.mint_asset.asset_description = evt.target.value;
+        localStorage.setItem("mint_asset",JSON.stringify(newObject));
+        console.log(newObject);
+        setExampleState(newObject);
     };
 
     const fileInputLabel = (<div className="text-center">
@@ -289,7 +335,8 @@ const MintAsset = (props) => {
                                 name="description"
                                 placeholder="Enter Description"
                                 id="Description"
-                                required={true}/>
+                                required={true}
+                                onChange={handleDescriptionChange}/>
 
                         </Form.Group>
                         <Form.Group className="hidden">

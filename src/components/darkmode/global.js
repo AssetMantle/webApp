@@ -12,22 +12,18 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    align-items: center;
-    background: ${({theme}) => theme.body};
+    background: ${({theme}) => theme.backgroundColor};
     font-family: ${({theme}) => theme.fontFamily}
   }
 
   .bg-dark, .app-nav {
-    background-color: ${({theme}) => theme.navigationBackground} !important;
-  }
-
-  .signup-box {
-    background-color: ${({theme}) => theme.signupBackground}
+    background: ${({theme}) => theme.backgroundColor} !important;
+    box-shadow: ${({theme}) => theme.navigationShadow} !important;
   }
 
   .modal-content {
     background-color: ${({theme}) => theme.signupBackground};
-    color: ${({theme}) => theme.cardTextColor};
+    color: ${({theme}) => theme.textContentColor};
   }
 
   .modal-header {
@@ -36,31 +32,37 @@ export const GlobalStyles = createGlobalStyle`
   .modal-footer{
     border-top: 1px solid ${({theme}) => theme.modalHeaderBorderColor} !important;
   }
+  
   .navbar-brand a {
-    color: ${({theme}) => theme.navLinkColor};
+    color: ${({theme}) => theme.textSecondaryColor};
   }
 
   .navbar-dark .navbar-nav .nav-link {
-    color: ${({theme}) => theme.navLinkColor};
+    color: ${({theme}) => theme.textSecondaryColor};
   }
 
+.navbar-dark .navbar-nav .active>.nav-link, .navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .nav-link.show, .navbar-dark .navbar-nav .show>.nav-link,
+.navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover{
+  color: ${({theme}) => theme.textPrimaryColor};
+    }
   label, .page-title, .title {
-    color: ${({theme}) => theme.labelColor};
+    color: ${({theme}) => theme.textSecondaryColor};
   }
 
   .card {
-    background-color: ${({theme}) => theme.CardBgColor};
-    color: ${({theme}) => theme.cardTextColor};
+    background-color: ${({theme}) => theme.signupBackground};
+    color: ${({theme}) => theme.textContentColor};
   }
 
   .footer {
-    background-color: ${({theme}) => theme.navigationBackground};
-    color: ${({theme}) => theme.ActiveNavLinkColor};
+    background-color: ${({theme}) => theme.backgroundColor};
+    color: ${({theme}) => theme.textContentColor};
   }
 
   .footer label{
-    color: ${({theme}) => theme.ActiveNavLinkColor};
+    color: ${({theme}) => theme.textContentColor};
   }
+  
   .form-control {
     background-color: ${({theme}) => theme.inputFieldBackground} !important;
     border: 1px solid ${({theme}) => theme.inputFieldBorderColor} !important;
@@ -95,11 +97,11 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   .banner-heading {
-    color: ${({theme}) => theme.bannerHeadingColor};
+    color: ${({theme}) => theme.textPrimaryColor};
   }
 
   .banner-content {
-    color: ${({theme}) => theme.bannerContentColor};
+    color: ${({theme}) => theme.textContentColor};
   }
 
   .modal-header {
@@ -131,7 +133,7 @@ export const GlobalStyles = createGlobalStyle`
     background: ${({theme}) => theme.cardSectionBg};
   }
   .list-item .list-item-label, .list-item-value{
-    color: ${({theme}) => theme.listItemColor};
+    color: ${({theme}) => theme.textContentColor};
   }
   .dropdown-menu{
     background-color: ${({theme}) => theme.navDropdownMenuBg};
@@ -140,7 +142,7 @@ export const GlobalStyles = createGlobalStyle`
     color: ${({theme}) => theme.navDropdownColor};
   }
   .sub-title{
-    color: ${({theme}) => theme.subTitleColor};
+    color: ${({theme}) => theme.textSecondaryColor};
   }
   .provision-address{
     color: ${({theme}) => theme.provisionAddressColor};
@@ -202,7 +204,7 @@ export const GlobalStyles = createGlobalStyle`
   }
   .sub-title {
     border-color: ${({theme}) => theme.subTitleBorderColor} !important;
-    color: ${({theme}) => theme.subTitleColor};
+    color: ${({theme}) => theme.textSecondaryColor};
   }
   // .copy-section p{
   //   background: ${({theme}) => theme.copyBackground};
@@ -212,6 +214,40 @@ export const GlobalStyles = createGlobalStyle`
   }
   .profile-dropdown-menu .add-id, .profile-dropdown-menu .logout{
    border-top: 1px solid ${({theme}) => theme.modalHeaderBorderColor} !important;
+  }
+  .option-box{
+  background: ${({theme}) => theme.signupBackground};
+   border: 1px solid ${({theme}) => theme.modalHeaderBorderColor}
+  }
+  .view-container .asset-category{
+    color:${({theme}) => theme.textContentColor};
+  }
+  .view-container .asset-name{
+    color:${({theme}) => theme.textPrimaryColor};
+  }
+   .view-container .asset-description{
+    color:${({theme}) => theme.textContentColor};
+  }
+  .properties-container{
+    background: ${({theme}) => theme.signupBackground};
+    border-right: 1px solid ${({theme}) => theme.modalHeaderBorderColor};
+    border-bottom: 1px solid ${({theme}) => theme.modalHeaderBorderColor};
+    border-left: 1px solid ${({theme}) => theme.modalHeaderBorderColor};
+  }
+  .properties-container .header{
+   background: ${({theme}) => theme.signupBackground};
+   border-top: 1px solid ${({theme}) => theme.modalHeaderBorderColor} !important;
+  }
+  .properties-container .body{
+    background: ${({theme}) => theme.signupBackground};
+     border-top: 1px solid ${({theme}) => theme.modalHeaderBorderColor} !important;
+  }
+  .mint-page-body .right-content .preview-container{
+    background: ${({theme}) => theme.signupBackground};
+    border: 1px solid ${({theme}) => theme.modalHeaderBorderColor} !important;
+  }
+  .preview-content{
+   color:${({theme}) => theme.textContentColor};
   }
 `;
 

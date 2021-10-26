@@ -53,8 +53,13 @@ async function IpfsPath(file) {
     console.log(added.path, "path");
     return added.path;
 }
-async function pinataFile(metaObj){
-    let result= await pinata.pinJSONToIPFS(metaObj);
+async function pinataFile(file, path){
+    const options ={
+        "name":file.name,
+        "description":"adsfasfd",
+        "image":"ipfs://"+path,
+    };
+    let result= await pinata.pinJSONToIPFS(options);
     console.log(result);
     return result;
 }
@@ -77,5 +82,6 @@ export default {
     SortObjectData,
     IpfsPath,
     GetIpfsUrl,
+    pinataFile,
     stringFilter
 };
