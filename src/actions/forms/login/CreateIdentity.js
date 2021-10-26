@@ -66,6 +66,7 @@ const CreateIdentity = (props) => {
             const address = wallet.address;
             const hashGenerate = GetMetaHelper.Hash(userid);
             const msgs = await identitiesNub.createIdentityNubMsg(address, config.chainID, userid, config.feesAmount, config.feesToken, config.gas, config.mode);
+            console.log(msgs, "msgs");
             const nubResponse = transactions.TransactionWithMnemonic([msgs.value.msg[0]], Msgs.Fee(0, 200000), '', userMnemonic);
             nubResponse.then(function(data) {
                 const pollResponse = pollTxHash(process.env.REACT_APP_ASSET_MANTLE_API, data.transactionHash);

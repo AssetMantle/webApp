@@ -1,12 +1,16 @@
 import {Secp256k1HdWallet} from '@cosmjs/amino';
 import {queryIdentities} from "persistencejs/build/transaction/identity/query";
+import config from "../../config";
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const crypto = require('crypto');
 const passwordHashAlgorithm = 'sha512';
 const {SigningCosmosClient} = require('@cosmjs/launchpad');
 const restAPI = process.env.REACT_APP_ASSET_MANTLE_API;
-const prefix= process.env.REACT_APP_PREFIX ;
+const prefix= config.addressPrefix ;
+import {stringToPath} from "@cosmjs/crypto";
 const bip39 = require("bip39");
+
+
 function PrivateKeyReader(file, password) {
     return new Promise(function(resolve, reject) {
         const fileReader = new FileReader();
@@ -95,7 +99,7 @@ async function TransactionWithMnemonic(msgs, fee, memo, mnemonic) {
 }
 
 async function MnemonicWalletWithPassphrase(mnemonic,passphrase) {
-    const wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic, {prefix:'persistence',bip39Password:passphrase ,hdPaths:[stringToPath("m/44'/750'/0'/0/0")]});
+    const wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic, {prefix:config.addressPrefix,bip39Password:passphrase ,hdPaths:[stringToPath("m/44'/750'/0'/0/0")]});
     const [firstAccount] = await wallet.getAccounts();
     return [wallet, firstAccount.address];
 }
