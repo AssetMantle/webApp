@@ -9,6 +9,7 @@ import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 import GetID from "../../../utilities/Helpers/getID";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import ModalCommon from "../../../components/modal";
+import config from "../../../config";
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const KeplrTransaction = (props) => {
     const history = useHistory();
@@ -77,10 +78,10 @@ const KeplrTransaction = (props) => {
                         const identityID = await getIdentityId(hashGenerate);
                         let totalData = {
                             fromID: identityID,
-                            CoinAmountDenom: '5' + 'stake',
+                            CoinAmountDenom: '5' + config.coinDenom,
                         };
 
-                        let queryResponse = queries.transactionDefination(address , "", "keplr", 'wrap', totalData);
+                        let queryResponse = queries.transactionDefinition(address , "", "keplr", 'wrap', totalData);
                         queryResponse.then(async function (item) {
                             console.log(item, "item wrap response");
                         }).catch(err => {

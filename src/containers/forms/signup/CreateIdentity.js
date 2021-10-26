@@ -32,24 +32,31 @@ const CreateIdentity = () => {
                 const dataList = data.result.value.identities.value.list;
                 const hashGenerate = GetMetaHelper.Hash(IdentityName);
                 let count = 0;
-                for (var i = 0; i < dataList.length; i++) {
-                    if (dataList[i].value.immutables.value.properties.value.propertyList !== null) {
-                        const immutablePropertyList = dataList[i].value.immutables.value.properties.value.propertyList[0];
-                        if (immutablePropertyList.value.fact.value.hash === hashGenerate) {
-                            setLoader(false);
-                            count = 0;
-                            break;
-                        } else {
-                            count ++;
+                if(dataList) {
+                    for (var i = 0; i < dataList.length; i++) {
+                        if (dataList[i].value.immutables.value.properties.value.propertyList !== null) {
+                            const immutablePropertyList = dataList[i].value.immutables.value.properties.value.propertyList[0];
+                            if (immutablePropertyList.value.fact.value.hash === hashGenerate) {
+                                setLoader(false);
+                                count = 0;
+                                break;
+                            } else {
+                                count++;
+                            }
                         }
                     }
-                }
-                if(count === 0){
-                    setLoader(false);
-                    setErrorMessage(true);
+                    if (count === 0) {
+                        setLoader(false);
+                        setErrorMessage(true);
+                    } else {
+                        let totalData = {
+                            nubId: IdentityName,
+                        };
+                        setShow(false);
+                        setTotalDefineObject(totalData);
+                        setExternalComponent('Keystore');
+                    }
                 }else {
-                    console.log("getting");
-
                     let totalData = {
                         nubId: IdentityName,
                     };

@@ -9,6 +9,7 @@ import GetMeta from "../../../utilities/Helpers/getMeta";
 import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 import queries from "../../../utilities/Helpers/query";
 import ModalCommon from "../../../components/modal";
+import config from "../../../config";
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const LedgerTransaction = (props) => {
     const history = useHistory();
@@ -75,10 +76,10 @@ const LedgerTransaction = (props) => {
                             const identityID = await getIdentityId(hashGenerate);
                             let totalData = {
                                 fromID: identityID,
-                                CoinAmountDenom: '5' + 'stake',
+                                CoinAmountDenom: '5' + config.coinDenom,
                             };
 
-                            let queryResponse = queries.transactionDefination(loginAddress, "", "ledger", 'wrap', totalData);
+                            let queryResponse = queries.transactionDefinition(loginAddress, "", "ledger", 'wrap', totalData);
                             queryResponse.then(async function (item) {
                                 console.log(item, "item wrap response");
                             }).catch(err => {

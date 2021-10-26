@@ -10,6 +10,7 @@ import GetID from "../../../utilities/Helpers/getID";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 import ModalCommon from "../../../components/modal";
+import config from "../../../config";
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const PrivateKeyTransaction = (props) => {
     const {t} = useTranslation();
@@ -92,6 +93,7 @@ const PrivateKeyTransaction = (props) => {
         }
         if (userMnemonic !== undefined) {
             const wallet = await transactions.MnemonicWalletWithPassphrase(userMnemonic,'');
+            console.log(wallet, "waalet");
             let queryResponse =  queries.transactionDefinition(wallet[1] , userMnemonic, "normal", props.TransactionName, props.totalDefineObject);
             queryResponse.then(async function (item) {
                 if(item.code){
@@ -118,10 +120,10 @@ const PrivateKeyTransaction = (props) => {
                         const identityID = await getIdentityId(hashGenerate);
                         let totalData = {
                             fromID: identityID,
-                            CoinAmountDenom: '5' + 'stake',
+                            CoinAmountDenom: '5' + config.coinDenom,
                         };
 
-                        let queryResponse = queries.transactionDefination(wallet.address , userMnemonic, "normal", 'wrap', totalData);
+                        let queryResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", 'wrap', totalData);
                         queryResponse.then(async function (item) {
                             console.log(item, "item wrap response");
                         }).catch(err => {
