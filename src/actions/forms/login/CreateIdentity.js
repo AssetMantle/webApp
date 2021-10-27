@@ -3,7 +3,6 @@ import {Modal, Form, Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import {useTranslation} from 'react-i18next';
 import transactions from '../../../utilities/Helpers/transactions';
-import {getWallet} from 'persistencejs/build/utilities/keys';
 import config from '../../../config';
 import Msgs from '../../../utilities/Helpers/Msgs';
 import {pollTxHash} from '../../../utilities/Helpers/filter';
@@ -62,10 +61,11 @@ const CreateIdentity = (props) => {
             setLoader(false);
         });
         if (userMnemonic !== undefined) {
-            const wallet = await getWallet(userMnemonic, "");
-            const address = wallet.address;
+            const wallet = await transactions.MnemonicWalletWithPassphrase(userMnemonic, "");
+            const address = wallet[1];
             const hashGenerate = GetMetaHelper.Hash(userid);
             const msgs = await identitiesNub.createIdentityNubMsg(address, config.chainID, userid, config.feesAmount, config.feesToken, config.gas, config.mode);
+            console.log(msgs, "msgs");
             const nubResponse = transactions.TransactionWithMnemonic([msgs.value.msg[0]], Msgs.Fee(0, 200000), '', userMnemonic);
             nubResponse.then(function(data) {
                 const pollResponse = pollTxHash(process.env.REACT_APP_ASSET_MANTLE_API, data.transactionHash);

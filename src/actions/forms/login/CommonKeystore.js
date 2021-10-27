@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 import {mintAsset} from "persistencejs/build/transaction/assets/mint";
 import KeplerWallet from "../../../utilities/Helpers/kelplr";
-import {getWallet} from "persistencejs/build/utilities/keys";
 import { useTranslation } from "react-i18next";
 import queries from '../../../utilities/Helpers/query';
 import Loader from "../../../components/loader";
@@ -64,7 +63,7 @@ const CommonKeystore = (props) => {
         }
     }, []);
 
-    const transactionDefination = async (address, userMnemonic, type) => {
+    const transactionDefinition = async (address, userMnemonic, type) => {
         // const addressList = await queries.getProvisionList();
         // console.log(addressList, "list from get provionlist ",);
         // if(addressList || addressList.length){
@@ -135,7 +134,7 @@ const CommonKeystore = (props) => {
                 setErrorMessage("Adress Mismatch: Login address not matched with keplr address");
                 return;
             }
-            let queryResponse = transactionDefination(keplrAddress , "", "keplr");
+            let queryResponse = transactionDefinition(keplrAddress , "", "keplr");
             queryResponse.then((result) => {
                 console.log("response finale", result);
                 setShow(false);
@@ -187,8 +186,8 @@ const CommonKeystore = (props) => {
             }
         }
         if (userMnemonic !== undefined) {
-            const wallet = await getWallet(userMnemonic, "");
-            let queryResponse =  transactionDefination(wallet.address , userMnemonic, "normal");
+            const wallet = await transactions.MnemonicWalletWithPassphrase(userMnemonic, "");
+            let queryResponse =  transactionDefinition(wallet[1] , userMnemonic, "normal");
             queryResponse.then(function (item) {
                 setShow(false);
                 setLoader(false);

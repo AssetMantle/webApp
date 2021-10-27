@@ -5,14 +5,20 @@
   "keywords": [],
   "main": "server.js",
   "dependencies": {
+    "@cosmjs/amino": "^v0.25.4",
+    "@cosmjs/crypto": "^v0.25.4",
+    "@cosmjs/encoding": "^v0.25.4",
+    "@cosmjs/launchpad": "^v0.25.4",
     "axios": "^0.21.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "history": "^4.10.1",
+    "nodemon": "^2.0.14",
     "persistencejs": "https://github.com/persistenceOne/persistenceJS.git#v0.1.0",
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
+    "dotenv": "^10.0.0",
     "typescript": "3.3.3"
   },
   "scripts": {},

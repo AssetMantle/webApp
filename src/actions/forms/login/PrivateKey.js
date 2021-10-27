@@ -1,10 +1,11 @@
 import React, {useState} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
-import {getWallet, decryptStore} from "persistencejs/build/utilities/keys";
+import {decryptStore} from "persistencejs/build/utilities/keys";
 import {useTranslation} from "react-i18next";
 import privateKeyIcon from "../../../assets/images/PrivatekeyIcon.svg";
 import Icon from "../../../icons";
+import transactions from "../../../utilities/Helpers/transactions";
 
 const PrivateKey = async (props) => {
     const {t} = useTranslation();
@@ -23,8 +24,8 @@ const PrivateKey = async (props) => {
                 setIncorrectPassword(true);
                 return (<div>ERROR!!</div>);
             } else {
-                const wallet = await getWallet(error.mnemonic, "");
-                localStorage.setItem("address", wallet.address);
+                const wallet = await transactions.MnemonicWalletWithPassphrase(error.mnemonic, "");
+                localStorage.setItem("address", wallet[1]);
                 localStorage.setItem("mnemonic", error.mnemonic);
                 history.push('/profile');
             }
