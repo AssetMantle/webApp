@@ -9,6 +9,8 @@ export const fetchFaucet = (address) => {
             fetch(url)
                 .then((response) => response.json())
                 .then((data) => {
+                    console.log(data, "faucet result");
+
                     console.log(data.result.value.coins, "PROFILE");
                     dispatch({
                         type: SET_FAUCET_DATA,
@@ -16,7 +18,7 @@ export const fetchFaucet = (address) => {
                         data: ''
                     });
                 }).catch((error) => {
-                    console.log(error, "error section");
+                    console.log(error, "error in facuet");
                 });
 
             

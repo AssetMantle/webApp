@@ -16,8 +16,6 @@ const IdentityList = React.memo(() => {
     const [externalComponent, setExternalComponent] = useState("");
     const [identity, setIdentity] = useState([]);
     const identityList = useSelector((state) => state.identities.identityList);
-    console.log(faucetData, "faucetData");
-
     const loader = useSelector((state) => state.identities.loading);
     const faucetData = useSelector((state) => state.faucet.faucetData);
     const dispatch = useDispatch();

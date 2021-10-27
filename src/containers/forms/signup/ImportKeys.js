@@ -5,7 +5,6 @@ import transactions from '../../../utilities/Helpers/transactions';
 import {
     createStore,
     createWallet,
-    getWallet,
 } from 'persistencejs/build/utilities/keys';
 import {useTranslation} from 'react-i18next';
 import DownloadLink from 'react-download-link';
@@ -39,8 +38,8 @@ const ImportKeys = () => {
             setErrorMessage(err);
         });
         if (userMnemonic !== undefined) {
-            const wallet = await getWallet(userMnemonic, '');
-            const address = wallet.address;
+            const wallet = await transactions.MnemonicWalletWithPassphrase(userMnemonic, '');
+            const address = wallet[1];
             const data = {
                 mnemonic: userMnemonic,
                 address: address,
@@ -65,9 +64,9 @@ const ImportKeys = () => {
             if (error.error != null) {
                 setErrorMessage(error.error);
             } else {
-                const walletResponse = getWallet(mnemonic, '');
+                const walletResponse = transactions.MnemonicWalletWithPassphrase(mnemonic, '');
                 await walletResponse.then(function(result) {
-                    const address = result.address;
+                    const address = result[1];
                     const data = {
                         mnemonic: mnemonic,
                         address: address,

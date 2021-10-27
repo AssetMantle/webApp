@@ -17,6 +17,7 @@ const TakeOrder = (props) => {
         let fromIDValue = localStorage.getItem('identityId');
         setFromID(fromIDValue);
     },[]);
+
     const handleSubmit = (event) => {
         setLoader(true);
         event.preventDefault();
@@ -29,6 +30,7 @@ const TakeOrder = (props) => {
             ownableAmount:ownableAmount,
             orderId:orderId,
         };
+        console.log(totalData, "totalData");
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');
         setShow(false);
@@ -85,7 +87,8 @@ const TakeOrder = (props) => {
                 externalComponent === 'Keystore' ?
                     <TransactionOptions
                         setExternalComponent={setExternalComponent}
-                        totalDefineObject={totalDefineObject} TransactionName={'take order'}
+                        totalDefineObject={totalDefineObject}
+                        TransactionName={'take order'}
                         ActionName={props.ActionName}
                         handleClose={handleClose}
                         setShow={setShow}

@@ -55,7 +55,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   .footer {
-    background-color: ${({theme}) => theme.backgroundColor};
+    background-color: ${({theme}) => theme.footerBg};
     color: ${({theme}) => theme.textContentColor};
   }
 

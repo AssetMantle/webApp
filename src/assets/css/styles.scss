@@ -1,4 +1,6 @@
 .app {
+  display: flex;
+  flex-direction: column;
 }
 
 #root {
@@ -11,6 +13,14 @@ html, body, #root, .app {
   font-family: 'Poppins', sans-serif;
 }
 
+.body-section{
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  .content-section{
+    flex: 1;
+  }
+}
 .navbar-dark.login-after{
   padding: 0 10%;
 }
@@ -357,14 +367,60 @@ html, body, #root, .app {
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
   width: 100%;
-  padding: 10px 0;
+  padding:30px 0;
   font-size: 0.875rem;
   text-align: center;
-  .footer_left{
-    margin: 0;
+  .footer-text{
+    margin: 15px 0;
+  }
+  p{
+    color: #808080;
+  }
+  .social-links-section {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    ul {
+      display: -webkit-flex;
+      display: flex;
+      -webkit-justify-content: center;
+      justify-content: center;
+      margin: 0;
+      a {
+        display: -webkit-flex;
+        display: flex;
+        -webkit-justify-content: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        margin-right: 10px;
+        -webkit-align-items: center;
+        align-items: center;
+        border-radius: 50%;
+        background: #363b46;
+
+        .icon {
+          width: 12px;
+          fill: #fff;
+        }
+      }
+    }
+  }
+
+  .bottom-section{
+    display: flex;
+    justify-content: space-between;
+    .blogs{
+      display: flex;
+      p{
+        margin: 0 5px;
+      }
+    }
+    .bottom-right-section{
+      display: flex;
+    }
   }
 }
 
@@ -689,8 +745,8 @@ html, body, #root, .app {
 .content-section {
   display: flex;
   width: 100%;
-  align-items: stretch;
-  height: calc(100% - 60px);
+  //align-items: stretch;
+  //height: calc(100% - 60px);
 
   .accountInfo {
     .row {
@@ -1383,11 +1439,13 @@ model-viewer{
 
 .page-body{
   padding-top: 15px;
-  overflow-y: auto;
-  height: calc(100vh - 60px);
-  scrollbar-color: #C2D2E4 transparent;
-  scrollbar-width: thin;
-  scrollbar-radius: 4px;
+  padding-bottom: 25px;
+  flex: 1;
+  //overflow-y: auto;
+  //height: calc(100vh - 60px);
+  //scrollbar-color: #C2D2E4 transparent;
+  //scrollbar-width: thin;
+  //scrollbar-radius: 4px;
 }
 .custom-file-upload-box {
   .form-label {
@@ -1589,8 +1647,12 @@ model-viewer{
 
 .attributes-container{
   button{
-    padding: 4px 5px;
+    padding: 2px 5px;
     border-radius: 8px;
+    .custom-icon .icon{
+      width: 16px;
+      height:16px;
+    }
   }
 
 }

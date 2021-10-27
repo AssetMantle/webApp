@@ -34,6 +34,7 @@ const AssetView = (props) => {
             setAssetData(props.location.state.assetList);
         }
     }, []);
+
     const handleModalData = (formName, mutableProperties1, asset1, assetOwnerId, ownableId) => {
         setMutateProperties(mutableProperties1);
         setAsset(asset1);
@@ -50,6 +51,8 @@ const AssetView = (props) => {
     let mutateButton;
     let burnButton;
     let assetDescription;
+    console.log(assetData, "Asset data");
+
     if(assetData.totalData)
     {
         Object.keys(assetData.totalData).map((asset) => {
@@ -138,178 +141,180 @@ const AssetView = (props) => {
         setIsAccordionOpen(!isAccordionOpen);
     };
     return (
-        <div className="page-body asset-view-body">
-            <div className="content-section container">
-                <div className="accountInfo">
-                    <div className="row">
-                        {/*<p onClick={() => handleModalData("DefineAsset")}>{t("DEFINE_ASSET")}</p>*/}
-                        {/*<div className="dropdown-section">*/}
-                        {/*    <p className="back-arrow" onClick={() => history.push(props.location.state.currentPath)}>*/}
-                        {/*        <Icon viewClass="arrow-icon" icon="arrow"/> Back</p>*/}
-                        {/*    <Dropdown>*/}
-                        {/*        <Dropdown.Toggle id="dropdown-basic">*/}
-                        {/*            {t("ACTIONS")}*/}
-                        {/*        </Dropdown.Toggle>*/}
-                        {/*        <Dropdown.Menu>*/}
-                        {/*            <Dropdown.Item*/}
-                        {/*                onClick={() => handleModalData("DefineAsset")}>{t("DEFINE_ASSET")}*/}
-                        {/*            </Dropdown.Item>*/}
-                        {/*            <Dropdown.Item onClick={() => handleModalData("MintAsset")}>{t("MINT_ASSET")}*/}
-                        {/*            </Dropdown.Item>*/}
-                        {/*            <Dropdown.Item onClick={() => handleModalData("Wrap")}>{t("WRAP")}*/}
-                        {/*            </Dropdown.Item>*/}
-                        {/*            <Dropdown.Item onClick={() => handleModalData("UnWrap")}>{t("UN_WRAP")}*/}
-                        {/*            </Dropdown.Item>*/}
-                        {/*        </Dropdown.Menu>*/}
-                        {/*    </Dropdown>*/}
+        <div className="content-section">
+            <div className="page-body asset-view-body">
+                <div className="container">
+                    <div className="accountInfo">
+                        <div className="row">
+                            {/*<p onClick={() => handleModalData("DefineAsset")}>{t("DEFINE_ASSET")}</p>*/}
+                            {/*<div className="dropdown-section">*/}
+                            {/*    <p className="back-arrow" onClick={() => history.push(props.location.state.currentPath)}>*/}
+                            {/*        <Icon viewClass="arrow-icon" icon="arrow"/> Back</p>*/}
+                            {/*    <Dropdown>*/}
+                            {/*        <Dropdown.Toggle id="dropdown-basic">*/}
+                            {/*            {t("ACTIONS")}*/}
+                            {/*        </Dropdown.Toggle>*/}
+                            {/*        <Dropdown.Menu>*/}
+                            {/*            <Dropdown.Item*/}
+                            {/*                onClick={() => handleModalData("DefineAsset")}>{t("DEFINE_ASSET")}*/}
+                            {/*            </Dropdown.Item>*/}
+                            {/*            <Dropdown.Item onClick={() => handleModalData("MintAsset")}>{t("MINT_ASSET")}*/}
+                            {/*            </Dropdown.Item>*/}
+                            {/*            <Dropdown.Item onClick={() => handleModalData("Wrap")}>{t("WRAP")}*/}
+                            {/*            </Dropdown.Item>*/}
+                            {/*            <Dropdown.Item onClick={() => handleModalData("UnWrap")}>{t("UN_WRAP")}*/}
+                            {/*            </Dropdown.Item>*/}
+                            {/*        </Dropdown.Menu>*/}
+                            {/*    </Dropdown>*/}
 
-                        {/*</div>*/}
+                            {/*</div>*/}
 
-                        <div className="list-container view-container">
-                            <div className="row card-deck">
-                                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                    <div className="image-section">
-                                        {ImageData}
-                                    </div>
-                                    <Accordion className="details-accordion">
-                                        <Card>
-                                            <Accordion.Toggle as={Card.Header} onClick={accordionHandler} eventKey="0">
-                                                <div className="accordion-header">
-                                                    <p className="sub-title">Details</p>
-                                                    {isAccordionOpen ?
-                                                        <Icon
-                                                            viewClass="arrow-right"
-                                                            icon="up-arrow"/>
-                                                        :
-                                                        <Icon
-                                                            viewClass="arrow-right"
-                                                            icon="down-arrow"/>}
-                                                </div>
-                                            </Accordion.Toggle>
-                                            <Accordion.Collapse eventKey="0">
-                                                <Card.Body>
-                                                    <div className="list-item">
-                                                        <p className="list-item-label">{t("ASSET_ID")}</p>
-                                                        <div className="list-item-value id-section">
-                                                            <div className="flex">
-                                                                <Copy
-                                                                    id={assetData.ownableID}/>
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
-                                                    <div className="list-item">
-                                                        <p className="list-item-label">{t("OWNER_ID")}</p>
-                                                        <div className="list-item-value id-section">
-                                                            <div className="flex">
-                                                                <Copy
-                                                                    id={assetData.ownerID}/>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </Card.Body>
-                                            </Accordion.Collapse>
-                                        </Card>
-                                    </Accordion>
-                                </div>
-
-                                <div
-                                    className="col-xl-6 col-lg-6 col-md-12 col-sm-12 asset-data">
-                                    {assetCategory}
-                                    {assetName}
-                                    {assetDescription}
-
-                                    {/*<>*/}
-                                    {/*    <div className="list-item">*/}
-                                    {/*        <p className="list-item-label">{t("ASSET_ID")}</p>*/}
-                                    {/*        <div className="list-item-value id-section">*/}
-                                    {/*            <div className="flex">*/}
-                                    {/*                <p className="id-string"*/}
-                                    {/*                    title={assetData.ownableID}> {assetData.ownableID}</p>*/}
-
-                                    {/*            </div>*/}
-                                    {/*            <Copy*/}
-                                    {/*                id={assetData.ownableID}/>*/}
-                                    {/*        </div>*/}
-
-                                    {/*    </div>*/}
-                                    {/*    <div className="list-item">*/}
-                                    {/*        <p className="list-item-label">{t("OWNER_ID")}</p>*/}
-                                    {/*        <div className="list-item-value id-section">*/}
-                                    {/*            <div className="flex">*/}
-                                    {/*                <p className="id-string"*/}
-                                    {/*                    title={assetData.ownerID}> {assetData.ownerID}</p>*/}
-
-                                    {/*            </div>*/}
-                                    {/*            <Copy*/}
-                                    {/*                id={assetData.ownerID}/>*/}
-                                    {/*        </div>*/}
-
-                                    {/*    </div>*/}
-                                    {/*</>*/}
-                                    {/*{contentData}*/}
-                                    {sellButton}
-                                    {burnButton}
-                                    <div className="properties-container">
-                                        <div className="header">
-                                            <p className="sub-title">Properties</p>
-                                            {mutateButton}
+                            <div className="list-container view-container">
+                                <div className="row card-deck">
+                                    <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                        <div className="image-section">
+                                            {ImageData}
                                         </div>
-                                        <div className="body">
-                                            {PropertyObject}
+                                        <Accordion className="details-accordion">
+                                            <Card>
+                                                <Accordion.Toggle as={Card.Header} onClick={accordionHandler} eventKey="0">
+                                                    <div className="accordion-header">
+                                                        <p className="sub-title">Details</p>
+                                                        {isAccordionOpen ?
+                                                            <Icon
+                                                                viewClass="arrow-right"
+                                                                icon="up-arrow"/>
+                                                            :
+                                                            <Icon
+                                                                viewClass="arrow-right"
+                                                                icon="down-arrow"/>}
+                                                    </div>
+                                                </Accordion.Toggle>
+                                                <Accordion.Collapse eventKey="0">
+                                                    <Card.Body>
+                                                        <div className="list-item">
+                                                            <p className="list-item-label">{t("ASSET_ID")}</p>
+                                                            <div className="list-item-value id-section">
+                                                                <div className="flex">
+                                                                    <Copy
+                                                                        id={assetData.ownableID}/>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                        <div className="list-item">
+                                                            <p className="list-item-label">Creator ID </p>
+                                                            <div className="list-item-value id-section">
+                                                                <div className="flex">
+                                                                    <Copy
+                                                                        id={assetData.ownerID}/>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </Card.Body>
+                                                </Accordion.Collapse>
+                                            </Card>
+                                        </Accordion>
+                                    </div>
+
+                                    <div
+                                        className="col-xl-6 col-lg-6 col-md-12 col-sm-12 asset-data">
+                                        {assetCategory}
+                                        {assetName}
+                                        {assetDescription}
+
+                                        {/*<>*/}
+                                        {/*    <div className="list-item">*/}
+                                        {/*        <p className="list-item-label">{t("ASSET_ID")}</p>*/}
+                                        {/*        <div className="list-item-value id-section">*/}
+                                        {/*            <div className="flex">*/}
+                                        {/*                <p className="id-string"*/}
+                                        {/*                    title={assetData.ownableID}> {assetData.ownableID}</p>*/}
+
+                                        {/*            </div>*/}
+                                        {/*            <Copy*/}
+                                        {/*                id={assetData.ownableID}/>*/}
+                                        {/*        </div>*/}
+
+                                        {/*    </div>*/}
+                                        {/*    <div className="list-item">*/}
+                                        {/*        <p className="list-item-label">{t("OWNER_ID")}</p>*/}
+                                        {/*        <div className="list-item-value id-section">*/}
+                                        {/*            <div className="flex">*/}
+                                        {/*                <p className="id-string"*/}
+                                        {/*                    title={assetData.ownerID}> {assetData.ownerID}</p>*/}
+
+                                        {/*            </div>*/}
+                                        {/*            <Copy*/}
+                                        {/*                id={assetData.ownerID}/>*/}
+                                        {/*        </div>*/}
+
+                                        {/*    </div>*/}
+                                        {/*</>*/}
+                                        {/*{contentData}*/}
+                                        {sellButton}
+                                        {burnButton}
+                                        <div className="properties-container">
+                                            <div className="header">
+                                                <p className="sub-title">Properties</p>
+                                                {mutateButton}
+                                            </div>
+                                            <div className="body">
+                                                {PropertyObject}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div>
-                    {externalComponent === 'MutateAsset' ?
-                        <MutateAsset setExternalComponent={setExternalComponent} mutatePropertiesList={mutateProperties}
-                            asset={asset}/> :
-                        null
-                    }
-                    {
-                        externalComponent === 'BurnAsset' ?
-                            <BurnAsset setExternalComponent={setExternalComponent} ownerId={ownerId}
-                                ownableId={ownableId}/> :
+                    <div>
+                        {externalComponent === 'MutateAsset' ?
+                            <MutateAsset setExternalComponent={setExternalComponent} mutatePropertiesList={mutateProperties}
+                                asset={asset}/> :
                             null
-                    }
-                    {
-                        externalComponent === 'MakeOrder' ?
-                            <MakeOrder setExternalComponent={setExternalComponent} ownerId={ownerId}
-                                ownableId={ownableId} asset={asset}/> :
+                        }
+                        {
+                            externalComponent === 'BurnAsset' ?
+                                <BurnAsset setExternalComponent={setExternalComponent} ownerId={ownerId}
+                                    ownableId={ownableId}/> :
+                                null
+                        }
+                        {
+                            externalComponent === 'MakeOrder' ?
+                                <MakeOrder setExternalComponent={setExternalComponent} ownerId={ownerId}
+                                    ownableId={ownableId} asset={asset}/> :
+                                null
+                        }
+                        {
+                            externalComponent === 'SendSplit' ?
+                                <SendSplit setExternalComponent={setExternalComponent} ownerId={ownerId}
+                                    ownableId={ownableId}/> :
+                                null
+                        }
+                        {externalComponent === 'DefineAsset' ?
+                            <Define setExternalComponent={setExternalComponent} ActionName={assetDefine}
+                                FormName={'Define Asset'} type={'asset'}/> :
                             null
-                    }
-                    {
-                        externalComponent === 'SendSplit' ?
-                            <SendSplit setExternalComponent={setExternalComponent} ownerId={ownerId}
-                                ownableId={ownableId}/> :
-                            null
-                    }
-                    {externalComponent === 'DefineAsset' ?
-                        <Define setExternalComponent={setExternalComponent} ActionName={assetDefine}
-                            FormName={'Define Asset'} type={'asset'}/> :
-                        null
-                    }
-                    {
-                        externalComponent === 'MintAsset' ?
-                            <MintAsset setExternalComponent={setExternalComponent}/> :
-                            null
-                    }
-                    {
-                        externalComponent === 'Wrap' ?
-                            <Wrap setExternalComponent={setExternalComponent} FormName={'Wrap'}/> :
-                            null
-                    }
-                    {
-                        externalComponent === 'UnWrap' ?
-                            <UnWrap setExternalComponent={setExternalComponent} FormName={'UnWrap'}/> :
-                            null
-                    }
+                        }
+                        {
+                            externalComponent === 'MintAsset' ?
+                                <MintAsset setExternalComponent={setExternalComponent}/> :
+                                null
+                        }
+                        {
+                            externalComponent === 'Wrap' ?
+                                <Wrap setExternalComponent={setExternalComponent} FormName={'Wrap'}/> :
+                                null
+                        }
+                        {
+                            externalComponent === 'UnWrap' ?
+                                <UnWrap setExternalComponent={setExternalComponent} FormName={'UnWrap'}/> :
+                                null
+                        }
+                    </div>
                 </div>
             </div>
         </div>

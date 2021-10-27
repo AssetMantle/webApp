@@ -14,8 +14,12 @@ const TotalOrders = React.memo(() => {
     const loader = useSelector((state) => state.markePlace.loading);
     const error = useSelector((state) => state.markePlace.error);
 
-    const handleAsset = (id) => {
-        history.push(`/order/view/${id}`);
+    const handleAsset = (id, orderID) => {
+        history.push({
+            pathname:`/view/${id}`,
+            orderID:orderID
+        });
+        // history.push(`/view/${id}`);
     };
 
     return (
@@ -32,7 +36,7 @@ const TotalOrders = React.memo(() => {
                         markeOrders.map((order, index) => {
                             return(
                                 <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
-                                    <div className="card order-card" onClick={() => handleAsset(order['orderID'], order)}>
+                                    <div className="card order-card" onClick={() => handleAsset(order['encodedOrderID'], order['orderID'], order)}>
                                         <div className="info-section">
                                             {
                                                 Object.keys(order['totalData']).map(key => {
@@ -88,7 +92,7 @@ const TotalOrders = React.memo(() => {
                                                 })
                                             }
                                             <Button variant="primary" className="viewButton" size="sm"
-                                                onClick={() => handleAsset(order['orderID'], order)}>View</Button>
+                                                onClick={() => handleAsset(order['encodedOrderID'],order['orderID'], order)}>View</Button>
                                         </div>
                                     </div>
                                 </div>

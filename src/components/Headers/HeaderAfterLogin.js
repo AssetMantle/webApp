@@ -109,7 +109,7 @@ const HeaderAfterLogin = () => {
     return (
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="login-after container-fluid">
-                <Navbar.Brand><Nav.Link onClick={handleRoute("/profile")}>
+                <Navbar.Brand><Nav.Link onClick={handleRoute("/marketplace")}>
                     <img src={logo} alt="logo"/>
                 </Nav.Link></Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>

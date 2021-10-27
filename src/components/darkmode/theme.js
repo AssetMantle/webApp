@@ -8,6 +8,7 @@ export const lightTheme = {
     navigationShadow:'0 .125rem .25rem rgba(0,0,0,.075)!important',
     text: '#FAFAFA',
     toggleBorder: '#fff',
+    footerBg:'#000',
     gradient: 'linear-gradient(#39598A, #79D7ED)',
     navigationBackground: '#262A2B',
     signupBackground: '#F5F5F5',
@@ -71,7 +72,7 @@ export const darkTheme = {
     textDisabledColor:'rgba(255, 255, 255, 0.36)',
     backgroundColor:'#0A0A0A',
     navigationShadow:'0 .125rem .25rem rgba(255, 255, 255,.075)',
-
+    footerBg:'#000',
     toggleBorder: '#6B8096',
     gradient: 'linear-gradient(#091236, #1E215D)',
     navigationBackground: '#191c24',

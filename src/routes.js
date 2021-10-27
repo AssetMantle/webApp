@@ -1,4 +1,3 @@
-import {HomePage} from "./components";
 import {Login} from "./containers";
 import AddressLogin from "./containers/AddressLogin";
 import CreateIdentity from "./containers/forms/signup/CreateIdentity";
@@ -19,9 +18,12 @@ import {MintAsset} from "./containers/forms/assets";
 
 const routes = [{
     path: '/',
-    component: HomePage,
+    component: MarketPlace,
     private: false,
-}, {
+}, {path: '/marketplace',
+    component: MarketPlace,
+    private: false,
+} ,{
     path: '/login',
     component: Login,
     private: false,
@@ -53,10 +55,6 @@ const routes = [{
     path: '/maintainers',
     component: Maintainers,
     private: true,
-}, {
-    path: '/marketplace',
-    component: MarketPlace,
-    private: false,
 },{
     path: '/asset/view',
     component: AssetView,
@@ -66,7 +64,7 @@ const routes = [{
     component: IdentityView,
     private: true,
 }, {
-    path: '/order/view/:id',
+    path: '/view/:id',
     component: OrderView,
     private: false,
 }, {

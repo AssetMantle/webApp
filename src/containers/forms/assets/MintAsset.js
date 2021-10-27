@@ -11,7 +11,7 @@ import Icon from "../../../icons";
 import logo from "../../../assets/images/logo.svg";
 import loaderImage from "../../../assets/images/loader.svg";
 import {OverlayTrigger, Popover} from "react-bootstrap";
-import helper from "../../../utilities/helper";
+// import helper from "../../../utilities/helper";
 const MintAsset = (props) => {
     const PropertyHelper = new GetProperty();
     const {t} = useTranslation();
@@ -94,13 +94,13 @@ const MintAsset = (props) => {
         const updateFileUrl="https://demo-assetmantle.mypinata.cloud/ipfs/"+res.IpfsHash+"/"+fileData.name;
         console.log(updateFileUrl, "updateFileUrl");
         setFileUrl(updateFileUrl);
-        const ipfsPath = await helper.pinataFile(fileData, res.IpfsHash);
-        console.log(ipfsPath, "ipfspath");
+        // const ipfsPath = await helper.pinataFile(fileData, res.IpfsHash);
+        // console.log(ipfsPath, "ipfspath");
         const ImmutableUrlEncode = PropertyHelper.getUrlEncode(updateFileUrl);
+        setEncodedUrl(ImmutableUrlEncode);
         const imageExtension = fileData.name.substring(fileData.name.lastIndexOf('.') + 1);
         console.log(imageExtension, "image");
         setImageExtension(imageExtension);
-        setEncodedUrl(ImmutableUrlEncode);
         setUrlLoader(false);
     };
     const handleRemoveProperties =(index)=>{
@@ -435,8 +435,8 @@ const MintAsset = (props) => {
                             }
                         </div>
                         <div className="preview-content">
-                            <p>#{initialName}</p>
-                            <p>#{initialCategory}</p>
+                            <p>{initialName}</p>
+                            <p>{initialCategory}</p>
                         </div>
                     </div>
                 </div>
