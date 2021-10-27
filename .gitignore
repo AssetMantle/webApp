@@ -6,3 +6,4 @@ build
 .sass-cache
 faucet/.env
 faucet/node_modules
+.github
