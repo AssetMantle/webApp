@@ -1,3 +1,8 @@
+.app {
+  display: flex;
+  flex-direction: column;
+}
+
 #root {
   position: relative;
   min-height: 100vh;
@@ -6,6 +11,15 @@
 html, body, #root, .app {
   height: 100%;
   font-family: "Poppins", sans-serif;
+}
+
+.body-section {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+.body-section .content-section {
+  flex: 1;
 }
 
 .navbar-dark.login-after {
@@ -308,15 +322,59 @@ html, body, #root, .app {
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
   width: 100%;
-  padding: 10px 0;
+  padding: 30px 0;
   font-size: 0.875rem;
   text-align: center;
 }
-.footer .footer_left {
+.footer .footer-text {
+  margin: 15px 0;
+}
+.footer p {
+  color: #808080;
+}
+.footer .social-links-section {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+.footer .social-links-section ul {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  justify-content: center;
   margin: 0;
+}
+.footer .social-links-section ul a {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-right: 10px;
+  -webkit-align-items: center;
+  align-items: center;
+  border-radius: 50%;
+  background: #363b46;
+}
+.footer .social-links-section ul a .icon {
+  width: 12px;
+  fill: #fff;
+}
+.footer .bottom-section {
+  display: flex;
+  justify-content: space-between;
+}
+.footer .bottom-section .blogs {
+  display: flex;
+}
+.footer .bottom-section .blogs p {
+  margin: 0 5px;
+}
+.footer .bottom-section .bottom-right-section {
+  display: flex;
 }
 
 .submitButtonSection {
@@ -591,8 +649,6 @@ html, body, #root, .app {
 .content-section {
   display: flex;
   width: 100%;
-  align-items: stretch;
-  height: calc(100% - 60px);
 }
 .content-section .accountInfo .row {
   margin: 0;
@@ -1262,11 +1318,8 @@ model-viewer {
 
 .page-body {
   padding-top: 15px;
-  overflow-y: auto;
-  height: calc(100vh - 60px);
-  scrollbar-color: #C2D2E4 transparent;
-  scrollbar-width: thin;
-  scrollbar-radius: 4px;
+  padding-bottom: 25px;
+  flex: 1;
 }
 
 .custom-file-upload-box .form-label {
@@ -1464,8 +1517,12 @@ model-viewer {
 }
 
 .attributes-container button {
-  padding: 4px 5px;
+  padding: 2px 5px;
   border-radius: 8px;
+}
+.attributes-container button .custom-icon .icon {
+  width: 16px;
+  height: 16px;
 }
 
 .share-container {

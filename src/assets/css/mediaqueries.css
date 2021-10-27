@@ -167,10 +167,6 @@
     max-width: 720px;
   }
 
-  .content-section {
-    padding-top: 60px;
-    height: 100%;
-  }
   .content-section .accountInfo .row {
     overflow-y: auto;
   }

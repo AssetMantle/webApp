@@ -4,6 +4,7 @@ import {useHistory} from "react-router-dom";
 import {Navbar, Nav, Button} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import logo from '../../assets/images/logo.svg';
+import Darktheme from "../darkmode/Darktheme";
 
 const HeaderBeforeLogin = () => {
     const history = useHistory();
@@ -41,7 +42,9 @@ const HeaderBeforeLogin = () => {
                         {/*    <Button variant="primary" className="button-double-border"*/}
                         {/*        onClick={handleRoute("/address/login")}>{t("ALL_IDENTITIES")}</Button>*/}
                         {/*</div>*/}
-
+                        <li className="nav-item flex">
+                            <Darktheme/>
+                        </li>
                     </Nav>
 
                 </Navbar.Collapse>

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { HomePage } from './components';
+// import { HomePage } from './components';
 import HeaderAfterLogin from './components/Headers/HeaderAfterLogin';
 import HeaderBeforeLogin from './components/Headers/HeaderBeforeLogin';
 import offline from './assets/images/offline.svg';
-import { MarketPlace} from './containers/views';
-import Footer from './components/Footer';
+// import { MarketPlace} from './containers/views';
 import { useTranslation } from 'react-i18next';
 import './assets/css/styles.css';
 import './assets/css/mediaqueries.css';
@@ -19,6 +18,7 @@ import PrivateRoute from "./containers/PrivateRoute";
 import "react-image-lightbox/style.css";
 import routes from "./routes";
 import RouteNotFound from "./components/RouteNotFound";
+import Footer from "./components/Footer";
 
 const App = () => {
     const { t } = useTranslation();
@@ -68,43 +68,40 @@ const App = () => {
                         : <HeaderAfterLogin/>
                 }
             </div>
+            <div className="body-section">
 
-            <Switch>
-                <Route
-                    key="/"
-                    exact
-                    component={userTypeToken === undefined || userTypeToken === null || userTypeToken === '' ? withRouter(HomePage) : withRouter(MarketPlace)}
-                    path="/"/>
-                {
-                    routes.map((route) => {
-                        if (route.private) {
+                <Switch>
+                    {/*<Route*/}
+                    {/*    key="/"*/}
+                    {/*    exact*/}
+                    {/*    component={userTypeToken === undefined || userTypeToken === null || userTypeToken === '' ? withRouter(HomePage) : withRouter(MarketPlace)}*/}
+                    {/*    path="/"/>*/}
+                    {
+                        routes.map((route) => {
+                            if (route.private) {
+                                return (
+                                    <PrivateRoute
+                                        key={route.path}
+                                        exact
+                                        component={withRouter(route.component)}
+                                        path={route.path}
+                                    />
+                                );
+                            }
+
                             return (
-                                <PrivateRoute
+                                <Route
                                     key={route.path}
                                     exact
                                     component={withRouter(route.component)}
-                                    path={route.path}
-                                />
+                                    path={route.path}/>
                             );
-                        }
-
-                        return (
-                            <Route
-                                key={route.path}
-                                exact
-                                component={withRouter(route.component)}
-                                path={route.path}/>
-                        );
-                    })
-                }
-                <Route component={RouteNotFound}/>
-            </Switch>
-
-            {
-                userTypeToken === null || window.location.pathname === '/'
-                    ? <Footer/>
-                    : ''
-            }
+                        })
+                    }
+                    <Route component={RouteNotFound}/>
+                </Switch>
+                <Footer/>
+            </div>
         </div>
     );
 };

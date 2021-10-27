@@ -59,6 +59,7 @@ export const fetchMarketPlace = () => {
                     // const objSorted = helper.SortObjectData(totalData);
                     ordersListNew.push({'totalData': assetData.totalData,
                         'orderID':orderIdData,
+                        'encodedOrderID':helper.getBase64Hash(orderIdData),
                         'classificationID':classificationID,
                         'makerOwnableID':makerOwnableID,
                         'takerOwnableID':takerOwnableID,
@@ -67,7 +68,7 @@ export const fetchMarketPlace = () => {
                         'mutableProperties':assetData.mutableProperties
                     });
                 }
-
+                console.log("innn");
                 dispatch({
                     type: SET_MARKET_ORDERS,
                     marketOrders: ordersListNew,

@@ -33,8 +33,10 @@ const TransactionOptions = (props) => {
         setShow(false);
         props.setExternalComponent('');
         if(props.TransactionName !== "assetMint"){
-            props.setLoader(false);
             props.setShow(true);
+            if(props.TransactionName === "nubid"){
+                props.setLoader(false);
+            }
         }
     };
 

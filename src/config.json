@@ -17,7 +17,7 @@
     "scheduledTxHashQueryDelay": 8000,
     "numberOfRetries": 20,
     "feesAmount": 0,
-    "feesToken": "xprt",
+    "feesToken": "umantle",
     "mode": "sync",
     "gas": 200000,
     "URI": "URI",

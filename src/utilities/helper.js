@@ -1,5 +1,8 @@
 import config from "../config";
 import { create } from 'ipfs-http-client';
+import base64url from "base64url";
+import sha1 from "crypto-js/sha1";
+import Base64 from "crypto-js/enc-base64";
 const pinataSDK= require('@pinata/sdk');
 
 const pinata = pinataSDK(
@@ -78,10 +81,27 @@ function stringFilter(data, initialCharacter, replaceableText){
     // return result;
 }
 
+function getUrlEncode(Url) {
+    let UrlEncode;
+    if (Url) {
+        UrlEncode = base64url.encode(Url) + "=";
+    }
+    return UrlEncode;
+}
+
+function getBase64Hash(fileData) {
+    var pwdHash = sha1(fileData);
+    var joinedDataHashB64 = Base64.stringify(pwdHash);
+    var finalHash = base64url.fromBase64(joinedDataHashB64) + "=";
+    return finalHash;
+}
+
 export default {
     SortObjectData,
     IpfsPath,
     GetIpfsUrl,
     pinataFile,
-    stringFilter
+    stringFilter,
+    getUrlEncode,
+    getBase64Hash
 };

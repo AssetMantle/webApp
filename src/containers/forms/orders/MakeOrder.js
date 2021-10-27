@@ -4,7 +4,6 @@ import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
 import TransactionOptions from "../login/TransactionOptions";
 import base64url from "base64url";
-
 const MakeOrder = (props) => {
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
@@ -113,7 +112,7 @@ const MakeOrder = (props) => {
                                 className=""
                                 name="TakerOwnableId"
                                 required={true}
-                                value="stake"
+                                value="umantle"
                                 placeholder={t("TAKER_OWNABLE_SPLIT")}
                             />
                         </Form.Group>

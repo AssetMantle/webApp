@@ -2,12 +2,17 @@ import React, {useState} from 'react';
 import {Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import {useHistory} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import * as markePlace from "../../store/actions/marketPlace";
+import * as assets from "../../store/actions/assets";
 
 const ModalCommon = (props) => {
     const {t} = useTranslation();
     const history = useHistory();
+    const identityID = localStorage.getItem('identityId');
     const [showIdentity, setShowIdentity] = useState(true);
-    const handleClose = () => {
+    const dispatch = useDispatch();
+    const handleClose = async () => {
         setShowIdentity(false);
         props.handleClose();
         if (props.transactionName === "assetMint" ||
@@ -17,11 +22,19 @@ const ModalCommon = (props) => {
             props.transactionName ==="send splits" ||
             props.transactionName ==="burn asset" ||
             props.transactionName ==="mutate asset"){
-            window.location.reload();
+            await Promise.all([
+                dispatch(assets.fetchAssets(identityID)),
+            ]);
             history.push("/assets");
-        }else if (props.transactionName === "Define Order"){
+        }
+        else if (props.transactionName === "Define Order"){
             history.push("/orders");
-        }else if (props.transactionName === "Make Order"){
+            window.location.reload();
+        }else if (props.transactionName === "make order"){
+            await Promise.all([
+                dispatch(assets.fetchAssets(identityID)),
+                dispatch(markePlace.fetchMarketPlace())
+            ]);
             history.push("/marketplace");
         }
 
