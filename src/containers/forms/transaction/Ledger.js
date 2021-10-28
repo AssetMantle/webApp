@@ -108,7 +108,10 @@ const LedgerTransaction = (props) => {
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
-        history.push('/');
+        props.handleClose();
+        if (props.TransactionName === "nubid") {
+            history.push('/');
+        }
     };
 
     return (

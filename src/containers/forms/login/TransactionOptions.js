@@ -19,6 +19,7 @@ const TransactionOptions = (props) => {
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
+        props.handleClose();
         if (props.TransactionName === "nubid" || props.TransactionName === "login") {
             history.push('/');
         }

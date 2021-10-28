@@ -26,6 +26,14 @@ html, body, #root, .app {
   padding: 0 10%;
 }
 
+.dark-mode .navbar .header-logo {
+  background: url(../images/logo.svg) no-repeat;
+}
+
+.light-mode .navbar .header-logo {
+  background: url(../images/logo_dark.svg) no-repeat;
+}
+
 .navbar-dark {
   background: none !important;
   padding: 0;
@@ -60,14 +68,14 @@ html, body, #root, .app {
   position: absolute;
   width: 100%;
 }
-.navbar-dark .navbar-brand {
-  padding: 0 0 10px 0;
-}
 .navbar-dark .navbar-brand a {
   text-decoration: underline;
   font-weight: bold;
   padding: 0;
   font-size: 24px;
+  width: 140px;
+  height: 35px;
+  display: block;
 }
 .navbar-dark .navbar-brand a img {
   width: 160px;

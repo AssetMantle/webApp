@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {withRouter} from "react-router-dom";
 import {useHistory} from "react-router-dom";
 import {Navbar, Nav, NavDropdown, Button} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import {NavLink} from 'react-router-dom';
-import logo from '../../assets/images/logo.svg';
 // import profileIcon from "../../assets/images/profile.svg";
 import Icon from '../../icons';
 import AddIdentity from '../../containers/forms/identities/AddIdentity';
@@ -70,7 +69,22 @@ const HeaderAfterLogin = () => {
         }
         // window.location.reload();
     };
+    useEffect(() => {
+        const localTheme = window.localStorage.getItem('theme');
+        if(localTheme === 'light'){
+            if (document.getElementById('root').classList.contains('dark-mode')) {
+                document.getElementById('root').classList.add('light-mode');
+                document.getElementById('root').classList.remove('dark-mode');
+            }
+        }
+        else{
+            if (document.getElementById('root').classList.contains('light-mode')) {
+                document.getElementById('root').classList.add('dark-mode');
+                document.getElementById('root').classList.remove('light-mode');
+            }
+        }
 
+    }, []);
     const changeIdentityHandler = (name) =>{
         const identityList = localStorage.getItem("identityList");
         const idList = JSON.parse(identityList);
@@ -109,8 +123,7 @@ const HeaderAfterLogin = () => {
     return (
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="login-after container-fluid">
-                <Navbar.Brand><Nav.Link onClick={handleRoute("/marketplace")}>
-                    <img src={logo} alt="logo"/>
+                <Navbar.Brand><Nav.Link onClick={handleRoute("/marketplace")} className="header-logo">
                 </Nav.Link></Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                 <Navbar.Collapse id="responsive-navbar-nav">

@@ -69,37 +69,38 @@ const App = () => {
                 }
             </div>
             <div className="body-section">
+                <div className="content-section">
+                    <Switch>
+                        {/*<Route*/}
+                        {/*    key="/"*/}
+                        {/*    exact*/}
+                        {/*    component={userTypeToken === undefined || userTypeToken === null || userTypeToken === '' ? withRouter(HomePage) : withRouter(MarketPlace)}*/}
+                        {/*    path="/"/>*/}
+                        {
+                            routes.map((route) => {
+                                if (route.private) {
+                                    return (
+                                        <PrivateRoute
+                                            key={route.path}
+                                            exact
+                                            component={withRouter(route.component)}
+                                            path={route.path}
+                                        />
+                                    );
+                                }
 
-                <Switch>
-                    {/*<Route*/}
-                    {/*    key="/"*/}
-                    {/*    exact*/}
-                    {/*    component={userTypeToken === undefined || userTypeToken === null || userTypeToken === '' ? withRouter(HomePage) : withRouter(MarketPlace)}*/}
-                    {/*    path="/"/>*/}
-                    {
-                        routes.map((route) => {
-                            if (route.private) {
                                 return (
-                                    <PrivateRoute
+                                    <Route
                                         key={route.path}
                                         exact
                                         component={withRouter(route.component)}
-                                        path={route.path}
-                                    />
+                                        path={route.path}/>
                                 );
-                            }
-
-                            return (
-                                <Route
-                                    key={route.path}
-                                    exact
-                                    component={withRouter(route.component)}
-                                    path={route.path}/>
-                            );
-                        })
-                    }
-                    <Route component={RouteNotFound}/>
-                </Switch>
+                            })
+                        }
+                        <Route component={RouteNotFound}/>
+                    </Switch>
+                </div>
                 <Footer/>
             </div>
         </div>

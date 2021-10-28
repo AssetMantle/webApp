@@ -3,10 +3,8 @@ import TotalOrders from "./totalOrderList";
 
 const MarketPlace = () => {
     return (
-        <div className="content-section">
-            <div className="accountInfo">
-                <TotalOrders/>
-            </div>
+        <div className="accountInfo">
+            <TotalOrders/>
         </div>
     );
 };

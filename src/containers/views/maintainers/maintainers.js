@@ -7,7 +7,7 @@ import MaintainerList from "./maintainerList";
 const Maintainers = () => {
     const {t} = useTranslation();
     return (
-        <div className="content-section">
+        <div>
             <Sidebar/>
             <div className="accountInfo">
                 <div className="row">

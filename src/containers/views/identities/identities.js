@@ -18,26 +18,22 @@ const Identities = () => {
     // };
 
     return (
-        <div className="content-section">
-            <div className="accountInfo">
-                <IdentityList/>
-            </div>
-            <div>
-                {externalComponent === 'Nub' ?
-                    <Nub setExternalComponent={setExternalComponent}/> :
-                    null
-                }
-                {externalComponent === 'DefineIdentity' ?
-                    <Define setExternalComponent={setExternalComponent} ActionName={identitiesDefine}
-                        FormName={'Define Identity'}/> :
-                    null
-                }
-                {externalComponent === 'IssueIdentity' ?
+        <div className="accountInfo">
+            <IdentityList/>
+            {externalComponent === 'Nub' ?
+                <Nub setExternalComponent={setExternalComponent}/> :
+                null
+            }
+            {externalComponent === 'DefineIdentity' ?
+                <Define setExternalComponent={setExternalComponent} ActionName={identitiesDefine}
+                    FormName={'Define Identity'}/> :
+                null
+            }
+            {externalComponent === 'IssueIdentity' ?
 
-                    <IssueIdentity setExternalComponent={setExternalComponent}/> :
-                    null
-                }
-            </div>
+                <IssueIdentity setExternalComponent={setExternalComponent}/> :
+                null
+            }
         </div>
     );
 };

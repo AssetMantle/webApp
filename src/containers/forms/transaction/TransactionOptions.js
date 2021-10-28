@@ -13,6 +13,12 @@ const TransactionOptions = (props) => {
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
+        if(props.TransactionName !== "assetMint"){
+            props.setShow(true);
+            if(props.TransactionName === "nubid"){
+                props.setLoader(false);
+            }
+        }
     };
 
     const handleRoute = (route) => {

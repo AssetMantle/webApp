@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Modal, Form, Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import {useTranslation} from "react-i18next";
@@ -64,7 +64,14 @@ const PrivateKeyTransaction = (props) => {
     //         });
     //     }
     // };
-
+    useEffect(()=>{
+        const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
+        if (encryptedMnemonic !== null) {
+            setImportMnemonic(false);
+        } else {
+            setImportMnemonic(true);
+        }
+    },[]);
     const handleSubmit = async e => {
         e.preventDefault();
         setLoader(true);
@@ -156,7 +163,10 @@ const PrivateKeyTransaction = (props) => {
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
-        history.push('/');
+        props.handleClose();
+        if (props.TransactionName === "nubid") {
+            history.push('/');
+        }
     };
     const backHandler = () => {
         if (props.TransactionName === "nubid") {

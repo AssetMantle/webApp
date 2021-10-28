@@ -106,7 +106,10 @@ const KeplrTransaction = (props) => {
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
-        history.push('/');
+        props.handleClose();
+        if (props.TransactionName === "nubid") {
+            history.push('/');
+        }
     };
     return (
         <div className="custom-modal seed">

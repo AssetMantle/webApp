@@ -104,7 +104,7 @@ const AllIdentityList = React.memo((props) => {
     };
 
     return (
-        <div className="content-section">
+        <div>
             {userToken ?
                 <Sidebar/>
                 : ""}

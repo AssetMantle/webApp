@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {queryMeta} from "persistencejs/build/transaction/meta/query";
 import {useTranslation} from "react-i18next";
-import Sidebar from "../../../components/sidebar/sidebar";
 import {useHistory} from "react-router-dom";
 import {Summary} from "../../../components/summary";
 import Icon from "../../../icons";
@@ -73,12 +72,11 @@ const IdentityView = React.memo((props) => {
         });
     };
     return (
-        <div className="content-section">
+        <div>
             {loader ?
                 <Loader/>
                 : ""
             }
-            <Sidebar/>
             <div className="accountInfo">
                 <div className="row">
 

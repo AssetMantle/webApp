@@ -132,154 +132,162 @@ const OrderView = (props) => {
     }
     console.log(window.location.href, "window.location.href");
     return (
-        <div className="content-section">
-            <div className="page-body asset-view-body">
-                <div className="container">
-                    <div className="accountInfo">
-                        <div className="row">
-                            {/*<div className="dropdown-section">*/}
-                            {/*    <p className="back-arrow" onClick={() => history.push(props.location.state.currentPath)}>*/}
-                            {/*        <Icon viewClass="arrow-icon" icon="arrow"/> Back</p>*/}
-                            {/*    {props.location.state.currentPath !== "/marketplace" ?*/}
-                            {/*        <Dropdown>*/}
-                            {/*            <Dropdown.Toggle id="dropdown-basic">*/}
-                            {/*                {t("ACTIONS")}*/}
-                            {/*            </Dropdown.Toggle>*/}
-                            {/*            <Dropdown.Menu>*/}
-                            {/*                <Dropdown.Item*/}
-                            {/*                    onClick={() => handleModalData("DefineOrder")}>{t("DEFINE_ORDER")}</Dropdown.Item>*/}
-                            {/*            </Dropdown.Menu>*/}
-                            {/*        </Dropdown>*/}
-                            {/*        : ""*/}
-                            {/*    }*/}
+        <div className="page-body asset-view-body">
+            <div className="container">
+                <div className="accountInfo">
+                    <div className="row">
+                        {/*<div className="dropdown-section">*/}
+                        {/*    <p className="back-arrow" onClick={() => history.push(props.location.state.currentPath)}>*/}
+                        {/*        <Icon viewClass="arrow-icon" icon="arrow"/> Back</p>*/}
+                        {/*    {props.location.state.currentPath !== "/marketplace" ?*/}
+                        {/*        <Dropdown>*/}
+                        {/*            <Dropdown.Toggle id="dropdown-basic">*/}
+                        {/*                {t("ACTIONS")}*/}
+                        {/*            </Dropdown.Toggle>*/}
+                        {/*            <Dropdown.Menu>*/}
+                        {/*                <Dropdown.Item*/}
+                        {/*                    onClick={() => handleModalData("DefineOrder")}>{t("DEFINE_ORDER")}</Dropdown.Item>*/}
+                        {/*            </Dropdown.Menu>*/}
+                        {/*        </Dropdown>*/}
+                        {/*        : ""*/}
+                        {/*    }*/}
 
-                            {/*</div>*/}
+                        {/*</div>*/}
 
 
-                            <div className="list-container view-container">
-                                <div className="row card-deck">
-                                    <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                        <div className="image-section">
-                                            {ImageData}
-                                        </div>
-                                        <div className="share-container">
-                                            <div className="share-button-group">
-                                                <OverlayTrigger
-                                                    key="top"
-                                                    placement="top"
-                                                    overlay={
-                                                        <Tooltip id={`tooltip-top}`}>
-                                                            <span>Share on twitter</span>
-                                                        </Tooltip>
-                                                    }
+                        <div className="list-container view-container">
+                            <div className="row card-deck">
+                                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                    <div className="image-section">
+                                        {ImageData}
+                                    </div>
+                                    <div className="share-container">
+                                        <div className="share-button-group">
+                                            <OverlayTrigger
+                                                key="top"
+                                                placement="top"
+                                                overlay={
+                                                    <Tooltip id={`tooltip-top}`}>
+                                                        <span>Share on twitter</span>
+                                                    </Tooltip>
+                                                }
+                                            >
+                                                <TwitterShareButton
+                                                    title={"Check out this cool NFT I found on Asset Mantle"}
+                                                    url={window.location.href}
+                                                    via={"AssetMantle"}
+                                                    hashtags={["NFT,AssetMantle,XPRT"]}
+                                                    className="share-button"
                                                 >
-                                                    <TwitterShareButton
-                                                        title={"Check out this cool NFT I found on Asset Mantle"}
-                                                        url={window.location.href}
-                                                        via={"AssetMantle"}
-                                                        hashtags={["NFT,AssetMantle,XPRT"]}
-                                                        className="share-button"
-                                                    >
+                                                    <Icon
+                                                        viewClass="arrow-right"
+                                                        icon="twitter"/>
+                                                </TwitterShareButton>
+                                            </OverlayTrigger>
+                                            <Copy
+                                                id={orderId} name="share"/>
+
+                                        </div>
+                                    </div>
+                                    <Accordion className="details-accordion">
+                                        <Card>
+                                            <Accordion.Toggle as={Card.Header} onClick={accordionHandler} eventKey="0">
+                                                <div className="accordion-header">
+                                                    <p className="sub-title">Details</p>
+                                                    {isAccordionOpen ?
                                                         <Icon
                                                             viewClass="arrow-right"
-                                                            icon="twitter"/>
-                                                    </TwitterShareButton>
-                                                </OverlayTrigger>
-                                                <Copy
-                                                    id={orderId} name="share"/>
-
-                                            </div>
-                                        </div>
-                                        <Accordion className="details-accordion">
-                                            <Card>
-                                                <Accordion.Toggle as={Card.Header} onClick={accordionHandler} eventKey="0">
-                                                    <div className="accordion-header">
-                                                        <p className="sub-title">Details</p>
-                                                        {isAccordionOpen ?
-                                                            <Icon
-                                                                viewClass="arrow-right"
-                                                                icon="up-arrow"/>
-                                                            :
-                                                            <Icon
-                                                                viewClass="arrow-right"
-                                                                icon="down-arrow"/>}
-                                                    </div>
-                                                </Accordion.Toggle>
-                                                <Accordion.Collapse eventKey="0">
-                                                    <Card.Body>
-                                                        <div className="list-item">
-                                                            <p className="list-item-label">{t("ORDER_ID")}</p>
-                                                            <div className="list-item-value id-section">
-                                                                <div className="flex">
-                                                                    <Copy
-                                                                        id={orderId}/>
-                                                                </div>
+                                                            icon="up-arrow"/>
+                                                        :
+                                                        <Icon
+                                                            viewClass="arrow-right"
+                                                            icon="down-arrow"/>}
+                                                </div>
+                                            </Accordion.Toggle>
+                                            <Accordion.Collapse eventKey="0">
+                                                <Card.Body>
+                                                    <div className="list-item">
+                                                        <p className="list-item-label">{t("ORDER_ID")}</p>
+                                                        <div className="list-item-value id-section">
+                                                            <div className="flex">
                                                                 <Copy
                                                                     id={orderId}/>
                                                             </div>
-
+                                                            <Copy
+                                                                id={orderId}/>
                                                         </div>
 
+                                                    </div>
 
-                                                        <div className="list-item">
-                                                            <p className="list-item-label">Owner ID</p>
-                                                            <div className="list-item-value id-section">
-                                                                <div className="flex">
-                                                                    <Copy
-                                                                        id={orderData.makerOwnableID}/>
-                                                                </div>
-
+                                                    <div className="list-item">
+                                                        <p className="list-item-label">Creator ID</p>
+                                                        <div className="list-item-value id-section">
+                                                            <div className="flex">
+                                                                <Copy
+                                                                    id={orderData.makerID}/>
                                                             </div>
-                                                        </div>
-                                                    </Card.Body>
-                                                </Accordion.Collapse>
-                                            </Card>
-                                        </Accordion>
 
-                                    </div>
-                                    <div
-                                        className="col-xl-6 col-lg-6 col-md-12 col-sm-12 asset-data">
-                                        {assetCategory}
-                                        {assetName}
-                                        {assetDescription}
-                                        {/*{props.location.state.currentPath === "/marketplace" ?*/}
-                                        {localStorage.getItem('userName') !== null ?
-                                            <Button variant="primary" size="sm" className="action-button"
-                                                onClick={() => handleModalData("TakeOrder", orderId)}>{t("TAKE")}</Button>
-                                            : ""
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="list-item">
+                                                        <p className="list-item-label">Owner ID</p>
+                                                        <div className="list-item-value id-section">
+                                                            <div className="flex">
+                                                                <Copy
+                                                                    id={orderData.makerOwnableID}/>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </Card.Body>
+                                            </Accordion.Collapse>
+                                        </Card>
+                                    </Accordion>
+
+                                </div>
+                                <div
+                                    className="col-xl-6 col-lg-6 col-md-12 col-sm-12 asset-data">
+                                    {assetCategory}
+                                    {assetName}
+                                    {assetDescription}
+                                    {/*{props.location.state.currentPath === "/marketplace" ?*/}
+                                    {localStorage.getItem('userName') !== null ?
+                                        <Button variant="primary" size="sm" className="action-button"
+                                            onClick={() => handleModalData("TakeOrder", orderId)}>{t("TAKE")}</Button>
+                                        : ""
                                         // :   localStorage.getItem('userName') !== null ?
                                         //     <Button variant="primary" size="sm" className="action-button"
                                         //         onClick={() => handleModalData("CancelOrder", "" , order)}>{t("CANCEL")}</Button>
                                         //     : ""
-                                        }
-                                        <div className="properties-container">
-                                            <div className="header">
-                                                <p className="sub-title">Properties</p>
-                                            </div>
-                                            <div className="body">
-                                                {PropertyObject}
-                                            </div>
+                                    }
+                                    <div className="properties-container">
+                                        <div className="header">
+                                            <p className="sub-title">Properties</p>
+                                        </div>
+                                        <div className="body">
+                                            {PropertyObject}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        {externalComponent === 'TakeOrder' ?
-                            <TakeOrder setExternalComponent={setExternalComponent} id={orderId} FormName={'Take Order'}/> :
-                            null
-                        }
-                        {externalComponent === 'CancelOrder' ?
-                            <CancelOrder setExternalComponent={setExternalComponent} order={order}/> :
-                            null
-                        }
-                        {externalComponent === 'DefineOrder' ?
-                            <Define setExternalComponent={setExternalComponent} ActionName={ordersDefine}
-                                FormName={'Define Order'}/> :
-                            null
-                        }
-                    </div>
+                </div>
+                <div>
+                    {externalComponent === 'TakeOrder' ?
+                        <TakeOrder setExternalComponent={setExternalComponent} id={orderId} FormName={'Take Order'}/> :
+                        null
+                    }
+                    {externalComponent === 'CancelOrder' ?
+                        <CancelOrder setExternalComponent={setExternalComponent} order={order}/> :
+                        null
+                    }
+                    {externalComponent === 'DefineOrder' ?
+                        <Define setExternalComponent={setExternalComponent} ActionName={ordersDefine}
+                            FormName={'Define Order'}/> :
+                        null
+                    }
                 </div>
             </div>
         </div>
