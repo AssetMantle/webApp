@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
-// import { HomePage } from './components';
 import HeaderAfterLogin from './components/Headers/HeaderAfterLogin';
 import HeaderBeforeLogin from './components/Headers/HeaderBeforeLogin';
 import offline from './assets/images/offline.svg';
-// import { MarketPlace} from './containers/views';
 import { useTranslation } from 'react-i18next';
 import './assets/css/styles.css';
 import './assets/css/mediaqueries.css';
@@ -13,16 +11,19 @@ import * as assets from "./store/actions/assets";
 import * as orders from "./store/actions/orders";
 import * as identities from "./store/actions/identities";
 import * as maintainers from "./store/actions/maintainers";
+import * as wrappedCoins from "./store/actions/wrappedCoins";
 import {useDispatch} from "react-redux";
 import PrivateRoute from "./containers/PrivateRoute";
 import "react-image-lightbox/style.css";
 import routes from "./routes";
 import RouteNotFound from "./components/RouteNotFound";
 import Footer from "./components/Footer";
+import * as faucet from "./store/actions/faucet";
 
 const App = () => {
     const { t } = useTranslation();
     const userTypeToken = localStorage.getItem('userName');
+    const userAddress = localStorage.getItem('userAddress');
     const identityID = localStorage.getItem('identityId');
     const [isOnline, setNetwork] = useState(window.navigator.onLine);
     const updateNetwork = () => {
@@ -37,6 +38,8 @@ const App = () => {
                 dispatch(orders.fetchOrders(identityID)),
                 dispatch(identities.fetchIdentities(identityID)),
                 dispatch(maintainers.fetchMaintainers(identityID)),
+                dispatch(faucet.fetchFaucet(userAddress)),
+                dispatch(wrappedCoins.fetchWrappedCoins(identityID))
             ]);
         };
         fetchOrder();

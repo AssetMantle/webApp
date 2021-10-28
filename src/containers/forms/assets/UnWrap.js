@@ -3,7 +3,7 @@ import {Form, Button, Modal} from 'react-bootstrap';
 import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
 import TransactionOptions from "../login/TransactionOptions";
-
+import config from "../../../config";
 const UnWrap = (props) => {
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false);
@@ -66,13 +66,14 @@ const UnWrap = (props) => {
                             />
                         </Form.Group>
 
-                        <Form.Group>
+                        <Form.Group className="hidden">
                             <Form.Label>{t('OWNABLE_ID')}* </Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
                                 name="OwnableId"
                                 required={true}
+                                defaultValue={config.coinDenom}
                                 placeholder="Ownable Id"
                             />
                         </Form.Group>
