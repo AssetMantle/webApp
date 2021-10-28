@@ -239,7 +239,7 @@ const CommonKeystore = (props) => {
 
         let loginAddress;
         if(props.TransactionName === "nubid"){
-            let ledgerResponse = await fetchAddress(process.env.PREFIX, 0, 0);
+            let ledgerResponse = await fetchAddress("mantle", 0, 0);
             loginAddress = ledgerResponse;
         }else {
             loginAddress = localStorage.getItem('userAddress');

@@ -101,7 +101,7 @@ async function TransactionWithMnemonic(msgs, fee, memo, mnemonic, type) {
         const [wallet, address] = await MnemonicWalletWithPassphrase(mnemonic,'');
         return await Transaction(wallet, address, msgs, fee, memo);
     }else {
-        const [wallet, address] = await LedgerWallet(makeHdPath(accountNumber , addressIndex), "cosmos");
+        const [wallet, address] = await LedgerWallet(makeHdPath(accountNumber , addressIndex), "mantle");
         return await Transaction(wallet, address, msgs, fee, memo);
     }
 }

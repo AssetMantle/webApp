@@ -52,7 +52,7 @@ const LedgerTransaction = (props) => {
             let loginAddress;
             try {
                 if (props.TransactionName === "nubid") {
-                    let ledgerResponse = await fetchAddress("cosmos", 0, 0);
+                    let ledgerResponse = await fetchAddress("mantle", 0, 0);
                     loginAddress = ledgerResponse;
                 } else {
                     loginAddress = localStorage.getItem('userAddress');
