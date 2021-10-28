@@ -57,6 +57,7 @@ let en = {
         "TALER_OWNABLE_SPIT": "Taker Ownable Split",
         "MAKER_SPLIT": "Maker Split",
         "EXPIRES_IN": "Expires In",
+        "EXCHANGERATE":"ExchangeRate",
         "TAKER_OWNABLE_AMOUNT": "Taker Ownable Amount",
         "IDENTITY": "Identitiy",
         "ASSET": "Asset",

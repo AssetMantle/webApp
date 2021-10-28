@@ -4,6 +4,8 @@ import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
 import TransactionOptions from "../login/TransactionOptions";
 import base64url from "base64url";
+var bigdecimal = require("bigdecimal");
+var bigDecimal = require('js-big-decimal');
 const MakeOrder = (props) => {
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
@@ -17,6 +19,16 @@ const MakeOrder = (props) => {
         props.setExternalComponent("");
     };
 
+    const handleChangeExchangeRate = (evt) => {
+        let inputValue = new bigdecimal.BigDecimal(evt.target.value);
+        // let smallestNumber = new bigdecimal.BigDecimal(0.000000000000000001);
+        let biggestNumber = new bigdecimal.BigDecimal(1000000000000000000);
+        // console.log("d * x = " + inputValue.divide(smallestNumber));
+        let newValue = inputValue.multiply(biggestNumber);
+        const value = bigDecimal.round(newValue, 18);
+        document.getElementById("exchangeRateSplit").value = value;
+        document.getElementById("exchangeRateSplit").innerHTML=value;
+    };
 
     const handleFormSubmit = (event) => {
         setLoader(false);
@@ -26,7 +38,7 @@ const MakeOrder = (props) => {
         const TakerOwnableId = event.target.TakerOwnableId.value;
         const Makersplit = event.target.Makersplit.value;
         const ExpiresIn = event.target.expiresInD.value;
-        const price = event.target.price.value;
+        const price = document.getElementById('exchangeRateSplit').value;
         let mutableValues = "";
         let immutableValues = "";
         let mutableMetaValues = "";
@@ -100,7 +112,7 @@ const MakeOrder = (props) => {
                                 name="FromId"
                                 required={true}
                                 placeholder={t("FROM_ID")}
-                                value={props.ownerId}
+                                defaultValue={props.ownerId}
                                 readOnly
                             />
                         </Form.Group>
@@ -112,7 +124,7 @@ const MakeOrder = (props) => {
                                 className=""
                                 name="TakerOwnableId"
                                 required={true}
-                                value="umantle"
+                                defaultValue="umantle"
                                 placeholder={t("TAKER_OWNABLE_SPLIT")}
                             />
                         </Form.Group>
@@ -123,7 +135,7 @@ const MakeOrder = (props) => {
                                 className=""
                                 name="Makersplit"
                                 required={true}
-                                value="0.000000000000000001"
+                                defaultValue="0.000000000000000001"
                                 placeholder={t("MAKER_SPLIT")}
                             />
                         </Form.Group>
@@ -133,7 +145,7 @@ const MakeOrder = (props) => {
                                 type="text"
                                 className=""
                                 name="expiresInD"
-                                value="100000000"
+                                defaultValue="100000000"
                                 required={true}
                                 placeholder={t("EXPIRES_IN")}
                             />
@@ -146,8 +158,13 @@ const MakeOrder = (props) => {
                                 className=""
                                 name="price"
                                 required={true}
+                                onChange={handleChangeExchangeRate}
                                 placeholder={t("Price")}
                             />
+                            <Form.Text id="exchangeRateSplit"
+                                className="text-muted hidden">
+
+                            </Form.Text>
                         </Form.Group>
 
                         {/*{errorMessage !== "" ?*/}
