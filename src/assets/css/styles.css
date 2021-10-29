@@ -115,6 +115,14 @@ html, body, #root, .app {
 }
 .navbar-dark .navbar-nav .dropdown-toggle .profile-icon {
   display: flex;
+  align-items: center;
+}
+.navbar-dark .navbar-nav .dropdown-toggle .profile-icon .custom-icon {
+  margin-right: 3px;
+}
+.navbar-dark .navbar-nav .dropdown-toggle .profile-icon .custom-icon .icon {
+  width: 10px;
+  height: 10px;
 }
 .navbar-dark .navbar-nav .dropdown-toggle .profile-icon p {
   margin: 0;
@@ -850,6 +858,7 @@ html, body, #root, .app {
 .list-item {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   margin-bottom: 5px;
 }
 .list-item .list-item-label {
@@ -894,8 +903,12 @@ html, body, #root, .app {
   line-height: 21px;
   margin-bottom: 15px;
 }
+.profile-section .copy-section p {
+  font-size: 14px;
+  font-weight: 300;
+}
 .profile-section .list-item .list-item-label {
-  width: 200px;
+  width: 200px !important;
 }
 .profile-section .list-item .list-item-value {
   text-align: left;
@@ -1150,6 +1163,10 @@ html, body, #root, .app {
 .profile-dropdown-menu .icon-section .custom-icon {
   margin-right: 10px;
 }
+.profile-dropdown-menu .icon-section .custom-icon .icon {
+  width: 14px;
+  height: 14px;
+}
 .profile-dropdown-menu .address-list {
   max-height: 300px;
   overflow-y: auto;
@@ -1220,12 +1237,23 @@ html, body, #root, .app {
   width: 100%;
 }
 
+.profile-data-item.button-item {
+  display: flex;
+  align-items: center;
+}
+.profile-data-item.button-item p {
+  margin: 0;
+}
+.profile-data-item.button-item button {
+  margin: 0 5px;
+}
+
 .profile-data-item {
   text-overflow: ellipsis;
 }
 .profile-data-item .id-string {
   width: 280px;
-  margin-bottom: 8px;
+  margin-bottom: 0px;
 }
 
 .profile-data .copy-section {

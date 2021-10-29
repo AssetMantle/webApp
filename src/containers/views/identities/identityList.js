@@ -63,9 +63,11 @@ const IdentityList = () => {
                             </div>
                             {faucetData.length ?
                                 <div className="list-item">
-                                    <p className="list-item-label">{t("Amount")}:</p>
-                                    <div className="list-item-value profile-data-item">
-                                        <p className="id-string"> {faucetData[0].amount}{faucetData[0].denom}</p>
+                                    <p className="list-item-label">{t("BALANCE")}:</p>
+                                    <div className="list-item-value profile-data-item button-item">
+                                        <p className=""> {faucetData[0].amount}{faucetData[0].denom}</p>
+                                        <Button variant="primary" size="sm"
+                                            onClick={() => handleModalData("Wrap")}>{t("WRAP")}</Button>
                                     </div>
                                 </div>
                                 :""
@@ -77,9 +79,10 @@ const IdentityList = () => {
                             {/*    </div>*/}
                             {/*</div>*/}
                             <div className="list-item">
-                                <p className="list-item-label">{t("AVAILABLE_WRAPPED_AMOUNT")}:</p>
-                                <div className="list-item-value profile-data-item">
-                                    <p className="id-string"> {(wrappedCoins*1).toFixed(3)}</p>
+                                <p className="list-item-label">{t("WRAPPED_BALANCE")}:</p>
+                                <div className="list-item-value profile-data-item button-item">
+                                    <p className=""> {(wrappedCoins*1).toFixed(3)}</p>
+                                    <Button variant="primary" size="sm" onClick={() => handleModalData("UnWrap")}>{t("UN_WRAP")}</Button>
                                 </div>
                             </div>
                             <div className="address-container">
@@ -108,10 +111,8 @@ const IdentityList = () => {
                                     onClick={() => handleModalData("UnProvision", identityId, identityList[0].provisionedAddressList)}>{t("UN_PROVISION")}</Button>
                             </div>
                             <div className="property-actions">
-                                <Button variant="primary" size="sm"
-                                    onClick={() => handleModalData("Wrap")}>{t("WRAP")}</Button>
-                                <Button variant="primary" size="sm"
-                                    onClick={() => handleModalData("UnWrap")}>{t("UN_WRAP")}</Button>
+
+
                             </div>
                         </div>
                     </div>

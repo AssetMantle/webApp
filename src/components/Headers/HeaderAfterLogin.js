@@ -111,11 +111,11 @@ const HeaderAfterLogin = () => {
             role="button" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">
             <div className="profile-icon">
+                <Icon
+                    viewClass="add-user"
+                    icon="user"/>
                 <p className="address">{userTypeToken}</p>
-                {/*<img className="thumbnail-image"*/}
-                {/*    src={profileIcon}*/}
-                {/*    alt="user pic"*/}
-                {/*/>*/}
+
 
             </div>
         </div>
@@ -125,8 +125,8 @@ const HeaderAfterLogin = () => {
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="login-after container-fluid">
                 <Navbar.Brand><Nav.Link onClick={handleRoute("/marketplace")} className="header-logo">
                 </Nav.Link></Navbar.Brand>
-                <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
-                <Navbar.Collapse id="responsive-navbar-nav">
+                <Navbar.Toggle aria-controls="responsive-navbar-nav-login"/>
+                <Navbar.Collapse id="responsive-navbar-nav-login">
                     <Nav className="search-section ml-auto">
                         {
                             userTypeToken == null ?
@@ -155,9 +155,9 @@ const HeaderAfterLogin = () => {
                                     {/*<li className="nav-item">*/}
                                     {/*    <NavLink className="nav-link" to="/maintainers">{t("MAINTAINERS")}</NavLink>*/}
                                     {/*</li>*/}
-                                    <li className="nav-item">
-                                        <NavLink className="nav-link" to="/profile">{t("PROFILE")}</NavLink>
-                                    </li>
+                                    {/*<li className="nav-item">*/}
+                                    {/*    <NavLink className="nav-link" to="/profile">{t("PROFILE")}</NavLink>*/}
+                                    {/*</li>*/}
                                     <li className="profile-section">
                                         <NavDropdown title={dropdownTitle} id="basic-nav-dropdown" className="profile-dropdown">
                                             <div className="profile-dropdown-menu"
@@ -212,6 +212,13 @@ const HeaderAfterLogin = () => {
                                                         <Icon
                                                             viewClass="add-user"
                                                             icon="add-user"/>{t("ADD_USER")}
+                                                    </div>
+                                                </p>
+                                                <p onClick={handleRoute("/profile")} className="add-id">
+                                                    <div className="icon-section">
+                                                        <Icon
+                                                            viewClass="add-user"
+                                                            icon="user"/>{t("PROFILE")}
                                                     </div>
                                                 </p>
                                                 <p onClick={logout} className="logout">

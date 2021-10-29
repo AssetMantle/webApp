@@ -3,7 +3,7 @@ import {Form, Button, Modal} from 'react-bootstrap';
 import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
 import TransactionOptions from "../login/TransactionOptions";
-
+import config from "../../../config";
 
 const Wrap = (props) => {
     const {t} = useTranslation();
@@ -68,13 +68,14 @@ const Wrap = (props) => {
                             />
                         </Form.Group>
 
-                        <Form.Group>
+                        <Form.Group className="hidden">
                             <Form.Label>{t('COIN_DENOM')}* </Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
                                 name="CoinDenom"
                                 required={true}
+                                defaultValue={config.coinDenom}
                                 placeholder="Coin Denom"
                             />
                         </Form.Group>

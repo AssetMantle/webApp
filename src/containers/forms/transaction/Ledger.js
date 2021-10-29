@@ -76,7 +76,7 @@ const LedgerTransaction = (props) => {
                             const identityID = await getIdentityId(hashGenerate);
                             let totalData = {
                                 fromID: identityID,
-                                CoinAmountDenom: '5' + config.coinDenom,
+                                CoinAmountDenom: '5000000' + config.coinDenom,
                             };
 
                             let queryResponse = queries.transactionDefinition(loginAddress, "", "ledger", 'wrap', totalData);
