@@ -12,7 +12,7 @@ import logo from "../../../assets/images/logo.svg";
 import loaderImage from "../../../assets/images/loader.svg";
 import {OverlayTrigger, Popover} from "react-bootstrap";
 // import helper from "../../../utilities/helper";
-const MintAsset = (props) => {
+const MintAsset = () => {
     const PropertyHelper = new GetProperty();
     const {t} = useTranslation();
     // const [show, setShow] = useState(true);
@@ -65,7 +65,7 @@ const MintAsset = (props) => {
     // };
     const handleClose = () => {
         // setShow(false);
-        props.setExternalComponent('');
+        setExternalComponent('');
     };
 
     const handleChangeType = evt => {
@@ -148,7 +148,7 @@ const MintAsset = (props) => {
         let mutableMetaValues = '';
         let immutableMetaValues = '';
 
-        mutableValues = `burn:H|,lock:H|`;
+        mutableValues = `burn:H|1,lock:H|1`;
 
         mutableMetaValues = staticMutables;
 

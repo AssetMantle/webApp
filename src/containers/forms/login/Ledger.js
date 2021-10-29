@@ -22,7 +22,7 @@ const Ledger = (props) => {
         props.setExternalComponent('');
     };
     useEffect(() => {
-        let ledgerResponse = fetchAddress("cosmos");
+        let ledgerResponse = fetchAddress("mantle");
         ledgerResponse.then(function (result) {
             setLedgerAddress(result);
         }).catch(err => {
@@ -47,7 +47,7 @@ const Ledger = (props) => {
                 addressIndex = 0;
             }
         }
-        let ledgerResponse = fetchAddress("cosmos", accountNumber, addressIndex);
+        let ledgerResponse = fetchAddress("mantle", accountNumber, addressIndex);
         ledgerResponse.then(function (result) {
             setLedgerAddress(result);
             setAddressUpdate(true);

@@ -57,6 +57,7 @@ let en = {
         "TALER_OWNABLE_SPIT": "Taker Ownable Split",
         "MAKER_SPLIT": "Maker Split",
         "EXPIRES_IN": "Expires In",
+        "EXCHANGERATE":"ExchangeRate",
         "TAKER_OWNABLE_AMOUNT": "Taker Ownable Amount",
         "IDENTITY": "Identitiy",
         "ASSET": "Asset",
@@ -154,7 +155,9 @@ let en = {
         "ADDRESS":"Address",
         "ADD_USER":"Add User",
         "KEYSTORE_LOGIN":"Keystore Login",
-        "CREATE_NFT":"Create NFT"
+        "CREATE_NFT":"Create NFT",
+        "WRAPPED_BALANCE":"Wrapped Balance",
+        "BALANCE":"Balance"
 
     }
 };

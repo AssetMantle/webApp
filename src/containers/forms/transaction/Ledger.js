@@ -52,7 +52,7 @@ const LedgerTransaction = (props) => {
             let loginAddress;
             try {
                 if (props.TransactionName === "nubid") {
-                    let ledgerResponse = await fetchAddress("cosmos", 0, 0);
+                    let ledgerResponse = await fetchAddress("mantle", 0, 0);
                     loginAddress = ledgerResponse;
                 } else {
                     loginAddress = localStorage.getItem('userAddress');
@@ -76,7 +76,7 @@ const LedgerTransaction = (props) => {
                             const identityID = await getIdentityId(hashGenerate);
                             let totalData = {
                                 fromID: identityID,
-                                CoinAmountDenom: '5' + config.coinDenom,
+                                CoinAmountDenom: '5000000' + config.coinDenom,
                             };
 
                             let queryResponse = queries.transactionDefinition(loginAddress, "", "ledger", 'wrap', totalData);
@@ -108,7 +108,10 @@ const LedgerTransaction = (props) => {
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
-        history.push('/');
+        props.handleClose();
+        if (props.TransactionName === "nubid") {
+            history.push('/');
+        }
     };
 
     return (

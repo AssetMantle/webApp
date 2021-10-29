@@ -125,6 +125,11 @@
     -ms-transition: all 0.3s ease-out;
     -o-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
+    padding-bottom: 15px;
+  }
+
+  .navbar-dark .navbar-nav .nav-link {
+    display: inline-flex;
   }
 
   .navbar-dark .navbar-brand a img {
@@ -159,6 +164,10 @@
     width: 100%;
   }
 
+  .body-section {
+    padding-top: 60px;
+  }
+
   .login-before .navbar {
     padding-right: 15px;
     padding-left: 15px;
@@ -182,6 +191,19 @@
   }
   .content-section .accountInfo .row .summary-section {
     height: auto;
+  }
+
+  .mint-page-body {
+    flex-wrap: wrap;
+  }
+  .mint-page-body .custom-file-upload-box .custom-file-upload label {
+    width: 100%;
+  }
+  .mint-page-body .left-content {
+    width: 100%;
+  }
+  .mint-page-body .right-content {
+    margin: 0;
   }
 }
 @media (min-width: 992px) and (max-width: 1080px) {

@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import {Dropdown} from "react-bootstrap";
 import {defineOrder} from "persistencejs/build/transaction/orders/define";
 import {useTranslation} from "react-i18next";
-import Sidebar from "../../../components/sidebar/sidebar";
 import OrderList from "./orderList";
 import {Summary} from "../../../components/summary";
 import DefineOrder from "../../forms/orders/DefineOrder";
@@ -18,33 +17,29 @@ const Orders = () => {
     };
 
     return (
-        <div className="content-section">
-            <Sidebar/>
-            <div className="accountInfo">
-                <div className="row">
-                    <div className="col-md-9 card-deck">
-                        <div className="dropdown-section">
-                            <h4>Orders</h4>
-                            <Dropdown>
-                                <Dropdown.Toggle  id="dropdown-basic">
-                                    {t("ACTIONS")}
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    <Dropdown.Item
-                                        onClick={() => handleModalData("DefineOrder")}>{t("DEFINE_ORDER")}</Dropdown.Item>
-                                    <Dropdown.Item
-                                        onClick={() => handleModalData("DefineOrder1")}>{t("DEFINE_ORDER1")}</Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
-                        </div>
-                        <OrderList/>
+        <div className="accountInfo">
+            <div className="row">
+                <div className="col-md-9 card-deck">
+                    <div className="dropdown-section">
+                        <h4>Orders</h4>
+                        <Dropdown>
+                            <Dropdown.Toggle  id="dropdown-basic">
+                                {t("ACTIONS")}
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item
+                                    onClick={() => handleModalData("DefineOrder")}>{t("DEFINE_ORDER")}</Dropdown.Item>
+                                <Dropdown.Item
+                                    onClick={() => handleModalData("DefineOrder1")}>{t("DEFINE_ORDER1")}</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </div>
-                    <div className="col-md-3 summary-section">
-                        <Summary/>
-                    </div>
+                    <OrderList/>
+                </div>
+                <div className="col-md-3 summary-section">
+                    <Summary/>
                 </div>
             </div>
-
             {externalComponent === 'DefineOrder' ?
                 <DefineOrder setExternalComponent={setExternalComponent} ActionName={ordersDefine}
                     FormName={'Define Order'}/> :

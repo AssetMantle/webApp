@@ -42,7 +42,7 @@ async function KeplerWallet() {
                         coinDecimals: 6,
                         // (Optional) Keplr can show the fiat value of the coin if a coingecko id is provided.
                         // You can get id from https://api.coingecko.com/api/v3/coins/list if it is listed.
-                        coinGeckoId: "persistence"
+                        // coinGeckoId: "persistence"
                     },
                     // (Optional) If you have a wallet webpage used to stake the coin then provide the url to the website in `walletUrlForStaking`.
                     // The 'stake' button in Keplr extension will link to the webpage.
@@ -51,7 +51,7 @@ async function KeplerWallet() {
                     bip44: {
                         // You can only set the coin type of BIP44.
                         // 'Purpose' is fixed to 44.
-                        coinType: 118,
+                        coinType: 750,
                     },
                     // Bech32 configuration to show the address to user.
                     // This field is the interface of
@@ -81,7 +81,7 @@ async function KeplerWallet() {
                         coinDecimals: 6,
                         // (Optional) Keplr can show the fiat value of the coin if a coingecko id is provided.
                         // You can get id from https://api.coingecko.com/api/v3/coins/list if it is listed.
-                        coinGeckoId: "persistence"
+                        // coinGeckoId: "persistence"
                     }],
                     // List of coin/tokens used as a fee token in this chain.
                     feeCurrencies: [{
@@ -93,14 +93,14 @@ async function KeplerWallet() {
                         coinDecimals: 6,
                         // (Optional) Keplr can show the fiat value of the coin if a coingecko id is provided.
                         // You can get id from https://api.coingecko.com/api/v3/coins/list if it is listed.
-                        coinGeckoId: "persistence"
+                        // coinGeckoId: "persistence"
                     }],
                     // (Optional) The number of the coin type.
                     // This field is only used to fetch the address from ENS.
                     // Ideally, it is recommended to be the same with BIP44 path's coin type.
                     // However, some early chains may choose to use the Cosmos Hub BIP44 path of '118'.
                     // So, this is separated to support such chains.
-                    coinType: 118,
+                    coinType: 750,
                     // (Optional) This is used to set the fee of the transaction.
                     // If this field is not provided, Keplr extension will set the default gas price as (low: 0.01, average: 0.025, high: 0.04).
                     // Currently, Keplr doesn't support dynamic calculation of the gas prices based on on-chain data.

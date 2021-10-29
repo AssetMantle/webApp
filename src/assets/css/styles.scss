@@ -24,9 +24,21 @@ html, body, #root, .app {
 .navbar-dark.login-after{
   padding: 0 10%;
 }
+.dark-mode .navbar .header-logo {
+  background: url(../images/logo.svg) no-repeat;
+}
+
+.light-mode .navbar .header-logo {
+  background: url(../images/logo_dark.svg) no-repeat;
+}
+
 .navbar-dark {
   background: none !important;
   padding: 0;
+
+
+
+
   .navbar-nav .nav-link {
     white-space: nowrap;
     padding: 0 1.3rem !important;
@@ -61,14 +73,14 @@ html, body, #root, .app {
   }
 
   .navbar-brand {
-    padding: 0 0 10px 0;
-
     a {
       text-decoration: underline;
       font-weight: bold;
       padding: 0;
       font-size: 24px;
-
+      width: 140px;
+      height: 35px;
+      display: block;
       img {
         width: 160px;
       }
@@ -120,7 +132,14 @@ html, body, #root, .app {
     .dropdown-toggle {
       .profile-icon {
         display: flex;
-
+        align-items: center;
+        .custom-icon{
+          margin-right: 3px;
+          .icon{
+            width: 10px;
+            height: 10px;
+          }
+        }
         p {
           margin: 0;
         }
@@ -951,6 +970,7 @@ html, body, #root, .app {
 .list-item{
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   margin-bottom: 5px;
   .list-item-label{
     width: 150px;
@@ -994,9 +1014,13 @@ html, body, #root, .app {
       margin-bottom: 15px;
     }
   }
+  .copy-section p{
+    font-size: 14px;
+    font-weight: 300;
+  }
   .list-item{
     .list-item-label{
-      width: 200px;
+      width: 200px !important;
     }
     .list-item-value{
       text-align: left;
@@ -1250,6 +1274,10 @@ html, body, #root, .app {
     align-items: center;
     .custom-icon{
       margin-right: 10px;
+      .icon{
+        width: 14px;
+        height: 14px;
+      }
     }
   }
   .address-list{
@@ -1326,7 +1354,16 @@ html, body, #root, .app {
 .form-group{
   width: 100%;
 }
-
+.profile-data-item.button-item{
+  display: flex;
+  align-items: center;
+  p{
+    margin: 0;
+  }
+  button{
+    margin: 0 5px;
+  }
+}
 .profile-data-item{
     //display: flex;
   //    //flex-direction: row-reverse;
@@ -1336,7 +1373,7 @@ html, body, #root, .app {
     text-overflow: ellipsis;
   .id-string{
     width: 280px;
-    margin-bottom: 8px;
+    margin-bottom: 0px;
   }
 
 }

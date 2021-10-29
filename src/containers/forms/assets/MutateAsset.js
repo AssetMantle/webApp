@@ -40,12 +40,6 @@ const MutateAsset = (props) => {
         event.preventDefault();
         const FromId = event.target.FromId.value;
         const assetId = props.asset.ownableID;
-        // const assetList = asset.value.mutables.value.properties.value.propertyList;
-        // let assetDataTypeList = {};
-        // assetList.forEach(function(item) {
-        //     assetDataTypeList[item.value.id.value.idString] = item.value.fact.value.type;
-        // });
-       
         let mutableValues = '';
         let mutableMetaValues = '';
         let mutableProperties = [];
@@ -166,7 +160,7 @@ const MutateAsset = (props) => {
                         {props.mutatePropertiesList ?
                             Object.keys(props.mutatePropertiesList).map((keyName, idx) => {
                                 console.log(idx, "idx");
-                                if (keyName !== "propertyName") {
+                                if (keyName !== "propertyName" && keyName !== "lock" &&keyName !== "burn") {
                                     return (
                                         <div key={idx}>
                                             <Form.Group>
