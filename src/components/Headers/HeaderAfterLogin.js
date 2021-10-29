@@ -167,18 +167,18 @@ const HeaderAfterLogin = () => {
                                                         userList.map((id, index) => {
                                                             if(localStorage.getItem('userName') === id){
                                                                 return(
-                                                                    <div key={index} className="address-item active">
+                                                                    <div key={index} className="address-item active" onClick={handleRoute("/profile")}>
                                                                         <div className="icon-section">
                                                                             <Icon
                                                                                 viewClass="user"
                                                                                 icon="user"/>
-                                                                            <p className="address" title={id} onClick={()=>changeIdentityHandler(id)}>{id}</p>
+                                                                            <p className="address" >{id}</p>
                                                                         </div>
-                                                                        <span className="cross-icon" onClick={()=> removeIdentityHandler(id)}>
-                                                                            <Icon
-                                                                                viewClass="cross"
-                                                                                icon="cross"/>
-                                                                        </span>
+                                                                        {/*<span className="cross-icon" onClick={()=> removeIdentityHandler(id)}>*/}
+                                                                        {/*    <Icon*/}
+                                                                        {/*        viewClass="cross"*/}
+                                                                        {/*        icon="cross"/>*/}
+                                                                        {/*</span>*/}
 
                                                                     </div>
                                                                 );
@@ -214,13 +214,13 @@ const HeaderAfterLogin = () => {
                                                             icon="add-user"/>{t("ADD_USER")}
                                                     </div>
                                                 </p>
-                                                <p onClick={handleRoute("/profile")} className="add-id">
-                                                    <div className="icon-section">
-                                                        <Icon
-                                                            viewClass="add-user"
-                                                            icon="user"/>{t("PROFILE")}
-                                                    </div>
-                                                </p>
+                                                {/*<p  className="add-id">*/}
+                                                {/*    <div className="icon-section">*/}
+                                                {/*        <Icon*/}
+                                                {/*            viewClass="add-user"*/}
+                                                {/*            icon="user"/>{t("PROFILE")}*/}
+                                                {/*    </div>*/}
+                                                {/*</p>*/}
                                                 <p onClick={logout} className="logout">
                                                     <div className="icon-section">
                                                         <Icon
