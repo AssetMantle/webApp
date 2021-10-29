@@ -78,13 +78,13 @@ const UnWrap = (props) => {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>{t('SPLIT')}* </Form.Label>
+                            <Form.Label>{t('AMOUNT')}* </Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
                                 name="Split"
                                 required={true}
-                                placeholder="Split"
+                                placeholder="Amount"
                             />
                         </Form.Group>
 

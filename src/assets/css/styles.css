@@ -1174,6 +1174,7 @@ html, body, #root, .app {
 .profile-dropdown-menu .address-list .address-item.active {
   background-color: #6c757d;
   color: #efcb30;
+  cursor: pointer;
 }
 .profile-dropdown-menu .address-list .address-item {
   padding: 10px 25px;
