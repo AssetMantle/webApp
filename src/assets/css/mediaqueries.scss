@@ -78,6 +78,15 @@
             transform: rotate(180deg);
         }
     }
+    .footer .bottom-section{
+        display: block !important;
+        .blogs{
+            justify-content: center;
+        }
+        .bottom-right-section{
+            justify-content: center;
+        }
+    }
 }
 @media (max-width: 1400px){
     .banner-image-section imge{
