@@ -394,7 +394,11 @@ html, body, #root, .app {
     margin: 15px 0;
   }
   p{
-    color: #808080;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.75px;
+    color: #FFFFFF;
   }
   .social-links-section {
     display: -webkit-flex;
@@ -418,11 +422,11 @@ html, body, #root, .app {
         -webkit-align-items: center;
         align-items: center;
         border-radius: 50%;
-        background: #363b46;
+        background: #FFFFFF;
 
         .icon {
           width: 12px;
-          fill: #fff;
+          fill: #000;
         }
       }
     }
@@ -431,9 +435,11 @@ html, body, #root, .app {
   .bottom-section{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     .blogs{
       display: flex;
-      p{
+      a{
+        color: #FFFFFF;
         margin: 0 5px;
       }
     }
@@ -442,6 +448,7 @@ html, body, #root, .app {
     }
   }
 }
+
 
 .submitButtonSection {
   margin-top: 20px;
