@@ -14,6 +14,7 @@ const CreateIdentity = () => {
     const [externalComponent, setExternalComponent] = useState('');
     const [loader, setLoader] = useState(false);
     const [show, setShow] = useState(true);
+    const [userName, setUserName] = useState("");
     const [errorMessage, setErrorMessage] = useState(false);
     const {t} = useTranslation();
     const history = useHistory();
@@ -25,6 +26,7 @@ const CreateIdentity = () => {
         event.preventDefault();
         setErrorMessage(false);
         const IdentityName = event.target.userName.value;
+        setUserName(IdentityName);
         const identities = identitiesQuery.queryIdentityWithID("all");
         if (identities) {
             identities.then(async function (item) {
@@ -137,6 +139,7 @@ const CreateIdentity = () => {
                             TransactionName={'nubid'}
                             setShow={setShow}
                             setLoader={setLoader}
+                            userName={userName}
                             handleClose={handleClose}
                         /> :
                         null

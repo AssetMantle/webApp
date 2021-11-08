@@ -116,7 +116,7 @@ const KeysCreate = (props) => {
                         <Button
                             variant="primary"
                             className="button-signup-mnemonic button-signup"
-                            onClick={() => handleEncrypt('SignUp with PrivateKey')}
+                            onClick={() => handleEncrypt('Create Keys')}
                         >
                             Create Keys
                         </Button>

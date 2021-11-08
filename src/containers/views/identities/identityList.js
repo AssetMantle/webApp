@@ -7,6 +7,7 @@ import {useSelector} from "react-redux";
 import {Button} from "react-bootstrap";
 import {Provision, UnProvision} from "../../forms/identities";
 import {UnWrap, Wrap} from "../../forms/assets";
+import config from "../../../config";
 
 const IdentityList = () => {
     const {t} = useTranslation();
@@ -19,7 +20,7 @@ const IdentityList = () => {
     const loader = useSelector((state) => state.identities.loading);
     const faucetData = useSelector((state) => state.faucet.faucetData);
     const wrappedCoins = useSelector((state) => state.wrappedCoins.wrappedCoins);
-    console.log(wrappedCoins, faucetData);
+    console.log(wrappedCoins, faucetData, "in profile");
     // const dispatch = useDispatch();
     // useEffect(()=> {
     //     const fetchData = async () => {
@@ -81,7 +82,7 @@ const IdentityList = () => {
                             <div className="list-item">
                                 <p className="list-item-label">{t("WRAPPED_BALANCE")}:</p>
                                 <div className="list-item-value profile-data-item button-item">
-                                    <p className=""> {(wrappedCoins*1).toFixed(3)}</p>
+                                    <p className=""> {(wrappedCoins*1).toFixed(3)}{config.coinDenom}</p>
                                     <Button variant="primary" size="sm" onClick={() => handleModalData("UnWrap")}>{t("UN_WRAP")}</Button>
                                 </div>
                             </div>

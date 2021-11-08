@@ -42,13 +42,16 @@ export const fetchMarketPlace = () => {
                 let ordersListNew = [];
                 for (const order of ordersDataList) {
                     // let immutableProperties = "";
-                    // let mutableProperties = "";
+                    let mutableProperties = "";
                     // if (order.value.immutables.value.properties.value.propertyList !== null) {
                     //     immutableProperties = await GetProperties.ParseProperties(order.value.immutables.value.properties.value.propertyList);
                     // }
-                    // if (order.value.mutables.value.properties.value.propertyList !== null) {
-                    //     mutableProperties = await GetProperties.ParseProperties(order.value.mutables.value.properties.value.propertyList);
-                    // }
+                    if (order.value.mutables.value.properties.value.propertyList !== null) {
+                        mutableProperties = await GetProperties.ParseProperties(order.value.mutables.value.properties.value.propertyList);
+                    }
+                    const exChangeRate = mutableProperties[0]['exchangeRate'];
+                    console.log(exChangeRate, mutableProperties , "market");
+
                     let orderIdData = await GetID.GetOrderID(order);
                     let classificationID = await GetID.GetClassificationID(order);
                     let makerOwnableID = await GetID.GetMakerOwnableID(order);
