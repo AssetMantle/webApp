@@ -290,7 +290,7 @@ const MintAsset = () => {
                                         icon="info"/></button>
                                 </OverlayTrigger></Form.Label>
                             <Form.Text className="text-muted">
-                           File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3. Max size: 100 MB
+                           File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3. Max size: 30 MB
                             </Form.Text>
                             <Form.Group className="custom-file-upload">
                                 <Form.File

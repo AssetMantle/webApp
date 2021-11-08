@@ -144,7 +144,7 @@ const TransactionOptions = (props) => {
             }
             {
                 externalComponent === 'create' ?
-                    <KeysCreate setExternalComponent={setExternalComponent} setShow={setShow}/> :
+                    <KeysCreate setExternalComponent={setExternalComponent} setShow={setShow}  totalDefineObject={props.totalDefineObject}/> :
                     null
             }
         </div>

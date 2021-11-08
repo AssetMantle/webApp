@@ -6,7 +6,7 @@ import GetID from "../../utilities/GetID";
 const ordersQuery = new queryOrders(process.env.REACT_APP_ASSET_MANTLE_API);
 export const SET_MARKET_ORDERS = "SET_MARKET_ORDERS";
 const assetsQuery = new queryAssets(process.env.REACT_APP_ASSET_MANTLE_API);
-async function fetchAssetDetails(makerID) {
+export async function fetchAssetDetails(makerID) {
     const filterAssetList = await assetsQuery.queryAssetWithID(makerID);
     const parsedAsset = JSON.parse(filterAssetList);
     if (parsedAsset.result.value.assets.value.list !== null) {
@@ -42,13 +42,16 @@ export const fetchMarketPlace = () => {
                 let ordersListNew = [];
                 for (const order of ordersDataList) {
                     // let immutableProperties = "";
-                    // let mutableProperties = "";
+                    let mutableProperties = "";
                     // if (order.value.immutables.value.properties.value.propertyList !== null) {
                     //     immutableProperties = await GetProperties.ParseProperties(order.value.immutables.value.properties.value.propertyList);
                     // }
-                    // if (order.value.mutables.value.properties.value.propertyList !== null) {
-                    //     mutableProperties = await GetProperties.ParseProperties(order.value.mutables.value.properties.value.propertyList);
-                    // }
+                    if (order.value.mutables.value.properties.value.propertyList !== null) {
+                        mutableProperties = await GetProperties.ParseProperties(order.value.mutables.value.properties.value.propertyList);
+                    }
+                    const exChangeRate = mutableProperties[0]['exchangeRate'];
+                    console.log(exChangeRate, helper.getExchangeRate(exChangeRate) , "market");
+
                     let orderIdData = await GetID.GetOrderID(order);
                     let classificationID = await GetID.GetClassificationID(order);
                     let makerOwnableID = await GetID.GetMakerOwnableID(order);
@@ -64,6 +67,7 @@ export const fetchMarketPlace = () => {
                         'makerOwnableID':makerOwnableID,
                         'takerOwnableID':takerOwnableID,
                         'makerID':makerID,
+                        'exChangeRate':helper.getExchangeRate(exChangeRate),
                         'immutableProperties':assetData.immutableProperties,
                         'mutableProperties':assetData.mutableProperties
                     });

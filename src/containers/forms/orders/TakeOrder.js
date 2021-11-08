@@ -72,6 +72,8 @@ const TakeOrder = (props) => {
                                 className=""
                                 name="ownableAmount"
                                 required={true}
+                                disabled={true}
+                                defaultValue={props.exChangeRate}
                                 placeholder={t("TAKER_OWNABLE_AMOUNT")}
                             />
                         </Form.Group>

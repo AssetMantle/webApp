@@ -79,7 +79,7 @@ const TotalOrders = React.memo(() => {
                                                             }
 
                                                             {
-                                                                key === "name" || key === "category" ?
+                                                                key === "name" ?
                                                                     <div className="list-item"><p
                                                                         className="list-item-label">{key} </p> <p
                                                                         className="list-item-value">{base64url.decode(order['totalData'][key])}</p>
@@ -90,6 +90,14 @@ const TotalOrders = React.memo(() => {
 
                                                     );
                                                 })
+                                            }
+                                            {
+                                                order['exChangeRate'] ?
+                                                    <div className="list-item"><p
+                                                        className="list-item-label">Price </p> <p
+                                                        className="list-item-value">{order['exChangeRate']}</p>
+                                                    </div>
+                                                    : ""
                                             }
                                             <Button variant="primary" className="viewButton" size="sm"
                                                 onClick={() => handleAsset(order['encodedOrderID'],order['orderID'], order)}>View</Button>

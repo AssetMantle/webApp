@@ -4,6 +4,8 @@ import base64url from "base64url";
 import sha1 from "crypto-js/sha1";
 import Base64 from "crypto-js/enc-base64";
 const pinataSDK= require('@pinata/sdk');
+const bigdecimal = require("bigdecimal");
+const bigDecimal = require('js-big-decimal');
 
 const pinata = pinataSDK(
     'a021b51c3eee8d65e427','b7422d9d3a4d275bbb43ea05599f706883e5163277124bb6e9c9b86b0dd0a4e2'
@@ -96,6 +98,13 @@ function getBase64Hash(fileData) {
     return finalHash;
 }
 
+function getExchangeRate(value) {
+    let inputValue = new bigdecimal.BigDecimal(value);
+    let smallestNumber = new bigdecimal.BigDecimal(0.000000000000000001);
+    let newValue = inputValue.multiply(smallestNumber).toPlainString();
+    return bigDecimal.round(newValue, 2);
+}
+
 export default {
     SortObjectData,
     IpfsPath,
@@ -103,5 +112,6 @@ export default {
     pinataFile,
     stringFilter,
     getUrlEncode,
-    getBase64Hash
+    getBase64Hash,
+    getExchangeRate
 };

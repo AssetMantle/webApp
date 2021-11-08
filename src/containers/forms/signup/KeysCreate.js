@@ -13,6 +13,7 @@ import ImportKeys from './ImportKeys';
 import transactions from "../../../utilities/Helpers/transactions";
 
 const KeysCreate = (props) => {
+    console.log(props, "raju vemula");
     const [loader, setLoader] = useState(false);
     // const userAddress = localStorage.getItem('address');
     const {t} = useTranslation();
@@ -116,7 +117,7 @@ const KeysCreate = (props) => {
                         <Button
                             variant="primary"
                             className="button-signup-mnemonic button-signup"
-                            onClick={() => handleEncrypt('SignUp with PrivateKey')}
+                            onClick={() => handleEncrypt('Create Keys')}
                         >
                             Create Keys
                         </Button>
@@ -186,7 +187,7 @@ const KeysCreate = (props) => {
                             <p className="key-download">
                                 <DownloadLink
                                     label="Download Key File for future use"
-                                    filename="key.json"
+                                    filename={`${props.totalDefineObject.nubId}.json`}
                                     exportFile={() => `${jsonName}`}
                                 />
                                 <Icon viewClass="arrow-icon" icon="arrow"/>

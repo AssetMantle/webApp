@@ -1,8 +1,9 @@
 import GetProperties from "../../utilities/GetProperties";
-import helper from "../../utilities/helper";
 import {queryOrders} from "persistencejs/build/transaction/orders/query";
 import GetID from "../../utilities/GetID";
 import FilterData from "../../utilities/FilterData";
+import {fetchAssetDetails} from "./marketPlace";
+import helper from "../../utilities/helper";
 const ordersQuery = new queryOrders(process.env.REACT_APP_ASSET_MANTLE_API);
 export const SET_USER_ORDERS = "SET_USER_ORDERS";
 
@@ -17,29 +18,33 @@ export const fetchOrders = (identityId) => {
                 if (filterOrdersByIdentities.length) {
                     let ordersListNew = [];
                     for (const order of filterOrdersByIdentities) {
-                        let immutableProperties = "";
+                        // let immutableProperties = "";
                         let mutableProperties = "";
-                        if (order.value.immutables.value.properties.value.propertyList !== null) {
-                            immutableProperties = await GetProperties.ParseProperties(order.value.immutables.value.properties.value.propertyList);
-                        }
+                        // if (order.value.immutables.value.properties.value.propertyList !== null) {
+                        //     immutableProperties = await GetProperties.ParseProperties(order.value.immutables.value.properties.value.propertyList);
+                        // }
                         if (order.value.mutables.value.properties.value.propertyList !== null) {
                             mutableProperties = await GetProperties.ParseProperties(order.value.mutables.value.properties.value.propertyList);
                         }
                         let orderIdData = await GetID.GetOrderID(order);
+                        const exChangeRate = mutableProperties[0]['exchangeRate'];
                         let classificationID = await GetID.GetClassificationID(order);
                         let makerOwnableID = await GetID.GetMakerOwnableID(order);
+                        const assetData = await fetchAssetDetails(makerOwnableID);
                         let takerOwnableID = await GetID.GetTakerOwnableID(order);
                         let makerID = await GetID.GetMakerID(order);
-                        const totalData = {...immutableProperties[0], ...mutableProperties[0]};
-                        const objSorted = helper.SortObjectData(totalData);
-                        ordersListNew.push({'totalData': objSorted,
+                        // const totalData = {...immutableProperties[0], ...mutableProperties[0]};
+                        // const objSorted = helper.SortObjectData(totalData);
+                        ordersListNew.push({'totalData':  assetData.totalData,
                             'orderID':orderIdData,
                             'classificationID':classificationID,
+                            'encodedOrderID':helper.getBase64Hash(orderIdData),
                             'makerOwnableID':makerOwnableID,
                             'takerOwnableID':takerOwnableID,
                             'makerID':makerID,
-                            'immutableProperties':immutableProperties[0],
-                            'mutableProperties':mutableProperties[0]
+                            'immutableProperties':assetData.immutableProperties,
+                            'mutableProperties':assetData.mutableProperties,
+                            'exChangeRate':helper.getExchangeRate(exChangeRate),
                         });
                     }
 
