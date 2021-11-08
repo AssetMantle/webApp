@@ -1265,6 +1265,7 @@ html, body, #root, .app {
 
 .profile-data .copy-section {
   align-items: flex-start;
+  display: block;
 }
 
 .asset-view-modal-viewer model-viewer {
@@ -1477,6 +1478,12 @@ model-viewer {
   margin-bottom: 5px;
 }
 
+.asset-price {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
 .properties-container {
   border-radius: 10px;
   border-right: 1px solid #e5e8eb;
@@ -1596,6 +1603,22 @@ model-viewer {
 .text-link {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.accountInfo .assets-tab.nav-tabs {
+  margin: 15px 0;
+  border: 0px solid;
+}
+.accountInfo .assets-tab.nav-tabs .nav-link {
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+.accountInfo .tab-content {
+  padding: 0 !important;
+}
+
+.form-control:disabled, .form-control[readonly] {
+  cursor: not-allowed;
 }
 
 /*# sourceMappingURL=styles.css.map */

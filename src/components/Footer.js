@@ -26,6 +26,9 @@ const Footer = () => {
                         <a href="https://notes.persistence.one/s/Jufq_ChF-" target="_blank" rel="noopener noreferrer" className="blog">
                             Docs
                         </a>
+                        <a href="https://explorer.demo.assetmantle.one/" target="_blank" rel="noopener noreferrer" className="blog">
+                            Explorer
+                        </a>
                     </div>
                     <div className="top-section">
                         <div className="logo">

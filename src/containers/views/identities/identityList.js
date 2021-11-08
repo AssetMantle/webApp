@@ -53,13 +53,16 @@ const IdentityList = () => {
                             </div>
                             <div className="list-item profile-data">
                                 <p className="list-item-label">{t("IDENTITY_ID")}:</p>
-                                <Copy
-                                    id={identityId}/>
+                                <div className="list-item-value profile-data-item">
+                                    <Copy
+                                        id={identityId}/>
+                                </div>
                             </div>
                             <div className="list-item">
                                 <p className="list-item-label">{t("ADDRESS")}:</p>
                                 <div className="list-item-value profile-data-item">
-                                    <p className="id-string"> {userAddress}</p>
+                                    <Copy
+                                        id={userAddress}/>
                                 </div>
                             </div>
                             {faucetData.length ?

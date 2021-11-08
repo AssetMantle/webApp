@@ -228,6 +228,10 @@ export const GlobalStyles = createGlobalStyle`
    .view-container .asset-description{
     color:${({theme}) => theme.textContentColor};
   }
+  .view-container .asset-price{
+    color:${({theme}) => theme.textContentColor};
+  }
+  
   .properties-container{
     background: ${({theme}) => theme.signupBackground};
     border-right: 1px solid ${({theme}) => theme.modalHeaderBorderColor};
@@ -248,6 +252,18 @@ export const GlobalStyles = createGlobalStyle`
   }
   .preview-content{
    color:${({theme}) => theme.textContentColor};
+  }
+  .accountInfo .assets-tab.nav-tabs .nav-link{
+     color:${({theme}) => theme.tabItemColor};
+     background: ${({theme}) => theme.tabItemBackground};
+  }
+  .accountInfo .assets-tab.nav-tabs .nav-link.nav-link.active{
+    color:${({theme}) => theme.tabItemActiveColor};
+     background: ${({theme}) => theme.tabItemActiveBackground};
+  }
+  .form-control:disabled, .form-control[readonly]{
+    color:${({theme}) => theme.disabledInputColor} !important;
+     background: ${({theme}) => theme.disabledInputBg} !important;
   }
 `;
 

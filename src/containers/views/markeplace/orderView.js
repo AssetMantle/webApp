@@ -251,6 +251,7 @@ const OrderView = (props) => {
                                     {assetCategory}
                                     {assetName}
                                     {assetDescription}
+                                    <p className="asset-price">{orderData.exChangeRate} umantle</p>
                                     {/*{props.location.state.currentPath === "/marketplace" ?*/}
                                     {localStorage.getItem('userName') !== null ?
                                         <Button variant="primary" size="sm" className="action-button"
@@ -276,7 +277,7 @@ const OrderView = (props) => {
                 </div>
                 <div>
                     {externalComponent === 'TakeOrder' ?
-                        <TakeOrder setExternalComponent={setExternalComponent} id={orderId} FormName={'Take Order'}/> :
+                        <TakeOrder setExternalComponent={setExternalComponent} exChangeRate={orderData.exChangeRate} id={orderId} FormName={'Take Order'}/> :
                         null
                     }
                     {externalComponent === 'CancelOrder' ?

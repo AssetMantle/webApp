@@ -13,7 +13,6 @@ const PrivateKey = (props) => {
     const [errorMessage, setErrorMessage] = useState(false);
     const [loader, setLoader] = useState(false);
     const [idErrorMessage, setIdErrorMessage] = useState("");
-    console.log(props.userData, props.userData.userName, "ss");
     const keyStoreSubmitHandler = async (e) =>{
         e.preventDefault();
         const userName = props.userData.userName;
@@ -40,7 +39,7 @@ const PrivateKey = (props) => {
             list = JSON.parse(userList);
         }
         if (addressList.includes(wallet[1])) {
-            idList.push({[userName]:  localStorage.getItem("identityId")});
+            idList.push({[userName]:  props.userData.identityId});
             setErrorMessage(false);
             setLoader(false);
             list.push(userName);

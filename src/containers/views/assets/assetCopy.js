@@ -4,9 +4,8 @@ import { Wrap, UnWrap, DefineAsset} from "../../forms/assets";
 import {defineAsset} from "persistencejs/build/transaction/assets/define";
 // import {useTranslation} from "react-i18next";
 import AssetList from "./assetList";
-// import {Tab, Tabs} from "react-bootstrap";
-// // import {useHistory} from "react-router-dom";
-// import OrderList from "../orders/orderList";
+// import {useHistory} from "react-router-dom";
+
 const assetDefine = new defineAsset(process.env.REACT_APP_ASSET_MANTLE_API);
 const Assets = () => {
     // const history = useHistory();
@@ -23,7 +22,7 @@ const Assets = () => {
 
     };
     return (
-        <div className="accountInfo container">
+        <div className="accountInfo">
             {/*<p onClick={() => handleModalData("DefineAsset")}>DEFINE_ASSET</p>*/}
             {/*<div className="row">*/}
             {/*    <div className="col-md-9 card-deck">*/}
@@ -48,27 +47,13 @@ const Assets = () => {
 
             {/*        <AssetList hanldeRoute={()=>hanldeRoute()}/>*/}
             {/*    </div>*/}
-            <AssetList hanldeRoute={()=>hanldeRoute()}/>
+
             {/*</div>*/}
-            {/*<Tabs defaultActiveKey="Listings"*/}
-            {/*    id="uncontrolled-tab-example"*/}
-            {/*    className="assets-tab">*/}
-            {/*    <Tab eventKey="Listings" title="Listings">*/}
-            {/*        <AssetList hanldeRoute={()=>hanldeRoute()}/>*/}
-
-            {/*    </Tab>*/}
-            {/*    <Tab eventKey="Collections"*/}
-            {/*        title="Collections">*/}
-            {/*        <OrderList hanldeRoute={()=>hanldeRoute()}/>*/}
-            {/*    </Tab>*/}
-
-            {/*</Tabs>*/}
-            
-            
+            <AssetList hanldeRoute={()=>hanldeRoute()}/>
             <div>
                 {externalComponent === 'DefineAsset' ?
                     <DefineAsset setExternalComponent={setExternalComponent} ActionName={assetDefine}
-                        FormName={'Define Asset'} type={'asset'}/> :
+                                 FormName={'Define Asset'} type={'asset'}/> :
                     null
                 }
                 {/*{*/}
