@@ -23,6 +23,8 @@ jobs:
         run: >
           git config --global url."https://github.com/".insteadOf
           ssh://git@github.com/
+      - name: Install development headers
+        run: sudo apt-get update -qq && sudo apt-get install libudev-dev -y
       - name: Install dependencies
         run: npm ci
       - name: Build react project
