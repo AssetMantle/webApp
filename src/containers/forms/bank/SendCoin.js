@@ -1,8 +1,9 @@
 import React, {useState} from "react";
-import {Modal, Form, Button} from "react-bootstrap";
+import {Button, Form, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import TransactionOptions from "../login/TransactionOptions";
 import Loader from "../../../components/loader";
+
 const SendCoin = (props) => {
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
@@ -20,9 +21,9 @@ const SendCoin = (props) => {
         const denom = event.target.denom.value;
         const amountData = event.target.amount.value;
         let totalData = {
-            amountData:amountData,
-            denom:denom,
-            toAddress:toAddress
+            amountData: amountData,
+            denom: denom,
+            toAddress: toAddress
         };
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');
@@ -38,7 +39,7 @@ const SendCoin = (props) => {
                 </Modal.Header>
                 <div>
                     {loader ?
-                        <Loader />
+                        <Loader/>
                         : ""
                     }
                 </div>

@@ -1,8 +1,8 @@
-function  GetClassificationID(data) {
+function GetClassificationID(data) {
     return data.value.id.value.classificationID.value.idString;
 }
 
-function  GetIdentityID(identity) {
+function GetIdentityID(identity) {
     return identity.value.id.value.classificationID.value.idString + "|" +
         identity.value.id.value.hashID.value.idString;
 }

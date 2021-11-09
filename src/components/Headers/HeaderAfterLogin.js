@@ -1,13 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {withRouter} from "react-router-dom";
-import {useHistory} from "react-router-dom";
-import {Navbar, Nav, NavDropdown, Button} from "react-bootstrap";
+import React, {useEffect, useState} from 'react';
+import {NavLink, useHistory, withRouter} from "react-router-dom";
+import {Button, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
-import {NavLink} from 'react-router-dom';
 // import profileIcon from "../../assets/images/profile.svg";
 import Icon from '../../icons';
 import AddIdentity from '../../containers/forms/identities/AddIdentity';
 import Darktheme from "../darkmode/Darktheme";
+
 const HeaderAfterLogin = () => {
     const history = useHistory();
     const {t} = useTranslation();
@@ -21,7 +20,7 @@ const HeaderAfterLogin = () => {
         history.push(`/${route}`);
     };
 
-    const logout  = () => {
+    const logout = () => {
         localStorage.clear();
         history.push('/');
     };
@@ -40,21 +39,18 @@ const HeaderAfterLogin = () => {
         setExternalComponent('identityLogin');
     };
 
-    const removeIdentityHandler = (removeItem) =>{
-        if(userList !== null){
-            if(userList.length === 1){
+    const removeIdentityHandler = (removeItem) => {
+        if (userList !== null) {
+            if (userList.length === 1) {
                 return false;
-            }
-            else {
+            } else {
                 const result = userList.filter(id => id !== removeItem);
-                if(result.length === 1){
-                    console.log(result, "reasult");
+                if (result.length === 1) {
                     const identityList = localStorage.getItem("identityList");
                     const idList = JSON.parse(identityList);
                     for (let i = 0; i <= idList.length; i++) {
-                        for(let key in idList[i]) {
-                            if(key === result[0]){
-                                console.log(idList[i][key]);
+                        for (let key in idList[i]) {
+                            if (key === result[0]) {
                                 localStorage.setItem("identityId", idList[i][key]);
                                 localStorage.setItem("userName", result[0]);
                                 localStorage.setItem('userList', JSON.stringify(result));
@@ -71,13 +67,12 @@ const HeaderAfterLogin = () => {
     };
     useEffect(() => {
         const localTheme = window.localStorage.getItem('theme');
-        if(localTheme === 'light'){
+        if (localTheme === 'light') {
             if (document.getElementById('root').classList.contains('dark-mode')) {
                 document.getElementById('root').classList.add('light-mode');
                 document.getElementById('root').classList.remove('dark-mode');
             }
-        }
-        else{
+        } else {
             if (document.getElementById('root').classList.contains('light-mode')) {
                 document.getElementById('root').classList.add('dark-mode');
                 document.getElementById('root').classList.remove('light-mode');
@@ -85,14 +80,14 @@ const HeaderAfterLogin = () => {
         }
 
     }, []);
-    const changeIdentityHandler = (name) =>{
+    const changeIdentityHandler = (name) => {
         const identityList = localStorage.getItem("identityList");
         const idList = JSON.parse(identityList);
 
-        if(localStorage.getItem('userName') !== name) {
+        if (localStorage.getItem('userName') !== name) {
             for (let i = 0; i <= idList.length; i++) {
-                for(let key in idList[i]) {
-                    if(key === name){
+                for (let key in idList[i]) {
+                    if (key === name) {
                         localStorage.setItem("identityId", idList[i][key]);
                         localStorage.setItem("userName", name);
                         window.location.reload();
@@ -100,7 +95,7 @@ const HeaderAfterLogin = () => {
                 }
             }
 
-        }else {
+        } else {
             return false;
         }
     };
@@ -159,20 +154,22 @@ const HeaderAfterLogin = () => {
                                     {/*    <NavLink className="nav-link" to="/profile">{t("PROFILE")}</NavLink>*/}
                                     {/*</li>*/}
                                     <li className="profile-section">
-                                        <NavDropdown title={dropdownTitle} id="basic-nav-dropdown" className="profile-dropdown">
+                                        <NavDropdown title={dropdownTitle} id="basic-nav-dropdown"
+                                            className="profile-dropdown">
                                             <div className="profile-dropdown-menu"
                                                 aria-labelledby="profile-nav-dropdown">
                                                 <div className="address-list">
-                                                    { userList !== null ?
+                                                    {userList !== null ?
                                                         userList.map((id, index) => {
-                                                            if(localStorage.getItem('userName') === id){
-                                                                return(
-                                                                    <div key={index} className="address-item active" onClick={handleRoute("/profile")}>
+                                                            if (localStorage.getItem('userName') === id) {
+                                                                return (
+                                                                    <div key={index} className="address-item active"
+                                                                        onClick={handleRoute("/profile")}>
                                                                         <div className="icon-section">
                                                                             <Icon
                                                                                 viewClass="user"
                                                                                 icon="user"/>
-                                                                            <p className="address" >{id}</p>
+                                                                            <p className="address">{id}</p>
                                                                         </div>
                                                                         {/*<span className="cross-icon" onClick={()=> removeIdentityHandler(id)}>*/}
                                                                         {/*    <Icon*/}
@@ -182,17 +179,18 @@ const HeaderAfterLogin = () => {
 
                                                                     </div>
                                                                 );
-                                                            }
-                                                            else {
-                                                                return(
+                                                            } else {
+                                                                return (
                                                                     <div key={index} className="address-item">
                                                                         <div className="icon-section">
                                                                             <Icon
                                                                                 viewClass="user"
                                                                                 icon="user"/>
-                                                                            <p className="address" title={id} onClick={()=>changeIdentityHandler(id)}>{id}</p>
+                                                                            <p className="address" title={id}
+                                                                                onClick={() => changeIdentityHandler(id)}>{id}</p>
                                                                         </div>
-                                                                        <span className="cross-icon" onClick={()=> removeIdentityHandler(id)}>
+                                                                        <span className="cross-icon"
+                                                                            onClick={() => removeIdentityHandler(id)}>
                                                                             <Icon
                                                                                 viewClass="cross"
                                                                                 icon="cross"/>

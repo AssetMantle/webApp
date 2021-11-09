@@ -1,6 +1,7 @@
 import GetProperties from "../../utilities/GetProperties";
 import helper from "../../utilities/helper";
 import {queryIdentities} from "persistencejs/build/transaction/identity/query";
+
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 export const SET_IDENTITIES = "SET_IDENTITIES";
 
@@ -25,21 +26,21 @@ export const fetchIdentities = (identityId) => {
                     // let identitiesData = await GetID.GetOrderID(order);
                     const totalData = {...immutableProperties[0], ...mutableProperties[0]};
                     const objSorted = helper.SortObjectData(totalData);
-                    identitiesList.push({'totalData':objSorted,
+                    identitiesList.push({
+                        'totalData': objSorted,
                         'immutableProperties': immutableProperties[0],
                         'mutableProperties': mutableProperties[0],
-                        'provisionedAddressList':identity.value.provisionedAddressList,
-                        'unprovisionedAddressList':identity.value.unprovisionedAddressList,
+                        'provisionedAddressList': identity.value.provisionedAddressList,
+                        'unprovisionedAddressList': identity.value.unprovisionedAddressList,
                     });
                 }
                 dispatch({
                     type: SET_IDENTITIES,
                     identities: identitiesList,
-                    loading:false,
-                    data:''
+                    loading: false,
+                    data: ''
                 });
-            }
-            else {
+            } else {
                 dispatch({
                     type: SET_IDENTITIES,
                     identities: [],

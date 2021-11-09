@@ -1,17 +1,15 @@
-import {
-    SET_FAUCET_DATA,
-} from '../actions/faucet';
+import {SET_FAUCET_DATA,} from '../actions/faucet';
 
 const initialState = {
     faucetData: [],
-    error:'',
+    error: '',
 };
 
 export default (state = initialState, action) => {
     if (action.type === SET_FAUCET_DATA) {
         return {
             faucetData: action.faucetData,
-            error:action.data,
+            error: action.data,
         };
     }
     return state;

@@ -2,6 +2,7 @@ import React from 'react';
 import logo from "../assets/images/logo.svg";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import Icon from "../icons";
+
 const Footer = () => {
     const socialList = [
         {
@@ -9,9 +10,13 @@ const Footer = () => {
             iconName: 'twitter-logo',
             tooltip: 'twitter'
         }, {
-            url:  "https://medium.com/persistence-blog" ,
+            url: "https://medium.com/persistence-blog",
             iconName: 'medium',
             tooltip: 'medium'
+        }, {
+            url: "https://t.me/assetmantle",
+            iconName: 'telegram-plane',
+            tooltip: 'telegram'
         },
     ];
     return (
@@ -23,10 +28,12 @@ const Footer = () => {
                         <a href="https://persistence.one" target="_blank" rel="noopener noreferrer" className="help">
                             Company
                         </a>
-                        <a href="https://notes.persistence.one/s/Jufq_ChF-" target="_blank" rel="noopener noreferrer" className="blog">
+                        <a href="https://notes.persistence.one/s/Jufq_ChF-" target="_blank" rel="noopener noreferrer"
+                            className="blog">
                             Docs
                         </a>
-                        <a href="https://explorer.demo.assetmantle.one/" target="_blank" rel="noopener noreferrer" className="blog">
+                        <a href="https://explorer.demo.assetmantle.one/" target="_blank" rel="noopener noreferrer"
+                            className="blog">
                             Explorer
                         </a>
                     </div>
@@ -52,9 +59,9 @@ const Footer = () => {
                                                 </Tooltip>
                                             }
                                         >
-                                            <a href={item.url}  rel="noopener noreferrer"
+                                            <a href={item.url} rel="noopener noreferrer"
                                                 target="_blank"><Icon viewClass="social_icon_imgg"
-                                                    icon={item.iconName} /></a>
+                                                    icon={item.iconName}/></a>
                                         </OverlayTrigger>
                                     ))
                                 }

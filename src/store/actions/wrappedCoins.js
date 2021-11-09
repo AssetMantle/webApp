@@ -13,17 +13,16 @@ export const fetchWrappedCoins = (identityID) => {
                 let wrappedCoins = 0;
                 for (const split of dataList) {
                     let ownerId = split.value.id.value.ownerID.value.idString;
-                    if(identityID === ownerId){
+                    if (identityID === ownerId) {
                         wrappedCoins = split.value.split;
                     }
                 }
                 dispatch({
                     type: SET_WRAPPED_COINS,
                     wrappedCoins: wrappedCoins,
-                    data:''
+                    data: ''
                 });
-            }
-            else {
+            } else {
                 dispatch({
                     type: SET_WRAPPED_COINS,
                     wrappedCoins: 0,

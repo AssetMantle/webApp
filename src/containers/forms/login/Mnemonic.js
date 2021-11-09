@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Modal, Form, Button} from "react-bootstrap";
+import {Button, Form, Modal} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import {createWallet} from "persistencejs/build/utilities/keys";
 import {useTranslation} from "react-i18next";
@@ -17,8 +17,7 @@ const LoginMnemonic = React.memo((props) => {
         const error = createWallet(event.target.mnemonic.value);
         if (error.error != null) {
             setErrorMessage(error.error);
-        }
-        else {
+        } else {
             const wallet = transactions.MnemonicWalletWithPassphrase(event.target.mnemonic.value, "");
             localStorage.setItem("address", wallet[1]);
             localStorage.setItem("mnemonic", event.target.mnemonic.value);
@@ -32,7 +31,7 @@ const LoginMnemonic = React.memo((props) => {
     };
     return (
         <div>
-            <Modal show={show} onHide={handleClose}  className="mnemonic-login-section login-section" centered>
+            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section" centered>
                 <Modal.Header closeButton>
                     {t("LOGIN_FORM")}
                 </Modal.Header>
@@ -40,9 +39,9 @@ const LoginMnemonic = React.memo((props) => {
                     <div className="mrt-10">
                         <div className="button-view">
                             <div className="icon-section">
-                                <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/> </div>
+                                <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/></div>
                                 {t("LOGIN_MNEMONIC")}</div>
-                            <Icon viewClass="arrow-icon" icon="arrow" />
+                            <Icon viewClass="arrow-icon" icon="arrow"/>
                         </div>
                     </div>
                     <Form onSubmit={handleSubmit}>

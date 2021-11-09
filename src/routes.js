@@ -9,7 +9,8 @@ import {
     IdentityView,
     Maintainers,
     MarketPlace,
-    Orders, OrderView
+    Orders,
+    OrderView
 } from "./containers/views";
 import {IdentityLogin} from "./containers/forms/login";
 import KeysCreate from "./containers/forms/signup/KeysCreate";
@@ -20,10 +21,11 @@ const routes = [{
     path: '/',
     component: MarketPlace,
     private: false,
-}, {path: '/marketplace',
+}, {
+    path: '/marketplace',
     component: MarketPlace,
     private: false,
-} ,{
+}, {
     path: '/login',
     component: Login,
     private: false,
@@ -55,7 +57,7 @@ const routes = [{
     path: '/maintainers',
     component: Maintainers,
     private: true,
-},{
+}, {
     path: '/asset/view',
     component: AssetView,
     private: true,

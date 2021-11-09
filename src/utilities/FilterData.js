@@ -1,5 +1,6 @@
 import config from "../constants/config";
 import GetID from "./GetID";
+
 const request = require('request');
 
 function FilterIdentitiesByProvisionedAddress(identities, address) {

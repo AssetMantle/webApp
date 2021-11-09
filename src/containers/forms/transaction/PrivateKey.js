@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from "react";
-import {Modal, Form, Button} from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import {Button, Form, Modal} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import transactions from "../../../utilities/Helpers/transactions";
@@ -11,6 +11,7 @@ import GetMeta from "../../../utilities/Helpers/getMeta";
 import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 import ModalCommon from "../../../components/modal";
 import config from "../../../config";
+
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const PrivateKeyTransaction = (props) => {
     const {t} = useTranslation();
@@ -34,9 +35,7 @@ const PrivateKeyTransaction = (props) => {
                 if (dataList[identity].value.immutables.value.properties.value.propertyList !== null) {
                     const immutablePropertyList = dataList[identity].value.immutables.value.properties.value.propertyList[0];
                     if (immutablePropertyList.value.fact.value.hash === userIdHash) {
-                        console.log("new id",GetIDHelper.GetIdentityID(dataList[identity]) );
                         identityID = GetIDHelper.GetIdentityID(dataList[identity]);
-                        console.log(identityID, "new issssss");
                         setTestID(GetIDHelper.GetIdentityID(dataList[identity]));
                     }
                 }
@@ -45,33 +44,14 @@ const PrivateKeyTransaction = (props) => {
         return identityID;
     };
 
-    // const getIdentityId = (userIdHash) => {
-    //     const identities = identitiesQuery.queryIdentityWithID('all');
-    //     if (identities) {
-    //         identities.then(function(item) {
-    //             const data = JSON.parse(item);
-    //             const dataList = data.result.value.identities.value.list;
-    //             dataList.map((identity) => {
-    //                 if (identity.value.immutables.value.properties.value.propertyList !== null) {
-    //                     const immutablePropertyList = identity.value.immutables.value.properties.value.propertyList[0];
-    //                     if (immutablePropertyList.value.fact.value.hash === userIdHash) {
-    //                         console.log("new id",GetIDHelper.GetIdentityID(identity) );
-    //                         setTestID(GetIDHelper.GetIdentityID(identity));
-    //                     }
-    //                 }
-    //             });
-    //
-    //         });
-    //     }
-    // };
-    useEffect(()=>{
+    useEffect(() => {
         const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
         if (encryptedMnemonic !== null) {
             setImportMnemonic(false);
         } else {
             setImportMnemonic(true);
         }
-    },[]);
+    }, []);
     const handleSubmit = async e => {
         e.preventDefault();
         setLoader(true);
@@ -99,16 +79,14 @@ const PrivateKeyTransaction = (props) => {
             }
         }
         if (userMnemonic !== undefined) {
-            const wallet = await transactions.MnemonicWalletWithPassphrase(userMnemonic,'');
-            console.log(wallet, "waalet");
-            let queryResponse =  queries.transactionDefinition(wallet[1] , userMnemonic, "normal", props.TransactionName, props.totalDefineObject);
+            const wallet = await transactions.MnemonicWalletWithPassphrase(userMnemonic, '');
+            let queryResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", props.TransactionName, props.totalDefineObject);
             queryResponse.then(async function (item) {
-                if(item.code){
-                    localStorage.setItem('loginMode','normal');
-                    if(props.TransactionName === "nubid"){
+                if (item.code) {
+                    localStorage.setItem('loginMode', 'normal');
+                    if (props.TransactionName === "nubid") {
                         setErrorMessage(item.rawLog);
-                    }else
-                    {
+                    } else {
                         setErrorMessage(item.rawLog);
                     }
                     setLoader(false);
@@ -118,10 +96,9 @@ const PrivateKeyTransaction = (props) => {
                     } else {
                         setImportMnemonic(true);
                     }
-                }
-                else {
-                    localStorage.setItem('loginMode','normal');
-                    if(props.TransactionName === "nubid"){
+                } else {
+                    localStorage.setItem('loginMode', 'normal');
+                    if (props.TransactionName === "nubid") {
                         setNubID(props.totalDefineObject.nubId);
                         const hashGenerate = GetMetaHelper.Hash(props.totalDefineObject.nubId);
                         const identityID = await getIdentityId(hashGenerate);
@@ -146,7 +123,7 @@ const PrivateKeyTransaction = (props) => {
                 setErrorMessage(err.response
                     ? err.response.data.message
                     : err.message);
-                if(props.TransactionName === "nubid"){
+                if (props.TransactionName === "nubid") {
                     localStorage.clear();
                 }
                 const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
@@ -173,7 +150,7 @@ const PrivateKeyTransaction = (props) => {
             setShow(false);
             props.setShow(true);
             props.setExternalComponent('');
-        }else {
+        } else {
             setShow(false);
             props.setShow(true);
             props.setExternalComponent('');
@@ -181,7 +158,8 @@ const PrivateKeyTransaction = (props) => {
     };
     return (
         <div>
-            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select" centered>
+            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select"
+                centered>
                 <Modal.Header closeButton>
                     <div className="back-button" onClick={backHandler}>
                         <Icon viewClass="arrow-icon" icon="arrow"/>
@@ -198,7 +176,8 @@ const PrivateKeyTransaction = (props) => {
                             importMnemonic ?
                                 <>
                                     <Form.Group>
-                                        <Form.File id="exampleFormControlFile1" name="uploadFile" accept=".json" label="upload private key file" required={true} />
+                                        <Form.File id="exampleFormControlFile1" name="uploadFile" accept=".json"
+                                            label="upload private key file" required={true}/>
                                     </Form.Group>
                                     <Form.Label>{t("DECRYPT_KEY_STORE")}</Form.Label>
                                     <Form.Control

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Modal, Form, Button} from "react-bootstrap";
+import {Button, Form, Modal} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import GetID from "../../../utilities/Helpers/getID";
@@ -9,6 +9,7 @@ import Icon from "../../../icons";
 import Loader from '../../../components/loader';
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import TransactionOptions from "./TransactionOptions";
+
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const IdentityLogin = (props) => {
@@ -41,16 +42,16 @@ const IdentityLogin = (props) => {
 
                     if (dataList[i].value.immutables.value.properties.value.propertyList !== null) {
                         const immutablePropertyList = dataList[i].value.immutables.value.properties.value.propertyList[0];
-                        
+
                         if (immutablePropertyList.value.fact.value.hash === hashGenerate) {
                             const identityId = GetIDHelper.GetIdentityID(dataList[i]);
 
-                            if(dataList[i].value.provisionedAddressList){
-                               
+                            if (dataList[i].value.provisionedAddressList) {
+
                                 let addresses = dataList[i].value.provisionedAddressList;
                                 const userData = {
-                                    'userName' : IdentityName,
-                                    'identityId':identityId
+                                    'userName': IdentityName,
+                                    'identityId': identityId
                                 };
                                 setUserData(userData);
                                 localStorage.setItem('addresses', JSON.stringify(addresses));
@@ -61,11 +62,11 @@ const IdentityLogin = (props) => {
                             count = 0;
                             break;
                         } else {
-                            count ++;
+                            count++;
                         }
                     }
                 }
-                if(count !== 0){
+                if (count !== 0) {
                     setLoader(false);
                     setErrorMessage(true);
                 }
@@ -90,7 +91,7 @@ const IdentityLogin = (props) => {
     };
     return (
         <div>
-            <Modal show={show} onHide={handleClose}  className="mnemonic-login-section login-section" centered>
+            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section" centered>
                 <Modal.Header closeButton>
                     {props.pageName === "LoginAction" ?
                         <div className="back-button" onClick={() => backHandler('identityLogin')}>
@@ -109,9 +110,9 @@ const IdentityLogin = (props) => {
                         <div className="mrt-10">
                             <div className="button-view">
                                 <div className="icon-section">
-                                    <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/> </div>
-                                    {t("LOGIN_WITH_USER_NAME")}</div>
-                                <Icon viewClass="arrow-icon" icon="arrow" />
+                                    <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/></div>
+                                    {t("USER_NAME")}</div>
+                                <Icon viewClass="arrow-icon" icon="arrow"/>
                             </div>
                         </div>
                         <Form onSubmit={handleSubmit}>
@@ -137,7 +138,7 @@ const IdentityLogin = (props) => {
                             </div>
                         </Form>
                     </>
-                     
+
                 </Modal.Body>
             </Modal>
             {

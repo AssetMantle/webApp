@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Form, Button, Modal} from "react-bootstrap";
+import {Button, Form, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
 import GetProperty from "../../../utilities/Helpers/getProperty";
@@ -18,7 +18,7 @@ const Reveal = (props) => {
     };
     const handleChangeMutable = (evt) => {
         const newValue = evt.target.value;
-        const selectValue = document.getElementById("RevealMutableType" ).value;
+        const selectValue = document.getElementById("RevealMutableType").value;
         const checkError = PropertyHelper.DataTypeValidation(selectValue, newValue);
         PropertyHelper.showHideDataTypeError(checkError, 'RevealError');
     };
@@ -33,7 +33,7 @@ const Reveal = (props) => {
         const metaFact = dataTypeOption + MutableDataName;
 
         let totalData = {
-            metaFact:metaFact,
+            metaFact: metaFact,
         };
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');
@@ -50,7 +50,7 @@ const Reveal = (props) => {
                 </Modal.Header>
                 <div>
                     {loader ?
-                        <Loader />
+                        <Loader/>
                         : ""
                     }
                 </div>

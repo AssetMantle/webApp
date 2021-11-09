@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
+import React, {useState} from "react";
+import {Modal} from "react-bootstrap";
+import {useTranslation} from "react-i18next";
 import Icon from "../../../icons";
-import { Ledger, PrivateKey, Keplr} from "./index";
+import {Keplr, Ledger, PrivateKey} from "./index";
 
 const TransactionOptions = (props) => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const [show, setShow] = useState(true);
     const [externalComponent, setExternalComponent] = useState("");
 
@@ -13,9 +13,9 @@ const TransactionOptions = (props) => {
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
-        if(props.TransactionName !== "assetMint"){
+        if (props.TransactionName !== "assetMint") {
             props.setShow(true);
-            if(props.TransactionName === "nubid"){
+            if (props.TransactionName === "nubid") {
                 props.setLoader(false);
             }
         }
@@ -34,7 +34,8 @@ const TransactionOptions = (props) => {
 
     return (
         <div>
-            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select" centered>
+            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select"
+                centered>
                 <Modal.Header closeButton>
                     <div className="back-button" onClick={backHandler}>
                         <Icon viewClass="arrow-icon" icon="arrow"/>
@@ -61,7 +62,7 @@ const TransactionOptions = (props) => {
             </Modal>
             {
                 externalComponent === 'Keystore' ?
-                    <PrivateKey 
+                    <PrivateKey
                         setExternalComponent={setExternalComponent}
                         setShow={setShow}
                         userData={props.userData}

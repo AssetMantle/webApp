@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDarkMode} from './useDarkMode';
-import {lightTheme, darkTheme} from './theme';
+import {darkTheme, lightTheme} from './theme';
 import {GlobalStyles} from './global';
 import {ThemeProvider} from 'styled-components';
 import Icon from "../../icons";
@@ -11,7 +11,8 @@ const Darktheme = () => {
     return (
         <ThemeProvider theme={themeMode}>
             <GlobalStyles/>
-            <button onClick={toggleTheme} className="dark-mode-button" title={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}>
+            <button onClick={toggleTheme} className="dark-mode-button"
+                title={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}>
                 <Icon
                     viewClass="icon"
                     icon={theme === 'light' ? 'dayMode' : 'darkMode'}

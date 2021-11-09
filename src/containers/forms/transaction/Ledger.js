@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Icon from "../../../icons";
 import {fetchAddress} from "../../../utilities/Helpers/ledger";
 import {Modal} from "react-bootstrap";
@@ -10,6 +10,7 @@ import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 import queries from "../../../utilities/Helpers/query";
 import ModalCommon from "../../../components/modal";
 import config from "../../../config";
+
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const LedgerTransaction = (props) => {
     const history = useHistory();
@@ -36,9 +37,7 @@ const LedgerTransaction = (props) => {
                 if (dataList[identity].value.immutables.value.properties.value.propertyList !== null) {
                     const immutablePropertyList = dataList[identity].value.immutables.value.properties.value.propertyList[0];
                     if (immutablePropertyList.value.fact.value.hash === userIdHash) {
-                        console.log("new id",GetIDHelper.GetIdentityID(dataList[identity]) );
                         identityID = GetIDHelper.GetIdentityID(dataList[identity]);
-                        console.log(identityID, "new issssss");
                         setTestID(GetIDHelper.GetIdentityID(dataList[identity]));
                     }
                 }
@@ -48,7 +47,7 @@ const LedgerTransaction = (props) => {
     };
 
     useEffect(() => {
-        const ledgerHandler = async () =>{
+        const ledgerHandler = async () => {
             let loginAddress;
             try {
                 if (props.TransactionName === "nubid") {
@@ -96,7 +95,7 @@ const LedgerTransaction = (props) => {
                     setErrorMessage(error.message);
                     console.log(error, 'error');
                 });
-            } catch(error) {
+            } catch (error) {
                 setLoader(false);
                 setErrorMessage(error.message);
                 console.log(error, 'error');
@@ -116,7 +115,8 @@ const LedgerTransaction = (props) => {
 
     return (
         <div className="custom-modal seed">
-            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select" centered>
+            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select"
+                centered>
                 <Modal.Header closeButton>
                     <div className="back-button" onClick={backHandler}>
                         <Icon viewClass="arrow-icon" icon="arrow"/>
@@ -124,7 +124,7 @@ const LedgerTransaction = (props) => {
                     <p className="title">{props.network}</p>
                 </Modal.Header>
                 {loader ?
-                    <Loader />
+                    <Loader/>
                     : ""
                 }
                 <Modal.Body>

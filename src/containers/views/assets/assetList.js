@@ -34,7 +34,7 @@ const AssetList = React.memo(() => {
                 state: {
                     assetID: assetid,
                     currentPath: window.location.pathname,
-                    assetList : asset
+                    assetList: asset
                 }
             }
             );
@@ -54,17 +54,17 @@ const AssetList = React.memo(() => {
                         assetList.map((asset, index) => {
                             return (
                                 <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
-                                    <div className="card asset-card" onClick={() => handleAsset(asset['ownableID'], asset)}>
+                                    <div className="card asset-card"
+                                        onClick={() => handleAsset(asset['ownableID'], asset)}>
                                         <div className="info-section">
                                             {
                                                 Object.keys(asset['totalData']).map(key => {
                                                     let imageExtension;
-                                                    if(key === config.URI){
+                                                    if (key === config.URI) {
                                                         imageExtension = asset['totalData'][key].substring(asset['totalData'][key].lastIndexOf('.') + 1);
-                                                        console.log(imageExtension, 'imageExtension');
                                                     }
-                
-                                                    return(
+
+                                                    return (
                                                         <>
                                                             {
                                                                 key === config.URI ?
@@ -83,16 +83,23 @@ const AssetList = React.memo(() => {
                                                                         :
                                                                         imageExtension === "mp4" ?
                                                                             <div className="image-container">
-                                                                                <video className = "banner-video" autoPlay playsInline preload="metadata" loop="loop"
-                                                                                    muted src={asset['totalData'][key]}>
-                                                                                    <source type="video/webm" src={asset['totalData'][key]}/>
-                                                                                    <source type="video/mp4" src={asset['totalData'][key]}/>
-                                                                                    <source type="video/ogg" src={asset['totalData'][key]}/>
+                                                                                <video className="banner-video" autoPlay
+                                                                                    playsInline preload="metadata"
+                                                                                    loop="loop"
+                                                                                    muted
+                                                                                    src={asset['totalData'][key]}>
+                                                                                    <source type="video/webm"
+                                                                                        src={asset['totalData'][key]}/>
+                                                                                    <source type="video/mp4"
+                                                                                        src={asset['totalData'][key]}/>
+                                                                                    <source type="video/ogg"
+                                                                                        src={asset['totalData'][key]}/>
                                                                                 </video>
                                                                             </div>
-                                                                            :    <div className="image-container">
+                                                                            : <div className="image-container">
                                                                                 <div className="assetImage">
-                                                                                    <img src={asset['totalData'][key]} alt="image"/>
+                                                                                    <img src={asset['totalData'][key]}
+                                                                                        alt="image"/>
                                                                                 </div>
                                                                             </div>
                                                                     : ""
@@ -137,9 +144,9 @@ const AssetList = React.memo(() => {
                                             {asset['ownableID'] === "stake" ?
                                                 <div className="button-group">
                                                     <Button variant="primary" size="sm"
-                                                        onClick={() => handleModalData("MakeOrder",  asset['ownerID'], asset['ownableID'])}>{t("MAKE")}</Button>
+                                                        onClick={() => handleModalData("MakeOrder", asset['ownerID'], asset['ownableID'])}>{t("MAKE")}</Button>
                                                     <Button variant="primary" size="sm"
-                                                        onClick={() => handleModalData("SendSplit",  asset['ownerID'], asset['ownableID'])}>{t("SEND_SPLITS")}</Button>
+                                                        onClick={() => handleModalData("SendSplit", asset['ownerID'], asset['ownableID'])}>{t("SEND_SPLITS")}</Button>
                                                 </div>
                                                 : ""
                                             }
@@ -147,7 +154,7 @@ const AssetList = React.memo(() => {
                                             {asset['ownableID'] !== "stake" ?
                                                 <Button variant="primary" className="viewButton" size="sm"
                                                     onClick={() => handleAsset(asset['ownableID'], asset)}>View</Button>
-                                                :""
+                                                : ""
                                             }
                                         </div>
                                     </div>

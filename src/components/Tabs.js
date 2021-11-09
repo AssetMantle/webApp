@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import {Tabs, Tab, Button} from "react-bootstrap";
-import {Maintainers, Identities, Assets, Orders, MarketPlace} from "../containers/views";
+import {Button, Tab, Tabs} from "react-bootstrap";
+import {Assets, Identities, Maintainers, MarketPlace, Orders} from "../containers/views";
 import {SendCoin} from "../containers/forms/bank";
 import {Reveal} from "../containers/forms/metas";
 import {useTranslation} from "react-i18next";

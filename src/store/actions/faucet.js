@@ -1,4 +1,5 @@
 import {getFaucet} from "../../constants/url";
+
 export const SET_FAUCET_DATA = "SET_FAUCET_DATA";
 
 export const fetchFaucet = (address) => {
@@ -9,7 +10,6 @@ export const fetchFaucet = (address) => {
             fetch(url)
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data, "faucet result");
                     dispatch({
                         type: SET_FAUCET_DATA,
                         faucetData: data.result.value.coins,
@@ -18,16 +18,6 @@ export const fetchFaucet = (address) => {
                 }).catch((error) => {
                     console.log(error, "error in facuet");
                 });
-
-            
-            // fetch(url)
-            //     .then(response => response.json())
-            //     .then(result => {
-            //         console.log(result.data.result.value, "PROFILE");
-            //     })
-            //     .catch(e => {
-            //         console.log(e);
-            //     });
 
         } catch (err) {
             console.log(err);

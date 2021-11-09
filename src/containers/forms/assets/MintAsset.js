@@ -1,21 +1,18 @@
-import React, {useState, useEffect} from 'react';
-import {Form, Button} from 'react-bootstrap';
+import React, {useEffect, useState} from 'react';
+import {Button, Form, OverlayTrigger, Popover} from 'react-bootstrap';
 import {useTranslation} from 'react-i18next';
 import GetProperty from '../../../utilities/Helpers/getProperty';
 import TransactionOptions from "../login/TransactionOptions";
 import base64url from "base64url";
-// import helper from "../../../utilities/helper";
 import {handleUpload} from "../../../utilities/Helpers/pinata";
 import Loader from "../../../components/loader";
 import Icon from "../../../icons";
 import logo from "../../../assets/images/logo.svg";
 import loaderImage from "../../../assets/images/loader.svg";
-import {OverlayTrigger, Popover} from "react-bootstrap";
-// import helper from "../../../utilities/helper";
+
 const MintAsset = () => {
     const PropertyHelper = new GetProperty();
     const {t} = useTranslation();
-    // const [show, setShow] = useState(true);
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const [externalComponent, setExternalComponent] = useState('');
     const [loader, setLoader] = useState(false);
@@ -35,14 +32,15 @@ const MintAsset = () => {
     const [initialCategory, setInitialCategory] = useState('Category');
     const [imageExtension, setImageExtension] = useState('png');
     const [exampleState, setExampleState] = useState(
-        {mint_asset: {
-            img_url:'radd',
-            asset_category:'',
-            asset_name:'',
-            asset_description:'',
-        }
+        {
+            mint_asset: {
+                img_url: 'radd',
+                asset_category: '',
+                asset_name: '',
+                asset_description: '',
+            }
         });
-    
+
     useEffect(() => {
         let fromIDValue = localStorage.getItem('identityId');
         let testIdentityId = localStorage.getItem('identityId');
@@ -52,19 +50,7 @@ const MintAsset = () => {
 
     }, []);
 
-    // const updateMintObject = () =>{
-    //     const dataObject = {
-    //         mint_asset: {
-    //             'img_url':'radd',
-    //             'category':'',
-    //             'name':'',
-    //             'description':'',
-    //         }
-    //     };
-    //     console.log(dataObject.mint_asset.img_url, "test");
-    // };
     const handleClose = () => {
-        // setShow(false);
         setExternalComponent('');
     };
 
@@ -77,36 +63,30 @@ const MintAsset = () => {
         setMutableStyle(evt.target.value);
     };
 
-    const handleProperties =()=>{
+    const handleProperties = () => {
         const oldProperties = [...totalPropertiesList];
-        oldProperties.push('property #'+(totalAttributes+1));
-        setTotalAttributes(totalAttributes+1);
+        oldProperties.push('property #' + (totalAttributes + 1));
+        setTotalAttributes(totalAttributes + 1);
         setTotalPropertiesList(oldProperties);
     };
 
-    const urlChangeHandler = async (e) =>{
+    const urlChangeHandler = async (e) => {
         setUrlLoader(true);
         const fileData = e.target.files[0];
         setFileName(fileData.name);
-        console.log(fileData, "fileData");
         let res = await handleUpload(fileData, fileData.name, true);
-        console.log(res, "IPFS Hash Uploaded File");
-        const updateFileUrl="https://demo-assetmantle.mypinata.cloud/ipfs/"+res.IpfsHash+"/"+fileData.name;
-        console.log(updateFileUrl, "updateFileUrl");
+        const updateFileUrl = "https://demo-assetmantle.mypinata.cloud/ipfs/" + res.IpfsHash + "/" + fileData.name;
         setFileUrl(updateFileUrl);
         // const ipfsPath = await helper.pinataFile(fileData, res.IpfsHash);
         // console.log(ipfsPath, "ipfspath");
         const ImmutableUrlEncode = PropertyHelper.getUrlEncode(updateFileUrl);
         setEncodedUrl(ImmutableUrlEncode);
         const imageExtension = fileData.name.substring(fileData.name.lastIndexOf('.') + 1);
-        console.log(imageExtension, "image");
         setImageExtension(imageExtension);
         setUrlLoader(false);
     };
-    const handleRemoveProperties =(index)=>{
-        console.log(exampleState, "exampleStateexampleState");
-
-        if(totalAttributes >1) {
+    const handleRemoveProperties = (index) => {
+        if (totalAttributes > 1) {
             let newArr = [...totalPropertiesList];
             newArr.splice(index, 1);
             setTotalPropertiesList(newArr);
@@ -119,14 +99,14 @@ const MintAsset = () => {
         const propertyDataObject = [];
 
         totalPropertiesList.map((property, idx) => {
-            const propertyName = `propertyName`+(idx+1);
-            const propertyValue = `propertyValue`+(idx+1);
-            const propertyNameData =  document.getElementById(propertyName).value;
+            const propertyName = `propertyName` + (idx + 1);
+            const propertyValue = `propertyValue` + (idx + 1);
+            const propertyNameData = document.getElementById(propertyName).value;
             const propertyValueData = document.getElementById(propertyValue).value;
             propertyDataObject.push(
                 {
-                    propertyName:propertyNameData,
-                    propertyValue:propertyValueData
+                    propertyName: propertyNameData,
+                    propertyValue: propertyValueData
                 }
             );
         });
@@ -154,7 +134,7 @@ const MintAsset = () => {
 
         immutableValues = `${staticImMutables}`;
 
-        immutableMetaValues =  `URI:S|${encodedUrl},${staticImmutableMeta}`;
+        immutableMetaValues = `URI:S|${encodedUrl},${staticImmutableMeta}`;
 
         const toID = event.target.toID.value;
 
@@ -164,7 +144,7 @@ const MintAsset = () => {
         } else if (mutableMetaValues === '') {
             setErrorMessage(t('SELECT_MUTABLE_META'));
             setLoader(false);
-        }  else {
+        } else {
             let totalData = {
                 fromID: FromId,
                 toID: toID,
@@ -185,31 +165,31 @@ const MintAsset = () => {
     const handleChangeCategory = evt => {
         setCategory(evt.target.value);
     };
-    const nameChangeHandler = evt =>{
+    const nameChangeHandler = evt => {
         const newObject = exampleState;
         console.log(newObject);
         newObject.mint_asset.asset_name = evt.target.value;
-        localStorage.setItem("mint_asset",JSON.stringify(newObject));
+        localStorage.setItem("mint_asset", JSON.stringify(newObject));
         console.log(newObject);
         setExampleState(newObject);
         setInitialName(evt.target.value);
     };
 
-    const categoryChangeHandler = evt =>{
+    const categoryChangeHandler = evt => {
         const newObject = exampleState;
         console.log(newObject);
         newObject.mint_asset.asset_category = evt.target.value;
-        localStorage.setItem("mint_asset",JSON.stringify(newObject));
+        localStorage.setItem("mint_asset", JSON.stringify(newObject));
         console.log(newObject);
         setExampleState(newObject);
         setInitialCategory(evt.target.value);
     };
 
-    const handleDescriptionChange = (evt) =>{
+    const handleDescriptionChange = (evt) => {
         const newObject = exampleState;
         console.log(newObject);
         newObject.mint_asset.asset_description = evt.target.value;
-        localStorage.setItem("mint_asset",JSON.stringify(newObject));
+        localStorage.setItem("mint_asset", JSON.stringify(newObject));
         console.log(newObject);
         setExampleState(newObject);
     };
@@ -290,7 +270,7 @@ const MintAsset = () => {
                                         icon="info"/></button>
                                 </OverlayTrigger></Form.Label>
                             <Form.Text className="text-muted">
-                           File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3. Max size: 30 MB
+                                File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3. Max size: 30 MB
                             </Form.Text>
                             <Form.Group className="custom-file-upload">
                                 <Form.File
@@ -327,8 +307,8 @@ const MintAsset = () => {
                                 placeholder="Name"
                             />
                         </Form.Group>
-                    
-                    
+
+
                         <Form.Group>
                             <Form.Label>Description</Form.Label>
                             <Form.Control as="textarea" rows={5}
@@ -373,27 +353,28 @@ const MintAsset = () => {
                                 totalPropertiesList.map((property, idx) => {
                                     return (
                                         <Form.Group key={idx}>
-                                            <Form.Label>Property #{idx+1} </Form.Label>
+                                            <Form.Label>Property #{idx + 1} </Form.Label>
                                             <div className="input-property-group">
                                                 <Form.Control
                                                     type="text"
                                                     className=""
-                                                    id={`propertyName`+(idx+1)}
-                                                    name={`propertyName`+(idx+1)}
+                                                    id={`propertyName` + (idx + 1)}
+                                                    name={`propertyName` + (idx + 1)}
                                                     required={false}
                                                     placeholder="Property"
                                                 />
                                                 <Form.Control
                                                     type="text"
                                                     className=""
-                                                    id={`propertyValue`+(idx+1)}
-                                                    name={`propertyValue`+(idx+1)}
+                                                    id={`propertyValue` + (idx + 1)}
+                                                    name={`propertyValue` + (idx + 1)}
                                                     required={false}
                                                     placeholder="Value"
                                                 />
                                                 <Button type="button" variant="secondary" size="sm"
                                                     onClick={() => handleRemoveProperties(idx)}
-                                                    className="small button-define"><Icon viewClass="icon-upload" icon="delete"/>
+                                                    className="small button-define"><Icon viewClass="icon-upload"
+                                                        icon="delete"/>
                                                 </Button>
                                             </div>
 
@@ -423,7 +404,8 @@ const MintAsset = () => {
                         <div className="image">
                             {!urlLoader ?
                                 imageExtension === "mp4" ?
-                                    <video className="banner-video" autoPlay playsinline preload="metadata" loop="loop" controls muted src={fileUrl}>
+                                    <video className="banner-video" autoPlay playsinline preload="metadata" loop="loop"
+                                        controls muted src={fileUrl}>
                                         <source type="video/webm" src={fileUrl}/>
                                         <source type="video/mp4" src={fileUrl}/>
                                         <source type="video/ogg" src={fileUrl}/>
@@ -451,7 +433,7 @@ const MintAsset = () => {
                         /> :
                         null
                 }
-            
+
             </div>
         </div>
     );

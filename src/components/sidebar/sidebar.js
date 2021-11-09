@@ -14,7 +14,7 @@ const Sidebar = () => {
     const handleRoute = (route) => {
         if (address === '' || address === null) {
             history.push('/Login');
-        }else {
+        } else {
             setExternalComponent(route);
         }
     };

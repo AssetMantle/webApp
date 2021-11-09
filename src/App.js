@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Route, Switch, withRouter} from 'react-router-dom';
 import HeaderAfterLogin from './components/Headers/HeaderAfterLogin';
 import HeaderBeforeLogin from './components/Headers/HeaderBeforeLogin';
 import offline from './assets/images/offline.svg';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import './assets/css/styles.css';
 import './assets/css/mediaqueries.css';
 import * as markePlace from "./store/actions/marketPlace";
@@ -21,7 +21,7 @@ import Footer from "./components/Footer";
 import * as faucet from "./store/actions/faucet";
 
 const App = () => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const userTypeToken = localStorage.getItem('userName');
     const userAddress = localStorage.getItem('userAddress');
     const identityID = localStorage.getItem('identityId');

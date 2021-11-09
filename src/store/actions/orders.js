@@ -4,13 +4,14 @@ import GetID from "../../utilities/GetID";
 import FilterData from "../../utilities/FilterData";
 import {fetchAssetDetails} from "./marketPlace";
 import helper from "../../utilities/helper";
+
 const ordersQuery = new queryOrders(process.env.REACT_APP_ASSET_MANTLE_API);
 export const SET_USER_ORDERS = "SET_USER_ORDERS";
 
 export const fetchOrders = (identityId) => {
     return async (dispatch) => {
         try {
-            const orders = await  ordersQuery.queryOrderWithID("all");
+            const orders = await ordersQuery.queryOrderWithID("all");
             const ordersData = JSON.parse(orders);
             const ordersDataList = ordersData.result.value.orders.value.list;
             if (ordersDataList) {
@@ -35,26 +36,27 @@ export const fetchOrders = (identityId) => {
                         let makerID = await GetID.GetMakerID(order);
                         // const totalData = {...immutableProperties[0], ...mutableProperties[0]};
                         // const objSorted = helper.SortObjectData(totalData);
-                        ordersListNew.push({'totalData':  assetData.totalData,
-                            'orderID':orderIdData,
-                            'classificationID':classificationID,
-                            'encodedOrderID':helper.getBase64Hash(orderIdData),
-                            'makerOwnableID':makerOwnableID,
-                            'takerOwnableID':takerOwnableID,
-                            'makerID':makerID,
-                            'immutableProperties':assetData.immutableProperties,
-                            'mutableProperties':assetData.mutableProperties,
-                            'exChangeRate':helper.getExchangeRate(exChangeRate),
+                        ordersListNew.push({
+                            'totalData': assetData.totalData,
+                            'orderID': orderIdData,
+                            'classificationID': classificationID,
+                            'encodedOrderID': helper.getBase64Hash(orderIdData),
+                            'makerOwnableID': makerOwnableID,
+                            'takerOwnableID': takerOwnableID,
+                            'makerID': makerID,
+                            'immutableProperties': assetData.immutableProperties,
+                            'mutableProperties': assetData.mutableProperties,
+                            'exChangeRate': helper.getExchangeRate(exChangeRate),
                         });
                     }
 
                     dispatch({
                         type: SET_USER_ORDERS,
                         userOrders: ordersListNew,
-                        loading:false,
-                        data:''
+                        loading: false,
+                        data: ''
                     });
-                }else {
+                } else {
                     dispatch({
                         type: SET_USER_ORDERS,
                         userOrders: [],
@@ -62,8 +64,7 @@ export const fetchOrders = (identityId) => {
                         data: "Orders not found",
                     });
                 }
-            }
-            else {
+            } else {
                 dispatch({
                     type: SET_USER_ORDERS,
                     userOrders: [],

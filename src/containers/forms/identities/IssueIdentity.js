@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {cls} from 'persistencejs/build/transaction/classification/query';
-import {Form, Button, Modal} from 'react-bootstrap';
+import {Button, Form, Modal} from 'react-bootstrap';
 import {queryMeta} from 'persistencejs/build/transaction/meta/query';
 import {useTranslation} from 'react-i18next';
 import config from '../../../constants/config.json';
@@ -103,7 +103,7 @@ const IssueIdentity = (props) => {
         const ClassificationId = event.target.ClassificationId.value;
         setClassificationId(ClassificationId);
         const classificationResponse = classificationsQuery.queryClassificationWithID(ClassificationId);
-        classificationResponse.then(function(item) {
+        classificationResponse.then(function (item) {
             const data = JSON.parse(JSON.parse(JSON.stringify(item)));
             if (data.result.value.classifications.value.list !== null) {
                 const immutablePropertyList = data.result.value.classifications.value.list[0].value.immutableTraits.value.properties.value.propertyList;

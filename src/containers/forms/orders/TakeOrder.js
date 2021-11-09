@@ -1,9 +1,8 @@
-import React, {useState, useEffect} from "react";
-import {Form, Button, Modal} from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import {Button, Form, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
 import TransactionOptions from "../login/TransactionOptions";
-
 
 const TakeOrder = (props) => {
     const {t} = useTranslation();
@@ -13,24 +12,23 @@ const TakeOrder = (props) => {
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const [externalComponent, setExternalComponent] = useState("");
 
-    useEffect(()=>{
+    useEffect(() => {
         let fromIDValue = localStorage.getItem('identityId');
         setFromID(fromIDValue);
-    },[]);
+    }, []);
 
     const handleSubmit = (event) => {
         setLoader(true);
         event.preventDefault();
         const orderId = props.id;
         const FromId = event.target.FromId.value;
-        const ownableAmount = event.target.ownableAmount.value;
+        const ownableAmount = props.exChangeRate;
 
         let totalData = {
-            fromID:FromId,
-            ownableAmount:ownableAmount,
-            orderId:orderId,
+            fromID: FromId,
+            ownableAmount: ownableAmount,
+            orderId: orderId,
         };
-        console.log(totalData, "totalData");
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');
         setShow(false);
@@ -65,18 +63,11 @@ const TakeOrder = (props) => {
                                 placeholder={t("FROM_ID")}
                             />
                         </Form.Group>
-                        <Form.Group>
-                            <Form.Label>{t("TAKER_OWNABLE_AMOUNT")}*</Form.Label>
-                            <Form.Control
-                                type="text"
-                                className=""
-                                name="ownableAmount"
-                                required={true}
-                                disabled={true}
-                                defaultValue={props.exChangeRate}
-                                placeholder={t("TAKER_OWNABLE_AMOUNT")}
-                            />
-                        </Form.Group>
+                        <div className="list-item txn"><p
+                            className="list-item-label">Price </p> <p
+                            className="list-item-value">{props.exChangeRate}</p>
+                        </div>
+
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">
                                 {t("SUBMIT")}

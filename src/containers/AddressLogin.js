@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import {Modal, Form, Button} from "react-bootstrap";
-import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router-dom";
+import React, {useState} from "react";
+import {Button, Form, Modal} from "react-bootstrap";
+import {useTranslation} from "react-i18next";
+import {useHistory} from "react-router-dom";
 
 const AddressLogin = () => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const history = useHistory();
     const [show, setShow] = useState(true);
 
@@ -16,8 +16,8 @@ const AddressLogin = () => {
     const handleSubmit = event => {
         const address = event.target.address.value;
         history.push({
-            pathname:'/identities/all',
-            address:address
+            pathname: '/identities/all',
+            address: address
         });
     };
     return (
@@ -31,7 +31,7 @@ const AddressLogin = () => {
                         <Form onSubmit={handleSubmit}>
                             <Form.Control type="text" name="address"
                                 placeholder="Enter Address"
-                                required={true} />
+                                required={true}/>
                             <div className="submitButtonSection">
                                 <Button
                                     variant="primary"

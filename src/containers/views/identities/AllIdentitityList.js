@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 import {queryMeta} from "persistencejs/build/transaction/meta/query";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
 import config from "../../../constants/config.json";
 import GetProperty from "../../../utilities/Helpers/getProperty";
 import FilterHelpers from "../../../utilities/Helpers/filter";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetID from "../../../utilities/Helpers/getID";
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import {Button, Dropdown} from 'react-bootstrap';
-import { Summary } from "../../../components/summary";
+import {Summary} from "../../../components/summary";
 import Sidebar from '../../../components/sidebar/sidebar';
 import {IssueIdentity, Nub} from '../../forms/identities';
 import {Define} from '../../forms';
@@ -24,7 +24,7 @@ const AllIdentityList = React.memo((props) => {
     const FilterHelper = new FilterHelpers();
     const GetMetaHelper = new GetMeta();
     const GetIDHelper = new GetID();
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     let history = useHistory();
     const [loader, setLoader] = useState(true);
     const [filteredIdentitiesList, setFilteredIdentitiesList] = useState([]);
@@ -35,10 +35,10 @@ const AllIdentityList = React.memo((props) => {
 
     let userAddress;
     userAddress = props.location.address;
-    if(userAddress !== undefined){
+    if (userAddress !== undefined) {
         localStorage.setItem('address', userAddress);
-    }else {
-        userAddress =  localStorage.getItem('address');
+    } else {
+        userAddress = localStorage.getItem('address');
     }
     useEffect(() => {
         setUserToken(localStorage.getItem('identityId'));
@@ -90,7 +90,7 @@ const AllIdentityList = React.memo((props) => {
                 state: {
                     identityID: id,
                     currentPath: window.location.pathname,
-                    userAddress:userAddress
+                    userAddress: userAddress
                 }
             }
             );
@@ -134,7 +134,7 @@ const AllIdentityList = React.memo((props) => {
                         }
                         <div className="list-container">
                             {loader ?
-                                <Loader />
+                                <Loader/>
                                 : ""
                             }
                             <div className="row card-deck">
@@ -154,8 +154,10 @@ const AllIdentityList = React.memo((props) => {
                                         return (
                                             <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
                                                 <div className="card identity-card">
-                                                    <div id={"identityImagUri" + identityId + index} className="image-container">
-                                                        <div id={"identityImage" + identityId + index} className="dummy-image image-box">
+                                                    <div id={"identityImagUri" + identityId + index}
+                                                        className="image-container">
+                                                        <div id={"identityImage" + identityId + index}
+                                                            className="dummy-image image-box">
 
                                                         </div>
                                                     </div>
@@ -164,7 +166,8 @@ const AllIdentityList = React.memo((props) => {
                                                         <div className="list-item">
                                                             <p className="list-item-label">{t("IDENTITY_ID")}:</p>
                                                             <div className="list-item-value id-section">
-                                                                <p className="id-string" title={identityId}> {identityId}</p>
+                                                                <p className="id-string"
+                                                                    title={identityId}> {identityId}</p>
                                                             </div>
                                                         </div>
 
@@ -180,22 +183,26 @@ const AllIdentityList = React.memo((props) => {
                                                                             document.getElementById("identityImagUri" + identityId + index).replaceChild(divd, imageElement);
                                                                         }
                                                                     } else if (keyName === "style") {
-                                                                        return (<div key={index + keyName} className="list-item"><p
-                                                                            className="list-item-label"></p> <p
-                                                                            id={`immutable_identityList` + index + `${index1}`}
-                                                                            className="list-item-value"></p></div>);
-                                                                    }
-                                                                    else if (keyName === "identifier") {
-                                                                        return (<div key={index + keyName} className="list-item"><p
-                                                                            className="list-item-label">{keyName}: </p> <p
-                                                                            id={`immutable_identityList` + index + `${index1}`}
-                                                                            className="list-item-value"></p></div>);
+                                                                        return (<div key={index + keyName}
+                                                                            className="list-item"><p
+                                                                                className="list-item-label"></p> <p
+                                                                                id={`immutable_identityList` + index + `${index1}`}
+                                                                                className="list-item-value"></p></div>);
+                                                                    } else if (keyName === "identifier") {
+                                                                        return (<div key={index + keyName}
+                                                                            className="list-item"><p
+                                                                                className="list-item-label">{keyName}: </p>
+                                                                            <p
+                                                                                id={`immutable_identityList` + index + `${index1}`}
+                                                                                className="list-item-value"></p></div>);
                                                                     }
                                                                 } else {
                                                                     return (
-                                                                        <div key={index + keyName} className="list-item"><p
-                                                                            className="list-item-label">{keyName}: </p> <p
-                                                                            className="list-item-hash-value">{immutableProperties[keyName]}</p>
+                                                                        <div key={index + keyName}
+                                                                            className="list-item"><p
+                                                                                className="list-item-label">{keyName}: </p>
+                                                                            <p
+                                                                                className="list-item-hash-value">{immutableProperties[keyName]}</p>
                                                                         </div>);
                                                                 }
                                                             })
@@ -230,7 +237,7 @@ const AllIdentityList = React.memo((props) => {
                         </div>
                     </div>
                     <div className="col-md-3 summary-section">
-                        <Summary />
+                        <Summary/>
                     </div>
 
                 </div>

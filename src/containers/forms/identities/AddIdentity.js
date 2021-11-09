@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Modal, Form, Button} from "react-bootstrap";
+import {Button, Form, Modal} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import GetID from "../../../utilities/Helpers/getID";
@@ -7,6 +7,7 @@ import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 import Icon from "../../../icons";
 import Loader from '../../../components/loader';
 import GetMeta from "../../../utilities/Helpers/getMeta";
+
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const AddIdentity = (props) => {
@@ -34,43 +35,42 @@ const AddIdentity = (props) => {
                 for (var i = 0; i < dataList.length; i++) {
                     if (dataList[i].value.immutables.value.properties.value.propertyList !== null) {
                         const immutablePropertyList = dataList[i].value.immutables.value.properties.value.propertyList[0];
-                        if(immutablePropertyList.value.fact.value.hash === hashGenerate) {
+                        if (immutablePropertyList.value.fact.value.hash === hashGenerate) {
                             const identityId = GetIDHelper.GetIdentityID(dataList[i]);
-                            if(dataList[i].value.provisionedAddressList){
+                            if (dataList[i].value.provisionedAddressList) {
                                 let loginAddress = localStorage.getItem("userAddress");
-                                console.log(dataList[i].value.provisionedAddressList, "dataList[i].value.provisionedAddressList", loginAddress);
                                 if (!dataList[i].value.provisionedAddressList.includes(loginAddress)) {
                                     let list = [];
                                     const userList = localStorage.getItem("userList");
-                                    if(userList !== null){
+                                    if (userList !== null) {
                                         list = JSON.parse(userList);
                                     }
                                     if (list.includes(IdentityName)) {
                                         setErrorMessage(false);
                                         setLoader(false);
                                         setIdErrorMessage('identityID already Added');
-                                    }else{
+                                    } else {
                                         setErrorMessage(false);
                                         setLoader(false);
                                         setIdErrorMessage('Login address not found in identity address list');
                                     }
-                                    return ;
-                                }else{
+                                    return;
+                                } else {
                                     let list = [];
                                     let idList = [];
                                     const userList = localStorage.getItem("userList");
                                     const identityList = localStorage.getItem("identityList");
-                                    if(identityList !== null){
+                                    if (identityList !== null) {
                                         idList = JSON.parse(identityList);
                                     }
-                                    if(userList !== null){
+                                    if (userList !== null) {
                                         list = JSON.parse(userList);
                                     }
-                                    idList.push({[IdentityName]:identityId});
+                                    idList.push({[IdentityName]: identityId});
                                     list.push(IdentityName);
                                     setLoader(false);
                                     localStorage.setItem("userList", JSON.stringify(list));
-                                    localStorage.setItem("identityList",  JSON.stringify(idList));
+                                    localStorage.setItem("identityList", JSON.stringify(idList));
                                     localStorage.setItem("identityId", identityId);
                                     localStorage.setItem("userName", IdentityName);
                                     setShow(false);
@@ -84,11 +84,11 @@ const AddIdentity = (props) => {
                             }
 
                         } else {
-                            count ++;
+                            count++;
                         }
                     }
                 }
-                if(count !== 0){
+                if (count !== 0) {
                     setLoader(false);
                     setErrorMessage(true);
                 }
@@ -111,14 +111,15 @@ const AddIdentity = (props) => {
 
     return (
         <div>
-            <Modal show={show} onHide={handleClose} backdrop="static" className="mnemonic-login-section login-section" centered>
+            <Modal show={show} onHide={handleClose} backdrop="static" className="mnemonic-login-section login-section"
+                centered>
                 <Modal.Header closeButton>
                     {props.pageName === "LoginAction" ?
                         <div className="back-button" onClick={() => backHandler('identityLogin')}>
                             <Icon viewClass="arrow-icon" icon="arrow"/>
                         </div>
                         : ""}
-                   Add UserName
+                    Add UserName
                 </Modal.Header>
                 <Modal.Body>
                     {loader ?

@@ -1,7 +1,7 @@
-import { Redirect, Route } from 'react-router-dom';
+import {Redirect, Route} from 'react-router-dom';
 import React from 'react';
 
-const PrivateRoute = ( {component: Component}) => {
+const PrivateRoute = ({component: Component}) => {
     let token = localStorage.getItem('userName');
     return (
         <Route

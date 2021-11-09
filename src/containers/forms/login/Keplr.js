@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Icon from "../../../icons";
 import {Button, Modal} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
@@ -33,24 +33,23 @@ const Keplr = (props) => {
         const addressList = localStorage.getItem("addresses");
         const userList = localStorage.getItem("userList");
         const identityList = localStorage.getItem("identityList");
-        if(identityList !== null){
+        if (identityList !== null) {
             idList = JSON.parse(identityList);
         }
-        if(userList !== null){
+        if (userList !== null) {
             list = JSON.parse(userList);
         }
         if (addressList.includes(address)) {
-            idList.push({[userName]:  props.userData.identityId});
+            idList.push({[userName]: props.userData.identityId});
             list.push(userName);
             localStorage.setItem("identityId", props.userData.identityId);
             localStorage.setItem("userList", JSON.stringify(list));
             localStorage.setItem("userName", userName);
             localStorage.setItem("userAddress", address);
-            localStorage.setItem("loginMode","keplr");
-            localStorage.setItem("identityList",  JSON.stringify(idList));
+            localStorage.setItem("loginMode", "keplr");
+            localStorage.setItem("identityList", JSON.stringify(idList));
             setErrorMessage("");
         } else {
-            console.log(addressList, "addressList");
             setErrorMessage('Keplr address not found in identity list');
         }
         history.push('/profile');
@@ -62,7 +61,8 @@ const Keplr = (props) => {
     };
     return (
         <div className="custom-modal seed">
-            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select" centered>
+            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select"
+                centered>
                 <Modal.Header closeButton>
                     <div className="back-button" onClick={backHandler}>
                         <Icon viewClass="arrow-icon" icon="arrow"/>
@@ -70,7 +70,7 @@ const Keplr = (props) => {
                     <p className="title">{props.network}</p>
                 </Modal.Header>
                 <Modal.Body>
-                    {errorMessage !== ""?
+                    {errorMessage !== "" ?
                         <p className="error-response">{errorMessage}</p>
                         :
                         <>

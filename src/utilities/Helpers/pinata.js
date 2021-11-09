@@ -13,7 +13,6 @@ const getApiConfig = async () => {
 
 export const handleUpload = async (selectedFiles, customName, wrapWithDirectory) => {
     try {
-        console.log("Handling Upload",selectedFiles);
         const data = new FormData();
         if (customName && customName !== '') {
             const metadata = JSON.stringify({

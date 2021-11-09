@@ -1,11 +1,12 @@
 import conig from "../../config";
+
 function SendMsg(fromAddress, toAddress, amount, denom) {
     return {
         type: "cosmos-sdk/MsgSend",
         value: {
             from_address: fromAddress,
             to_address: toAddress,
-            amount: [{ amount: String(amount), denom: denom }],
+            amount: [{amount: String(amount), denom: denom}],
         },
     };
 }
