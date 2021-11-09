@@ -89,6 +89,7 @@ const Ledger = (props) => {
             localStorage.setItem("loginMode", "ledger");
 
             localStorage.setItem("identityList", JSON.stringify(idList));
+            window.location.reload();
             history.push('/profile');
             setErrorMessage("");
         } else {

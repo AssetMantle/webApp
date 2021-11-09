@@ -40,13 +40,13 @@ const TotalOrders = () => {
                                         onClick={() => handleAsset(order['encodedOrderID'], order['orderID'], order)}>
                                         <div className="info-section">
                                             {
-                                                Object.keys(order['totalData']).map(key => {
+                                                Object.keys(order['totalData']).map((key, keyIndex) => {
                                                     let imageExtension;
                                                     if (key === config.URI) {
                                                         imageExtension = order['totalData'][key].substring(order['totalData'][key].lastIndexOf('.') + 1);
                                                     }
                                                     return (
-                                                        <>
+                                                        <div key={index+keyIndex}>
                                                             {
                                                                 key === config.URI ?
                                                                     imageExtension === "gltf" ?
@@ -94,7 +94,7 @@ const TotalOrders = () => {
                                                                     </div>
                                                                     : ""
                                                             }
-                                                        </>
+                                                        </div>
 
                                                     );
                                                 })

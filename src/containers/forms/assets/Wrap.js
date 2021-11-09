@@ -79,13 +79,13 @@ const Wrap = (props) => {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>{t('COIN_AMOUNT')}*</Form.Label>
+                            <Form.Label>{t('AMOUNT')}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
                                 name="CoinAmount"
                                 required={true}
-                                placeholder="Coin Amount"
+                                placeholder="Amount"
                             />
                         </Form.Group>
 

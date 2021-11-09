@@ -49,7 +49,7 @@ const PrivateKey = (props) => {
             localStorage.setItem("userAddress", wallet[1]);
             localStorage.setItem("loginMode", "normal");
             localStorage.setItem("identityList", JSON.stringify(idList));
-
+            window.location.reload();
             history.push('/profile');
         } else {
             setLoader(false);

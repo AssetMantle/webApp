@@ -6,7 +6,8 @@ import {defineAsset} from "persistencejs/build/transaction/assets/define";
 import AssetList from "./assetList";
 // import {Tab, Tabs} from "react-bootstrap";
 // // import {useHistory} from "react-router-dom";
-// import OrderList from "../orders/orderList";
+import OrderList from "../orders/orderList";
+import {Tab, Tabs} from "react-bootstrap";
 const assetDefine = new defineAsset(process.env.REACT_APP_ASSET_MANTLE_API);
 const Assets = () => {
     // const history = useHistory();
@@ -48,21 +49,21 @@ const Assets = () => {
 
             {/*        <AssetList hanldeRoute={()=>hanldeRoute()}/>*/}
             {/*    </div>*/}
-            <AssetList hanldeRoute={() => hanldeRoute()}/>
+            {/*<AssetList hanldeRoute={() => hanldeRoute()}/>*/}
             {/*</div>*/}
-            {/*<Tabs defaultActiveKey="Listings"*/}
-            {/*    id="uncontrolled-tab-example"*/}
-            {/*    className="assets-tab">*/}
-            {/*    <Tab eventKey="Listings" title="Listings">*/}
-            {/*        <AssetList hanldeRoute={()=>hanldeRoute()}/>*/}
+            <Tabs defaultActiveKey="Listings"
+                id="uncontrolled-tab-example"
+                className="assets-tab">
+                <Tab eventKey="Listings" title="Listings">
+                    <AssetList hanldeRoute={()=>hanldeRoute()}/>
 
-            {/*    </Tab>*/}
-            {/*    <Tab eventKey="Collections"*/}
-            {/*        title="Collections">*/}
-            {/*        <OrderList hanldeRoute={()=>hanldeRoute()}/>*/}
-            {/*    </Tab>*/}
+                </Tab>
+                <Tab eventKey="Collections"
+                    title="Collections">
+                    <OrderList hanldeRoute={()=>hanldeRoute()}/>
+                </Tab>
 
-            {/*</Tabs>*/}
+            </Tabs>
 
 
             <div>
