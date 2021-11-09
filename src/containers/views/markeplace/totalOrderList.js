@@ -7,7 +7,7 @@ import loaderImage from "../../../assets/images/loader.svg";
 import base64url from "base64url";
 import {Button} from "react-bootstrap";
 
-const TotalOrders = React.memo(() => {
+const TotalOrders = () => {
     const {t} = useTranslation();
     let history = useHistory();
     const markeOrders = useSelector((state) => state.markePlace.markeOrders);
@@ -118,6 +118,5 @@ const TotalOrders = React.memo(() => {
             </div>
         </div>
     );
-});
-TotalOrders.displayName = 'TotalOrders';
+};
 export default TotalOrders;
