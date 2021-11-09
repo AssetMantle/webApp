@@ -51,21 +51,18 @@ const Assets = () => {
             {/*    </div>*/}
             {/*<AssetList hanldeRoute={() => hanldeRoute()}/>*/}
             {/*</div>*/}
-            <Tabs defaultActiveKey="Listings"
+            <Tabs defaultActiveKey="Collections"
                 id="uncontrolled-tab-example"
                 className="assets-tab">
-                <Tab eventKey="Listings" title="Listings">
-                    <AssetList hanldeRoute={()=>hanldeRoute()}/>
-
-                </Tab>
                 <Tab eventKey="Collections"
                     title="Collections">
+                    <AssetList hanldeRoute={()=>hanldeRoute()}/>
+                </Tab>
+                <Tab eventKey="Listings" title="Listings">
                     <OrderList hanldeRoute={()=>hanldeRoute()}/>
                 </Tab>
 
             </Tabs>
-
-
             <div>
                 {externalComponent === 'DefineAsset' ?
                     <DefineAsset setExternalComponent={setExternalComponent} ActionName={assetDefine}

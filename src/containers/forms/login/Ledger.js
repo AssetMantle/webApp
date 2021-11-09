@@ -89,8 +89,8 @@ const Ledger = (props) => {
             localStorage.setItem("loginMode", "ledger");
 
             localStorage.setItem("identityList", JSON.stringify(idList));
-            window.location.reload();
             history.push('/profile');
+            window.location.reload();
             setErrorMessage("");
         } else {
             setErrorMessage('Address not found in identity list');

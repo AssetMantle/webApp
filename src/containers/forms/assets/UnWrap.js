@@ -26,12 +26,13 @@ const UnWrap = (props) => {
         event.preventDefault();
         const FromId = event.target.FromId.value;
         const OwnableId = event.target.OwnableId.value;
-        const Split = event.target.Split.value;
+        const Price = ((event.target.amount.value*1)*config.denomValue).toString();
         let totalData = {
             fromID: FromId,
-            Split: Split,
+            Split: Price,
             OwnableId: OwnableId,
         };
+        console.log(totalData, "totalData");
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');
         setShow(false);
@@ -83,7 +84,7 @@ const UnWrap = (props) => {
                             <Form.Control
                                 type="text"
                                 className=""
-                                name="Split"
+                                name="amount"
                                 required={true}
                                 placeholder="Amount"
                             />

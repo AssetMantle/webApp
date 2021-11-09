@@ -106,8 +106,12 @@ function getExchangeRate(value) {
     let inputValue = new bigdecimal.BigDecimal(value);
     let smallestNumber = new bigdecimal.BigDecimal(0.000000000000000001);
     let newValue = inputValue.multiply(smallestNumber).toPlainString();
-    console.log(newValue, "newValue");
-    return bigDecimal.round(newValue, 3);
+    return mantleConversion(bigDecimal.round(newValue)*1);
+    // return bigDecimal.round(newValue, 3);
+}
+
+function mantleConversion(data){
+    return data/config.denomValue;
 }
 
 export default {
@@ -118,5 +122,6 @@ export default {
     stringFilter,
     getUrlEncode,
     getBase64Hash,
-    getExchangeRate
+    getExchangeRate,
+    mantleConversion
 };

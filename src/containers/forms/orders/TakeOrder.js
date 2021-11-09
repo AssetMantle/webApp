@@ -3,6 +3,7 @@ import {Button, Form, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
 import TransactionOptions from "../login/TransactionOptions";
+import config from "../../../config";
 
 const TakeOrder = (props) => {
     const {t} = useTranslation();
@@ -22,7 +23,7 @@ const TakeOrder = (props) => {
         event.preventDefault();
         const orderId = props.id;
         const FromId = event.target.FromId.value;
-        const ownableAmount = props.exChangeRate;
+        const ownableAmount = ((props.exChangeRate*1)*config.denomValue).toString();
 
         let totalData = {
             fromID: FromId,
