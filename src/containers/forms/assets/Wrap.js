@@ -25,7 +25,7 @@ const Wrap = (props) => {
         const FromId = event.target.FromId.value;
         const CoinDenom = event.target.CoinDenom.value;
 
-        const CoinAmount = event.target.CoinAmount.value;
+        const CoinAmount = (event.target.CoinAmount.value*1)*config.denomValue;
         let totalData = {
             fromID: FromId,
             CoinAmountDenom: CoinAmount + CoinDenom,
@@ -79,13 +79,13 @@ const Wrap = (props) => {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>{t('COIN_AMOUNT')}*</Form.Label>
+                            <Form.Label>{t('AMOUNT')}*</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
                                 name="CoinAmount"
                                 required={true}
-                                placeholder="Coin Amount"
+                                placeholder="Amount"
                             />
                         </Form.Group>
 

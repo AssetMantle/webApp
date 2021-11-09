@@ -5,7 +5,7 @@
   "coinType": "750",
   "coinDenom": "umantle",
   "coinName": "Mantle",
-  "xprtValue": 1000000,
+  "denomValue": 1000000,
   "lowFee": 0,
   "averageFee": 0.025,
   "highFee": 0.04,

@@ -3,6 +3,7 @@ import {Button, Form, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
 import TransactionOptions from "../login/TransactionOptions";
+import config from "../../../config";
 
 const bigdecimal = require("bigdecimal");
 const bigDecimal = require('js-big-decimal');
@@ -20,7 +21,7 @@ const MakeOrder = (props) => {
     };
 
     const handleChangeExchangeRate = (evt) => {
-        let inputValue = new bigdecimal.BigDecimal(evt.target.value);
+        let inputValue = new bigdecimal.BigDecimal(((evt.target.value*1)*config.denomValue).toString());
         let biggestNumber = new bigdecimal.BigDecimal(1000000000000000000);
         let newValue = inputValue.multiply(biggestNumber);
         const value = bigDecimal.round(newValue, 18);
@@ -42,7 +43,7 @@ const MakeOrder = (props) => {
         const TakerOwnableId = event.target.TakerOwnableId.value;
         const Makersplit = event.target.Makersplit.value;
         const ExpiresIn = event.target.expiresInD.value;
-        const price = document.getElementById('exchangeRateSplit').value;
+        let price = document.getElementById('exchangeRateSplit').value;
         let mutableValues = "";
         let immutableValues = "";
         let mutableMetaValues = "";

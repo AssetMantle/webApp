@@ -53,6 +53,7 @@ const Keplr = (props) => {
             setErrorMessage('Keplr address not found in identity list');
         }
         history.push('/profile');
+        window.location.reload();
     };
     const handleClose = () => {
         setShow(false);

@@ -15,7 +15,7 @@ import {
 import {IdentityLogin} from "./containers/forms/login";
 import KeysCreate from "./containers/forms/signup/KeysCreate";
 import {MintAsset} from "./containers/forms/assets";
-
+import ListOrderView from "./containers/views/orders/orderView";
 
 const routes = [{
     path: '/',
@@ -68,6 +68,10 @@ const routes = [{
 }, {
     path: '/view/:id',
     component: OrderView,
+    private: false,
+}, {
+    path: '/list/view/:id',
+    component: ListOrderView,
     private: false,
 }, {
     path: '/identityLogin',

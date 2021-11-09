@@ -1,12 +1,10 @@
 import React, {useState} from 'react';
 import {Button, Form, Modal} from 'react-bootstrap';
-import GetID from '../../../utilities/Helpers/getID';
 import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
 import TransactionOptions from "../login/TransactionOptions";
 
 const CancelOrder = (props) => {
-    const GetIDHelper = new GetID();
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false);
@@ -16,8 +14,8 @@ const CancelOrder = (props) => {
         setLoader(true);
         event.preventDefault();
         let totalData = {
-            fromID: props.order.value.id.value.makerID.value.idString,
-            orderID: GetIDHelper.GetOrderID(props.order),
+            fromID: props.order.makerID,
+            orderID: props.order.orderID,
         };
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');

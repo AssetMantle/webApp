@@ -8,6 +8,7 @@ import {Button} from "react-bootstrap";
 import {Provision, UnProvision} from "../../forms/identities";
 import {UnWrap, Wrap} from "../../forms/assets";
 import config from "../../../config";
+import helper from "../../../utilities/helper";
 
 const IdentityList = () => {
     const {t} = useTranslation();
@@ -60,7 +61,7 @@ const IdentityList = () => {
                                 <div className="list-item">
                                     <p className="list-item-label">{t("BALANCE")}:</p>
                                     <div className="list-item-value profile-data-item button-item">
-                                        <p className=""> {faucetData[0].amount}{faucetData[0].denom}</p>
+                                        <p className="">{helper.mantleConversion(faucetData[0].amount*1)} {config.coinName}</p>
                                         <Button variant="primary" size="sm"
                                             onClick={() => handleModalData("Wrap")}>{t("WRAP")}</Button>
                                     </div>
@@ -76,7 +77,7 @@ const IdentityList = () => {
                             <div className="list-item">
                                 <p className="list-item-label">{t("WRAPPED_BALANCE")}:</p>
                                 <div className="list-item-value profile-data-item button-item">
-                                    <p className=""> {(wrappedCoins * 1).toFixed(3)}{config.coinDenom}</p>
+                                    <p className=""> {helper.mantleConversion((wrappedCoins * 1))} {config.coinName}</p>
                                     <Button variant="primary" size="sm"
                                         onClick={() => handleModalData("UnWrap")}>{t("UN_WRAP")}</Button>
                                 </div>

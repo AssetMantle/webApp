@@ -49,8 +49,8 @@ const PrivateKey = (props) => {
             localStorage.setItem("userAddress", wallet[1]);
             localStorage.setItem("loginMode", "normal");
             localStorage.setItem("identityList", JSON.stringify(idList));
-
             history.push('/profile');
+            window.location.reload();
         } else {
             setLoader(false);
             setIdErrorMessage('Address Not Present');

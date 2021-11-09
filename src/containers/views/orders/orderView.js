@@ -6,7 +6,7 @@ import Icon from "../../../icons";
 import Copy from "../../../components/copy";
 import {CancelOrder, TakeOrder} from "../../forms/orders";
 import {Define} from "../../forms";
-import config from "../../../config";
+import config from "../../../constants/config";
 import Lightbox from "react-image-lightbox";
 import {useTranslation} from "react-i18next";
 import {defineOrder as ordersDefineJS} from "persistencejs/build/transaction/orders/define";
@@ -14,7 +14,7 @@ import base64url from "base64url";
 import {TwitterShareButton} from "react-share";
 
 const ordersDefine = new ordersDefineJS(process.env.REACT_APP_ASSET_MANTLE_API);
-const OrderView = (props) => {
+const ListOrderView = (props) => {
     const {t} = useTranslation();
     const [order, setOrder] = useState([]);
     const [externalComponent, setExternalComponent] = useState("");
@@ -229,16 +229,12 @@ const OrderView = (props) => {
                                     {assetCategory}
                                     {assetName}
                                     {assetDescription}
-                                    <p className="asset-price">{orderData.exChangeRate} {config.coinName}</p>
+                                    <p className="asset-price">{orderData.exChangeRate} umantle</p>
                                     {/*{props.location.state.currentPath === "/marketplace" ?*/}
                                     {localStorage.getItem('userName') !== null ?
                                         <Button variant="primary" size="sm" className="action-button"
-                                            onClick={() => handleModalData("TakeOrder", orderId)}>{t("TAKE")}</Button>
+                                            onClick={() => handleModalData("CancelOrder", "" , order)}>{t("CANCEL")}</Button>
                                         : ""
-                                        // :   localStorage.getItem('userName') !== null ?
-                                        //     <Button variant="primary" size="sm" className="action-button"
-                                        //         onClick={() => handleModalData("CancelOrder", "" , order)}>{t("CANCEL")}</Button>
-                                        //     : ""
                                     }
                                     <div className="properties-container">
                                         <div className="header">
@@ -260,7 +256,7 @@ const OrderView = (props) => {
                         null
                     }
                     {externalComponent === 'CancelOrder' ?
-                        <CancelOrder setExternalComponent={setExternalComponent} order={order}/> :
+                        <CancelOrder setExternalComponent={setExternalComponent} order={orderData}/> :
                         null
                     }
                     {externalComponent === 'DefineOrder' ?
@@ -273,4 +269,4 @@ const OrderView = (props) => {
         </div>
     );
 };
-export default OrderView;
+export default ListOrderView;

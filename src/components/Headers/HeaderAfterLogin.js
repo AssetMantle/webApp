@@ -117,126 +117,128 @@ const HeaderAfterLogin = () => {
     );
     return (
         <>
-            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="login-after container-fluid">
-                <Navbar.Brand><Nav.Link onClick={handleRoute("/marketplace")} className="header-logo">
-                </Nav.Link></Navbar.Brand>
-                <Navbar.Toggle aria-controls="responsive-navbar-nav-login"/>
-                <Navbar.Collapse id="responsive-navbar-nav-login">
-                    <Nav className="search-section ml-auto">
-                        {
-                            userTypeToken == null ?
-                                <Nav>
-                                    <Nav.Link onClick={() => handleModelRoute("SignUp")}>{t("SIGNUP")}</Nav.Link>
-                                    <div className="button-login-section">
-                                        <Button variant="primary" className="button-double-border"
-                                            onClick={handleRoute("/Login")}>{t("LOGIN")}</Button>
-                                    </div>
+            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="login-after">
+                <div className="container">
+                    <Navbar.Brand><Nav.Link onClick={handleRoute("/marketplace")} className="header-logo">
+                    </Nav.Link></Navbar.Brand>
+                    <Navbar.Toggle aria-controls="responsive-navbar-nav-login"/>
+                    <Navbar.Collapse id="responsive-navbar-nav-login">
+                        <Nav className="search-section ml-auto">
+                            {
+                                userTypeToken == null ?
+                                    <Nav>
+                                        <Nav.Link onClick={() => handleModelRoute("SignUp")}>{t("SIGNUP")}</Nav.Link>
+                                        <div className="button-login-section">
+                                            <Button variant="primary" className="button-double-border"
+                                                onClick={handleRoute("/Login")}>{t("LOGIN")}</Button>
+                                        </div>
 
-                                </Nav>
-                                :
-                                <Nav className="nav-items">
-                                    <li className="nav-item">
-                                        <NavLink className="nav-link" to="/mint">{t("CREATE_NFT")}</NavLink>
-                                    </li>
-                                    <li className="nav-item">
-                                        <NavLink className="nav-link" to="/assets">{t("ASSETS")}</NavLink>
-                                    </li>
-                                    {/*<li className="nav-item">*/}
-                                    {/*    <NavLink className="nav-link" to="/orders">{t("ORDERS")}</NavLink>*/}
-                                    {/*</li>*/}
-                                    <li className="nav-item">
-                                        <NavLink className="nav-link" to="/marketplace">{t("MARKET_PLACE")}</NavLink>
-                                    </li>
-                                    {/*<li className="nav-item">*/}
-                                    {/*    <NavLink className="nav-link" to="/maintainers">{t("MAINTAINERS")}</NavLink>*/}
-                                    {/*</li>*/}
-                                    {/*<li className="nav-item">*/}
-                                    {/*    <NavLink className="nav-link" to="/profile">{t("PROFILE")}</NavLink>*/}
-                                    {/*</li>*/}
-                                    <li className="profile-section">
-                                        <NavDropdown title={dropdownTitle} id="basic-nav-dropdown"
-                                            className="profile-dropdown">
-                                            <div className="profile-dropdown-menu"
-                                                aria-labelledby="profile-nav-dropdown">
-                                                <div className="address-list">
-                                                    {userList !== null ?
-                                                        userList.map((id, index) => {
-                                                            if (localStorage.getItem('userName') === id) {
-                                                                return (
-                                                                    <div key={index} className="address-item active"
-                                                                        onClick={handleRoute("/profile")}>
-                                                                        <div className="icon-section">
-                                                                            <Icon
-                                                                                viewClass="user"
-                                                                                icon="user"/>
-                                                                            <p className="address">{id}</p>
+                                    </Nav>
+                                    :
+                                    <Nav className="nav-items">
+                                        <li className="nav-item">
+                                            <NavLink className="nav-link" to="/mint">{t("CREATE_NFT")}</NavLink>
+                                        </li>
+                                        <li className="nav-item">
+                                            <NavLink className="nav-link" to="/assets">{t("ASSETS")}</NavLink>
+                                        </li>
+                                        {/*<li className="nav-item">*/}
+                                        {/*    <NavLink className="nav-link" to="/orders">{t("ORDERS")}</NavLink>*/}
+                                        {/*</li>*/}
+                                        <li className="nav-item">
+                                            <NavLink className="nav-link" to="/marketplace">{t("MARKET_PLACE")}</NavLink>
+                                        </li>
+                                        {/*<li className="nav-item">*/}
+                                        {/*    <NavLink className="nav-link" to="/maintainers">{t("MAINTAINERS")}</NavLink>*/}
+                                        {/*</li>*/}
+                                        {/*<li className="nav-item">*/}
+                                        {/*    <NavLink className="nav-link" to="/profile">{t("PROFILE")}</NavLink>*/}
+                                        {/*</li>*/}
+                                        <li className="profile-section">
+                                            <NavDropdown title={dropdownTitle} id="basic-nav-dropdown"
+                                                className="profile-dropdown">
+                                                <div className="profile-dropdown-menu"
+                                                    aria-labelledby="profile-nav-dropdown">
+                                                    <div className="address-list">
+                                                        {userList !== null ?
+                                                            userList.map((id, index) => {
+                                                                if (localStorage.getItem('userName') === id) {
+                                                                    return (
+                                                                        <div key={index} className="address-item active"
+                                                                            onClick={handleRoute("/profile")}>
+                                                                            <div className="icon-section">
+                                                                                <Icon
+                                                                                    viewClass="user"
+                                                                                    icon="user"/>
+                                                                                <p className="address">{id}</p>
+                                                                            </div>
+                                                                            {/*<span className="cross-icon" onClick={()=> removeIdentityHandler(id)}>*/}
+                                                                            {/*    <Icon*/}
+                                                                            {/*        viewClass="cross"*/}
+                                                                            {/*        icon="cross"/>*/}
+                                                                            {/*</span>*/}
+
                                                                         </div>
-                                                                        {/*<span className="cross-icon" onClick={()=> removeIdentityHandler(id)}>*/}
-                                                                        {/*    <Icon*/}
-                                                                        {/*        viewClass="cross"*/}
-                                                                        {/*        icon="cross"/>*/}
-                                                                        {/*</span>*/}
+                                                                    );
+                                                                } else {
+                                                                    return (
+                                                                        <div key={index} className="address-item">
+                                                                            <div className="icon-section">
+                                                                                <Icon
+                                                                                    viewClass="user"
+                                                                                    icon="user"/>
+                                                                                <p className="address" title={id}
+                                                                                    onClick={() => changeIdentityHandler(id)}>{id}</p>
+                                                                            </div>
+                                                                            <span className="cross-icon"
+                                                                                onClick={() => removeIdentityHandler(id)}>
+                                                                                <Icon
+                                                                                    viewClass="cross"
+                                                                                    icon="cross"/>
+                                                                            </span>
 
-                                                                    </div>
-                                                                );
-                                                            } else {
-                                                                return (
-                                                                    <div key={index} className="address-item">
-                                                                        <div className="icon-section">
-                                                                            <Icon
-                                                                                viewClass="user"
-                                                                                icon="user"/>
-                                                                            <p className="address" title={id}
-                                                                                onClick={() => changeIdentityHandler(id)}>{id}</p>
                                                                         </div>
-                                                                        <span className="cross-icon"
-                                                                            onClick={() => removeIdentityHandler(id)}>
-                                                                            <Icon
-                                                                                viewClass="cross"
-                                                                                icon="cross"/>
-                                                                        </span>
+                                                                    );
+                                                                }
 
-                                                                    </div>
-                                                                );
-                                                            }
+                                                            })
+                                                            : ""
+                                                        }
+                                                    </div>
 
-                                                        })
-                                                        : ""
-                                                    }
+                                                    <p onClick={handleAddIdentity} className="add-id">
+                                                        <div className="icon-section">
+                                                            <Icon
+                                                                viewClass="add-user"
+                                                                icon="add-user"/>{t("ADD_USER")}
+                                                        </div>
+                                                    </p>
+                                                    {/*<p  className="add-id">*/}
+                                                    {/*    <div className="icon-section">*/}
+                                                    {/*        <Icon*/}
+                                                    {/*            viewClass="add-user"*/}
+                                                    {/*            icon="user"/>{t("PROFILE")}*/}
+                                                    {/*    </div>*/}
+                                                    {/*</p>*/}
+                                                    <p onClick={logout} className="logout">
+                                                        <div className="icon-section">
+                                                            <Icon
+                                                                viewClass="logout"
+                                                                icon="logout"/>{t("LOGOUT")}
+                                                        </div>
+                                                    </p>
                                                 </div>
+                                            </NavDropdown>
+                                        </li>
+                                        <li className="nav-item flex">
+                                            <Darktheme/>
+                                        </li>
+                                    </Nav>
+                            }
+                        </Nav>
 
-                                                <p onClick={handleAddIdentity} className="add-id">
-                                                    <div className="icon-section">
-                                                        <Icon
-                                                            viewClass="add-user"
-                                                            icon="add-user"/>{t("ADD_USER")}
-                                                    </div>
-                                                </p>
-                                                {/*<p  className="add-id">*/}
-                                                {/*    <div className="icon-section">*/}
-                                                {/*        <Icon*/}
-                                                {/*            viewClass="add-user"*/}
-                                                {/*            icon="user"/>{t("PROFILE")}*/}
-                                                {/*    </div>*/}
-                                                {/*</p>*/}
-                                                <p onClick={logout} className="logout">
-                                                    <div className="icon-section">
-                                                        <Icon
-                                                            viewClass="logout"
-                                                            icon="logout"/>{t("LOGOUT")}
-                                                    </div>
-                                                </p>
-                                            </div>
-                                        </NavDropdown>
-                                    </li>
-                                    <li className="nav-item flex">
-                                        <Darktheme/>
-                                    </li>
-                                </Nav>
-                        }
-                    </Nav>
-
-                </Navbar.Collapse>
+                    </Navbar.Collapse>
+                </div>
             </Navbar>
 
             {

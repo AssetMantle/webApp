@@ -16,7 +16,7 @@ const OrderList = React.memo(() => {
 
     const handleAsset = (id, orderID) => {
         history.push({
-            pathname: `/view/${id}`,
+            pathname: `/list/view/${id}`,
             orderID: orderID
         });
         // history.push(`/view/${id}`);
