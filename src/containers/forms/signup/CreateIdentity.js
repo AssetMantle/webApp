@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Form, Button, Modal} from 'react-bootstrap';
+import {Button, Form, Modal} from 'react-bootstrap';
 import InputField from '../../../components/inputField';
 import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
@@ -7,6 +7,7 @@ import {useHistory} from "react-router-dom";
 import TransactionOptions from "../login/TransactionOptions";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import {queryIdentities} from "persistencejs/build/transaction/identity/query";
+
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const CreateIdentity = () => {
@@ -34,7 +35,7 @@ const CreateIdentity = () => {
                 const dataList = data.result.value.identities.value.list;
                 const hashGenerate = GetMetaHelper.Hash(IdentityName);
                 let count = 0;
-                if(dataList) {
+                if (dataList) {
                     for (var i = 0; i < dataList.length; i++) {
                         if (dataList[i].value.immutables.value.properties.value.propertyList !== null) {
                             const immutablePropertyList = dataList[i].value.immutables.value.properties.value.propertyList[0];
@@ -58,7 +59,7 @@ const CreateIdentity = () => {
                         setTotalDefineObject(totalData);
                         setExternalComponent('Keystore');
                     }
-                }else {
+                } else {
                     let totalData = {
                         nubId: IdentityName,
                     };
@@ -86,7 +87,6 @@ const CreateIdentity = () => {
         setShow(false);
         history.push('/');
     };
-    console.log(loader , "loader");
     return (
         <div>
 

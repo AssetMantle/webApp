@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Form, Button, Modal} from 'react-bootstrap';
+import React, {useEffect, useState} from 'react';
+import {Button, Form, Modal} from 'react-bootstrap';
 import {cls} from 'persistencejs/build/transaction/classification/query';
 import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
@@ -16,12 +16,11 @@ const Deputize = (props) => {
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const [mutableList, setMutableList] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
-    console.log(props, "props");
     useEffect(() => {
         const classificationId = props.maintainerData['classificationID'];
         const classificationResponse = classificationsQuery.queryClassificationWithID(classificationId);
 
-        classificationResponse.then(function(item) {
+        classificationResponse.then(function (item) {
             const data = JSON.parse(item);
             const mutablePropertyList = data.result.value.classifications.value.list[0].value.mutableTraits.value.properties.value.propertyList;
             setMutableList(mutablePropertyList);

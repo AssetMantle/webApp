@@ -3,9 +3,11 @@ import helper from "../../utilities/helper";
 import {queryOrders} from "persistencejs/build/transaction/orders/query";
 import {queryAssets} from "persistencejs/build/transaction/assets/query";
 import GetID from "../../utilities/GetID";
+
 const ordersQuery = new queryOrders(process.env.REACT_APP_ASSET_MANTLE_API);
 export const SET_MARKET_ORDERS = "SET_MARKET_ORDERS";
 const assetsQuery = new queryAssets(process.env.REACT_APP_ASSET_MANTLE_API);
+
 export async function fetchAssetDetails(makerID) {
     const filterAssetList = await assetsQuery.queryAssetWithID(makerID);
     const parsedAsset = JSON.parse(filterAssetList);
@@ -23,9 +25,10 @@ export async function fetchAssetDetails(makerID) {
             const totalData = {...immutableProperties[0], ...mutableProperties[0]};
             const objSorted = helper.SortObjectData(totalData);
 
-            const data = {'totalData': objSorted,
-                'mutableProperties':mutableProperties[0],
-                'immutableProperties':immutableProperties[0]
+            const data = {
+                'totalData': objSorted,
+                'mutableProperties': mutableProperties[0],
+                'immutableProperties': immutableProperties[0]
             };
             return data;
         }
@@ -35,7 +38,7 @@ export async function fetchAssetDetails(makerID) {
 export const fetchMarketPlace = () => {
     return async (dispatch) => {
         try {
-            const orders = await  ordersQuery.queryOrderWithID("all");
+            const orders = await ordersQuery.queryOrderWithID("all");
             const ordersData = JSON.parse(orders);
             const ordersDataList = ordersData.result.value.orders.value.list;
             if (ordersDataList) {
@@ -50,7 +53,6 @@ export const fetchMarketPlace = () => {
                         mutableProperties = await GetProperties.ParseProperties(order.value.mutables.value.properties.value.propertyList);
                     }
                     const exChangeRate = mutableProperties[0]['exchangeRate'];
-                    console.log(exChangeRate, helper.getExchangeRate(exChangeRate) , "market");
 
                     let orderIdData = await GetID.GetOrderID(order);
                     let classificationID = await GetID.GetClassificationID(order);
@@ -60,27 +62,26 @@ export const fetchMarketPlace = () => {
                     let makerID = await GetID.GetMakerID(order);
                     // const totalData = {...immutableProperties[0], ...mutableProperties[0]};
                     // const objSorted = helper.SortObjectData(totalData);
-                    ordersListNew.push({'totalData': assetData.totalData,
-                        'orderID':orderIdData,
-                        'encodedOrderID':helper.getBase64Hash(orderIdData),
-                        'classificationID':classificationID,
-                        'makerOwnableID':makerOwnableID,
-                        'takerOwnableID':takerOwnableID,
-                        'makerID':makerID,
-                        'exChangeRate':helper.getExchangeRate(exChangeRate),
-                        'immutableProperties':assetData.immutableProperties,
-                        'mutableProperties':assetData.mutableProperties
+                    ordersListNew.push({
+                        'totalData': assetData.totalData,
+                        'orderID': orderIdData,
+                        'encodedOrderID': helper.getBase64Hash(orderIdData),
+                        'classificationID': classificationID,
+                        'makerOwnableID': makerOwnableID,
+                        'takerOwnableID': takerOwnableID,
+                        'makerID': makerID,
+                        'exChangeRate': helper.getExchangeRate(exChangeRate),
+                        'immutableProperties': assetData.immutableProperties,
+                        'mutableProperties': assetData.mutableProperties
                     });
                 }
-                console.log("innn");
                 dispatch({
                     type: SET_MARKET_ORDERS,
                     marketOrders: ordersListNew,
-                    loading:false,
-                    data:''
+                    loading: false,
+                    data: ''
                 });
-            }
-            else {
+            } else {
                 dispatch({
                     type: SET_MARKET_ORDERS,
                     marketOrders: [],

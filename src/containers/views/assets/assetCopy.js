@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 // import {Dropdown} from "react-bootstrap";
-import { Wrap, UnWrap, DefineAsset} from "../../forms/assets";
+import {DefineAsset, UnWrap, Wrap} from "../../forms/assets";
 import {defineAsset} from "persistencejs/build/transaction/assets/define";
 // import {useTranslation} from "react-i18next";
 import AssetList from "./assetList";
@@ -18,7 +18,7 @@ const Assets = () => {
     //         history.push("/mint");
     //     }
     // };
-    const hanldeRoute= () =>{
+    const hanldeRoute = () => {
 
     };
     return (
@@ -49,11 +49,11 @@ const Assets = () => {
             {/*    </div>*/}
 
             {/*</div>*/}
-            <AssetList hanldeRoute={()=>hanldeRoute()}/>
+            <AssetList hanldeRoute={() => hanldeRoute()}/>
             <div>
                 {externalComponent === 'DefineAsset' ?
                     <DefineAsset setExternalComponent={setExternalComponent} ActionName={assetDefine}
-                                 FormName={'Define Asset'} type={'asset'}/> :
+                        FormName={'Define Asset'} type={'asset'}/> :
                     null
                 }
                 {/*{*/}

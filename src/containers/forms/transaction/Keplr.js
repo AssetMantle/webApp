@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Icon from "../../../icons";
 import {Modal} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
@@ -10,6 +10,7 @@ import GetID from "../../../utilities/Helpers/getID";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import ModalCommon from "../../../components/modal";
 import config from "../../../config";
+
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const KeplrTransaction = (props) => {
     const history = useHistory();
@@ -36,9 +37,7 @@ const KeplrTransaction = (props) => {
                 if (dataList[identity].value.immutables.value.properties.value.propertyList !== null) {
                     const immutablePropertyList = dataList[identity].value.immutables.value.properties.value.propertyList[0];
                     if (immutablePropertyList.value.fact.value.hash === userIdHash) {
-                        console.log("new id",GetIDHelper.GetIdentityID(dataList[identity]) );
                         identityID = GetIDHelper.GetIdentityID(dataList[identity]);
-                        console.log(identityID, "new issssss");
                         setTestID(GetIDHelper.GetIdentityID(dataList[identity]));
                     }
                 }
@@ -53,26 +52,25 @@ const KeplrTransaction = (props) => {
         const kepler = KeplerWallet();
         kepler.then(function () {
             let address;
-            if(props.TransactionName === "nubid"){
+            if (props.TransactionName === "nubid") {
                 address = localStorage.getItem("keplerAddress");
-            }else {
+            } else {
                 address = localStorage.getItem('userAddress');
             }
 
-            let queryResponse = queries.transactionDefinition(address , "", "keplr", props.TransactionName, props.totalDefineObject);
+            let queryResponse = queries.transactionDefinition(address, "", "keplr", props.TransactionName, props.totalDefineObject);
             queryResponse.then(async (result) => {
                 console.log("response finale", result);
-                if(result.code){
+                if (result.code) {
                     setLoader(false);
-                    if(props.TransactionName === "nubid"){
+                    if (props.TransactionName === "nubid") {
                         setErrorMessage(result.rawLog);
-                    }else
-                    {
+                    } else {
                         setErrorMessage(result.rawLog);
 
                     }
-                }else {
-                    if(props.TransactionName === "nubid"){
+                } else {
+                    if (props.TransactionName === "nubid") {
                         setNubID(props.totalDefineObject.nubId);
                         const hashGenerate = GetMetaHelper.Hash(props.totalDefineObject.nubId);
                         const identityID = await getIdentityId(hashGenerate);
@@ -81,7 +79,7 @@ const KeplrTransaction = (props) => {
                             CoinAmountDenom: '5000000' + config.coinDenom,
                         };
 
-                        let queryResponse = queries.transactionDefinition(address , "", "keplr", 'wrap', totalData);
+                        let queryResponse = queries.transactionDefinition(address, "", "keplr", 'wrap', totalData);
                         queryResponse.then(async function (item) {
                             console.log(item, "item wrap response");
                         }).catch(err => {
@@ -113,7 +111,8 @@ const KeplrTransaction = (props) => {
     };
     return (
         <div className="custom-modal seed">
-            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select" centered>
+            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select"
+                centered>
                 <Modal.Header closeButton>
                     <div className="back-button" onClick={backHandler}>
                         <Icon viewClass="arrow-icon" icon="arrow"/>
@@ -121,7 +120,7 @@ const KeplrTransaction = (props) => {
                     <p className="title">{props.network}</p>
                 </Modal.Header>
                 {loader ?
-                    <Loader />
+                    <Loader/>
                     : ""
                 }
                 <Modal.Body>

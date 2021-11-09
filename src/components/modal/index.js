@@ -7,54 +7,56 @@ import * as markePlace from "../../store/actions/marketPlace";
 import * as assets from "../../store/actions/assets";
 import * as faucet from "../../store/actions/faucet";
 import * as wrappedCoins from "../../store/actions/wrappedCoins";
-
+import loaderImage from "../../assets/images/loader.svg";
 const ModalCommon = (props) => {
     const {t} = useTranslation();
     const history = useHistory();
+    const [loader, serLoader] = useState(true);
     const userAddress = localStorage.getItem('userAddress');
     const identityID = localStorage.getItem('identityId');
     const [showIdentity, setShowIdentity] = useState(true);
+
     const dispatch = useDispatch();
+    setTimeout(() => {
+        serLoader(false);
+    }, 3000);
     const handleClose = async () => {
         setShowIdentity(false);
         props.handleClose();
         if (props.transactionName === "assetMint" ||
             props.transactionName === "Define Asset" ||
-            props.transactionName ==="send splits" ||
-            props.transactionName ==="burn asset" ||
-            props.transactionName ==="mutate asset"){
+            props.transactionName === "send splits" ||
+            props.transactionName === "burn asset" ||
+            props.transactionName === "mutate asset") {
             await Promise.all([
                 dispatch(assets.fetchAssets(identityID)),
             ]);
             history.push("/assets");
-        }else if(props.transactionName === "unwrap" ||
+        } else if (props.transactionName === "unwrap" ||
             props.transactionName === "wrap" ||
             props.transactionName === "provision" ||
-            props.transactionName === "un provision"){
+            props.transactionName === "un provision") {
             await Promise.all([
                 dispatch(faucet.fetchFaucet(userAddress)),
                 dispatch(wrappedCoins.fetchWrappedCoins(identityID))
             ]);
             history.push("/profile");
-        }
-        else if (props.transactionName === "Define Order"){
+        } else if (props.transactionName === "Define Order") {
             history.push("/orders");
             window.location.reload();
-        }else if (props.transactionName === "make order"){
+        } else if (props.transactionName === "make order") {
             await Promise.all([
                 dispatch(assets.fetchAssets(identityID)),
                 dispatch(markePlace.fetchMarketPlace())
             ]);
             history.push("/marketplace");
-        }else if (props.transactionName === "take order"){
+        } else if (props.transactionName === "take order") {
             await Promise.all([
                 dispatch(assets.fetchAssets(identityID)),
                 dispatch(markePlace.fetchMarketPlace())
             ]);
             history.push("/assets");
         }
-
-
     };
     return (
         <Modal
@@ -68,26 +70,38 @@ const ModalCommon = (props) => {
                 {t("Result")}
             </Modal.Header>
             <Modal.Body>
-                {
-                    props.transactionName === 'nubid' ?
-                        <>
-                            <p><b>User Name:</b> {props.nubID}</p>
-                            <p><b>IdentityID:</b> {props.testID}</p>
-                        </>
-                        : ""
-                }
-
-                { props.keplrTxn ?
-                    props.data.code ?
-                        <p>Error: {props.data.rawLog}</p>
-                        :
-                        <p className="tx-hash">TxHash: <a href={process.env.REACT_APP_EXPLORER_API + '/transaction?txHash=' + props.data.transactionHash}target="_blank" rel="noreferrer">{props.data.transactionHash}</a></p>
+                {loader ?
+                    <div className="loader-section">
+                        <img src={loaderImage} alt="loader"/>
+                    </div>
                     :
-                    props.data.code ?
-                        <p>Error: {props.data.rawLog}</p>
-                        :
-                        <p className="tx-hash">TxHash: <a href={process.env.REACT_APP_EXPLORER_API + '/transaction?txHash=' + props.data.transactionHash} target="_blank" rel="noreferrer">{props.data.transactionHash}</a></p>
+                    <>
+                        {
+                            props.transactionName === 'nubid' ?
+                                <>
+                                    <p><b>User Name:</b> {props.nubID}</p>
+                                    <p><b>IdentityID:</b> {props.testID}</p>
+                                </>
+                                : ""
+                        }
 
+                        {props.keplrTxn ?
+                            props.data.code ?
+                                <p>Error: {props.data.rawLog}</p>
+                                :
+                                <p className="tx-hash">TxHash: <a
+                                    href={process.env.REACT_APP_EXPLORER_API + '/transaction?txHash=' + props.data.transactionHash}
+                                    target="_blank" rel="noreferrer">{props.data.transactionHash}</a></p>
+                            :
+                            props.data.code ?
+                                <p>Error: {props.data.rawLog}</p>
+                                :
+                                <p className="tx-hash">TxHash: <a
+                                    href={process.env.REACT_APP_EXPLORER_API + '/transaction?txHash=' + props.data.transactionHash}
+                                    target="_blank" rel="noreferrer">{props.data.transactionHash}</a></p>
+
+                        }
+                    </>
                 }
             </Modal.Body>
         </Modal>

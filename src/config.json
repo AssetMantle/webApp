@@ -1,37 +1,37 @@
 {
-    "chainID" : "test",
-    "chainName": "assetMantle",
-    "addressPrefix": "mantle",
-    "coinType": "750",
-    "coinDenom": "umantle",
-    "coinName": "Mantle",
-    "xprtValue": 1000000,
-    "lowFee": 0,
-    "averageFee": 0.025,
-    "highFee": 0.04,
-    "defaultFee": "5000",
-    "vestingAccountFee": "0",
-    "modeType": "sync",
-    "version": "0.1.5",
-    "initialTxHashQueryDelay": 20000,
-    "scheduledTxHashQueryDelay": 8000,
-    "numberOfRetries": 20,
-    "feesAmount": 0,
-    "feesToken": "umantle",
-    "mode": "sync",
-    "gas": 200000,
-    "URI": "URI",
-    "IPFS_URL": "https://ipfs.infura.io:5001/api/v0",
-    "channels": [
-      {
-          "name": "cosmos",
-          "id": "cosmos/channel-1",
-          "port": "transfer"
-      },
-      {
-        "name": "persistence",
-        "id": "persistence/channel-2",
-        "port": "transfer"
-      }
-    ]
-  }
+  "chainID": "test",
+  "chainName": "assetMantle",
+  "addressPrefix": "mantle",
+  "coinType": "750",
+  "coinDenom": "umantle",
+  "coinName": "Mantle",
+  "xprtValue": 1000000,
+  "lowFee": 0,
+  "averageFee": 0.025,
+  "highFee": 0.04,
+  "defaultFee": "5000",
+  "vestingAccountFee": "0",
+  "modeType": "sync",
+  "version": "0.1.5",
+  "initialTxHashQueryDelay": 20000,
+  "scheduledTxHashQueryDelay": 8000,
+  "numberOfRetries": 20,
+  "feesAmount": 0,
+  "feesToken": "umantle",
+  "mode": "sync",
+  "gas": 200000,
+  "URI": "URI",
+  "IPFS_URL": "https://ipfs.infura.io:5001/api/v0",
+  "channels": [
+    {
+      "name": "cosmos",
+      "id": "cosmos/channel-1",
+      "port": "transfer"
+    },
+    {
+      "name": "persistence",
+      "id": "persistence/channel-2",
+      "port": "transfer"
+    }
+  ]
+}

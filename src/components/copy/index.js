@@ -14,7 +14,7 @@ const Copy = (props) => {
 
     return (
         <div className="copy-section">
-            
+
             <OverlayTrigger
                 key="top"
                 placement="top"
@@ -36,12 +36,8 @@ const Copy = (props) => {
                             title={props.id}> {props.id}</p>
                     }
                 </CopyToClipboard>
-
             </OverlayTrigger>
 
-            {/*<section className="copy-result">*/}
-
-            {/*</section>*/}
         </div>
     );
 };

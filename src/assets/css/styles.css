@@ -277,7 +277,7 @@ html, body, #root, .app {
 }
 
 .pageError {
-  height: calc(100vh - 66px);
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1619,6 +1619,26 @@ model-viewer {
 
 .form-control:disabled, .form-control[readonly] {
   cursor: not-allowed;
+}
+
+.list-value-denom {
+  font-size: 12px;
+}
+
+.order-value {
+  font-size: 16px;
+  margin: 0;
+}
+
+.list-item.txn {
+  width: 60%;
+}
+
+.loader-section {
+  text-align: center;
+}
+.loader-section img {
+  width: 120px;
 }
 
 /*# sourceMappingURL=styles.css.map */

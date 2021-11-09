@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {queryMeta} from "persistencejs/build/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import {useHistory} from "react-router-dom";
@@ -67,8 +67,8 @@ const IdentityView = React.memo((props) => {
     };
     const handleBack = () => {
         history.push({
-            pathname:props.location.state.currentPath,
-            address:props.location.state.userAddress
+            pathname: props.location.state.currentPath,
+            address: props.location.state.userAddress
         });
     };
     return (
@@ -206,7 +206,7 @@ const IdentityView = React.memo((props) => {
                                                                                     id={`immutable_identityList_search` + index + index1}
                                                                                     className="list-item-value"></p>
                                                                             </div>);
-                                                                    } else if(keyName !== 'style' && keyName !== config.URI){
+                                                                    } else if (keyName !== 'style' && keyName !== config.URI) {
                                                                         return (
                                                                             <div key={index + keyName}
                                                                                 className="list-item"><p
@@ -232,7 +232,7 @@ const IdentityView = React.memo((props) => {
                                                                                     id={`mutable_identityList_search` + index + index1}
                                                                                     className="list-item-value"></p>
                                                                             </div>);
-                                                                    } else if(keyName !== config.URI){
+                                                                    } else if (keyName !== config.URI) {
                                                                         return (
                                                                             <div key={index + keyName}
                                                                                 className="list-item">
@@ -248,7 +248,8 @@ const IdentityView = React.memo((props) => {
                                                     <p className="sub-title">provisionedAddressList</p>
                                                     {provisionedAddressList !== null && provisionedAddressList !== "" ?
                                                         provisionedAddressList.map((provisionedAddress, addressKey) => {
-                                                            return (<p className="provision-address" key={addressKey}>{provisionedAddress}</p>);
+                                                            return (<p className="provision-address"
+                                                                key={addressKey}>{provisionedAddress}</p>);
                                                         })
                                                         : <p className="provision-address">Empty</p>
                                                     }
@@ -256,7 +257,8 @@ const IdentityView = React.memo((props) => {
                                                     {unProvisionedAddressList !== null && unProvisionedAddressList !== "" ?
                                                         unProvisionedAddressList.map((unprovisionedAddress, unprovisionedAddressKey) => {
                                                             return (
-                                                                <p className="provision-address" key={unprovisionedAddressKey}>{unprovisionedAddress}</p>);
+                                                                <p className="provision-address"
+                                                                    key={unprovisionedAddressKey}>{unprovisionedAddress}</p>);
                                                         })
                                                         : <p className="provision-address">Empty</p>
                                                     }

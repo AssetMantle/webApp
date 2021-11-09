@@ -30,9 +30,9 @@ export const fetchMaintainers = (identityID) => {
                             let classificationID = identity.value.id.value.classificationID.value.idString;
                             let id = identity.value.id.value.identityID.value.idString;
                             maintainersListNew.push({
-                                'addMaintainer':identity.value.addMaintainer,
-                                'mutateMaintainer':identity.value.mutateMaintainer,
-                                'removeMaintainer':identity.value.removeMaintainer,
+                                'addMaintainer': identity.value.addMaintainer,
+                                'mutateMaintainer': identity.value.mutateMaintainer,
+                                'removeMaintainer': identity.value.removeMaintainer,
                                 'totalData': maintainedTraits[0],
                                 'classificationID': classificationID,
                                 'identityID': id,

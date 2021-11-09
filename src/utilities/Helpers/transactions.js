@@ -8,12 +8,12 @@ const crypto = require('crypto');
 const passwordHashAlgorithm = 'sha512';
 const {SigningCosmosClient} = require('@cosmjs/launchpad');
 const restAPI = process.env.REACT_APP_ASSET_MANTLE_API;
-const prefix= config.addressPrefix ;
+const prefix = config.addressPrefix;
 const bip39 = require("bip39");
 
 
 function PrivateKeyReader(file, password) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         const fileReader = new FileReader();
         fileReader.readAsText(file, 'UTF-8');
         fileReader.onload = event => {
@@ -87,29 +87,30 @@ async function Transaction(wallet, signerAddress, msgs, fee, memo = '') {
     const cosmJS = new SigningCosmosClient(restAPI, signerAddress, wallet);
     return await cosmJS.signAndBroadcast(msgs, fee, memo);
 }
+
 async function MnemonicWallet() {
-    const wallet = await Secp256k1HdWallet.generate(24, {prefix:prefix, hdPaths:[stringToPath("m/44'/750'/0'/0/0")]});
+    const wallet = await Secp256k1HdWallet.generate(24, {prefix: prefix, hdPaths: [stringToPath("m/44'/750'/0'/0/0")]});
     const [firstAccount] = await wallet.getAccounts();
     return [wallet, firstAccount.address];
 }
 
 
 async function TransactionWithMnemonic(msgs, fee, memo, mnemonic, type) {
-    let accountNumber = localStorage.getItem('accountNumber')*1;
-    let addressIndex = localStorage.getItem('addressIndex')*1;
-    if(type === "normal"){
-        const [wallet, address] = await MnemonicWalletWithPassphrase(mnemonic,'');
+    let accountNumber = localStorage.getItem('accountNumber') * 1;
+    let addressIndex = localStorage.getItem('addressIndex') * 1;
+    if (type === "normal") {
+        const [wallet, address] = await MnemonicWalletWithPassphrase(mnemonic, '');
         return await Transaction(wallet, address, msgs, fee, memo);
-    }else {
-        const [wallet, address] = await LedgerWallet(makeHdPath(accountNumber , addressIndex), "mantle");
+    } else {
+        const [wallet, address] = await LedgerWallet(makeHdPath(accountNumber, addressIndex), "mantle");
         return await Transaction(wallet, address, msgs, fee, memo);
     }
 }
 
 
-
 async function LedgerWallet(hdpath, prefix) {
     const interactiveTimeout = 120_000;
+
     async function createTransport() {
         const ledgerTransport = await TransportWebUSB.create(interactiveTimeout, interactiveTimeout);
         return ledgerTransport;
@@ -126,8 +127,12 @@ async function LedgerWallet(hdpath, prefix) {
 }
 
 
-async function MnemonicWalletWithPassphrase(mnemonic,passphrase) {
-    const wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic, {prefix:config.addressPrefix,bip39Password:passphrase ,hdPaths:[stringToPath("m/44'/750'/0'/0/0")]});
+async function MnemonicWalletWithPassphrase(mnemonic, passphrase) {
+    const wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic, {
+        prefix: config.addressPrefix,
+        bip39Password: passphrase,
+        hdPaths: [stringToPath("m/44'/750'/0'/0/0")]
+    });
     const [firstAccount] = await wallet.getAccounts();
     return [wallet, firstAccount.address];
 }
@@ -136,7 +141,7 @@ async function TransactionWithKeplr(msgs, fee, memo, chainID) {
     await window.keplr.enable(chainID);
     const offlineSigner = window.getOfflineSigner(chainID);
     const accounts = await offlineSigner.getAccounts();
-    const cosmJS = new SigningCosmosClient(restAPI, accounts[0].address, offlineSigner );
+    const cosmJS = new SigningCosmosClient(restAPI, accounts[0].address, offlineSigner);
     return await cosmJS.signAndBroadcast(msgs, fee, memo);
 }
 

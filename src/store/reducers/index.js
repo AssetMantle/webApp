@@ -6,13 +6,14 @@ import identities from "./identities";
 import faucet from "./faucet";
 import maintainers from "./maintainers";
 import wrappedCoins from "./wrappedCoins";
+
 export default combineReducers({
     markePlace: markePlace,
-    assets:assets,
-    orders:orders,
-    identities:identities,
-    faucet:faucet,
-    maintainers:maintainers,
-    wrappedCoins:wrappedCoins
+    assets: assets,
+    orders: orders,
+    identities: identities,
+    faucet: faucet,
+    maintainers: maintainers,
+    wrappedCoins: wrappedCoins
 });
 

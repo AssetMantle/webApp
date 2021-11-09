@@ -1,4 +1,3 @@
-
 export default class GetID {
     GetClassificationID(data) {
         return data.value.id.value.classificationID.value.idString;
@@ -10,7 +9,6 @@ export default class GetID {
     }
 
     GetAssetID(asset) {
-        console.log(asset, "in get id");
         return asset.value.id.value.classificationID.value.idString + "|" +
             asset.value.id.value.hashID.value.idString;
     }

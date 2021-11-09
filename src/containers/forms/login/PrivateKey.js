@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Modal, Form, Button} from "react-bootstrap";
+import {Button, Form, Modal} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import transactions from "../../../utilities/Helpers/transactions";
@@ -13,7 +13,7 @@ const PrivateKey = (props) => {
     const [errorMessage, setErrorMessage] = useState(false);
     const [loader, setLoader] = useState(false);
     const [idErrorMessage, setIdErrorMessage] = useState("");
-    const keyStoreSubmitHandler = async (e) =>{
+    const keyStoreSubmitHandler = async (e) => {
         e.preventDefault();
         const userName = props.userData.userName;
         const password = e.target.password.value;
@@ -32,14 +32,14 @@ const PrivateKey = (props) => {
         const addressList = localStorage.getItem("addresses");
         const userList = localStorage.getItem("userList");
         const identityList = localStorage.getItem("identityList");
-        if(identityList !== null){
+        if (identityList !== null) {
             idList = JSON.parse(identityList);
         }
-        if(userList !== null){
+        if (userList !== null) {
             list = JSON.parse(userList);
         }
         if (addressList.includes(wallet[1])) {
-            idList.push({[userName]:  props.userData.identityId});
+            idList.push({[userName]: props.userData.identityId});
             setErrorMessage(false);
             setLoader(false);
             list.push(userName);
@@ -47,15 +47,14 @@ const PrivateKey = (props) => {
             localStorage.setItem("userList", JSON.stringify(list));
             localStorage.setItem("userName", userName);
             localStorage.setItem("userAddress", wallet[1]);
-            localStorage.setItem("loginMode","normal");
-            localStorage.setItem("identityList",  JSON.stringify(idList));
+            localStorage.setItem("loginMode", "normal");
+            localStorage.setItem("identityList", JSON.stringify(idList));
 
             history.push('/profile');
         } else {
             setLoader(false);
             setIdErrorMessage('Address Not Present');
         }
-        console.log("address", wallet[1]);
     };
     const handleClose = () => {
         setShow(false);
@@ -67,7 +66,7 @@ const PrivateKey = (props) => {
             setShow(false);
             props.setShow(true);
             props.setExternalComponent('');
-        }else {
+        } else {
             setShow(false);
             props.setShow(true);
             props.setExternalComponent('');
@@ -75,7 +74,8 @@ const PrivateKey = (props) => {
     };
     return (
         <div>
-            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select" centered>
+            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select"
+                centered>
                 <Modal.Header closeButton>
                     <div className="back-button" onClick={backHandler}>
                         <Icon viewClass="arrow-icon" icon="arrow"/>
@@ -90,7 +90,8 @@ const PrivateKey = (props) => {
                     <Form onSubmit={keyStoreSubmitHandler}>
                         <>
                             <Form.Group>
-                                <Form.File id="exampleFormControlFile1" name="uploadFile" accept=".json" label="Upload Keystore file" required={true} />
+                                <Form.File id="exampleFormControlFile1" name="uploadFile" accept=".json"
+                                    label="Upload Keystore file" required={true}/>
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label>{t("DECRYPT_KEY_STORE")}</Form.Label>

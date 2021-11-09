@@ -1,4 +1,5 @@
 import config from "../../config.json";
+
 const restAPI = process.env.REACT_APP_ASSET_MANTLE_API;
 const tendermintRPC = process.env.REACT_APP_TENDERMINT_RPC_ENDPOINT;
 const chainID = process.env.REACT_APP_CHAIN_ID;
@@ -140,7 +141,6 @@ async function KeplerWallet() {
     localStorage.setItem('keplerAddress', accounts[0].address);
 
 }
-
 
 
 export default KeplerWallet;

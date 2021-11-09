@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Form, Button, Modal} from 'react-bootstrap';
+import React, {useEffect, useState} from 'react';
+import {Button, Form, Modal} from 'react-bootstrap';
 import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
 import TransactionOptions from "../login/TransactionOptions";
@@ -30,7 +30,6 @@ const Wrap = (props) => {
             fromID: FromId,
             CoinAmountDenom: CoinAmount + CoinDenom,
         };
-        console.log(totalData, "totalData");
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');
         setShow(false);

@@ -1,7 +1,6 @@
 import React from "react";
-import {NavLink, withRouter} from "react-router-dom";
-import {useHistory} from "react-router-dom";
-import {Navbar, Nav, Button} from "react-bootstrap";
+import {NavLink, useHistory, withRouter} from "react-router-dom";
+import {Button, Nav, Navbar} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import logo from '../../assets/images/logo.svg';
 import Darktheme from "../darkmode/Darktheme";
@@ -38,10 +37,6 @@ const HeaderBeforeLogin = () => {
                                 onClick={handleRoute("/login")}>{t("LOGIN")}</Button>
                         </div>
 
-                        {/*<div className="button-login-section">*/}
-                        {/*    <Button variant="primary" className="button-double-border"*/}
-                        {/*        onClick={handleRoute("/address/login")}>{t("ALL_IDENTITIES")}</Button>*/}
-                        {/*</div>*/}
                         <li className="nav-item flex">
                             <Darktheme/>
                         </li>

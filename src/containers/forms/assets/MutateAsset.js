@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Form, Button, Modal} from 'react-bootstrap';
+import React, {useEffect, useState} from 'react';
+import {Button, Form, Modal} from 'react-bootstrap';
 import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
 import config from '../../../constants/config.json';
@@ -8,9 +8,7 @@ import GetProperty from '../../../utilities/Helpers/getProperty';
 import TransactionOptions from "../login/TransactionOptions";
 
 
-
 const MutateAsset = (props) => {
-    console.log(props, "mutatePropertiesList");
     const FilterHelper = new FilterHelpers();
     const PropertyHelper = new GetProperty();
     const {t} = useTranslation();
@@ -26,7 +24,6 @@ const MutateAsset = (props) => {
         setFromID(fromIDValue);
         const mutateProperties = props.mutatePropertiesList;
         const mutableKeys = Object.keys(mutateProperties);
-        console.log(mutableKeys, "mutableKeys");
         setKeyList(mutableKeys);
     }, []);
 
@@ -49,16 +46,12 @@ const MutateAsset = (props) => {
             let mutableFieldValue = document.getElementById(propertyData[property]['propertyValue']).value;
             mutableProperties.push(
                 {
-                    propertyName:name,
-                    propertyValue:mutableFieldValue
+                    propertyName: name,
+                    propertyValue: mutableFieldValue
                 }
             );
-            // if (mutableProperties !== "") {
-            //     // mutableProperties = mutableProperties + "," + name + ":S|" + mutableFieldValue;
-            // }
         });
 
-        console.log(keyList, "keyList");
         if (keyList !== null) {
             keyList.map((key) => {
                 if (key !== "propertyName") {
@@ -103,7 +96,6 @@ const MutateAsset = (props) => {
                 mutableValues: mutableValues,
                 mutableMetaValues: mutableMetaValues,
             };
-            console.log(totalData, "totalData");
             setTotalDefineObject(totalData);
             setExternalComponent('Keystore');
             setShow(false);
@@ -112,22 +104,22 @@ const MutateAsset = (props) => {
 
     };
 
-    let PropertyObject =[];
-    if(props.mutatePropertiesList){
+    let PropertyObject = [];
+    if (props.mutatePropertiesList) {
         const propertyData = JSON.parse(props.mutatePropertiesList["propertyName"]);
         Object.keys(propertyData).map((property, keyprop) => {
             let content =
-            <Form.Group key={keyprop}>
-                <Form.Label>{propertyData[property]['propertyName']}</Form.Label>
-                <Form.Control
-                    type="text"
-                    className=""
-                    required={true}
-                    id={propertyData[property]['propertyValue']}
-                    name={propertyData[property]['propertyValue']}
-                    defaultValue={propertyData[property]['propertyValue']}
-                />
-            </Form.Group>;
+                <Form.Group key={keyprop}>
+                    <Form.Label>{propertyData[property]['propertyName']}</Form.Label>
+                    <Form.Control
+                        type="text"
+                        className=""
+                        required={true}
+                        id={propertyData[property]['propertyValue']}
+                        name={propertyData[property]['propertyValue']}
+                        defaultValue={propertyData[property]['propertyValue']}
+                    />
+                </Form.Group>;
             PropertyObject.push(content);
         });
     }
@@ -160,7 +152,7 @@ const MutateAsset = (props) => {
                         {props.mutatePropertiesList ?
                             Object.keys(props.mutatePropertiesList).map((keyName, idx) => {
                                 console.log(idx, "idx");
-                                if (keyName !== "propertyName" && keyName !== "lock" &&keyName !== "burn") {
+                                if (keyName !== "propertyName" && keyName !== "lock" && keyName !== "burn") {
                                     return (
                                         <div key={idx}>
                                             <Form.Group>

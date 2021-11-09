@@ -1,12 +1,14 @@
 import {queryMeta} from "persistencejs/build/transaction/meta/query";
 
 const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
-async function FetchMetaData(hash){
+
+async function FetchMetaData(hash) {
     const metaQueryResult = await metasQuery.queryMetaWithID(hash);
     const data = JSON.parse(metaQueryResult);
     let metaValue = FetchMetaValue(data, hash);
     return metaValue;
 }
+
 function FetchMetaValue(data, hash) {
     let metaValue = "";
     if (data.result.value.metas.value.list === null) {

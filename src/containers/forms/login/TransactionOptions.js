@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {Modal} from "react-bootstrap";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import Icon from "../../../icons";
-import { Ledger, PrivateKey, Keplr} from "./index";
-import  LedgerTransaction from "../transaction/Ledger";
-import  KeplrTransaction from "../transaction/Keplr";
+import {Keplr, Ledger, PrivateKey} from "./index";
+import LedgerTransaction from "../transaction/Ledger";
+import KeplrTransaction from "../transaction/Keplr";
 import PrivateKeyTransaction from "../transaction/PrivateKey";
 import {useHistory} from "react-router-dom";
 import KeysCreate from "../signup/KeysCreate";
 
 const TransactionOptions = (props) => {
     const history = useHistory();
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const [show, setShow] = useState(true);
     const [externalComponent, setExternalComponent] = useState("");
 
@@ -33,9 +33,9 @@ const TransactionOptions = (props) => {
     const backHandler = () => {
         setShow(false);
         props.setExternalComponent('');
-        if(props.TransactionName !== "assetMint"){
+        if (props.TransactionName !== "assetMint") {
             props.setShow(true);
-            if(props.TransactionName === "nubid"){
+            if (props.TransactionName === "nubid") {
                 props.setLoader(false);
             }
         }
@@ -43,7 +43,8 @@ const TransactionOptions = (props) => {
 
     return (
         <div>
-            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select" centered>
+            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select"
+                centered>
                 <Modal.Header closeButton>
                     <div className="back-button" onClick={backHandler}>
                         <Icon viewClass="arrow-icon" icon="arrow"/>
@@ -68,7 +69,8 @@ const TransactionOptions = (props) => {
                     </div>
                     {props.TransactionName === "nubid" ?
                         <div className="submitButtonSection">
-                            <p onClick={() => handleRoute('create')} className="text-link"> Don&apos;t have an existing keys? Create One</p>
+                            <p onClick={() => handleRoute('create')} className="text-link"> Don&apos;t have an existing
+                                keys? Create One</p>
                         </div>
                         : ""}
                 </Modal.Body>
@@ -144,7 +146,8 @@ const TransactionOptions = (props) => {
             }
             {
                 externalComponent === 'create' ?
-                    <KeysCreate setExternalComponent={setExternalComponent} setShow={setShow}  totalDefineObject={props.totalDefineObject}/> :
+                    <KeysCreate setExternalComponent={setExternalComponent} setShow={setShow}
+                        totalDefineObject={props.totalDefineObject}/> :
                     null
             }
         </div>

@@ -14,9 +14,7 @@ const MaintainerList = React.memo(() => {
     const loader = useSelector((state) => state.maintainers.loading);
     const error = useSelector((state) => state.maintainers.error);
 
-    console.log(maintainersList, "maintainersList");
     const {t} = useTranslation();
-    // const [maintainersList, setMaintainersList] = useState([]);
     const [maintainer, setMaintainer] = useState({});
     const [externalComponent, setExternalComponent] = useState("");
     // const identityId = localStorage.getItem('identityId');
@@ -86,7 +84,8 @@ const MaintainerList = React.memo(() => {
                                         <div className="list-item">
                                             <p className="list-item-label">{t("CLASSIFICATION_ID")}:</p>
                                             <div className="list-item-value id-section">
-                                                <p className="id-string" title={maintainer['classificationID']}> {maintainer['classificationID']}</p>
+                                                <p className="id-string"
+                                                    title={maintainer['classificationID']}> {maintainer['classificationID']}</p>
                                             </div>
                                             <Copy
                                                 id={maintainer['classificationID']}/>
@@ -94,7 +93,8 @@ const MaintainerList = React.memo(() => {
                                         <div className="list-item">
                                             <p className="list-item-label">{t("IDENTITY_ID")}:</p>
                                             <div className="list-item-value id-section">
-                                                <p className="id-string" title={maintainer['identityID']}> {maintainer['identityID']}</p>
+                                                <p className="id-string"
+                                                    title={maintainer['identityID']}> {maintainer['identityID']}</p>
 
                                             </div>
                                             <Copy
@@ -102,7 +102,6 @@ const MaintainerList = React.memo(() => {
                                         </div>
                                         {
                                             Object.keys(maintainer['totalData']).map((keyName) => {
-                                                console.log(keyName, "inr eutn");
                                                 if (keyName !== config.URI && keyName !== 'style') {
                                                     return (
                                                         keyName !== 'style' && keyName !== config.URI ?

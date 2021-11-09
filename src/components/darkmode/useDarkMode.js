@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
 export const useDarkMode = () => {
     const [theme, setTheme] = useState('light');
@@ -9,13 +9,12 @@ export const useDarkMode = () => {
     };
 
     const toggleTheme = () => {
-        if(theme === 'dark'){
+        if (theme === 'dark') {
             if (document.getElementById('root').classList.contains('dark-mode')) {
                 document.getElementById('root').classList.add('light-mode');
                 document.getElementById('root').classList.remove('dark-mode');
             }
-        }
-        else{
+        } else {
             if (document.getElementById('root').classList.contains('light-mode')) {
                 document.getElementById('root').classList.add('dark-mode');
                 document.getElementById('root').classList.remove('light-mode');

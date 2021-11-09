@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Modal, Form, Button} from 'react-bootstrap';
+import {Button, Form, Modal} from 'react-bootstrap';
 import {createStore} from 'persistencejs/build/utilities/keys';
 import DownloadLink from 'react-download-link';
 import {useTranslation} from 'react-i18next';

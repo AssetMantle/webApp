@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 // import Sidebar from "../../../components/sidebar/sidebar";
 // import {useHistory} from "react-router-dom";
@@ -44,22 +44,20 @@ const AssetView = (props) => {
     };
     let ImageData;
     // let contentData  = [];
-    let PropertyObject =[];
+    let PropertyObject = [];
     let assetName;
     let assetCategory;
     let sellButton;
     // let mutateButton;
     let burnButton;
     let assetDescription;
-    console.log(assetData, "Asset data");
 
-    if(assetData.totalData)
-    {
+    if (assetData.totalData) {
         Object.keys(assetData.totalData).map((asset) => {
-            if(asset === config.URI){
+            if (asset === config.URI) {
                 const imageExtension = assetData.totalData[asset].substring(assetData.totalData[asset].lastIndexOf('.') + 1);
-                if(imageExtension === "gltf"){
-                    ImageData =  <div className="dummy-image image-sectiont asset-view-modal-viewer">
+                if (imageExtension === "gltf") {
+                    ImageData = <div className="dummy-image image-sectiont asset-view-modal-viewer">
                         <model-viewer
                             id="mv-astronaut"
                             src={assetData.totalData[asset]}
@@ -74,22 +72,22 @@ const AssetView = (props) => {
                         >
                         </model-viewer>
                     </div>;
-                }else if(imageExtension === "mp4"){
+                } else if (imageExtension === "mp4") {
                     ImageData = <div className="image-container">
-                        <video className="banner-video" autoPlay playsInline preload="metadata" loop="loop" controls muted src={assetData.totalData[asset]}>
+                        <video className="banner-video" autoPlay playsInline preload="metadata" loop="loop" controls
+                            muted src={assetData.totalData[asset]}>
                             <source type="video/webm" src={assetData.totalData[asset]}/>
                             <source type="video/mp4" src={assetData.totalData[asset]}/>
                             <source type="video/ogg" src={assetData.totalData[asset]}/>
                         </video>
                     </div>;
-                }
-                else {
+                } else {
                     ImageData = <div className="dummy-image image-container asset-image">
-                        <img src={assetData.totalData[asset]} alt="image" onClick={()=> setIsOpen(true)}/>
+                        <img src={assetData.totalData[asset]} alt="image" onClick={() => setIsOpen(true)}/>
                         {isOpen && (
                             <Lightbox
                                 mainSrc={assetData.totalData[asset]}
-                                onCloseRequest={() => setIsOpen(false )}
+                                onCloseRequest={() => setIsOpen(false)}
                             />
                         )}
                     </div>;
@@ -97,22 +95,25 @@ const AssetView = (props) => {
 
             }
             // let content;
-            if(asset === config.URI){
+            if (asset === config.URI) {
                 // mutateButton =  <button className="icon-button info"
                 //     onClick={() => handleModalData("MutateAsset", assetData.mutableProperties, assetData)}>  <Icon
                 //         viewClass="info"
                 //         icon="edit"/>
                 // </button>;
-                burnButton =  <button className="icon-bg-button" title="Delete NFT"
+                burnButton = <button className="icon-bg-button" title="Delete NFT"
                     onClick={() => handleModalData("BurnAsset", "", asset, assetData.ownerID, assetData.ownableID)}>
                     <Icon
                         viewClass="info"
                         icon="delete"/>
                 </button>;
-                sellButton = <Button variant="primary" size="sm" className="button-txn action-button" onClick={() => handleModalData("MakeOrder", "", assetData, assetData.ownerID, assetData.ownableID)}>{t("MAKE")}</Button>;
-                {/*<Button variant="primary" size="sm" className="button-txn"*/}
-                {/*    onClick={() => handleModalData("SendSplit", "", "", assetData.ownerID, assetData.ownableID)}>{t("SEND_SPLITS")}</Button>*/}
-            }else if(asset === "propertyName"){
+                sellButton = <Button variant="primary" size="sm" className="button-txn action-button"
+                    onClick={() => handleModalData("MakeOrder", "", assetData, assetData.ownerID, assetData.ownableID)}>{t("MAKE")}</Button>;
+                {/*<Button variant="primary" size="sm" className="button-txn"*/
+                }
+                {/*    onClick={() => handleModalData("SendSplit", "", "", assetData.ownerID, assetData.ownableID)}>{t("SEND_SPLITS")}</Button>*/
+                }
+            } else if (asset === "propertyName") {
                 const propertyData = JSON.parse(assetData.totalData["propertyName"]);
                 Object.keys(propertyData).map((property, keyprop) => {
                     let content = <div key={keyprop}>
@@ -125,19 +126,17 @@ const AssetView = (props) => {
                     </div>;
                     PropertyObject.push(content);
                 });
-            }
-            else if(asset === "name"){
+            } else if (asset === "name") {
                 assetName = <p className="asset-name">{base64url.decode(assetData.totalData[asset])}</p>;
-            }else if(asset === "category"){
+            } else if (asset === "category") {
                 assetCategory = <p className="asset-category">{base64url.decode(assetData.totalData[asset])}</p>;
-            }else if(asset === "description"){
+            } else if (asset === "description") {
                 assetDescription = <p className="asset-description">{base64url.decode(assetData.totalData[asset])}</p>;
             }
         });
     }
 
-    console.log(PropertyObject, "PropertyObject");
-    const accordionHandler = () =>{
+    const accordionHandler = () => {
         setIsAccordionOpen(!isAccordionOpen);
     };
     return (

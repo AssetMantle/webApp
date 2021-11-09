@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Modal} from 'react-bootstrap';
-import {CreateIdentity, PrivateKey, Ledger} from "./forms/login";
+import {CreateIdentity, Ledger, PrivateKey} from "./forms/login";
 import IdentityLogin from './forms/login/IdentityLogin';
 import {useTranslation} from "react-i18next";
 import {useHistory} from "react-router-dom";
@@ -36,7 +36,7 @@ const Login = () => {
                         >
                             <div className="icon-section">
                                 <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/></div>
-                                {t("LOGIN_WITH_USER_NAME")}</div>
+                                {t("USER_NAME")}</div>
                             <Icon viewClass="arrow-icon" icon="arrow"/>
                         </div>
                     </div>
@@ -56,17 +56,20 @@ const Login = () => {
             <div>
                 {
                     externalComponent === 'loginOptions' ?
-                        <TransactionOptions setExternalComponent={setExternalComponent} setShow={setShow} pageName="LoginAction"/> :
+                        <TransactionOptions setExternalComponent={setExternalComponent} setShow={setShow}
+                            pageName="LoginAction"/> :
                         null
                 }
                 {
                     externalComponent === 'IdentityLogin' ?
-                        <IdentityLogin setExternalComponent={setExternalComponent} setShow={setShow} pageName="LoginAction"/> :
+                        <IdentityLogin setExternalComponent={setExternalComponent} setShow={setShow}
+                            pageName="LoginAction"/> :
                         null
                 }
                 {
                     externalComponent === 'CreateIdentity' ?
-                        <CreateIdentity setExternalComponent={setExternalComponent} setShow={setShow} pageName="LoginAction"/> :
+                        <CreateIdentity setExternalComponent={setExternalComponent} setShow={setShow}
+                            pageName="LoginAction"/> :
                         null
                 }
                 {

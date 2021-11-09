@@ -1,11 +1,11 @@
 import React, {useState} from "react";
-import {Form, Button, Modal} from "react-bootstrap";
+import {Button, Form, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
 import TransactionOptions from "../login/TransactionOptions";
-import base64url from "base64url";
-var bigdecimal = require("bigdecimal");
-var bigDecimal = require('js-big-decimal');
+
+const bigdecimal = require("bigdecimal");
+const bigDecimal = require('js-big-decimal');
 const MakeOrder = (props) => {
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
@@ -21,15 +21,19 @@ const MakeOrder = (props) => {
 
     const handleChangeExchangeRate = (evt) => {
         let inputValue = new bigdecimal.BigDecimal(evt.target.value);
-        // let smallestNumber = new bigdecimal.BigDecimal(0.000000000000000001);
         let biggestNumber = new bigdecimal.BigDecimal(1000000000000000000);
-        // console.log("d * x = " + inputValue.divide(smallestNumber));
         let newValue = inputValue.multiply(biggestNumber);
         const value = bigDecimal.round(newValue, 18);
         document.getElementById("exchangeRateSplit").value = value;
-        document.getElementById("exchangeRateSplit").innerHTML=value;
+        document.getElementById("exchangeRateSplit").innerHTML = value;
     };
 
+    const handleKeyChangeExchangeRate = (evt) => {
+        let rex = /^\d*\.?\d{0,2}$/;
+        if (!rex.test(evt.target.value)) {
+            evt.preventDefault();
+        }
+    };
     const handleFormSubmit = (event) => {
         setLoader(false);
         event.preventDefault();
@@ -48,8 +52,6 @@ const MakeOrder = (props) => {
         const description = props.asset.totalData && props.asset.totalData.description;
         const category = props.asset.totalData && props.asset.totalData.category;
         const style = props.asset.totalData && props.asset.totalData.style;
-        // const typeOption = props.asset.totalData && props.asset.totalData.type;
-        console.log(base64url.decode(category), "categpru");
         let staticMutables = `propertyName:S|propertyValue`;
 
         let staticImmutableMeta = `category:S|${category},name:S|${name},description:S|${description}`;
@@ -65,18 +67,17 @@ const MakeOrder = (props) => {
         immutableMetaValues = staticImmutableMeta;
 
         let totalData = {
-            fromID:FromId,
-            classificationId:'test.O-qPtlWEqmo9WQmZgwfguoj0F0A=',
-            makerOwnableID:assetId,
-            TakerOwnableId:TakerOwnableId,
-            ExpiresIn:ExpiresIn,
-            Makersplit:Makersplit,
-            mutableValues:mutableValues,
-            immutableValues:immutableValues,
-            mutableMetaValues:mutableMetaValues,
-            immutableMetaValues:immutableMetaValues,
+            fromID: FromId,
+            classificationId: 'test.O-qPtlWEqmo9WQmZgwfguoj0F0A=',
+            makerOwnableID: assetId,
+            TakerOwnableId: TakerOwnableId,
+            ExpiresIn: ExpiresIn,
+            Makersplit: Makersplit,
+            mutableValues: mutableValues,
+            immutableValues: immutableValues,
+            mutableMetaValues: mutableMetaValues,
+            immutableMetaValues: immutableMetaValues,
         };
-        console.log(totalData, "totaldata");
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');
         setShow(false);
@@ -154,10 +155,11 @@ const MakeOrder = (props) => {
                         <Form.Group>
                             <Form.Label>{t("PRICE")}*</Form.Label>
                             <Form.Control
-                                type="text"
+                                type="number"
                                 className=""
                                 name="price"
                                 required={true}
+                                onKeyPress={handleKeyChangeExchangeRate}
                                 onChange={handleChangeExchangeRate}
                                 placeholder={t("Price")}
                             />
@@ -167,11 +169,6 @@ const MakeOrder = (props) => {
                             </Form.Text>
                         </Form.Group>
 
-                        {/*{errorMessage !== "" ?*/}
-                        {/*    <span className="error-response">{errorMessage}</span>*/}
-                        {/*    : ""*/}
-
-                        {/*}*/}
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">
                                 {t("SUBMIT")}

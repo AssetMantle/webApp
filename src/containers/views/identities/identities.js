@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {defineIdentity} from "persistencejs/build/transaction/identity/define";
 import {Define} from "../../forms";
-import {Nub, IssueIdentity} from "../../forms/identities";
+import {IssueIdentity, Nub} from "../../forms/identities";
 import IdentityList from "./identityList";
 
 const identitiesDefine = new defineIdentity(process.env.REACT_APP_ASSET_MANTLE_API);

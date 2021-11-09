@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Form, Button, Modal} from 'react-bootstrap';
+import {Button, Form, Modal} from 'react-bootstrap';
 import InputField from '../../../components/inputField';
 import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
@@ -66,7 +66,6 @@ const DefineOrder = (props) => {
                     mutableMetaPropertyValue: mutableMetaPropertyValue,
                     immutableMetaPropertyValue: immutableMetaPropertyValue,
                 };
-                console.log(totalData);
                 setTotalDefineObject(totalData);
                 setExternalComponent('Keystore');
                 setShow(false);
@@ -120,7 +119,7 @@ const DefineOrder = (props) => {
                         </Form.Group>
 
 
-                        <Form.Group >
+                        <Form.Group>
                             <Form.Label>Category</Form.Label>
                             <Form.Control as="select" name="category"
                                 required={false}>

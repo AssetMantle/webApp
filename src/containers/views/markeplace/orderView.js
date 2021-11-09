@@ -22,61 +22,41 @@ const OrderView = (props) => {
     const [isAccordionOpen, setIsAccordionOpen] = useState(false);
     const markeOrders = useSelector((state) => state.markePlace.markeOrders);
     let orderId;
-    if(props.location.orderID !== undefined) {
+    if (props.location.orderID !== undefined) {
         orderId = props.location.orderID;
         localStorage.setItem('viewOrderID', props.location.orderID);
-    }else{
+    } else {
         orderId = localStorage.getItem('viewOrderID');
-        console.log( localStorage.getItem('viewOrderID'), "iddd");
     }
     let orderData = [];
-    if(markeOrders.length){
+    if (markeOrders.length) {
         markeOrders.forEach(function (order) {
-            if(order.encodedOrderID === props.match.params.id){
+            if (order.encodedOrderID === props.match.params.id) {
                 orderData = order;
             }
         });
     }
-    console.log(orderData, "orderData");
 
     const handleModalData = (formName, orderId, order) => {
         setOrder(order);
         setExternalComponent(formName);
     };
-    const accordionHandler = () =>{
+    const accordionHandler = () => {
         setIsAccordionOpen(!isAccordionOpen);
     };
 
     let ImageData;
-    let PropertyObject =[];
+    let PropertyObject = [];
 
     let assetName;
     let assetCategory;
     let assetDescription;
-    // let buyButton;
-    // let mutateButton;
-    // let burnButton;
-    // let PropertyObject =[];
-    // if(assetData.totalData){
-    //     const propertyData = JSON.parse(assetData.totalData["propertyName"]);
-    //     Object.keys(propertyData).map((property, keyprop) => {
-    //         let content = <div className="list-item red" key={keyprop}>
-    //             <p
-    //                 className="list-item-label">{propertyData[property]['propertyName']} </p>
-    //             <p
-    //                 className="list-item-value">{propertyData[property]['propertyValue']}</p>
-    //         </div>;
-    //         PropertyObject.push(content);
-    //     });
-    // }
-    if(orderData.totalData)
-    {
+    if (orderData.totalData) {
         Object.keys(orderData.totalData).map((asset, key) => {
-            if(asset === config.URI){
+            if (asset === config.URI) {
                 const imageExtension = orderData.totalData[asset].substring(orderData.totalData[asset].lastIndexOf('.') + 1);
-                console.log(imageExtension, "ima");
-                if(imageExtension === "gltf"){
-                    ImageData =  <div className="dummy-image image-sectiont asset-view-modal-viewer">
+                if (imageExtension === "gltf") {
+                    ImageData = <div className="dummy-image image-sectiont asset-view-modal-viewer">
                         <model-viewer
                             id="mv-astronaut"
                             src={orderData.totalData[asset]}
@@ -87,27 +67,27 @@ const OrderView = (props) => {
                         >
                         </model-viewer>
                     </div>;
-                }else if(imageExtension === "mp4"){
+                } else if (imageExtension === "mp4") {
                     ImageData = <div className="image-container">
-                        <video className="banner-video" autoPlay playsInline preload="metadata" loop="loop" controls muted src={orderData.totalData[asset]}>
+                        <video className="banner-video" autoPlay playsInline preload="metadata" loop="loop" controls
+                            muted src={orderData.totalData[asset]}>
                             <source type="video/webm" src={orderData.totalData[asset]}/>
                             <source type="video/mp4" src={orderData.totalData[asset]}/>
                             <source type="video/ogg" src={orderData.totalData[asset]}/>
                         </video>
                     </div>;
-                }
-                else {
+                } else {
                     ImageData = <div className="dummy-image image-sectiont asset-image">
-                        <img src={orderData.totalData[asset]} alt="image" onClick={()=> setIsOpen(true)}/>
+                        <img src={orderData.totalData[asset]} alt="image" onClick={() => setIsOpen(true)}/>
                         {isOpen && (
                             <Lightbox
                                 mainSrc={orderData.totalData[asset]}
-                                onCloseRequest={() => setIsOpen(false )}
+                                onCloseRequest={() => setIsOpen(false)}
                             />
                         )}
                     </div>;
                 }
-            }else if(asset === "propertyName"){
+            } else if (asset === "propertyName") {
                 const propertyData = JSON.parse(orderData.totalData["propertyName"]);
                 Object.keys(propertyData).map((property, keyprop) => {
                     let content = <div key={key + keyprop}>
@@ -120,17 +100,15 @@ const OrderView = (props) => {
                     </div>;
                     PropertyObject.push(content);
                 });
-            }
-            else if(asset === "name"){
+            } else if (asset === "name") {
                 assetName = <p className="asset-name">{base64url.decode(orderData.totalData[asset])}</p>;
-            }else if(asset === "category"){
+            } else if (asset === "category") {
                 assetCategory = <p className="asset-category">{base64url.decode(orderData.totalData[asset])}</p>;
-            }else if(asset === "description"){
+            } else if (asset === "description") {
                 assetDescription = <p className="asset-description">{base64url.decode(orderData.totalData[asset])}</p>;
             }
         });
     }
-    console.log(window.location.href, "window.location.href");
     return (
         <div className="page-body asset-view-body">
             <div className="container">
@@ -277,7 +255,8 @@ const OrderView = (props) => {
                 </div>
                 <div>
                     {externalComponent === 'TakeOrder' ?
-                        <TakeOrder setExternalComponent={setExternalComponent} exChangeRate={orderData.exChangeRate} id={orderId} FormName={'Take Order'}/> :
+                        <TakeOrder setExternalComponent={setExternalComponent} exChangeRate={orderData.exChangeRate}
+                            id={orderId} FormName={'Take Order'}/> :
                         null
                     }
                     {externalComponent === 'CancelOrder' ?

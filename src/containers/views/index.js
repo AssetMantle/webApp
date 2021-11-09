@@ -7,4 +7,5 @@ import AssetView from "./assets/assetView";
 import IdentityView from "./identities/identityView";
 import OrderView from "./markeplace/orderView";
 import AllIdentityList from "./identities/AllIdentitityList";
-export {Maintainers, Identities, Assets, Orders, MarketPlace,AssetView, IdentityView, OrderView, AllIdentityList};
+
+export {Maintainers, Identities, Assets, Orders, MarketPlace, AssetView, IdentityView, OrderView, AllIdentityList};

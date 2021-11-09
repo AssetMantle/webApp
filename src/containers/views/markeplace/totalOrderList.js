@@ -16,8 +16,8 @@ const TotalOrders = () => {
 
     const handleAsset = (id, orderID) => {
         history.push({
-            pathname:`/view/${id}`,
-            orderID:orderID
+            pathname: `/view/${id}`,
+            orderID: orderID
         });
         // history.push(`/view/${id}`);
     };
@@ -34,14 +34,15 @@ const TotalOrders = () => {
                 <div className="row card-deck">
                     {markeOrders.length ?
                         markeOrders.map((order, index) => {
-                            return(
+                            return (
                                 <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
-                                    <div className="card order-card" onClick={() => handleAsset(order['encodedOrderID'], order['orderID'], order)}>
+                                    <div className="card order-card"
+                                        onClick={() => handleAsset(order['encodedOrderID'], order['orderID'], order)}>
                                         <div className="info-section">
                                             {
                                                 Object.keys(order['totalData']).map(key => {
                                                     let imageExtension;
-                                                    if(key === config.URI){
+                                                    if (key === config.URI) {
                                                         imageExtension = order['totalData'][key].substring(order['totalData'][key].lastIndexOf('.') + 1);
                                                     }
                                                     return (
@@ -63,16 +64,23 @@ const TotalOrders = () => {
                                                                         :
                                                                         imageExtension === "mp4" ?
                                                                             <div className="image-container">
-                                                                                <video className = "banner-video" autoPlay playsInline preload="metadata" loop="loop"
-                                                                                    muted src={order['totalData'][key]}>
-                                                                                    <source type="video/webm" src={order['totalData'][key]}/>
-                                                                                    <source type="video/mp4" src={order['totalData'][key]}/>
-                                                                                    <source type="video/ogg" src={order['totalData'][key]}/>
+                                                                                <video className="banner-video" autoPlay
+                                                                                    playsInline preload="metadata"
+                                                                                    loop="loop"
+                                                                                    muted
+                                                                                    src={order['totalData'][key]}>
+                                                                                    <source type="video/webm"
+                                                                                        src={order['totalData'][key]}/>
+                                                                                    <source type="video/mp4"
+                                                                                        src={order['totalData'][key]}/>
+                                                                                    <source type="video/ogg"
+                                                                                        src={order['totalData'][key]}/>
                                                                                 </video>
                                                                             </div>
-                                                                            :    <div className="image-container">
+                                                                            : <div className="image-container">
                                                                                 <div className="assetImage">
-                                                                                    <img src={order['totalData'][key]} alt="image"/>
+                                                                                    <img src={order['totalData'][key]}
+                                                                                        alt="image"/>
                                                                                 </div>
                                                                             </div>
                                                                     : ""
@@ -100,7 +108,7 @@ const TotalOrders = () => {
                                                     : ""
                                             }
                                             <Button variant="primary" className="viewButton" size="sm"
-                                                onClick={() => handleAsset(order['encodedOrderID'],order['orderID'], order)}>View</Button>
+                                                onClick={() => handleAsset(order['encodedOrderID'], order['orderID'], order)}>View</Button>
                                         </div>
                                     </div>
                                 </div>

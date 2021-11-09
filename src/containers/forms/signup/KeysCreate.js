@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
-import {Modal, Form, Button} from 'react-bootstrap';
-import {
-    createStore,
-} from 'persistencejs/build/utilities/keys';
+import {Button, Form, Modal} from 'react-bootstrap';
+import {createStore,} from 'persistencejs/build/utilities/keys';
 import DownloadLink from 'react-download-link';
 import {useTranslation} from 'react-i18next';
 import axios from 'axios';
@@ -13,9 +11,7 @@ import ImportKeys from './ImportKeys';
 import transactions from "../../../utilities/Helpers/transactions";
 
 const KeysCreate = (props) => {
-    console.log(props, "raju vemula");
     const [loader, setLoader] = useState(false);
-    // const userAddress = localStorage.getItem('address');
     const {t} = useTranslation();
     const history = useHistory();
     const [show, setShow] = useState(true);
@@ -32,7 +28,7 @@ const KeysCreate = (props) => {
         setShow(false);
         history.push('/');
     };
-  
+
     const handleCloseEncrypt = () => {
         setShowEncrypt(false);
         history.push('/');
@@ -49,7 +45,7 @@ const KeysCreate = (props) => {
         const create = createStore(error[0].mnemonic, password);
         if (create.error != null) {
             return (<div>ERROR!!</div>);
-        }else {
+        } else {
             const jsonContent = JSON.stringify(create.Response);
             // localStorage.setItem('address', error.address);
             // localStorage.setItem('mnemonic', error.mnemonic);
@@ -62,7 +58,7 @@ const KeysCreate = (props) => {
             handleFaucet(error[1]);
         }
     };
-    
+
     const handleFaucet = (loginAddress) => {
         setLoader(true);
         axios.post(process.env.REACT_APP_FAUCET_SERVER + '/faucetRequest', {address: loginAddress})
@@ -75,11 +71,6 @@ const KeysCreate = (props) => {
                 console.log(err);
                 setLoader(false);
             });
-
-        // setShowDownload(false);
-        // setshowDownloadModal(false);
-        // setShowEncrypt(false);
-        // history.push('/');
     };
     const handleEncrypt = (name) => {
         setShow(false);
@@ -92,11 +83,11 @@ const KeysCreate = (props) => {
         setExternalComponent(name);
     };
     const backHandler = (item) => {
-        if(item === "mainPage"){
+        if (item === "mainPage") {
             setShow(false);
             props.setShow(true);
             props.setExternalComponent("");
-        }else if(item === "create"){
+        } else if (item === "create") {
             setShowEncrypt(false);
             setShow(true);
         }
@@ -107,7 +98,7 @@ const KeysCreate = (props) => {
             <Modal show={show} onHide={handleClose} className="signup-section"
                 centered>
                 <Modal.Header closeButton>
-                    <div className="back-button" onClick={()=>backHandler("mainPage")}>
+                    <div className="back-button" onClick={() => backHandler("mainPage")}>
                         <Icon viewClass="arrow-icon" icon="arrow"/>
                     </div>
                     {t('Create Keys')}
@@ -128,12 +119,6 @@ const KeysCreate = (props) => {
                         >
                             Import Keys
                         </Button>
-                        {/*<Button*/}
-                        {/*    variant="primary"*/}
-                        {/*    className="button-signup button-signup-ledger disabled"*/}
-                        {/*>*/}
-                        {/*    {t('LEDGER_STORE')}*/}
-                        {/*</Button>*/}
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
@@ -151,7 +136,7 @@ const KeysCreate = (props) => {
                 className="signup-section"
             >
                 <Modal.Header closeButton>
-                    <div className="back-button" onClick={()=>backHandler("create")}>
+                    <div className="back-button" onClick={() => backHandler("create")}>
                         <Icon viewClass="arrow-icon" icon="arrow"/>
                     </div>
                     {formName}

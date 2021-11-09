@@ -1,11 +1,8 @@
 import React, {useState} from 'react';
-import {Tabs, Tab, Modal, Form, Button} from 'react-bootstrap';
+import {Button, Form, Modal, Tab, Tabs} from 'react-bootstrap';
 import {useHistory} from 'react-router-dom';
 import transactions from '../../../utilities/Helpers/transactions';
-import {
-    createStore,
-    createWallet,
-} from 'persistencejs/build/utilities/keys';
+import {createStore, createWallet,} from 'persistencejs/build/utilities/keys';
 import {useTranslation} from 'react-i18next';
 import DownloadLink from 'react-download-link';
 import Icon from '../../../icons';
@@ -32,7 +29,7 @@ const ImportKeys = () => {
         let userMnemonic;
         const password = e.target.password.value;
         let promise = transactions.PrivateKeyReader(e.target.uploadFile.files[0], password);
-        await promise.then(function(result) {
+        await promise.then(function (result) {
             userMnemonic = result;
         }).catch(err => {
             setErrorMessage(err);
@@ -47,7 +44,6 @@ const ImportKeys = () => {
             setResponse(data);
             setInitialTabs(false);
             setGenerateKeystore(true);
-            console.log(address, userMnemonic, 'with key');
         }
     };
 
@@ -56,16 +52,15 @@ const ImportKeys = () => {
         const id = document.getElementById('mnemonic').value;
         let mnemonic = transactions.mnemonicTrim(id).toString();
         let memoCheck = transactions.mnemonicValidation(mnemonic);
-        console.log(mnemonic, memoCheck);
-        if(!memoCheck){
+        if (!memoCheck) {
             setErrorMessage("Error in mnemonic");
-        }else {
+        } else {
             const error = createWallet(mnemonic, '');
             if (error.error != null) {
                 setErrorMessage(error.error);
             } else {
                 const walletResponse = transactions.MnemonicWalletWithPassphrase(mnemonic, '');
-                await walletResponse.then(function(result) {
+                await walletResponse.then(function (result) {
                     const address = result[1];
                     const data = {
                         mnemonic: mnemonic,
@@ -106,18 +101,18 @@ const ImportKeys = () => {
     };
 
     const backHandler = (item) => {
-        if(item === "KeyStoreGenerateHandler"){
+        if (item === "KeyStoreGenerateHandler") {
             setInitialTabs(true);
             setGenerateKeystore(false);
-        } else if(item === "handleSubmitKeystore"){
+        } else if (item === "handleSubmitKeystore") {
             setGenerateKeystore(true);
             setShowKeystore(false);
-        } else if(item === "handleResult"){
+        } else if (item === "handleResult") {
             setGenerateKeystore(true);
             seShowResponse(false);
         }
     };
-    const handleTabSelect = () =>{
+    const handleTabSelect = () => {
         setErrorMessage("");
     };
     return (

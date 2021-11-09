@@ -4,6 +4,7 @@ import GetID from "../../utilities/GetID";
 import {queryAssets} from "persistencejs/build/transaction/assets/query";
 import {querySplits} from "persistencejs/build/transaction/splits/query";
 import FilterData from "../../utilities/FilterData";
+
 const assetsQuery = new queryAssets(process.env.REACT_APP_ASSET_MANTLE_API);
 const splitsQuery = new querySplits(process.env.REACT_APP_ASSET_MANTLE_API);
 export const SET_ASSETS = "SET_ASSETS";
@@ -36,17 +37,17 @@ export const fetchAssets = (identityID) => {
                                 }
                                 const totalData = {...immutableProperties[0], ...mutableProperties[0]};
                                 const objSorted = helper.SortObjectData(totalData);
-                                assetsListNew.push({'totalData': objSorted,
-                                    'ownerID':ownerId,
-                                    'ownableID':ownableID,
-                                    'mutableProperties':mutableProperties[0],
-                                    'immutableProperties':immutableProperties[0],
-                                    'mutablePropertyTypes':mutableProperties[1],
+                                assetsListNew.push({
+                                    'totalData': objSorted,
+                                    'ownerID': ownerId,
+                                    'ownableID': ownableID,
+                                    'mutableProperties': mutableProperties[0],
+                                    'immutableProperties': immutableProperties[0],
+                                    'mutablePropertyTypes': mutableProperties[1],
                                 });
                             }
                         }
                     }
-                    console.log(assetsListNew, "assetsListNew");
 
                     dispatch({
                         type: SET_ASSETS,
@@ -62,8 +63,7 @@ export const fetchAssets = (identityID) => {
                         data: "Assets Not found",
                     });
                 }
-            }
-            else {
+            } else {
                 dispatch({
                     type: SET_ASSETS,
                     assets: [],

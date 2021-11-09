@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Icon from "../../../icons";
 import {fetchAddress} from "../../../utilities/Helpers/ledger";
 import {Button, Form, Modal} from "react-bootstrap";
@@ -37,13 +37,13 @@ const Ledger = (props) => {
         event.preventDefault();
         let accountNumber = 0;
         let addressIndex = 0;
-        if(advancedMode){
+        if (advancedMode) {
             accountNumber = document.getElementById('ledgerAccountNumber').value;
             addressIndex = document.getElementById('ledgerAccountIndex').value;
-            if(accountNumber === ""){
+            if (accountNumber === "") {
                 accountNumber = 0;
             }
-            if(addressIndex === ""){
+            if (addressIndex === "") {
                 addressIndex = 0;
             }
         }
@@ -72,27 +72,26 @@ const Ledger = (props) => {
         const addressList = localStorage.getItem("addresses");
         const userList = localStorage.getItem("userList");
         const identityList = localStorage.getItem("identityList");
-        if(identityList !== null){
+        if (identityList !== null) {
             idList = JSON.parse(identityList);
         }
-        if(userList !== null){
+        if (userList !== null) {
             list = JSON.parse(userList);
         }
         if (addressList.includes(ledgerAddress)) {
-            idList.push({[userName]:  props.userData.identityId});
+            idList.push({[userName]: props.userData.identityId});
             list.push(userName);
             localStorage.setItem("identityId", props.userData.identityId);
             localStorage.setItem("userList", JSON.stringify(list));
             localStorage.setItem("userName", userName);
             // setAddress(ledgerAddress);
             localStorage.setItem("userAddress", ledgerAddress);
-            localStorage.setItem("loginMode","ledger");
+            localStorage.setItem("loginMode", "ledger");
 
-            localStorage.setItem("identityList",  JSON.stringify(idList));
+            localStorage.setItem("identityList", JSON.stringify(idList));
             history.push('/profile');
             setErrorMessage("");
         } else {
-            console.log(addressList, "addressList");
             setErrorMessage('Address not found in identity list');
         }
     };
@@ -108,7 +107,8 @@ const Ledger = (props) => {
     };
     return (
         <div className="custom-modal seed">
-            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select" centered>
+            <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section key-select"
+                centered>
                 <Modal.Header closeButton>
                     <div className="back-button" onClick={backHandler}>
                         <Icon viewClass="arrow-icon" icon="arrow"/>
@@ -181,7 +181,8 @@ const Ledger = (props) => {
                                                         />
                                                     </Form.Group>
                                                     <div className="buttons">
-                                                        <button className="button-txn btn btn-primary btn-sm" type="submit">Submit
+                                                        <button className="button-txn btn btn-primary btn-sm"
+                                                            type="submit">Submit
                                                         </button>
                                                     </div>
                                                 </Form>
