@@ -6,6 +6,7 @@ import {useSelector} from 'react-redux';
 import loaderImage from "../../../assets/images/loader.svg";
 import base64url from "base64url";
 import {Button} from "react-bootstrap";
+import Search from "./Search";
 
 const TotalOrders = () => {
     const {t} = useTranslation();
@@ -13,13 +14,33 @@ const TotalOrders = () => {
     const markeOrders = useSelector((state) => state.markePlace.markeOrders);
     const loader = useSelector((state) => state.markePlace.loading);
     const error = useSelector((state) => state.markePlace.error);
+    const searchResult = useSelector((state) => state.search.empty);
+    const marketOrdersCopy = useSelector((state) => state.search.marketOrdersCopy);
+    const filterOrders = useSelector((state) => state.filterOrders.empty);
+    const filterOrdersList = useSelector((state) => state.filterOrders.filterOrders);
+
+    const searchMultiSearch = useSelector((state) => state.search.multiSearch);
+    const filterMutliSearch = useSelector((state) => state.filterOrders.multiSearch);
+
+    console.log(searchResult, "searchResult", filterOrders, searchMultiSearch, filterMutliSearch);
+    console.log(filterOrdersList, "marketOrdersCopy", filterOrdersList);
+
+    let ordersList;
+    if(searchResult && filterOrders){
+        ordersList = markeOrders;
+    }else if(searchResult && !filterOrders || filterMutliSearch){
+        ordersList = filterOrdersList;
+    }else if(!searchResult && filterOrders || searchMultiSearch){
+        ordersList = marketOrdersCopy;
+    }else {
+        ordersList = marketOrdersCopy;
+    }
 
     const handleAsset = (id, orderID) => {
         history.push({
             pathname: `/view/${id}`,
             orderID: orderID
         });
-        // history.push(`/view/${id}`);
     };
 
     return (
@@ -31,9 +52,12 @@ const TotalOrders = () => {
                     </div>
                     : ""
                 }
+                <Search/>
+
                 <div className="row card-deck">
-                    {markeOrders.length ?
-                        markeOrders.map((order, index) => {
+
+                    {ordersList.length ?
+                        ordersList.map((order, index) => {
                             return (
                                 <div className="col-xl-3 col-lg-4 col-md-6  col-sm-12" key={index}>
                                     <div className="card order-card"

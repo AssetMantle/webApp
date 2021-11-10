@@ -6,6 +6,8 @@ import identities from "./identities";
 import faucet from "./faucet";
 import maintainers from "./maintainers";
 import wrappedCoins from "./wrappedCoins";
+import search from "./search";
+import filterOrders from "./filterOrders";
 
 export default combineReducers({
     markePlace: markePlace,
@@ -14,6 +16,8 @@ export default combineReducers({
     identities: identities,
     faucet: faucet,
     maintainers: maintainers,
-    wrappedCoins: wrappedCoins
+    wrappedCoins: wrappedCoins,
+    search,
+    filterOrders
 });
 
