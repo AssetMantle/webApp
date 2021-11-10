@@ -168,7 +168,7 @@ const KeysCreate = (props) => {
 
                             <p className="mnemonic-note">({t('SAVE_MNEMONIC')}) </p>
                             <p className="mnemonic-text">{mnemonic}</p>
-                            <p>{address}</p>
+                            <p className="new-address">{address}</p>
                             <p className="key-download">
                                 <DownloadLink
                                     label="Download Key File for future use"

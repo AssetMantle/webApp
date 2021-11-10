@@ -140,5 +140,8 @@
             <path d="M3 29.34h35.46L20.73 47.07 3 29.34z" fill="#C4C4C4"/>
             <path d="M0 53.36h42.54" stroke="#C4C4C4" stroke-width="3.87" stroke-miterlimit="10"/>
         </symbol>
+        <symbol id="icon-menu" viewBox="0 0 32 32">
+            <path d="M32 0H0v5.818h32V0zM17.778 13.09H0v5.819h17.778v-5.818zM26.667 26.182H0V32h26.667v-5.818z" fill="#6c757d"/>
+        </symbol>
     </defs>
 </svg>

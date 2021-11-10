@@ -121,7 +121,9 @@ const HeaderAfterLogin = () => {
                 <div className="container">
                     <Navbar.Brand><Nav.Link onClick={handleRoute("/marketplace")} className="header-logo">
                     </Nav.Link></Navbar.Brand>
-                    <Navbar.Toggle aria-controls="responsive-navbar-nav-login"/>
+                    <Navbar.Toggle aria-controls="responsive-navbar-nav-login">
+                        <Icon viewClass="menu-icon" icon="menu"/>
+                    </Navbar.Toggle>
                     <Navbar.Collapse id="responsive-navbar-nav-login">
                         <Nav className="ml-auto">
                             {
@@ -231,7 +233,9 @@ const HeaderAfterLogin = () => {
                                             </NavDropdown>
                                         </li>
                                         <li className="nav-item flex">
-                                            <Darktheme/>
+                                            <div className="nav-link">
+                                                <Darktheme/>
+                                            </div>
                                         </li>
                                     </Nav>
                             }

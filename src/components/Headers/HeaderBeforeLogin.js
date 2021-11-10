@@ -3,6 +3,7 @@ import {NavLink, useHistory, withRouter} from "react-router-dom";
 import {Button, Nav, Navbar} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import Darktheme from "../darkmode/Darktheme";
+import Icon from "../../icons";
 
 const HeaderBeforeLogin = () => {
     const history = useHistory();
@@ -19,7 +20,9 @@ const HeaderBeforeLogin = () => {
             <div className="container login-before">
                 <Navbar.Brand><Nav.Link onClick={handleRoute("/marketplace")} className="header-logo">
                 </Nav.Link></Navbar.Brand>
-                <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
+                <Navbar.Toggle aria-controls="responsive-navbar-nav">
+                    <Icon viewClass="menu-icon" icon="menu"/>
+                </Navbar.Toggle>
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto ml-auto">
                     </Nav>
@@ -36,7 +39,9 @@ const HeaderBeforeLogin = () => {
                         </div>
 
                         <li className="nav-item flex">
-                            <Darktheme/>
+                            <div className="nav-link">
+                                <Darktheme/>
+                            </div>
                         </li>
                     </Nav>
 
