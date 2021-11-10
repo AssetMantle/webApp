@@ -102,7 +102,7 @@ const OrderList = React.memo(() => {
                                             {
                                                 order['exChangeRate'] ?
                                                     <div className="list-item"><p
-                                                        className="list-item-label">exChangeRate </p> <p
+                                                        className="list-item-label">Price </p> <p
                                                         className="list-item-value">{order['exChangeRate']}</p>
                                                     </div>
                                                     : ""
