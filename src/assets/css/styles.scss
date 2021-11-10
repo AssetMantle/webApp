@@ -774,11 +774,12 @@ html, body, #root, .app {
 }
 
 .search-section {
+  width: 60%;
+  margin: auto;
   display: flex;
   align-items: center;
   .input-group {
-    width: 60%;
-    margin: auto;
+
     input {
       min-width: 70px;
       background: transparent;

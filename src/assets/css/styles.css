@@ -652,12 +652,10 @@ html, body, #root, .app {
 }
 
 .search-section {
-  display: flex;
-  align-items: center;
-}
-.search-section .input-group {
   width: 60%;
   margin: auto;
+  display: flex;
+  align-items: center;
 }
 .search-section .input-group input {
   min-width: 70px;
