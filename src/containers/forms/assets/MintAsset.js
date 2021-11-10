@@ -9,6 +9,7 @@ import Loader from "../../../components/loader";
 import Icon from "../../../icons";
 import logo from "../../../assets/images/logo.svg";
 import loaderImage from "../../../assets/images/loader.svg";
+import helper from "../../../utilities/helper";
 
 const MintAsset = () => {
     const PropertyHelper = new GetProperty();
@@ -157,8 +158,6 @@ const MintAsset = () => {
             console.log(totalData);
             setTotalDefineObject(totalData);
             setExternalComponent('Keystore');
-            // setShow(false);
-
             setLoader(false);
         }
     };
@@ -245,7 +244,7 @@ const MintAsset = () => {
                                 type="text"
                                 className=""
                                 name="MutableBurn"
-                                value={-1}
+                                defaultValue={-1}
                                 required={true}
                                 placeholder='MutableBurn'
                             />
@@ -256,7 +255,7 @@ const MintAsset = () => {
                                 type="text"
                                 className=""
                                 name="MutableLock"
-                                value={-1}
+                                defaultValue={-1}
                                 required={true}
                                 placeholder='MutableLock'
                             />
@@ -302,6 +301,7 @@ const MintAsset = () => {
                                 type="text"
                                 className=""
                                 name="name"
+                                onKeyPress={helper.stringValidation}
                                 onBlur={nameChangeHandler}
                                 required={true}
                                 placeholder="Name"
@@ -361,6 +361,7 @@ const MintAsset = () => {
                                                     id={`propertyName` + (idx + 1)}
                                                     name={`propertyName` + (idx + 1)}
                                                     required={false}
+                                                    onKeyPress={helper.stringValidation}
                                                     placeholder="Property"
                                                 />
                                                 <Form.Control
@@ -368,6 +369,7 @@ const MintAsset = () => {
                                                     className=""
                                                     id={`propertyValue` + (idx + 1)}
                                                     name={`propertyValue` + (idx + 1)}
+                                                    onKeyPress={helper.stringValidation}
                                                     required={false}
                                                     placeholder="Value"
                                                 />
