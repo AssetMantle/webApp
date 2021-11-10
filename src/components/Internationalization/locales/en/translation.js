@@ -161,7 +161,8 @@ let en = {
         "VIRTUAL_CARDS":"Virtual Cards",
         "MUSIC":"Music",
         "COLLECTIBLES":"Collectibles",
-        "ARTS":"Arts"
+        "ARTS":"Arts",
+        "RESULT_NOT_FOUND":"Result Not Found"
 
     }
 };

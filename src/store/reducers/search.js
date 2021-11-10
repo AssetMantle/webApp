@@ -4,7 +4,7 @@ const initialState = {
     marketOrdersCopy:[],
     empty:true,
     multiSearch:false,
-    error: '',
+    errorData: '',
     loading: true
 };
 
@@ -14,7 +14,7 @@ export default (state = initialState, action) => {
             marketOrdersCopy:action.marketOrdersCopy,
             empty:action.empty,
             multiSearch:action.multiSearch,
-            error: action.data,
+            errorData: action.errorData,
             loading: action.loading
         };
     }
