@@ -55,12 +55,6 @@
   .navbar-toggler-icon {
     width: 1rem;
   }
-  .search-section {
-    .input-group {
-      display: inline-flex;
-      width: auto;
-    }
-  }
   .nav-items {
     display: inline-flex;
   }
@@ -126,6 +120,24 @@
   .navbar-dark{
     padding:0 1rem;
   }
+  .option-box{
+    &:nth-child(2){
+        margin: 0px 10px;
+    }
+    p{
+      font-size: 14px;
+    }
+  }
+  .search-section{
+    width: 100%;
+  }
+  .signup-section .private-key{
+    display: block;
+    .new-address{
+      word-break: break-word;
+    }
+  }
+
 }
 
 @media (max-width: 991px) {
@@ -149,7 +161,12 @@
   .navbar-dark .navbar-toggler {
     padding: 5px 10px;
     margin: 14px 0;
-
+    outline:none !important;
+    border: 1px solid #adb5bd;
+    .icon{
+      width: 18px;
+      height: 18px;
+    }
   }
   .navbar-toggler-icon {
     width: 1rem;

@@ -58,14 +58,14 @@ const AssetList = React.memo(() => {
                                         onClick={() => handleAsset(asset['ownableID'], asset)}>
                                         <div className="info-section">
                                             {
-                                                Object.keys(asset['totalData']).map(key => {
+                                                Object.keys(asset['totalData']).map((key, keyIndex) => {
                                                     let imageExtension;
                                                     if (key === config.URI) {
                                                         imageExtension = asset['totalData'][key].substring(asset['totalData'][key].lastIndexOf('.') + 1);
                                                     }
 
                                                     return (
-                                                        <>
+                                                        <div key={index+keyIndex}>
                                                             {
                                                                 key === config.URI ?
                                                                     imageExtension === "gltf" ?
@@ -112,7 +112,7 @@ const AssetList = React.memo(() => {
                                                                     </div>
                                                                     : ""
                                                             }
-                                                        </>
+                                                        </div>
                                                     );
                                                 })
                                             }

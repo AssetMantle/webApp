@@ -191,8 +191,6 @@ const OrderView = (props) => {
                                                                 <Copy
                                                                     id={orderId}/>
                                                             </div>
-                                                            <Copy
-                                                                id={orderId}/>
                                                         </div>
 
                                                     </div>

@@ -798,6 +798,8 @@ html, body, #root, .app {
       background: #2F2F2F !important;
       padding: 0px 10px;
       border: 1px solid #2F2F2F !important;
+      border-top-right-radius: 0.25rem;
+      border-bottom-right-radius: 0.25rem;
       button {
         background: #343a40;
         outline: none;

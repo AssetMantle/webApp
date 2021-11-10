@@ -56,7 +56,7 @@ const TransactionOptions = (props) => {
                     <div className="options-container">
                         <div className="option-box" onClick={() => handleRoute("Keystore")}>
                             <Icon viewClass="key-icon" icon="keystore"/>
-                            <p>Keystore File</p>
+                            <p>Keystore</p>
                         </div>
                         <div className="option-box" onClick={() => handleRoute("Keplr")}>
                             <Icon viewClass="key-icon" icon="keplr"/>
