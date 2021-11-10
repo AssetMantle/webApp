@@ -773,18 +773,51 @@ html, body, #root, .app {
 }
 
 .search-section {
+  display: flex;
+  align-items: center;
   .input-group {
+    width: 60%;
+    margin: auto;
     input {
       min-width: 70px;
       background: transparent;
       border: 1px solid #434849;
       border-left: 0px solid;
-
+      position: relative;
       &:focus {
         box-shadow: none;
+        background: none !important;
       }
     }
+    .clear-button-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #2F2F2F !important;
+      padding: 0px 10px;
+      border: 1px solid #2F2F2F !important;
+      button {
+        background: #343a40;
+        outline: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        border-radius: 50% !important;
+        width: 24px;
+        height: 24px;
 
+        .custom-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .icon {
+            width: 18px;
+            height: 18px;
+          }
+        }
+      }
+    }
     .input-group-text {
       background: transparent;
       border: 1px solid #434849;
@@ -1937,5 +1970,11 @@ model-viewer {
   text-align: center;
   img{
     width: 120px;
+  }
+}
+
+.search-section{
+  button{
+    border-radius: 0px !important;
   }
 }

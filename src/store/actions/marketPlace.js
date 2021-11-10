@@ -75,6 +75,7 @@ export const fetchMarketPlace = () => {
                         'mutableProperties': assetData.mutableProperties
                     });
                 }
+                console.log("innn");
                 dispatch({
                     type: SET_MARKET_ORDERS,
                     marketOrders: ordersListNew,
