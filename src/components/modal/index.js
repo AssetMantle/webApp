@@ -5,6 +5,7 @@ import {useHistory} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import * as markePlace from "../../store/actions/marketPlace";
 import * as assets from "../../store/actions/assets";
+import * as orders from "../../store/actions/orders";
 import * as faucet from "../../store/actions/faucet";
 import * as wrappedCoins from "../../store/actions/wrappedCoins";
 import loaderImage from "../../assets/images/loader.svg";
@@ -27,6 +28,7 @@ const ModalCommon = (props) => {
             props.transactionName === "Define Asset" ||
             props.transactionName === "send splits" ||
             props.transactionName === "burn asset" ||
+            props.transactionName === "cancel order" ||
             props.transactionName === "mutate asset") {
             await Promise.all([
                 dispatch(assets.fetchAssets(identityID)),
@@ -47,13 +49,15 @@ const ModalCommon = (props) => {
         } else if (props.transactionName === "make order") {
             await Promise.all([
                 dispatch(assets.fetchAssets(identityID)),
-                dispatch(markePlace.fetchMarketPlace())
+                dispatch(markePlace.fetchMarketPlace()),
+                dispatch(orders.fetchOrders(identityID))
             ]);
             history.push("/marketplace");
         } else if (props.transactionName === "take order") {
             await Promise.all([
                 dispatch(assets.fetchAssets(identityID)),
-                dispatch(markePlace.fetchMarketPlace())
+                dispatch(markePlace.fetchMarketPlace()),
+                dispatch(orders.fetchOrders(identityID))
             ]);
             history.push("/assets");
         }

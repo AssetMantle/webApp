@@ -22,7 +22,7 @@ export const fetchFilterOrders = (key) => {
                     category:key,
                     multiSearch:false,
                     loading: false,
-                    data: ''
+                    errorData: ''
                 });
             }else if(searchEmpty && key === "all"){
                 dispatch({
@@ -32,7 +32,7 @@ export const fetchFilterOrders = (key) => {
                     category:key,
                     multiSearch:false,
                     loading: false,
-                    data: ''
+                    errorData: ''
                 });
             }else if(!searchEmpty && key === "all"){
                 console.log(marketOrderCopy, "}else if(!searchEmpty && key === \"all\"){ " );
@@ -43,7 +43,7 @@ export const fetchFilterOrders = (key) => {
                     category:key,
                     multiSearch:false,
                     loading: false,
-                    data: ''
+                    errorData: ''
                 });
             }else if(marketOrderCopy.length){
                 result = marketOrderCopy.filter(item => (base64url.decode(item['totalData']['category']).toLowerCase()).includes(key.toLowerCase()));
@@ -55,7 +55,7 @@ export const fetchFilterOrders = (key) => {
                     category:key,
                     multiSearch:true,
                     loading: false,
-                    data: ''
+                    errorData: ''
                 });
                 dispatch({
                     type: SET_MARKET_ORDERS_COPY,
@@ -63,7 +63,7 @@ export const fetchFilterOrders = (key) => {
                     empty:false,
                     multiSearch:false,
                     loading: false,
-                    data: ''
+                    errorData: ''
                 });
             }
 
@@ -75,7 +75,7 @@ export const fetchFilterOrders = (key) => {
                 empty:true,
                 category:key,
                 loading: false,
-                data: ''
+                errorData: ''
             });
         }
     };

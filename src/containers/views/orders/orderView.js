@@ -6,7 +6,7 @@ import Icon from "../../../icons";
 import Copy from "../../../components/copy";
 import {CancelOrder, TakeOrder} from "../../forms/orders";
 import {Define} from "../../forms";
-import config from "../../../constants/config";
+import config from "../../../config";
 import Lightbox from "react-image-lightbox";
 import {useTranslation} from "react-i18next";
 import {defineOrder as ordersDefineJS} from "persistencejs/build/transaction/orders/define";
@@ -229,7 +229,7 @@ const ListOrderView = (props) => {
                                     {assetCategory}
                                     {assetName}
                                     {assetDescription}
-                                    <p className="asset-price">{orderData.exChangeRate} umantle</p>
+                                    <p className="asset-price">{orderData.exChangeRate} {config.coinName}</p>
                                     {/*{props.location.state.currentPath === "/marketplace" ?*/}
                                     {localStorage.getItem('userName') !== null ?
                                         <Button variant="primary" size="sm" className="action-button"

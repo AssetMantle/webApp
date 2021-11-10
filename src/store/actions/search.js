@@ -22,18 +22,18 @@ export const fetchSearchResult = (key) => {
                     empty:true,
                     multiSearch:false,
                     loading: false,
-                    data: ''
+                    errorData: ''
                 });
             }else if(!filterOrders && key !== ""){
                 result = filterOrdersList.filter(item => (base64url.decode(item['totalData']['name']).toLowerCase()).includes(key.toLowerCase()));
-                console.log(result, "result");
+                console.log(result.length, "result");
                 dispatch({
                     type: SET_MARKET_ORDERS_COPY,
                     marketOrdersCopy: result,
                     empty:false,
                     multiSearch:true,
                     loading: false,
-                    data: ''
+                    errorData: result.length > 0 ? "" : "No result found"
                 });
                 dispatch({
                     type: SET_FILTER_ORDERS,
@@ -41,7 +41,7 @@ export const fetchSearchResult = (key) => {
                     empty:false,
                     multiSearch:false,
                     loading: false,
-                    data: ''
+                    errorData: ''
                 });
             }else if(!filterOrders && key === ""){
                 console.log(marketOrder, category, "category");
@@ -52,7 +52,7 @@ export const fetchSearchResult = (key) => {
                     empty:false,
                     multiSearch:true,
                     loading: false,
-                    data: ''
+                    errorData: ''
                 });
                 dispatch({
                     type: SET_FILTER_ORDERS,
@@ -60,18 +60,18 @@ export const fetchSearchResult = (key) => {
                     empty:false,
                     multiSearch:false,
                     loading: false,
-                    data: ''
+                    errorData: ''
                 });
             }else {
                 result = marketOrder.filter(item => (base64url.decode(item['totalData']['name']).toLowerCase()).includes(key.toLowerCase()));
-                console.log(result, "result");
+                console.log(result.length, "result1");
                 dispatch({
                     type: SET_MARKET_ORDERS_COPY,
                     marketOrdersCopy: result,
                     empty:false,
                     multiSearch:false,
                     loading: false,
-                    data: ''
+                    errorData: result.length > 0 ? "" : "No result found"
                 });
             }
 
@@ -83,7 +83,7 @@ export const fetchSearchResult = (key) => {
                 empty:true,
                 multiSearch:false,
                 loading: false,
-                data: ''
+                errorData: ''
             });
         }
     };

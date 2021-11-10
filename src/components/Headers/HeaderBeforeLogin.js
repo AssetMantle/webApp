@@ -2,7 +2,6 @@ import React from "react";
 import {NavLink, useHistory, withRouter} from "react-router-dom";
 import {Button, Nav, Navbar} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
-import logo from '../../assets/images/logo.svg';
 import Darktheme from "../darkmode/Darktheme";
 
 const HeaderBeforeLogin = () => {
@@ -18,9 +17,7 @@ const HeaderBeforeLogin = () => {
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <div className="container login-before">
-
-                <Navbar.Brand><Nav.Link onClick={handleRoute("/")}>
-                    <img src={logo} alt="logo"/>
+                <Navbar.Brand><Nav.Link onClick={handleRoute("/marketplace")} className="header-logo">
                 </Nav.Link></Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                 <Navbar.Collapse id="responsive-navbar-nav">

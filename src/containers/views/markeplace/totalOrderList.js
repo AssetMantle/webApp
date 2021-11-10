@@ -15,7 +15,10 @@ const TotalOrders = () => {
     const loader = useSelector((state) => state.markePlace.loading);
     const error = useSelector((state) => state.markePlace.error);
     const searchResult = useSelector((state) => state.search.empty);
+
     const marketOrdersCopy = useSelector((state) => state.search.marketOrdersCopy);
+    const searchError = useSelector((state) => state.search.errorData);
+    console.log(searchError, "searchError", marketOrdersCopy);
     const filterOrders = useSelector((state) => state.filterOrders.empty);
     const filterOrdersList = useSelector((state) => state.filterOrders.filterOrders);
 
@@ -143,6 +146,11 @@ const TotalOrders = () => {
                     {
                         error !== '' ?
                             <p className="empty-list">{t("ORDERS_NOT_FOUND")}</p>
+                            : ""
+                    }
+                    {
+                        searchError !== '' ?
+                            <p className="empty-list">{t("RESULT_NOT_FOUND")}</p>
                             : ""
                     }
                 </div>

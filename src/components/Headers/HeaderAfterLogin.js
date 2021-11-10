@@ -123,7 +123,7 @@ const HeaderAfterLogin = () => {
                     </Nav.Link></Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav-login"/>
                     <Navbar.Collapse id="responsive-navbar-nav-login">
-                        <Nav className="search-section ml-auto">
+                        <Nav className="ml-auto">
                             {
                                 userTypeToken == null ?
                                     <Nav>

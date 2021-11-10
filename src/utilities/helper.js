@@ -114,6 +114,12 @@ function mantleConversion(data){
     return data/config.denomValue;
 }
 
+function stringValidation(evt){
+    if(evt.target.value.length > 60){
+        evt.preventDefault();
+    }
+}
+
 export default {
     SortObjectData,
     IpfsPath,
@@ -123,5 +129,6 @@ export default {
     getUrlEncode,
     getBase64Hash,
     getExchangeRate,
-    mantleConversion
+    mantleConversion,
+    stringValidation
 };

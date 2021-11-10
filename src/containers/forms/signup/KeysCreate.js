@@ -175,9 +175,8 @@ const KeysCreate = (props) => {
                                     filename={`${props.totalDefineObject.nubId}.json`}
                                     exportFile={() => `${jsonName}`}
                                 />
-                                <Icon viewClass="arrow-icon" icon="arrow"/>
+                                <Icon viewClass="arrow-icon download-icon" icon="download-arrow"/>
                             </p>
-                            <p className="download-note">({t('DOWNLOAD_KEY')})</p>
                             {/*<Button*/}
                             {/*    variant="primary"*/}
                             {/*    onClick={handleFaucet}*/}

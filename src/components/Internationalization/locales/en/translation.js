@@ -157,7 +157,12 @@ let en = {
         "KEYSTORE_LOGIN": "Keystore Login",
         "CREATE_NFT": "Create NFT",
         "WRAPPED_BALANCE": "Wrapped Balance",
-        "BALANCE": "Balance"
+        "BALANCE": "Balance",
+        "VIRTUAL_CARDS":"Virtual Cards",
+        "MUSIC":"Music",
+        "COLLECTIBLES":"Collectibles",
+        "ARTS":"Arts",
+        "RESULT_NOT_FOUND":"Result Not Found"
 
     }
 };

@@ -583,14 +583,15 @@ html, body, #root, .app {
 
     .key-download {
       margin: 0;
-
       a {
         font-weight: 500;
         font-size: 14px;
       }
 
       .icon-arrow-icon {
-        transform: rotate(90deg);
+        background: #343a40;
+        padding: 4px;
+        border-radius: 50%;
       }
     }
 
@@ -773,11 +774,12 @@ html, body, #root, .app {
 }
 
 .search-section {
+  width: 60%;
+  margin: auto;
   display: flex;
   align-items: center;
   .input-group {
-    width: 60%;
-    margin: auto;
+
     input {
       min-width: 70px;
       background: transparent;
@@ -1668,7 +1670,7 @@ model-viewer {
   .custom-file-upload {
     label {
       width: 50%;
-      height: 200px;
+      height: 150px;
       display: flex;
       align-items: center;
       padding: 10px 20px;
@@ -1719,7 +1721,7 @@ model-viewer {
     .preview-container {
       width: 250px;
       max-width: 250px;
-      height: 360px;
+      height: 320px;
       max-height: 360px;
       border-radius: 4px;
       padding: 10px 10px 0 10px;
@@ -1973,8 +1975,19 @@ model-viewer {
   }
 }
 
-.search-section{
-  button{
-    border-radius: 0px !important;
-  }
+.download-icon {
+  -webkit-animation: mover 1s infinite  alternate;
+  animation: mover 1s infinite  alternate;
+}
+.download-icon {
+  -webkit-animation: mover 1s infinite  alternate;
+  animation: mover 1s infinite  alternate;
+}
+@-webkit-keyframes mover {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-15px); }
+}
+@keyframes mover {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-5px); }
 }
