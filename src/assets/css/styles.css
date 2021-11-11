@@ -1123,7 +1123,6 @@ html, body, #root, .app {
   width: 100%;
 }
 .view-container .image-section {
-  background-color: #f9f9f9;
   width: 100%;
   min-height: 40vh;
 }

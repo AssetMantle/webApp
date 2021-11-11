@@ -12,7 +12,7 @@ export const lightTheme = {
     tabItemActiveColor: '#efcc30',
     disabledInputBg: '#e9ecef',
     disabledInputColor: '#e5ecf3',
-
+    imageSectionBg:'#F5F5F5',
     text: '#FAFAFA',
     toggleBorder: '#fff',
     footerBg: '#000',
@@ -87,6 +87,8 @@ export const darkTheme = {
     disabledInputColor: '#495057',
     footerBg: '#000',
     toggleBorder: '#6B8096',
+    imageSectionBg:'#1d1d1d',
+
     gradient: 'linear-gradient(#091236, #1E215D)',
     navigationBackground: '#191c24',
     signupBackground: '#1d1d1d',

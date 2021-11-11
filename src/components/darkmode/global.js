@@ -265,5 +265,9 @@ export const GlobalStyles = createGlobalStyle`
     color:${({theme}) => theme.disabledInputColor} !important;
      background: ${({theme}) => theme.disabledInputBg} !important;
   }
+  .view-container .image-section{
+   background: ${({theme}) => theme.imageSectionBg};
+  }
+  
 `;
 
