@@ -1,9 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
-// import Sidebar from "../../../components/sidebar/sidebar";
-// import {useHistory} from "react-router-dom";
 import config from "../../../constants/config.json";
-// import Copy from "../../../components/copy";
 import {Accordion, Button, Card} from "react-bootstrap";
 import {BurnAsset, MintAsset, MutateAsset, SendSplit, UnWrap, Wrap} from "../../forms/assets";
 import {MakeOrder} from "../../forms/orders";
@@ -18,7 +15,6 @@ import base64url from "base64url";
 const assetDefine = new defineAsset(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const AssetView = (props) => {
-    // let history = useHistory();
     const {t} = useTranslation();
     const [assetData, setAssetData] = useState({});
     const [externalComponent, setExternalComponent] = useState("");
@@ -43,12 +39,10 @@ const AssetView = (props) => {
         setOwnableId(ownableId);
     };
     let ImageData;
-    // let contentData  = [];
     let PropertyObject = [];
     let assetName;
     let assetCategory;
     let sellButton;
-    // let mutateButton;
     let burnButton;
     let assetDescription;
 
@@ -64,10 +58,6 @@ const AssetView = (props) => {
                             camera-controls
                             ar
                             auto-rotate
-                            // ar-modes="webxr scene-viewer quick-look"
-                            // ar-scale="auto"
-                            // ar-status="not-presenting"
-                            // interaction-prompt="none"
                             alt="A 3D model of an astronaut"
                         >
                         </model-viewer>
@@ -94,13 +84,7 @@ const AssetView = (props) => {
                 }
 
             }
-            // let content;
             if (asset === config.URI) {
-                // mutateButton =  <button className="icon-button info"
-                //     onClick={() => handleModalData("MutateAsset", assetData.mutableProperties, assetData)}>  <Icon
-                //         viewClass="info"
-                //         icon="edit"/>
-                // </button>;
                 burnButton = <button className="icon-bg-button" title="Delete NFT"
                     onClick={() => handleModalData("BurnAsset", "", asset, assetData.ownerID, assetData.ownableID)}>
                     <Icon
@@ -109,10 +93,6 @@ const AssetView = (props) => {
                 </button>;
                 sellButton = <Button variant="primary" size="sm" className="button-txn action-button"
                     onClick={() => handleModalData("MakeOrder", "", assetData, assetData.ownerID, assetData.ownableID)}>{t("MAKE")}</Button>;
-                {/*<Button variant="primary" size="sm" className="button-txn"*/
-                }
-                {/*    onClick={() => handleModalData("SendSplit", "", "", assetData.ownerID, assetData.ownableID)}>{t("SEND_SPLITS")}</Button>*/
-                }
             } else if (asset === "propertyName") {
                 const propertyData = JSON.parse(assetData.totalData["propertyName"]);
                 Object.keys(propertyData).map((property, keyprop) => {
@@ -144,29 +124,6 @@ const AssetView = (props) => {
             <div className="container">
                 <div className="accountInfo">
                     <div className="row">
-                        {/*<p onClick={() => handleModalData("DefineAsset")}>{t("DEFINE_ASSET")}</p>*/}
-                        {/*<div className="dropdown-section">*/}
-                        {/*    <p className="back-arrow" onClick={() => history.push(props.location.state.currentPath)}>*/}
-                        {/*        <Icon viewClass="arrow-icon" icon="arrow"/> Back</p>*/}
-                        {/*    <Dropdown>*/}
-                        {/*        <Dropdown.Toggle id="dropdown-basic">*/}
-                        {/*            {t("ACTIONS")}*/}
-                        {/*        </Dropdown.Toggle>*/}
-                        {/*        <Dropdown.Menu>*/}
-                        {/*            <Dropdown.Item*/}
-                        {/*                onClick={() => handleModalData("DefineAsset")}>{t("DEFINE_ASSET")}*/}
-                        {/*            </Dropdown.Item>*/}
-                        {/*            <Dropdown.Item onClick={() => handleModalData("MintAsset")}>{t("MINT_ASSET")}*/}
-                        {/*            </Dropdown.Item>*/}
-                        {/*            <Dropdown.Item onClick={() => handleModalData("Wrap")}>{t("WRAP")}*/}
-                        {/*            </Dropdown.Item>*/}
-                        {/*            <Dropdown.Item onClick={() => handleModalData("UnWrap")}>{t("UN_WRAP")}*/}
-                        {/*            </Dropdown.Item>*/}
-                        {/*        </Dropdown.Menu>*/}
-                        {/*    </Dropdown>*/}
-
-                        {/*</div>*/}
-
                         <div className="list-container view-container">
                             <div className="row card-deck">
                                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
@@ -223,41 +180,11 @@ const AssetView = (props) => {
                                     {assetName}
                                     {assetDescription}
 
-                                    {/*<>*/}
-                                    {/*    <div className="list-item">*/}
-                                    {/*        <p className="list-item-label">{t("ASSET_ID")}</p>*/}
-                                    {/*        <div className="list-item-value id-section">*/}
-                                    {/*            <div className="flex">*/}
-                                    {/*                <p className="id-string"*/}
-                                    {/*                    title={assetData.ownableID}> {assetData.ownableID}</p>*/}
-
-                                    {/*            </div>*/}
-                                    {/*            <Copy*/}
-                                    {/*                id={assetData.ownableID}/>*/}
-                                    {/*        </div>*/}
-
-                                    {/*    </div>*/}
-                                    {/*    <div className="list-item">*/}
-                                    {/*        <p className="list-item-label">{t("OWNER_ID")}</p>*/}
-                                    {/*        <div className="list-item-value id-section">*/}
-                                    {/*            <div className="flex">*/}
-                                    {/*                <p className="id-string"*/}
-                                    {/*                    title={assetData.ownerID}> {assetData.ownerID}</p>*/}
-
-                                    {/*            </div>*/}
-                                    {/*            <Copy*/}
-                                    {/*                id={assetData.ownerID}/>*/}
-                                    {/*        </div>*/}
-
-                                    {/*    </div>*/}
-                                    {/*</>*/}
-                                    {/*{contentData}*/}
                                     {sellButton}
                                     {burnButton}
                                     <div className="properties-container">
                                         <div className="header">
                                             <p className="sub-title">Properties</p>
-                                            {/*{mutateButton}*/}
                                         </div>
                                         <div className="body">
                                             {PropertyObject}

@@ -116,31 +116,6 @@ const AssetList = React.memo(() => {
                                                     );
                                                 })
                                             }
-                                            {/*{asset['ownableID'] !== "stake" ?*/}
-                                            {/*    <>*/}
-                                            {/*        <div className="list-item">*/}
-                                            {/*            <p className="list-item-label">{t("ASSET_ID")}:</p>*/}
-                                            {/*            <div className="list-item-value id-section">*/}
-                                            {/*                <p className="id-string" title={asset['ownableID']}> {asset['ownableID']}</p>*/}
-                                            {/*            </div>*/}
-                                            {/*        </div>*/}
-
-                                            {/*    </>*/}
-                                            {/*    :*/}
-                                            {/*    <div className="list-item">*/}
-                                            {/*        <p className="list-item-label">{t("ASSET_ID")}:</p>*/}
-                                            {/*        <p className="list-item-value" title={asset['ownableID']}>{asset['ownableID']}</p>*/}
-                                            {/*    </div>*/}
-
-                                            {/*}*/}
-
-                                            {/*<div className="list-item">*/}
-                                            {/*    <p className="list-item-label">{t("OWNER_ID")}:</p>*/}
-                                            {/*    <div className="list-item-value id-section">*/}
-                                            {/*        <p className="id-string" title={asset['ownerID']}> {asset['ownerID']}</p>*/}
-                                            {/*    </div>*/}
-                                            {/*</div>*/}
-
                                             {asset['ownableID'] === "stake" ?
                                                 <div className="button-group">
                                                     <Button variant="primary" size="sm"

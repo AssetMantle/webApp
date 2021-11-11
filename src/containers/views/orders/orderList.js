@@ -19,7 +19,6 @@ const OrderList = React.memo(() => {
             pathname: `/list/view/${id}`,
             orderID: orderID
         });
-        // history.push(`/view/${id}`);
     };
 
     return (

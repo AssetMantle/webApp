@@ -3,7 +3,6 @@ import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
 import Copy from "../../../components/copy";
 import {useSelector} from "react-redux";
-// import * as faucet from "../../../store/actions/faucet";
 import {Button} from "react-bootstrap";
 import {Provision, UnProvision} from "../../forms/identities";
 import {UnWrap, Wrap} from "../../forms/assets";
@@ -68,12 +67,7 @@ const IdentityList = () => {
                                 </div>
                                 : ""
                             }
-                            {/*<div className="list-item">*/}
-                            {/*    <p className="list-item-label">{t("WRAPPED_AMOUNT")}:</p>*/}
-                            {/*    <div className="list-item-value profile-data-item">*/}
-                            {/*        <p className="id-string"> {(faucetData[0].amount*1) - (wrappedCoins*1)}</p>*/}
-                            {/*    </div>*/}
-                            {/*</div>*/}
+                           
                             <div className="list-item">
                                 <p className="list-item-label">{t("WRAPPED_BALANCE")}:</p>
                                 <div className="list-item-value profile-data-item button-item">

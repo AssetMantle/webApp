@@ -114,25 +114,6 @@ const ListOrderView = (props) => {
             <div className="container">
                 <div className="accountInfo">
                     <div className="row">
-                        {/*<div className="dropdown-section">*/}
-                        {/*    <p className="back-arrow" onClick={() => history.push(props.location.state.currentPath)}>*/}
-                        {/*        <Icon viewClass="arrow-icon" icon="arrow"/> Back</p>*/}
-                        {/*    {props.location.state.currentPath !== "/marketplace" ?*/}
-                        {/*        <Dropdown>*/}
-                        {/*            <Dropdown.Toggle id="dropdown-basic">*/}
-                        {/*                {t("ACTIONS")}*/}
-                        {/*            </Dropdown.Toggle>*/}
-                        {/*            <Dropdown.Menu>*/}
-                        {/*                <Dropdown.Item*/}
-                        {/*                    onClick={() => handleModalData("DefineOrder")}>{t("DEFINE_ORDER")}</Dropdown.Item>*/}
-                        {/*            </Dropdown.Menu>*/}
-                        {/*        </Dropdown>*/}
-                        {/*        : ""*/}
-                        {/*    }*/}
-
-                        {/*</div>*/}
-
-
                         <div className="list-container view-container">
                             <div className="row card-deck">
                                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">

@@ -18,15 +18,12 @@ const TotalOrders = () => {
 
     const marketOrdersCopy = useSelector((state) => state.search.marketOrdersCopy);
     const searchError = useSelector((state) => state.search.errorData);
-    console.log(searchError, "searchError", marketOrdersCopy);
     const filterOrders = useSelector((state) => state.filterOrders.empty);
     const filterOrdersList = useSelector((state) => state.filterOrders.filterOrders);
 
     const searchMultiSearch = useSelector((state) => state.search.multiSearch);
     const filterMutliSearch = useSelector((state) => state.filterOrders.multiSearch);
 
-    console.log(searchResult, "searchResult", filterOrders, searchMultiSearch, filterMutliSearch);
-    console.log(filterOrdersList, "marketOrdersCopy", filterOrdersList);
 
     let ordersList;
     if(searchResult && filterOrders){

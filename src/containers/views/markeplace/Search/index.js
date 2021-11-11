@@ -8,9 +8,6 @@ import {useTranslation} from "react-i18next";
 const Search = () => {
     const {t} = useTranslation();
     const dispatch = useDispatch();
-    // const searchResult = useSelector((state) => state.search.searchResult);
-    // console.log(searchResult, "searchResult");
-    // base64url.decode(order['totalData'][key])
     const [dropDownValue, setDropdownValue] = useState('all');
     const changeHandler=(evt)=>{
         dispatch(search.fetchSearchResult(evt.target.value));
@@ -30,7 +27,7 @@ const Search = () => {
         <div className="search-section mt-3">
             <InputGroup>
                 <FormControl
-                    placeholder="Search by name"
+                    placeholder="Search by NFT"
                     aria-label="Search"
                     id="searchField"
                     onChange={changeHandler}

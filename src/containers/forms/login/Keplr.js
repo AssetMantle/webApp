@@ -9,7 +9,6 @@ const Keplr = (props) => {
     const [show, setShow] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
     const [address, setAddress] = useState(false);
-    // const [loader, setLoader] = useState(false);
     const userName = props.userData.userName;
     const backHandler = () => {
         setShow(false);

@@ -19,11 +19,8 @@ export const fetchOrders = (identityId) => {
                 if (filterOrdersByIdentities.length) {
                     let ordersListNew = [];
                     for (const order of filterOrdersByIdentities) {
-                        // let immutableProperties = "";
                         let mutableProperties = "";
-                        // if (order.value.immutables.value.properties.value.propertyList !== null) {
-                        //     immutableProperties = await GetProperties.ParseProperties(order.value.immutables.value.properties.value.propertyList);
-                        // }
+
                         if (order.value.mutables.value.properties.value.propertyList !== null) {
                             mutableProperties = await GetProperties.ParseProperties(order.value.mutables.value.properties.value.propertyList);
                         }
@@ -34,8 +31,7 @@ export const fetchOrders = (identityId) => {
                         const assetData = await fetchAssetDetails(makerOwnableID);
                         let takerOwnableID = await GetID.GetTakerOwnableID(order);
                         let makerID = await GetID.GetMakerID(order);
-                        // const totalData = {...immutableProperties[0], ...mutableProperties[0]};
-                        // const objSorted = helper.SortObjectData(totalData);
+
                         ordersListNew.push({
                             'totalData': assetData.totalData,
                             'orderID': orderIdData,

@@ -47,8 +47,6 @@ const KeysCreate = (props) => {
             return (<div>ERROR!!</div>);
         } else {
             const jsonContent = JSON.stringify(create.Response);
-            // localStorage.setItem('address', error.address);
-            // localStorage.setItem('mnemonic', error.mnemonic);
             setJsonName(jsonContent);
             setAddress(error[1]);
             setMnemonic(error[0].mnemonic);
@@ -177,12 +175,6 @@ const KeysCreate = (props) => {
                                 />
                                 <Icon viewClass="arrow-icon download-icon" icon="download-arrow"/>
                             </p>
-                            {/*<Button*/}
-                            {/*    variant="primary"*/}
-                            {/*    onClick={handleFaucet}*/}
-                            {/*>*/}
-                            {/*    {t('SUBMIT')}*/}
-                            {/*</Button>*/}
                         </div>
                         :
                         ''

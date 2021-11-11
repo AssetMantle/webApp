@@ -75,14 +75,6 @@ const CreateIdentity = () => {
     };
 
 
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     setLoader(true);
-    //
-    //     setShow(false);
-    //     setLoader(false);
-    // };
-
     const handleClose = () => {
         setShow(false);
         history.push('/');

@@ -17,44 +17,7 @@ const MaintainerList = React.memo(() => {
     const {t} = useTranslation();
     const [maintainer, setMaintainer] = useState({});
     const [externalComponent, setExternalComponent] = useState("");
-    // const identityId = localStorage.getItem('identityId');
-    // useEffect(() => {
-    //     const fetchOrder = () => {
-    //         const identities = identitiesQuery.queryIdentityWithID(identityId);
-    //         identities.then(function (item) {
-    //             const data = JSON.parse(item);
-    //             const dataList = data.result.value.identities.value.list;
-    //             if (dataList) {
-    //                 const maintainersData = maintainersQuery.queryMaintainerWithID("all");
-    //                 maintainersData.then(function (item) {
-    //                     const parsedMaintainersData = JSON.parse(item);
-    //                     const maintainersDataList = parsedMaintainersData.result.value.maintainers.value.list;
-    //                     if (maintainersDataList) {
-    //                         const filterMaintainersByIdentity = FilterHelper.FilterMaintainersByIdentity(identityId, maintainersDataList);
-    //                         if (filterMaintainersByIdentity.length) {
-    //                             setMaintainersList(filterMaintainersByIdentity);
-    //                             filterMaintainersByIdentity.map((identity, index) => {
-    //                                 let maintainedTraits = "";
-    //                                 if (identity.value.maintainedTraits.value.properties.value.propertyList !== null) {
-    //                                     maintainedTraits = PropertyHelper.ParseProperties(identity.value.maintainedTraits.value.properties.value.propertyList);
-    //                                 }
-    //                                 let maintainedTraitsKeys = Object.keys(maintainedTraits);
-    //                                 GetMetaHelper.AssignMetaValue(maintainedTraitsKeys, maintainedTraits, metasQuery, 'maintainedTraits', index);
-    //                                 setLoader(false);
-    //                             });
-    //                         } else {
-    //                             setLoader(false);
-    //                         }
-    //                         setLoader(false);
-    //                     }
-    //                 });
-    //             } else {
-    //                 setLoader(false);
-    //             }
-    //         });
-    //     };
-    //     fetchOrder();
-    // }, []);
+
 
     const handleModalData = (formName, maintainer1) => {
         setMaintainer(maintainer1);
@@ -117,18 +80,7 @@ const MaintainerList = React.memo(() => {
                                                 }
                                             })
                                         }
-                                        {/*{keys !== null ?*/}
-                                        {/*    keys.map((keyName, index1) => {*/}
-                                        {/*        if (maintainerPropertyList[keyName] !== "" && keyName !== 'style' && keyName !== config.URI) {*/}
-                                        {/*            return (<div key={index + keyName} className="list-item"><p className="list-item-label">{keyName}:</p> <p*/}
-                                        {/*                id={`maintainedTraits` + index + `${index1}`} className="list-item-value"></p></div>);*/}
-                                        {/*        } else if(keyName !== 'style' && keyName !== config.URI){*/}
-                                        {/*            return (*/}
-                                        {/*                <div key={index + keyName} className="list-item"><p className="list-item-label">{keyName}: </p> <p className="list-item-hash-value">{maintainerPropertyList[keyName]}</p></div>);*/}
-                                        {/*        }*/}
-                                        {/*    })*/}
-                                        {/*    : ""*/}
-                                        {/*}*/}
+
                                     </div>
                                 </div>
                             </div>

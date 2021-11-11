@@ -3,7 +3,6 @@ import Icon from "../../../icons";
 import {fetchAddress} from "../../../utilities/Helpers/ledger";
 import {Button, Form, Modal} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
-// import Loader from "../../../components/loader";
 const Ledger = (props) => {
     const history = useHistory();
     const [ledgerAddress, setLedgerAddress] = useState('');
@@ -11,7 +10,6 @@ const Ledger = (props) => {
     const [errorMessage, setErrorMessage] = useState("");
     const [advancedMode, setAdvancedMode] = useState(false);
     const [addressUpdate, setAddressUpdate] = useState(false);
-    // const [loader, setLoader] = useState(false);
     const userName = props.userData.userName;
     const handleAdvanceMode = () => {
         setAdvancedMode(!advancedMode);
