@@ -28,7 +28,6 @@ const HeaderBeforeLogin = () => {
                     </Nav>
 
                     <Nav>
-                        {/*<Nav.Link onClick={() => handleModelRoute("create")}>Create Keys</Nav.Link>*/}
                         <Nav.Link onClick={() => handleModelRoute("signup")}>{t("SIGN_UP")}</Nav.Link>
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/marketplace">{t("MARKET_PLACE")}</NavLink>

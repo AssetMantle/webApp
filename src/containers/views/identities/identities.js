@@ -7,15 +7,7 @@ import IdentityList from "./identityList";
 const identitiesDefine = new defineIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const Identities = () => {
-    // const {t} = useTranslation();
     const [externalComponent, setExternalComponent] = useState("");
-    // const [identityId, setIdentityId] = useState("");
-    // const [identity, setIdentity] = useState([]);
-    // const handleModalData = (formName) => {
-    //     setExternalComponent(formName);
-    //     setIdentity(identity);
-    //     setIdentityId(identityId);
-    // };
 
     return (
         <div className="accountInfo">

@@ -114,24 +114,6 @@ const OrderView = (props) => {
             <div className="container">
                 <div className="accountInfo">
                     <div className="row">
-                        {/*<div className="dropdown-section">*/}
-                        {/*    <p className="back-arrow" onClick={() => history.push(props.location.state.currentPath)}>*/}
-                        {/*        <Icon viewClass="arrow-icon" icon="arrow"/> Back</p>*/}
-                        {/*    {props.location.state.currentPath !== "/marketplace" ?*/}
-                        {/*        <Dropdown>*/}
-                        {/*            <Dropdown.Toggle id="dropdown-basic">*/}
-                        {/*                {t("ACTIONS")}*/}
-                        {/*            </Dropdown.Toggle>*/}
-                        {/*            <Dropdown.Menu>*/}
-                        {/*                <Dropdown.Item*/}
-                        {/*                    onClick={() => handleModalData("DefineOrder")}>{t("DEFINE_ORDER")}</Dropdown.Item>*/}
-                        {/*            </Dropdown.Menu>*/}
-                        {/*        </Dropdown>*/}
-                        {/*        : ""*/}
-                        {/*    }*/}
-
-                        {/*</div>*/}
-
 
                         <div className="list-container view-container">
                             <div className="row card-deck">
@@ -228,15 +210,11 @@ const OrderView = (props) => {
                                     {assetName}
                                     {assetDescription}
                                     <p className="asset-price">{orderData.exChangeRate} {config.coinName}</p>
-                                    {/*{props.location.state.currentPath === "/marketplace" ?*/}
                                     {localStorage.getItem('userName') !== null ?
                                         <Button variant="primary" size="sm" className="action-button"
                                             onClick={() => handleModalData("TakeOrder", orderId)}>{t("TAKE")}</Button>
                                         : ""
-                                        // :   localStorage.getItem('userName') !== null ?
-                                        //     <Button variant="primary" size="sm" className="action-button"
-                                        //         onClick={() => handleModalData("CancelOrder", "" , order)}>{t("CANCEL")}</Button>
-                                        //     : ""
+
                                     }
                                     <div className="properties-container">
                                         <div className="header">

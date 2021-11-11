@@ -144,18 +144,9 @@ const HeaderAfterLogin = () => {
                                         <li className="nav-item">
                                             <NavLink className="nav-link" to="/assets">{t("ASSETS")}</NavLink>
                                         </li>
-                                        {/*<li className="nav-item">*/}
-                                        {/*    <NavLink className="nav-link" to="/orders">{t("ORDERS")}</NavLink>*/}
-                                        {/*</li>*/}
                                         <li className="nav-item">
                                             <NavLink className="nav-link" to="/marketplace">{t("MARKET_PLACE")}</NavLink>
                                         </li>
-                                        {/*<li className="nav-item">*/}
-                                        {/*    <NavLink className="nav-link" to="/maintainers">{t("MAINTAINERS")}</NavLink>*/}
-                                        {/*</li>*/}
-                                        {/*<li className="nav-item">*/}
-                                        {/*    <NavLink className="nav-link" to="/profile">{t("PROFILE")}</NavLink>*/}
-                                        {/*</li>*/}
                                         <li className="profile-section">
                                             <NavDropdown title={dropdownTitle} id="basic-nav-dropdown"
                                                 className="profile-dropdown">
@@ -174,12 +165,6 @@ const HeaderAfterLogin = () => {
                                                                                     icon="user"/>
                                                                                 <p className="address">{id}</p>
                                                                             </div>
-                                                                            {/*<span className="cross-icon" onClick={()=> removeIdentityHandler(id)}>*/}
-                                                                            {/*    <Icon*/}
-                                                                            {/*        viewClass="cross"*/}
-                                                                            {/*        icon="cross"/>*/}
-                                                                            {/*</span>*/}
-
                                                                         </div>
                                                                     );
                                                                 } else {
@@ -215,13 +200,6 @@ const HeaderAfterLogin = () => {
                                                                 icon="add-user"/>{t("ADD_USER")}
                                                         </div>
                                                     </p>
-                                                    {/*<p  className="add-id">*/}
-                                                    {/*    <div className="icon-section">*/}
-                                                    {/*        <Icon*/}
-                                                    {/*            viewClass="add-user"*/}
-                                                    {/*            icon="user"/>{t("PROFILE")}*/}
-                                                    {/*    </div>*/}
-                                                    {/*</p>*/}
                                                     <p onClick={logout} className="logout">
                                                         <div className="icon-section">
                                                             <Icon

@@ -23,7 +23,6 @@ export const fetchIdentities = (identityId) => {
                         mutableProperties = await GetProperties.ParseProperties(identity.value.mutables.value.properties.value.propertyList);
                     }
 
-                    // let identitiesData = await GetID.GetOrderID(order);
                     const totalData = {...immutableProperties[0], ...mutableProperties[0]};
                     const objSorted = helper.SortObjectData(totalData);
                     identitiesList.push({

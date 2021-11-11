@@ -40,16 +40,6 @@ const Login = () => {
                             <Icon viewClass="arrow-icon" icon="arrow"/>
                         </div>
                     </div>
-                    {/*<div className="submitButtonSection">*/}
-                    {/*    <Button*/}
-                    {/*        variant="primary"*/}
-                    {/*        type="button"*/}
-                    {/*        className="button-double-border"*/}
-                    {/*        onClick={() => handleRoute("CreateIdentity")}*/}
-                    {/*    >*/}
-                    {/*        Create Identity*/}
-                    {/*    </Button>*/}
-                    {/*</div>*/}
                 </Modal.Body>
             </Modal>
 

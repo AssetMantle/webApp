@@ -7,7 +7,6 @@ export const fetchSearchResult = (key) => {
     return async (dispatch, getState) => {
         try {
             const marketOrder = getState().markePlace.markeOrders;
-            // const marketOrderCopy = getState().markePlace.marketOrdersCopy;
             const filterOrders = getState().filterOrders.empty;
             const category = getState().filterOrders.category;
             const filterOrdersList = getState().filterOrders.filterOrders;

@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {queryMeta} from "persistencejs/build/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import {useHistory} from "react-router-dom";
-import {Summary} from "../../../components/summary";
 import Icon from "../../../icons";
 import GetProperty from "../../../utilities/Helpers/getProperty";
 import GetMeta from "../../../utilities/Helpers/getMeta";
@@ -276,9 +275,7 @@ const IdentityView = React.memo((props) => {
                         }
 
                     </div>
-                    <div className="col-md-3 summary-section">
-                        <Summary/>
-                    </div>
+
                 </div>
                 <div>
                     {externalComponent === 'Provision' ?

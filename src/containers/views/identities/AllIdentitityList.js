@@ -10,7 +10,6 @@ import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetID from "../../../utilities/Helpers/getID";
 import {useHistory} from "react-router-dom";
 import {Button, Dropdown} from 'react-bootstrap';
-import {Summary} from "../../../components/summary";
 import Sidebar from '../../../components/sidebar/sidebar';
 import {IssueIdentity, Nub} from '../../forms/identities';
 import {Define} from '../../forms';
@@ -235,9 +234,6 @@ const AllIdentityList = React.memo((props) => {
                                     : <p className="empty-list">{t("IDENTITIES_NOT_FOUND")}</p>}
                             </div>
                         </div>
-                    </div>
-                    <div className="col-md-3 summary-section">
-                        <Summary/>
                     </div>
 
                 </div>
