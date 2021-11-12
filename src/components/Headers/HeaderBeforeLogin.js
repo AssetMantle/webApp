@@ -48,7 +48,7 @@ const HeaderBeforeLogin = () => {
                             <NavLink className="nav-link" to="/marketplace">{t("MARKET_PLACE")}</NavLink>
                         </li>
                         <div className="button-login-section">
-                            <Button variant="primary" className="button-double-border"
+                            <Button variant="primary"
                                 onClick={handleRoute("/login")}>{t("LOGIN")}</Button>
                         </div>
 

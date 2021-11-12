@@ -112,7 +112,7 @@ const KeysCreate = (props) => {
                     <div className="back-button" onClick={() => backHandler("mainPage")}>
                         <Icon viewClass="arrow-icon" icon="arrow"/>
                     </div>
-                    {t('Create Keys')}
+                    {t('CREATE_KEYS')}
                 </Modal.Header>
                 <Modal.Body className="text-center">
                     <div>
@@ -121,14 +121,14 @@ const KeysCreate = (props) => {
                             className="button-signup-mnemonic button-signup"
                             onClick={() => handleEncrypt('Create Keys')}
                         >
-                            Create Keys
+                            {t('CREATE_KEYS')}
                         </Button>
                         <Button
                             variant="primary"
                             className="button-signup-mnemonic button-signup"
                             onClick={() => handleRoute('import')}
                         >
-                            Import Keys
+                            {t('IMPORT_KEYS')}
                         </Button>
                     </div>
                 </Modal.Body>

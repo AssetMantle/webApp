@@ -56,7 +56,7 @@ const TransactionOptions = (props) => {
                         <div className="back-button" onClick={backHandler}>
                             <Icon viewClass="arrow-icon" icon="arrow"/>
                         </div>
-                        {t("Choose Option")}
+                        {t("CHOOSE_OPTION")}
                     </Modal.Header>
 
                     <Modal.Body>

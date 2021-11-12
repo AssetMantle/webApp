@@ -174,12 +174,6 @@ const MutateAsset = (props) => {
 
                         }
                         {PropertyObject}
-                        {/*{errorMessage !== '' ?*/}
-                        {/*    <span*/}
-                        {/*        className="error-response">{errorMessage}</span>*/}
-                        {/*    : ''*/}
-
-                        {/*}*/}
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">
                                 {t('submit')}

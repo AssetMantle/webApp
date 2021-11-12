@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Modal} from "react-bootstrap";
+import {Button, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import {useHistory} from "react-router-dom";
 import {useDispatch} from "react-redux";
@@ -64,6 +64,11 @@ const ModalCommon = (props) => {
             history.push("/assets");
         }
     };
+
+    const handleModelRoute = (route) => {
+        history.push(`/${route}`);
+    };
+
     return (
         <Modal
             show={showIdentity}
@@ -82,15 +87,6 @@ const ModalCommon = (props) => {
                     </div>
                     :
                     <>
-                        {
-                            props.transactionName === 'nubid' ?
-                                <>
-                                    <p><b>User Name:</b> {props.nubID}</p>
-                                    <p><b>IdentityID:</b> {props.testID}</p>
-                                </>
-                                : ""
-                        }
-
                         {props.keplrTxn ?
                             props.data.code ?
                                 <p>Error: {props.data.rawLog}</p>
@@ -106,6 +102,21 @@ const ModalCommon = (props) => {
                                     href={process.env.REACT_APP_EXPLORER_API + '/transaction?txHash=' + props.data.transactionHash}
                                     target="_blank" rel="noreferrer">{props.data.transactionHash}</a></p>
 
+                        }
+                        {
+                            props.transactionName === 'nubid' ?
+                                <>
+                                    <p><b>User Name:</b> {props.nubID}</p>
+                                    <p><b>IdentityID:</b> {props.testID}</p>
+                                    <Button
+                                        variant="primary"
+                                        type="submit"
+                                        onClick={()=>handleModelRoute('login')}
+                                    >
+                                        {t("CONTINUE_TO_LOGIN")}
+                                    </Button>
+                                </>
+                                : ""
                         }
                     </>
                 }

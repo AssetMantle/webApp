@@ -206,7 +206,7 @@ const MintAsset = () => {
     const popoverTotal = (
         <Popover id="popover-total">
             <Popover.Content>
-                Please make sure you upload images / artwork that you have created or have the right to use.
+                {t('IMAGE_UPLOAD_WARNING')}
             </Popover.Content>
         </Popover>
     );
@@ -220,7 +220,7 @@ const MintAsset = () => {
                     }
                 </div>
                 <div className="left-content">
-                    <h1 className="page-title">Create new item</h1>
+                    <h1 className="page-title">{t('CREATE_NEW_ITEM')}</h1>
                     <Form onSubmit={handleFormSubmit}>
                         <Form.Group className="hidden">
                             <Form.Label>{t('FROM_ID')}*</Form.Label>
@@ -245,7 +245,7 @@ const MintAsset = () => {
                             />
                         </Form.Group>
                         <Form.Group className="hidden">
-                            <Form.Label>Burn</Form.Label>
+                            <Form.Label>{t('BURN')}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -256,7 +256,7 @@ const MintAsset = () => {
                             />
                         </Form.Group>
                         <Form.Group className="hidden">
-                            <Form.Label>MutableLock</Form.Label>
+                            <Form.Label>{t('MUTABLE_LOCK')}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -267,7 +267,7 @@ const MintAsset = () => {
                             />
                         </Form.Group>
                         <div className="custom-file-upload-box">
-                            <Form.Label>Image
+                            <Form.Label>{t('IMAGE')}
                                 <OverlayTrigger trigger={['hover', 'focus']} placement="bottom"
                                     overlay={popoverTotal}>
                                     <button className="icon-button info" type="button"><Icon
@@ -275,7 +275,7 @@ const MintAsset = () => {
                                         icon="info"/></button>
                                 </OverlayTrigger></Form.Label>
                             <Form.Text className="text-muted">
-                                File types supported: JPG, PNG, GIF, SVG, MP4, WEBM. Max size: 30 MB
+                                {t('IMAGE_UPLOAD_INFO')}
                             </Form.Text>
                             <Form.Group className="custom-file-upload">
                                 <Form.File
@@ -288,7 +288,7 @@ const MintAsset = () => {
                             </Form.Group>
                         </div>
                         <Form.Group>
-                            <Form.Label>Category</Form.Label>
+                            <Form.Label>{t('CATEGORY')}</Form.Label>
                             <Form.Control as="select" name="category"
                                 required={true}
                                 onBlur={categoryChangeHandler}
@@ -302,7 +302,7 @@ const MintAsset = () => {
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Name</Form.Label>
+                            <Form.Label>{t('NAME')}</Form.Label>
                             <Form.Control
                                 type="text"
                                 className=""
@@ -313,11 +313,9 @@ const MintAsset = () => {
                                 placeholder="Name"
                             />
                         </Form.Group>
-
-
                         <Form.Group>
-                            <Form.Label>Description</Form.Label>
-                            <Form.Control as="textarea" rows={5}
+                            <Form.Label>{t('DESCRIPTION')}</Form.Label>
+                            <Form.Control as="textarea" rows={3}
                                 name="description"
                                 placeholder="Enter Description"
                                 id="Description"
@@ -326,7 +324,7 @@ const MintAsset = () => {
 
                         </Form.Group>
                         <Form.Group className="hidden">
-                            <Form.Label>Style</Form.Label>
+                            <Form.Label>{t('STYLE')}</Form.Label>
                             <Form.Control as="select"
                                 onChange={handleChangeStyle}
                                 name="Style"
@@ -338,7 +336,7 @@ const MintAsset = () => {
                             </Form.Control>
                         </Form.Group>
                         <Form.Group className="hidden">
-                            <Form.Label>Type</Form.Label>
+                            <Form.Label>{t('TYPE')}</Form.Label>
                             <Form.Control as="select" name="type"
                                 required={true}
                                 onChange={handleChangeType}>
@@ -350,7 +348,7 @@ const MintAsset = () => {
                         </Form.Group>
 
                         <Form.Group className="attributes-container m-0">
-                            <Form.Label>Attributes</Form.Label>
+                            <Form.Label>{t('ATTRIBUTES')}</Form.Label>
                             <Button type="button" variant="secondary" size="sm"
                                 onClick={handleProperties}
                                 className="small button-define"><Icon viewClass="icon-upload" icon="plus"/>
@@ -409,7 +407,7 @@ const MintAsset = () => {
                 </div>
 
                 <div className="right-content">
-                    <p className="text-center title">Preview NFT</p>
+                    <p className="text-center title">{t('PREVIEW_NFT')}</p>
                     <div className="preview-container">
                         <div className="image">
                             {!urlLoader ?
@@ -438,7 +436,6 @@ const MintAsset = () => {
                             setExternalComponent={setExternalComponent}
                             totalDefineObject={totalDefineObject}
                             TransactionName={'assetMint'}
-                            // setShow={setShow}
                             handleClose={handleClose}
                         /> :
                         null

@@ -82,7 +82,6 @@ const Ledger = (props) => {
             localStorage.setItem("identityId", props.userData.identityId);
             localStorage.setItem("userList", JSON.stringify(list));
             localStorage.setItem("userName", userName);
-            // setAddress(ledgerAddress);
             localStorage.setItem("userAddress", ledgerAddress);
             localStorage.setItem("loginMode", "ledger");
 
@@ -136,9 +135,9 @@ const Ledger = (props) => {
                                                     </Button>
                                                 </div>
                                             </div>
-                                            <div className="select-gas">
+                                            <div className="select-gas advancedMode">
                                                 <p onClick={handleAdvanceMode}
-                                                    className="text-center">{!advancedMode ? "Advanced" : "Advanced"}
+                                                    className="text-center advancedModeData">{!advancedMode ? "Advanced" : "Advanced"}
                                                     {!advancedMode ?
                                                         <Icon
                                                             viewClass="arrow-right"

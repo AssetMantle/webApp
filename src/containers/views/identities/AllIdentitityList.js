@@ -10,7 +10,6 @@ import GetMeta from "../../../utilities/Helpers/getMeta";
 import GetID from "../../../utilities/Helpers/getID";
 import {useHistory} from "react-router-dom";
 import {Button, Dropdown} from 'react-bootstrap';
-import Sidebar from '../../../components/sidebar/sidebar';
 import {IssueIdentity, Nub} from '../../forms/identities';
 import {Define} from '../../forms';
 import {defineIdentity} from 'persistencejs/build/transaction/identity/define';
@@ -104,9 +103,6 @@ const AllIdentityList = React.memo((props) => {
 
     return (
         <div>
-            {userToken ?
-                <Sidebar/>
-                : ""}
             <div className="accountInfo">
                 <div className="row">
                     <div className="col-md-9 card-deck">

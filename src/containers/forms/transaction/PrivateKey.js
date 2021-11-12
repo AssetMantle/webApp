@@ -172,7 +172,7 @@ const PrivateKeyTransaction = (props) => {
                     <div className="back-button" onClick={backHandler}>
                         <Icon viewClass="arrow-icon" icon="arrow"/>
                     </div>
-                    {t("KEYSTORE_LOGIN")}
+                    {t("KEYSTORE")}
                 </Modal.Header>
                 <Modal.Body>
                     {loader ?
@@ -183,18 +183,20 @@ const PrivateKeyTransaction = (props) => {
                         {
                             importMnemonic ?
                                 <>
-                                    <Form.Group className="m-0">
+                                    <Form.Group>
                                         <Form.File id="exampleFormControlFile1" name="uploadFile" accept=".json"
-                                            label="upload private key file" required={true}/>
+                                            label="Upload private key file" required={true}/>
                                     </Form.Group>
-                                    <Form.Label>{t("DECRYPT_KEY_STORE")}</Form.Label>
-                                    <Form.Control
-                                        type="password"
-                                        name="password"
-                                        id="password"
-                                        placeholder="password"
-                                        required={true}
-                                    />
+                                    <Form.Group className="m-0">
+                                        <Form.Label>{t("DECRYPT_KEY_STORE")}</Form.Label>
+                                        <Form.Control
+                                            type="password"
+                                            name="password"
+                                            id="password"
+                                            placeholder="password"
+                                            required={true}
+                                        />
+                                    </Form.Group>
                                 </>
                                 :
                                 <Form.Group className="m-0">
