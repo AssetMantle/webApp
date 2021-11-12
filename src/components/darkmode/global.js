@@ -117,6 +117,7 @@ export const GlobalStyles = createGlobalStyle`
   .show > .btn-primary.dropdown-toggle,
   .btn-primary, .btn-primary:hover,
   .signup-section .button-signup:hover {
+   
     background-color: ${({theme}) => theme.primaryButtonBackground};
     color: ${({theme}) => theme.primaryButtonColor};
   }
@@ -157,7 +158,9 @@ export const GlobalStyles = createGlobalStyle`
     background: ${({theme}) => theme.primaryButtonBackground};
     border: 1px solid ${({theme}) => theme.buttonViewSecondBorder};
   }
-  
+   .btn-primary{
+   outline: none !important;
+   }
   .btn-primary:not(:disabled):not(.disabled).active,
   .btn-primary:not(:disabled):not(.disabled):active,
   .show > .btn-primary.dropdown-toggle,

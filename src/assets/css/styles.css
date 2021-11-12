@@ -602,22 +602,6 @@ html, body, #root, .app {
   color: #999999;
   font-size: 12px;
 }
-.mnemonic-login-section.login-section form .button-double-border {
-  font-weight: 600;
-  font-size: 14px;
-  box-shadow: 0px 0px 0 0px #ffffff, 0px 0px 0 2px #efcc30, 4px 4px 0 1px #ffffff, 4px 4px 0 2px #262A2B;
-}
-.mnemonic-login-section.login-section form .button-double-border:hover {
-  color: #262a2b;
-  background-color: #efcc30;
-  border-color: #ffffff;
-}
-.mnemonic-login-section.login-section form .btn-primary.button-double-border:not(:disabled):not(.disabled).active:focus, .mnemonic-login-section.login-section form .btn-primary.button-double-border:not(:disabled):not(.disabled):active:focus, .mnemonic-login-section.login-section form .show > .btn-primary.button-double-border.dropdown-toggle:focus, .mnemonic-login-section.login-section form .btn-primary.button-double-border.focus, .mnemonic-login-section.login-section form .btn-primary.button-double-border:focus {
-  color: #262a2b;
-  background-color: #efcc30;
-  box-shadow: 0px 0px 0 0px #ffffff, 0px 0px 0 0px #ffffff, 4px 4px 0 1px #ffffff, 4px 4px 0 2px #262A2B;
-  border-color: #ffffff;
-}
 
 .mnemonic-login-section.login-section.key-select form {
   align-items: start;
