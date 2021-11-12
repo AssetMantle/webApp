@@ -4,6 +4,7 @@ import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
 import TransactionOptions from "../login/TransactionOptions";
 import config from "../../../config";
+import helper from "../../../utilities/helper";
 
 const UnWrap = (props) => {
     const [show, setShow] = useState(true);
@@ -82,8 +83,9 @@ const UnWrap = (props) => {
                         <Form.Group>
                             <Form.Label>{t('AMOUNT')}* </Form.Label>
                             <Form.Control
-                                type="text"
+                                type="number"
                                 className=""
+                                onKeyPress={helper.inputAmountValidation}
                                 name="amount"
                                 required={true}
                                 placeholder="Amount"

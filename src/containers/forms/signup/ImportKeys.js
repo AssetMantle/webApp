@@ -124,7 +124,6 @@ const ImportKeys = (props) => {
                                     <Button
                                         variant="primary"
                                         type="submit"
-                                        className="button-double-border"
                                     >
                                         {t('SUBMIT')}
                                     </Button>
@@ -162,7 +161,6 @@ const ImportKeys = (props) => {
                                 <Button
                                     variant="primary"
                                     type="submit"
-                                    className="button-double-border"
                                     onClick={KeyStoreGenerateButton}
                                 >
                                     Next
@@ -197,7 +195,6 @@ const ImportKeys = (props) => {
                                 <Button
                                     variant="primary"
                                     type="submit"
-                                    className="button-double-border"
                                 >
                                     Submit
                                 </Button>

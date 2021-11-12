@@ -131,7 +131,6 @@ const Ledger = (props) => {
                                                         variant="primary"
                                                         type="submit"
                                                         onClick={handleLogin}
-                                                        className="button-double-border"
                                                     >
                                                         Proceed to Login
                                                     </Button>

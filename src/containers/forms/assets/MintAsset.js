@@ -72,19 +72,25 @@ const MintAsset = () => {
     };
 
     const urlChangeHandler = async (e) => {
-        setUrlLoader(true);
         const fileData = e.target.files[0];
-        setFileName(fileData.name);
-        let res = await handleUpload(fileData, fileData.name, true);
-        const updateFileUrl = "https://demo-assetmantle.mypinata.cloud/ipfs/" + res.IpfsHash + "/" + fileData.name;
-        setFileUrl(updateFileUrl);
-        // const ipfsPath = await helper.pinataFile(fileData, res.IpfsHash);
-        // console.log(ipfsPath, "ipfspath");
-        const ImmutableUrlEncode = PropertyHelper.getUrlEncode(updateFileUrl);
-        setEncodedUrl(ImmutableUrlEncode);
-        const imageExtension = fileData.name.substring(fileData.name.lastIndexOf('.') + 1);
-        setImageExtension(imageExtension);
-        setUrlLoader(false);
+        setErrorMessage("");
+        if(helper.imageTypeCheck(fileData.name)) {
+            setUrlLoader(true);
+            setFileName(fileData.name);
+            let res = await handleUpload(fileData, fileData.name, true);
+            const updateFileUrl = "https://demo-assetmantle.mypinata.cloud/ipfs/" + res.IpfsHash + "/" + fileData.name;
+            setFileUrl(updateFileUrl);
+            // const ipfsPath = await helper.pinataFile(fileData, res.IpfsHash);
+            // console.log(ipfsPath, "ipfspath");
+            const ImmutableUrlEncode = PropertyHelper.getUrlEncode(updateFileUrl);
+            console.log(ImmutableUrlEncode, "ImmutableUrlEncode");
+            setEncodedUrl(ImmutableUrlEncode);
+            const imageExtension = fileData.name.substring(fileData.name.lastIndexOf('.') + 1);
+            setImageExtension(imageExtension);
+            setUrlLoader(false);
+        }else{
+            setErrorMessage("Unsupported image type");
+        }
     };
     const handleRemoveProperties = (index) => {
         if (totalAttributes > 1) {
@@ -269,7 +275,7 @@ const MintAsset = () => {
                                         icon="info"/></button>
                                 </OverlayTrigger></Form.Label>
                             <Form.Text className="text-muted">
-                                File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3. Max size: 30 MB
+                                File types supported: JPG, PNG, GIF, SVG, MP4, WEBM. Max size: 30 MB
                             </Form.Text>
                             <Form.Group className="custom-file-upload">
                                 <Form.File
@@ -343,7 +349,7 @@ const MintAsset = () => {
                             </Form.Control>
                         </Form.Group>
 
-                        <Form.Group className="attributes-container">
+                        <Form.Group className="attributes-container m-0">
                             <Form.Label>Attributes</Form.Label>
                             <Button type="button" variant="secondary" size="sm"
                                 onClick={handleProperties}
@@ -386,12 +392,14 @@ const MintAsset = () => {
                             }
 
                         </Form.Group>
-
-                        {errorMessage !== '' ?
-                            <span
-                                className="error-response">{errorMessage}</span>
-                            : ''
-                        }
+                        <div className="error-section">
+                            <p className="error-response">
+                                {errorMessage !== "" ?
+                                    errorMessage
+                                    : ""
+                                }
+                            </p>
+                        </div>
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">
                                 {t('SUBMIT')}
@@ -406,7 +414,7 @@ const MintAsset = () => {
                         <div className="image">
                             {!urlLoader ?
                                 imageExtension === "mp4" ?
-                                    <video className="banner-video" autoPlay playsinline preload="metadata" loop="loop"
+                                    <video className="banner-video" autoPlay playsInline preload="metadata" loop="loop"
                                         controls muted src={fileUrl}>
                                         <source type="video/webm" src={fileUrl}/>
                                         <source type="video/mp4" src={fileUrl}/>

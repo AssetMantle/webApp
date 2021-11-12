@@ -120,6 +120,28 @@ function stringValidation(evt){
     }
 }
 
+function passwordValidation(data){
+    const regex= /^\S{3}\S+$/;
+    return regex.test(data);
+}
+
+function handleChangePassword(evt){
+    if(evt.target.value.length > 30){
+        evt.preventDefault();
+    }
+}
+
+function inputAmountValidation(e){
+    if (e.key === "e" || e.key === "-" || e.key === "+") {
+        e.preventDefault();
+    }
+}
+function imageTypeCheck(filePath) {
+    let allowedExtensions =
+        /(\.jpg|\.jpeg|\.png|\.gif|\.svg)|\.webm$|\.mp4/i;
+    return allowedExtensions.exec(filePath);
+}
+
 export default {
     SortObjectData,
     IpfsPath,
@@ -130,5 +152,9 @@ export default {
     getBase64Hash,
     getExchangeRate,
     mantleConversion,
-    stringValidation
+    stringValidation,
+    passwordValidation,
+    handleChangePassword,
+    inputAmountValidation,
+    imageTypeCheck
 };

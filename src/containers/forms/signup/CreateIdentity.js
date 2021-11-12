@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Button, Form, Modal} from 'react-bootstrap';
-import InputField from '../../../components/inputField';
 import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
 import {useHistory} from "react-router-dom";
@@ -74,7 +73,12 @@ const CreateIdentity = () => {
         }
     };
 
-
+    const handleChangeUserName = (evt) =>{
+        setErrorMessage(false);
+        if(evt.target.value.length > 30){
+            evt.preventDefault();
+        }
+    };
     const handleClose = () => {
         setShow(false);
         history.push('/');
@@ -99,19 +103,26 @@ const CreateIdentity = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
-                        <InputField
-                            type="text"
-                            className=""
-                            name="userName"
-                            required={true}
-                            placeholder="User Name"
-                            label="User Name"
-                            disabled={false}
-                        />
-                        {errorMessage ?
-                            <div className="login-error"><p className="error-response">UserName Already Taken</p></div>
-                            : ""
-                        }
+                        <Form.Group className="m-0">
+                            <Form.Label>User Name*</Form.Label>
+                            <Form.Control
+                                type="text"
+                                className=""
+                                name="userName"
+                                required={true}
+                                placeholder="User Name"
+                                label="User Name"
+                                disabled={false}
+                                onKeyPress={handleChangeUserName}
+                            />
+                        </Form.Group>
+                        <div className="error-section"><p className="error-response">
+                            {errorMessage ?
+                                "UserName already taken"
+                                : ""
+                            }
+                        </p>
+                        </div>
                         <div className="submitButtonSection">
                             <Button variant="primary" type="submit">
                                 {t('SUBMIT')}

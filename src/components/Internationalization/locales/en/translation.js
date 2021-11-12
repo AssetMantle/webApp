@@ -14,7 +14,7 @@ let en = {
         "SIGNING_UP": "Sign Up",
         "CONTACT_US": "CONTACT US",
         "BURN_ASSET": "Delete NFT",
-        "ARE_YOU_SURE": "Are you sure",
+        "ARE_YOU_SURE": "Are you sure ?",
         "YES": "Yes",
         "NO": "No",
         "SUBMIT": "Submit",

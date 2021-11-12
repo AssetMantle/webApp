@@ -304,19 +304,18 @@ const CommonKeystore = (props) => {
                             <Button
                                 variant="primary"
                                 type="submit"
-                                className="button-double-border"
                             >
                                 {t("SUBMIT")}
                             </Button>
                         </div>
                     </Form>
                     <div className="submitButtonSection text-center">
-                        <button type="button" variant="primary" className="button-double-border"
+                        <button type="button" variant="primary"
                             onClick={() => handleKepler("kepler")}>{t("USE_KEPLR")}
                         </button>
                     </div>
                     <div className="submitButtonSection text-center">
-                        <button type="button" variant="primary" className="button-double-border"
+                        <button type="button" variant="primary"
                             onClick={handleLedgerSubmit}>{t("USE_LEDGER")}
                         </button>
                     </div>

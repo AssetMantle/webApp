@@ -33,6 +33,7 @@ const ModalCommon = (props) => {
             props.transactionName === "mutate asset") {
             await Promise.all([
                 dispatch(assets.fetchAssets(identityID)),
+                dispatch(markePlace.fetchMarketPlace()),
             ]);
             history.push("/assets");
         } else if (props.transactionName === "unwrap" ||

@@ -396,7 +396,7 @@ html, body, #root, .app {
 }
 
 .submitButtonSection {
-  margin-top: 20px;
+  padding-top: 30px;
 }
 
 .tabs-top-bar {
@@ -452,34 +452,25 @@ html, body, #root, .app {
   font-size: 14px;
 }
 
+.error-section {
+  position: relative;
+  width: 100%;
+}
+.error-section .error-response {
+  position: absolute;
+  font-size: 12px;
+  margin: 0;
+}
+
 .btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus, .btn-primary.focus, .btn-primary:focus {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
 }
 
-.signup-section .private-key {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 .signup-section .private-key label {
   font-size: 12px;
-  margin-bottom: 15px;
 }
 .signup-section .private-key input {
-  min-width: 200px;
-  max-width: 300px;
   padding: 20px;
-  margin: auto;
-}
-.signup-section .private-key button {
-  min-width: 200px;
-  max-width: 300px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
-  border-radius: 14px;
-  padding: 15px;
-  font-weight: 600;
-  font-size: 14px;
 }
 .signup-section .private-key .mnemonic-note {
   font-weight: 500;
@@ -614,9 +605,6 @@ html, body, #root, .app {
   transform: rotate(90deg);
 }
 .mnemonic-login-section.login-section form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   margin-top: 10px;
 }
 .mnemonic-login-section.login-section form textarea {
@@ -658,7 +646,6 @@ html, body, #root, .app {
   max-width: 400px;
 }
 .mnemonic-login-section.login-section.key-select form .submitButtonSection {
-  text-align: center;
   width: 100%;
 }
 

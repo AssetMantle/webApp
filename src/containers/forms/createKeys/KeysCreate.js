@@ -11,6 +11,7 @@ import ImportKeys from '../signup/ImportKeys';
 import transactions from "../../../utilities/Helpers/transactions";
 import SignUp from "./SignUp";
 import ModalCommon from "../../../components/modal";
+import helper from "../../../utilities/helper";
 const KeysCreate = (props) => {
     const [loader, setLoader] = useState(false);
     const {t} = useTranslation();
@@ -43,23 +44,27 @@ const KeysCreate = (props) => {
     const handleSubmit = async e => {
         e.preventDefault();
         const password = document.getElementById('password').value;
-        const error = await transactions.MnemonicWallet();
-        console.log(error);
-        if (error.error != null) {
-            return (<div>ERROR!!</div>);
-        }
-        const create = createStore(error[0].mnemonic, password);
-        if (create.error != null) {
-            return (<div>ERROR!!</div>);
-        } else {
-            const jsonContent = JSON.stringify(create.Response);
-            setJsonName(jsonContent);
-            setAddress(error[1]);
-            setMnemonic(error[0].mnemonic);
-            setShowEncrypt(true);
-            setshowDownloadModal(false);
-            setShowDownload(true);
-            handleFaucet(error[1]);
+        if(password.length > 3) {
+            const error = await transactions.MnemonicWallet();
+            console.log(error);
+            if (error.error != null) {
+                return (<div>ERROR!!</div>);
+            }
+            const create = createStore(error[0].mnemonic, password);
+            if (create.error != null) {
+                return (<div>ERROR!!</div>);
+            } else {
+                const jsonContent = JSON.stringify(create.Response);
+                setJsonName(jsonContent);
+                setAddress(error[1]);
+                setMnemonic(error[0].mnemonic);
+                setShowEncrypt(true);
+                setshowDownloadModal(false);
+                setShowDownload(true);
+                handleFaucet(error[1]);
+            }
+        }else {
+            setSignUpError("Password length must be greater than 3");
         }
     };
 
@@ -150,14 +155,24 @@ const KeysCreate = (props) => {
                 <Modal.Body className="private-key">
                     {showDownloadModal ?
                         <Form onSubmit={handleSubmit}>
-                            <Form.Label>{t('ENCRYPT_KEY_STORE')}</Form.Label>
-                            <Form.Control
-                                type="password"
-                                name="password"
-                                id="password"
-                                placeholder="password"
-                                required={true}
-                            />
+                            <Form.Group className="m-0">
+                                <Form.Label>{t('ENCRYPT_KEY_STORE')}</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    placeholder="password"
+                                    onKeyPress={helper.handleChangePassword}
+                                    required={true}
+                                />
+                            </Form.Group>
+                            <div className="error-section"><p className="error-response">
+                                {signUpError !== "" ?
+                                    signUpError
+                                    : ""
+                                }
+                            </p>
+                            </div>
                             <div className="submitButtonSection">
                                 <Button
                                     variant="primary"
@@ -170,8 +185,7 @@ const KeysCreate = (props) => {
                         : ''
                     }
                     {showDownload ?
-                        <div>
-
+                        <div className="text-center">
                             <p className="mnemonic-note">({t('SAVE_MNEMONIC')}) </p>
                             <p className="mnemonic-text">{mnemonic}</p>
                             <p className="new-address">{address}</p>
@@ -193,10 +207,6 @@ const KeysCreate = (props) => {
                                 setResponse={setResponse}
                                 TransactionName={props.TransactionName}
                             />
-                            {signUpError !== "" ?
-                                <div className="login-error"><p className="error-response">{signUpError}</p></div>
-                                : ""
-                            }
                         </div>
                         :
                         ''

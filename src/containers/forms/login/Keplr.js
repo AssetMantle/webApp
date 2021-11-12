@@ -82,7 +82,6 @@ const Keplr = (props) => {
                                     variant="primary"
                                     type="submit"
                                     onClick={handleSubmit}
-                                    className="button-double-border"
                                 >
                                     Proceed to Login
                                 </Button>
