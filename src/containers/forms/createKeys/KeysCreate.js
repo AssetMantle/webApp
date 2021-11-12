@@ -71,12 +71,14 @@ const KeysCreate = (props) => {
         setLoader(true);
         axios.post(process.env.REACT_APP_FAUCET_SERVER + '/faucetRequest', {address: loginAddress})
             .then(response => {
+                console.log(response, "response");
                 setTimeout(() => {
                     setLoader(false);
                 }, 4000);
             },
             )
             .catch(err => {
+                console.log(err);
                 setLoader(false);
             });
     };

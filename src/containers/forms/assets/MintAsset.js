@@ -3,7 +3,6 @@ import {Button, Form, OverlayTrigger, Popover} from 'react-bootstrap';
 import {useTranslation} from 'react-i18next';
 import GetProperty from '../../../utilities/Helpers/getProperty';
 import TransactionOptions from "../login/TransactionOptions";
-import base64url from "base64url";
 import {handleUpload} from "../../../utilities/Helpers/pinata";
 import Loader from "../../../components/loader";
 import Icon from "../../../icons";
