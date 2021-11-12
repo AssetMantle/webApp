@@ -548,16 +548,6 @@ html, body, #root, .app {
       padding: 20px;
     }
 
-    //button {
-    //  min-width: 200px;
-    //  max-width: 300px;
-    //  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
-    //  border-radius: 14px;
-    //  padding: 15px;
-    //  font-weight: 600;
-    //  font-size: 14px;
-    //}
-
     .mnemonic-note {
       font-weight: 500;
       color: #E95D54;
@@ -603,10 +593,6 @@ html, body, #root, .app {
     background: #FFFFFF;
     color: #262A2B;
 
-    &:hover {
-      border: 1px solid #efcc30;
-      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
-    }
   }
 
   .button-signup-mnemonic {
@@ -1484,6 +1470,9 @@ model-viewer {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  img{
+    width: 120px;
+  }
 }
 
 .profile-dropdown {

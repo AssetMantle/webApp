@@ -277,5 +277,9 @@ export const GlobalStyles = createGlobalStyle`
  ::-webkit-scrollbar-thumb {
    background: ${({theme}) => theme.scrollBarBg};
 }
+.signup-section .button-signup:hover{
+  border: 1px solid ${({theme}) => theme.inputFieldBorderColor} !important;
+box-shadow: 0 0 0 0.2rem ${({theme}) => theme.formControlShadow};
+}
 `;
 

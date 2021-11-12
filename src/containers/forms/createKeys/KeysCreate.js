@@ -132,13 +132,6 @@ const KeysCreate = (props) => {
                         </Button>
                     </div>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Form.Check custom type="checkbox"
-                        label="Accept Terms & Conditions"
-                        name="removeMaintainer"
-                        id="removeMaintainer"
-                    />
-                </Modal.Footer>
             </Modal>
             <Modal
                 show={showEncrypt}

@@ -501,10 +501,6 @@ html, body, #root, .app {
   background: #FFFFFF;
   color: #262A2B;
 }
-.signup-section .button-signup:hover {
-  border: 1px solid #efcc30;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
-}
 .signup-section .button-signup-mnemonic {
   margin-bottom: 15px;
 }
@@ -1245,6 +1241,9 @@ model-viewer {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+.loader-container img {
+  width: 120px;
 }
 
 .profile-dropdown .dropdown-menu {
