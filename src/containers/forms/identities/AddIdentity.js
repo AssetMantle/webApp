@@ -119,7 +119,7 @@ const AddIdentity = (props) => {
                             <Icon viewClass="arrow-icon" icon="arrow"/>
                         </div>
                         : ""}
-                    Add UserName
+                    {t('ADD_USER_NAME')}
                 </Modal.Header>
                 <Modal.Body>
                     {loader ?
@@ -127,25 +127,26 @@ const AddIdentity = (props) => {
                         : ''
                     }
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group>
-                            <Form.Label>Enter UserName</Form.Label>
+                        <Form.Group className="m-0">
+                            <Form.Label>{t('ENTER_USER_NAME')}</Form.Label>
                             <Form.Control type="text" name="identityname"
                                 placeholder="Enter UserName"
                                 required={true}/>
                         </Form.Group>
-                        {errorMessage ?
-                            <div className="login-error"><p className="error-response">UserName Not Exist</p></div>
-                            : ""
-                        }
-                        {idErrorMessage !== "" ?
-                            <div className="login-error"><p className="error-response">{idErrorMessage}</p></div>
-                            : ""
-                        }
+                        <div className="error-section"><p className="error-response">
+                            {errorMessage ?
+                                "UserName not exist"
+                                : ""
+                            }
+                            {idErrorMessage !== "" ?
+                                idErrorMessage
+                                : ""
+                            }
+                        </p></div>
                         <div className="submitButtonSection">
                             <Button
                                 variant="primary"
                                 type="submit"
-                                className="button-double-border"
                             >
                                 {t("SUBMIT")}
                             </Button>

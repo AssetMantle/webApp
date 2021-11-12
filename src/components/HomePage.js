@@ -11,7 +11,7 @@ const HomePage = () => {
                 <div className="col-md-7 appInfoBox">
                     <h3 className="banner-heading">Secure NFT wallet</h3>
                     <p className="banner-content">{t("BANNER_CONTENT")}</p>
-                    <Button variant="primary" className="button-double-border">{t("KNOW_MORE")}</Button>
+                    <Button variant="primary">{t("KNOW_MORE")}</Button>
                 </div>
                 <div className="col-md-5 banner-image-section">
                     <img src={bannerImage} alt={"bannerImage"}/>

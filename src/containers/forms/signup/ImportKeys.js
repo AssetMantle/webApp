@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Form, Modal, Tab, Tabs} from 'react-bootstrap';
+import {Button, Form, Modal} from 'react-bootstrap';
 import {useHistory} from 'react-router-dom';
 import transactions from '../../../utilities/Helpers/transactions';
 import {createStore, createWallet,} from 'persistencejs/build/utilities/keys';
@@ -8,7 +8,7 @@ import DownloadLink from 'react-download-link';
 import Icon from '../../../icons';
 import MnemonicIcon from '../../../assets/images/MnemonicIcon.svg';
 
-const ImportKeys = () => {
+const ImportKeys = (props) => {
     const {t} = useTranslation();
     const history = useHistory();
     const [show, setShow] = useState(true);
@@ -23,28 +23,6 @@ const ImportKeys = () => {
     const handleClose = () => {
         setShow(false);
         history.push('/');
-    };
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        let userMnemonic;
-        const password = e.target.password.value;
-        let promise = transactions.PrivateKeyReader(e.target.uploadFile.files[0], password);
-        await promise.then(function (result) {
-            userMnemonic = result;
-        }).catch(err => {
-            setErrorMessage(err);
-        });
-        if (userMnemonic !== undefined) {
-            const wallet = await transactions.MnemonicWalletWithPassphrase(userMnemonic, '');
-            const address = wallet[1];
-            const data = {
-                mnemonic: userMnemonic,
-                address: address,
-            };
-            setResponse(data);
-            setInitialTabs(false);
-            setGenerateKeystore(true);
-        }
     };
 
     const handleSubmitMnemonic = async event => {
@@ -110,11 +88,12 @@ const ImportKeys = () => {
         } else if (item === "handleResult") {
             setGenerateKeystore(true);
             seShowResponse(false);
+        }else if(item === "createKeysHome"){
+            props.setExternalComponent("");
+            props.setShow(true);
         }
     };
-    const handleTabSelect = () => {
-        setErrorMessage("");
-    };
+
     return (
         <div className="accountInfo">
             <Modal show={show} onHide={handleClose}
@@ -122,72 +101,34 @@ const ImportKeys = () => {
                 {initialTabs ?
                     <>
                         <Modal.Header closeButton>
+                            <div className="back-button" onClick={() => backHandler('createKeysHome')}>
+                                <Icon viewClass="arrow-icon"
+                                    icon="arrow"/>
+                            </div>
                             Import Keys
                         </Modal.Header>
                         <Modal.Body className="import-tabs">
-                            <Tabs defaultActiveKey="mnemonic"
-                                id="uncontrolled-tab-example"
-                                className="mb-3" onSelect={handleTabSelect}>
-                                <Tab eventKey="mnemonic" title="Use Mnemonic">
-                                    <Form onSubmit={handleSubmitMnemonic}>
-                                        <Form.Control as="textarea" rows={5}
-                                            name="mnemonic"
-                                            placeholder="Enter Mnemonic"
-                                            id="mnemonic"
-                                            required={true}/>
-                                        {errorMessage !== '' ?
-                                            <div className="login-error"><p
-                                                className="error-response">{errorMessage}</p>
-                                            </div>
-                                            : ''
-                                        }
-                                        <div className="submitButtonSection">
-                                            <Button
-                                                variant="primary"
-                                                type="submit"
-                                                className="button-double-border"
-                                            >
-                                                {t('SUBMIT')}
-                                            </Button>
-                                        </div>
-                                    </Form>
-                                </Tab>
-                                <Tab eventKey="keystore"
-                                    title="Use Keystore file">
-                                    <Form onSubmit={handleSubmit}>
-                                        <Form.Group>
-                                            <Form.File
-                                                id="exampleFormControlFile1"
-                                                name="uploadFile" accept=".json"
-                                                label="upload private key file"
-                                                required={true}/>
-                                        </Form.Group>
-                                        <Form.Group>
-                                            <Form.Label>{t('DECRYPT_KEY_STORE')}</Form.Label>
-                                            <Form.Control
-                                                type="password"
-                                                name="password"
-                                                id="password"
-                                                placeholder="password"
-                                                autoComplete="off"
-                                                required={true}
-                                            />
-                                        </Form.Group>
-                                        {errorMessage ?
-                                            <p className="error-response"> {errorMessage}</p> : ''}
-                                        <div className="submitButtonSection">
-                                            <Button
-                                                variant="primary"
-                                                type="submit"
-                                                className="button-double-border"
-                                            >
-                                                {t('SUBMIT')}
-                                            </Button>
-                                        </div>
-                                    </Form>
-                                </Tab>
-
-                            </Tabs>
+                            <Form onSubmit={handleSubmitMnemonic}>
+                                <Form.Control as="textarea" rows={5}
+                                    name="mnemonic"
+                                    placeholder="Enter Mnemonic"
+                                    id="mnemonic"
+                                    required={true}/>
+                                {errorMessage !== '' ?
+                                    <div className="login-error"><p
+                                        className="error-response">{errorMessage}</p>
+                                    </div>
+                                    : ''
+                                }
+                                <div className="submitButtonSection">
+                                    <Button
+                                        variant="primary"
+                                        type="submit"
+                                    >
+                                        {t('SUBMIT')}
+                                    </Button>
+                                </div>
+                            </Form>
                         </Modal.Body>
                     </>
                     : ''}
@@ -220,7 +161,6 @@ const ImportKeys = () => {
                                 <Button
                                     variant="primary"
                                     type="submit"
-                                    className="button-double-border"
                                     onClick={KeyStoreGenerateButton}
                                 >
                                     Next
@@ -255,7 +195,6 @@ const ImportKeys = () => {
                                 <Button
                                     variant="primary"
                                     type="submit"
-                                    className="button-double-border"
                                 >
                                     Submit
                                 </Button>
@@ -296,25 +235,28 @@ const ImportKeys = () => {
                         <Modal.Header closeButton>
                             Import Keys
                         </Modal.Header>
-                        <Modal.Body className="import-tabs">
+                        <Modal.Body className="import-tabs private-key">
                             <div>
 
                                 <p className="mnemonic-note">({t('SAVE_MNEMONIC')}) </p>
                                 <p className="mnemonic-text">{response.mnemonic}</p>
-                                <p>{response.address}</p>
+                                <p className="new-address">{response.address}</p>
                                 <p className="key-download">
                                     <DownloadLink
                                         label="Download Key File for future use"
-                                        filename="key.json"
+                                        filename={`${props.totalDefineObject.nubId}.json`}
                                         exportFile={() => `${jsonName}`}
                                     />
+                                    <Icon viewClass="arrow-icon download-icon" icon="download-arrow"/>
                                 </p>
-                                <Button
-                                    onClick={handleClose}
-                                    variant="primary"
-                                >
-                                    {t('Done')}
-                                </Button>
+                                <div className="submitButtonSection">
+                                    <Button
+                                        onClick={handleClose}
+                                        variant="primary"
+                                    >
+                                        {t('Done')}
+                                    </Button>
+                                </div>
                             </div>
                         </Modal.Body>
                     </>

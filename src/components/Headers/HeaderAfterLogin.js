@@ -26,14 +26,6 @@ const HeaderAfterLogin = () => {
     };
 
     let userList = JSON.parse(localStorage.getItem("userList"));
-    // useEffect(() => {
-    //     if(userTypeToken !== null  && window.location.pathname === "/"){
-    //         history.push('/profile');
-    //     }
-    //     if (userTypeToken === null) {
-    //         history.push('/');
-    //     }
-    // },[]);
 
     const handleAddIdentity = () => {
         setExternalComponent('identityLogin');
@@ -131,7 +123,7 @@ const HeaderAfterLogin = () => {
                                     <Nav>
                                         <Nav.Link onClick={() => handleModelRoute("SignUp")}>{t("SIGNUP")}</Nav.Link>
                                         <div className="button-login-section">
-                                            <Button variant="primary" className="button-double-border"
+                                            <Button variant="primary"
                                                 onClick={handleRoute("/Login")}>{t("LOGIN")}</Button>
                                         </div>
 

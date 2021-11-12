@@ -4,7 +4,6 @@ import {useHistory} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import GetID from "../../../utilities/Helpers/getID";
 import {queryIdentities} from "persistencejs/build/transaction/identity/query";
-import MnemonicIcon from "../../../assets/images/MnemonicIcon.svg";
 import Icon from "../../../icons";
 import Loader from '../../../components/loader';
 import GetMeta from "../../../utilities/Helpers/getMeta";
@@ -89,6 +88,15 @@ const IdentityLogin = (props) => {
             props.setExternalComponent("");
         }
     };
+
+    const handleChangeUserName = (evt) =>{
+        setErrorMessage(false);
+        setIdErrorMessage("");
+        if(evt.target.value.length > 30){
+            evt.preventDefault();
+        }
+    };
+
     return (
         <div>
             <Modal show={show} onHide={handleClose} className="mnemonic-login-section login-section" centered>
@@ -110,7 +118,9 @@ const IdentityLogin = (props) => {
                         <div className="mrt-10">
                             <div className="button-view">
                                 <div className="icon-section">
-                                    <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/></div>
+                                    <div className="icon-box">
+                                        <Icon viewClass="username-icon" icon="username"/>
+                                    </div>
                                     {t("USER_NAME")}</div>
                                 <Icon viewClass="arrow-icon" icon="arrow"/>
                             </div>
@@ -118,20 +128,22 @@ const IdentityLogin = (props) => {
                         <Form onSubmit={handleSubmit}>
                             <Form.Control type="text" name="userName"
                                 placeholder={t("ENTER_USER_NAME")}
+                                onKeyPress={handleChangeUserName}
                                 required={true}/>
-                            {errorMessage ?
-                                <div className="login-error"><p className="error-response">UserName Not Exist</p></div>
-                                : ""
-                            }
-                            {idErrorMessage !== "" ?
-                                <div className="login-error"><p className="error-response">{idErrorMessage}</p></div>
-                                : ""
-                            }
+                            <div className="error-section"><p className="error-response">
+                                {errorMessage ?
+                                    "UserName not exist"
+                                    : ""
+                                }
+                                {idErrorMessage !== "" ?
+                                    idErrorMessage
+                                    : ""
+                                }
+                            </p></div>
                             <div className="submitButtonSection">
                                 <Button
                                     variant="primary"
                                     type="submit"
-                                    className="button-double-border"
                                 >
                                     {t("LOGIN")}
                                 </Button>

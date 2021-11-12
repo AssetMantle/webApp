@@ -14,10 +14,10 @@ const Assets = () => {
                 id="uncontrolled-tab-example"
                 className="assets-tab">
                 <Tab eventKey="Collections"
-                    title="Collections">
+                    title="My Collections">
                     <AssetList />
                 </Tab>
-                <Tab eventKey="Listings" title="Listings">
+                <Tab eventKey="Listings" title="My Listings">
                     <OrderList/>
                 </Tab>
 

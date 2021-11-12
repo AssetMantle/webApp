@@ -4,6 +4,7 @@ import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
 import TransactionOptions from "../login/TransactionOptions";
 import config from "../../../config";
+import helper from "../../../utilities/helper";
 
 const Wrap = (props) => {
     const {t} = useTranslation();
@@ -81,9 +82,10 @@ const Wrap = (props) => {
                         <Form.Group>
                             <Form.Label>{t('AMOUNT')}*</Form.Label>
                             <Form.Control
-                                type="text"
+                                type="number"
                                 className=""
                                 name="CoinAmount"
+                                onKeyPress={helper.inputAmountValidation}
                                 required={true}
                                 placeholder="Amount"
                             />

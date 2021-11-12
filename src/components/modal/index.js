@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Modal} from "react-bootstrap";
+import {Button, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import {useHistory} from "react-router-dom";
 import {useDispatch} from "react-redux";
@@ -10,16 +10,17 @@ import * as faucet from "../../store/actions/faucet";
 import * as wrappedCoins from "../../store/actions/wrappedCoins";
 import loaderImage from "../../assets/images/loader.svg";
 const ModalCommon = (props) => {
+    console.log(props, "in modal result");
     const {t} = useTranslation();
     const history = useHistory();
-    const [loader, serLoader] = useState(true);
+    const [loader, setLoader] = useState(true);
     const userAddress = localStorage.getItem('userAddress');
     const identityID = localStorage.getItem('identityId');
     const [showIdentity, setShowIdentity] = useState(true);
 
     const dispatch = useDispatch();
     setTimeout(() => {
-        serLoader(false);
+        setLoader(false);
     }, 3000);
     const handleClose = async () => {
         setShowIdentity(false);
@@ -32,6 +33,7 @@ const ModalCommon = (props) => {
             props.transactionName === "mutate asset") {
             await Promise.all([
                 dispatch(assets.fetchAssets(identityID)),
+                dispatch(markePlace.fetchMarketPlace()),
             ]);
             history.push("/assets");
         } else if (props.transactionName === "unwrap" ||
@@ -62,6 +64,11 @@ const ModalCommon = (props) => {
             history.push("/assets");
         }
     };
+
+    const handleModelRoute = (route) => {
+        history.push(`/${route}`);
+    };
+
     return (
         <Modal
             show={showIdentity}
@@ -80,15 +87,6 @@ const ModalCommon = (props) => {
                     </div>
                     :
                     <>
-                        {
-                            props.transactionName === 'nubid' ?
-                                <>
-                                    <p><b>User Name:</b> {props.nubID}</p>
-                                    <p><b>IdentityID:</b> {props.testID}</p>
-                                </>
-                                : ""
-                        }
-
                         {props.keplrTxn ?
                             props.data.code ?
                                 <p>Error: {props.data.rawLog}</p>
@@ -104,6 +102,21 @@ const ModalCommon = (props) => {
                                     href={process.env.REACT_APP_EXPLORER_API + '/transaction?txHash=' + props.data.transactionHash}
                                     target="_blank" rel="noreferrer">{props.data.transactionHash}</a></p>
 
+                        }
+                        {
+                            props.transactionName === 'nubid' ?
+                                <>
+                                    <p><b>User Name:</b> {props.nubID}</p>
+                                    <p><b>IdentityID:</b> {props.testID}</p>
+                                    <Button
+                                        variant="primary"
+                                        type="submit"
+                                        onClick={()=>handleModelRoute('login')}
+                                    >
+                                        {t("CONTINUE_TO_LOGIN")}
+                                    </Button>
+                                </>
+                                : ""
                         }
                     </>
                 }

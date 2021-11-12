@@ -17,7 +17,7 @@ const PrivateKeyTransaction = (props) => {
     const {t} = useTranslation();
     const history = useHistory();
     const [show, setShow] = useState(true);
-    const [errorMessage, setErrorMessage] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const [loader, setLoader] = useState(false);
     const [importMnemonic, setImportMnemonic] = useState(true);
     const [testID, setTestID] = useState('');
@@ -56,85 +56,89 @@ const PrivateKeyTransaction = (props) => {
         e.preventDefault();
         setLoader(true);
         setErrorMessage("");
-        let userMnemonic;
-        if (importMnemonic) {
-            const password = e.target.password.value;
-            let promise = transactions.PrivateKeyReader(e.target.uploadFile.files[0], password);
-            await promise.then(function (result) {
-                userMnemonic = result;
-            }).catch(err => {
-                setLoader(false);
-                setErrorMessage(err);
-            });
-        } else {
-            const password = e.target.password.value;
-            const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
-            const res = JSON.parse(encryptedMnemonic);
-            const decryptedData = transactions.decryptStore(res, password);
-            if (decryptedData.error != null) {
-                setErrorMessage(decryptedData.error);
-            } else {
-                userMnemonic = transactions.mnemonicTrim(decryptedData.mnemonic);
-                setErrorMessage("");
-            }
-        }
-        if (userMnemonic !== undefined) {
-            const wallet = await transactions.MnemonicWalletWithPassphrase(userMnemonic, '');
-            let queryResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", props.TransactionName, props.totalDefineObject);
-            queryResponse.then(async function (item) {
-                if (item.code) {
-                    localStorage.setItem('loginMode', 'normal');
-                    if (props.TransactionName === "nubid") {
-                        setErrorMessage(item.rawLog);
-                    } else {
-                        setErrorMessage(item.rawLog);
-                    }
+        const password = e.target.password.value;
+        if(password.length > 3) {
+            let userMnemonic;
+            if (importMnemonic) {
+                let promise = transactions.PrivateKeyReader(e.target.uploadFile.files[0], password);
+                await promise.then(function (result) {
+                    userMnemonic = result;
+                }).catch(err => {
                     setLoader(false);
+                    setErrorMessage(err);
+                });
+            } else {
+                const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
+                const res = JSON.parse(encryptedMnemonic);
+                const decryptedData = transactions.decryptStore(res, password);
+                if (decryptedData.error != null) {
+                    setErrorMessage(decryptedData.error);
+                } else {
+                    userMnemonic = transactions.mnemonicTrim(decryptedData.mnemonic);
+                    setErrorMessage("");
+                }
+            }
+            if (userMnemonic !== undefined) {
+                const wallet = await transactions.MnemonicWalletWithPassphrase(userMnemonic, '');
+                let queryResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", props.TransactionName, props.totalDefineObject);
+                queryResponse.then(async function (item) {
+                    if (item.code) {
+                        localStorage.setItem('loginMode', 'normal');
+                        if (props.TransactionName === "nubid") {
+                            setErrorMessage(item.rawLog);
+                        } else {
+                            setErrorMessage(item.rawLog);
+                        }
+                        setLoader(false);
+                        const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
+                        if (encryptedMnemonic !== null) {
+                            setImportMnemonic(false);
+                        } else {
+                            setImportMnemonic(true);
+                        }
+                    } else {
+                        localStorage.setItem('loginMode', 'normal');
+                        if (props.TransactionName === "nubid") {
+                            setNubID(props.totalDefineObject.nubId);
+                            const hashGenerate = GetMetaHelper.Hash(props.totalDefineObject.nubId);
+                            const identityID = await getIdentityId(hashGenerate);
+                            let totalData = {
+                                fromID: identityID,
+                                CoinAmountDenom: '5000000' + config.coinDenom,
+                            };
+
+                            let queryResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", 'wrap', totalData);
+                            queryResponse.then(async function (item) {
+                                console.log(item, "item wrap response");
+                            }).catch(err => {
+                                console.log(err, "err wrap");
+                            });
+                        }
+                        setShow(false);
+                        setLoader(false);
+                        setResponse(item);
+                    }
+                }).catch(err => {
+                    setLoader(false);
+                    setErrorMessage(err.response
+                        ? err.response.data.message
+                        : err.message);
+                    if (props.TransactionName === "nubid") {
+                        localStorage.clear();
+                    }
                     const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
                     if (encryptedMnemonic !== null) {
                         setImportMnemonic(false);
                     } else {
                         setImportMnemonic(true);
                     }
-                } else {
-                    localStorage.setItem('loginMode', 'normal');
-                    if (props.TransactionName === "nubid") {
-                        setNubID(props.totalDefineObject.nubId);
-                        const hashGenerate = GetMetaHelper.Hash(props.totalDefineObject.nubId);
-                        const identityID = await getIdentityId(hashGenerate);
-                        let totalData = {
-                            fromID: identityID,
-                            CoinAmountDenom: '5000000' + config.coinDenom,
-                        };
-
-                        let queryResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", 'wrap', totalData);
-                        queryResponse.then(async function (item) {
-                            console.log(item, "item wrap response");
-                        }).catch(err => {
-                            console.log(err, "err wrap");
-                        });
-                    }
-                    setShow(false);
-                    setLoader(false);
-                    setResponse(item);
-                }
-            }).catch(err => {
+                });
+            } else {
                 setLoader(false);
-                setErrorMessage(err.response
-                    ? err.response.data.message
-                    : err.message);
-                if (props.TransactionName === "nubid") {
-                    localStorage.clear();
-                }
-                const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
-                if (encryptedMnemonic !== null) {
-                    setImportMnemonic(false);
-                } else {
-                    setImportMnemonic(true);
-                }
-            });
-        } else {
+            }
+        }else {
             setLoader(false);
+            setErrorMessage("Password length must be greater than 3");
         }
     };
     const handleClose = () => {
@@ -146,14 +150,18 @@ const PrivateKeyTransaction = (props) => {
         }
     };
     const backHandler = () => {
-        if (props.TransactionName === "nubid") {
-            setShow(false);
-            props.setShow(true);
-            props.setExternalComponent('');
-        } else {
-            setShow(false);
-            props.setShow(true);
-            props.setExternalComponent('');
+        if(props.loginMode !== null) {
+            props.backHandler();
+        }else{
+            if (props.TransactionName === "nubid") {
+                setShow(false);
+                props.setShow(true);
+                props.setExternalComponent('');
+            } else {
+                setShow(false);
+                props.setShow(true);
+                props.setExternalComponent('');
+            }
         }
     };
     return (
@@ -164,7 +172,7 @@ const PrivateKeyTransaction = (props) => {
                     <div className="back-button" onClick={backHandler}>
                         <Icon viewClass="arrow-icon" icon="arrow"/>
                     </div>
-                    {t("KEYSTORE_LOGIN")}
+                    {t("KEYSTORE")}
                 </Modal.Header>
                 <Modal.Body>
                     {loader ?
@@ -177,19 +185,21 @@ const PrivateKeyTransaction = (props) => {
                                 <>
                                     <Form.Group>
                                         <Form.File id="exampleFormControlFile1" name="uploadFile" accept=".json"
-                                            label="upload private key file" required={true}/>
+                                            label="Upload private key file" required={true}/>
                                     </Form.Group>
-                                    <Form.Label>{t("DECRYPT_KEY_STORE")}</Form.Label>
-                                    <Form.Control
-                                        type="password"
-                                        name="password"
-                                        id="password"
-                                        placeholder="password"
-                                        required={true}
-                                    />
+                                    <Form.Group className="m-0">
+                                        <Form.Label>{t("DECRYPT_KEY_STORE")}</Form.Label>
+                                        <Form.Control
+                                            type="password"
+                                            name="password"
+                                            id="password"
+                                            placeholder="password"
+                                            required={true}
+                                        />
+                                    </Form.Group>
                                 </>
                                 :
-                                <Form.Group>
+                                <Form.Group className="m-0">
                                     <Form.Label>{t("DECRYPT_KEY_STORE")}</Form.Label>
                                     <Form.Control
                                         type="password"
@@ -200,21 +210,25 @@ const PrivateKeyTransaction = (props) => {
                                     />
                                 </Form.Group>
                         }
+                        <div className="error-section">
+                            <p className="error-response">
+                                {errorMessage !== "" ?
+                                    errorMessage
+                                    : ""
+                                }
+                            </p>
+                        </div>
 
                         <div className="submitButtonSection">
                             <Button
                                 variant="primary"
                                 type="submit"
-                                className="button-double-border"
                             >
                                 {t("SUBMIT")}
                             </Button>
                         </div>
                     </Form>
-                    {errorMessage !== "" ?
-                        <div className="login-error"><p className="error-response">{errorMessage}</p></div>
-                        : ""
-                    }
+
                 </Modal.Body>
             </Modal>
             {!(Object.keys(response).length === 0) ?

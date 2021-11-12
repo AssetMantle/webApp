@@ -7,9 +7,11 @@ import axios from 'axios';
 import {useHistory} from 'react-router-dom';
 import Loader from '../../../components/loader';
 import Icon from '../../../icons';
-import ImportKeys from './ImportKeys';
+import ImportKeys from '../signup/ImportKeys';
 import transactions from "../../../utilities/Helpers/transactions";
-
+import SignUp from "./SignUp";
+import ModalCommon from "../../../components/modal";
+import helper from "../../../utilities/helper";
 const KeysCreate = (props) => {
     const [loader, setLoader] = useState(false);
     const {t} = useTranslation();
@@ -23,7 +25,12 @@ const KeysCreate = (props) => {
     const [showDownload, setShowDownload] = useState(false);
     const [showDownloadModal, setshowDownloadModal] = useState(true);
     const [externalComponent, setExternalComponent] = useState("");
+    const [signUpError, setSignUpError] = useState("");
 
+    const [testID, setTestID] = useState('');
+    const [nubID, setNubID] = useState('');
+    const [response, setResponse] = useState({});
+    
     const handleClose = () => {
         setShow(false);
         history.push('/');
@@ -37,23 +44,27 @@ const KeysCreate = (props) => {
     const handleSubmit = async e => {
         e.preventDefault();
         const password = document.getElementById('password').value;
-        const error = await transactions.MnemonicWallet();
-        console.log(error);
-        if (error.error != null) {
-            return (<div>ERROR!!</div>);
-        }
-        const create = createStore(error[0].mnemonic, password);
-        if (create.error != null) {
-            return (<div>ERROR!!</div>);
-        } else {
-            const jsonContent = JSON.stringify(create.Response);
-            setJsonName(jsonContent);
-            setAddress(error[1]);
-            setMnemonic(error[0].mnemonic);
-            setShowEncrypt(true);
-            setshowDownloadModal(false);
-            setShowDownload(true);
-            handleFaucet(error[1]);
+        if(password.length > 3) {
+            const error = await transactions.MnemonicWallet();
+            console.log(error);
+            if (error.error != null) {
+                return (<div>ERROR!!</div>);
+            }
+            const create = createStore(error[0].mnemonic, password);
+            if (create.error != null) {
+                return (<div>ERROR!!</div>);
+            } else {
+                const jsonContent = JSON.stringify(create.Response);
+                setJsonName(jsonContent);
+                setAddress(error[1]);
+                setMnemonic(error[0].mnemonic);
+                setShowEncrypt(true);
+                setshowDownloadModal(false);
+                setShowDownload(true);
+                handleFaucet(error[1]);
+            }
+        }else {
+            setSignUpError("Password length must be greater than 3");
         }
     };
 
@@ -62,7 +73,9 @@ const KeysCreate = (props) => {
         axios.post(process.env.REACT_APP_FAUCET_SERVER + '/faucetRequest', {address: loginAddress})
             .then(response => {
                 console.log(response, "facuet response", loginAddress);
-                setLoader(false);
+                setTimeout(() => {
+                    setLoader(false);
+                }, 4000);
             },
             )
             .catch(err => {
@@ -99,7 +112,7 @@ const KeysCreate = (props) => {
                     <div className="back-button" onClick={() => backHandler("mainPage")}>
                         <Icon viewClass="arrow-icon" icon="arrow"/>
                     </div>
-                    {t('Create Keys')}
+                    {t('CREATE_KEYS')}
                 </Modal.Header>
                 <Modal.Body className="text-center">
                     <div>
@@ -108,24 +121,17 @@ const KeysCreate = (props) => {
                             className="button-signup-mnemonic button-signup"
                             onClick={() => handleEncrypt('Create Keys')}
                         >
-                            Create Keys
+                            {t('CREATE_KEYS')}
                         </Button>
                         <Button
                             variant="primary"
                             className="button-signup-mnemonic button-signup"
                             onClick={() => handleRoute('import')}
                         >
-                            Import Keys
+                            {t('IMPORT_KEYS')}
                         </Button>
                     </div>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Form.Check custom type="checkbox"
-                        label="Accept Terms & Conditions"
-                        name="removeMaintainer"
-                        id="removeMaintainer"
-                    />
-                </Modal.Footer>
             </Modal>
             <Modal
                 show={showEncrypt}
@@ -142,14 +148,24 @@ const KeysCreate = (props) => {
                 <Modal.Body className="private-key">
                     {showDownloadModal ?
                         <Form onSubmit={handleSubmit}>
-                            <Form.Label>{t('ENCRYPT_KEY_STORE')}</Form.Label>
-                            <Form.Control
-                                type="password"
-                                name="password"
-                                id="password"
-                                placeholder="password"
-                                required={true}
-                            />
+                            <Form.Group className="m-0">
+                                <Form.Label>{t('ENCRYPT_KEY_STORE')}</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    placeholder="password"
+                                    onKeyPress={helper.handleChangePassword}
+                                    required={true}
+                                />
+                            </Form.Group>
+                            <div className="error-section"><p className="error-response">
+                                {signUpError !== "" ?
+                                    signUpError
+                                    : ""
+                                }
+                            </p>
+                            </div>
                             <div className="submitButtonSection">
                                 <Button
                                     variant="primary"
@@ -162,8 +178,7 @@ const KeysCreate = (props) => {
                         : ''
                     }
                     {showDownload ?
-                        <div>
-
+                        <div className="text-center">
                             <p className="mnemonic-note">({t('SAVE_MNEMONIC')}) </p>
                             <p className="mnemonic-text">{mnemonic}</p>
                             <p className="new-address">{address}</p>
@@ -175,23 +190,45 @@ const KeysCreate = (props) => {
                                 />
                                 <Icon viewClass="arrow-icon download-icon" icon="download-arrow"/>
                             </p>
+                            <SignUp setSignUpError={setSignUpError}
+                                setShowEncrypt={setShowEncrypt}
+                                mnemonic={mnemonic}
+                                totalDefineObject={props.totalDefineObject}
+                                setTestID={setTestID}
+                                setNubID={setNubID}
+                                setLoader={setLoader}
+                                setResponse={setResponse}
+                                TransactionName={props.TransactionName}
+                            />
                         </div>
                         :
                         ''
                     }
 
-
                     {loader ?
                         <Loader/>
                         : ''
                     }
-
                 </Modal.Body>
             </Modal>
             {
                 externalComponent === 'import' ?
-                    <ImportKeys setExternalComponent={setExternalComponent}/> :
+                    <ImportKeys
+                        setExternalComponent={setExternalComponent}
+                        totalDefineObject={props.totalDefineObject}
+                        setShow={setShow}
+                    /> :
                     null
+            }
+            {!(Object.keys(response).length === 0) ?
+                <ModalCommon
+                    data={response}
+                    handleClose={handleCloseEncrypt}
+                    testID={testID}
+                    transactionName={props.TransactionName}
+                    nubID={nubID}
+                />
+                : ""
             }
         </div>
     );

@@ -36,7 +36,6 @@ const AddressLogin = () => {
                                 <Button
                                     variant="primary"
                                     type="submit"
-                                    className="button-double-border"
                                 >
                                     {t("SUBMIT")}
                                 </Button>

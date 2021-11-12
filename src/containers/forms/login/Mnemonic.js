@@ -56,7 +56,6 @@ const LoginMnemonic = React.memo((props) => {
                             <Button
                                 variant="primary"
                                 type="submit"
-                                className="button-double-border"
                             >
                                 {t("LOGIN")}
                             </Button>

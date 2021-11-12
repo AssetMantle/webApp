@@ -263,7 +263,7 @@ const CommonKeystore = (props) => {
                     <div className="back-button" onClick={backHandler}>
                         <Icon viewClass="arrow-icon" icon="arrow"/>
                     </div>
-                    {t("Choose Option")}
+                    {t("CHOOSE_OPTION")}
                 </Modal.Header>
                 {loader ?
                     <Loader/>
@@ -276,7 +276,7 @@ const CommonKeystore = (props) => {
                                 <>
                                     <Form.Group>
                                         <Form.File id="exampleFormControlFile1" name="uploadFile" accept=".json"
-                                            label="upload private key file" required={true}/>
+                                            label="Upload private key file" required={true}/>
                                     </Form.Group>
                                     <Form.Label>{t("DECRYPT_KEY_STORE")}</Form.Label>
                                     <Form.Control
@@ -304,19 +304,18 @@ const CommonKeystore = (props) => {
                             <Button
                                 variant="primary"
                                 type="submit"
-                                className="button-double-border"
                             >
                                 {t("SUBMIT")}
                             </Button>
                         </div>
                     </Form>
                     <div className="submitButtonSection text-center">
-                        <button type="button" variant="primary" className="button-double-border"
+                        <button type="button" variant="primary"
                             onClick={() => handleKepler("kepler")}>{t("USE_KEPLR")}
                         </button>
                     </div>
                     <div className="submitButtonSection text-center">
-                        <button type="button" variant="primary" className="button-double-border"
+                        <button type="button" variant="primary"
                             onClick={handleLedgerSubmit}>{t("USE_LEDGER")}
                         </button>
                     </div>

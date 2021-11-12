@@ -2,13 +2,6 @@
   .provision-address.address {
     max-width: initial;
   }
-
-  .side-bar.active {
-    margin-left: -200px;
-  }
-  .side-bar.active img {
-    transform: rotate(180deg);
-  }
 }
 @media (max-width: 420px) {
   .footer {
@@ -64,19 +57,6 @@
     padding: 15px !important;
   }
 
-  .side-bar {
-    margin-left: -200px;
-  }
-
-  .side-bar.active {
-    min-width: 250px;
-    max-width: 250px;
-    margin-left: 0px;
-  }
-  .side-bar.active img {
-    transform: rotate(180deg);
-  }
-
   .footer .bottom-section {
     display: block !important;
   }
@@ -108,15 +88,6 @@
 
   .homeSection .appInfoBox {
     padding: 50px 0;
-  }
-
-  .side-bar {
-    position: fixed;
-    overflow-y: auto;
-    top: 60px;
-    left: 0;
-    bottom: 0;
-    z-index: 1;
   }
 
   .navbar-dark {
@@ -233,6 +204,22 @@
   }
   .mint-page-body .right-content {
     margin: 0;
+  }
+
+  .profile-dropdown .dropdown-menu {
+    margin: 0px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
+    border: 0px solid;
+    padding: 0;
+    border-radius: 0;
+    position: absolute;
+    top: auto !important;
+    left: 0 !important;
+    margin: 0 !important;
+    right: auto !important;
+    bottom: auto !important;
+    -webkit-transform: initial !important;
+    transform: initial !important;
   }
 }
 @media (min-width: 992px) and (max-width: 1080px) {

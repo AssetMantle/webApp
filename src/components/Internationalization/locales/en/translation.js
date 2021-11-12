@@ -14,7 +14,7 @@ let en = {
         "SIGNING_UP": "Sign Up",
         "CONTACT_US": "CONTACT US",
         "BURN_ASSET": "Delete NFT",
-        "ARE_YOU_SURE": "Are you sure",
+        "ARE_YOU_SURE": "Are you sure ?",
         "YES": "Yes",
         "NO": "No",
         "SUBMIT": "Submit",
@@ -47,7 +47,7 @@ let en = {
         "LOGIN_WITH_KEYSTORE": "Login with Keystore",
         "LOGIN_PRIVATE_KEY": "Login with Private key",
         "LOGIN_WITH_PWD": "Login With password",
-        "UPLOAD_KEY": "upload private key file",
+        "UPLOAD_KEY": "Upload private key file",
         "DECRYPT_KEY_STORE": "Enter password to decrypt keystore file",
         "SIGN_IN_KEPLER": "Signin with Keplr",
         "INCORRECT_PASSWORD": "Incorrect Password",
@@ -79,7 +79,7 @@ let en = {
         "PRIVATE_KEY": "Private Key",
         "LEDGER_STORE": "Ledger",
         "ENCRYPT_KEY_STORE": "Enter password to encrypt keystore file",
-        "ENTER_USER_NAME": "Enter User Name",
+        "ENTER_USER_NAME": "Enter UserName",
         "DOWNLOAD_KEY": "Use Private key to login",
         "SAVE_MNEMONIC": "Please save mnemonic",
         "DEFINE_ASSET": "Define Asset",
@@ -162,7 +162,30 @@ let en = {
         "MUSIC":"Music",
         "COLLECTIBLES":"Collectibles",
         "ARTS":"Arts",
-        "RESULT_NOT_FOUND":"Result Not Found"
+        "RESULT_NOT_FOUND":"Result Not Found",
+        "CONTINUE_TO_SIGN_UP":"Continue To SignUp",
+        "CONTINUE_TO_LOGIN":"Continue to Login",
+        "KEYSTORE":"KeyStore",
+        "IMAGE_UPLOAD_WARNING":"Please make sure you upload images / artwork that you have created or have the right to use.",
+        "CREATE_NEW_ITEM":"Create new item",
+        "IMAGE_UPLOAD_INFO":"File types supported: JPG, PNG, GIF, SVG, MP4, WEBM. Max size: 30 MB",
+        "BURN":"Burn",
+        "MUTABLE_LOCK":"MutableLock",
+        "IMAGE":"Image",
+        "CATEGORY":"Category",
+        "NAME":"Name",
+        "DESCRIPTION":"Description",
+        "STYLE":"Style",
+        "TYPE":"Type",
+        "ATTRIBUTES":"Attributes",
+        "PREVIEW_NFT":"Preview NFT",
+        "CREATE_KEYS":"Create Keys",
+        "IMPORT_KEYS":"Import Keys",
+        "ADD_USER_NAME":"Add UserName",
+        "CHOOSE_OPTION":"Choose Option"
+
+
+
 
     }
 };

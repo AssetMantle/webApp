@@ -40,6 +40,7 @@ const AssetList = React.memo(() => {
             );
         }
     };
+    console.log(assetList, "assetList");
     return (
         <div className="page-body">
             <div className="list-container list-container-loader">

@@ -72,7 +72,7 @@ export const GlobalStyles = createGlobalStyle`
   .form-control:focus {
     background-color: ${({theme}) => theme.inputFieldBackground} !important;
     border: 1px solid ${({theme}) => theme.inputFieldBorderColor} !important;
-    box-shadow: 0 0 0 0.2rem #efcb3057;
+    box-shadow: 0 0 0 0.2rem ${({theme}) => theme.formControlShadow};
   }
 
   .close {
@@ -126,9 +126,7 @@ export const GlobalStyles = createGlobalStyle`
   .dropdown-section h4{
     color: ${({theme}) => theme.modalHeaderColor};
   }
-  .side-bar{
-    background-color: ${({theme}) => theme.sideBarBackgroundColor};
-  }
+ 
   .content-section .accountInfo .col-md-9.card-deck {
     background: ${({theme}) => theme.cardSectionBg};
   }
@@ -152,13 +150,14 @@ export const GlobalStyles = createGlobalStyle`
     color: ${({theme}) => theme.buttonSecondaryColor};
   }
   .button-view{
-    background: ${({theme}) => theme.buttonViewBg};
-    border: 1px solid ${({theme}) => theme.buttonViewBorder};
-  }
-  .mnemonic-login-section.login-section .button-view{
-    background: ${({theme}) => theme.buttonViewSecondBg};
+   background: ${({theme}) => theme.primaryButtonBackground};
     border: 1px solid ${({theme}) => theme.buttonViewSecondBorder};
   }
+  .mnemonic-login-section.login-section .button-view{
+    background: ${({theme}) => theme.primaryButtonBackground};
+    border: 1px solid ${({theme}) => theme.buttonViewSecondBorder};
+  }
+  
   .btn-primary:not(:disabled):not(.disabled).active,
   .btn-primary:not(:disabled):not(.disabled):active,
   .show > .btn-primary.dropdown-toggle,
@@ -180,9 +179,7 @@ export const GlobalStyles = createGlobalStyle`
     color: ${({theme}) => theme.mnemonicTextColor};
     border-color: ${({theme}) => theme.dropDownButtonColor};
   }
-  .copy-section .copy-result span{
-    color: ${({theme}) => theme.copyResult};
-  }
+  
   .profile-section .card{
     background: ${({theme}) => theme.profileCardsBg};
   }
@@ -265,5 +262,24 @@ export const GlobalStyles = createGlobalStyle`
     color:${({theme}) => theme.disabledInputColor} !important;
      background: ${({theme}) => theme.disabledInputBg} !important;
   }
+  .view-container .image-section{
+   background: ${({theme}) => theme.imageSectionBg};
+  }
+  .navbar-dark .nav-link.active::after, .navbar-dark .navbar-nav .nav-link:hover::after{
+  background: ${({theme}) => theme.primaryButtonBackground};
+  }
+ .profile-dropdown-menu .address-list .address-item.active, 
+ .dropdown-item.active, .dropdown-item:active
+ {
+      color:${({theme}) => theme.activeDropDownColor} !important;
+       background: ${({theme}) => theme.activeDropDownBg} !important;
+ }
+ ::-webkit-scrollbar-thumb {
+   background: ${({theme}) => theme.scrollBarBg};
+}
+.signup-section .button-signup:hover{
+  border: 1px solid ${({theme}) => theme.inputFieldBorderColor} !important;
+box-shadow: 0 0 0 0.2rem ${({theme}) => theme.formControlShadow};
+}
 `;
 
