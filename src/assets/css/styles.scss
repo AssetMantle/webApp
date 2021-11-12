@@ -716,24 +716,7 @@ html, body, #root, .app {
       }
     }
 
-    .button-double-border {
-      font-weight: 600;
-      font-size: 14px;
-      box-shadow: 0px 0px 0 0px #ffffff, 0px 0px 0 2px #efcc30, 4px 4px 0 1px #ffffff, 4px 4px 0 2px #262A2B;
 
-      &:hover {
-        color: #262a2b;
-        background-color: #efcc30;
-        border-color: #ffffff;
-      }
-    }
-
-    .btn-primary.button-double-border:not(:disabled):not(.disabled).active:focus, .btn-primary.button-double-border:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.button-double-border.dropdown-toggle:focus, .btn-primary.button-double-border.focus, .btn-primary.button-double-border:focus {
-      color: #262a2b;
-      background-color: #efcc30;
-      box-shadow: 0px 0px 0 0px #ffffff, 0px 0px 0 0px #ffffff, 4px 4px 0 1px #ffffff, 4px 4px 0 2px #262A2B;
-      border-color: #ffffff;
-    }
   }
 }
 
