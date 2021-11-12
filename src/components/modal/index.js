@@ -10,7 +10,6 @@ import * as faucet from "../../store/actions/faucet";
 import * as wrappedCoins from "../../store/actions/wrappedCoins";
 import loaderImage from "../../assets/images/loader.svg";
 const ModalCommon = (props) => {
-    console.log(props, "in modal result");
     const {t} = useTranslation();
     const history = useHistory();
     const [loader, setLoader] = useState(true);

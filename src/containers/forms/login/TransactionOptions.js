@@ -19,7 +19,6 @@ const TransactionOptions = (props) => {
     useEffect(()=>{
         setLoginMode(localStorage.getItem('loginMode'));
     },[]);
-    console.log(loginMode, "loginMode");
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent("");
@@ -38,7 +37,6 @@ const TransactionOptions = (props) => {
     const backHandler = () => {
         setShow(false);
         props.setExternalComponent('');
-        console.log(props.TransactionName, "dd");
         if (props.TransactionName !== "assetMint") {
             props.setShow(true);
             if (props.TransactionName === "nubid") {

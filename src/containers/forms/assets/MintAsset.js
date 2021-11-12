@@ -3,7 +3,6 @@ import {Button, Form, OverlayTrigger, Popover} from 'react-bootstrap';
 import {useTranslation} from 'react-i18next';
 import GetProperty from '../../../utilities/Helpers/getProperty';
 import TransactionOptions from "../login/TransactionOptions";
-import base64url from "base64url";
 import {handleUpload} from "../../../utilities/Helpers/pinata";
 import Loader from "../../../components/loader";
 import Icon from "../../../icons";
@@ -83,7 +82,6 @@ const MintAsset = () => {
             // const ipfsPath = await helper.pinataFile(fileData, res.IpfsHash);
             // console.log(ipfsPath, "ipfspath");
             const ImmutableUrlEncode = PropertyHelper.getUrlEncode(updateFileUrl);
-            console.log(ImmutableUrlEncode, "ImmutableUrlEncode");
             setEncodedUrl(ImmutableUrlEncode);
             const imageExtension = fileData.name.substring(fileData.name.lastIndexOf('.') + 1);
             setImageExtension(imageExtension);
@@ -117,9 +115,7 @@ const MintAsset = () => {
                 }
             );
         });
-        console.log(propertyDataObject, "propertyDataObject");
         const propertyDataObjectHash = PropertyHelper.getUrlEncode(JSON.stringify(propertyDataObject));
-        console.log(propertyDataObjectHash, base64url.decode(propertyDataObjectHash), "decode");
         const FromId = event.target.FromId.value;
         let staticMutables = '';
         const name = PropertyHelper.getUrlEncode(event.target.name.value);
@@ -161,7 +157,6 @@ const MintAsset = () => {
                 immutableMetaValues: immutableMetaValues,
                 mutableMetaValues: mutableMetaValues,
             };
-            console.log(totalData);
             setTotalDefineObject(totalData);
             setExternalComponent('Keystore');
             setLoader(false);
@@ -172,30 +167,24 @@ const MintAsset = () => {
     };
     const nameChangeHandler = evt => {
         const newObject = exampleState;
-        console.log(newObject);
         newObject.mint_asset.asset_name = evt.target.value;
         localStorage.setItem("mint_asset", JSON.stringify(newObject));
-        console.log(newObject);
         setExampleState(newObject);
         setInitialName(evt.target.value);
     };
 
     const categoryChangeHandler = evt => {
         const newObject = exampleState;
-        console.log(newObject);
         newObject.mint_asset.asset_category = evt.target.value;
         localStorage.setItem("mint_asset", JSON.stringify(newObject));
-        console.log(newObject);
         setExampleState(newObject);
         setInitialCategory(evt.target.value);
     };
 
     const handleDescriptionChange = (evt) => {
         const newObject = exampleState;
-        console.log(newObject);
         newObject.mint_asset.asset_description = evt.target.value;
         localStorage.setItem("mint_asset", JSON.stringify(newObject));
-        console.log(newObject);
         setExampleState(newObject);
     };
 

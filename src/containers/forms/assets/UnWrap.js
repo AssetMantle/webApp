@@ -33,7 +33,6 @@ const UnWrap = (props) => {
             Split: Price,
             OwnableId: OwnableId,
         };
-        console.log(totalData, "totalData");
         setTotalDefineObject(totalData);
         setExternalComponent('Keystore');
         setShow(false);

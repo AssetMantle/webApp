@@ -22,9 +22,7 @@ function PrivateKeyReader(file, password) {
 
             if (decryptedData.error != null) {
                 reject(decryptedData.error);
-                console.log(decryptedData, "decryptedData. error");
             } else {
-                console.log(decryptedData, "decryptedData.suc");
                 let mnemonic = mnemonicTrim(decryptedData.mnemonic);
                 resolve(mnemonic);
                 localStorage.setItem('encryptedMnemonic', event.target.result);
@@ -148,7 +146,6 @@ async function TransactionWithKeplr(msgs, fee, memo, chainID) {
 }
 
 function mnemonicTrim(mnemonic) {
-    console.log(mnemonic, "mnemonic");
     let mnemonicList = mnemonic.replace(/\s/g, " ").split(/\s/g);
     let mnemonicWords = [];
     for (let word of mnemonicList) {

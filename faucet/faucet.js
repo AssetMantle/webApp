@@ -8,7 +8,6 @@ const restAPI=process.env.BLOCKCHAIN_REST_SERVER;
 
 
 
-console.log(restAPI)
 function unsignedTx(msgs, gas, memo) {
     return {
         "msg": msgs,
@@ -39,7 +38,6 @@ async function Transaction(wallet, signerAddress, msgs, fee, memo = '') {
 async function MnemonicWalletWithPassphrase(mnemonic) {
     const wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic, {prefix: constants.prefix, bip39Password:'',hdPaths:[stringToPath("m/44'/750'/0'/0/0")]});
     const [firstAccount] = await wallet.getAccounts();
-    console.log(firstAccount.address);
     return [wallet, firstAccount.address];
 }
 
@@ -47,7 +45,6 @@ function runner() {
     setInterval(async function ()  {
         if (constants.FaucetList.length > 0) {
             let [wallet, addr] = await MnemonicWalletWithPassphrase(process.env.FAUCET_MNEMONIC);
-            console.log("fauceting accounts : ", constants.FaucetList);
             let msgs = [];
             constants.FaucetList.forEach(address => msgs.push(msg(addr, address, constants.DENOM, constants.AMOUNT)));
             Transaction(wallet,addr,msgs,{"amount": [], "gas": "500000"},"have fun").then(response => console.log(response));
