@@ -10,16 +10,17 @@ import * as faucet from "../../store/actions/faucet";
 import * as wrappedCoins from "../../store/actions/wrappedCoins";
 import loaderImage from "../../assets/images/loader.svg";
 const ModalCommon = (props) => {
+    console.log(props, "in modal result");
     const {t} = useTranslation();
     const history = useHistory();
-    const [loader, serLoader] = useState(true);
+    const [loader, setLoader] = useState(true);
     const userAddress = localStorage.getItem('userAddress');
     const identityID = localStorage.getItem('identityId');
     const [showIdentity, setShowIdentity] = useState(true);
 
     const dispatch = useDispatch();
     setTimeout(() => {
-        serLoader(false);
+        setLoader(false);
     }, 3000);
     const handleClose = async () => {
         setShowIdentity(false);

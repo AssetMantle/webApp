@@ -56,18 +56,16 @@ const IdentityList = () => {
                                         id={userAddress}/>
                                 </div>
                             </div>
-                            {faucetData.length ?
-                                <div className="list-item">
-                                    <p className="list-item-label">{t("BALANCE")}:</p>
-                                    <div className="list-item-value profile-data-item button-item">
-                                        <p className="">{helper.mantleConversion(faucetData[0].amount*1)} {config.coinName}</p>
-                                        <Button variant="primary" size="sm"
-                                            onClick={() => handleModalData("Wrap")}>{t("WRAP")}</Button>
-                                    </div>
+
+                            <div className="list-item">
+                                <p className="list-item-label">{t("BALANCE")}:</p>
+                                <div className="list-item-value profile-data-item button-item">
+                                    <p className=""> {faucetData.length ? helper.mantleConversion(faucetData[0].amount*1) : 0 } {config.coinName}</p>
+                                    <Button variant="primary" size="sm"
+                                        onClick={() => handleModalData("Wrap")}>{t("WRAP")}</Button>
                                 </div>
-                                : ""
-                            }
-                           
+                            </div>
+
                             <div className="list-item">
                                 <p className="list-item-label">{t("WRAPPED_BALANCE")}:</p>
                                 <div className="list-item-value profile-data-item button-item">

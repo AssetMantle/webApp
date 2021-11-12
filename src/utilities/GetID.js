@@ -1,3 +1,7 @@
+import {queryIdentities} from "persistencejs/build/transaction/identity/query";
+
+const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
+
 function GetClassificationID(data) {
     return data.value.id.value.classificationID.value.idString;
 }
@@ -58,6 +62,25 @@ function GetIdentityOwnableIds(identities) {
     return ownableIdList;
 }
 
+async function getHashIdentityID(userIdHash){
+    let identityID = '';
+    const identities = await identitiesQuery.queryIdentityWithID('all');
+    if (identities) {
+        const data = JSON.parse(identities);
+        const dataList = data.result.value.identities.value.list;
+        for (let identity in dataList) {
+            if (dataList[identity].value.immutables.value.properties.value.propertyList !== null) {
+                const immutablePropertyList = dataList[identity].value.immutables.value.properties.value.propertyList[0];
+                if (immutablePropertyList.value.fact.value.hash === userIdHash) {
+                    identityID = GetIdentityID(dataList[identity]);
+                    // setTestID(GetIDHelper.GetIdentityID(dataList[identity]));
+                }
+            }
+        }
+    }
+    return identityID;
+}
+
 export default {
     GetClassificationID,
     GetIdentityID,
@@ -69,5 +92,6 @@ export default {
     GetOrderID,
     GetIdentityIDs,
     GetIdentityOwnableId,
-    GetIdentityOwnableIds
+    GetIdentityOwnableIds,
+    getHashIdentityID
 };

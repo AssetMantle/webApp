@@ -4,7 +4,6 @@ import {CreateIdentity, Ledger, PrivateKey} from "./forms/login";
 import IdentityLogin from './forms/login/IdentityLogin';
 import {useTranslation} from "react-i18next";
 import {useHistory} from "react-router-dom";
-import MnemonicIcon from "../assets/images/MnemonicIcon.svg";
 import Icon from "../icons";
 import TransactionOptions from "./forms/login/TransactionOptions";
 
@@ -35,10 +34,15 @@ const Login = () => {
                             onClick={() => handleRoute("IdentityLogin")}
                         >
                             <div className="icon-section">
-                                <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/></div>
+                                <div className="icon-box">
+                                    <Icon viewClass="arrow-icon" icon="username"/>
+                                </div>
                                 {t("USER_NAME")}</div>
                             <Icon viewClass="arrow-icon" icon="arrow"/>
                         </div>
+                    </div>
+                    <div className="signup-link">
+                        <p onClick={() => handleRoute('CreateIdentity')} className="text-link"> Don&apos;t have an account ? sign up</p>
                     </div>
                 </Modal.Body>
             </Modal>

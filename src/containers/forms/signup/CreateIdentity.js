@@ -7,7 +7,7 @@ import {useHistory} from "react-router-dom";
 import TransactionOptions from "../login/TransactionOptions";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import {queryIdentities} from "persistencejs/build/transaction/identity/query";
-
+// import TransactionBar from "../../../components/TransactionBar";
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 
 const CreateIdentity = () => {
@@ -81,7 +81,6 @@ const CreateIdentity = () => {
     };
     return (
         <div>
-
             <Modal
                 show={show}
                 onHide={handleClose}
@@ -119,7 +118,7 @@ const CreateIdentity = () => {
                             </Button>
                         </div>
                     </Form>
-
+                    {/*<TransactionBar/>*/}
                 </Modal.Body>
             </Modal>
             <div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useEffect} from "react";
 import {NavLink, useHistory, withRouter} from "react-router-dom";
 import {Button, Nav, Navbar} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
@@ -14,7 +14,22 @@ const HeaderBeforeLogin = () => {
     const handleModelRoute = (route) => {
         history.push(`/${route}`);
     };
+    useEffect(() => {
+        const localTheme = window.localStorage.getItem('theme');
+        if(localTheme === 'light'){
+            if (document.getElementById('root').classList.contains('dark-mode')) {
+                document.getElementById('root').classList.add('light-mode');
+                document.getElementById('root').classList.remove('dark-mode');
+            }
+        }
+        else{
+            if (document.getElementById('root').classList.contains('light-mode')) {
+                document.getElementById('root').classList.add('dark-mode');
+                document.getElementById('root').classList.remove('light-mode');
+            }
+        }
 
+    }, []);
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <div className="container login-before">

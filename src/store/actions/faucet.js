@@ -10,6 +10,7 @@ export const fetchFaucet = (address) => {
             fetch(url)
                 .then((response) => response.json())
                 .then((data) => {
+                    console.log(data, "in faucne");
                     dispatch({
                         type: SET_FAUCET_DATA,
                         faucetData: data.result.value.coins,

@@ -448,7 +448,8 @@ html, body, #root, .app {
 }
 
 .login-error p {
-  margin: 5px 0;
+  margin: 0;
+  font-size: 14px;
 }
 
 .btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus, .btn-primary.focus, .btn-primary:focus {
@@ -558,6 +559,14 @@ html, body, #root, .app {
   display: flex;
   justify-content: center;
 }
+.login-section .signup-link {
+  margin: 20px 0 10px 0;
+  text-align: left;
+}
+.login-section .signup-link p {
+  font-size: 14px;
+  margin: 0;
+}
 
 .button-view {
   cursor: pointer;
@@ -575,21 +584,23 @@ html, body, #root, .app {
   align-items: center;
   margin: 0;
 }
-.button-view .icon-section .icon {
+.button-view .icon-section .icon-box {
   width: 28px;
   height: 28px;
   border-radius: 50%;
   margin-right: 15px;
-  background: #EFCB30;
+  background: #FFFFFF;
   position: relative;
 }
-.button-view .icon-section .icon img {
+.button-view .icon-section .icon-box .icon {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
   top: 0;
   margin: auto;
+  width: 16px;
+  height: 16px;
 }
 
 .mnemonic-login-section.login-section .button-view {
@@ -1700,6 +1711,42 @@ model-viewer {
   100% {
     transform: translateY(-5px);
   }
+}
+.txn-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 30px 0 0 0;
+}
+.txn-bar .txn-item {
+  background: #FFFFFF;
+  width: 22px;
+  height: 22px;
+  margin: 5px 50px;
+  color: #000000;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: left;
+}
+.txn-bar .txn-item.active {
+  background: #efcc30;
+}
+.txn-bar .txn-item.active:after {
+  background: #efcc30;
+}
+.txn-bar .txn-item:after {
+  content: "";
+  width: 101px;
+  height: 5px;
+  background: white;
+  position: absolute;
+  right: 22px;
+  top: 8px;
+}
+.txn-bar .txn-item:first-child::after {
+  content: none;
 }
 
 /*# sourceMappingURL=styles.css.map */

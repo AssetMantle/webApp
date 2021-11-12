@@ -7,9 +7,10 @@ import axios from 'axios';
 import {useHistory} from 'react-router-dom';
 import Loader from '../../../components/loader';
 import Icon from '../../../icons';
-import ImportKeys from './ImportKeys';
+import ImportKeys from '../signup/ImportKeys';
 import transactions from "../../../utilities/Helpers/transactions";
-
+import SignUp from "./SignUp";
+import ModalCommon from "../../../components/modal";
 const KeysCreate = (props) => {
     const [loader, setLoader] = useState(false);
     const {t} = useTranslation();
@@ -23,7 +24,12 @@ const KeysCreate = (props) => {
     const [showDownload, setShowDownload] = useState(false);
     const [showDownloadModal, setshowDownloadModal] = useState(true);
     const [externalComponent, setExternalComponent] = useState("");
+    const [signUpError, setSignUpError] = useState("");
 
+    const [testID, setTestID] = useState('');
+    const [nubID, setNubID] = useState('');
+    const [response, setResponse] = useState({});
+    
     const handleClose = () => {
         setShow(false);
         history.push('/');
@@ -62,7 +68,9 @@ const KeysCreate = (props) => {
         axios.post(process.env.REACT_APP_FAUCET_SERVER + '/faucetRequest', {address: loginAddress})
             .then(response => {
                 console.log(response, "facuet response", loginAddress);
-                setLoader(false);
+                setTimeout(() => {
+                    setLoader(false);
+                }, 4000);
             },
             )
             .catch(err => {
@@ -175,23 +183,49 @@ const KeysCreate = (props) => {
                                 />
                                 <Icon viewClass="arrow-icon download-icon" icon="download-arrow"/>
                             </p>
+                            <SignUp setSignUpError={setSignUpError}
+                                setShowEncrypt={setShowEncrypt}
+                                mnemonic={mnemonic}
+                                totalDefineObject={props.totalDefineObject}
+                                setTestID={setTestID}
+                                setNubID={setNubID}
+                                setLoader={setLoader}
+                                setResponse={setResponse}
+                                TransactionName={props.TransactionName}
+                            />
+                            {signUpError !== "" ?
+                                <div className="login-error"><p className="error-response">{signUpError}</p></div>
+                                : ""
+                            }
                         </div>
                         :
                         ''
                     }
 
-
                     {loader ?
                         <Loader/>
                         : ''
                     }
-
                 </Modal.Body>
             </Modal>
             {
                 externalComponent === 'import' ?
-                    <ImportKeys setExternalComponent={setExternalComponent}/> :
+                    <ImportKeys
+                        setExternalComponent={setExternalComponent}
+                        totalDefineObject={props.totalDefineObject}
+                        setShow={setShow}
+                    /> :
                     null
+            }
+            {!(Object.keys(response).length === 0) ?
+                <ModalCommon
+                    data={response}
+                    handleClose={handleCloseEncrypt}
+                    testID={testID}
+                    transactionName={props.TransactionName}
+                    nubID={nubID}
+                />
+                : ""
             }
         </div>
     );

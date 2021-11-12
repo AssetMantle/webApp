@@ -13,7 +13,7 @@ import {
     OrderView
 } from "./containers/views";
 import {IdentityLogin} from "./containers/forms/login";
-import KeysCreate from "./containers/forms/signup/KeysCreate";
+import KeysCreate from "./containers/forms/createKeys/KeysCreate";
 import {MintAsset} from "./containers/forms/assets";
 import ListOrderView from "./containers/views/orders/orderView";
 

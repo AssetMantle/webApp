@@ -4,7 +4,6 @@ import {useHistory} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import GetID from "../../../utilities/Helpers/getID";
 import {queryIdentities} from "persistencejs/build/transaction/identity/query";
-import MnemonicIcon from "../../../assets/images/MnemonicIcon.svg";
 import Icon from "../../../icons";
 import Loader from '../../../components/loader';
 import GetMeta from "../../../utilities/Helpers/getMeta";
@@ -110,7 +109,9 @@ const IdentityLogin = (props) => {
                         <div className="mrt-10">
                             <div className="button-view">
                                 <div className="icon-section">
-                                    <div className="icon"><img src={MnemonicIcon} alt="MnemonicIcon"/></div>
+                                    <div className="icon-box">
+                                        <Icon viewClass="username-icon" icon="username"/>
+                                    </div>
                                     {t("USER_NAME")}</div>
                                 <Icon viewClass="arrow-icon" icon="arrow"/>
                             </div>

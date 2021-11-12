@@ -162,7 +162,8 @@ let en = {
         "MUSIC":"Music",
         "COLLECTIBLES":"Collectibles",
         "ARTS":"Arts",
-        "RESULT_NOT_FOUND":"Result Not Found"
+        "RESULT_NOT_FOUND":"Result Not Found",
+        "CONTINUE_TO_SIGN_UP":"Continue To SignUp"
 
     }
 };

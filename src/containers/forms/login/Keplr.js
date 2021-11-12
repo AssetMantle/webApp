@@ -48,11 +48,12 @@ const Keplr = (props) => {
             localStorage.setItem("loginMode", "keplr");
             localStorage.setItem("identityList", JSON.stringify(idList));
             setErrorMessage("");
+            history.push('/profile');
+            window.location.reload();
         } else {
             setErrorMessage('Keplr address not found in identity list');
         }
-        history.push('/profile');
-        window.location.reload();
+
     };
     const handleClose = () => {
         setShow(false);
