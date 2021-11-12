@@ -9,12 +9,10 @@ export const fetchFilterOrders = (key) => {
             const marketOrder = getState().markePlace.markeOrders;
             const searchEmpty = getState().search.empty;
             const marketOrderCopy = getState().search.marketOrdersCopy;
-            console.log(marketOrderCopy, searchEmpty, "outside");
 
             let result =[];
             if(searchEmpty && key !== "all"){
                 result = marketOrder.filter(item => (base64url.decode(item['totalData']['category']).toLowerCase()).includes(key.toLowerCase()));
-                console.log(marketOrder, "in filter");
                 dispatch({
                     type: SET_FILTER_ORDERS,
                     filterOrders: result,
@@ -35,7 +33,6 @@ export const fetchFilterOrders = (key) => {
                     errorData: ''
                 });
             }else if(!searchEmpty && key === "all"){
-                console.log(marketOrderCopy, "}else if(!searchEmpty && key === \"all\"){ " );
                 dispatch({
                     type: SET_FILTER_ORDERS,
                     marketOrdersCopy: marketOrderCopy,
@@ -47,7 +44,6 @@ export const fetchFilterOrders = (key) => {
                 });
             }else if(marketOrderCopy.length){
                 result = marketOrderCopy.filter(item => (base64url.decode(item['totalData']['category']).toLowerCase()).includes(key.toLowerCase()));
-                console.log(result, "in else if(marketOrderCopy.length){ " );
                 dispatch({
                     type: SET_FILTER_ORDERS,
                     filterOrders: result,
@@ -68,7 +64,6 @@ export const fetchFilterOrders = (key) => {
             }
 
         } catch (err) {
-            console.log(err,"in search");
             dispatch({
                 type: SET_FILTER_ORDERS,
                 filterOrders: [],

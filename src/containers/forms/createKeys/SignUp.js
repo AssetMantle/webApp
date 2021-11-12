@@ -17,7 +17,6 @@ const SignUp = (props) => {
         let userMnemonic = props.mnemonic;
         if (userMnemonic !== undefined) {
             const wallet = await transactions.MnemonicWalletWithPassphrase(userMnemonic, '');
-            console.log(wallet[1], userMnemonic, "normal", props.TransactionName, props.totalDefineObject);
             let queryResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", props.TransactionName, props.totalDefineObject);
 
 

@@ -151,7 +151,6 @@ const MutateAsset = (props) => {
                         </Form.Group>
                         {props.mutatePropertiesList ?
                             Object.keys(props.mutatePropertiesList).map((keyName, idx) => {
-                                console.log(idx, "idx");
                                 if (keyName !== "propertyName" && keyName !== "lock" && keyName !== "burn") {
                                     return (
                                         <div key={idx}>

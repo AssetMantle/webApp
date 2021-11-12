@@ -46,7 +46,6 @@ const KeysCreate = (props) => {
         const password = document.getElementById('password').value;
         if(password.length > 3) {
             const error = await transactions.MnemonicWallet();
-            console.log(error);
             if (error.error != null) {
                 return (<div>ERROR!!</div>);
             }
@@ -72,14 +71,12 @@ const KeysCreate = (props) => {
         setLoader(true);
         axios.post(process.env.REACT_APP_FAUCET_SERVER + '/faucetRequest', {address: loginAddress})
             .then(response => {
-                console.log(response, "facuet response", loginAddress);
                 setTimeout(() => {
                     setLoader(false);
                 }, 4000);
             },
             )
             .catch(err => {
-                console.log(err);
                 setLoader(false);
             });
     };

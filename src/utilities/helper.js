@@ -57,7 +57,6 @@ async function IpfsPath(file) {
         "image": "ipfs://" + added.path,
     };
     await pinataFile(options);
-    console.log(added.path, "path");
     return added.path;
 }
 
@@ -68,12 +67,10 @@ async function pinataFile(file, path) {
         "image": "ipfs://" + path,
     };
     let result = await pinata.pinJSONToIPFS(options);
-    console.log(result);
     return result;
 }
 
 function GetIpfsUrl(path) {
-    console.log(path, "decod");
     // const updateFileUrl ="https://demo-assetmantle.mypinata.cloud/ipfs/"+.IpfsHash+"/"+file.name;
     const url = `https://ipfs.infura.io/ipfs/${path}`;
     return url;
@@ -81,10 +78,7 @@ function GetIpfsUrl(path) {
 
 function stringFilter(data, initialCharacter, replaceableText) {
     const re = new RegExp(initialCharacter, "g");
-    console.log(data.replace(re, replaceableText));
     return data.replace(re, replaceableText);
-    // return data.replace(/${initialCharacter}/g, replaceableText);
-    // return result;
 }
 
 function getUrlEncode(Url) {

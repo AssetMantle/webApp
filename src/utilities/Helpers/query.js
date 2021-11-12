@@ -115,8 +115,6 @@ async function takeOrderQuery(address, mnemonic, data, actionName, type) {
 }
 
 async function mutateAssetQuery(address, mnemonic, data, actionName, type) {
-    console.log(address, config.chainID, data.fromID, data.assetId, data.mutableValues, data.mutableMetaValues, config.feesAmount, config.feesToken, config.gas, '', 'msgs mutateAssetQuery');
-
     const msgs = await actionName.createAssetMutateMsg(address, config.chainID, data.fromID, data.assetId, data.mutableValues, data.mutableMetaValues, config.feesAmount, config.feesToken, config.gas, '')
         .catch((err) => {
             console.log(err, 'error mutateAssetQuery');
@@ -164,7 +162,6 @@ async function revealHashQuery(address, mnemonic, data, actionName, type) {
 async function makeTransaction(address, msgs, mnemonic, type, txName) {
     if (txName !== 'nub' && txName !== 'wrap') {
         const addressList = await getProvisionList();
-        console.log(addressList, address, "in check");
         if (addressList || addressList.length) {
             if (addressList.includes(address)) {
                 if (type === "keplr") {

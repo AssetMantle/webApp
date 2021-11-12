@@ -93,7 +93,6 @@ const CommonKeystore = (props) => {
             }).catch((error) => {
                 setLoader(false);
                 setErrorMessage(error.message);
-                console.log(error, 'error');
                 const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
                 if (encryptedMnemonic !== null) {
                     setImportMnemonic(false);
@@ -226,7 +225,6 @@ const CommonKeystore = (props) => {
         }).catch((error) => {
             setLoader(false);
             setErrorMessage(error.message);
-            console.log(error, 'error');
             const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
             if (encryptedMnemonic !== null) {
                 setImportMnemonic(false);

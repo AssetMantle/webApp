@@ -60,7 +60,6 @@ const KeplrTransaction = (props) => {
 
             let queryResponse = queries.transactionDefinition(address, "", "keplr", props.TransactionName, props.totalDefineObject);
             queryResponse.then(async (result) => {
-                console.log("response finale", result);
                 if (result.code) {
                     setLoader(false);
                     if (props.TransactionName === "nubid") {

@@ -11,8 +11,6 @@ export const fetchSearchResult = (key) => {
             const category = getState().filterOrders.category;
             const filterOrdersList = getState().filterOrders.filterOrders;
 
-            console.log(filterOrders, category, "in actions search", filterOrdersList);
-
             let result =[];
             if(filterOrders && key === ""){
                 dispatch({
@@ -25,7 +23,6 @@ export const fetchSearchResult = (key) => {
                 });
             }else if(!filterOrders && key !== ""){
                 result = filterOrdersList.filter(item => (base64url.decode(item['totalData']['name']).toLowerCase()).includes(key.toLowerCase()));
-                console.log(result.length, "result");
                 dispatch({
                     type: SET_MARKET_ORDERS_COPY,
                     marketOrdersCopy: result,
@@ -43,7 +40,6 @@ export const fetchSearchResult = (key) => {
                     errorData: ''
                 });
             }else if(!filterOrders && key === ""){
-                console.log(marketOrder, category, "category");
                 result = marketOrder.filter(item => (base64url.decode(item['totalData']['category']).toLowerCase()).includes(category.toLowerCase()));
                 dispatch({
                     type: SET_MARKET_ORDERS_COPY,
@@ -63,7 +59,6 @@ export const fetchSearchResult = (key) => {
                 });
             }else {
                 result = marketOrder.filter(item => (base64url.decode(item['totalData']['name']).toLowerCase()).includes(key.toLowerCase()));
-                console.log(result.length, "result1");
                 dispatch({
                     type: SET_MARKET_ORDERS_COPY,
                     marketOrdersCopy: result,
@@ -75,7 +70,6 @@ export const fetchSearchResult = (key) => {
             }
 
         } catch (err) {
-            console.log(err,"in search");
             dispatch({
                 type: SET_MARKET_ORDERS_COPY,
                 marketOrdersCopy: [],

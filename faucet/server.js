@@ -7,7 +7,6 @@ const cors = require('cors')
 app.use(cors())
 app.use(express.json());       // to support JSON-encoded bodies
 app.post('/faucetRequest', (req, res) => {
-    console.log("address:",req.body.address)
     const response = iterator.handleFaucetRequest(req.body.address)
     res.send(response)
 })
