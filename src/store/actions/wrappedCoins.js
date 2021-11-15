@@ -31,7 +31,6 @@ export const fetchWrappedCoins = (identityID) => {
             }
 
         } catch (err) {
-            console.log(err);
             dispatch({
                 type: SET_WRAPPED_COINS,
                 wrappedCoins: 0,
