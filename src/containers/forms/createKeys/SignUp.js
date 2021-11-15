@@ -35,10 +35,10 @@ const SignUp = (props) => {
                         };
                         props.setTestID(identityID);
                         let queryResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", 'wrap', totalData);
-                        queryResponse.then(async function (wrapItem) {
+                        queryResponse.then(async function () {
                             props.setResponse(item);
                             props.setLoader(false);
-                            console.log(wrapItem, "item wrap response");
+                            console.log("item wrap response");
                             props.setShowEncrypt(false);
                         }).catch(err => {
                             console.log(err, "err wrap");

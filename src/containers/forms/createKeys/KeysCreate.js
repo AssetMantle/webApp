@@ -82,6 +82,7 @@ const KeysCreate = (props) => {
                 setLoader(false);
             });
     };
+
     const handleEncrypt = (name) => {
         setShow(false);
         setFormName(name);
