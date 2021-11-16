@@ -29,18 +29,21 @@ const App = () => {
     const updateNetwork = () => {
         setNetwork(window.navigator.onLine);
     };
+    console.log(userTypeToken, "userTypeToken");
     const dispatch = useDispatch();
     useEffect(() => {
         const fetchOrder = async () => {
-            await Promise.all([
-                dispatch(markePlace.fetchMarketPlace()),
-                dispatch(assets.fetchAssets(identityID)),
-                dispatch(orders.fetchOrders(identityID)),
-                dispatch(identities.fetchIdentities(identityID)),
-                dispatch(maintainers.fetchMaintainers(identityID)),
-                dispatch(faucet.fetchFaucet(userAddress)),
-                dispatch(wrappedCoins.fetchWrappedCoins(identityID))
-            ]);
+            await dispatch(markePlace.fetchMarketPlace());
+            if (userTypeToken !== null){
+                await Promise.all([
+                    dispatch(assets.fetchAssets(identityID)),
+                    dispatch(orders.fetchOrders(identityID)),
+                    dispatch(identities.fetchIdentities(identityID)),
+                    dispatch(maintainers.fetchMaintainers(identityID)),
+                    dispatch(faucet.fetchFaucet(userAddress)),
+                    dispatch(wrappedCoins.fetchWrappedCoins(identityID))
+                ]);
+            }
         };
         fetchOrder();
     }, []);

@@ -77,7 +77,6 @@
     flex-direction: row-reverse;
     align-items: flex-start;
     white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
   }
 }
@@ -110,6 +109,10 @@
   }
   .signup-section .private-key .new-address {
     word-break: break-word;
+  }
+
+  .profile-data-item .id-string {
+    max-width: 180px;
   }
 }
 @media (max-width: 991px) {

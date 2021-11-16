@@ -16,7 +16,6 @@ async function ParseProperties(properties) {
                 propertiesType[property.value.id.value.idString] = property.value.fact.value.type;
             } else if (property.value.id.value.idString === config.URI) {
                 const UrlDecode = base64url.decode(metaValue);
-                // const UrlDecode = helper.GetIpfsUrl(metaValue);
                 propertiesDictionary[property.value.id.value.idString] = UrlDecode;
                 propertiesType[property.value.id.value.idString] = property.value.fact.value.type;
             } else {
@@ -24,7 +23,6 @@ async function ParseProperties(properties) {
                 propertiesType[property.value.id.value.idString] = property.value.fact.value.type;
             }
         }
-        // propertiesDictionary[property.value.id.value.idString] = property.value.fact.value.hash;
     }
     return [propertiesDictionary, propertiesType];
 }

@@ -681,6 +681,12 @@ html, body, #root, .app {
   flex: 0 0 100%;
   max-width: 100%;
 }
+.content-section .accountInfo .page-body .list-item .list-item-value {
+  width: 130px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .content-section .accountInfo .page-body .card-deck {
   padding: 20px 10px 0 10px;
 }
