@@ -1,7 +1,7 @@
 const FAUCET_LIST_LIMIT = 15;
-const AMOUNT = "10";
+const AMOUNT = "10000000";
 const DENOM = "umantle";
-const CHAIN_ID = "test";
+const CHAIN_ID = "test-mantle-1";
 let FaucetList=[];
 const prefix= "mantle";
 const gas_price = "0umantle";

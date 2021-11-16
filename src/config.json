@@ -1,6 +1,6 @@
 {
-  "chainID": "test",
-  "chainName": "assetMantle",
+  "chainID": "test-mantle-1",
+  "chainName": "Asset Mantle",
   "addressPrefix": "mantle",
   "coinType": "750",
   "coinDenom": "umantle",
