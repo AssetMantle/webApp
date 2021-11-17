@@ -15,7 +15,6 @@ const TotalOrders = () => {
     const loader = useSelector((state) => state.markePlace.loading);
     const error = useSelector((state) => state.markePlace.error);
     const searchResult = useSelector((state) => state.search.empty);
-
     const marketOrdersCopy = useSelector((state) => state.search.marketOrdersCopy);
     const searchError = useSelector((state) => state.search.errorData);
     const filterOrders = useSelector((state) => state.filterOrders.empty);

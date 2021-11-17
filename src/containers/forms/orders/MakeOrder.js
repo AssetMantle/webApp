@@ -69,7 +69,7 @@ const MakeOrder = (props) => {
 
         let totalData = {
             fromID: FromId,
-            classificationId: 'test.O-qPtlWEqmo9WQmZgwfguoj0F0A=',
+            classificationId: config.orderClassificationID,
             makerOwnableID: assetId,
             TakerOwnableId: TakerOwnableId,
             ExpiresIn: ExpiresIn,

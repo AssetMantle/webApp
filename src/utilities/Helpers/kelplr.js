@@ -8,6 +8,7 @@ const coinName = config.coinName;
 const coinDenom = config.coinDenom;
 const prefix = config.addressPrefix;
 
+
 async function KeplerWallet() {
     // Keplr extension injects the offline signer that is compatible with cosmJS.
     // You can get this offline signer from `window.getOfflineSigner(chainId:string)` after load event.

@@ -36,7 +36,7 @@ const Footer = () => {
                             className="blog">
                             Docs
                         </a>
-                        <a href="https://explorer.demo.assetmantle.one/" target="_blank" rel="noopener noreferrer"
+                        <a href="https://test-mantle-1.explorer.persistence.one" target="_blank" rel="noopener noreferrer"
                             className="blog">
                             Explorer
                         </a>
