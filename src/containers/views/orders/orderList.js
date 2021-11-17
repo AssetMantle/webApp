@@ -39,13 +39,13 @@ const OrderList = React.memo(() => {
                                         onClick={() => handleAsset(order['encodedOrderID'], order['orderID'], order)}>
                                         <div className="info-section">
                                             {
-                                                Object.keys(order['totalData']).map(key => {
+                                                Object.keys(order['totalData']).map((key, index2 )=> {
                                                     let imageExtension;
                                                     if (key === config.URI) {
                                                         imageExtension = order['totalData'][key].substring(order['totalData'][key].lastIndexOf('.') + 1);
                                                     }
                                                     return (
-                                                        <>
+                                                        <div key={index + index2}>
                                                             {
                                                                 key === config.URI ?
                                                                     imageExtension === "gltf" ?
@@ -93,7 +93,7 @@ const OrderList = React.memo(() => {
                                                                     </div>
                                                                     : ""
                                                             }
-                                                        </>
+                                                        </div>
 
                                                     );
                                                 })
