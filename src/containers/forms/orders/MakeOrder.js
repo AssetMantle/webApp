@@ -30,7 +30,7 @@ const MakeOrder = (props) => {
     };
 
     const handleKeyChangeExchangeRate = (evt) => {
-        let rex = /^\d*\.?\d{0,2}$/;
+        let rex = /^\d*\.?\d{0,6}$/;
         if (!rex.test(evt.target.value)) {
             evt.preventDefault();
         }
@@ -158,6 +158,7 @@ const MakeOrder = (props) => {
                             <Form.Control
                                 type="number"
                                 className=""
+                                step="any"
                                 name="price"
                                 required={true}
                                 onKeyPress={handleKeyChangeExchangeRate}

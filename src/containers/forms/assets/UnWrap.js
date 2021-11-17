@@ -4,7 +4,7 @@ import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
 import TransactionOptions from "../login/TransactionOptions";
 import config from "../../../config";
-import helper from "../../../utilities/helper";
+
 
 const UnWrap = (props) => {
     const [show, setShow] = useState(true);
@@ -21,6 +21,13 @@ const UnWrap = (props) => {
         settestIdentityId(testIdentityId);
         setFromID(fromIDValue);
     }, []);
+
+    const handleKeyChange = (evt) => {
+        let rex = /^\d*\.?\d{0,6}$/;
+        if (evt.key === "e" || evt.key === "-" || evt.key === "+" || (!rex.test(evt.target.value))) {
+            evt.preventDefault();
+        }
+    };
 
     const handleSubmit = (event) => {
         setLoader(true);
@@ -84,7 +91,8 @@ const UnWrap = (props) => {
                             <Form.Control
                                 type="number"
                                 className=""
-                                onKeyPress={helper.inputAmountValidation}
+                                step="any"
+                                onKeyPress={handleKeyChange}
                                 name="amount"
                                 required={true}
                                 placeholder="Amount"

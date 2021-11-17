@@ -4,7 +4,6 @@ import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
 import TransactionOptions from "../login/TransactionOptions";
 import config from "../../../config";
-import helper from "../../../utilities/helper";
 
 const Wrap = (props) => {
     const {t} = useTranslation();
@@ -37,6 +36,14 @@ const Wrap = (props) => {
         setLoader(false);
 
     };
+
+    const handleKeyChange = (evt) => {
+        let rex = /^\d*\.?\d{0,6}$/;
+        if (evt.key === "e" || evt.key === "-" || evt.key === "+" || (!rex.test(evt.target.value))) {
+            evt.preventDefault();
+        }
+    };
+
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent('');
@@ -84,8 +91,9 @@ const Wrap = (props) => {
                             <Form.Control
                                 type="number"
                                 className=""
+                                step="any"
                                 name="CoinAmount"
-                                onKeyPress={helper.inputAmountValidation}
+                                onKeyPress={handleKeyChange}
                                 required={true}
                                 placeholder="Amount"
                             />
