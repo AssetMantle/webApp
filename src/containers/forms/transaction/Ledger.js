@@ -120,8 +120,7 @@ const LedgerTransaction = (props) => {
                 <Modal.Header closeButton>
                     <div className="back-button" onClick={backHandler}>
                         <Icon viewClass="arrow-icon" icon="arrow"/>
-                    </div>
-                    <p className="title">{props.network}</p>
+                    </div>Ledger
                 </Modal.Header>
                 {loader ?
                     <Loader/>
