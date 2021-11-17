@@ -29,7 +29,6 @@ const App = () => {
     const updateNetwork = () => {
         setNetwork(window.navigator.onLine);
     };
-    console.log(userTypeToken, "userTypeToken");
     const dispatch = useDispatch();
     useEffect(() => {
         const fetchOrder = async () => {
