@@ -9,7 +9,7 @@ import wrappedCoins from "./wrappedCoins";
 import search from "./search";
 import filterOrders from "./filterOrders";
 
-export default combineReducers({
+const appReducer =  combineReducers({
     markePlace: markePlace,
     assets: assets,
     orders: orders,
@@ -21,3 +21,9 @@ export default combineReducers({
     filterOrders
 });
 
+export const rootReducer = (state, action) => {
+    if (action.type === 'USER_LOGOUT') {
+        return appReducer(undefined, action);
+    }
+    return appReducer(state, action);
+};

@@ -3,7 +3,7 @@ import helper from "../../utilities/helper";
 import {queryOrders} from "persistencejs/build/transaction/orders/query";
 import {queryAssets} from "persistencejs/build/transaction/assets/query";
 import GetID from "../../utilities/GetID";
-
+import config from "../../config";
 const ordersQuery = new queryOrders(process.env.REACT_APP_ASSET_MANTLE_API);
 export const SET_MARKET_ORDERS = "SET_MARKET_ORDERS";
 const assetsQuery = new queryAssets(process.env.REACT_APP_ASSET_MANTLE_API);
@@ -75,9 +75,11 @@ export const fetchMarketPlace = () => {
                         'mutableProperties': assetData.mutableProperties
                     });
                 }
+                const filteredOrders = ordersListNew.filter(item => item.classificationID === config.orderClassificationID);
+                console.log(filteredOrders, "ordersListNew");
                 dispatch({
                     type: SET_MARKET_ORDERS,
-                    marketOrders: ordersListNew,
+                    marketOrders: filteredOrders,
                     loading: false,
                     data: ''
                 });

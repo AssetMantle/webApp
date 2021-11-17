@@ -134,6 +134,12 @@ const HeaderAfterLogin = () => {
                                             <NavLink className="nav-link" to="/mint">{t("CREATE_NFT")}</NavLink>
                                         </li>
                                         <li className="nav-item">
+                                            <NavLink className="nav-link" to="/orders">{t("ORDERS")}</NavLink>
+                                        </li>
+                                        <li className="nav-item">
+                                            <NavLink className="nav-link" to="/maintainers">{t("MAINTAINERS")}</NavLink>
+                                        </li>
+                                        <li className="nav-item">
                                             <NavLink className="nav-link" to="/assets">{t("ASSETS")}</NavLink>
                                         </li>
                                         <li className="nav-item">

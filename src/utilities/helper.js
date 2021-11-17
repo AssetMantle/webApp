@@ -3,7 +3,7 @@ import {create} from 'ipfs-http-client';
 import base64url from "base64url";
 import sha1 from "crypto-js/sha1";
 import Base64 from "crypto-js/enc-base64";
-
+const encoding = require("@cosmjs/encoding");
 const pinataSDK = require('@pinata/sdk');
 const bigdecimal = require("bigdecimal");
 const bigDecimal = require('js-big-decimal');
@@ -136,6 +136,15 @@ function imageTypeCheck(filePath) {
     return allowedExtensions.exec(filePath);
 }
 
+function isBech32Address(address, prefix) {
+    try {
+        let decodedAddress = encoding.Bech32.decode(address);
+        return decodedAddress.prefix === prefix;
+    } catch (e) {
+        return false;
+    }
+}
+
 export default {
     SortObjectData,
     IpfsPath,
@@ -150,5 +159,6 @@ export default {
     passwordValidation,
     handleChangePassword,
     inputAmountValidation,
-    imageTypeCheck
+    imageTypeCheck,
+    isBech32Address
 };

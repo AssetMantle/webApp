@@ -9,6 +9,7 @@ import Icon from "../../../icons";
 import logo from "../../../assets/images/logo.svg";
 import loaderImage from "../../../assets/images/loader.svg";
 import helper from "../../../utilities/helper";
+import config from "../../../config";
 
 const MintAsset = () => {
     const PropertyHelper = new GetProperty();
@@ -151,7 +152,7 @@ const MintAsset = () => {
             let totalData = {
                 fromID: FromId,
                 toID: toID,
-                classificationId: 'test.j0Uuu1ZA7krYEQ036oQVnzmkQVs=',
+                classificationId: config.assetClassificationID,
                 mutableValues: mutableValues,
                 immutableValues: immutableValues,
                 immutableMetaValues: immutableMetaValues,
