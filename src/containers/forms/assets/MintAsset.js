@@ -389,7 +389,7 @@ const MintAsset = () => {
                             </p>
                         </div>
                         <div className="submitButtonSection">
-                            <Button variant="primary" type="submit">
+                            <Button variant="primary" type="submit" disabled={urlLoader}>
                                 {t('SUBMIT')}
                             </Button>
                         </div>

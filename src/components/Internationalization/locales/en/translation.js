@@ -182,8 +182,8 @@ let en = {
         "CREATE_KEYS":"Create Keys",
         "IMPORT_KEYS":"Import Keys",
         "ADD_USER_NAME":"Add UserName",
-        "CHOOSE_OPTION":"Choose Option"
-
+        "CHOOSE_OPTION":"Choose Option",
+        "ACCOUNT_NOT_EXISTS_ERROR":"Account does not exist on chain. Send some tokens there before trying to query sequence."
 
 
 

@@ -14,6 +14,8 @@ const Wrap = (props) => {
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const [fromID, setFromID] = useState('');
     const [testIdentityId, settestIdentityId] = useState('');
+    const [amount, setAmount] = useState('');
+
     useEffect(() => {
         let fromIDValue = localStorage.getItem('identityId');
         let testIdentityId = localStorage.getItem('identityId');
@@ -37,6 +39,16 @@ const Wrap = (props) => {
         setLoader(false);
 
     };
+
+    const handleAmountChange = (evt) => {
+        let rex = /^\d*\.?\d{0,6}$/;
+        if ((rex.test(evt.target.value))) {
+            setAmount(evt.target.value);
+        }else{
+            return false;
+        }
+    };
+
     const handleClose = () => {
         setShow(false);
         props.setExternalComponent('');
@@ -83,8 +95,10 @@ const Wrap = (props) => {
                             <Form.Label>{t('AMOUNT')}*</Form.Label>
                             <Form.Control
                                 type="number"
-                                className=""
                                 name="CoinAmount"
+                                value={amount}
+                                step="any"
+                                onChange={handleAmountChange}
                                 onKeyPress={helper.inputAmountValidation}
                                 required={true}
                                 placeholder="Amount"

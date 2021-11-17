@@ -4,6 +4,7 @@ import {useTranslation} from "react-i18next";
 import Loader from "../../../components/loader";
 import TransactionOptions from "../login/TransactionOptions";
 import config from "../../../config";
+import helper from "../../../utilities/helper";
 
 const bigdecimal = require("bigdecimal");
 const bigDecimal = require('js-big-decimal');
@@ -11,6 +12,7 @@ const MakeOrder = (props) => {
     const {t} = useTranslation();
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false);
+    const [amount, setAmount] = useState('');
 
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const [externalComponent, setExternalComponent] = useState("");
@@ -21,20 +23,21 @@ const MakeOrder = (props) => {
     };
 
     const handleChangeExchangeRate = (evt) => {
-        let inputValue = new bigdecimal.BigDecimal(((evt.target.value*1)*config.denomValue).toString());
-        let biggestNumber = new bigdecimal.BigDecimal(1000000000000000000);
-        let newValue = inputValue.multiply(biggestNumber);
-        const value = bigDecimal.round(newValue, 18);
-        document.getElementById("exchangeRateSplit").value = value;
-        document.getElementById("exchangeRateSplit").innerHTML = value;
-    };
+        let rex = /^\d*\.?\d{0,6}$/;
+        if (rex.test(evt.target.value)) {
+            let inputValue = new bigdecimal.BigDecimal(((evt.target.value * 1) * config.denomValue).toString());
+            let biggestNumber = new bigdecimal.BigDecimal(1000000000000000000);
+            let newValue = inputValue.multiply(biggestNumber);
+            const value = bigDecimal.round(newValue, 18);
+            document.getElementById("exchangeRateSplit").value = value;
+            document.getElementById("exchangeRateSplit").innerHTML = value;
+            setAmount(evt.target.value);
 
-    const handleKeyChangeExchangeRate = (evt) => {
-        let rex = /^\d*\.?\d{0,2}$/;
-        if (!rex.test(evt.target.value)) {
-            evt.preventDefault();
+        }else {
+            return false;
         }
     };
+
     const handleFormSubmit = (event) => {
         setLoader(false);
         event.preventDefault();
@@ -154,13 +157,16 @@ const MakeOrder = (props) => {
                         </Form.Group>
 
                         <Form.Group>
+
                             <Form.Label>{t("PRICE")}*</Form.Label>
                             <Form.Control
                                 type="number"
-                                className=""
+                                min={0}
+                                value={amount}
+                                step="any"
                                 name="price"
                                 required={true}
-                                onKeyPress={handleKeyChangeExchangeRate}
+                                onKeyPress={helper.inputAmountValidation}
                                 onChange={handleChangeExchangeRate}
                                 placeholder={t("Price")}
                             />

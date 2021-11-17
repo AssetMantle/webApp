@@ -126,7 +126,8 @@ function handleChangePassword(evt){
 }
 
 function inputAmountValidation(e){
-    if (e.key === "e" || e.key === "-" || e.key === "+") {
+    const key = e.key.toLowerCase();
+    if (key === "e" || key === "-" || key === "+") {
         e.preventDefault();
     }
 }

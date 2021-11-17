@@ -1573,6 +1573,9 @@ model-viewer {
   }
 
   .custom-file-upload {
+    .form-file{
+      position: relative;
+    }
     label {
       width: 50%;
       height: 150px;
@@ -1598,7 +1601,11 @@ model-viewer {
     }
 
     input {
-      display: none;
+      z-index: -1;
+      top: 0;
+      position: absolute;
+      width: 100%;
+      height: 100%;
     }
   }
 }

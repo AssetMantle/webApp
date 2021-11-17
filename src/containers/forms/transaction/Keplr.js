@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Icon from "../../../icons";
-import {Modal} from "react-bootstrap";
+import { Modal} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import KeplerWallet from "../../../utilities/Helpers/kelplr";
 import queries from "../../../utilities/Helpers/query";
@@ -10,15 +10,19 @@ import GetID from "../../../utilities/Helpers/getID";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import ModalCommon from "../../../components/modal";
 import config from "../../../config";
+import {useTranslation} from "react-i18next";
+import axios from "axios";
 
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const KeplrTransaction = (props) => {
+    const {t} = useTranslation();
     const history = useHistory();
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [nubID, setNubID] = useState('');
     const [testID, setTestID] = useState('');
+    const [faucetResponse, setFaucetResponse] = useState('');
     const [response, setResponse] = useState({});
     const GetIDHelper = new GetID();
     const GetMetaHelper = new GetMeta();
@@ -44,6 +48,29 @@ const KeplrTransaction = (props) => {
             }
         }
         return identityID;
+    };
+    
+    const handleFaucet = () => {
+        let address = '';
+        if (props.TransactionName === "nubid") {
+            address = localStorage.getItem("keplerAddress");
+        } else {
+            address = localStorage.getItem('userAddress');
+        }
+        setLoader(true);
+        axios.post(process.env.REACT_APP_FAUCET_SERVER + '/faucetRequest', {address: address})
+            .then(response => {
+                setTimeout(() => {
+                    setFaucetResponse(response);
+                    console.log(response, "response");
+                    setLoader(false);
+                }, 5000);
+            },
+            )
+            .catch(err => {
+                console.log(err);
+                setLoader(false);
+            });
     };
 
     useEffect(() => {
@@ -91,14 +118,19 @@ const KeplrTransaction = (props) => {
                 }
             }).catch((error) => {
                 setLoader(false);
-                setErrorMessage(error.message);
+                console.log("account error", error.message);
+                if(error.message === t('ACCOUNT_NOT_EXISTS_ERROR')){
+                    handleFaucet();
+                }else {
+                    setErrorMessage(error.message);
+                }
             });
         }).catch(err => {
             setLoader(false);
             setErrorMessage(err.message);
         });
 
-    }, []);
+    }, [faucetResponse]);
 
     const handleClose = () => {
         setShow(false);
@@ -115,8 +147,7 @@ const KeplrTransaction = (props) => {
                 <Modal.Header closeButton>
                     <div className="back-button" onClick={backHandler}>
                         <Icon viewClass="arrow-icon" icon="arrow"/>
-                    </div>
-                    <p className="title">{props.network}</p>
+                    </div>Keplr
                 </Modal.Header>
                 {loader ?
                     <Loader/>
@@ -124,7 +155,9 @@ const KeplrTransaction = (props) => {
                 }
                 <Modal.Body>
                     {errorMessage !== "" ?
-                        <p className="error-response">{errorMessage}</p>
+                        errorMessage !== t('ACCOUNT_NOT_EXISTS_ERROR') ?
+                            <p className="error-response">{errorMessage}</p>
+                            : ""
                         : ""
                     }
 

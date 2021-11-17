@@ -6,11 +6,13 @@ import TransactionOptions from "../login/TransactionOptions";
 import config from "../../../config";
 import helper from "../../../utilities/helper";
 
+
 const UnWrap = (props) => {
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false);
     const {t} = useTranslation();
     const [fromID, setFromID] = useState('');
+    const [amount, setAmount] = useState('');
     const [testIdentityId, settestIdentityId] = useState('');
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const [externalComponent, setExternalComponent] = useState('');
@@ -21,6 +23,15 @@ const UnWrap = (props) => {
         settestIdentityId(testIdentityId);
         setFromID(fromIDValue);
     }, []);
+
+    const handleAmountChange = (evt) => {
+        let rex = /^\d*\.?\d{0,6}$/;
+        if ((rex.test(evt.target.value))) {
+            setAmount(evt.target.value);
+        }else{
+            return false;
+        }
+    };
 
     const handleSubmit = (event) => {
         setLoader(true);
@@ -84,6 +95,9 @@ const UnWrap = (props) => {
                             <Form.Control
                                 type="number"
                                 className=""
+                                value={amount}
+                                step="any"
+                                onChange={handleAmountChange}
                                 onKeyPress={helper.inputAmountValidation}
                                 name="amount"
                                 required={true}

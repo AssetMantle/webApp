@@ -38,7 +38,6 @@ const SignUp = (props) => {
                         queryResponse.then(async function () {
                             props.setResponse(item);
                             props.setLoader(false);
-                            console.log("item wrap response");
                             props.setShowEncrypt(false);
                         }).catch(err => {
                             console.log(err, "err wrap");
