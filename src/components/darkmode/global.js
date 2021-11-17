@@ -11,7 +11,7 @@ export const GlobalStyles = createGlobalStyle`
     height: 100%;
   }
 
-  body {
+  body, .custom-file-upload-box .custom-file-upload label {
     background: ${({theme}) => theme.backgroundColor};
     font-family: ${({theme}) => theme.fontFamily}
   }
@@ -116,7 +116,7 @@ export const GlobalStyles = createGlobalStyle`
   .btn-primary:not(:disabled):not(.disabled):active,
   .show > .btn-primary.dropdown-toggle,
   .btn-primary, .btn-primary:hover,
-  .signup-section .button-signup:hover {
+  .signup-section .button-signup:hover, .btn-primary.disabled, .btn-primary:disabled {
    
     background-color: ${({theme}) => theme.primaryButtonBackground};
     color: ${({theme}) => theme.primaryButtonColor};
@@ -164,7 +164,8 @@ export const GlobalStyles = createGlobalStyle`
   .btn-primary:not(:disabled):not(.disabled).active,
   .btn-primary:not(:disabled):not(.disabled):active,
   .show > .btn-primary.dropdown-toggle,
-  .btn-primary, .btn-primary:hover {
+  .btn-primary, .btn-primary:hover, 
+   .btn-primary.disabled, .btn-primary:disabled{
     border-color: ${({theme}) => theme.primaryButtonBorderColor};
   }
   .button-double-border{

@@ -4,6 +4,7 @@ import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
 import TransactionOptions from "../login/TransactionOptions";
 import config from "../../../config";
+import helper from "../../../utilities/helper";
 
 const Wrap = (props) => {
     const {t} = useTranslation();
@@ -13,6 +14,8 @@ const Wrap = (props) => {
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const [fromID, setFromID] = useState('');
     const [testIdentityId, settestIdentityId] = useState('');
+    const [amount, setAmount] = useState('');
+
     useEffect(() => {
         let fromIDValue = localStorage.getItem('identityId');
         let testIdentityId = localStorage.getItem('identityId');
@@ -37,10 +40,12 @@ const Wrap = (props) => {
 
     };
 
-    const handleKeyChange = (evt) => {
+    const handleAmountChange = (evt) => {
         let rex = /^\d*\.?\d{0,6}$/;
-        if (evt.key === "e" || evt.key === "-" || evt.key === "+" || (!rex.test(evt.target.value))) {
-            evt.preventDefault();
+        if ((rex.test(evt.target.value))) {
+            setAmount(evt.target.value);
+        }else{
+            return false;
         }
     };
 
@@ -90,10 +95,11 @@ const Wrap = (props) => {
                             <Form.Label>{t('AMOUNT')}*</Form.Label>
                             <Form.Control
                                 type="number"
-                                className=""
-                                step="any"
                                 name="CoinAmount"
-                                onKeyPress={handleKeyChange}
+                                value={amount}
+                                step="any"
+                                onChange={handleAmountChange}
+                                onKeyPress={helper.inputAmountValidation}
                                 required={true}
                                 placeholder="Amount"
                             />

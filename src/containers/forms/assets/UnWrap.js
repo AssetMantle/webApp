@@ -4,6 +4,7 @@ import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
 import TransactionOptions from "../login/TransactionOptions";
 import config from "../../../config";
+import helper from "../../../utilities/helper";
 
 
 const UnWrap = (props) => {
@@ -11,6 +12,7 @@ const UnWrap = (props) => {
     const [loader, setLoader] = useState(false);
     const {t} = useTranslation();
     const [fromID, setFromID] = useState('');
+    const [amount, setAmount] = useState('');
     const [testIdentityId, settestIdentityId] = useState('');
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const [externalComponent, setExternalComponent] = useState('');
@@ -22,10 +24,12 @@ const UnWrap = (props) => {
         setFromID(fromIDValue);
     }, []);
 
-    const handleKeyChange = (evt) => {
+    const handleAmountChange = (evt) => {
         let rex = /^\d*\.?\d{0,6}$/;
-        if (evt.key === "e" || evt.key === "-" || evt.key === "+" || (!rex.test(evt.target.value))) {
-            evt.preventDefault();
+        if ((rex.test(evt.target.value))) {
+            setAmount(evt.target.value);
+        }else{
+            return false;
         }
     };
 
@@ -91,8 +95,10 @@ const UnWrap = (props) => {
                             <Form.Control
                                 type="number"
                                 className=""
+                                value={amount}
                                 step="any"
-                                onKeyPress={handleKeyChange}
+                                onChange={handleAmountChange}
+                                onKeyPress={helper.inputAmountValidation}
                                 name="amount"
                                 required={true}
                                 placeholder="Amount"
