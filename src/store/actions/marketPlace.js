@@ -76,7 +76,6 @@ export const fetchMarketPlace = () => {
                     });
                 }
                 const filteredOrders = ordersListNew.filter(item => item.classificationID === config.orderClassificationID);
-                console.log(filteredOrders, "ordersListNew");
                 dispatch({
                     type: SET_MARKET_ORDERS,
                     marketOrders: filteredOrders,
