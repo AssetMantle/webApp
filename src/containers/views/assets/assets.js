@@ -7,12 +7,9 @@ import {Tab, Tabs} from "react-bootstrap";
 const assetDefine = new defineAsset(process.env.REACT_APP_ASSET_MANTLE_API);
 const Assets = () => {
     const [externalComponent, setExternalComponent] = useState("");
-    const handleModalData = (formName) => {
-        setExternalComponent(formName);
-    };
+
     return (
         <div className="accountInfo container">
-            <p onClick={() => handleModalData("DefineAsset")}>DEFINE_ASSET</p>
             <Tabs defaultActiveKey="Collections"
                 id="uncontrolled-tab-example"
                 className="assets-tab">
