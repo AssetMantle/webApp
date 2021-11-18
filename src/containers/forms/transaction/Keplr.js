@@ -5,15 +5,13 @@ import {useHistory} from "react-router-dom";
 import KeplerWallet from "../../../utilities/Helpers/kelplr";
 import queries from "../../../utilities/Helpers/query";
 import Loader from "../../../components/loader";
-import {queryIdentities} from "persistencejs/build/transaction/identity/query";
-import GetID from "../../../utilities/Helpers/getID";
+import GetID from "../../../utilities/GetID";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import ModalCommon from "../../../components/modal";
 import config from "../../../config";
 import {useTranslation} from "react-i18next";
 import axios from "axios";
 
-const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const KeplrTransaction = (props) => {
     const {t} = useTranslation();
     const history = useHistory();
@@ -24,30 +22,11 @@ const KeplrTransaction = (props) => {
     const [testID, setTestID] = useState('');
     const [faucetResponse, setFaucetResponse] = useState('');
     const [response, setResponse] = useState({});
-    const GetIDHelper = new GetID();
     const GetMetaHelper = new GetMeta();
     const backHandler = () => {
         setShow(false);
         props.setShow(true);
         props.setExternalComponent('');
-    };
-    const getIdentityId = async (userIdHash) => {
-        let identityID = '';
-        const identities = await identitiesQuery.queryIdentityWithID('all');
-        if (identities) {
-            const data = JSON.parse(identities);
-            const dataList = data.result.value.identities.value.list;
-            for (let identity in dataList) {
-                if (dataList[identity].value.immutables.value.properties.value.propertyList !== null) {
-                    const immutablePropertyList = dataList[identity].value.immutables.value.properties.value.propertyList[0];
-                    if (immutablePropertyList.value.fact.value.hash === userIdHash) {
-                        identityID = GetIDHelper.GetIdentityID(dataList[identity]);
-                        setTestID(GetIDHelper.GetIdentityID(dataList[identity]));
-                    }
-                }
-            }
-        }
-        return identityID;
     };
     
     const handleFaucet = () => {
@@ -99,7 +78,8 @@ const KeplrTransaction = (props) => {
                     if (props.TransactionName === "nubid") {
                         setNubID(props.totalDefineObject.nubId);
                         const hashGenerate = GetMetaHelper.Hash(props.totalDefineObject.nubId);
-                        const identityID = await getIdentityId(hashGenerate);
+                        const identityID = await GetID.getHashIdentityID(hashGenerate);
+                        setTestID(identityID);
                         let totalData = {
                             fromID: identityID,
                             CoinAmountDenom: '5000000' + config.coinDenom,

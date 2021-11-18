@@ -2,7 +2,6 @@ import {Login} from "./containers";
 import AddressLogin from "./containers/AddressLogin";
 import CreateIdentity from "./containers/forms/signup/CreateIdentity";
 import {
-    AllIdentityList,
     Assets,
     AssetView,
     Identities,
@@ -49,11 +48,7 @@ const routes = [{
     path: '/profile',
     component: Identities,
     private: true,
-}, {
-    path: '/identities/all',
-    component: AllIdentityList,
-    private: false,
-}, {
+},{
     path: '/maintainers',
     component: Maintainers,
     private: true,

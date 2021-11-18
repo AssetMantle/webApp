@@ -6,13 +6,11 @@ import transactions from "../../../utilities/Helpers/transactions";
 import Loader from "../../../components/loader";
 import Icon from "../../../icons";
 import queries from "../../../utilities/Helpers/query";
-import GetID from "../../../utilities/Helpers/getID";
+import GetID from "../../../utilities/GetID";
 import GetMeta from "../../../utilities/Helpers/getMeta";
-import {queryIdentities} from "persistencejs/build/transaction/identity/query";
 import ModalCommon from "../../../components/modal";
 import config from "../../../config";
 
-const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const PrivateKeyTransaction = (props) => {
     const {t} = useTranslation();
     const history = useHistory();
@@ -23,26 +21,8 @@ const PrivateKeyTransaction = (props) => {
     const [testID, setTestID] = useState('');
     const [nubID, setNubID] = useState('');
     const [response, setResponse] = useState({});
-    const GetIDHelper = new GetID();
+    // const GetIDHelper = new GetID();
     const GetMetaHelper = new GetMeta();
-    const getIdentityId = async (userIdHash) => {
-        let identityID = '';
-        const identities = await identitiesQuery.queryIdentityWithID('all');
-        if (identities) {
-            const data = JSON.parse(identities);
-            const dataList = data.result.value.identities.value.list;
-            for (let identity in dataList) {
-                if (dataList[identity].value.immutables.value.properties.value.propertyList !== null) {
-                    const immutablePropertyList = dataList[identity].value.immutables.value.properties.value.propertyList[0];
-                    if (immutablePropertyList.value.fact.value.hash === userIdHash) {
-                        identityID = GetIDHelper.GetIdentityID(dataList[identity]);
-                        setTestID(GetIDHelper.GetIdentityID(dataList[identity]));
-                    }
-                }
-            }
-        }
-        return identityID;
-    };
 
     useEffect(() => {
         const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
@@ -53,6 +33,7 @@ const PrivateKeyTransaction = (props) => {
         }
     }, []);
     const handleSubmit = async e => {
+        console.log("submit", "submit");
         e.preventDefault();
         setLoader(true);
         setErrorMessage("");
@@ -101,7 +82,8 @@ const PrivateKeyTransaction = (props) => {
                         if (props.TransactionName === "nubid") {
                             setNubID(props.totalDefineObject.nubId);
                             const hashGenerate = GetMetaHelper.Hash(props.totalDefineObject.nubId);
-                            const identityID = await getIdentityId(hashGenerate);
+                            const identityID = await GetID.getHashIdentityID(hashGenerate);
+                            setTestID(identityID);
                             let totalData = {
                                 fromID: identityID,
                                 CoinAmountDenom: '5000000' + config.coinDenom,
