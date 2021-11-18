@@ -1,4 +1,5 @@
 import {querySplits} from "persistencejs/build/transaction/splits/query";
+import GetID from "../../utilities/GetID";
 
 const splitsQuery = new querySplits(process.env.REACT_APP_ASSET_MANTLE_API);
 export const SET_WRAPPED_COINS = "SET_WRAPPED_COINS";
@@ -6,7 +7,7 @@ export const SET_WRAPPED_COINS = "SET_WRAPPED_COINS";
 export const fetchWrappedCoins = (identityID) => {
     return async (dispatch) => {
         try {
-            const splits = await splitsQuery.querySplitsWithID('all');
+            const splits = await splitsQuery.querySplitsWithID(GetID.GetIdentityClassificationID(identityID));
             const data = JSON.parse(splits);
             const dataList = data.result.value.splits.value.list;
             if (dataList) {

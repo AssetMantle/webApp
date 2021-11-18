@@ -81,6 +81,13 @@ async function getHashIdentityID(userIdHash){
     return identityID;
 }
 
+/**
+ * @return {string}
+ */
+function GetIdentityClassificationID(id) {
+    return id.substr(0, id.indexOf('|')+1);
+}
+
 export default {
     GetClassificationID,
     GetIdentityID,
@@ -93,5 +100,6 @@ export default {
     GetIdentityIDs,
     GetIdentityOwnableId,
     GetIdentityOwnableIds,
-    getHashIdentityID
+    getHashIdentityID,
+    GetIdentityClassificationID
 };

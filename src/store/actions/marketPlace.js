@@ -38,17 +38,13 @@ export async function fetchAssetDetails(makerID) {
 export const fetchMarketPlace = () => {
     return async (dispatch) => {
         try {
-            const orders = await ordersQuery.queryOrderWithID("all");
+            const orders = await ordersQuery.queryOrderWithID(config.orderClassificationID+'****');
             const ordersData = JSON.parse(orders);
             const ordersDataList = ordersData.result.value.orders.value.list;
             if (ordersDataList) {
                 let ordersListNew = [];
                 for (const order of ordersDataList) {
-                    // let immutableProperties = "";
                     let mutableProperties = "";
-                    // if (order.value.immutables.value.properties.value.propertyList !== null) {
-                    //     immutableProperties = await GetProperties.ParseProperties(order.value.immutables.value.properties.value.propertyList);
-                    // }
                     if (order.value.mutables.value.properties.value.propertyList !== null) {
                         mutableProperties = await GetProperties.ParseProperties(order.value.mutables.value.properties.value.propertyList);
                     }
@@ -75,6 +71,7 @@ export const fetchMarketPlace = () => {
                         'mutableProperties': assetData.mutableProperties
                     });
                 }
+
                 const filteredOrders = ordersListNew.filter(item => item.classificationID === config.orderClassificationID);
                 dispatch({
                     type: SET_MARKET_ORDERS,

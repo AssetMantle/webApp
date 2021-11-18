@@ -16,8 +16,6 @@ export const fetchMaintainers = (identityID) => {
                 const parsedMaintainersData = JSON.parse(maintainersData);
                 const maintainersDataList = parsedMaintainersData.result.value.maintainers.value.list;
                 if (maintainersDataList) {
-
-
                     const filterMaintainersByIdentity = FilterData.FilterMaintainersByIdentity(identityID, maintainersDataList);
                     if (filterMaintainersByIdentity.length) {
                         const maintainersListNew = [];
