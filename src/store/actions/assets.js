@@ -12,7 +12,7 @@ export const SET_ASSETS = "SET_ASSETS";
 export const fetchAssets = (identityID) => {
     return async (dispatch) => {
         try {
-            const splits = await splitsQuery.querySplitsWithID("all");
+            const splits = await splitsQuery.querySplitsWithID(GetID.GetIdentityClassificationID(identityID));
             const splitData = JSON.parse(splits);
             const splitList = splitData.result.value.splits.value.list;
             if (splitList) {

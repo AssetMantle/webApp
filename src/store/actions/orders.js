@@ -4,6 +4,7 @@ import GetID from "../../utilities/GetID";
 import FilterData from "../../utilities/FilterData";
 import {fetchAssetDetails} from "./marketPlace";
 import helper from "../../utilities/helper";
+import config from "../../config";
 
 const ordersQuery = new queryOrders(process.env.REACT_APP_ASSET_MANTLE_API);
 export const SET_USER_ORDERS = "SET_USER_ORDERS";
@@ -11,7 +12,7 @@ export const SET_USER_ORDERS = "SET_USER_ORDERS";
 export const fetchOrders = (identityId) => {
     return async (dispatch) => {
         try {
-            const orders = await ordersQuery.queryOrderWithID("all");
+            const orders = await ordersQuery.queryOrderWithID(config.orderClassificationID+'****');
             const ordersData = JSON.parse(orders);
             const ordersDataList = ordersData.result.value.orders.value.list;
             if (ordersDataList) {
