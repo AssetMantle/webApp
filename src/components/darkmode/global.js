@@ -262,10 +262,6 @@ export const GlobalStyles = createGlobalStyle`
     color:${({theme}) => theme.tabItemActiveColor};
      background: ${({theme}) => theme.tabItemActiveBackground};
   }
-  .form-control:disabled, .form-control[readonly]{
-    color:${({theme}) => theme.disabledInputColor} !important;
-     background: ${({theme}) => theme.disabledInputBg} !important;
-  }
   .view-container .image-section{
    background: ${({theme}) => theme.imageSectionBg};
   }
