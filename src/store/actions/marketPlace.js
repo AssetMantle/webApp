@@ -4,11 +4,9 @@ import {queryOrders} from "persistencejs/build/transaction/orders/query";
 import {queryAssets} from "persistencejs/build/transaction/assets/query";
 import GetID from "../../utilities/GetID";
 import config from "../../config";
-import {queryMeta} from "persistencejs/build/transaction/meta/query";
 const ordersQuery = new queryOrders(process.env.REACT_APP_ASSET_MANTLE_API);
 export const SET_MARKET_ORDERS = "SET_MARKET_ORDERS";
 const assetsQuery = new queryAssets(process.env.REACT_APP_ASSET_MANTLE_API);
-const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 export async function fetchAssetDetails(makerID) {
     const filterAssetList = await assetsQuery.queryAssetWithID(makerID);
     const parsedAsset = JSON.parse(filterAssetList);
@@ -40,15 +38,6 @@ export const fetchMarketPlace = () => {
 
     return async (dispatch) => {
         try {
-            const metaQueryResult = await metasQuery.queryMetaWithID('-');
-
-            const parsedMeta = JSON.parse(metaQueryResult);
-            const list = parsedMeta.result.value.metas.value.list;
-            list.forEach(function (meta) {
-                console.log(meta.value.data.value.value, "meta");
-            });
-
-            console.log(parsedMeta, list,  "metaQueryResult");
             const orders = await ordersQuery.queryOrderWithID(config.orderClassificationID+'****');
             const ordersData = JSON.parse(orders);
             const ordersDataList = ordersData.result.value.orders.value.list;
