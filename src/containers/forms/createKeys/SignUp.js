@@ -5,7 +5,6 @@ import transactions from "../../../utilities/Helpers/transactions";
 import queries from "../../../utilities/Helpers/query";
 import config from "../../../config";
 import GetMeta from "../../../utilities/Helpers/getMeta";
-import GetID from "../../../utilities/GetID";
 
 const SignUp = (props) => {
     const {t} = useTranslation();
@@ -19,7 +18,6 @@ const SignUp = (props) => {
             const wallet = await transactions.MnemonicWalletWithPassphrase(userMnemonic, '');
             let queryResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", props.TransactionName, props.totalDefineObject);
 
-
             queryResponse.then(async function (item) {
                 if (item.code) {
                     props.setSignUpError(item.rawLog);
@@ -27,8 +25,7 @@ const SignUp = (props) => {
                 } else {
                     if (props.TransactionName === "nubid") {
                         props.setNubID(props.totalDefineObject.nubId);
-                        const hashGenerate = GetMetaHelper.Hash(props.totalDefineObject.nubId);
-                        const identityID = await GetID.getHashIdentityID(hashGenerate);
+                        const identityID = config.nubClassificationID+'|'+ GetMetaHelper.Hash(GetMetaHelper.Hash(props.totalDefineObject.nubId));
                         let totalData = {
                             fromID: identityID,
                             CoinAmountDenom: '5000000' + config.coinDenom,

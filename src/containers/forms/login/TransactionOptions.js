@@ -15,7 +15,6 @@ const TransactionOptions = (props) => {
     const [show, setShow] = useState(true);
     const [externalComponent, setExternalComponent] = useState("");
     const [loginMode, setLoginMode] = useState("");
-
     useEffect(()=>{
         setLoginMode(localStorage.getItem('loginMode'));
     },[]);

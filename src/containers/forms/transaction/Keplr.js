@@ -5,7 +5,6 @@ import {useHistory} from "react-router-dom";
 import KeplerWallet from "../../../utilities/Helpers/kelplr";
 import queries from "../../../utilities/Helpers/query";
 import Loader from "../../../components/loader";
-import GetID from "../../../utilities/GetID";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import ModalCommon from "../../../components/modal";
 import config from "../../../config";
@@ -41,7 +40,6 @@ const KeplrTransaction = (props) => {
             .then(response => {
                 setTimeout(() => {
                     setFaucetResponse(response);
-                    console.log(response, "response");
                     setLoader(false);
                 }, 5000);
             },
@@ -77,8 +75,7 @@ const KeplrTransaction = (props) => {
                 } else {
                     if (props.TransactionName === "nubid") {
                         setNubID(props.totalDefineObject.nubId);
-                        const hashGenerate = GetMetaHelper.Hash(props.totalDefineObject.nubId);
-                        const identityID = await GetID.getHashIdentityID(hashGenerate);
+                        const identityID = config.nubClassificationID+'|'+ GetMetaHelper.Hash(GetMetaHelper.Hash(props.totalDefineObject.nubId));
                         setTestID(identityID);
                         let totalData = {
                             fromID: identityID,
@@ -87,7 +84,7 @@ const KeplrTransaction = (props) => {
 
                         let queryResponse = queries.transactionDefinition(address, "", "keplr", 'wrap', totalData);
                         queryResponse.then(async function (item) {
-                            console.log(item, "item wrap response");
+                            console.log(item);
                         }).catch(err => {
                             console.log(err, "err");
                         });

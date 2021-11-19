@@ -6,8 +6,8 @@ import {useHistory} from "react-router-dom";
 import TransactionOptions from "../login/TransactionOptions";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import {queryIdentities} from "persistencejs/build/transaction/identity/query";
-// import TransactionBar from "../../../components/TransactionBar";
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
+import config from "../../../config";
 
 const CreateIdentity = () => {
     const [totalDefineObject, setTotalDefineObject] = useState({});
@@ -27,15 +27,17 @@ const CreateIdentity = () => {
         setErrorMessage(false);
         const IdentityName = event.target.userName.value;
         setUserName(IdentityName);
-        const identities = identitiesQuery.queryIdentityWithID("all");
+        const hashGenerate = GetMetaHelper.Hash(GetMetaHelper.Hash(IdentityName));
+        const identityID = config.nubClassificationID+'|'+hashGenerate;
+        const identities =  identitiesQuery.queryIdentityWithID(identityID);
+
         if (identities) {
             identities.then(async function (item) {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
-                const hashGenerate = GetMetaHelper.Hash(IdentityName);
-                let count = 0;
                 if (dataList) {
-                    for (var i = 0; i < dataList.length; i++) {
+                    let count = 0;
+                    for (let i = 0; i < dataList.length; i++) {
                         if (dataList[i].value.immutables.value.properties.value.propertyList !== null) {
                             const immutablePropertyList = dataList[i].value.immutables.value.properties.value.propertyList[0];
                             if (immutablePropertyList.value.fact.value.hash === hashGenerate) {
@@ -54,20 +56,23 @@ const CreateIdentity = () => {
                         let totalData = {
                             nubId: IdentityName,
                         };
+                        setLoader(false);
                         setShow(false);
                         setTotalDefineObject(totalData);
                         setExternalComponent('Keystore');
                     }
+
                 } else {
                     let totalData = {
                         nubId: IdentityName,
                     };
+                    setLoader(false);
                     setShow(false);
                     setTotalDefineObject(totalData);
                     setExternalComponent('Keystore');
                 }
             }).catch(err => {
-                console.log(err, "in login");
+                console.log(err);
                 setLoader(false);
             });
         }

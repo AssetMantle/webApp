@@ -24,6 +24,7 @@
   "IPFS_URL": "https://ipfs.infura.io:5001/api/v0",
   "orderClassificationID": "test-mantle-1.O-qPtlWEqmo9WQmZgwfguoj0F0A=",
   "assetClassificationID": "test-mantle-1.j0Uuu1ZA7krYEQ036oQVnzmkQVs=",
+  "nubClassificationID": "test-mantle-1.cGn3HMW8M3t5gMDv-wXa9sseHnA=",
   "channels": [
     {
       "name": "cosmos",

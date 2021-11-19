@@ -13,6 +13,7 @@ const MakeOrder = (props) => {
     const [show, setShow] = useState(true);
     const [loader, setLoader] = useState(false);
     const [amount, setAmount] = useState('');
+    const [exchangeRate, setExchangeRate] = useState('');
 
     const [totalDefineObject, setTotalDefineObject] = useState({});
     const [externalComponent, setExternalComponent] = useState("");
@@ -29,10 +30,8 @@ const MakeOrder = (props) => {
             let biggestNumber = new bigdecimal.BigDecimal(1000000000000000000);
             let newValue = inputValue.multiply(biggestNumber);
             const value = bigDecimal.round(newValue, 18);
-            document.getElementById("exchangeRateSplit").value = value;
-            document.getElementById("exchangeRateSplit").innerHTML = value;
+            setExchangeRate(value);
             setAmount(evt.target.value);
-
         }else {
             return false;
         }
@@ -46,7 +45,7 @@ const MakeOrder = (props) => {
         const TakerOwnableId = event.target.TakerOwnableId.value;
         const Makersplit = event.target.Makersplit.value;
         const ExpiresIn = event.target.expiresInD.value;
-        let price = document.getElementById('exchangeRateSplit').value;
+        let price = exchangeRate;
         let mutableValues = "";
         let immutableValues = "";
         let mutableMetaValues = "";
