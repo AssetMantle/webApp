@@ -211,7 +211,6 @@ const transactionDefinition = async (address, userMnemonic, type, TransactionNam
     } else if (TransactionName === 'unwrap') {
         queryResponse = unWrapQuery(address, userMnemonic, totalDefineObject, UnWrapQuery, type);
     } else if (TransactionName === 'nubid') {
-        console.log(address, userMnemonic, totalDefineObject, identitiesNub, type, 'nubIdQuery');
         queryResponse = nubIdQuery(address, userMnemonic, totalDefineObject, identitiesNub, type, 'nub');
     } else if (TransactionName === 'issueidentity') {
         queryResponse = issueIdentityQuery(address, userMnemonic, totalDefineObject, identitiesIssue, type);
