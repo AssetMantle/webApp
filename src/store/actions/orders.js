@@ -19,9 +19,8 @@ export const fetchOrders = (identityId) => {
                 const filterOrdersByIdentities = FilterData.FilterOrdersByIdentity(identityId, ordersDataList);
                 if (filterOrdersByIdentities.length) {
                     let ordersListNew = [];
-                    for (const order of filterOrdersByIdentities) {
+                    await Promise.all(filterOrdersByIdentities.map(async (order)=>{
                         let mutableProperties = "";
-
                         if (order.value.mutables.value.properties.value.propertyList !== null) {
                             mutableProperties = await GetProperties.ParseProperties(order.value.mutables.value.properties.value.propertyList);
                         }
@@ -45,7 +44,7 @@ export const fetchOrders = (identityId) => {
                             'mutableProperties': assetData.mutableProperties,
                             'exChangeRate': helper.getExchangeRate(exChangeRate),
                         });
-                    }
+                    }));
 
                     dispatch({
                         type: SET_USER_ORDERS,

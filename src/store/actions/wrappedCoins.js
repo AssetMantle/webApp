@@ -11,12 +11,12 @@ export const fetchWrappedCoins = (identityID) => {
             const dataList = data.result.value.splits.value.list;
             if (dataList) {
                 let wrappedCoins = 0;
-                for (const split of dataList) {
+                await Promise.all(dataList.map(async (split)=>{
                     let ownerId = split.value.id.value.ownerID.value.idString;
                     if (identityID === ownerId) {
                         wrappedCoins = split.value.split;
                     }
-                }
+                }));
                 dispatch({
                     type: SET_WRAPPED_COINS,
                     wrappedCoins: wrappedCoins,

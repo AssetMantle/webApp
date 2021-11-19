@@ -4,10 +4,11 @@ import {queryOrders} from "persistencejs/build/transaction/orders/query";
 import {queryAssets} from "persistencejs/build/transaction/assets/query";
 import GetID from "../../utilities/GetID";
 import config from "../../config";
+import {queryMeta} from "persistencejs/build/transaction/meta/query";
 const ordersQuery = new queryOrders(process.env.REACT_APP_ASSET_MANTLE_API);
 export const SET_MARKET_ORDERS = "SET_MARKET_ORDERS";
 const assetsQuery = new queryAssets(process.env.REACT_APP_ASSET_MANTLE_API);
-
+const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 export async function fetchAssetDetails(makerID) {
     const filterAssetList = await assetsQuery.queryAssetWithID(makerID);
     const parsedAsset = JSON.parse(filterAssetList);
@@ -36,14 +37,24 @@ export async function fetchAssetDetails(makerID) {
 }
 
 export const fetchMarketPlace = () => {
+
     return async (dispatch) => {
         try {
+            const metaQueryResult = await metasQuery.queryMetaWithID('-');
+
+            const parsedMeta = JSON.parse(metaQueryResult);
+            const list = parsedMeta.result.value.metas.value.list;
+            list.forEach(function (meta) {
+                console.log(meta.value.data.value.value, "meta");
+            });
+
+            console.log(parsedMeta, list,  "metaQueryResult");
             const orders = await ordersQuery.queryOrderWithID(config.orderClassificationID+'****');
             const ordersData = JSON.parse(orders);
             const ordersDataList = ordersData.result.value.orders.value.list;
             if (ordersDataList) {
                 let ordersListNew = [];
-                for (const order of ordersDataList) {
+                await Promise.all(ordersDataList.map(async (order)=>{
                     let mutableProperties = "";
                     if (order.value.mutables.value.properties.value.propertyList !== null) {
                         mutableProperties = await GetProperties.ParseProperties(order.value.mutables.value.properties.value.propertyList);
@@ -56,8 +67,6 @@ export const fetchMarketPlace = () => {
                     const assetData = await fetchAssetDetails(makerOwnableID);
                     let takerOwnableID = await GetID.GetTakerOwnableID(order);
                     let makerID = await GetID.GetMakerID(order);
-                    // const totalData = {...immutableProperties[0], ...mutableProperties[0]};
-                    // const objSorted = helper.SortObjectData(totalData);
                     ordersListNew.push({
                         'totalData': assetData.totalData,
                         'orderID': orderIdData,
@@ -70,7 +79,7 @@ export const fetchMarketPlace = () => {
                         'immutableProperties': assetData.immutableProperties,
                         'mutableProperties': assetData.mutableProperties
                     });
-                }
+                }));
 
                 const filteredOrders = ordersListNew.filter(item => item.classificationID === config.orderClassificationID);
                 dispatch({

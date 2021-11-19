@@ -13,7 +13,7 @@ export const fetchIdentities = (identityId) => {
             const dataList = data.result.value.identities.value.list;
             if (dataList) {
                 let identitiesList = [];
-                for (const identity of dataList) {
+                await Promise.all(dataList.map(async (identity)=>{
                     let immutableProperties = [];
                     let mutableProperties = [];
                     if (identity.value.immutables.value.properties.value.propertyList !== null) {
@@ -32,7 +32,7 @@ export const fetchIdentities = (identityId) => {
                         'provisionedAddressList': identity.value.provisionedAddressList,
                         'unprovisionedAddressList': identity.value.unprovisionedAddressList,
                     });
-                }
+                }));
                 dispatch({
                     type: SET_IDENTITIES,
                     identities: identitiesList,
