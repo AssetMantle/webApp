@@ -16,7 +16,7 @@ export const fetchAssets = (identityID) => {
             const splitList = splitData.result.value.splits.value.list;
             if (splitList) {
                 const assetsListNew = [];
-                for (const split of splitList) {
+                await Promise.all(splitList.map(async (split)=>{
                     let ownerId = split.value.id.value.ownerID.value.idString;
                     const ownableID = GetID.GetIdentityOwnableId(split);
                     const filterAssetList = await assetsQuery.queryAssetWithID(ownableID);
@@ -44,7 +44,7 @@ export const fetchAssets = (identityID) => {
                             });
                         }
                     }
-                }
+                }));
 
                 dispatch({
                     type: SET_ASSETS,
