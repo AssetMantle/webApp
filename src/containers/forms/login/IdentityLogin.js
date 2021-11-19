@@ -8,6 +8,7 @@ import Icon from "../../../icons";
 import Loader from '../../../components/loader';
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import TransactionOptions from "./TransactionOptions";
+import config from "../../../config";
 
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 
@@ -30,47 +31,56 @@ const IdentityLogin = (props) => {
         setErrorMessage(false);
         setIdErrorMessage('');
         const IdentityName = event.target.userName.value;
-        const identities = identitiesQuery.queryIdentityWithID("all");
+
+        const hashGenerate = GetMetaHelper.Hash(GetMetaHelper.Hash(IdentityName));
+        const identityID = config.nubClassificationID+'|'+hashGenerate;
+
+        const identities =  identitiesQuery.queryIdentityWithID(identityID);
         if (identities) {
             identities.then(async function (item) {
                 const data = JSON.parse(item);
                 const dataList = data.result.value.identities.value.list;
                 const hashGenerate = GetMetaHelper.Hash(IdentityName);
-                let count = 0;
-                for (var i = 0; i < dataList.length; i++) {
+                if(dataList !== null) {
+                    let count = 0;
+                    for (let i = 0; i < dataList.length; i++) {
+                        if (dataList[i].value.immutables.value.properties.value.propertyList !== null) {
+                            const immutablePropertyList = dataList[i].value.immutables.value.properties.value.propertyList[0];
 
-                    if (dataList[i].value.immutables.value.properties.value.propertyList !== null) {
-                        const immutablePropertyList = dataList[i].value.immutables.value.properties.value.propertyList[0];
+                            if (immutablePropertyList.value.fact.value.hash === hashGenerate) {
+                                const identityId = GetIDHelper.GetIdentityID(dataList[i]);
 
-                        if (immutablePropertyList.value.fact.value.hash === hashGenerate) {
-                            const identityId = GetIDHelper.GetIdentityID(dataList[i]);
+                                if (dataList[i].value.provisionedAddressList) {
 
-                            if (dataList[i].value.provisionedAddressList) {
-
-                                let addresses = dataList[i].value.provisionedAddressList;
-                                const userData = {
-                                    'userName': IdentityName,
-                                    'identityId': identityId
-                                };
-                                setUserData(userData);
-                                localStorage.setItem('addresses', JSON.stringify(addresses));
-                                setShow(false);
-                                setExternalComponent("loginOptions");
+                                    let addresses = dataList[i].value.provisionedAddressList;
+                                    const userData = {
+                                        'userName': IdentityName,
+                                        'identityId': identityId
+                                    };
+                                    setUserData(userData);
+                                    localStorage.setItem('addresses', JSON.stringify(addresses));
+                                    setShow(false);
+                                    setExternalComponent("loginOptions");
+                                }
+                                setLoader(false);
+                                count = 0;
+                                break;
+                            } else {
+                                count++;
                             }
-                            setLoader(false);
-                            count = 0;
-                            break;
-                        } else {
-                            count++;
                         }
                     }
-                }
-                if (count !== 0) {
+                    if (count !== 0) {
+                        setLoader(false);
+                        setErrorMessage(true);
+                    }
+                }else {
                     setLoader(false);
                     setErrorMessage(true);
                 }
+
             }).catch(err => {
-                console.log(err, "in login");
+                console.log(err);
                 setLoader(false);
             });
         }

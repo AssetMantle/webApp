@@ -53,7 +53,7 @@ const PrivateKey = (props) => {
                 }
             }).catch(err => {
                 setLoader(false);
-                console.log(err, "err");
+                console.log(err);
                 setErrorMessage(err);
             });
 

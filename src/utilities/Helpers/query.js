@@ -119,7 +119,6 @@ async function mutateAssetQuery(address, mnemonic, data, actionName, type) {
         .catch((err) => {
             console.log(err, 'error mutateAssetQuery');
         });
-    console.log(msgs, 'msgs mutateAssetQuery');
     return makeTransaction(address, msgs, mnemonic, type);
 }
 

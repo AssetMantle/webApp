@@ -6,7 +6,6 @@ import transactions from "../../../utilities/Helpers/transactions";
 import Loader from "../../../components/loader";
 import Icon from "../../../icons";
 import queries from "../../../utilities/Helpers/query";
-import GetID from "../../../utilities/GetID";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import ModalCommon from "../../../components/modal";
 import config from "../../../config";
@@ -33,7 +32,6 @@ const PrivateKeyTransaction = (props) => {
         }
     }, []);
     const handleSubmit = async e => {
-        console.log("submit", "submit");
         e.preventDefault();
         setLoader(true);
         setErrorMessage("");
@@ -81,8 +79,7 @@ const PrivateKeyTransaction = (props) => {
                         localStorage.setItem('loginMode', 'normal');
                         if (props.TransactionName === "nubid") {
                             setNubID(props.totalDefineObject.nubId);
-                            const hashGenerate = GetMetaHelper.Hash(props.totalDefineObject.nubId);
-                            const identityID = await GetID.getHashIdentityID(hashGenerate);
+                            const identityID = config.nubClassificationID+'|'+ GetMetaHelper.Hash(GetMetaHelper.Hash(props.totalDefineObject.nubId));
                             setTestID(identityID);
                             let totalData = {
                                 fromID: identityID,

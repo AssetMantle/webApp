@@ -4,7 +4,6 @@ import {fetchAddress} from "../../../utilities/Helpers/ledger";
 import {Modal} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import Loader from "../../../components/loader";
-import GetID from "../../../utilities/Helpers/getID";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import queries from "../../../utilities/Helpers/query";
 import ModalCommon from "../../../components/modal";
@@ -50,8 +49,7 @@ const LedgerTransaction = (props) => {
                     } else {
                         if (props.TransactionName === "nubid") {
                             setNubID(props.totalDefineObject.nubId);
-                            const hashGenerate = GetMetaHelper.Hash(props.totalDefineObject.nubId);
-                            const identityID = await GetID.getHashIdentityID(hashGenerate);
+                            const identityID = config.nubClassificationID+'|'+ GetMetaHelper.Hash(GetMetaHelper.Hash(props.totalDefineObject.nubId));
                             setTestID(identityID);
                             let totalData = {
                                 fromID: identityID,
