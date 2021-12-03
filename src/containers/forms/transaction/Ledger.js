@@ -8,7 +8,8 @@ import GetMeta from "../../../utilities/Helpers/getMeta";
 import queries from "../../../utilities/Helpers/query";
 import ModalCommon from "../../../components/modal";
 import config from "../../../config";
-
+import {pollTxHash} from "../../../utilities/Helpers/filter";
+const url = process.env.REACT_APP_ASSET_MANTLE_API;
 const LedgerTransaction = (props) => {
     const history = useHistory();
     const [show, setShow] = useState(true);
@@ -37,36 +38,43 @@ const LedgerTransaction = (props) => {
                 setLoader(true);
                 let queryResponse = queries.transactionDefinition(loginAddress, "", "ledger", props.TransactionName, props.totalDefineObject);
                 queryResponse.then(async (result) => {
-                    if (result.code) {
-                        localStorage.setItem('loginMode', 'ledger');
-                        setLoader(false);
-                        if (props.TransactionName === "nubid") {
-                            setErrorMessage(result.rawLog);
-                        } else {
-                            setErrorMessage(result.rawLog);
+                    if(result.transactionHash) {
+                        let queryHashResponse = pollTxHash(url, result.transactionHash);
+                        queryHashResponse.then(function (queryItem) {
+                            const parsedQueryItem = JSON.parse(queryItem);
+                            if (parsedQueryItem.code) {
+                                localStorage.setItem('loginMode', 'ledger');
+                                setLoader(false);
+                                if (props.TransactionName === "nubid") {
+                                    setErrorMessage(result.rawLog);
+                                } else {
+                                    setErrorMessage(result.rawLog);
 
-                        }
-                    } else {
-                        if (props.TransactionName === "nubid") {
-                            setNubID(props.totalDefineObject.nubId);
-                            const identityID = config.nubClassificationID+'|'+ GetMetaHelper.Hash(GetMetaHelper.Hash(props.totalDefineObject.nubId));
-                            setTestID(identityID);
-                            let totalData = {
-                                fromID: identityID,
-                                CoinAmountDenom: '5000000' + config.coinDenom,
-                            };
+                                }
+                            } else {
+                                if (props.TransactionName === "nubid") {
+                                    setNubID(props.totalDefineObject.nubId);
+                                    const identityID = config.nubClassificationID + '|' + GetMetaHelper.Hash(GetMetaHelper.Hash(props.totalDefineObject.nubId));
+                                    setTestID(identityID);
+                                    let totalData = {
+                                        fromID: identityID,
+                                        CoinAmountDenom: '5000000' + config.coinDenom,
+                                    };
 
-                            let queryResponse = queries.transactionDefinition(loginAddress, "", "ledger", 'wrap', totalData);
-                            queryResponse.then(async function (item) {
-                                console.log(item, "item wrap response");
-                            }).catch(err => {
-                                console.log(err, "err");
-                            });
-                        }
-                        localStorage.setItem('loginMode', 'ledger');
-                        setShow(false);
-                        setLoader(false);
-                        setResponse(result);
+                                    let queryResponse = queries.transactionDefinition(loginAddress, "", "ledger", 'wrap', totalData);
+                                    queryResponse.then(async function (item) {
+                                        console.log(item, "item wrap response");
+                                    }).catch(err => {
+                                        console.log(err, "err");
+                                    });
+                                }
+                                localStorage.setItem('loginMode', 'ledger');
+                                setShow(false);
+                                setLoader(false);
+                                setResponse(result);
+                            }
+                        });
+
                     }
                 }).catch((error) => {
                     setLoader(false);

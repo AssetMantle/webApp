@@ -5,6 +5,8 @@ import transactions from "../../../utilities/Helpers/transactions";
 import queries from "../../../utilities/Helpers/query";
 import config from "../../../config";
 import GetMeta from "../../../utilities/Helpers/getMeta";
+import {pollTxHash} from "../../../utilities/Helpers/filter";
+const url = process.env.REACT_APP_ASSET_MANTLE_API;
 
 const SignUp = (props) => {
     const {t} = useTranslation();
@@ -18,32 +20,37 @@ const SignUp = (props) => {
             const wallet = await transactions.MnemonicWalletWithPassphrase(userMnemonic, '');
             let queryResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", props.TransactionName, props.totalDefineObject);
             queryResponse.then(async function (item) {
-                console.log(item, "queryResponse");
-
-                if (item.code) {
-                    props.setSignUpError(item.rawLog);
-                    props.setLoader(false);
-                } else {
-                    if (props.TransactionName === "nubid") {
-                        props.setNubID(props.totalDefineObject.nubId);
-                        const identityID = config.nubClassificationID+'|'+ GetMetaHelper.Hash(GetMetaHelper.Hash(props.totalDefineObject.nubId));
-                        let totalData = {
-                            fromID: identityID,
-                            CoinAmountDenom: '5000000' + config.coinDenom,
-                        };
-
-                        props.setTestID(identityID);
-                        let wrapResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", 'wrap', totalData);
-                        wrapResponse.then(async function (witem) {
-                            props.setResponse(item);
-                            console.log(witem, "witem");
-
+                if(item.transactionHash) {
+                    let queryHashResponse = pollTxHash(url, item.transactionHash);
+                    queryHashResponse.then(function (queryItem) {
+                        console.log(queryItem, "queryResponse");
+                        if (queryItem.code) {
+                            props.setSignUpError(queryItem.rawLog);
                             props.setLoader(false);
-                            props.setShowEncrypt(false);
-                        }).catch(err => {
-                            console.log(err, "err wrap");
-                        });
-                    }
+                        } else {
+                            if (props.TransactionName === "nubid") {
+                                props.setNubID(props.totalDefineObject.nubId);
+                                const identityID = config.nubClassificationID + '|' + GetMetaHelper.Hash(GetMetaHelper.Hash(props.totalDefineObject.nubId));
+                                let totalData = {
+                                    fromID: identityID,
+                                    CoinAmountDenom: '5000000' + config.coinDenom,
+                                };
+
+                                props.setTestID(identityID);
+                                console.log(wallet[1], userMnemonic, "normal", 'wrap', totalData, "wrap info");
+                                let wrapResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", 'wrap', totalData);
+                                wrapResponse.then(async function (witem) {
+                                    props.setResponse(item);
+                                    console.log(witem, "witem");
+
+                                    props.setLoader(false);
+                                    props.setShowEncrypt(false);
+                                }).catch(err => {
+                                    console.log(err, "err wrap");
+                                });
+                            }
+                        }
+                    });
                 }
             }).catch(err => {
                 props.setLoader(false);

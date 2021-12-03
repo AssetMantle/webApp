@@ -85,6 +85,7 @@ function decryptStore(fileData, password) {
 }
 
 async function Transaction(wallet, signerAddress, msgs, fee, memo = '') {
+    console.log(restAPI, signerAddress, wallet, GasPrice.fromString("0umantle"), {}, config.mode, "txn details");
     const cosmJS = new SigningCosmosClient(restAPI, signerAddress, wallet, GasPrice.fromString("0umantle"), {}, config.mode);
     return await cosmJS.signAndBroadcast(msgs, fee, memo);
 }
