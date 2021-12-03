@@ -74,7 +74,7 @@ const KeysCreate = (props) => {
                 setTimeout(() => {
                     console.log(response, "response");
                     setLoader(false);
-                }, 5000);
+                }, 10000);
             },
             )
             .catch(err => {

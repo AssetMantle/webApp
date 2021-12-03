@@ -3,6 +3,7 @@ import {stringToPath} from "@cosmjs/crypto";
 import config from "../../config";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 import {LedgerSigner} from "@cosmjs/ledger-amino";
+import {GasPrice} from "@cosmjs/launchpad";
 
 const crypto = require('crypto');
 const passwordHashAlgorithm = 'sha512';
@@ -84,7 +85,7 @@ function decryptStore(fileData, password) {
 }
 
 async function Transaction(wallet, signerAddress, msgs, fee, memo = '') {
-    const cosmJS = new SigningCosmosClient(restAPI, signerAddress, wallet);
+    const cosmJS = new SigningCosmosClient(restAPI, signerAddress, wallet, GasPrice.fromString("0umantle"), {}, config.mode);
     return await cosmJS.signAndBroadcast(msgs, fee, memo);
 }
 
@@ -96,12 +97,15 @@ async function MnemonicWallet() {
 
 
 async function TransactionWithMnemonic(msgs, fee, memo, mnemonic, type) {
-    let accountNumber = localStorage.getItem('accountNumber') * 1;
-    let addressIndex = localStorage.getItem('addressIndex') * 1;
+    console.log("hello");
+
     if (type === "normal") {
         const [wallet, address] = await MnemonicWalletWithPassphrase(mnemonic, '');
+        console.log("hello2");
         return await Transaction(wallet, address, msgs, fee, memo);
     } else {
+        let accountNumber = localStorage.getItem('accountNumber') * 1;
+        let addressIndex = localStorage.getItem('addressIndex') * 1;
         const [wallet, address] = await LedgerWallet(makeHdPath(accountNumber, addressIndex), "mantle");
         return await Transaction(wallet, address, msgs, fee, memo);
     }

@@ -17,8 +17,9 @@ const SignUp = (props) => {
         if (userMnemonic !== undefined) {
             const wallet = await transactions.MnemonicWalletWithPassphrase(userMnemonic, '');
             let queryResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", props.TransactionName, props.totalDefineObject);
-
             queryResponse.then(async function (item) {
+                console.log(item, "queryResponse");
+
                 if (item.code) {
                     props.setSignUpError(item.rawLog);
                     props.setLoader(false);
@@ -30,10 +31,13 @@ const SignUp = (props) => {
                             fromID: identityID,
                             CoinAmountDenom: '5000000' + config.coinDenom,
                         };
+
                         props.setTestID(identityID);
-                        let queryResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", 'wrap', totalData);
-                        queryResponse.then(async function () {
+                        let wrapResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", 'wrap', totalData);
+                        wrapResponse.then(async function (witem) {
                             props.setResponse(item);
+                            console.log(witem, "witem");
+
                             props.setLoader(false);
                             props.setShowEncrypt(false);
                         }).catch(err => {
