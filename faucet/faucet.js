@@ -2,7 +2,8 @@ require("dotenv").config();
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const constants = require("./constants");
 const {Secp256k1HdWallet} = require("@cosmjs/amino");
-const {SigningCosmosClient, GasPrice} = require("@cosmjs/launchpad");
+const {SigningCosmosClient} = require("@cosmjs/launchpad");
+const {SigningStargateClient, GasPrice} = require("@cosmjs/stargate");
 const {stringToPath} = require("@cosmjs/crypto");
 const restAPI=process.env.BLOCKCHAIN_REST_SERVER;
 
@@ -31,8 +32,8 @@ function msg(fromAddress, toAddress, denom, amount) {
     };
 }
 async function Transaction(wallet, signerAddress, msgs, fee, memo = '') {
-    const cosmJS = new SigningCosmosClient(restAPI, signerAddress, wallet, GasPrice.fromString(constants.gas_price), {}, "sync" );
-    return await cosmJS.signAndBroadcast(msgs, fee, memo);
+    const cosmJS = new SigningStargateClient.connectWithSigner(restAPI, wallet, GasPrice.fromString(constants.gas_price));
+    return await cosmJS.signAndBroadcast(signerAddress, msgs, fee, memo); //DeliverTxResponse, 0 iff success   
 }
 
 async function MnemonicWalletWithPassphrase(mnemonic) {
