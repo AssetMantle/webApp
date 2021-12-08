@@ -2,42 +2,37 @@ require("dotenv").config();
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const constants = require("./constants");
 const {Secp256k1HdWallet} = require("@cosmjs/amino");
-const {SigningCosmosClient} = require("@cosmjs/launchpad");
-const {SigningStargateClient, GasPrice} = require("@cosmjs/stargate");
+const {SigningStargateClient, Coin} = require("@cosmjs/stargate");
 const {stringToPath} = require("@cosmjs/crypto");
 const restAPI=process.env.BLOCKCHAIN_REST_SERVER;
+const msgSendTypeUrl = "/cosmos.bank.v1beta1.MsgSend";
+const {MsgSend, fromPartial} = require("cosmjs-types/cosmos/bank/v1beta1/tx");
 
-
-
-function unsignedTx(msgs, gas, memo) {
-    return {
-        "msg": msgs,
-        "fee": {"amount": [], "gas": gas},
-        "signatures": null,
-        "memo": memo
-    };
-
+function trimWhiteSpaces(data){
+    return data.split(' ').join('');
 }
 
 function msg(fromAddress, toAddress, denom, amount) {
     return {
-        "type": "cosmos-sdk/MsgSend",
-        "value": {
-            "from_address": fromAddress,
-            "to_address": toAddress,
-            "amount": [{
-                "denom": denom, "amount": amount
-            }]
-        }
+        typeUrl: msgSendTypeUrl,
+        value: MsgSend.fromPartial({
+            fromAddress: trimWhiteSpaces(fromAddress),
+            toAddress: trimWhiteSpaces(toAddress),
+            amount: [{
+                denom: denom,
+                amount: String(amount),
+            }],
+        }),
+        test: MsgSend
     };
 }
 async function Transaction(wallet, signerAddress, msgs, fee, memo = '') {
-    const cosmJS = new SigningStargateClient.connectWithSigner(restAPI, wallet, GasPrice.fromString(constants.gas_price));
+    const cosmJS = await SigningStargateClient.connectWithSigner(process.env.RPC, wallet);
     return await cosmJS.signAndBroadcast(signerAddress, msgs, fee, memo); //DeliverTxResponse, 0 iff success   
 }
 
 async function MnemonicWalletWithPassphrase(mnemonic) {
-    const wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic, {prefix: constants.prefix, bip39Password:'',hdPaths:[stringToPath("m/44'/750'/0'/0/0")]});
+    const wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic, {prefix: constants.prefix, bip39Password:'',hdPaths:[stringToPath("m/44'/118'/0'/0/0")]});
     const [firstAccount] = await wallet.getAccounts();
     return [wallet, firstAccount.address];
 }
@@ -59,10 +54,10 @@ function runner() {
 function handleFaucetRequest(userAddress) {
     try {
         let xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", process.env.BLOCKCHAIN_REST_SERVER + "/auth/accounts/" + userAddress, false); // false for synchronous request
+        xmlHttp.open("GET", process.env.BLOCKCHAIN_REST_SERVER + "/cosmos/auth/v1beta1/accounts/" + userAddress, false); // false for synchronous request
         xmlHttp.send(null);
         const accountResponse = JSON.parse(xmlHttp.responseText);
-        if (constants.FaucetList.length < constants.FAUCET_LIST_LIMIT && !constants.FaucetList.includes(userAddress) && accountResponse.result.value.address === "") {
+        if (constants.FaucetList.length < constants.FAUCET_LIST_LIMIT && !constants.FaucetList.includes(userAddress) && accountResponse.code === 5) {
             constants.FaucetList.push(userAddress);
             console.log(userAddress, "ADDED TO LIST: total = ", constants.FaucetList.length);
             return JSON.stringify({result: "Success, your address will be faucet"});
@@ -73,7 +68,6 @@ function handleFaucetRequest(userAddress) {
     } catch (e) {
         return JSON.stringify({result:"Failure, Incorrect Address"});
     }
-
 
 }
 
