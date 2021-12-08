@@ -91,14 +91,14 @@ const ModalCommon = (props) => {
                                 <p>Error: {props.data.rawLog}</p>
                                 :
                                 <p className="tx-hash">TxHash: <a
-                                    href={process.env.REACT_APP_EXPLORER_API + '/transaction?txHash=' + props.data.transactionHash}
+                                    href={process.env.REACT_APP_EXPLORER_API + '/transactions/' + props.data.transactionHash}
                                     target="_blank" rel="noreferrer">{props.data.transactionHash}</a></p>
                             :
                             props.data.code ?
                                 <p>Error: {props.data.rawLog}</p>
                                 :
                                 <p className="tx-hash">TxHash: <a
-                                    href={process.env.REACT_APP_EXPLORER_API + '/transaction?txHash=' + props.data.transactionHash}
+                                    href={process.env.REACT_APP_EXPLORER_API + '/transactions/' + props.data.transactionHash}
                                     target="_blank" rel="noreferrer">{props.data.transactionHash}</a></p>
 
                         }

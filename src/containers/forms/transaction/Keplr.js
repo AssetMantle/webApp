@@ -10,6 +10,8 @@ import ModalCommon from "../../../components/modal";
 import config from "../../../config";
 import {useTranslation} from "react-i18next";
 import axios from "axios";
+import {pollTxHash} from "../../../utilities/Helpers/filter";
+const url = process.env.REACT_APP_ASSET_MANTLE_API;
 
 const KeplrTransaction = (props) => {
     const {t} = useTranslation();
@@ -64,34 +66,41 @@ const KeplrTransaction = (props) => {
 
             let queryResponse = queries.transactionDefinition(address, "", "keplr", props.TransactionName, props.totalDefineObject);
             queryResponse.then(async (result) => {
-                if (result.code) {
-                    setLoader(false);
-                    if (props.TransactionName === "nubid") {
-                        setErrorMessage(result.rawLog);
-                    } else {
-                        setErrorMessage(result.rawLog);
+                if(result.transactionHash) {
+                    let queryHashResponse = pollTxHash(url, result.transactionHash);
+                    queryHashResponse.then(function (queryItem) {
+                        const parsedQueryItem = JSON.parse(queryItem);
+                        if (parsedQueryItem.code) {
 
-                    }
-                } else {
-                    if (props.TransactionName === "nubid") {
-                        setNubID(props.totalDefineObject.nubId);
-                        const identityID = config.nubClassificationID+'|'+ GetMetaHelper.Hash(GetMetaHelper.Hash(props.totalDefineObject.nubId));
-                        setTestID(identityID);
-                        let totalData = {
-                            fromID: identityID,
-                            CoinAmountDenom: '5000000' + config.coinDenom,
-                        };
+                            setLoader(false);
+                            if (props.TransactionName === "nubid") {
+                                setErrorMessage(result.rawLog);
+                            } else {
+                                setErrorMessage(result.rawLog);
 
-                        let queryResponse = queries.transactionDefinition(address, "", "keplr", 'wrap', totalData);
-                        queryResponse.then(async function (item) {
-                            console.log(item);
-                        }).catch(err => {
-                            console.log(err, "err");
-                        });
-                    }
-                    setShow(false);
-                    setLoader(false);
-                    setResponse(result);
+                            }
+                        } else {
+                            if (props.TransactionName === "nubid") {
+                                setNubID(props.totalDefineObject.nubId);
+                                const identityID = config.nubClassificationID + '|' + GetMetaHelper.Hash(GetMetaHelper.Hash(props.totalDefineObject.nubId));
+                                setTestID(identityID);
+                                let totalData = {
+                                    fromID: identityID,
+                                    CoinAmountDenom: '5000000' + config.coinDenom,
+                                };
+
+                                let queryResponse = queries.transactionDefinition(address, "", "keplr", 'wrap', totalData);
+                                queryResponse.then(async function (item) {
+                                    console.log(item);
+                                }).catch(err => {
+                                    console.log(err, "err");
+                                });
+                            }
+                            setShow(false);
+                            setLoader(false);
+                            setResponse(result);
+                        }
+                    });
                 }
             }).catch((error) => {
                 setLoader(false);

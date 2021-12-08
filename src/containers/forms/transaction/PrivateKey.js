@@ -9,7 +9,8 @@ import queries from "../../../utilities/Helpers/query";
 import GetMeta from "../../../utilities/Helpers/getMeta";
 import ModalCommon from "../../../components/modal";
 import config from "../../../config";
-
+import {pollTxHash} from "../../../utilities/Helpers/filter";
+const url = process.env.REACT_APP_ASSET_MANTLE_API;
 const PrivateKeyTransaction = (props) => {
     const {t} = useTranslation();
     const history = useHistory();
@@ -60,42 +61,49 @@ const PrivateKeyTransaction = (props) => {
             if (userMnemonic !== undefined) {
                 const wallet = await transactions.MnemonicWalletWithPassphrase(userMnemonic, '');
                 let queryResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", props.TransactionName, props.totalDefineObject);
-                queryResponse.then(async function (item) {
-                    if (item.code) {
-                        localStorage.setItem('loginMode', 'normal');
-                        if (props.TransactionName === "nubid") {
-                            setErrorMessage(item.rawLog);
-                        } else {
-                            setErrorMessage(item.rawLog);
-                        }
-                        setLoader(false);
-                        const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
-                        if (encryptedMnemonic !== null) {
-                            setImportMnemonic(false);
-                        } else {
-                            setImportMnemonic(true);
-                        }
-                    } else {
-                        localStorage.setItem('loginMode', 'normal');
-                        if (props.TransactionName === "nubid") {
-                            setNubID(props.totalDefineObject.nubId);
-                            const identityID = config.nubClassificationID+'|'+ GetMetaHelper.Hash(GetMetaHelper.Hash(props.totalDefineObject.nubId));
-                            setTestID(identityID);
-                            let totalData = {
-                                fromID: identityID,
-                                CoinAmountDenom: '5000000' + config.coinDenom,
-                            };
 
-                            let queryResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", 'wrap', totalData);
-                            queryResponse.then(async function (item) {
-                                console.log(item, "item wrap response");
-                            }).catch(err => {
-                                console.log(err, "err wrap");
-                            });
-                        }
-                        setShow(false);
-                        setLoader(false);
-                        setResponse(item);
+                queryResponse.then(async function (item) {
+                    if(item.transactionHash){
+                        let queryHashResponse =  pollTxHash(url, item.transactionHash);
+                        queryHashResponse.then(function (queryItem) {
+                            const parsedQueryItem = JSON.parse(queryItem);
+                            if (parsedQueryItem.code) {
+                                localStorage.setItem('loginMode', 'normal');
+                                if (props.TransactionName === "nubid") {
+                                    setErrorMessage(queryItem.rawLog);
+                                } else {
+                                    setErrorMessage(queryItem.rawLog);
+                                }
+                                setLoader(false);
+                                const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');
+                                if (encryptedMnemonic !== null) {
+                                    setImportMnemonic(false);
+                                } else {
+                                    setImportMnemonic(true);
+                                }
+                            } else {
+                                localStorage.setItem('loginMode', 'normal');
+                                if (props.TransactionName === "nubid") {
+                                    setNubID(props.totalDefineObject.nubId);
+                                    const identityID = config.nubClassificationID+'|'+ GetMetaHelper.Hash(GetMetaHelper.Hash(props.totalDefineObject.nubId));
+                                    setTestID(identityID);
+                                    let totalData = {
+                                        fromID: identityID,
+                                        CoinAmountDenom: '5000000' + config.coinDenom,
+                                    };
+
+                                    let queryResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", 'wrap', totalData);
+                                    queryResponse.then(async function (queryItem) {
+                                        console.log(queryItem, "item wrap response");
+                                    }).catch(err => {
+                                        console.log(err, "err wrap");
+                                    });
+                                }
+                                setShow(false);
+                                setLoader(false);
+                                setResponse(item);
+                            }
+                        });
                     }
                 }).catch(err => {
                     setLoader(false);
