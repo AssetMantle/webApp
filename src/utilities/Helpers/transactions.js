@@ -85,7 +85,6 @@ function decryptStore(fileData, password) {
 }
 
 async function Transaction(wallet, signerAddress, msgs, fee, memo = '') {
-    console.log(restAPI, signerAddress, wallet, GasPrice.fromString("0umantle"), {}, config.mode, "txn details");
     const cosmJS = new SigningCosmosClient(restAPI, signerAddress, wallet, GasPrice.fromString("0umantle"), {}, config.mode);
     return await cosmJS.signAndBroadcast(msgs, fee, memo);
 }
@@ -98,11 +97,9 @@ async function MnemonicWallet() {
 
 
 async function TransactionWithMnemonic(msgs, fee, memo, mnemonic, type) {
-    console.log("hello");
 
     if (type === "normal") {
         const [wallet, address] = await MnemonicWalletWithPassphrase(mnemonic, '');
-        console.log("hello2");
         return await Transaction(wallet, address, msgs, fee, memo);
     } else {
         let accountNumber = localStorage.getItem('accountNumber') * 1;

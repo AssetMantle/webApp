@@ -1,6 +1,6 @@
 {
-  "initialTxHashQueryDelay": 20000,
-  "scheduledTxHashQueryDelay": 8000,
+  "initialTxHashQueryDelay": 6000,
+  "scheduledTxHashQueryDelay": 3000,
   "numberOfRetries": 20,
   "feesAmount": 0,
   "feesToken": "umantle",

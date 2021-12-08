@@ -37,7 +37,6 @@ const SignUp = (props) => {
                                 };
 
                                 props.setTestID(identityID);
-                                console.log(wallet[1], userMnemonic, "normal", 'wrap', totalData, "wrap info");
                                 let wrapResponse = queries.transactionDefinition(wallet[1], userMnemonic, "normal", 'wrap', totalData);
                                 wrapResponse.then(async function (witem) {
                                     props.setResponse(item);
