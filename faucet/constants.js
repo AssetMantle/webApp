@@ -1,11 +1,10 @@
-
 const FAUCET_LIST_LIMIT = 15;
-const AMOUNT = "1";
-const DENOM = "uatom";
-const CHAIN_ID = "pstake-staking-gala";
+const AMOUNT = "10000000";
+const DENOM = "umantle";
+const CHAIN_ID = "test-mantle-1";
 let FaucetList=[];
-const prefix= "cosmos";
-const gas_price = "0uatom";
+const prefix= "mantle";
+const gas_price = "0umantle";
 module.exports = {
     FAUCET_LIST_LIMIT,
     AMOUNT,
