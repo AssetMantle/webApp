@@ -68,7 +68,7 @@ function handleFaucetRequest(userAddress) {
         const accountResponse = JSON.parse(xmlHttp.responseText);
         if (constants.FaucetList.length < constants.FAUCET_LIST_LIMIT && 
             !constants.FaucetList.includes(userAddress) && 
-            accountResponse.code === 5) {
+            accountResponse.result.value.address === "") {
             constants.FaucetList.push(userAddress);
             console.log(userAddress, "ADDED TO LIST: total = ", constants.FaucetList.length);
             return JSON.stringify({result: "Success, your address will be faucet"});
