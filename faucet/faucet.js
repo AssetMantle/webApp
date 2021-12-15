@@ -44,14 +44,19 @@ async function MnemonicWalletWithPassphrase(mnemonic) {
 function runner() {
     setInterval(async function ()  {
         if (constants.FaucetList.length > 0) {
-            let [wallet, addr] = await MnemonicWalletWithPassphrase(process.env.FAUCET_MNEMONIC);
-            let msgs = [];
-            constants.FaucetList.forEach(address => msgs.push(msg(addr, address, constants.DENOM, constants.AMOUNT)));
-            Transaction(wallet,addr,msgs,{"amount": [], "gas": "500000"},"have fun").then(response => console.log(response));
-            constants.FaucetList.splice(0, constants.FaucetList.length);
+            try{
+                let [wallet, addr] = await MnemonicWalletWithPassphrase(process.env.FAUCET_MNEMONIC);
+                let msgs = [];
+                constants.FaucetList.forEach(address => msgs.push(msg(addr, address, constants.DENOM, constants.AMOUNT)));
+                const resonse = await Transaction(wallet,addr,msgs,{"amount": [], "gas": "500000"},"Thanks for using Faucet");
+                console.log(resonse);
+                constants.FaucetList.splice(0, constants.FaucetList.length);
+            } catch (e) {
+                console.log("Transaction Failed: ", e);
+            }
         } else {
-             console.log("No Accounts to faucet :");
-         }
+            console.log("No Accounts to faucet");
+        }
     }, 10000);
 }
 
@@ -61,7 +66,9 @@ function handleFaucetRequest(userAddress) {
         xmlHttp.open("GET", process.env.BLOCKCHAIN_REST_SERVER + "/auth/accounts/" + userAddress, false); // false for synchronous request
         xmlHttp.send(null);
         const accountResponse = JSON.parse(xmlHttp.responseText);
-        if (constants.FaucetList.length < constants.FAUCET_LIST_LIMIT && !constants.FaucetList.includes(userAddress) && accountResponse.result.value.address === "") {
+        if (constants.FaucetList.length < constants.FAUCET_LIST_LIMIT && 
+            !constants.FaucetList.includes(userAddress) && 
+            accountResponse.result.value.address === "") {
             constants.FaucetList.push(userAddress);
             console.log(userAddress, "ADDED TO LIST: total = ", constants.FaucetList.length);
             return JSON.stringify({result: "Success, your address will be faucet"});
