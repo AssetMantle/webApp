@@ -10,10 +10,6 @@ const Footer = () => {
             iconName: 'twitter-logo',
             tooltip: 'twitter'
         }, {
-            url: "https://medium.com/persistence-blog",
-            iconName: 'medium',
-            tooltip: 'medium'
-        }, {
             url: "https://t.me/assetmantle",
             iconName: 'telegram-plane',
             tooltip: 'telegram'
@@ -40,13 +36,16 @@ const Footer = () => {
                             className="blog">
                             Explorer
                         </a>
+                        <a href="https://blog.assetmantle.one" target="_blank" rel="noopener noreferrer" className="blog">
+                            Blog
+                        </a>
                     </div>
                     <div className="top-section">
                         <div className="logo">
                             <img src={logo} alt="logo"/>
                         </div>
                         <p className="footer-text"> © {new Date().getFullYear()}
-                            <span className="link_color"> AssetMantle - Marketplace for NFTs </span>
+                            <span className="link_color"> assetMantle - Marketplace for NFTs </span>
                         </p>
                     </div>
                     <div className="bottom-right-section">

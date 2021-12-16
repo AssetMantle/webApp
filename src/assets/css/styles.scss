@@ -26,10 +26,12 @@ html, body, #root, .app {
 
 .dark-mode .navbar .header-logo {
   background: url(../images/logo.svg) no-repeat;
+  background-size: 100%;
 }
 
 .light-mode .navbar .header-logo {
   background: url(../images/logo_dark.svg) no-repeat;
+  background-size: 100%;
 }
 
 .navbar-dark {
@@ -74,8 +76,8 @@ html, body, #root, .app {
       font-weight: bold;
       padding: 0;
       font-size: 24px;
-      width: 140px;
-      height: 35px;
+      width: 160px;
+      height: 24px;
       display: block;
 
       img {
@@ -395,6 +397,11 @@ html, body, #root, .app {
     margin: 15px 0;
   }
 
+  .top-section{
+    .logo img{
+      width: 140px;
+    }
+  }
   p {
     font-weight: 500;
     font-size: 14px;
@@ -1468,7 +1475,7 @@ model-viewer {
 .profile-dropdown {
   .dropdown-menu {
     margin: 0px;
-    box-shadow: 0 4px 4px rgb(0 0 0 / 5%);
+    //box-shadow: 0 4px 4px rgb(0 0 0 / 5%);
     border: 0px solid;
     padding: 0;
     border-radius: 0;
