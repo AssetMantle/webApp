@@ -48,7 +48,13 @@ function runner() {
                 let [wallet, addr] = await MnemonicWalletWithPassphrase(process.env.FAUCET_MNEMONIC);
                 let msgs = [];
                 constants.FaucetList.forEach(address => msgs.push(msg(addr, address, constants.DENOM, constants.AMOUNT)));
-                const resonse = await Transaction(wallet,addr,msgs,{"amount": [], "gas": "500000"},"Thanks for using Faucet");
+                const resonse = await Transaction(
+                    wallet,
+                    addr,
+                    msgs,
+                    {"amount": [{amount : (parseInt(constants.gas) * GasPrice.fromString(constants.gas_price).amount).toString(), denom : constants.DENOM}], "gas": constants.gas},
+                    "Thanks for using Faucet"
+                );
                 console.log(resonse);
                 constants.FaucetList.splice(0, constants.FaucetList.length);
             } catch (e) {
