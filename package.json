@@ -5,9 +5,9 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
-    "@cosmjs/amino": "^v0.26.0",
-    "@cosmjs/crypto": "^v0.26.0",
-    "@cosmjs/launchpad": "^v0.26.0",
+    "@cosmjs/amino": "^v0.26.5",
+    "@cosmjs/crypto": "^v0.26.5",
+    "@cosmjs/launchpad": "^v0.26.5",
     "@cosmjs/ledger-amino": "git://github.com/persistenceOne/ledger-amino.git#v0.2.0",
     "@google/model-viewer": "^1.8.0",
     "@ledgerhq/hw-transport-webusb": "^5.53.1",

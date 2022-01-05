@@ -87,14 +87,14 @@ const ModalCommon = (props) => {
                     :
                     <>
                         {props.keplrTxn ?
-                            props.data.code ?
+                            props.data.code && props.data.code === 0 ?
                                 <p>Error: {props.data.rawLog}</p>
                                 :
                                 <p className="tx-hash">TxHash: <a
                                     href={process.env.REACT_APP_EXPLORER_API + '/transactions/' + props.data.transactionHash}
                                     target="_blank" rel="noreferrer">{props.data.transactionHash}</a></p>
                             :
-                            props.data.code ?
+                            props.data.code &&  props.data.code === 0 ?
                                 <p>Error: {props.data.rawLog}</p>
                                 :
                                 <p className="tx-hash">TxHash: <a
