@@ -23,7 +23,6 @@ const SignUp = (props) => {
                 if(item.transactionHash) {
                     let queryHashResponse = pollTxHash(url, item.transactionHash);
                     queryHashResponse.then(function (queryItem) {
-                        console.log(queryItem, "queryResponse");
                         if (queryItem.code) {
                             props.setSignUpError(queryItem.rawLog);
                             props.setLoader(false);

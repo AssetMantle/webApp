@@ -39,9 +39,9 @@ const KeplrTransaction = (props) => {
         }
         setLoader(true);
         axios.post(process.env.REACT_APP_FAUCET_SERVER + '/faucetRequest', {address: address})
-            .then(response => {
+            .then(faucetResult => {
                 setTimeout(() => {
-                    setFaucetResponse(response);
+                    setFaucetResponse(faucetResult);
                     setLoader(false);
                 }, 5000);
             },
@@ -65,7 +65,9 @@ const KeplrTransaction = (props) => {
             }
 
             let queryResponse = queries.transactionDefinition(address, "", "keplr", props.TransactionName, props.totalDefineObject);
-            queryResponse.then(async (result) => {
+
+            queryResponse.then((result) => {
+
                 if(result.transactionHash) {
                     let queryHashResponse = pollTxHash(url, result.transactionHash);
                     queryHashResponse.then(function (queryItem) {
@@ -104,7 +106,7 @@ const KeplrTransaction = (props) => {
                 }
             }).catch((error) => {
                 setLoader(false);
-                console.log("account error", error.message);
+                console.log("account error", error);
                 if(error.message === t('ACCOUNT_NOT_EXISTS_ERROR')){
                     handleFaucet();
                 }else {

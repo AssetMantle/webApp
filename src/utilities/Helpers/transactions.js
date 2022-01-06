@@ -143,7 +143,7 @@ async function TransactionWithKeplr(msgs, fee, memo, chainID) {
     await window.keplr.enable(chainID);
     const offlineSigner = window.getOfflineSigner(chainID);
     const accounts = await offlineSigner.getAccounts();
-    const cosmJS = new SigningCosmosClient(restAPI, accounts[0].address, offlineSigner);
+    const cosmJS = new SigningCosmosClient(restAPI, accounts[0].address, offlineSigner, GasPrice.fromString("0umantle"), {}, config.mode);
     return await cosmJS.signAndBroadcast(msgs, fee, memo);
 }
 
