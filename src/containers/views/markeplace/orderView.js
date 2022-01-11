@@ -55,7 +55,7 @@ const OrderView = (props) => {
         Object.keys(orderData.totalData).map((asset, key) => {
             if (asset === config.URI) {
                 const imageExtension = orderData.totalData[asset].substring(orderData.totalData[asset].lastIndexOf('.') + 1);
-                if (imageExtension === "gltf") {
+                if (imageExtension === "glb") {
                     ImageData = <div className="dummy-image image-sectiont asset-view-modal-viewer">
                         <model-viewer
                             id="mv-astronaut"

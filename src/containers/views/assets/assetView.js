@@ -50,7 +50,7 @@ const AssetView = (props) => {
         Object.keys(assetData.totalData).map((asset) => {
             if (asset === config.URI) {
                 const imageExtension = assetData.totalData[asset].substring(assetData.totalData[asset].lastIndexOf('.') + 1);
-                if (imageExtension === "gltf") {
+                if (imageExtension === "glb") {
                     ImageData = <div className="dummy-image image-sectiont asset-view-modal-viewer">
                         <model-viewer
                             id="mv-astronaut"

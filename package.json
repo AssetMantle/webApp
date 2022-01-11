@@ -19,6 +19,7 @@
     "bootstrap": "^4.6.0",
     "crypto": "^1.0.1",
     "crypto-js": "^4.0.0",
+    "form-data": "^4.0.0",
     "history": "^4.10.1",
     "i18next": "^19.8.4",
     "i18next-browser-languagedetector": "^6.0.1",
@@ -41,7 +42,8 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "request": "^2.88.2",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "base-path-converter": "latest"
   },
   "eslintConfig": {
     "extends": [

@@ -48,7 +48,7 @@ const OrderList = React.memo(() => {
                                                         <div key={index + index2}>
                                                             {
                                                                 key === config.URI ?
-                                                                    imageExtension === "gltf" ?
+                                                                    imageExtension === "glb" ?
                                                                         <div className="image-container">
                                                                             <model-viewer
                                                                                 id="mv-astronaut"

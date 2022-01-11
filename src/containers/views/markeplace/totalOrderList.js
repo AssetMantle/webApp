@@ -72,7 +72,7 @@ const TotalOrders = () => {
                                                         <div key={index+keyIndex}>
                                                             {
                                                                 key === config.URI ?
-                                                                    imageExtension === "gltf" ?
+                                                                    imageExtension === "glb" ?
                                                                         <div className="image-container">
                                                                             <model-viewer
                                                                                 id="mv-astronaut"
