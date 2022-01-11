@@ -66,8 +66,7 @@ async function pinataFile(file, path) {
         "description": "adsfasfd",
         "image": "ipfs://" + path,
     };
-    let result = await pinata.pinJSONToIPFS(options);
-    return result;
+    return await pinata.pinJSONToIPFS(options);
 }
 
 function GetIpfsUrl(path) {
@@ -133,7 +132,7 @@ function inputAmountValidation(e){
 }
 function imageTypeCheck(filePath) {
     let allowedExtensions =
-        /(\.jpg|\.jpeg|\.png|\.gif|\.svg)|\.webm$|\.mp4/i;
+        /(\.jpg|\.jpeg|\.png|\.gif|\.svg)|\.webm$|\.glb|\.mp4/i;
     return allowedExtensions.exec(filePath);
 }
 

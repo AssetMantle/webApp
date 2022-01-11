@@ -11,6 +11,8 @@ import loaderImage from "../../../assets/images/loader.svg";
 import helper from "../../../utilities/helper";
 import config from "../../../config";
 
+import "@google/model-viewer/dist/model-viewer";
+
 const MintAsset = () => {
     const PropertyHelper = new GetProperty();
     const {t} = useTranslation();
@@ -81,7 +83,7 @@ const MintAsset = () => {
             const updateFileUrl = "https://demo-assetmantle.mypinata.cloud/ipfs/" + res.IpfsHash + "/" + fileData.name;
             setFileUrl(updateFileUrl);
             // const ipfsPath = await helper.pinataFile(fileData, res.IpfsHash);
-            // console.log(ipfsPath, "ipfspath");
+            // console.log(ipfsPath, "ipfspath", updateFileUrl);
             const ImmutableUrlEncode = PropertyHelper.getUrlEncode(updateFileUrl);
             setEncodedUrl(ImmutableUrlEncode);
             const imageExtension = fileData.name.substring(fileData.name.lastIndexOf('.') + 1);
@@ -401,17 +403,26 @@ const MintAsset = () => {
                     <div className="preview-container">
                         <div className="image">
                             {!urlLoader ?
-                                imageExtension === "mp4" ?
-                                    <video className="banner-video" autoPlay playsInline preload="metadata" loop="loop"
-                                        controls muted src={fileUrl}>
-                                        <source type="video/webm" src={fileUrl}/>
-                                        <source type="video/mp4" src={fileUrl}/>
-                                        <source type="video/ogg" src={fileUrl}/>
-                                    </video>
+                                imageExtension === "glb" ?
+                                    <div className="image-container">
+
+                                        <model-viewer
+                                            src={fileUrl}
+                                            camera-controls auto-rotate/>
+                                    </div>
                                     :
-                                    <img src={fileUrl} alt="img-logo"/>
+                                    imageExtension === "mp4" ?
+                                        <video className="banner-video" autoPlay playsInline preload="metadata" loop="loop"
+                                            controls muted src={fileUrl}>
+                                            <source type="video/webm" src={fileUrl}/>
+                                            <source type="video/mp4" src={fileUrl}/>
+                                            <source type="video/ogg" src={fileUrl}/>
+                                        </video>
+                                        :
+                                        <img src={fileUrl} alt="img-logo"/>
                                 :
                                 <img src={loaderImage} alt="img-logo" className="loader-url"/>
+                                    
                             }
                         </div>
                         <div className="preview-content">
