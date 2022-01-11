@@ -112,6 +112,7 @@ const HeaderAfterLogin = () => {
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="login-after">
                 <div className="container">
                     <Navbar.Brand><Nav.Link onClick={handleRoute("/marketplace")} className="header-logo">
+                        Interality
                     </Nav.Link></Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav-login">
                         <Icon viewClass="menu-icon" icon="menu"/>

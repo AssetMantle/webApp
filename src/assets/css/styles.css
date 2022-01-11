@@ -58,8 +58,9 @@ html, body, #root, .app {
     font-weight: bold;
     padding: 0;
     font-size: 24px;
-    width: 160px;
-    height: 24px;
+    width: 36px;
+    height: 36px;
+    padding-left: 36px;
     display: block; }
     .navbar-dark .navbar-brand a img {
       width: 160px; }
@@ -115,12 +116,12 @@ html, body, #root, .app {
   border-radius: 15px; }
   .button-double-border:hover {
     color: #262a2b;
-    background-color: #efcc30;
+    background-color: #26F954;
     border-color: #ffffff; }
 
 .btn-primary.button-double-border:not(:disabled):not(.disabled).active:focus, .btn-primary.button-double-border:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.button-double-border.dropdown-toggle:focus, .btn-primary.button-double-border.focus, .btn-primary.button-double-border:focus {
   color: #262a2b;
-  background-color: #efcc30;
+  background-color: #26F954;
   box-shadow: 0px 0px 0 0px #ffffff, 0px 0px 0 0px #ffffff, 4px 4px 0 1px #262A2B, 4px 4px 0 2px #FFFFFF;
   border-color: #ffffff; }
 
@@ -266,7 +267,7 @@ html, body, #root, .app {
   .footer .footer-text {
     margin: 15px 0; }
   .footer .top-section .logo img {
-    width: 140px; }
+    width: 40px; }
   .footer p {
     font-weight: 500;
     font-size: 14px;
@@ -408,7 +409,7 @@ html, body, #root, .app {
   margin-left: 10px; }
 
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before, .custom-switch .custom-control-input:checked ~ .custom-control-label::before {
-  background-color: #efcc30;
+  background-color: #26F954;
   border: 0px solid; }
 .custom-checkbox input, .custom-switch input {
   margin-top: 5px; }
@@ -1315,9 +1316,9 @@ model-viewer {
     justify-content: center;
     float: left; }
     .txn-bar .txn-item.active {
-      background: #efcc30; }
+      background: #26F954; }
       .txn-bar .txn-item.active:after {
-        background: #efcc30; }
+        background: #26F954; }
     .txn-bar .txn-item:after {
       content: '';
       width: 101px;
