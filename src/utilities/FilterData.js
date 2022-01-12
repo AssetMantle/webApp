@@ -75,7 +75,10 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 async function queryTxHash(lcd, txHash) {
     return new Promise((resolve, reject) => {
         request(lcd + "/txs/" + txHash, (error, response, body) => {
-            if (error) reject(error);
+            if (error) {
+                console.log(error, "error");
+                reject(error);
+            }
             if (response.statusCode !== 200) {
                 reject('Invalid status code <' + response.statusCode + '>' + " response: " + body);
             }
@@ -100,7 +103,7 @@ async function pollTxHash(lcd, txHash) {
         "txhash": txHash,
         "height": 0,
         "code": 111,
-        "raw_log": "failed all retries"
+        "rawLog": "failed all retries"
     });
 }
 

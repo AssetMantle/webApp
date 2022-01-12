@@ -70,9 +70,9 @@ const PrivateKeyTransaction = (props) => {
                             if (parsedQueryItem.code) {
                                 localStorage.setItem('loginMode', 'normal');
                                 if (props.TransactionName === "nubid") {
-                                    setErrorMessage(queryItem.rawLog);
+                                    setErrorMessage(parsedQueryItem.rawLog);
                                 } else {
-                                    setErrorMessage(queryItem.rawLog);
+                                    setErrorMessage(parsedQueryItem.rawLog);
                                 }
                                 setLoader(false);
                                 const encryptedMnemonic = localStorage.getItem('encryptedMnemonic');

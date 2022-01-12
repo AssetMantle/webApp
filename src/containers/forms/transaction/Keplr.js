@@ -73,13 +73,11 @@ const KeplrTransaction = (props) => {
                     queryHashResponse.then(function (queryItem) {
                         const parsedQueryItem = JSON.parse(queryItem);
                         if (parsedQueryItem.code) {
-
                             setLoader(false);
                             if (props.TransactionName === "nubid") {
-                                setErrorMessage(result.rawLog);
+                                setErrorMessage(parsedQueryItem.raw_log);
                             } else {
-                                setErrorMessage(result.rawLog);
-
+                                setErrorMessage(parsedQueryItem.raw_log);
                             }
                         } else {
                             if (props.TransactionName === "nubid") {
@@ -102,6 +100,8 @@ const KeplrTransaction = (props) => {
                             setLoader(false);
                             setResponse(result);
                         }
+                    }).catch(err => {
+                        console.log("err error", err);
                     });
                 }
             }).catch((error) => {

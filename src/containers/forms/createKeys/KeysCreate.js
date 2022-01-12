@@ -7,7 +7,7 @@ import axios from 'axios';
 import {useHistory} from 'react-router-dom';
 import Loader from '../../../components/loader';
 import Icon from '../../../icons';
-import ImportKeys from '../signup/ImportKeys';
+import ImportKeys from './ImportKeys';
 import transactions from "../../../utilities/Helpers/transactions";
 import SignUp from "./SignUp";
 import ModalCommon from "../../../components/modal";

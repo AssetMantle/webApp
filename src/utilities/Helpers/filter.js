@@ -90,8 +90,7 @@ export async function pollTxHash(lcd, txHash) {
     await delay(config.initialTxHashQueryDelay);
     for (let i = 0; i < config.numberOfRetries; i++) {
         try {
-            const result = await queryTxHash(lcd, txHash);
-            return result;
+            return await queryTxHash(lcd, txHash);
         } catch (error) {
             console.log(error);
             console.log("retrying in " + config.scheduledTxHashQueryDelay + ": ", i, "th time");
