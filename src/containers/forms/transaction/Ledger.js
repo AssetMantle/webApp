@@ -46,9 +46,9 @@ const LedgerTransaction = (props) => {
                                 localStorage.setItem('loginMode', 'ledger');
                                 setLoader(false);
                                 if (props.TransactionName === "nubid") {
-                                    setErrorMessage(result.rawLog);
+                                    setErrorMessage(parsedQueryItem.rawLog);
                                 } else {
-                                    setErrorMessage(result.rawLog);
+                                    setErrorMessage(parsedQueryItem.rawLog);
 
                                 }
                             } else {
