@@ -44,3 +44,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_TOKEN }}
           environment: 'demo'
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
