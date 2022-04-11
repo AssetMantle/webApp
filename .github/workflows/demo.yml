@@ -30,9 +30,9 @@ jobs:
       - name: Build react project
         run: npm run build
         env:
-          REACT_APP_ASSET_MANTLE_API: 'https://rest.test-mantle-1.assetmantle.one/'
-          REACT_APP_FAUCET_SERVER: 'https://faucet.test-mantle-1.assetmantle.one/'
-          REACT_APP_TENDERMINT_RPC_ENDPOINT: 'https://rpc.test-mantle-1.assetmantle.one/'
+          REACT_APP_ASSET_MANTLE_API: 'https://rest.test-mantle-1.assetmantle.one'
+          REACT_APP_FAUCET_SERVER: 'https://faucet.test-mantle-1.assetmantle.one'
+          REACT_APP_TENDERMINT_RPC_ENDPOINT: 'https://rpc.test-mantle-1.assetmantle.one'
           REACT_APP_CHAIN_ID: 'test-mantle-1'
           REACT_APP_EXPLORER_API: 'https://test-mantle-1.explorer.assetmantle.one'
           REACT_APP_CHAIN_NAME: 'AssetMantle'
