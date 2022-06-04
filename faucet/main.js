@@ -1,18 +1,15 @@
 const config = require('./config.json');
 const bip39 = require("bip39");
 const bip32 = require("bip32");
-const tmBelt = require("@tendermint/belt");
 const {bech32} = require("bech32");
 const tmSig = require("@tendermint/sig");
 const express = require('express');
 const fetch = require('node-fetch');
-const tmAmino = require("@tendermint/amino-js");
 const app = express();
 
 const denom = "umntl";
-const prefix = "mantle"
-const memo = "";
-const gas = 100000
+const prefix = "mantle";
+const gas = 100000;
 const faucetAmount = 1000;
 
 app.use(function (req, res, next) {
@@ -23,7 +20,7 @@ app.use(function (req, res, next) {
 
 
 function getWalletPath() {
-    return "m/44'/118'/0'/0/0"
+    return "m/44'/118'/0'/0/0";
 }
 
 function getWallet(mnemonic, bip39Passphrase = "") {
@@ -98,7 +95,7 @@ async function broadcastTx(wallet, tx, mode) {
         let broadcastReq = {
             tx: stdTx,
             mode: mode
-        }
+        };
         let broadcastResponse = await fetch(config.lcdURL + "/txs", {
             method: 'POST',
             headers: {
@@ -138,7 +135,7 @@ async function getTxHash(response) {
     let result = {
         success: false,
         txHash: ""
-    }
+    };
     try {
         if (response.code) {
             result.txHash = JSON.stringify(response.raw_log).message;
@@ -169,17 +166,17 @@ app.get("/faucet/:address", async function (req, res) {
         const toAddress = getMantleAddress(req.params.address);
         let result = {};
         if (toAddress !== "") {
-            let txResult = await sendCoin(config.mnemonics, toAddress, faucetAmount, 3000, gas, config.mode)
+            let txResult = await sendCoin(config.mnemonics, toAddress, faucetAmount, 3000, gas, config.mode);
             result.success = txResult.success;
             result.message = txResult.message;
             console.log(result.message);
         } else {
             result.success = false;
-            result.message = "invalid address"
+            result.message = "invalid address";
         }
         res.json(result);
     } catch (e) {
-        console.log(e)
+        console.log(e);
         let result = {
             success: false,
             message: "unknown error"
