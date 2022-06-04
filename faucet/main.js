@@ -10,7 +10,7 @@ const app = express();
 const denom = "umntl";
 const prefix = "mantle";
 const gas = 100000;
-const faucetAmount = 1000;
+const faucetAmount = 1000000000;
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
