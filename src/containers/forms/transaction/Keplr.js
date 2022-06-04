@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Icon from "../../../icons";
-import { Modal} from "react-bootstrap";
+import {Modal} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import KeplerWallet from "../../../utilities/Helpers/kelplr";
 import queries from "../../../utilities/Helpers/query";
@@ -11,6 +11,7 @@ import config from "../../../config";
 import {useTranslation} from "react-i18next";
 import axios from "axios";
 import {pollTxHash} from "../../../utilities/Helpers/filter";
+
 const url = process.env.REACT_APP_ASSET_MANTLE_API;
 
 const KeplrTransaction = (props) => {
@@ -29,7 +30,7 @@ const KeplrTransaction = (props) => {
         props.setShow(true);
         props.setExternalComponent('');
     };
-    
+
     const handleFaucet = () => {
         let address = '';
         if (props.TransactionName === "nubid") {
@@ -38,14 +39,13 @@ const KeplrTransaction = (props) => {
             address = localStorage.getItem('userAddress');
         }
         setLoader(true);
-        axios.post(process.env.REACT_APP_FAUCET_SERVER + '/faucetRequest', {address: address})
+        axios.get(process.env.REACT_APP_FAUCET_SERVER + '/faucet/' + address)
             .then(faucetResult => {
                 setTimeout(() => {
                     setFaucetResponse(faucetResult);
                     setLoader(false);
                 }, 5000);
-            },
-            )
+            })
             .catch(err => {
                 console.log(err);
                 setLoader(false);
@@ -68,7 +68,7 @@ const KeplrTransaction = (props) => {
 
             queryResponse.then((result) => {
 
-                if(result.transactionHash) {
+                if (result.transactionHash) {
                     let queryHashResponse = pollTxHash(url, result.transactionHash);
                     queryHashResponse.then(function (queryItem) {
                         const parsedQueryItem = JSON.parse(queryItem);
@@ -107,9 +107,9 @@ const KeplrTransaction = (props) => {
             }).catch((error) => {
                 setLoader(false);
                 console.log("account error", error);
-                if(error.message === t('ACCOUNT_NOT_EXISTS_ERROR')){
+                if (error.message === t('ACCOUNT_NOT_EXISTS_ERROR')) {
                     handleFaucet();
-                }else {
+                } else {
                     setErrorMessage(error.message);
                 }
             });

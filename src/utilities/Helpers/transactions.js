@@ -90,7 +90,7 @@ async function Transaction(wallet, signerAddress, msgs, fee, memo = '') {
 }
 
 async function MnemonicWallet() {
-    const wallet = await Secp256k1HdWallet.generate(24, {prefix: prefix, hdPaths: [stringToPath("m/44'/750'/0'/0/0")]});
+    const wallet = await Secp256k1HdWallet.generate(24, {prefix: prefix, hdPaths: [stringToPath("m/44'/118'/0'/0/0")]});
     const [firstAccount] = await wallet.getAccounts();
     return [wallet, firstAccount.address];
 }
@@ -133,7 +133,7 @@ async function MnemonicWalletWithPassphrase(mnemonic, passphrase) {
     const wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic, {
         prefix: config.addressPrefix,
         bip39Password: passphrase,
-        hdPaths: [stringToPath("m/44'/750'/0'/0/0")]
+        hdPaths: [stringToPath("m/44'/118'/0'/0/0")]
     });
     const [firstAccount] = await wallet.getAccounts();
     return [wallet, firstAccount.address];
