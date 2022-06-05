@@ -85,7 +85,7 @@ function decryptStore(fileData, password) {
 }
 
 async function Transaction(wallet, signerAddress, msgs, fee, memo = '') {
-    const cosmJS = new SigningCosmosClient(restAPI, signerAddress, wallet, GasPrice.fromString("0umantle"), {}, config.mode);
+    const cosmJS = new SigningCosmosClient(restAPI, signerAddress, wallet, GasPrice.fromString("0" + config.coinDenom), {}, config.mode);
     return await cosmJS.signAndBroadcast(msgs, fee, memo);
 }
 
@@ -143,7 +143,7 @@ async function TransactionWithKeplr(msgs, fee, memo, chainID) {
     await window.keplr.enable(chainID);
     const offlineSigner = window.getOfflineSigner(chainID);
     const accounts = await offlineSigner.getAccounts();
-    const cosmJS = new SigningCosmosClient(restAPI, accounts[0].address, offlineSigner, GasPrice.fromString("0umantle"), {}, config.mode);
+    const cosmJS = new SigningCosmosClient(restAPI, accounts[0].address, offlineSigner, GasPrice.fromString("0" + config.coinDenom), {}, config.mode);
     return await cosmJS.signAndBroadcast(msgs, fee, memo);
 }
 
