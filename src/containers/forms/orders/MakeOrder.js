@@ -128,7 +128,7 @@ const MakeOrder = (props) => {
                                 className=""
                                 name="TakerOwnableId"
                                 required={true}
-                                defaultValue="umantle"
+                                defaultValue={config.coinDenom}
                                 placeholder={t("TAKER_OWNABLE_SPLIT")}
                             />
                         </Form.Group>
