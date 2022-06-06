@@ -3,7 +3,7 @@ name: Demo
 
 on:
   push:
-    branches: [ 'demo/main' ]
+    branches: [ 'avkr003/demoMain' ]
 
 jobs:
   deploy:
@@ -30,19 +30,18 @@ jobs:
       - name: Build react project
         run: npm run build
         env:
-          REACT_APP_ASSET_MANTLE_API: 'https://rest.test-mantle-1.assetmantle.one'
-          REACT_APP_FAUCET_SERVER: 'https://faucet.test-mantle-1.assetmantle.one'
-          REACT_APP_TENDERMINT_RPC_ENDPOINT: 'https://rpc.test-mantle-1.assetmantle.one'
-          REACT_APP_CHAIN_ID: 'test-mantle-1'
-          REACT_APP_EXPLORER_API: 'https://test-mantle-1.explorer.assetmantle.one'
-          REACT_APP_CHAIN_NAME: 'Asset Mantle'
-          REACT_APP_MAIL_CHIMP_URL: 'https://one.us20.list-manage.com/subscribe/post?u=37c5b698f25664907f640640b&amp;id=11dfe43af3'
-          REACT_APP_PINATA_JWT: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIwMjYwZmRmYi1lZmRjLTRmZTktOGYwYi1jZjg4OTExOGFmMjkiLCJlbWFpbCI6InB1bmVldEBwZXJzaXN0ZW5jZS5vbmUiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6IkZSQTEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlfSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiYTAyMWI1MWMzZWVlOGQ2NWU0MjciLCJzY29wZWRLZXlTZWNyZXQiOiJiNzQyMmQ5ZDNhNGQyNzViYmI0M2VhMDU1OTlmNzA2ODgzZTUxNjMyNzcxMjRiYjZlOWM5Yjg2YjBkZDBhNGUyIiwiaWF0IjoxNjM0NjQ5MTg4fQ.i514LU4xYYu95OvuZJ6vhWKgUqmXxnkhMMmDw-GmpCg'
+          REACT_APP_SENTRY_API: https://demo-rest.assetmantle.one
+          REACT_APP_TENDERMINT_RPC_ENDPOINT: https://demo-rpc.assetmantle.one
+          REACT_APP_CHAIN_ID: demo-chain-1
+          REACT_APP_ASSET_MANTLE_API: https://demo-rest.assetmantle.one
+          REACT_APP_FAUCET_SERVER: https://faucet-demo.assetmantle.one
+          REACT_APP_CHAIN_NAME: "Asset Mantle"
+          REACT_APP_PINATA_JWT: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIwMjYwZmRmYi1lZmRjLTRmZTktOGYwYi1jZjg4OTExOGFmMjkiLCJlbWFpbCI6InB1bmVldEBwZXJzaXN0ZW5jZS5vbmUiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6IkZSQTEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlfSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiYTAyMWI1MWMzZWVlOGQ2NWU0MjciLCJzY29wZWRLZXlTZWNyZXQiOiJiNzQyMmQ5ZDNhNGQyNzViYmI0M2VhMDU1OTlmNzA2ODgzZTUxNjMyNzcxMjRiYjZlOWM5Yjg2YjBkZDBhNGUyIiwiaWF0IjoxNjM0NjQ5MTg4fQ.i514LU4xYYu95OvuZJ6vhWKgUqmXxnkhMMmDw-GmpCg"
           CI: false
       - name: Publish
         uses: cloudflare/wrangler-action@1.3.0
         with:
           apiToken: ${{ secrets.CF_TOKEN }}
-          environment: 'demo'
+          environment: 'demoapp'
         env:
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
