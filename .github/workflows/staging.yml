@@ -1,5 +1,5 @@
 ---
-name: Demo 
+name: AssetMantle Demo Staging
 
 on:
   push:
@@ -42,6 +42,6 @@ jobs:
         uses: cloudflare/wrangler-action@1.3.0
         with:
           apiToken: ${{ secrets.CF_TOKEN }}
-          environment: 'demoapp'
+          environment: 'demo-staging'
         env:
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
