@@ -1,6 +1,6 @@
 {
   "chainID": "demo-chain-1",
-  "chainName": "Asset Mantle",
+  "chainName": "Asset Mantle Demo",
   "addressPrefix": "mantle",
   "coinType": "118",
   "coinDenom": "umntl",
