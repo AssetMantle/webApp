@@ -1,4 +1,4 @@
-name = "assetmantle-webapp"
+name = "assetmantle-demoapp"
 type = "webpack"
 zone_id = '4d52f36b396dad8cddd83b3d5e0fbda4'
 usage_model = ''
@@ -8,5 +8,8 @@ site = {bucket = "./build",entry-point = "workers-site"}
 compatibility_date = "2021-11-01"
 
 
-[env.demo]
+[env.demo-release]
 routes = ['https://demo.assetmantle.one/*']
+
+[env.demo-staging]
+routes = ['https://staging-demo.assetmantle.one/*']

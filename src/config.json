@@ -1,6 +1,6 @@
 {
-  "chainID": "test",
-  "chainName": "Asset Mantle",
+  "chainID": "demo-chain-1",
+  "chainName": "Asset Mantle Demo",
   "addressPrefix": "mantle",
   "coinType": "118",
   "coinDenom": "umntl",
@@ -22,7 +22,7 @@
   "gas": 200000,
   "URI": "URI",
   "IPFS_URL": "https://ipfs.infura.io:5001/api/v0",
-  "orderClassificationID": "test.O-qPtlWEqmo9WQmZgwfguoj0F0A=",
-  "assetClassificationID": "test.j0Uuu1ZA7krYEQ036oQVnzmkQVs=",
-  "nubClassificationID": "test.cGn3HMW8M3t5gMDv-wXa9sseHnA="
+  "orderClassificationID": "demo-chain-1.O-qPtlWEqmo9WQmZgwfguoj0F0A=",
+  "assetClassificationID": "demo-chain-1.j0Uuu1ZA7krYEQ036oQVnzmkQVs=",
+  "nubClassificationID": "demo-chain-1.cGn3HMW8M3t5gMDv-wXa9sseHnA="
 }
