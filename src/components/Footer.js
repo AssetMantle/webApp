@@ -25,14 +25,14 @@ const Footer = () => {
             <div className="container">
                 <div className="bottom-section">
                     <div className="blogs">
-                        <a href="https://persistence.one" target="_blank" rel="noopener noreferrer" className="help">
+                        <a href="https://assetmantle.one" target="_blank" rel="noopener noreferrer" className="help">
                             Company
                         </a>
-                        <a href="https://notes.persistence.one/s/Jufq_ChF-" target="_blank" rel="noopener noreferrer"
+                        <a href="https://docs.assetmantle.one" target="_blank" rel="noopener noreferrer"
                             className="blog">
                             Docs
                         </a>
-                        <a href="https://test-mantle-1.explorer.persistence.one" target="_blank" rel="noopener noreferrer"
+                        <a href="https://devnet.assetmantle.one" target="_blank" rel="noopener noreferrer"
                             className="blog">
                             Explorer
                         </a>
