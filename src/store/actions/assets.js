@@ -11,12 +11,12 @@ export const SET_ASSETS = "SET_ASSETS";
 export const fetchAssets = (identityID) => {
     return async (dispatch) => {
         try {
-            const splits = await splitsQuery.querySplitsWithID(identityID+'|');
+            const splits = await splitsQuery.querySplitsWithID(identityID + '|');
             const splitData = JSON.parse(splits);
-            const splitList = splitData.result.value.splits.value.list;
+            const splitList = splitData.result.value.splits.value.list.filter(split => split.value.id.value.ownerID.value.idString === identityID);
             if (splitList) {
                 const assetsListNew = [];
-                await Promise.all(splitList.map(async (split)=>{
+                await Promise.all(splitList.map(async (split) => {
                     let ownerId = split.value.id.value.ownerID.value.idString;
                     const ownableID = GetID.GetIdentityOwnableId(split);
                     const filterAssetList = await assetsQuery.queryAssetWithID(ownableID);
