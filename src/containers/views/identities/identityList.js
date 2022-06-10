@@ -98,7 +98,7 @@ const IdentityList = () => {
                             <div className="property-actions">
                                 <Button variant="primary" size="sm"
                                     onClick={() => handleModalData("Provision", identityId)}>{t("PROVISION")}</Button>
-                                <Button variant="primary" size="sm"
+                                <Button variant="primary" size="sm" disabled={identityList[0] && identityList[0].provisionedAddressList.length <= 1}
                                     onClick={() => handleModalData("UnProvision", identityId, identityList[0].provisionedAddressList)}>{t("UN_PROVISION")}</Button>
                             </div>
                             <div className="property-actions">
