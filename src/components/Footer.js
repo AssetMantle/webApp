@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from "../assets/images/logo.svg";
+import logo from "../assets/images/logo_n.svg";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import Icon from "../icons";
 
@@ -32,7 +32,7 @@ const Footer = () => {
                             className="blog">
                             Docs
                         </a>
-                        <a href="https://devnet.assetmantle.one" target="_blank" rel="noopener noreferrer"
+                        <a href="https://devnet.explorer.assetmantle.one" target="_blank" rel="noopener noreferrer"
                             className="blog">
                             Explorer
                         </a>
