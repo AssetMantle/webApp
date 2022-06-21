@@ -1,0 +1,17 @@
+---
+version: "3"
+services:
+  faucet:
+    image: assetmantle/faucet:edge
+    build:
+      context: ./faucet/
+    environment:
+      - CHAINID=test
+      - LCDURL=http://127.0.0.1:1317
+      - HOST=0.0.0.0
+      - PORT=3001
+      - MNEMONICS=wage thunder live sense resemble foil apple course spin horse glass mansion midnight laundry acoustic rhythm loan scale talent push green direct brick please
+      - MODE=block
+    ports:
+      - 3001:3001
+    restart: unless-stopped
