@@ -8,8 +8,8 @@ site = {bucket = "./build",entry-point = "workers-site"}
 compatibility_date = "2021-11-01"
 
 
-[env.demo-release]
-routes = ['https://demo.assetmantle.one/*']
+[env.devnet-release]
+routes = ['https://devnet.assetmantle.one/*']
 
-[env.demo-staging]
-routes = ['https://staging-demo.assetmantle.one/*']
+[env.devnet-staging]
+routes = ['https://staging.devnet.assetmantle.one/*']
