@@ -95,7 +95,7 @@ let en = {
         "TAKE": "Buy",
         "DEFINE_ORDER": "Define Order",
         "APP_TITLE": "Asset DApp",
-        "BANNER_CONTENT": "Application implementing the minimum clique of PersistenceSDK modules enabling interNFT definition, issuance, ownership transfer and decentralized exchange.",
+        "BANNER_CONTENT": "Application implementing the minimum clique of AssetMantle SDK modules enabling interNFT definition, issuance, ownership transfer and decentralized exchange.",
         "REVEAL_META": "Reveal Hash",
         "KNOW_MORE": "KNOW MORE",
         "SECURE_NFT_WALLET": "Secure NFT wallet",
