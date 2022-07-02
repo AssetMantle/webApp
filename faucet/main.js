@@ -1,4 +1,3 @@
-const config = require('./config.json');
 const bip39 = require("bip39");
 const bip32 = require("bip32");
 const {bech32} = require("bech32");
@@ -88,7 +87,7 @@ async function broadcastTx(wallet, tx, mode) {
         }
         const signMeta = {
             account_number: accountNum,
-            chain_id: config.chainID,
+            chain_id: process.env.CHAINID,
             sequence: seq
         };
         let stdTx = tmSig.signTx(tx, signMeta, wallet);
@@ -96,7 +95,7 @@ async function broadcastTx(wallet, tx, mode) {
             tx: stdTx,
             mode: mode
         };
-        let broadcastResponse = await fetch(config.lcdURL + "/txs", {
+        let broadcastResponse = await fetch(process.env.LCDURL + "/txs", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -120,7 +119,7 @@ async function getAccount(address) {
     result.success = false;
     result.account = {};
     try {
-        let response = await fetch(config.lcdURL + "/auth/accounts/" + address);
+        let response = await fetch(process.env.LCDURL + "/auth/accounts/" + address);
         let json = await response.json();
         result.success = true;
         result.account = json;
@@ -166,7 +165,7 @@ app.get("/faucet/:address", async function (req, res) {
         const toAddress = getMantleAddress(req.params.address);
         let result = {};
         if (toAddress !== "") {
-            let txResult = await sendCoin(config.mnemonics, toAddress, faucetAmount, 3000, gas, config.mode);
+            let txResult = await sendCoin(process.env.MNEMONICS, toAddress, faucetAmount, 3000, gas, process.env.MODE);
             result.success = txResult.success;
             result.message = txResult.message;
             console.log(result.message);
@@ -185,7 +184,7 @@ app.get("/faucet/:address", async function (req, res) {
     }
 });
 
-let server = app.listen(config.port, config.host, function () {
+let server = app.listen(process.env.PORT, process.env.HOST, function () {
     let host = server.address().address;
     let port = server.address().port;
     console.log("App listening at http://%s:%s", host, port);
