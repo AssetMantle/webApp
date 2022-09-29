@@ -1,7 +1,7 @@
 import GetProperties from "../../utilities/GetProperties";
 import helper from "../../utilities/helper";
-import {queryOrders} from "persistencejs/build/transaction/orders/query";
-import {queryAssets} from "persistencejs/build/transaction/assets/query";
+import {queryOrders} from "mantlejs/build/transaction/orders/query";
+import {queryAssets} from "mantlejs/build/transaction/assets/query";
 import GetID from "../../utilities/GetID";
 import config from "../../config";
 const ordersQuery = new queryOrders(process.env.REACT_APP_ASSET_MANTLE_API);

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Form, Modal} from 'react-bootstrap';
-import {cls} from 'persistencejs/build/transaction/classification/query';
+import {cls} from 'mantlejs/build/transaction/classification/query';
 import {useTranslation} from 'react-i18next';
 import Loader from '../../../components/loader';
 import TransactionOptions from "../login/TransactionOptions";

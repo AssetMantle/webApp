@@ -5,7 +5,7 @@ import Loader from '../../../components/loader';
 import {useHistory} from "react-router-dom";
 import TransactionOptions from "../login/TransactionOptions";
 import GetMeta from "../../../utilities/Helpers/getMeta";
-import {queryIdentities} from "persistencejs/build/transaction/identity/query";
+import {queryIdentities} from "mantlejs/build/transaction/identity/query";
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 import config from "../../../config";
 

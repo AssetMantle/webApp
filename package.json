@@ -26,7 +26,7 @@
     "ipfs-http-client": "^53.0.1",
     "js-big-decimal": "^1.3.3",
     "js-sha1": "^0.6.0",
-    "persistencejs": "https://github.com/persistenceOne/persistenceJS#typescriptExample",
+    "mantlejs": "https://github.com/AssetMantle/javascriptClient#baselineSDK",
     "react": "^16.14.0",
     "react-bootstrap": "^1.4.3",
     "react-copy-to-clipboard": "^5.0.2",

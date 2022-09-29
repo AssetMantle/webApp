@@ -1,7 +1,7 @@
 import GetProperties from "../../utilities/GetProperties";
 import FilterData from "../../utilities/FilterData";
-import {queryIdentities} from "persistencejs/build/transaction/identity/query";
-import {queryMaintainer} from "persistencejs/build/transaction/maintainers/query";
+import {queryIdentities} from "mantlejs/build/transaction/identity/query";
+import {queryMaintainer} from "mantlejs/build/transaction/maintainers/query";
 export const SET_MAINTAINERS = "SET_MAINTAINERS";
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 const maintainersQuery = new queryMaintainer(process.env.REACT_APP_ASSET_MANTLE_API);

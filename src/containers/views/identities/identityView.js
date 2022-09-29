@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {queryMeta} from "persistencejs/build/transaction/meta/query";
+import {queryMeta} from "mantlejs/build/transaction/meta/query";
 import {useTranslation} from "react-i18next";
 import {useHistory} from "react-router-dom";
 import Icon from "../../../icons";
@@ -9,11 +9,11 @@ import config from "../../../constants/config.json";
 import GetID from "../../../utilities/Helpers/getID";
 import Copy from "../../../components/copy";
 import {Button, Dropdown} from "react-bootstrap";
-import {queryIdentities} from "persistencejs/build/transaction/identity/query";
+import {queryIdentities} from "mantlejs/build/transaction/identity/query";
 import {IssueIdentity, Nub, Provision, UnProvision} from "../../forms/identities";
 import Loader from "../../../components/loader";
 import {Define} from "../../forms";
-import {defineIdentity} from "persistencejs/build/transaction/identity/define";
+import {defineIdentity} from "mantlejs/build/transaction/identity/define";
 
 const identitiesDefine = new defineIdentity(process.env.REACT_APP_ASSET_MANTLE_API);
 const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);

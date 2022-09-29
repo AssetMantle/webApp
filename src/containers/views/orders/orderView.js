@@ -9,7 +9,7 @@ import {Define} from "../../forms";
 import config from "../../../config";
 import Lightbox from "react-image-lightbox";
 import {useTranslation} from "react-i18next";
-import {defineOrder as ordersDefineJS} from "persistencejs/build/transaction/orders/define";
+import {defineOrder as ordersDefineJS} from "mantlejs/build/transaction/orders/define";
 import base64url from "base64url";
 import {TwitterShareButton} from "react-share";
 

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {cls} from 'persistencejs/build/transaction/classification/query';
+import {cls} from 'mantlejs/build/transaction/classification/query';
 import {Button, Form, Modal} from 'react-bootstrap';
-import {queryMeta} from 'persistencejs/build/transaction/meta/query';
+import {queryMeta} from 'mantlejs/build/transaction/meta/query';
 import {useTranslation} from 'react-i18next';
 import config from '../../../constants/config.json';
 import Loader from '../../../components/loader';

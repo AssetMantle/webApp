@@ -1,9 +1,9 @@
 {
-  "chainID": "devnet-mantle-1",
+  "chainID": "hackathon-chain-1",
   "chainName": "AssetMantle Demo",
   "addressPrefix": "mantle",
   "coinType": "118",
-  "coinDenom": "umntl",
+  "coinDenom": "stake",
   "coinName": "MNTL",
   "denomValue": 1000000,
   "lowFee": 0,
@@ -17,12 +17,12 @@
   "scheduledTxHashQueryDelay": 3000,
   "numberOfRetries": 20,
   "feesAmount": 0,
-  "feesToken": "umntl",
+  "feesToken": "stake",
   "mode": "sync",
   "gas": 200000,
   "URI": "URI",
   "IPFS_URL": "https://ipfs.infura.io:5001/api/v0",
-  "orderClassificationID": "devnet-mantle-1.O-qPtlWEqmo9WQmZgwfguoj0F0A=",
-  "assetClassificationID": "devnet-mantle-1.j0Uuu1ZA7krYEQ036oQVnzmkQVs=",
-  "nubClassificationID": "devnet-mantle-1.cGn3HMW8M3t5gMDv-wXa9sseHnA="
+  "orderClassificationID": "hackathon-chain-1.O-qPtlWEqmo9WQmZgwfguoj0F0A=",
+  "assetClassificationID": "hackathon-chain-1.j0Uuu1ZA7krYEQ036oQVnzmkQVs=",
+  "nubClassificationID": "hackathon-chain-1.cGn3HMW8M3t5gMDv-wXa9sseHnA="
 }

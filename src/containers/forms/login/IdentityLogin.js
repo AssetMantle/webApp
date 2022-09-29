@@ -3,7 +3,7 @@ import {Button, Form, Modal} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import GetID from "../../../utilities/Helpers/getID";
-import {queryIdentities} from "persistencejs/build/transaction/identity/query";
+import {queryIdentities} from "mantlejs/build/transaction/identity/query";
 import Icon from "../../../icons";
 import Loader from '../../../components/loader';
 import GetMeta from "../../../utilities/Helpers/getMeta";

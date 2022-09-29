@@ -1,4 +1,4 @@
-import {queryMeta} from "persistencejs/build/transaction/meta/query";
+import { queryMeta } from "mantlejs/build/transaction/meta/query";
 
 const metasQuery = new queryMeta(process.env.REACT_APP_ASSET_MANTLE_API);
 
@@ -15,16 +15,16 @@ function FetchMetaValue(data, hash) {
         metaValue = hash;
     } else {
         switch (data.result.value.metas.value.list[0].value.data.type) {
-        case "xprt/idData":
+        case "idData":
             metaValue = data.result.value.metas.value.list[0].value.data.value.value.value.idString;
             break;
-        case "xprt/stringData":
+        case "stringData":
             metaValue = data.result.value.metas.value.list[0].value.data.value.value;
             break;
-        case "xprt/heightData":
+        case "heightData":
             metaValue = data.result.value.metas.value.list[0].value.data.value.value.value.height;
             break;
-        case "xprt/decData":
+        case "decData":
             metaValue = data.result.value.metas.value.list[0].value.data.value.value;
             break;
         default:

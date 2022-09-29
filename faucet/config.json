@@ -1,6 +1,6 @@
 {
-  "chainID": "test",
-  "lcdURL": "http://127.0.0.1:1317",
+  "chainID": "hackathon-chain-1",
+  "lcdURL": "http://23.88.102.13:1317",
   "host": "0.0.0.0",
   "port": "3001",
   "mnemonics": "wage thunder live sense resemble foil apple course spin horse glass mansion midnight laundry acoustic rhythm loan scale talent push green direct brick please",

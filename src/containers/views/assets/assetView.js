@@ -5,7 +5,7 @@ import {Accordion, Button, Card} from "react-bootstrap";
 import {BurnAsset, MintAsset, MutateAsset, SendSplit, UnWrap, Wrap} from "../../forms/assets";
 import {MakeOrder} from "../../forms/orders";
 import {Define} from "../../forms";
-import {defineAsset} from "persistencejs/build/transaction/assets/define";
+import {defineAsset} from "mantlejs/build/transaction/assets/define";
 import "@google/model-viewer/dist/model-viewer";
 import Lightbox from "react-image-lightbox";
 import Icon from "../../../icons";

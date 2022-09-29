@@ -1,4 +1,4 @@
-import {queryIdentities} from "persistencejs/build/transaction/identity/query";
+import {queryIdentities} from "mantlejs/build/transaction/identity/query";
 
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 

@@ -1,7 +1,7 @@
-export REACT_APP_SENTRY_API=https://rest.demo.assetmantle.one
-export REACT_APP_TENDERMINT_RPC_ENDPOINT=https://rpc.demo.assetmantle.one
-export REACT_APP_CHAIN_ID=demo-chain-1
-export REACT_APP_ASSET_MANTLE_API=https://rest.demo.assetmantle.one
+export REACT_APP_SENTRY_API=http://23.88.102.13:26657
+export REACT_APP_TENDERMINT_RPC_ENDPOINT=http://23.88.102.13:26657
+export REACT_APP_CHAIN_ID=hackathon-chain-1
+export REACT_APP_ASSET_MANTLE_API=http://23.88.102.13:26657
 export REACT_APP_FAUCET_SERVER=https://faucet.demo.assetmantle.one
 export REACT_APP_CHAIN_NAME=AssetMantle Demo
 export REACT_APP_EXPLORER_API=https://devnet.explorer.assetmantle.one

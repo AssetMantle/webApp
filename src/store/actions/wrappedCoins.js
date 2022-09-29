@@ -1,4 +1,4 @@
-import {querySplits} from "persistencejs/build/transaction/splits/query";
+import {querySplits} from "mantlejs/build/transaction/splits/query";
 
 const splitsQuery = new querySplits(process.env.REACT_APP_ASSET_MANTLE_API);
 export const SET_WRAPPED_COINS = "SET_WRAPPED_COINS";

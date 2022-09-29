@@ -1,5 +1,5 @@
 import GetProperties from "../../utilities/GetProperties";
-import {queryOrders} from "persistencejs/build/transaction/orders/query";
+import {queryOrders} from "mantlejs/build/transaction/orders/query";
 import GetID from "../../utilities/GetID";
 import FilterData from "../../utilities/FilterData";
 import {fetchAssetDetails} from "./marketPlace";

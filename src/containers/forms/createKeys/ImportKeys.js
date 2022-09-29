@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Button, Form, Modal} from 'react-bootstrap';
 import {useHistory} from 'react-router-dom';
 import transactions from '../../../utilities/Helpers/transactions';
-import {createStore, createWallet,} from 'persistencejs/build/utilities/keys';
+import {createStore, createWallet,} from 'mantlejs/build/utilities/keys';
 import {useTranslation} from 'react-i18next';
 import DownloadLink from 'react-download-link';
 import Icon from '../../../icons';

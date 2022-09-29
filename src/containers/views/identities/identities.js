@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {defineIdentity} from "persistencejs/build/transaction/identity/define";
+import {defineIdentity} from "mantlejs/build/transaction/identity/define";
 import {Define} from "../../forms";
 import {IssueIdentity, Nub} from "../../forms/identities";
 import IdentityList from "./identityList";

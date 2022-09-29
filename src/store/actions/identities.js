@@ -1,6 +1,6 @@
 import GetProperties from "../../utilities/GetProperties";
 import helper from "../../utilities/helper";
-import {queryIdentities} from "persistencejs/build/transaction/identity/query";
+import {queryIdentities} from "mantlejs/build/transaction/identity/query";
 
 const identitiesQuery = new queryIdentities(process.env.REACT_APP_ASSET_MANTLE_API);
 export const SET_IDENTITIES = "SET_IDENTITIES";

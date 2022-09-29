@@ -1,8 +1,8 @@
 import GetProperties from "../../utilities/GetProperties";
 import helper from "../../utilities/helper";
 import GetID from "../../utilities/GetID";
-import {queryAssets} from "persistencejs/build/transaction/assets/query";
-import {querySplits} from "persistencejs/build/transaction/splits/query";
+import {queryAssets} from "mantlejs/build/transaction/assets/query";
+import {querySplits} from "mantlejs/build/transaction/splits/query";
 
 const assetsQuery = new queryAssets(process.env.REACT_APP_ASSET_MANTLE_API);
 const splitsQuery = new querySplits(process.env.REACT_APP_ASSET_MANTLE_API);
