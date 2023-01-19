@@ -90,7 +90,7 @@ async function broadcastTx(wallet, sendAmount, tx) {
         }
 
         const cosmos = new Cosmos.Cosmos(config.lcdURL, config.chainID);
-        const pubKeyAny = cosmos.getPubKeyAny(wallet.privateKey);
+        const pubKeyAny = cosmos.getPubKeyAny(Buffer.from(wallet.privateKey));
 
         const signerInfo = new message.cosmos.tx.v1beta1.SignerInfo({
             public_key: pubKeyAny,
