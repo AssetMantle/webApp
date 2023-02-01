@@ -109,7 +109,7 @@ async function broadcastTx(wallet, sendAmount, tx) {
 
         let jsonResponse = await cosmos.broadcast(signedTxBytes);
    
-        let txHashResult = await getTxHash(jsonResponse);
+        let txHashResult = await getTxHash(jsonResponse.tx_response);
         if (txHashResult.success) {
             result.success = true;
             result.message = txHashResult.txHash;
