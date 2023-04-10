@@ -1,11 +1,18 @@
-const config = require('./config.json');
-const bip39 = require("bip39");
-const bip32 = require("bip32");
-const {bech32} = require("bech32");
-const tmSig = require("@tendermint/sig");
-const express = require('express');
-const fetch = require('node-fetch');
-const app = express();
+import config from './config.json' assert {type: 'json'};
+import * as tmSigLib from '@tendermint/sig';
+import * as bip39 from './node_modules/bip39/src/index.js';
+import * as bip32 from './node_modules/bip32/src/index.js';
+import * as bech32Lib from './node_modules/bech32/dist/index.js';
+import e from 'express';
+import * as Cosmos from '@cosmostation/cosmosjs/src/index.js';
+import * as fetchLib from './node_modules/node-fetch/lib/index.mjs';
+
+import message from "@cosmostation/cosmosjs/src/messages/proto.js";
+
+const bech32 = bech32Lib.bech32;
+const tmSig = tmSigLib.default;
+const fetch = fetchLib.default;
+const app = e();
 
 const denom = "umntl";
 const prefix = "mantle";
@@ -43,26 +50,21 @@ function getMantleAddress(address) {
 async function sendCoin(mnemonic, toAddress, sendAmount, feesAmount, gas, mode, memo = "") {
     try {
         const wallet = getWallet(mnemonic);
-        let tx = {
-            msg: [
-                {
-                    type: "cosmos-sdk/MsgSend",
-                    value: {
-                        from_address: wallet.address,
-                        to_address: toAddress,
-                        amount: [
-                            {
-                                amount: String(sendAmount),
-                                denom: denom
-                            }
-                        ]
-                    }
-                }
-            ],
-            fee: {amount: [{amount: String(feesAmount), denom: denom}], gas: String(gas)},
-            memo: memo
-        };
-        return await broadcastTx(wallet, tx, mode);
+        
+        const msgSend = new message.cosmos.bank.v1beta1.MsgSend({
+            from_address: wallet.address,
+            to_address: toAddress,
+            amount: [{ denom: denom, amount: String(sendAmount) }]
+        });
+    
+        const msgSendAny = new message.google.protobuf.Any({
+            type_url: "/cosmos.bank.v1beta1.MsgSend",
+            value: message.cosmos.bank.v1beta1.MsgSend.encode(msgSend).finish()
+        });
+    
+        const tx = new message.cosmos.tx.v1beta1.TxBody({ messages: [msgSendAny], memo: "" });
+
+        return await broadcastTx(wallet, sendAmount, tx);
     } catch (e) {
         console.log(e);
         let result = {};
@@ -72,7 +74,7 @@ async function sendCoin(mnemonic, toAddress, sendAmount, feesAmount, gas, mode, 
     }
 }
 
-async function broadcastTx(wallet, tx, mode) {
+async function broadcastTx(wallet, sendAmount, tx) {
     let result = {};
     result.success = false;
     result.message = "";
@@ -86,25 +88,28 @@ async function broadcastTx(wallet, tx, mode) {
         if (seq === undefined) {
             seq = String(0);
         }
-        const signMeta = {
-            account_number: accountNum,
-            chain_id: config.chainID,
+
+        const cosmos = new Cosmos.Cosmos(config.lcdURL, config.chainID);
+        const pubKeyAny = cosmos.getPubKeyAny(Buffer.from(wallet.privateKey));
+
+        const signerInfo = new message.cosmos.tx.v1beta1.SignerInfo({
+            public_key: pubKeyAny,
+            mode_info: { single: { mode: message.cosmos.tx.signing.v1beta1.SignMode.SIGN_MODE_DIRECT } },
             sequence: seq
-        };
-        let stdTx = tmSig.signTx(tx, signMeta, wallet);
-        let broadcastReq = {
-            tx: stdTx,
-            mode: mode
-        };
-        let broadcastResponse = await fetch(config.lcdURL + "/txs", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(broadcastReq)
         });
-        let jsonResponse = await broadcastResponse.json();
-        let txHashResult = await getTxHash(jsonResponse);
+    
+        const feeValue = new message.cosmos.tx.v1beta1.Fee({
+            amount: [{ denom: denom, amount: String(sendAmount)}],
+            gas_limit: 200000
+        });
+    
+        const authInfo = new message.cosmos.tx.v1beta1.AuthInfo({ signer_infos: [signerInfo], fee: feeValue });
+        
+        const signedTxBytes = cosmos.sign(tx, authInfo, accountNum, wallet.privateKey);
+
+        let jsonResponse = await cosmos.broadcast(signedTxBytes);
+   
+        let txHashResult = await getTxHash(jsonResponse.tx_response);
         if (txHashResult.success) {
             result.success = true;
             result.message = txHashResult.txHash;

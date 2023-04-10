@@ -1,7 +1,10 @@
 {
   "name": "faucet",
   "version": "1.0.0",
+  "type": "module",
   "dependencies": {
+    "@cosmjs/launchpad": "^v0.26.5",
+    "@cosmostation/cosmosjs": "^0.11.2",
     "@tendermint/amino-js": "^0.6.2",
     "@tendermint/belt": "^0.3.0",
     "@tendermint/sig": "^0.6.0",
@@ -12,6 +15,7 @@
     "crypto": "^1.0.1",
     "express": "^4.18.1",
     "fetch": "^1.1.0",
+    "google-protobuf": "^3.19.1",
     "node-fetch": "^2.6.7"
   }
 }
